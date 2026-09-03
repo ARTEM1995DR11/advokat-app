@@ -387,3 +387,50 @@ body.light{background:var(--bg)}
 .row{padding-top:13px;padding-bottom:13px;font-size:14px}
 .sec h2{font-size:10px;letter-spacing:.14em}
 @media (max-width:360px){.screen{padding-left:12px;padding-right:12px}.brandline{font-size:11px}.top h1{font-size:26px}.kpis{gap:5px}.kpi{padding-left:4px;padding-right:4px}.matter .stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================================================
+   v3.1 — заседания как события + полноценная светлая тема
+   ============================================================ */
+.eventmark{width:27px;height:27px;flex:none;margin-top:0;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  color:var(--purple);background:color-mix(in srgb,var(--purple) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--purple) 30%,var(--line))}
+.eventmark .ico{width:16px;height:16px;stroke-width:1.8}
+.hearinghint{margin:0 0 14px!important;border-left:3px solid var(--purple)}
+.fieldhint{display:block;margin-top:6px;color:var(--muted);font-size:11px;line-height:1.35}
+
+body:not(.light){color-scheme:dark}
+body.light{
+  color-scheme:light;
+  --oksoft:rgba(47,163,107,.11); --warnsoft:rgba(183,121,12,.11); --dangsoft:rgba(194,57,52,.10); --bluesoft:rgba(78,134,198,.10);
+}
+body.light .iconbtn{background:linear-gradient(180deg,rgba(10,25,40,.015),rgba(10,25,40,.035)),var(--panel)}
+body.light .card,body.light .matter,body.light .task,body.light .hero{box-shadow:0 5px 18px rgba(27,46,66,.055),inset 0 1px 0 rgba(255,255,255,.7)}
+body.light .hero{background:linear-gradient(145deg,#FFFFFF,#F5F8FB);border-color:rgba(168,130,26,.18)}
+body.light .kpi{background:linear-gradient(180deg,#FFFFFF,#F5F7FA)}
+body.light .task{background:#FFFFFF}
+body.light .task.k-hearing{background:linear-gradient(90deg,rgba(139,123,216,.075),#FFFFFF 67%)}
+body.light .matter{background:linear-gradient(160deg,#FFFFFF,#F7F9FB)}
+body.light .focuscard{background:linear-gradient(145deg,#F7F9FD,#FFFFFF);border-color:rgba(109,92,190,.24)}
+body.light .quickitem{background:linear-gradient(160deg,#FFFFFF,#F4F7FA);box-shadow:0 3px 12px rgba(27,46,66,.04)}
+body.light .tabbar{background:rgba(248,250,252,.94);border-color:rgba(11,20,32,.11)}
+body.light .sheet{background:#FFFFFF;border-color:var(--line2)}
+body.light .sheet.full{background:var(--bg)}
+body.light .fld input,body.light .fld textarea,body.light .fld select{background:#F7F9FB;border-color:var(--line2);color:var(--txt)}
+body.light .fld input::placeholder,body.light .fld textarea::placeholder{color:#8A9AAA}
+body.light .fld select option{background:#FFFFFF;color:#101922}
+body.light .btn.ghost{background:#F1F4F7;color:var(--txt);border-color:var(--line2)}
+body.light .tag{background:#F0F3F7;color:var(--txt2)}
+body.light .tag.red,body.light .badge.red{color:#A9322D;background:rgba(194,57,52,.10)}
+body.light .tag.yel{color:#8A6105;background:rgba(183,121,12,.11)}
+body.light .tag.grn{color:#19734E;background:rgba(47,163,107,.11)}
+body.light .badge.gold{color:#7B5A0D;background:rgba(168,130,26,.12)}
+body.light .cday.sel{color:#FFFFFF;background:var(--gold2);border-color:var(--gold2)}
+body.light .cday.sel .cdots i{background:#FFFFFF!important}
+body.light .chip.on{color:#FFFFFF;background:var(--gold2);border-color:var(--gold2)}
+body.light .fab{color:#231A05;box-shadow:0 8px 22px rgba(93,70,15,.23)}
+body.light .scrim{background:rgba(22,32,45,.28)}
+body.light #lock{background:radial-gradient(620px 500px at 50% 18%,#FFFFFF,#EEF3F7 72%);color:var(--txt)}
+body.light #lock .lg{color:#211804}
+body.light .pad button{background:#FFFFFF;box-shadow:0 3px 12px rgba(27,46,66,.06)}
+body.light .eventmark{background:rgba(139,123,216,.09);border-color:rgba(109,92,190,.22);color:#6958B8}
+body.light .backupwarn{background:rgba(168,130,26,.08);border-color:rgba(168,130,26,.22)}
+body.light .timerpill{background:#FFFFFF}
