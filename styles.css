@@ -201,20 +201,25 @@ svg{display:block}
 .scrim.open{opacity:1;pointer-events:auto}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;background:var(--panel);
   border-radius:var(--r-xl) var(--r-xl) 0 0;border-top:1px solid var(--line2);
-  padding:6px 16px calc(var(--bot) + 18px);max-height:93vh;overflow-y:auto;
-  transform:translateY(102%);transition:transform .34s var(--ease);box-shadow:var(--shadow)}
+  padding:6px 16px calc(var(--bot) + 18px);
+  /* Не позволяем высокой шторке уходить под статус-бар / Dynamic Island на iPhone.
+     Для коротких шторок высота остаётся по содержимому, для длинных верхняя граница
+     останавливается ниже safe-area. */
+  max-height:calc(100vh - var(--top) - 10px);
+  max-height:calc(100dvh - var(--top) - 10px);
+  overflow-y:auto;transform:translateY(102%);transition:transform .34s var(--ease);box-shadow:var(--shadow)}
 /* Полноэкранная страница (карточка дела, отчёт) — ПОД шторкой-редактором,
    иначе форма, открытая поверх страницы, не реагирует на нажатия. */
 #page{z-index:40}
 .sheet.open{transform:translateY(0)}
 .sheet.full{top:0;max-height:none;border-radius:0;padding-top:calc(var(--top) + 6px)}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line2);margin:7px auto 14px;flex:none}
-.sheetx{position:absolute;right:13px;top:9px;z-index:7;width:34px;height:34px;border-radius:50%;
+.sheetx{position:absolute;right:14px;top:10px;z-index:7;width:36px;height:36px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;background:var(--elev2);border:1px solid var(--line2);
   color:var(--text2);font-size:24px;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.12)}
 .sheetx:active{transform:scale(.92)}
-.sheet.hasclose>.shhead,.sheet.hasclose>.shbody>.shhead{padding-right:42px}
-.sheet.hasclose>.shbody>h2:first-child{padding-right:44px}
+.sheet.hasclose>.shhead,.sheet.hasclose>.shbody>.shhead{padding-right:48px}
+.sheet.hasclose>.shbody>h2:first-child{padding-right:50px}
 /* Шторка с закреплёнными действиями: тело прокручивается, кнопки всегда внизу */
 .sheet.withfoot{display:flex;flex-direction:column;overflow:hidden}
 .sheet.withfoot .shbody{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
@@ -468,3 +473,26 @@ body.light .task.hearingdone{background:linear-gradient(90deg,rgba(47,163,107,.0
 body.light .hearingcontext,body.light .hearingblock{background:#F5F7FA}
 body.light .checkrow{background:#FFFFFF}
 body.light .outcomeLine,body.light .hearingoutcome{background:rgba(47,163,107,.08)}
+
+/* ============================================================
+   v3.5 — умный экран Сегодня, доверители, автоконтекст, журнал действий
+   ============================================================ */
+.priorityhead{display:flex;align-items:center;gap:10px;margin:18px 0 10px;padding:10px 12px;border:1px solid var(--line);border-radius:13px;background:var(--panel)}
+.priorityhead>span{width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--goldsoft);color:var(--gold2);font-weight:800;font-size:12px}
+.priorityhead>div{min-width:0}.priorityhead b{display:block;font-size:13px}.priorityhead small{display:block;margin-top:2px;color:var(--muted);font-size:10.5px}
+.priorityhead.danger{border-color:color-mix(in srgb,var(--dang) 35%,var(--line));background:var(--dangsoft)}
+.priorityhead.danger>span{background:var(--dangsoft);color:var(--dang)}
+.priorityhead.hearing{border-color:color-mix(in srgb,var(--purple) 30%,var(--line));background:color-mix(in srgb,var(--purple) 8%,var(--panel))}
+.priorityhead.hearing>span{background:color-mix(in srgb,var(--purple) 13%,var(--panel));color:var(--purple)}
+.casecontext{display:flex;align-items:flex-start;gap:9px;margin:-2px 0 14px;padding:10px 11px;border-radius:11px;background:var(--elev2);border:1px solid var(--line);color:var(--txt2)}
+.casecontext>.ico{width:17px;height:17px;flex:none;color:var(--gold2);margin-top:1px}.casecontext>div{min-width:0}.casecontext strong{display:block;font-size:12.5px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.casecontext small{display:block;margin-top:3px;font-size:10.5px;color:var(--muted);line-height:1.45}
+.caseview{margin:-3px 0 14px}
+.clientlist{display:grid;gap:9px}.clientcard{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;color:var(--txt)}
+.clientcard:active{transform:scale(.99)}.clientcard .avatar{width:42px;height:42px;flex:none}.clientbody{flex:1;min-width:0}.clientbody h3{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15.5px;font-weight:600}.clientbody span,.clientbody small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.clientbody span{margin-top:3px;color:var(--txt2);font-size:11.5px}.clientbody small{margin-top:3px;color:var(--muted);font-size:10.5px}.clientcard>.ico{color:var(--muted);width:16px}
+.clienthero{margin-bottom:12px}.searchclients{margin-bottom:10px}
+.jmeta{display:flex;align-items:center;gap:6px;margin-bottom:3px}.jmeta .ico{width:13px;height:13px;color:var(--gold2)}.jmeta b{font-size:10px!important;text-transform:uppercase;letter-spacing:.06em;color:var(--gold2)!important}.jmeta span{margin-left:auto;font-size:10px;color:var(--muted)}
+body.light .priorityhead,body.light .clientcard{background:#FFFFFF;box-shadow:0 3px 12px rgba(27,46,66,.04)}
+body.light .priorityhead.danger{background:rgba(194,57,52,.06)}
+body.light .priorityhead.hearing{background:rgba(139,123,216,.06)}
+body.light .casecontext{background:#F5F7FA}
+@media (max-width:360px){.priorityhead{padding:9px 10px}.clientcard{padding:11px 12px}.casecontext small{font-size:10px}}
