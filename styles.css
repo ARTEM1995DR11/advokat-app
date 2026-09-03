@@ -746,3 +746,269 @@ body.light .pad button{background:#FFFFFF;border-color:rgba(67,55,35,.08);box-sh
 @media (max-width:360px){
   .screen{padding-left:13px;padding-right:13px}.top h1{font-size:28px}.tabbar{left:7px;right:7px}.fab{right:14px}
 }
+
+/* ============================================================
+   v3.8 — SIGNATURE LEGAL EDITION
+   Заметный визуальный редизайн: private legal desk / executive dossier.
+   ============================================================ */
+:root{
+  --bg:#040A10;
+  --panel:#0A141D;
+  --elev:#0E1B26;
+  --elev2:#122330;
+  --txt:#F4F0E7;
+  --txt2:#C6CFD4;
+  --muted:#7C8B97;
+  --gold:#B78B43;
+  --gold2:#D7B76A;
+  --gold3:#F0D58A;
+  --goldsoft:rgba(183,139,67,.12);
+  --line:rgba(220,195,139,.09);
+  --line2:rgba(220,195,139,.20);
+  --shadow:0 24px 70px rgba(0,0,0,.34);
+}
+body{
+  background:
+    radial-gradient(120% 54% at 50% -8%,rgba(53,82,103,.26),transparent 66%),
+    radial-gradient(72% 36% at 100% 18%,rgba(183,139,67,.08),transparent 72%),
+    linear-gradient(180deg,#07121B 0%,#040B11 55%,#03080D 100%);
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.28;
+  background-image:radial-gradient(rgba(255,255,255,.055) .55px,transparent .75px);
+  background-size:7px 7px;
+  mask-image:linear-gradient(to bottom,#000,transparent 82%);
+}
+.screen{padding-left:18px;padding-right:18px;padding-top:calc(var(--top) + 9px)}
+
+/* Фирменная строка теперь выглядит как шапка частного кабинета */
+.brandline{
+  min-height:48px;margin:0 0 6px;padding:0 1px 10px;display:grid;
+  grid-template-columns:38px 1fr auto;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(215,183,106,.16);position:relative;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;
+}
+.brandline::after{
+  content:'';position:absolute;left:0;bottom:-1px;width:72px;height:1px;
+  background:linear-gradient(90deg,var(--gold3),transparent);box-shadow:0 0 12px rgba(215,183,106,.24)
+}
+.brandseal{
+  width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  color:#1A1207;background:linear-gradient(145deg,#F1D891,#BE9147 66%,#8D642A);
+  border:1px solid rgba(255,239,190,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 9px 24px rgba(0,0,0,.24)
+}
+.brandseal .ico{width:20px;height:20px;color:#201607;stroke-width:1.75;filter:none}
+.brandcopy{min-width:0;display:flex!important;flex-direction:column;gap:1px}
+.brandcopy b{font:600 15px/1.05 Georgia,'Times New Roman',serif;color:#F0E8D7;letter-spacing:.01em}
+.brandcopy small{font:700 7.5px/1.1 -apple-system,BlinkMacSystemFont,sans-serif;color:#8E9CA7;letter-spacing:.22em}
+.brandline i{margin-left:0;border:1px solid rgba(215,183,106,.20);color:#A99B7A;background:rgba(215,183,106,.045);padding:6px 7px;border-radius:999px;font-size:7px;letter-spacing:.18em}
+
+/* Заголовки — редакционный стиль юридического журнала */
+.top{margin:18px 0 22px;align-items:center}
+.top h1,.sheet h2,.casehead h2,.empty h3,.calhead b{
+  font-family:Georgia,'Times New Roman',serif;
+}
+.top h1{font-size:38px;line-height:.98;font-weight:600;letter-spacing:-.035em;color:#F7F1E5}
+.top .eyebrow{margin-bottom:7px;font-size:9px;letter-spacing:.24em;color:#BCA05C}
+.top .sub{font-size:12px;color:#83919C;margin-top:8px;letter-spacing:.02em}
+.iconbtn{
+  width:43px;height:43px;border-radius:15px;color:#B2C0CA;
+  background:linear-gradient(150deg,rgba(21,39,53,.92),rgba(7,17,25,.94));
+  border:1px solid rgba(215,183,106,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 28px rgba(0,0,0,.18)
+}
+.iconbtn .ico{width:19px;height:19px}
+.iconbtn.on{color:#E5C875;background:linear-gradient(145deg,rgba(183,139,67,.18),rgba(18,31,41,.95));border-color:rgba(215,183,106,.34)}
+
+/* Executive briefing */
+.hero{
+  min-height:132px;padding:21px 20px;border-radius:4px 24px 24px 24px;
+  background:
+    linear-gradient(90deg,rgba(215,183,106,.18) 0 2px,transparent 2px),
+    radial-gradient(90% 130% at 100% 0%,rgba(76,104,123,.18),transparent 64%),
+    linear-gradient(145deg,#10212D,#08151E 68%);
+  border:1px solid rgba(215,183,106,.16);box-shadow:0 18px 46px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.035)
+}
+.hero::before{
+  content:'§';position:absolute;right:14px;bottom:-28px;font:italic 700 132px/1 Georgia,serif;
+  color:rgba(215,183,106,.045);transform:rotate(-7deg);pointer-events:none
+}
+.hero::after{left:0;right:auto;top:0;width:110px;height:1px;background:linear-gradient(90deg,var(--gold3),transparent)}
+.hero .quote{font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.62;color:#BAC5CC;letter-spacing:.002em}
+.hero .quote b{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;color:#F7F1E5;font-weight:650}
+.ring{width:72px;height:72px}.ring svg{width:72px;height:72px;transform:rotate(-90deg) scale(1.07)}
+.ring b{font:600 17px/1 Georgia,'Times New Roman',serif;color:#ECD69A}
+
+/* KPI — одна панель как executive dashboard */
+.kpis{
+  gap:0;margin:14px 0 20px;padding:5px;border:1px solid rgba(215,183,106,.12);
+  border-radius:18px;background:linear-gradient(160deg,rgba(16,31,42,.96),rgba(7,17,25,.96));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 34px rgba(0,0,0,.13)
+}
+.kpi{
+  min-height:67px;border:0;border-radius:13px;background:transparent;box-shadow:none;padding:11px 4px;position:relative
+}
+.kpi:not(:last-child)::after{content:'';position:absolute;right:0;top:14px;bottom:14px;width:1px;background:rgba(215,183,106,.09)}
+.kpi b{font:600 23px/1 Georgia,'Times New Roman',serif;color:#ECE7DC}
+.kpi span{font-size:8px;letter-spacing:.13em;margin-top:7px;color:#71828F}
+.kpi.red b{color:#EA827B}.kpi.gold b{color:#E7C875}.kpi.blue b{color:#7FA9D0}.kpi.ok b{color:#68BC92}
+
+/* Разделы как оглавление досье */
+.sec{margin:31px 0 11px;gap:10px}
+.sec h2{font-size:8.5px;letter-spacing:.22em;color:#85939D;display:flex;align-items:center;gap:9px;flex:1}
+.sec h2::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,rgba(215,183,106,.16),transparent)}
+.sec .link{font-size:11px;color:#CFB166;letter-spacing:.02em}
+.priorityhead{
+  border-radius:5px 16px 16px 16px;padding:12px 14px;border:1px solid rgba(215,183,106,.11);
+  background:linear-gradient(145deg,#0E1D28,#07141D);box-shadow:none
+}
+.priorityhead>span{border-radius:10px;font:700 12px/1 Georgia,serif}
+
+/* Задачи — строгие листы, меньше карточности */
+.task{
+  margin-bottom:10px;padding:15px 14px;border-radius:5px 17px 17px 17px;
+  background:linear-gradient(150deg,rgba(15,30,41,.98),rgba(7,18,26,.99));
+  border:1px solid rgba(215,183,106,.085);border-left:1px solid rgba(215,183,106,.085);
+  box-shadow:0 9px 26px rgba(0,0,0,.10);position:relative;overflow:hidden
+}
+.task::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#49616F;opacity:.75}
+.task.p-high::before{background:var(--dang)}.task.p-mid::before{background:var(--gold)}.task.p-low::before{background:var(--blue)}
+.task.k-hearing::before{background:var(--purple)}
+.task.k-hearing{background:linear-gradient(110deg,rgba(115,103,181,.11),rgba(11,24,34,.98) 44%,rgba(7,18,26,.99))}
+.tt{font-size:15px;font-weight:620;color:#EFF0ED}.ttime{font:700 12px/1.1 -apple-system,BlinkMacSystemFont,sans-serif;color:#C7BCEB}
+.tag{padding:4px 8px;border-radius:999px;font-size:9.7px;background:rgba(164,181,194,.065);border:1px solid rgba(164,181,194,.055);color:#9DADB8}
+.chk{width:27px;height:27px;border-color:rgba(215,183,106,.20);background:rgba(255,255,255,.012)}
+.eventmark{width:29px;height:29px;border-radius:10px;background:rgba(141,131,216,.10)}
+.hearingfinish{margin-top:10px!important;border-radius:10px!important;background:rgba(215,183,106,.08)!important;border:1px solid rgba(215,183,106,.18)!important;color:#D9BF7A!important}
+
+/* Дела — визуально как адвокатское досье */
+.matter{
+  border-radius:4px 20px 20px 20px;padding:17px;margin-bottom:12px;
+  background:
+    linear-gradient(90deg,rgba(215,183,106,.28) 0 2px,transparent 2px),
+    radial-gradient(70% 100% at 100% 0%,rgba(215,183,106,.065),transparent 72%),
+    linear-gradient(150deg,#0E1F2A,#07151E 72%);
+  border:1px solid rgba(215,183,106,.12);box-shadow:0 14px 38px rgba(0,0,0,.13)
+}
+.matter .avatar{width:46px;height:46px;border-radius:14px;color:#111;box-shadow:0 9px 22px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.28)}
+.matter h3{font:600 18px/1.17 Georgia,'Times New Roman',serif;color:#F5EFE3;letter-spacing:-.012em}
+.matter .cl{font-size:11px;margin-top:6px;color:#82939F}
+.matter .stats{margin-top:15px;padding-top:13px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.matter .stats div{text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:.075em;color:#697B88}
+.matter .stats b{font:600 15px/1 Georgia,'Times New Roman',serif;color:#DED8CA;margin-bottom:4px}
+.badge{top:13px;right:13px;border:1px solid rgba(215,183,106,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.mtype{font-size:8px;letter-spacing:.18em;color:#B89D5D}
+
+/* Доверители */
+.clientcard{border-radius:4px 18px 18px 18px;padding:15px;background:linear-gradient(150deg,#0D1C27,#07151E);border-color:rgba(215,183,106,.105)}
+.clientbody h3{font:600 17px/1.15 Georgia,'Times New Roman',serif;color:#F2EDE3}
+
+/* Сегменты и фильтры */
+.segbtns{border-radius:14px;padding:4px;background:#07131C;border:1px solid rgba(215,183,106,.09)}
+.segbtns button{min-height:36px;border-radius:10px;font-size:11px;color:#7F909D}
+.segbtns button.on{background:linear-gradient(145deg,#142735,#0D1B27);color:#E9DFC9;border:1px solid rgba(215,183,106,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.chips{gap:7px}.chip{padding:8px 12px;border-radius:10px;background:#0C1A25;border:1px solid rgba(215,183,106,.075);font-size:10.5px}
+.chip.on{background:linear-gradient(135deg,#D9BA6E,#A77B35);color:#171105;box-shadow:0 8px 20px rgba(85,58,16,.16)}
+
+/* Календарь — как настольный планинг */
+#sc-cal>.card{
+  border-radius:5px 22px 22px 22px;padding:18px;background:
+  linear-gradient(180deg,rgba(215,183,106,.028),transparent 28%),linear-gradient(145deg,#0E1D28,#07151E);
+  border-color:rgba(215,183,106,.13)
+}
+.calhead{padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid rgba(215,183,106,.10)}
+.calhead b{font-size:21px;font-weight:600;color:#F0E9DA}
+.cdow{font-size:8px;letter-spacing:.16em;color:#667A89}
+.cday{height:42px;border-radius:11px;color:#A8B5BE;font-family:Georgia,'Times New Roman',serif;font-size:14px}
+.cday.today{border:1px solid rgba(215,183,106,.30);color:#E8D49A}
+.cday.sel{background:linear-gradient(145deg,#E0C477,#A67833);color:#171005;border:0;box-shadow:0 10px 26px rgba(98,68,20,.26)}
+.cdots i{width:4px;height:4px}
+
+/* Ещё / настройки — каждая строка как пункт executive menu */
+.card.pad0{border-radius:4px 18px 18px 18px;background:linear-gradient(150deg,#0C1A25,#07141D)}
+.row{min-height:62px;padding:13px 14px;border-bottom-color:rgba(215,183,106,.07)}
+.row>.ico:first-child{width:21px;height:21px;color:#BFA66B;background:rgba(215,183,106,.055);padding:3px;border-radius:8px;box-sizing:content-box}
+.row .rl{font-weight:590;color:#E4E4DF}.row .rl small{font-size:10.5px;color:#748693;margin-top:4px}
+.row>.ico:last-child{width:14px;color:#627784}
+
+/* Формы — канцелярская строгость */
+.sheet{border-radius:30px 30px 0 0;background:linear-gradient(180deg,#0C1A25 0%,#06121A 100%);border-top:1px solid rgba(215,183,106,.20)}
+.sheet::before{content:'';position:absolute;left:22px;right:22px;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);opacity:.55}
+.sheet h2{font-size:27px;font-weight:600;color:#F3EDDF}
+.sheet .sh-sub{font-family:Georgia,'Times New Roman',serif;color:#8797A3;line-height:1.5}
+.sheetx{background:#10222F;color:#D4C59F;border-color:rgba(215,183,106,.17)}
+.fld label{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#8D9AA4;margin-bottom:7px}
+.fld input,.fld textarea,.fld select{border-radius:12px;background:#081620;border:1px solid rgba(215,183,106,.13);padding:14px 14px;color:#EDECE7}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:rgba(215,183,106,.58);background:#0A1A25;box-shadow:0 0 0 3px rgba(215,183,106,.075)}
+.btn{border-radius:12px;padding:16px;font-weight:750;letter-spacing:.01em;background:linear-gradient(135deg,#ECD083 0%,#C89E50 55%,#9C6D2D 100%);box-shadow:0 12px 28px rgba(80,52,13,.21),inset 0 1px 0 rgba(255,255,255,.30)}
+.btn.ghost{background:#0B1A25;border:1px solid rgba(215,183,106,.105);color:#CCD3D5}
+
+/* Навигация — active tab как золотая капсула */
+.tabbar{
+  left:12px;right:12px;bottom:calc(var(--bot) + 8px);height:70px;padding:7px;
+  border-radius:23px;background:rgba(4,12,18,.90);border:1px solid rgba(215,183,106,.13);
+  box-shadow:0 22px 54px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%)
+}
+.tab{height:54px;border-radius:16px;padding:8px 0 5px;font-size:8px;gap:4px;color:#637784;transition:.18s ease}
+.tab .ico{width:18px;height:18px}
+.tab.on{color:#E9D39B;background:linear-gradient(145deg,rgba(215,183,106,.12),rgba(215,183,106,.035));box-shadow:inset 0 0 0 1px rgba(215,183,106,.11)}
+.tab.on::after{display:none}
+.fab{
+  width:58px;height:58px;right:19px;bottom:calc(var(--bot) + 91px);border-radius:50%;
+  background:linear-gradient(145deg,#F1D88E,#C09245 58%,#8E6228);
+  border:3px solid #07131C;outline:1px solid rgba(215,183,106,.26);
+  box-shadow:0 16px 38px rgba(0,0,0,.42),0 0 0 5px rgba(215,183,106,.045),inset 0 1px 0 rgba(255,255,255,.38)
+}
+.fab .ico{color:#1A1207;stroke-width:2.2}
+
+/* Empty state — меньше пустого UI, больше editorial */
+.empty{padding:44px 24px}.empty .ico{width:52px;height:52px;color:#A58D56;opacity:.52;margin-bottom:18px}.empty h3{font-size:21px;color:#E7E1D5;font-weight:600}.empty p{font-family:Georgia,'Times New Roman',serif;color:#82919B;font-size:14px;line-height:1.62}
+
+/* Светлая Signature — ivory stationery */
+body.light{
+  --bg:#EEEAE1;--panel:#FBF9F4;--elev:#FDFCF8;--elev2:#F1EDE4;
+  --txt:#17202A;--txt2:#465866;--muted:#71808A;--gold:#9A7030;--gold2:#80602A;--gold3:#B88C45;
+  --line:rgba(79,60,30,.09);--line2:rgba(79,60,30,.18);
+  background:
+    radial-gradient(95% 48% at 50% -7%,rgba(183,151,88,.13),transparent 68%),
+    linear-gradient(180deg,#F6F2E9,#ECE8DF 68%,#E9E5DC)
+}
+body.light::after{background-image:radial-gradient(rgba(80,61,31,.10) .45px,transparent .65px);opacity:.20}
+body.light .brandline{border-bottom-color:rgba(126,91,41,.17)}
+body.light .brandcopy b{color:#222820}.brandcopy small{color:#8A8171}
+body.light .brandseal{background:linear-gradient(145deg,#CDA85F,#9D7230);border-color:rgba(101,69,24,.15)}
+body.light .brandseal .ico{color:#fff}
+body.light .brandline i{color:#83745D;border-color:rgba(126,91,41,.14);background:rgba(126,91,41,.035)}
+body.light .top h1{color:#1A211D}.top .sub{color:#74808A}
+body.light .iconbtn{background:rgba(255,253,248,.86);border-color:rgba(79,60,30,.11);color:#536674;box-shadow:0 9px 24px rgba(50,45,36,.06)}
+body.light .hero{background:linear-gradient(90deg,rgba(154,112,48,.20) 0 2px,transparent 2px),radial-gradient(90% 130% at 100% 0%,rgba(184,151,88,.11),transparent 64%),linear-gradient(145deg,#FFFEFA,#F7F3EA);border-color:rgba(126,91,41,.14);box-shadow:0 18px 42px rgba(67,57,42,.07)}
+body.light .hero::before{color:rgba(126,91,41,.055)}
+body.light .hero .quote{color:#586873}.hero .quote b{color:var(--txt)}
+body.light .kpis{background:linear-gradient(160deg,#FFFEFA,#F5F1E8);border-color:rgba(126,91,41,.12);box-shadow:0 12px 30px rgba(67,57,42,.05)}
+body.light .kpi:not(:last-child)::after{background:rgba(126,91,41,.10)}
+body.light .kpi b{color:#292D28}
+body.light .task{background:linear-gradient(150deg,#FFFEFA,#F7F3EB);border-color:rgba(79,60,30,.08);box-shadow:0 8px 24px rgba(57,49,37,.045)}
+body.light .matter{background:linear-gradient(90deg,rgba(154,112,48,.22) 0 2px,transparent 2px),radial-gradient(70% 100% at 100% 0%,rgba(154,112,48,.06),transparent 72%),linear-gradient(150deg,#FFFEFA,#F5F1E8);border-color:rgba(126,91,41,.12);box-shadow:0 13px 32px rgba(57,49,37,.055)}
+body.light .matter h3,body.light .clientbody h3{color:#252A25}
+body.light .clientcard{background:linear-gradient(150deg,#FFFEFA,#F5F1E8);border-color:rgba(126,91,41,.10)}
+body.light .segbtns{background:#E9E4DA;border-color:rgba(79,60,30,.07)}
+body.light .segbtns button.on{background:#FFFDF8;color:#2B302A;border-color:rgba(126,91,41,.11);box-shadow:0 5px 14px rgba(50,45,36,.05)}
+body.light .chip{background:#EEE9DF;border-color:rgba(79,60,30,.06);color:#5C6971}.chip.on{color:#171105}
+body.light #sc-cal>.card{background:linear-gradient(180deg,rgba(154,112,48,.025),transparent 28%),linear-gradient(145deg,#FFFEFA,#F5F1E8);border-color:rgba(126,91,41,.12)}
+body.light .calhead b{color:#252A25}.cday{color:#52616C}.cday.today{color:#80602A}
+body.light .card.pad0{background:linear-gradient(150deg,#FFFEFA,#F5F1E8)}
+body.light .row{border-bottom-color:rgba(79,60,30,.07)}.row>.ico:first-child{background:rgba(154,112,48,.07);color:#8B682D}.row .rl{color:#273028}
+body.light .sheet{background:linear-gradient(180deg,#FFFDF9 0%,#F0ECE3 100%);border-top-color:rgba(126,91,41,.18);box-shadow:0 -24px 60px rgba(50,45,36,.12)}
+body.light .sheet h2{color:#242A24}.sheet .sh-sub{color:#6E7A81}.sheetx{background:#EEE9DF;color:#5D6870}
+body.light .fld input,body.light .fld textarea,body.light .fld select{background:#FBF9F4;border-color:rgba(79,60,30,.13);color:#222922}.fld input:focus{background:#FFFDF9}
+body.light .btn.ghost{background:#ECE8DF;color:#29332E;border-color:rgba(79,60,30,.08)}
+body.light .tabbar{background:rgba(250,247,239,.93);border-color:rgba(79,60,30,.11);box-shadow:0 18px 42px rgba(50,45,36,.13),inset 0 1px 0 #fff}
+body.light .tab{color:#7C8991}.tab.on{color:#80602A;background:linear-gradient(145deg,rgba(154,112,48,.10),rgba(154,112,48,.025));box-shadow:inset 0 0 0 1px rgba(126,91,41,.08)}
+body.light .fab{border-color:#EFEAE0;outline-color:rgba(126,91,41,.20)}
+body.light .empty h3{color:#3D4039}.empty p{color:#778187}
+
+@media(max-width:360px){
+  .top h1{font-size:34px}.brandline{grid-template-columns:34px 1fr auto}.brandseal{width:33px;height:33px}.brandcopy b{font-size:14px}
+  .screen{padding-left:14px;padding-right:14px}.tabbar{left:8px;right:8px}.fab{right:15px}
+}
