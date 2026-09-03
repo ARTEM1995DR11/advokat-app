@@ -721,6 +721,7 @@ function renderMore(){
   '<div class="sec"><h2>Настройки</h2></div><div class="card pad0">'+
     row('user','Профиль и ставка',(S.settings.name||'Имя не указано')+' · '+(S.settings.dayRate?money(S.settings.dayRate)+'/день':'ставка не задана'),'profile')+
     rowSw('bell','Напоминания',S.settings.notify?'Включены':'Выключены','notify-sheet',S.settings.notify)+
+    row('bell','Проверить звук и уведомление','Тест баннера, звука и вибрации','notify-test')+
     rowSw('sun','Оформление',S.settings.theme==='dark'?'Тёмное':'Светлое','theme',S.settings.theme==='light')+
     row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
   '</div>'+
@@ -729,7 +730,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1896,7 +1897,7 @@ document.addEventListener('visibilitychange',function(){
 });
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
 window.addEventListener('focus',function(){if(unlocked)schedule();});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=361',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
