@@ -322,9 +322,13 @@ function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.
 function closeSheet(){ $('#sheet').classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
 function appBack(){
-  /* Сначала закрываем верхнюю шторку, затем полноэкранную карточку. */
+  /* Сначала закрываем верхнюю шторку, затем полноэкранную карточку.
+     Для отчёта используем history.back(): так работает и нативный iOS-свайп. */
   if($('#sheet').classList.contains('open')){ closeSheet(); return true; }
-  if($('#page').classList.contains('open')){ closeAll(); return true; }
+  if($('#page').classList.contains('open')){
+    if(REPORT_HISTORY){ reportBack(); return true; }
+    closeAll(); return true;
+  }
   return false;
 }
 
@@ -730,7 +734,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.3<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -776,7 +780,8 @@ function editTask(t,preset){
 }
 function drawEditor(){
   var t = ED, isNew = !t.id, hearing=t.kind==='hearing';
-  var opts = '<option value="">— без дела —</option>' + activeM().map(function(m){
+  var noneMatterLabel = hearing ? '— без дела / разовое заседание —' : '— без дела —';
+  var opts = '<option value="">'+noneMatterLabel+'</option>' + activeM().map(function(m){
     return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('');
   var kinds = Object.keys(KIND).map(function(k){
     return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'">'+KIND[k].n+'</button>'; }).join('');
@@ -793,10 +798,10 @@ function drawEditor(){
   openSheet(
   '<div class="shhead"><h2>'+title+'</h2>'+
     (isNew?'':'<button class="iconbtn" data-act="e-dup" title="Дублировать">'+ico('doc')+'</button>')+'</div>'+
-  (hearing?'<div class="hint hearinghint"><b>Заседание — это событие, а не задача.</b><br>Укажите дело, дату, время и суд. Отдельно писать «прийти на заседание» не требуется.</div>':'')+
+  (hearing?'<div class="hint hearinghint"><b>Заседание — это событие, а не задача.</b><br>Дело указывать необязательно. Для разового заседания оставьте «Без дела», затем укажите дату, время и суд.</div>':'')+
   '<div class="fld"><label>Тип</label><div class="chips">'+kinds+'</div></div>'+
   (!hearing?'<div class="fld"><label>Что нужно сделать</label><input id="e-title" placeholder="Подготовить апелляционную жалобу" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
-  '<div class="fld"><label>'+(hearing?'Дело *':'Дело / доверитель')+'</label><select id="e-mid">'+opts+'</select></div>'+
+  '<div class="fld"><label>'+(hearing?'Дело (необязательно)':'Дело / доверитель')+'</label><select id="e-mid">'+opts+'</select></div>'+
   '<div id="e-context">'+matterContextHTML(t.mid)+'</div>'+
   '<div class="two">'+
     '<div class="fld"><label>Дата'+(hearing?' *':'')+'</label><input id="e-due" type="date" value="'+esc(t.due)+'"></div>'+
@@ -806,7 +811,7 @@ function drawEditor(){
       return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'+
   (!hearing?'<div class="fld"><label>Приоритет</label><div class="chips">'+pris+'</div></div>':'')+
   (hearing
-    ? '<div class="fld"><label>Суд / место заседания *</label><input id="e-place" placeholder="Выберите дело — суд подставится автоматически" value="'+esc(t.place||'')+'"><small class="fieldhint">Если в досье дела указан суд, он подставляется автоматически. Здесь можно дописать зал или адрес.</small></div>'
+    ? '<div class="fld"><label>Суд / место заседания *</label><input id="e-place" placeholder="Укажите суд / место заседания" value="'+esc(t.place||'')+'"><small class="fieldhint">Если выбрано существующее дело и в его досье указан суд, он подставится автоматически. Для разового заседания заполните поле вручную.</small></div>'
     : (t.kind==='meeting'?'<div class="fld"><label>Место</label><input id="e-place" placeholder="Адрес / кабинет" value="'+esc(t.place||'')+'"></div>':''))+
   (t.kind==='deadline' ? '<div class="two"><div class="fld"><label>Дата события / отсчёта</label><input id="e-source" type="date" value="'+esc(t.sourceDate||'')+'"></div><div class="fld"><label>Основание / правило</label><input id="e-rule" value="'+esc(t.rule||'')+'" placeholder="ст. 321 ГПК РФ"></div></div>' : '')+
   (!hearing?'<div class="fld"><label>Этапы (чек-лист внутри задачи)</label>'+steps+
@@ -836,7 +841,6 @@ function saveTask(){
   pullEditor();
   var hearing=ED.kind==='hearing';
   if(hearing){
-    if(!ED.mid){ toast('Выберите дело для заседания'); return; }
     if(!ED.due){ toast('Укажите дату заседания'); return; }
     if(!ED.time){ toast('Укажите время заседания'); return; }
     if(!ED.place) syncHearingCourt(false);
@@ -876,14 +880,14 @@ function sheetHearingComplete(t){
   openSheet(
     '<h2>'+(t.done?'Итог заседания':'Заседание завершено')+'</h2>'+ 
     '<p class="sh-sub">Зафиксируйте результат один раз — приложение само обновит журнал дела и создаст нужные последующие действия.</p>'+ 
-    '<div class="hearingcontext">'+ico('gavel')+'<div><b>'+esc((m&&m.title)||'Дело')+'</b><small>'+fmtD(t.due,true)+(t.time?' · '+esc(t.time):'')+(t.place?' · '+esc(t.place):'')+'</small></div></div>'+ 
+    '<div class="hearingcontext">'+ico('gavel')+'<div><b>'+esc((m&&m.title)||'Разовое заседание')+'</b><small>'+fmtD(t.due,true)+(t.time?' · '+esc(t.time):'')+(t.place?' · '+esc(t.place):'')+'</small></div></div>'+ 
     '<div class="fld"><label>Результат / что произошло *</label><textarea id="hc-result" rows="4" placeholder="Например: судебное заседание отложено; допрошены свидетели; суд отказал в ходатайстве…">'+esc(o.result||'')+'</textarea></div>'+ 
     '<div class="two"><div class="fld"><label>Следующее заседание</label><input id="hc-next-date" type="date" value="'+esc(nextDate)+'"></div><div class="fld"><label>Время</label><input id="hc-next-time" type="time" value="'+esc(o.nextTime||'')+'"></div></div>'+ 
     '<div class="fld"><label>Что поручил / предложил суд</label><textarea id="hc-order" rows="3" placeholder="Например: представить оригиналы документов, уточнить исковые требования…">'+esc(o.courtOrder||'')+'</textarea></div>'+ 
-    '<div class="fld"><label>Что нужно подготовить</label><textarea id="hc-prepare" rows="3" placeholder="Если заполнить — будет создана отдельная задача по этому делу">'+esc(o.prepare||'')+'</textarea></div>'+ 
+    '<div class="fld"><label>Что нужно подготовить</label><textarea id="hc-prepare" rows="3" placeholder="Если заполнить — будет создана отдельная задача'+(t.mid?' по этому делу':' без привязки к делу')+'">'+esc(o.prepare||'')+'</textarea></div>'+ 
     '<div class="fld"><label>Подготовить до</label><input id="hc-prep-due" type="date" value="'+esc(prepDue)+'"><small class="fieldhint">Если назначено следующее заседание, по умолчанию ставится день накануне. Дату можно изменить.</small></div>'+ 
     '<div class="hearingblock"><b>Новый процессуальный срок</b><div class="fld"><label>Что сделать / наименование срока</label><input id="hc-dl-title" value="'+esc(o.deadlineTitle||'')+'" placeholder="Например: представить возражения"></div><div class="fld"><label>Крайняя дата</label><input id="hc-dl-date" type="date" value="'+esc(o.deadlineDate||'')+'"></div></div>'+ 
-    '<label class="checkrow"><input id="hc-part" type="checkbox" '+(o.participation===false?'':'checked')+'><span><b>Учесть 1 день участия</b><small>По этому делу и этой дате второй оплачиваемый день создан не будет.</small></span></label>'+ 
+    '<label class="checkrow"><input id="hc-part" type="checkbox" '+(o.participation===false?'':'checked')+'><span><b>Учесть 1 день участия</b><small>'+(t.mid?'По этому делу и этой дате второй оплачиваемый день создан не будет.':'Разовое заседание будет учтено как отдельный день участия без привязки к делу.')+'</small></span></label>'+ 
     '<button class="btn finishbtn" data-act="hc-save">Сохранить итог заседания</button>');
   setTimeout(function(){var e=$('#hc-result');if(e&&!e.value)e.focus();},320);
 }
@@ -934,22 +938,30 @@ function saveHearingOutcome(){
 
   var generatedPart=o.participationId?S.participation.filter(function(x){return x.id===o.participationId;})[0]:null;
   if(o.participation){
-    var existing=S.participation.filter(function(x){return x.mid===t.mid&&x.date===t.due;})[0];
+    var existing=t.mid
+      ? S.participation.filter(function(x){return x.mid===t.mid&&x.date===t.due;})[0]
+      : S.participation.filter(function(x){return x.generatedByHearing===t.id;})[0];
     if(generatedPart){
-      generatedPart.kind='hearing';generatedPart.place=t.place;generatedPart.desc='Судебное заседание';generatedPart.rate=+(m&&m.dayRate)||+S.settings.dayRate||0;
+      generatedPart.kind='hearing';generatedPart.place=t.place;generatedPart.desc=t.mid?'Судебное заседание':'Разовое судебное заседание';generatedPart.rate=+(m&&m.dayRate)||+S.settings.dayRate||0;
     }else if(!existing){
-      var pr={id:uid(),mid:t.mid,date:t.due,kind:'hearing',place:t.place,desc:'Судебное заседание',rate:+(m&&m.dayRate)||+S.settings.dayRate||0,created:new Date().toISOString(),generatedByHearing:t.id};
+      var pr={id:uid(),mid:t.mid,date:t.due,kind:'hearing',place:t.place,desc:t.mid?'Судебное заседание':'Разовое судебное заседание',rate:+(m&&m.dayRate)||+S.settings.dayRate||0,created:new Date().toISOString(),generatedByHearing:t.id};
       S.participation.unshift(pr);o.participationId=pr.id;
+    }else if(!t.mid&&existing){
+      o.participationId=existing.id;
     }
   }else if(generatedPart&&generatedPart.generatedByHearing===t.id){
     S.participation=S.participation.filter(function(x){return x.id!==generatedPart.id;});o.participationId='';
   }
 
-  var jt=outcomeJournalText(t,o), jr=o.journalId?S.journal.filter(function(j){return j.id===o.journalId;})[0]:null;
-  if(!jr)jr=S.journal.filter(function(j){return j.generatedByHearing===t.id&&j.type==='hearing-outcome';})[0];
-  if(jr){jr.text=jt;jr.date=t.due;jr.mid=t.mid;}
-  else{jr={id:uid(),mid:t.mid,date:t.due,text:jt,type:'hearing-outcome',created:new Date().toISOString(),generatedByHearing:t.id};S.journal.unshift(jr);}
-  o.journalId=jr.id;
+  if(t.mid){
+    var jt=outcomeJournalText(t,o), jr=o.journalId?S.journal.filter(function(j){return j.id===o.journalId;})[0]:null;
+    if(!jr)jr=S.journal.filter(function(j){return j.generatedByHearing===t.id&&j.type==='hearing-outcome';})[0];
+    if(jr){jr.text=jt;jr.date=t.due;jr.mid=t.mid;}
+    else{jr={id:uid(),mid:t.mid,date:t.due,text:jt,type:'hearing-outcome',created:new Date().toISOString(),generatedByHearing:t.id};S.journal.unshift(jr);}
+    o.journalId=jr.id;
+  }else{
+    o.journalId='';
+  }
 
   t.done=true;t.doneAt=new Date().toISOString();t.outcome=o;
   save();closeSheet();render();if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);toast('Итог заседания сохранён');schedule();
@@ -1231,7 +1243,7 @@ function sheetParticipationLog(){
   var sum=logs.reduce(function(a,e){var m=matter(e.mid);return a+(+e.rate||+(m&&m.dayRate)||+S.settings.dayRate||0);},0);
   openSheet('<h2>Дни участия</h2><p class="sh-sub">Всего '+logs.length+' '+plural(logs.length,'день','дня','дней')+' · '+money(sum)+'</p>'+
     '<button class="btn" data-act="pt-new" style="margin-bottom:14px">Добавить день участия</button>'+
-    (logs.length?'<div class="card pad0">'+logs.slice(0,50).map(function(e){var m=matter(e.mid);return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(m?' · '+esc(m.title):'')+(e.place?' · '+esc(e.place):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':empty('gavel','Участий пока нет','Добавьте судебное заседание, следственное действие, выезд или другое фактическое участие.')));
+    (logs.length?'<div class="card pad0">'+logs.slice(0,50).map(function(e){var m=matter(e.mid);return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(m?' · '+esc(m.title):(e.generatedByHearing?' · без дела':''))+(e.place?' · '+esc(e.place):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':empty('gavel','Участий пока нет','Добавьте судебное заседание, следственное действие, выезд или другое фактическое участие.')));
 }
 
 function sheetQuickAdd(){
@@ -1325,14 +1337,31 @@ async function restoreBackupObject(obj,password){
 /* =====================================================================
    ОТЧЁТЫ / ПЕЧАТЬ
    ===================================================================== */
-var REPORT = null;
+var REPORT = null, REPORT_HISTORY = false;
+
+function closeReportView(fromHistory){
+  var back = REPORT && REPORT.back;
+  REPORT_HISTORY = false;
+  REPORT = null;
+  if(back && matter(back)) openMatter(back);
+  else closeAll();
+}
+function reportBack(){
+  if(REPORT_HISTORY){
+    try{ history.back(); return; }catch(e){}
+  }
+  closeReportView(true);
+}
+window.addEventListener('popstate',function(){
+  if(REPORT_HISTORY && $('#page').classList.contains('open')) closeReportView(true);
+});
 function printHTML(title,sub,rows,foot,text){
   var body = '<div class="ph"><h1>'+esc(title)+'</h1><div>'+esc(sub)+'</div></div>'+rows+
     '<div class="ft">'+esc(foot||('Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')))+'</div>';
   $('#printarea').innerHTML = body;
   var back = $('#page').classList.contains('open') ? $('#page')._mid : '';
   REPORT = { title:title, text:text||'', back:back };
-  openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back">'+ico('left')+'</button>'+
+  openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back" aria-label="Назад">'+ico('left')+'</button>'+
     '<div style="flex:1"></div>'+
     '<button class="iconbtn" data-act="rep-share">'+ico('share')+'</button>'+
     '<button class="iconbtn" data-act="rep-print">'+ico('doc')+'</button></div>'+
@@ -1340,6 +1369,12 @@ function printHTML(title,sub,rows,foot,text){
     '<button class="btn" data-act="rep-print" style="margin-top:16px">Печать / сохранить в PDF</button>'+
     '<button class="btn ghost" data-act="rep-share" style="margin-top:8px">Поделиться текстом</button>'+
     '<div style="height:24px"></div>');
+  /* Отчёт получает собственную запись истории. На iPhone системный жест
+     от левого края теперь вызывает popstate и возвращает в приложение. */
+  try{
+    history.pushState({advokatReport:true,ts:Date.now()},'',location.href);
+    REPORT_HISTORY = true;
+  }catch(e){ REPORT_HISTORY = false; }
 }
 function doPrint(){
   try{
@@ -1617,7 +1652,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.6</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.6.3</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1752,7 +1787,7 @@ document.addEventListener('click', function(ev){
     case 'dl-add': {var r=dlResult(),mid=$('#dl-mid').value;var prep=addD(r.end,-5);if(dd(prep)<0)prep=today();var main={id:uid(),mid:mid,title:r.t[0],kind:'deadline',due:r.end,time:'',pri:'high',note:r.t[3],sourceDate:r.from,rule:r.t[3],done:false,steps:[],created:new Date().toISOString()};S.tasks.unshift(main);S.tasks.unshift({id:uid(),mid:mid,title:'Подготовить документы: '+r.t[0],kind:'task',due:prep,time:'',pri:'high',note:'Крайний срок '+fmtD(r.end,true),done:false,steps:[],created:new Date().toISOString()});if(mid)addJournal(mid,'Поставлен процессуальный срок: '+r.t[0]+' — '+fmtD(r.end,true),today(),'deadline',true);save();closeSheet();render();toast('Срок и подготовка поставлены');break;}
     case 'reports': sheetReports();break;
     case 'notify-sheet': sheetNotify();break;
-    case 'rep-back': if(REPORT&&REPORT.back&&matter(REPORT.back))openMatter(REPORT.back);else closeAll();break;
+    case 'rep-back': reportBack();break;
     case 'rep-print': doPrint();break;
     case 'rep-share': shareOrCopy(REPORT?REPORT.title:'Отчёт',reportText());break;
     case 'txt-copy': copyText(TXT);break;
@@ -1826,7 +1861,7 @@ document.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
 $('#fab').onclick=function(){if(!unlocked)return;vib();sheetQuickAdd();};
-$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
+$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else if(REPORT_HISTORY&&$('#page').classList.contains('open'))reportBack();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
   var f=e.target.files[0];if(!f)return;var r=new FileReader();
@@ -1850,7 +1885,7 @@ document.addEventListener('touchstart',function(e){
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0], sheetOpen=$('#sheet').classList.contains('open'), pageOpen=$('#page').classList.contains('open');
   if(!sheetOpen && !pageOpen) return;
-  EDGE_SWIPE={x:t.clientX,y:t.clientY,time:Date.now(),edge:t.clientX<=48,sheet:sheetOpen,top:t.clientY<=150};
+  EDGE_SWIPE={x:t.clientX,y:t.clientY,time:Date.now(),edge:t.clientX<=(pageOpen?82:48),sheet:sheetOpen,top:t.clientY<=150};
 },{passive:true});
 document.addEventListener('touchend',function(e){
   if(!EDGE_SWIPE || !e.changedTouches || !e.changedTouches.length){EDGE_SWIPE=null;return;}
