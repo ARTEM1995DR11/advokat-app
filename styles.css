@@ -496,3 +496,7 @@ body.light .priorityhead.danger{background:rgba(194,57,52,.06)}
 body.light .priorityhead.hearing{background:rgba(139,123,216,.06)}
 body.light .casecontext{background:#F5F7FA}
 @media (max-width:360px){.priorityhead{padding:9px 10px}.clientcard{padding:11px 12px}.casecontext small{font-size:10px}}
+
+/* 3.6.4: отчёт в standalone iOS PWA — горизонтальный жест обрабатывает приложение. */
+#page.reportview{touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.swipehint{margin:16px 0 0;text-align:center;color:var(--muted);font-size:11px;line-height:1.4}

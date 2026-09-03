@@ -316,6 +316,7 @@ function openSheet(html){
   s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._cid = null;
+  p.classList.remove('reportview');
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#scrim').classList.remove('open'); }
@@ -323,10 +324,11 @@ function closeSheet(){ $('#sheet').classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
 function appBack(){
   /* Сначала закрываем верхнюю шторку, затем полноэкранную карточку.
-     Для отчёта используем history.back(): так работает и нативный iOS-свайп. */
+     Отчёты закрываем напрямую: установленный iOS PWA ненадёжно связывает
+     внутренний экран с history.back(), поэтому навигация полностью локальная. */
   if($('#sheet').classList.contains('open')){ closeSheet(); return true; }
   if($('#page').classList.contains('open')){
-    if(REPORT_HISTORY){ reportBack(); return true; }
+    if(REPORT){ closeReportView(true); return true; }
     closeAll(); return true;
   }
   return false;
@@ -734,7 +736,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.3<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.4<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1337,29 +1339,21 @@ async function restoreBackupObject(obj,password){
 /* =====================================================================
    ОТЧЁТЫ / ПЕЧАТЬ
    ===================================================================== */
-var REPORT = null, REPORT_HISTORY = false;
+var REPORT = null;
 
-function closeReportView(fromHistory){
+function closeReportView(){
   var back = REPORT && REPORT.back;
-  REPORT_HISTORY = false;
   REPORT = null;
+  $('#page').classList.remove('reportview');
   if(back && matter(back)) openMatter(back);
   else closeAll();
 }
-function reportBack(){
-  if(REPORT_HISTORY){
-    try{ history.back(); return; }catch(e){}
-  }
-  closeReportView(true);
-}
-window.addEventListener('popstate',function(){
-  if(REPORT_HISTORY && $('#page').classList.contains('open')) closeReportView(true);
-});
-function printHTML(title,sub,rows,foot,text){
+function reportBack(){ closeReportView(); }
+function printHTML(title,sub,rows,foot,text,backId){
   var body = '<div class="ph"><h1>'+esc(title)+'</h1><div>'+esc(sub)+'</div></div>'+rows+
     '<div class="ft">'+esc(foot||('Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')))+'</div>';
   $('#printarea').innerHTML = body;
-  var back = $('#page').classList.contains('open') ? $('#page')._mid : '';
+  var back = backId || ($('#page').classList.contains('open') ? $('#page')._mid : '');
   REPORT = { title:title, text:text||'', back:back };
   openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back" aria-label="Назад">'+ico('left')+'</button>'+
     '<div style="flex:1"></div>'+
@@ -1368,13 +1362,9 @@ function printHTML(title,sub,rows,foot,text){
     '<div class="report">'+body+'</div>'+
     '<button class="btn" data-act="rep-print" style="margin-top:16px">Печать / сохранить в PDF</button>'+
     '<button class="btn ghost" data-act="rep-share" style="margin-top:8px">Поделиться текстом</button>'+
+    '<div class="swipehint">Смахните вправо, чтобы вернуться назад</div>'+
     '<div style="height:24px"></div>');
-  /* Отчёт получает собственную запись истории. На iPhone системный жест
-     от левого края теперь вызывает popstate и возвращает в приложение. */
-  try{
-    history.pushState({advokatReport:true,ts:Date.now()},'',location.href);
-    REPORT_HISTORY = true;
-  }catch(e){ REPORT_HISTORY = false; }
+  $('#page').classList.add('reportview');
 }
 function doPrint(){
   try{
@@ -1426,7 +1416,7 @@ function printMatter(id){
   var rows='<h2>Сведения по делу</h2>'+info+'<h2>Задачи ('+st.open+' в работе, '+st.done+' выполнено)</h2><table>'+ts.map(function(t){return '<tr><td class="cb">'+(t.done?'☑':'☐')+'</td><td>'+esc(t.title)+(t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td><td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'—')+'</td></tr>';}).join('')+'</table>';
   if(parts.length)rows+='<h2>Дни участия</h2><table>'+parts.map(function(e){var rate=+e.rate||+m.dayRate||+S.settings.dayRate||0;return '<tr><td style="white-space:nowrap">'+fmtD(e.date)+'</td><td>'+esc(PART_KINDS[e.kind]||'Участие')+(e.place?'<br><small>'+esc(e.place)+'</small>':'')+(e.desc?'<br><small>'+esc(e.desc)+'</small>':'')+'</td><td style="text-align:right">'+(rate?money(rate):'—')+'</td></tr>';}).join('')+'</table>';
   if(js.length)rows+='<h2>Журнал дела</h2><table>'+js.map(function(j){return '<tr><td style="white-space:nowrap">'+fmtD(j.date)+'</td><td>'+esc(j.text)+'</td></tr>';}).join('')+'</table>';
-  printHTML(m.title,'Отчёт по делу · '+fmtD(today(),true),rows);
+  printHTML(m.title,'Отчёт по делу · '+fmtD(today(),true),rows,null,null,id);
 }
 function exportText(){
   var lines = ['ЕЖЕДНЕВНИК АДВОКАТА — '+fmtD(today(),true),''];
@@ -1652,7 +1642,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.6.3</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.6.4</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1861,7 +1851,7 @@ document.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
 $('#fab').onclick=function(){if(!unlocked)return;vib();sheetQuickAdd();};
-$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else if(REPORT_HISTORY&&$('#page').classList.contains('open'))reportBack();else closeAll();};
+$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else if(REPORT&&$('#page').classList.contains('open'))reportBack();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
   var f=e.target.files[0];if(!f)return;var r=new FileReader();
@@ -1885,12 +1875,30 @@ document.addEventListener('touchstart',function(e){
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0], sheetOpen=$('#sheet').classList.contains('open'), pageOpen=$('#page').classList.contains('open');
   if(!sheetOpen && !pageOpen) return;
-  EDGE_SWIPE={x:t.clientX,y:t.clientY,time:Date.now(),edge:t.clientX<=(pageOpen?82:48),sheet:sheetOpen,top:t.clientY<=150};
+  var reportOpen=!!REPORT && pageOpen;
+  /* На отчёте разрешаем начать жест из более широкой левой зоны.
+     Это надёжнее в standalone PWA, где самый край экрана частично забирает iOS. */
+  EDGE_SWIPE={x:t.clientX,y:t.clientY,lastX:t.clientX,lastY:t.clientY,time:Date.now(),
+    edge:t.clientX<=(reportOpen?190:(pageOpen?92:52)),sheet:sheetOpen,top:t.clientY<=160,report:reportOpen};
 },{passive:true});
+
+document.addEventListener('touchmove',function(e){
+  if(!EDGE_SWIPE || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0],dx=t.clientX-EDGE_SWIPE.x,dy=t.clientY-EDGE_SWIPE.y;
+  EDGE_SWIPE.lastX=t.clientX; EDGE_SWIPE.lastY=t.clientY;
+  /* Если на отчёте пользователь явно ведёт вправо, не отдаём жест горизонтальной
+     навигации WebKit — оставляем его приложению. Вертикальный скролл не блокируется. */
+  if(EDGE_SWIPE.report && EDGE_SWIPE.edge && dx>18 && Math.abs(dx)>Math.abs(dy)*1.15){
+    if(e.cancelable) e.preventDefault();
+  }
+},{passive:false});
+
 document.addEventListener('touchend',function(e){
   if(!EDGE_SWIPE || !e.changedTouches || !e.changedTouches.length){EDGE_SWIPE=null;return;}
   var t=e.changedTouches[0], dx=t.clientX-EDGE_SWIPE.x, dy=t.clientY-EDGE_SWIPE.y, dt=Date.now()-EDGE_SWIPE.time;
-  var back = EDGE_SWIPE.edge && dx>=72 && Math.abs(dy)<=70 && dt<=900;
+  var minDx=EDGE_SWIPE.report?52:72;
+  var maxDy=EDGE_SWIPE.report?110:70;
+  var back = EDGE_SWIPE.edge && dx>=minDx && Math.abs(dy)<=maxDy && dt<=1100;
   var down = EDGE_SWIPE.sheet && EDGE_SWIPE.top && dy>=90 && Math.abs(dx)<=80 && dt<=900;
   EDGE_SWIPE=null;
   if(back){ if(appBack()) vib(6); return; }
