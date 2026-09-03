@@ -14,7 +14,7 @@ var DB_VER = 1;
 var DEF = {
   clients: [], matters: [], tasks: [], participation: [], journal: [], time: [],
   settings: {
-    theme:'dark', name:'', dayRate:0, cur:'₽', notify:false,
+    theme:'dark', name:'', dayRate:0, cur:'₽', notify:false, notifySound:true,
     seen:false, dismissed:false, backupEveryDays:7, lastBackup:'',
     lockOnReturn:true, version:3
   },
@@ -729,7 +729,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.5<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1473,15 +1473,17 @@ function sheetPin(){
 }
 function sheetNotify(){
   var st = ('Notification' in window) ? Notification.permission : 'unsupported';
-  openSheet('<h2>Напоминания</h2><p class="sh-sub">Локальное напоминание за 10 минут до задачи и за час до заседания.</p>'+
+  openSheet('<h2>Напоминания</h2><p class="sh-sub">Заседание — за 1 час, задача со временем — за 10 минут, процессуальный срок без времени — в 09:00 в день срока.</p>'+
    '<div class="hint">'+(st==='unsupported'
-     ? 'Этот браузер не поддерживает уведомления. На iPhone они работают, только когда приложение <b>установлено на экран «Домой»</b> (iOS 16.4 и новее).'
-     : st==='denied' ? 'Уведомления запрещены в настройках. Разрешите их: Настройки → Safari (или иконка приложения) → Уведомления.'
-     : S.settings.notify ? 'Напоминания включены. На iPhone они срабатывают только пока веб-приложение активно; iOS может приостанавливать его в фоне.'
-     : 'Нажмите «Включить» и разрешите уведомления. На iPhone предварительно добавьте приложение на экран «Домой».')+'</div>'+
+     ? 'Этот браузер не поддерживает системные уведомления. На iPhone используйте веб-приложение, установленное на экран «Домой».'
+     : st==='denied' ? 'Уведомления запрещены в настройках iPhone. Откройте Настройки → Уведомления → Ежедневник адвоката и разрешите их.'
+     : S.settings.notify ? 'Системные уведомления включены. Если iPhone разрешает звук для этого веб-приложения, уведомление использует системный звук. Дополнительно ежедневник воспроизводит свой короткий сигнал, когда приложение активно.'
+     : 'Нажмите «Включить» и разрешите уведомления. На iPhone приложение должно быть добавлено на экран «Домой».')+'</div>'+
    '<button class="btn'+(S.settings.notify?' ghost':'')+'" data-act="notify">'+
      (S.settings.notify?'Выключить напоминания':'Включить напоминания')+'</button>'+
-   '<div class="hint" style="margin-top:12px;font-size:12px">Для судебных заседаний и критичных процессуальных сроков дополнительно используйте системный «Календарь» или «Напоминания» iPhone: полностью автономное PWA не может надёжно запускать фоновые таймеры после выгрузки системой.</div>');
+   '<button class="btn ghost" data-act="notify-sound" style="margin-top:8px">Звук: '+(S.settings.notifySound===false?'выключен':'включён')+'</button>'+
+   '<button class="btn ghost" data-act="notify-test" style="margin-top:8px">Проверить звук и уведомление</button>'+
+   '<div class="hint" style="margin-top:12px;font-size:12px"><b>Важно:</b> собственный звук браузер может воспроизвести только пока веб-приложение не выгружено iOS. Когда приложение закрыто, звук фонового Web Push определяется системой iPhone. Для гарантированного фонового Web Push потребуется подключить сервер отправки уведомлений; интерфейс 3.6 уже подготовлен к системным уведомлениям.</div>');
 }
 function sheetReports(){
   openSheet('<h2>Отчёты</h2><p class="sh-sub">Печать или сохранение в PDF (в меню печати iPhone).</p>'+
@@ -1493,38 +1495,102 @@ function sheetReports(){
 }
 
 /* =====================================================================
-   НАПОМИНАНИЯ
+   НАПОМИНАНИЯ + ЗВУК
    ===================================================================== */
 var timers = [];
+var AUDIO_CTX = null;
+var ALERTED = {};
+function audioCtx(){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext;
+    if(!C) return null;
+    if(!AUDIO_CTX) AUDIO_CTX = new C();
+    if(AUDIO_CTX.state==='suspended') AUDIO_CTX.resume().catch(function(){});
+    return AUDIO_CTX;
+  }catch(e){ return null; }
+}
+function playAlertSound(test){
+  if(S.settings.notifySound===false && !test) return;
+  var c=audioCtx(); if(!c) return;
+  try{
+    var start=c.currentTime+0.02;
+    [[880,0,.16],[660,.22,.18],[880,.48,.24]].forEach(function(x){
+      var o=c.createOscillator(), g=c.createGain();
+      o.type='sine'; o.frequency.setValueAtTime(x[0],start+x[1]);
+      g.gain.setValueAtTime(0.0001,start+x[1]);
+      g.gain.exponentialRampToValueAtTime(0.18,start+x[1]+0.025);
+      g.gain.exponentialRampToValueAtTime(0.0001,start+x[1]+x[2]);
+      o.connect(g); g.connect(c.destination); o.start(start+x[1]); o.stop(start+x[1]+x[2]+0.03);
+    });
+  }catch(e){}
+}
+function notificationBody(t){
+  var m=t.mid?matter(t.mid):null, bits=[];
+  if(m&&m.client) bits.push(m.client);
+  if(t.place) bits.push(t.place);
+  if(m&&m.number) bits.push(m.number);
+  return bits.length?bits.join(' · '):(t.title||KIND[t.kind].n);
+}
+function showSystemNotification(title,body,tag){
+  if(!('Notification' in window) || Notification.permission!=='granted') return;
+  var opts={body:body,icon:'icon-192.png',badge:'icon-192.png',tag:tag||('adv-'+Date.now()),renotify:true,silent:false,data:{url:'./'}};
+  if(navigator.serviceWorker&&navigator.serviceWorker.ready){
+    navigator.serviceWorker.ready.then(function(reg){
+      if(reg.showNotification) return reg.showNotification(title,opts);
+      try{new Notification(title,opts);}catch(e){}
+    }).catch(function(){try{new Notification(title,opts);}catch(e){}});
+  }else{try{new Notification(title,opts);}catch(e){}}
+}
+function fireReminder(t,label){
+  var key=(t.id||'x')+'|'+label+'|'+today();
+  if(ALERTED[key]) return; ALERTED[key]=1;
+  playAlertSound(false); vib([120,80,120]);
+  var title=label||KIND[t.kind].n;
+  showSystemNotification(title,notificationBody(t),'adv-'+t.id+'-'+label);
+  toast(title+' · '+(t.title||notificationBody(t)));
+}
+function reminderPoint(t){
+  if(!t.due) return null;
+  var time=t.time||'';
+  if(t.kind==='hearing'&&time) return {at:new Date(t.due+'T'+time+':00'),lead:60,label:'Заседание через 1 час'};
+  if(t.kind==='deadline'){
+    var dt=time?new Date(t.due+'T'+time+':00'):new Date(t.due+'T09:00:00');
+    return {at:dt,lead:0,label:'Процессуальный срок сегодня'};
+  }
+  if(time) return {at:new Date(t.due+'T'+time+':00'),lead:10,label:'Задача через 10 минут'};
+  return null;
+}
 function schedule(){
-  timers.forEach(clearTimeout); timers = [];
-  if(!S.settings.notify || !('Notification' in window) || Notification.permission!=='granted') return;
-  var now = new Date();
-  S.tasks.filter(function(t){ return !t.done && t.due===today() && t.time; }).forEach(function(t){
-    var at = new Date(today()+'T'+t.time+':00'); var lead = t.kind==='hearing' ? 60 : 10;
-    var when = at.getTime() - lead*60000 - now.getTime();
-    if(when>0 && when<86400000){
-      timers.push(setTimeout(function(){
-        var title = KIND[t.kind].n+' через '+lead+' мин';
-        var opts = { body:t.title+(t.place?' · '+t.place:''), icon:'icon-192.png', badge:'icon-192.png', tag:'adv-'+t.id };
-        if(navigator.serviceWorker && navigator.serviceWorker.ready){
-          navigator.serviceWorker.ready.then(function(reg){
-            if(reg.showNotification) return reg.showNotification(title, opts);
-            try{ new Notification(title, opts); }catch(e){}
-          }).catch(function(){ try{ new Notification(title, opts); }catch(e){} });
-        } else { try{ new Notification(title, opts); }catch(e){} }
-      }, when));
+  timers.forEach(clearTimeout); timers=[];
+  if(!S.settings.notify) return;
+  var now=Date.now();
+  S.tasks.filter(function(t){return !t.done&&t.due;}).forEach(function(t){
+    var rp=reminderPoint(t); if(!rp) return;
+    var target=rp.at.getTime()-rp.lead*60000, when=target-now;
+    if(when>0&&when<36*60*60*1000){
+      timers.push(setTimeout(function(){fireReminder(t,rp.label);},when));
     }
   });
 }
 function toggleNotify(){
-  if(S.settings.notify){ S.settings.notify = false; save(); render(); toast('Напоминания выключены'); return; }
-  if(!('Notification' in window)){ toast('Устройство не поддерживает уведомления'); return; }
+  if(S.settings.notify){S.settings.notify=false;save();render();toast('Напоминания выключены');return;}
+  if(!('Notification' in window)){toast('Устройство не поддерживает системные уведомления');return;}
+  audioCtx();
   Notification.requestPermission().then(function(p){
-    if(p==='granted'){ S.settings.notify = true; save(); render(); schedule();
-      toast('Напоминания включены'); }
+    if(p==='granted'){S.settings.notify=true;if(S.settings.notifySound==null)S.settings.notifySound=true;save();render();schedule();playAlertSound(true);toast('Напоминания и звук включены');}
     else toast('Разрешение не выдано');
   });
+}
+function toggleNotifySound(){
+  S.settings.notifySound=S.settings.notifySound===false?true:false;
+  save();
+  if(S.settings.notifySound){playAlertSound(true);toast('Звук включён');}else toast('Звук выключен');
+  sheetNotify();
+}
+function testNotification(){
+  audioCtx(); playAlertSound(true); vib([120,80,120]);
+  if('Notification' in window&&Notification.permission==='granted') showSystemNotification('Тестовое уведомление','Ежедневник адвоката · звук и уведомления работают','adv-test');
+  else toast('Звук воспроизведён. Для системного уведомления сначала разрешите уведомления.');
 }
 
 /* =====================================================================
@@ -1550,7 +1616,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.5</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.6</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1700,6 +1766,8 @@ document.addEventListener('click', function(ev){
     case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
     case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');});break;
     case 'notify': toggleNotify();break;
+    case 'notify-sound': toggleNotifySound();break;
+    case 'notify-test': testNotification();break;
     case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07111C':'#F4F6F9';break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
@@ -1826,6 +1894,8 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
+window.addEventListener('focus',function(){if(unlocked)schedule();});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
