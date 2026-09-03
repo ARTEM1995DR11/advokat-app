@@ -434,3 +434,30 @@ body.light .pad button{background:#FFFFFF;box-shadow:0 3px 12px rgba(27,46,66,.0
 body.light .eventmark{background:rgba(139,123,216,.09);border-color:rgba(109,92,190,.22);color:#6958B8}
 body.light .backupwarn{background:rgba(168,130,26,.08);border-color:rgba(168,130,26,.22)}
 body.light .timerpill{background:#FFFFFF}
+
+/* ============================================================
+   v3.2 — быстрый режим после судебного заседания
+   ============================================================ */
+.hearingfinish{margin-top:9px;display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:10px;
+  color:var(--ok);background:var(--oksoft);border:1px solid color-mix(in srgb,var(--ok) 35%,var(--line));font-size:12px;font-weight:700}
+.hearingfinish .ico{width:14px;height:14px;stroke-width:2.3}
+.task.hearingdone{border-left-color:var(--ok);background:linear-gradient(90deg,var(--oksoft),transparent 58%)}
+.task.hearingdone .eventmark{color:var(--ok);background:var(--oksoft);border-color:color-mix(in srgb,var(--ok) 34%,var(--line))}
+.outcomeLine{margin-top:7px;padding:8px 10px;border-radius:10px;background:var(--oksoft);color:var(--txt2);font-size:12.5px;line-height:1.45}
+.outcomeLine b{color:var(--ok)}
+.finishbtn{margin-top:8px;background:linear-gradient(135deg,#2FA36B,#247D54)!important;color:#fff!important;border-color:transparent!important}
+.hearingoutcome{margin:0 0 14px;padding:12px 13px;border-radius:14px;background:var(--oksoft);border:1px solid color-mix(in srgb,var(--ok) 28%,var(--line));color:var(--txt2)}
+.hearingoutcome>b{display:block;color:var(--ok);font-size:12px;text-transform:uppercase;letter-spacing:.09em}
+.hearingoutcome p{margin:5px 0 4px;color:var(--txt);white-space:pre-wrap;line-height:1.45}
+.hearingoutcome small{display:block;color:var(--muted)}
+.hearingcontext{display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:12px;border-radius:14px;background:var(--elev2);border:1px solid var(--line)}
+.hearingcontext>.ico{color:var(--purple);flex:none;margin-top:1px}.hearingcontext div{min-width:0}.hearingcontext b{display:block}.hearingcontext small{display:block;margin-top:3px;color:var(--muted);line-height:1.4}
+.hearingblock{margin:4px 0 14px;padding:12px;border-radius:14px;background:var(--elev2);border:1px solid var(--line)}
+.hearingblock>b{display:block;margin-bottom:10px;font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.checkrow{display:flex;align-items:flex-start;gap:11px;margin:4px 0 14px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel);cursor:pointer}
+.checkrow input{appearance:auto;-webkit-appearance:checkbox;width:20px;height:20px;margin:1px 0 0;accent-color:var(--ok);flex:none}
+.checkrow span{display:block}.checkrow b{display:block;font-size:13.5px}.checkrow small{display:block;margin-top:3px;color:var(--muted);font-size:11.5px;line-height:1.4}
+body.light .task.hearingdone{background:linear-gradient(90deg,rgba(47,163,107,.08),#FFFFFF 65%)}
+body.light .hearingcontext,body.light .hearingblock{background:#F5F7FA}
+body.light .checkrow{background:#FFFFFF}
+body.light .outcomeLine,body.light .hearingoutcome{background:rgba(47,163,107,.08)}

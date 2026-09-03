@@ -291,29 +291,33 @@ function taskCard(t,opts){
   var m = t.mid ? matter(t.mid) : null;
   var sd = stepsDone(t), st = (t.steps||[]).length, hearing=t.kind==='hearing';
   var title = hearing ? 'Судебное заседание' : t.title;
-  return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done?' done':'')+'" data-act="task" data-id="'+t.id+'">'+
-    (hearing?'<div class="eventmark">'+ico('gavel')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>')+
+  var outcome = hearing && t.outcome ? t.outcome : null;
+  return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done&&!hearing?' done':'')+(hearing&&t.done?' hearingdone':'')+'" data-act="task" data-id="'+t.id+'">'+
+    (hearing?'<div class="eventmark">'+ico(t.done?'check':'gavel')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>')+
     '<div class="tbody">'+
       '<div class="trow">'+
         (t.time?'<span class="ttime mono">'+esc(t.time)+'</span>':'')+
-        '<div class="tt">'+esc(title)+'</div>'+
-      '</div>'+
+        '<div class="tt">'+esc(title)+'</div>'+ 
+      '</div>'+ 
       '<div class="meta">'+
         (t.kind!=='task' && !hearing ? '<span class="tag">'+ico(KIND[t.kind].i,'s')+KIND[t.kind].n+'</span>' : '')+
         (opts.noMatter||!m ? '' : '<span class="tag dot" style="color:'+mColor(m.id)+'">'+esc(m.title)+'</span>')+
         (opts.noDue ? '' : dueTag(t))+
+        (hearing&&t.done?'<span class="tag grn">'+ico('check','s')+'Завершено</span>':'')+
         (t.pri==='high' && !t.done && !hearing ? '<span class="tag red">'+ico('flag','s')+'Срочно</span>' : '')+
         (t.place?'<span class="tag">'+esc(t.place)+'</span>':'')+
-      '</div>'+
+      '</div>'+ 
+      (outcome&&outcome.result?'<div class="outcomeLine"><b>Итог:</b> '+esc(outcome.result.length>180?outcome.result.slice(0,180)+'…':outcome.result)+'</div>':'')+
       (t.note?'<div class="note">'+esc(t.note.length>140?t.note.slice(0,140)+'…':t.note)+'</div>':'')+
+      (hearing&&!t.done&&t.due&&dd(t.due)<=0?'<button class="hearingfinish" data-act="hearing-complete" data-id="'+t.id+'">'+ico('check','s')+' Заседание завершено</button>':'')+
       (!hearing&&st?'<div class="steps"><div class="mini"><i style="width:'+(sd/st*100)+'%"></i></div>'+sd+' из '+st+' этапов</div>':'')+
     '</div></div>';
 }
 function groupList(list,opts){
   if(!list.length) return '';
-  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Выполнено',[]]];
+  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Завершённые заседания',[]],['Выполнено',[]]];
   list.forEach(function(t){
-    var i = t.done ? 7 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
+    var i = (t.kind==='hearing' && t.done) ? 7 : t.done ? 8 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
     buckets[i][1].push(t);
   });
   return buckets.filter(function(b){ return b[1].length; }).map(function(b){
@@ -645,7 +649,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.2<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -726,10 +730,12 @@ function drawEditor(){
   (!hearing?'<div class="fld"><label>Этапы (чек-лист внутри задачи)</label>'+steps+
     '<div style="display:flex;gap:8px"><input id="e-step" placeholder="Добавить этап" autocomplete="off">'+
     '<button class="chip" data-act="e-step-a" style="padding:0 16px">'+ico('plus','s')+'</button></div></div>':'')+
-  '<div class="fld"><label>'+(hearing?'Примечание (необязательно)':'Примечание')+'</label>'+
-    '<textarea id="e-note" rows="3" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':'Нормы права, документы, что взять с собой…')+'">'+esc(t.note||'')+'</textarea></div>'+
-  '<button class="btn" data-act="e-save">'+(hearing?'Сохранить заседание':'Сохранить')+'</button>'+
-  (isNew?'':((hearing||t.kind==='deadline'||t.kind==='meeting')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
+  '<div class="fld"><label>'+(hearing?'Примечание (необязательно)':'Примечание')+'</label>'+ 
+    '<textarea id="e-note" rows="3" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':'Нормы права, документы, что взять с собой…')+'">'+esc(t.note||'')+'</textarea></div>'+ 
+  (hearing&&t.done&&t.outcome?'<div class="hearingoutcome"><b>Итог заседания</b><p>'+esc(t.outcome.result||'Итог сохранён')+'</p>'+(t.outcome.nextDate?'<small>Следующее заседание: '+fmtD(t.outcome.nextDate,true)+(t.outcome.nextTime?' в '+esc(t.outcome.nextTime):'')+'</small>':'')+'</div>':'')+
+  '<button class="btn" data-act="e-save">'+(hearing?'Сохранить заседание':'Сохранить')+'</button>'+ 
+  (isNew?'':(hearing?'<button class="btn finishbtn" data-act="hearing-complete" data-id="'+t.id+'">'+(t.done?'Изменить итог заседания':'Заседание завершено')+'</button>':'')+
+   ((hearing||t.kind==='deadline'||t.kind==='meeting')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger" data-act="e-del">Удалить</button>'));
   if(isNew && !hearing) setTimeout(function(){ var e=$('#e-title'); if(e) e.focus(); },340);
 }
@@ -772,13 +778,112 @@ function saveTask(){
 }
 
 /* =====================================================================
+   ЗАВЕРШЕНИЕ СУДЕБНОГО ЗАСЕДАНИЯ
+   ===================================================================== */
+var HC = null;
+function findTask(id){ return S.tasks.filter(function(t){return t.id===id;})[0]; }
+function removeGeneratedTask(id,hearingId){
+  if(!id)return;
+  S.tasks=S.tasks.filter(function(t){return !(t.id===id && t.generatedByHearing===hearingId && !t.done);});
+}
+function sheetHearingComplete(t){
+  if(!t||t.kind!=='hearing')return;
+  var o=clone(t.outcome||{}), m=t.mid?matter(t.mid):null;
+  HC={id:t.id};
+  var nextDate=o.nextDate||'', prepDue=o.prepareDue||(nextDate?addD(nextDate,-1):'');
+  openSheet(
+    '<h2>'+(t.done?'Итог заседания':'Заседание завершено')+'</h2>'+ 
+    '<p class="sh-sub">Зафиксируйте результат один раз — приложение само обновит журнал дела и создаст нужные последующие действия.</p>'+ 
+    '<div class="hearingcontext">'+ico('gavel')+'<div><b>'+esc((m&&m.title)||'Дело')+'</b><small>'+fmtD(t.due,true)+(t.time?' · '+esc(t.time):'')+(t.place?' · '+esc(t.place):'')+'</small></div></div>'+ 
+    '<div class="fld"><label>Результат / что произошло *</label><textarea id="hc-result" rows="4" placeholder="Например: судебное заседание отложено; допрошены свидетели; суд отказал в ходатайстве…">'+esc(o.result||'')+'</textarea></div>'+ 
+    '<div class="two"><div class="fld"><label>Следующее заседание</label><input id="hc-next-date" type="date" value="'+esc(nextDate)+'"></div><div class="fld"><label>Время</label><input id="hc-next-time" type="time" value="'+esc(o.nextTime||'')+'"></div></div>'+ 
+    '<div class="fld"><label>Что поручил / предложил суд</label><textarea id="hc-order" rows="3" placeholder="Например: представить оригиналы документов, уточнить исковые требования…">'+esc(o.courtOrder||'')+'</textarea></div>'+ 
+    '<div class="fld"><label>Что нужно подготовить</label><textarea id="hc-prepare" rows="3" placeholder="Если заполнить — будет создана отдельная задача по этому делу">'+esc(o.prepare||'')+'</textarea></div>'+ 
+    '<div class="fld"><label>Подготовить до</label><input id="hc-prep-due" type="date" value="'+esc(prepDue)+'"><small class="fieldhint">Если назначено следующее заседание, по умолчанию ставится день накануне. Дату можно изменить.</small></div>'+ 
+    '<div class="hearingblock"><b>Новый процессуальный срок</b><div class="fld"><label>Что сделать / наименование срока</label><input id="hc-dl-title" value="'+esc(o.deadlineTitle||'')+'" placeholder="Например: представить возражения"></div><div class="fld"><label>Крайняя дата</label><input id="hc-dl-date" type="date" value="'+esc(o.deadlineDate||'')+'"></div></div>'+ 
+    '<label class="checkrow"><input id="hc-part" type="checkbox" '+(o.participation===false?'':'checked')+'><span><b>Учесть 1 день участия</b><small>По этому делу и этой дате второй оплачиваемый день создан не будет.</small></span></label>'+ 
+    '<button class="btn finishbtn" data-act="hc-save">Сохранить итог заседания</button>');
+  setTimeout(function(){var e=$('#hc-result');if(e&&!e.value)e.focus();},320);
+}
+function outcomeJournalText(t,o){
+  var a=['Заседание завершено. Результат: '+o.result];
+  if(o.courtOrder)a.push('Суд: '+o.courtOrder);
+  if(o.nextDate)a.push('Следующее заседание: '+fmtD(o.nextDate,true)+(o.nextTime?' в '+o.nextTime:'')+'.');
+  if(o.prepare)a.push('Подготовить: '+o.prepare+(o.prepareDue?' — до '+fmtD(o.prepareDue,true):'')+'.');
+  if(o.deadlineTitle&&o.deadlineDate)a.push('Новый процессуальный срок: '+o.deadlineTitle+' — '+fmtD(o.deadlineDate,true)+'.');
+  return a.join('\n');
+}
+function saveHearingOutcome(){
+  var t=findTask(HC&&HC.id); if(!t||t.kind!=='hearing'){toast('Заседание не найдено');return;}
+  var result=($('#hc-result')&&$('#hc-result').value.trim())||'';
+  if(!result){toast('Укажите результат заседания');var e=$('#hc-result');if(e)e.focus();return;}
+  if(t.due&&dd(t.due)>0&&!t.done&&!confirm('Заседание указано на будущую дату. Всё равно отметить его завершённым?'))return;
+  var nextDate=$('#hc-next-date').value, nextTime=$('#hc-next-time').value;
+  var order=$('#hc-order').value.trim(), prepare=$('#hc-prepare').value.trim(), prepDue=$('#hc-prep-due').value;
+  var dlTitle=$('#hc-dl-title').value.trim(), dlDate=$('#hc-dl-date').value;
+  if(nextDate&&!nextTime){toast('Укажите время следующего заседания');return;}
+  if(nextTime&&!nextDate){toast('Укажите дату следующего заседания');return;}
+  if((dlTitle&&!dlDate)||(!dlTitle&&dlDate)){toast('Для нового срока заполните название и крайнюю дату');return;}
+  var old=t.outcome||{}, o={
+    result:result,courtOrder:order,nextDate:nextDate,nextTime:nextTime,prepare:prepare,prepareDue:prepDue,
+    deadlineTitle:dlTitle,deadlineDate:dlDate,participation:!!$('#hc-part').checked,
+    completedAt:old.completedAt||new Date().toISOString(),followupHearingId:old.followupHearingId||'',
+    prepTaskId:old.prepTaskId||'',deadlineTaskId:old.deadlineTaskId||'',participationId:old.participationId||'',journalId:old.journalId||''
+  };
+  var m=t.mid?matter(t.mid):null;
+
+  if(nextDate){
+    var nh=o.followupHearingId?findTask(o.followupHearingId):null;
+    if(!nh){nh={id:uid(),created:new Date().toISOString()};S.tasks.unshift(nh);o.followupHearingId=nh.id;}
+    if(!nh.done)Object.assign(nh,{title:'Судебное заседание',mid:t.mid,kind:'hearing',due:nextDate,time:nextTime,place:(m&&m.court)||t.place||'',pri:'mid',note:'Назначено по итогам заседания '+fmtD(t.due,true),done:false,doneAt:null,steps:[],generatedByHearing:t.id});
+  }else if(o.followupHearingId){removeGeneratedTask(o.followupHearingId,t.id);o.followupHearingId='';}
+
+  if(prepare){
+    var pt=o.prepTaskId?findTask(o.prepTaskId):null;
+    if(!pt){pt={id:uid(),created:new Date().toISOString()};S.tasks.unshift(pt);o.prepTaskId=pt.id;}
+    if(!pt.done)Object.assign(pt,{title:/^подготов/i.test(prepare)?prepare:'Подготовить: '+prepare,mid:t.mid,kind:'task',due:prepDue||'',time:'',place:'',pri:'high',note:'По итогам заседания '+fmtD(t.due,true),done:false,doneAt:null,steps:[],generatedByHearing:t.id});
+  }else if(o.prepTaskId){removeGeneratedTask(o.prepTaskId,t.id);o.prepTaskId='';}
+
+  if(dlTitle&&dlDate){
+    var dl=o.deadlineTaskId?findTask(o.deadlineTaskId):null;
+    if(!dl){dl={id:uid(),created:new Date().toISOString()};S.tasks.unshift(dl);o.deadlineTaskId=dl.id;}
+    if(!dl.done)Object.assign(dl,{title:dlTitle,mid:t.mid,kind:'deadline',due:dlDate,time:'',place:'',pri:'high',note:'Поставлено по итогам заседания '+fmtD(t.due,true),sourceDate:t.due,rule:'',done:false,doneAt:null,steps:[],generatedByHearing:t.id});
+  }else if(o.deadlineTaskId){removeGeneratedTask(o.deadlineTaskId,t.id);o.deadlineTaskId='';}
+
+  var generatedPart=o.participationId?S.participation.filter(function(x){return x.id===o.participationId;})[0]:null;
+  if(o.participation){
+    var existing=S.participation.filter(function(x){return x.mid===t.mid&&x.date===t.due;})[0];
+    if(generatedPart){
+      generatedPart.kind='hearing';generatedPart.place=t.place;generatedPart.desc='Судебное заседание';generatedPart.rate=+(m&&m.dayRate)||+S.settings.dayRate||0;
+    }else if(!existing){
+      var pr={id:uid(),mid:t.mid,date:t.due,kind:'hearing',place:t.place,desc:'Судебное заседание',rate:+(m&&m.dayRate)||+S.settings.dayRate||0,created:new Date().toISOString(),generatedByHearing:t.id};
+      S.participation.unshift(pr);o.participationId=pr.id;
+    }
+  }else if(generatedPart&&generatedPart.generatedByHearing===t.id){
+    S.participation=S.participation.filter(function(x){return x.id!==generatedPart.id;});o.participationId='';
+  }
+
+  var jt=outcomeJournalText(t,o), jr=o.journalId?S.journal.filter(function(j){return j.id===o.journalId;})[0]:null;
+  if(!jr)jr=S.journal.filter(function(j){return j.generatedByHearing===t.id&&j.type==='hearing-outcome';})[0];
+  if(jr){jr.text=jt;jr.date=t.due;jr.mid=t.mid;}
+  else{jr={id:uid(),mid:t.mid,date:t.due,text:jt,type:'hearing-outcome',created:new Date().toISOString(),generatedByHearing:t.id};S.journal.unshift(jr);}
+  o.journalId=jr.id;
+
+  t.done=true;t.doneAt=new Date().toISOString();t.outcome=o;
+  save();closeSheet();render();if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);toast('Итог заседания сохранён');schedule();
+}
+
+/* =====================================================================
    MATTER PAGE
    ===================================================================== */
 var MED = null;
 function openMatter(id){
   var m = matter(id); if(!m){ closeAll(); return; }
   var st = matterStats(m), c = mColor(m.id), mt=matterType(m);
-  var ts = tasksOf(id).sort(sortT), open = ts.filter(isActiveRecord), done=ts.filter(function(t){return t.done;});
+  var ts = tasksOf(id).sort(sortT), open = ts.filter(isActiveRecord),
+      done=ts.filter(function(t){return t.done&&t.kind!=='hearing';}),
+      completedHearings=ts.filter(function(t){return t.kind==='hearing'&&t.done;}).sort(sortT),
+      pastHearings=ts.filter(function(t){return t.kind==='hearing'&&!t.done&&isPastHearing(t);}).sort(sortT);
   var parts = participationOf(id).slice().sort(function(a,b){ return a.date<b.date?1:-1; });
   var js = journalOf(id).slice().sort(function(a,b){ return (a.date||'')<(b.date||'')?1:-1; });
   var dossier = [
@@ -807,6 +912,8 @@ function openMatter(id){
     '<button class="chip" data-act="m-tpl" data-id="'+id+'">Шаблон</button></div>'+
   (open.length?'<div class="sec"><h2>Задачи и события</h2><span class="link">'+open.length+'</span></div>'+open.map(function(t){return taskCard(t,{noMatter:true});}).join(''):
     '<div class="card">'+empty('check','Задач нет','Добавьте действие, заседание или процессуальный срок.',[{act:'m-add',t:'Добавить задачу',id:id},{act:'m-tpl',t:'Применить шаблон',ghost:1,id:id}])+'</div>')+
+  (pastHearings.length?'<div class="sec"><h2>Прошедшие заседания</h2><span class="link">'+pastHearings.length+'</span></div>'+pastHearings.map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
+  (completedHearings.length?'<div class="sec"><h2>Завершённые заседания</h2><span class="link">'+completedHearings.length+'</span></div>'+completedHearings.slice(0,8).map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
   '<div class="sec"><h2>Дни участия</h2><button class="link" data-act="m-part" data-id="'+id+'">Добавить</button></div>'+
   (parts.length?'<div class="card pad0">'+parts.slice(0,12).map(function(e){var rate=+e.rate||+m.dayRate||+S.settings.dayRate||0;return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(e.place?' · '+esc(e.place):'')+(e.desc?' · '+esc(e.desc):'')+(rate?' · '+money(rate):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'" style="color:var(--muted)">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':
     '<div class="hint">Любое фактическое участие по делу учитывается как <b>1 день</b>, независимо от продолжительности.</div>')+
@@ -1340,7 +1447,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.1</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.2</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('folder','Досье дела','Доверитель, суд/орган, статья, стадия, задачи и журнал')+
@@ -1416,6 +1523,8 @@ document.addEventListener('click', function(ev){
     /* tasks */
     case 'toggle': {var t=S.tasks.filter(function(x){return x.id===id;})[0];if(!t)break;t.done=!t.done;t.doneAt=t.done?new Date().toISOString():null;if(t.mid)addJournal(t.mid,(t.done?'Выполнено: ':'Возвращено в работу: ')+t.title,today(),'task',true);vib(t.done?[10,40,14]:8);save();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);if(t.done)toast('Выполнено · '+t.title.slice(0,32));break;}
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk)editTask(tk);break;}
+    case 'hearing-complete': {var ht=findTask(id);if(ht){closeSheet();sheetHearingComplete(ht);}break;}
+    case 'hc-save': saveHearingOutcome();break;
     case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
     case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}drawEditor();break;}
     case 'e-pri': ED.pri=v;pullEditor();drawEditor();break;
@@ -1483,7 +1592,7 @@ document.addEventListener('click', function(ev){
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
-    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done;}).length;if(!n){toast('Нет выполненных');break;}if(confirm('Удалить '+n+' выполненных задач?')){S.tasks=S.tasks.filter(function(t){return !t.done;});save();render();toast('Очищено');}break;}
+    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&t.kind!=='hearing';}).length;if(!n){toast('Нет выполненных задач');break;}if(confirm('Удалить '+n+' выполненных задач? Завершённые заседания останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !(t.done&&t.kind!=='hearing');});save();render();toast('Очищено');}break;}
     case 'demo': demo();closeSheet();break;
     case 'new-task': editTask(null,S.ui.tab==='cal'&&S.ui.calSel?{due:S.ui.calSel}:{due:today()});break;
     case 'intro': showIntro();break;
@@ -1493,6 +1602,10 @@ document.addEventListener('click', function(ev){
 });
 document.addEventListener('change',function(e){
   if(e.target.id==='dl-date'||e.target.id==='dl-type')calcDeadline();
+  if(e.target.id==='hc-next-date'){
+    var pd=$('#hc-prep-due');
+    if(pd && !pd.value && e.target.value) pd.value=addD(e.target.value,-1);
+  }
   if(e.target.id&&e.target.id.indexOf('e-')===0){
     pullEditor();
     if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
