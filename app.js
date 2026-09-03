@@ -262,6 +262,11 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
+  /* На iPhone у нижней шторки всегда есть явная кнопка закрытия. */
+  var x = document.createElement('button');
+  x.className = 'sheetx'; x.dataset.act = 'sheet-close'; x.setAttribute('aria-label','Закрыть');
+  x.innerHTML = '<span aria-hidden="true">×</span>';
+  s.appendChild(x); s.classList.add('hasclose');
   s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null;
@@ -270,6 +275,12 @@ function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.
   $('#scrim').classList.remove('open'); }
 function closeSheet(){ $('#sheet').classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
+function appBack(){
+  /* Сначала закрываем верхнюю шторку, затем полноэкранную карточку. */
+  if($('#sheet').classList.contains('open')){ closeSheet(); return true; }
+  if($('#page').classList.contains('open')){ closeAll(); return true; }
+  return false;
+}
 
 /* =====================================================================
    TASK CARD
@@ -649,7 +660,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.2<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.3<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1447,7 +1458,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.2</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.3</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('folder','Досье дела','Доверитель, суд/орган, статья, стадия, задачи и журнал')+
@@ -1499,6 +1510,7 @@ document.addEventListener('click', function(ev){
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
     case 'close': closeAll(); break;
+    case 'sheet-close': closeSheet(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
@@ -1644,6 +1656,29 @@ $('#file').onchange=function(e){
   };
   r.readAsText(f);
 };
+/* ---------------------------------------------------------------------
+   Мобильное «назад» для установленного PWA.
+   Жест от левого края вправо закрывает текущую форму/карточку, как в iOS.
+   Дополнительно нижнюю шторку можно закрыть коротким свайпом вниз за верхнюю область.
+   --------------------------------------------------------------------- */
+var EDGE_SWIPE = null;
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0], sheetOpen=$('#sheet').classList.contains('open'), pageOpen=$('#page').classList.contains('open');
+  if(!sheetOpen && !pageOpen) return;
+  EDGE_SWIPE={x:t.clientX,y:t.clientY,time:Date.now(),edge:t.clientX<=48,sheet:sheetOpen,top:t.clientY<=150};
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(!EDGE_SWIPE || !e.changedTouches || !e.changedTouches.length){EDGE_SWIPE=null;return;}
+  var t=e.changedTouches[0], dx=t.clientX-EDGE_SWIPE.x, dy=t.clientY-EDGE_SWIPE.y, dt=Date.now()-EDGE_SWIPE.time;
+  var back = EDGE_SWIPE.edge && dx>=72 && Math.abs(dy)<=70 && dt<=900;
+  var down = EDGE_SWIPE.sheet && EDGE_SWIPE.top && dy>=90 && Math.abs(dx)<=80 && dt<=900;
+  EDGE_SWIPE=null;
+  if(back){ if(appBack()) vib(6); return; }
+  if(down && $('#sheet').classList.contains('open')){ closeSheet(); vib(6); }
+},{passive:true});
+document.addEventListener('touchcancel',function(){EDGE_SWIPE=null;},{passive:true});
+
 document.addEventListener('gesturestart',function(e){e.preventDefault();});
 
 /* =====================================================================

@@ -209,6 +209,12 @@ svg{display:block}
 .sheet.open{transform:translateY(0)}
 .sheet.full{top:0;max-height:none;border-radius:0;padding-top:calc(var(--top) + 6px)}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line2);margin:7px auto 14px;flex:none}
+.sheetx{position:absolute;right:13px;top:9px;z-index:7;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:var(--elev2);border:1px solid var(--line2);
+  color:var(--text2);font-size:24px;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.sheetx:active{transform:scale(.92)}
+.sheet.hasclose>.shhead,.sheet.hasclose>.shbody>.shhead{padding-right:42px}
+.sheet.hasclose>.shbody>h2:first-child{padding-right:44px}
 /* Шторка с закреплёнными действиями: тело прокручивается, кнопки всегда внизу */
 .sheet.withfoot{display:flex;flex-direction:column;overflow:hidden}
 .sheet.withfoot .shbody{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
@@ -414,6 +420,7 @@ body.light .quickitem{background:linear-gradient(160deg,#FFFFFF,#F4F7FA);box-sha
 body.light .tabbar{background:rgba(248,250,252,.94);border-color:rgba(11,20,32,.11)}
 body.light .sheet{background:#FFFFFF;border-color:var(--line2)}
 body.light .sheet.full{background:var(--bg)}
+body.light .sheetx{background:#EEF2F7;border-color:#D5DCE6;color:#253345;box-shadow:0 3px 10px rgba(45,60,80,.08)}
 body.light .fld input,body.light .fld textarea,body.light .fld select{background:#F7F9FB;border-color:var(--line2);color:var(--txt)}
 body.light .fld input::placeholder,body.light .fld textarea::placeholder{color:#8A9AAA}
 body.light .fld select option{background:#FFFFFF;color:#101922}
