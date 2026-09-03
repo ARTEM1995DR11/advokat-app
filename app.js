@@ -237,7 +237,7 @@ var STAGE = ['Консультация','Досудебная работа','Д�
 var MATTER_TYPES = {
   criminal:{n:'Уголовное',short:'УК',c:'#8B7BD8'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
   admin:{n:'Административное (КАС)',short:'КАС',c:'#3FA9A0'}, koap:{n:'КоАП',short:'КоАП',c:'#D9724A'},
-  enforcement:{n:'Исполнительное',short:'ФССП',c:'#2FA36B'}, other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
+  other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
 };
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 function matterType(m){ return MATTER_TYPES[m&&m.type]||MATTER_TYPES.other; }
@@ -736,7 +736,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.6.4<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · Premium 3.7<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1367,22 +1367,36 @@ function printHTML(title,sub,rows,foot,text,backId){
   $('#page').classList.add('reportview');
 }
 function doPrint(){
-  try{
-    var w = window.open('', '_blank');
-    if(w){
-      w.document.write('<html><head><meta charset="utf-8"><title>'+esc(REPORT?REPORT.title:'Отчёт')+'</title>'+
-        '<style>body{font:12pt/1.45 -apple-system,Georgia,serif;color:#000;padding:18px}'+
-        'h1{font-size:18pt;margin:0 0 4px}.ph{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px}'+
-        'h2{font-size:13pt;margin:18px 0 6px;border-bottom:1px solid #999;padding-bottom:3px}'+
-        'table{width:100%;border-collapse:collapse;font-size:10.5pt}td{padding:5px 4px;border-bottom:1px solid #ddd;vertical-align:top}'+
-        '.cb{width:18px}.ft{margin-top:26px;font-size:9pt;color:#555;border-top:1px solid #ccc;padding-top:8px}</style>'+
-        '</head><body>'+$('#printarea').innerHTML+'</body></html>');
-      w.document.close(); w.focus();
-      setTimeout(function(){ try{ w.print(); }catch(e){} }, 400);
-      return;
+  /*
+     На iPhone/PWA системное окно печати принадлежит iOS, поэтому жест
+     «слева направо» внутри него приложение перехватить не может. Раньше
+     печать открывалась через отдельный window.open('_blank'), из-за чего
+     после закрытия preview пользователь мог оказаться в отдельном WebView.
+     Теперь печатаем прямо из текущего отчёта. После «Отмена/Готово» iOS
+     возвращает пользователя сюда же, где снова работают кнопка «Назад» и
+     внутренний свайп вправо.
+  */
+  if(!REPORT){ toast('Сначала откройте отчёт'); return; }
+  var page = $('#page');
+  var scroll = page ? page.scrollTop : 0;
+  document.body.classList.add('printing-report');
+  var restored = false;
+  function restoreAfterPrint(){
+    if(restored) return;
+    restored = true;
+    document.body.classList.remove('printing-report');
+    if(page && page.classList.contains('open')){
+      requestAnimationFrame(function(){ page.scrollTop = scroll; });
     }
-  }catch(e){}
-  try{ window.print(); }catch(e){ toast('Печать недоступна — используйте «Поделиться текстом»'); }
+  }
+  window.addEventListener('afterprint', restoreAfterPrint, { once:true });
+  try{
+    window.print();
+    setTimeout(restoreAfterPrint, 1800);
+  }catch(e){
+    restoreAfterPrint();
+    toast('Печать недоступна — используйте «Поделиться текстом»');
+  }
 }
 function reportText(){
   var el = document.createElement('div'); el.innerHTML = $('#printarea').innerHTML;
@@ -1642,7 +1656,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.6.4</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.7 Premium</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1940,7 +1954,7 @@ document.addEventListener('visibilitychange',function(){
 });
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
 window.addEventListener('focus',function(){if(unlocked)schedule();});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=361',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=365',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
