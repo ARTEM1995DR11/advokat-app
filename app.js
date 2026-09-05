@@ -1571,7 +1571,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=315').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
