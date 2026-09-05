@@ -1761,7 +1761,24 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();scheduleThemeBoundary();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3114').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    var reloading=false;
+    navigator.serviceWorker.addEventListener('controllerchange',function(){
+      if(reloading)return; reloading=true; window.location.reload();
+    });
+    navigator.serviceWorker.register('./sw.js?v=3116').then(function(reg){
+      reg.update().catch(function(){});
+      if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');
+      reg.addEventListener('updatefound',function(){
+        var w=reg.installing;if(!w)return;
+        w.addEventListener('statechange',function(){
+          if(w.state==='installed' && navigator.serviceWorker.controller) w.postMessage('SKIP_WAITING');
+        });
+      });
+    }).catch(function(){});
+  });
+}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});

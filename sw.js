@@ -1,9 +1,9 @@
-const CACHE = 'advokat-iphone-offline-v31-restyle-3115';
+const CACHE = 'advokat-iphone-offline-v31-restyle-3116';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=3115',
-  './app.js?v=3115',
+  './styles.css?v=3116',
+  './app.js?v=3116',
   './manifest.webmanifest',
   './icon-180.png',
   './icon-192.png',
@@ -37,22 +37,16 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Навигация: приложение должно открываться даже при полном отсутствии сети.
+  // Навигация: при наличии сети всегда берём свежий index.html,
+  // а офлайн мгновенно откатываемся к сохранённой оболочке.
   if (req.mode === 'navigate') {
     event.respondWith(
-      caches.match('./index.html').then(cached => {
-        const refresh = fetch(req).then(response => {
-          if (response && response.ok) {
-            caches.open(CACHE).then(cache => cache.put('./index.html', response.clone())).catch(() => {});
-          }
-          return response;
-        }).catch(() => null);
-        if (cached) {
-          event.waitUntil(refresh);
-          return cached;
+      fetch(req, { cache: 'no-store' }).then(response => {
+        if (response && response.ok) {
+          caches.open(CACHE).then(cache => cache.put('./index.html', response.clone())).catch(() => {});
         }
-        return refresh.then(response => response || caches.match('./'));
-      })
+        return response;
+      }).catch(() => caches.match('./index.html').then(cached => cached || caches.match('./')))
     );
     return;
   }
