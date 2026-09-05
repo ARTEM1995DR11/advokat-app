@@ -672,7 +672,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.11<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.12<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1077,11 +1077,9 @@ function sheetParticipationLog(){
 }
 
 function sheetQuickAdd(){
-  openSheet('<div class="quickintro"><h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без перехода по меню.</p></div><div class="quickgrid">'+
+  openSheet('<div class="quickintro"><h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без перехода по разделам.</p></div><div class="quickgrid quickgrid-core">'+
     quickItem('gavel','Заседание','qa-hearing','blue')+quickItem('flag','Процессуальный срок','qa-deadline','red')+
-    quickItem('check','Задача','qa-task','green')+quickItem('phone','Звонок','qa-call','gold')+
-    quickItem('folder','Новое дело','new-matter','navy')+quickItem('doc','Запись в журнал','qa-journal','gold')+
-    quickItem('brief','День участия','pt-new','blue')+quickItem('tpl','Шаблон','templates','slate')+
+    quickItem('check','Задача','qa-task','green')+quickItem('doc','Запись в журнал','qa-journal','gold')+
   '</div>');
   $('#sheet').classList.add('quick-sheet');
 }
@@ -1645,7 +1643,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3111').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3112').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});

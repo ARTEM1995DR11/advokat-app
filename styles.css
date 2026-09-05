@@ -595,7 +595,7 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 
 
 /* ============================================================
-   v3.1.11 — Быстрая запись / единый Legal Premium UI
+   v3.1.12 — Быстрая запись / 4 основных действия
    ============================================================ */
 .quick-sheet{
   padding-left:18px;
@@ -683,4 +683,18 @@ body.light .q-slate{--q:#657B8B}
   .quickitem{min-height:80px;padding:10px 11px}
   .quickintro h2{font-size:25px}
   .quickitem b{font-size:13px}
+}
+
+
+/* В глобальном «+» остаются только частые короткие действия. */
+.quickgrid-core{gap:12px;padding-bottom:8px}
+.quickgrid-core .quickitem{min-height:102px;padding:13px 14px 14px}
+.quickgrid-core .qico{width:38px;height:38px;border-radius:11px}
+.quickgrid-core .quickitem .qico .ico{width:22px;height:22px}
+.quickgrid-core .quickitem b{font-size:14px;line-height:1.2}
+body.light .quickgrid-core .quickitem{box-shadow:0 6px 18px rgba(55,43,27,.05),inset 0 1px 0 rgba(255,255,255,.92)}
+@media(max-width:360px){
+  .quickgrid-core{gap:9px}
+  .quickgrid-core .quickitem{min-height:92px;padding:11px 12px 12px}
+  .quickgrid-core .quickitem b{font-size:13.5px}
 }
