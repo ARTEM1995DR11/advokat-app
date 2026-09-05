@@ -463,49 +463,86 @@ function kpi(n,l,c,act){ return '<button class="kpi '+c+'" data-act="'+act+'"><b
 /* =====================================================================
    SCREEN: ЗАДАЧИ
    ===================================================================== */
-function renderTasks(){
-  var u = S.ui;
-
-  var chips = [['','Все'],['today','Сегодня'],['high','Срочные'],['late','Просроченные'],['week','На неделю'],['hearing','Заседания'],['deadline','Сроки'],['nodue','Без срока']];
-  var open = S.tasks.filter(isActiveRecord).length;
-  var html = brandLine()+
-  '<div class="top"><div><div class="eyebrow">Всего '+open+' в работе</div><h1>Задачи</h1></div>'+
-    '<div class="topacts"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search">'+ico('search')+'</button></div></div>'+
-    (u.q!==''||u._sq ? '<div class="fld"><input id="q" placeholder="Поиск по задачам, делам, доверителям" value="'+esc(u.q)+'" autocomplete="off"></div>' : '')+
-  '<div class="segbtns">'+
-    ['open','all','done'].map(function(k,i){ return '<button data-act="seg" data-v="'+k+'"'+(u.taskSeg===k?' class="on"':'')+'>'+
-      ['В работе','Все','Выполнено'][i]+'</button>'; }).join('')+
-  '</div>'+
-  '<div class="chips" style="margin-bottom:14px">'+chips.map(function(c){
-    return '<button class="chip'+(u.taskChip===c[0]?' on':'')+'" data-act="chip" data-v="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'</div>';
-
-  html += '<div id="tasklist"></div>';
-  $('#sc-tasks').innerHTML = html;
-  renderTaskList();
-  if(u._sq){ var el = $('#q'); if(el){ el.focus(); el.setSelectionRange(el.value.length,el.value.length); } }
-}
-function taskFilter(){
-  var u = S.ui, q = u.q.toLowerCase().trim();
+function taskBaseList(withSearch){
+  var u = S.ui, q = (withSearch ? u.q : '').toLowerCase().trim();
   return S.tasks.filter(function(t){
     if(q){ var m = t.mid?matter(t.mid):null;
       var hay = (t.title+' '+(t.note||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||''):'')).toLowerCase();
       if(hay.indexOf(q)<0) return false; }
     if(u.taskSeg==='open' && !isActiveRecord(t)) return false;
     if(u.taskSeg==='done' && !t.done) return false;
-    if(u.taskChip==='today' && !(t.due && !t.done && (t.kind==='hearing'?dd(t.due)===0:dd(t.due)<=0))) return false;
-    if(u.taskChip==='high' && (t.kind==='hearing' || t.pri!=='high')) return false;
-    if(u.taskChip==='late' && !(t.kind!=='hearing' && t.due && dd(t.due)<0 && !t.done)) return false;
-    if(u.taskChip==='week' && !(t.due && dd(t.due)>=0 && dd(t.due)<=7)) return false;
-    if(u.taskChip==='nodue' && t.due) return false;
-    if(u.taskChip==='hearing' && t.kind!=='hearing') return false;
-    if(u.taskChip==='deadline' && t.kind!=='deadline') return false;
     return true;
   }).sort(sortT);
+}
+function taskChipMatch(t,chip){
+  if(chip==='today') return !!(t.due && !t.done && (t.kind==='hearing' ? dd(t.due)===0 : dd(t.due)<=0));
+  if(chip==='high') return t.kind!=='hearing' && t.pri==='high';
+  if(chip==='late') return !!(t.kind!=='hearing' && t.due && dd(t.due)<0 && !t.done);
+  if(chip==='week') return !!(t.due && dd(t.due)>=0 && dd(t.due)<=7);
+  if(chip==='nodue') return !t.due;
+  if(chip==='hearing') return t.kind==='hearing';
+  if(chip==='deadline') return t.kind==='deadline';
+  return true;
+}
+function taskCounts(){
+  var out = {}, keys = ['','today','high','late','week','hearing','deadline','nodue'], base = taskBaseList(false);
+  keys.forEach(function(k){ out[k] = base.filter(function(t){ return taskChipMatch(t,k); }).length; });
+  return out;
+}
+function renderTasks(){
+  var u = S.ui;
+  var chips = [['','Все'],['today','Сегодня'],['high','Срочные'],['late','Просроченные'],['week','На неделю'],['hearing','Заседания'],['deadline','Сроки'],['nodue','Без срока']];
+  var open = S.tasks.filter(isActiveRecord).length;
+  var counts = taskCounts();
+  var eyebrow = u.taskSeg==='done' ? 'Выполнено '+counts[''] : (u.taskSeg==='all' ? 'Всего записей '+counts[''] : 'Всего '+open+' в работе');
+  var html = '<div class="tasks-screen">'+brandLine()+
+  '<div class="top tasks-top"><div><div class="eyebrow">'+eyebrow+'</div><h1>Задачи</h1><div class="sub">Все задачи, сроки и заседания по делам</div></div>'+
+    '<div class="topacts"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
+    (u.q!==''||u._sq ? '<div class="fld"><input id="q" placeholder="Поиск по задачам, делам, доверителям" value="'+esc(u.q)+'" autocomplete="off"></div>' : '')+
+    '<div class="tasks-seg-wrap"><div class="segbtns task-seg">'+
+    ['open','all','done'].map(function(k,i){ return '<button data-act="seg" data-v="'+k+'"'+(u.taskSeg===k?' class="on"':'')+'>'+
+      ['В работе','Все','Выполнено'][i]+'</button>'; }).join('')+
+    '</div></div>'+
+    '<div class="chips taskchips">'+chips.map(function(c){
+      var n = counts[c[0]];
+      return '<button class="chip'+(u.taskChip===c[0]?' on':'')+'" data-act="chip" data-v="'+c[0]+'"><span>'+c[1]+'</span>'+(n?'<em>'+n+'</em>':'')+'</button>'; }).join('')+'</div>'+
+    '<div id="tasklist"></div></div>';
+
+  $('#sc-tasks').innerHTML = html;
+  renderTaskList();
+  if(u._sq){ var el = $('#q'); if(el){ el.focus(); el.setSelectionRange(el.value.length,el.value.length); } }
+}
+function taskFilter(){
+  return taskBaseList(true).filter(function(t){ return taskChipMatch(t,S.ui.taskChip); });
+}
+function taskGroups(list){
+  var groups = [
+    {k:'late', title:'Просроченные', tone:'red', items:[]},
+    {k:'today', title:'Сегодня', tone:'blue', items:[]},
+    {k:'week', title:'На этой неделе', tone:'gold', items:[]},
+    {k:'later', title:'Позже', tone:'slate', items:[]},
+    {k:'nodue', title:'Без срока', tone:'slate', items:[]},
+    {k:'past', title:'Прошедшие заседания', tone:'slate', items:[]},
+    {k:'done', title:'Выполнено', tone:'green', items:[]}
+  ];
+  list.forEach(function(t){
+    var d = t.due ? dd(t.due) : null;
+    if(t.done) return groups[6].items.push(t);
+    if(t.kind==='hearing' && t.due && d<0) return groups[5].items.push(t);
+    if(!t.due) return groups[4].items.push(t);
+    if(d<0) return groups[0].items.push(t);
+    if(d===0) return groups[1].items.push(t);
+    if(d<=7) return groups[2].items.push(t);
+    return groups[3].items.push(t);
+  });
+  return groups.filter(function(g){ return g.items.length; });
 }
 function renderTaskList(){
   var box = $('#tasklist'); if(!box) return;
   var list = taskFilter();
-  box.innerHTML = list.length ? groupList(list)
+  box.innerHTML = list.length ? taskGroups(list).map(function(g){
+    return '<section class="taskgroup '+g.tone+'"><div class="taskgroup-head"><b>'+g.title+'</b><span>'+g.items.length+'</span></div><div class="taskgroup-body">'+g.items.map(function(t){ return taskCard(t); }).join('')+'</div></section>';
+  }).join('')
     : empty('list', S.ui.q ? 'Ничего не найдено' : 'Задач пока нет',
         S.ui.q ? 'Измените поисковый запрос или фильтр.'
           : 'Здесь собраны рабочие задачи, звонки, документы, процессуальные сроки и предстоящие заседания.',
