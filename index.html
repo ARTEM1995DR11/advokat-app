@@ -1,94 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>Ежедневник адвоката — Offline 3.0</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css">
-<meta name="theme-color" content="#07111C">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-touch-fullscreen" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Адвокат">
-<meta name="format-detection" content="telephone=no">
-<meta name="color-scheme" content="dark light">
-<link rel="apple-touch-icon" href="icon-180.png">
-<link rel="icon" href="icon-192.png">
-</head>
-<body>
-
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <g id="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>
-  <g id="i-list"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></g>
-  <g id="i-folder"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g>
-  <g id="i-cal"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
-  <g id="i-more"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></g>
-  <g id="i-plus"><path d="M12 5v14M5 12h14"/></g>
-  <g id="i-check"><path d="M4 12.5l5 5L20 6.5"/></g>
-  <g id="i-search"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></g>
-  <g id="i-clock"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/></g>
-  <g id="i-flag"><path d="M5 21V4M5 4h11l-1.6 3.5L16 11H5"/></g>
-  <g id="i-scale"><path d="M12 3v18M7 21h10M4 7h16M8 7l-4 7a4 4 0 0 0 8 0zM16 7l4 7a4 4 0 0 1-8 0z"/><path d="M12 4.5l4 1.5M12 4.5L8 6"/></g>
-  <g id="i-phone"><path d="M6 3h4l2 5-2.5 1.5a12 12 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z"/></g>
-  <g id="i-trash"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></g>
-  <g id="i-chev"><path d="M9 6l6 6-6 6"/></g>
-  <g id="i-left"><path d="M15 6l-6 6 6 6"/></g>
-  <g id="i-play"><path d="M7 4.5l12 7.5-12 7.5z"/></g>
-  <g id="i-stop"><rect x="6" y="6" width="12" height="12" rx="2"/></g>
-  <g id="i-gavel"><path d="M13 3l8 8-3 3-8-8zM10.5 5.5L5 11l3 3 5.5-5.5M3 21h10M4.5 17.5l3.5-3.5"/></g>
-  <g id="i-doc"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4"/></g>
-  <g id="i-lock"><rect x="4.5" y="10" width="15" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></g>
-  <g id="i-bell"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7M10.5 20a2 2 0 0 0 3 0"/></g>
-  <g id="i-edit"><path d="M4 20h4L20 8l-4-4L4 16zM14 6l4 4"/></g>
-  <g id="i-user"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
-  <g id="i-share"><path d="M12 3v13M8 7l4-4 4 4M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></g>
-  <g id="i-money"><circle cx="12" cy="12" r="9"/><path d="M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 .9-3 2s1.3 2 3 2 3 .9 3 2-1.3 2-3 2a3 3 0 0 1-3-1.5"/></g>
-  <g id="i-tpl"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/></g>
-  <g id="i-arch"><rect x="3" y="4" width="18" height="4.5" rx="1.5"/><path d="M5 8.5V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5M10 13h4"/></g>
-</defs>
-</svg>
-
-<div id="app">
-  <div class="screen" id="sc-today"></div>
-  <div class="screen hide" id="sc-tasks"></div>
-  <div class="screen hide" id="sc-matters"></div>
-  <div class="screen hide" id="sc-cal"></div>
-  <div class="screen hide" id="sc-more"></div>
-</div>
-
-<div class="timerpill" id="pill">
-  <span class="dot"></span><b class="mono" id="pill-t">00:00</b><span id="pill-n"></span>
-  <button id="pill-stop" style="color:var(--dang);display:flex"><svg class="ico s" viewBox="0 0 24 24"><use href="#i-stop"/></svg></button>
-</div>
-
-<button class="fab" id="fab"><svg class="ico" viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
-
-<nav class="tabbar" id="tabbar">
-  <button class="tab on" data-tab="today"><svg class="ico" viewBox="0 0 24 24"><use href="#i-sun"/></svg>Сегодня</button>
-  <button class="tab" data-tab="tasks"><svg class="ico" viewBox="0 0 24 24"><use href="#i-list"/></svg>Задачи</button>
-  <button class="tab" data-tab="matters"><svg class="ico" viewBox="0 0 24 24"><use href="#i-folder"/></svg>Дела</button>
-  <button class="tab" data-tab="cal"><svg class="ico" viewBox="0 0 24 24"><use href="#i-cal"/></svg>Календарь</button>
-  <button class="tab" data-tab="more"><svg class="ico" viewBox="0 0 24 24"><use href="#i-more"/></svg>Ещё</button>
-</nav>
-
-<div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet"></div>
-<div class="sheet full" id="page"></div>
-<div class="toast" id="toast"></div>
-<div id="printarea"></div>
-
-<div id="lock">
-  <div class="lg"><svg class="ico" viewBox="0 0 24 24" style="width:34px;height:34px"><use href="#i-scale"/></svg></div>
-  <h2>Ежедневник адвоката</h2>
-  <p id="lock-msg">Введите код доступа</p>
-  <div class="dots" id="lock-dots"><i></i><i></i><i></i><i></i></div>
-  <div class="pad" id="lock-pad"></div>
-</div>
-
-<input type="file" id="file" accept=".json" style="display:none">
-<script src="app.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ежедневник адвоката</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
