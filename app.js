@@ -14,7 +14,7 @@ var DB_VER = 1;
 var DEF = {
   matters: [], tasks: [], participation: [], journal: [], time: [],
   settings: {
-    theme:'dark', name:'', dayRate:0, cur:'₽', notify:false,
+    theme:'auto', themeAutoV3114:true, name:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:7, lastBackup:'',
     lockOnReturn:true, version:3
   },
@@ -31,6 +31,12 @@ function mergeState(d){
   d = d || {};
   var out = Object.assign(clone(DEF), d);
   out.settings = Object.assign({}, DEF.settings, d.settings||{});
+  // 3.1.14: once migrate existing installations to automatic day/night appearance.
+  // Manual Light/Dark remains available afterwards from the Appearance sheet.
+  if(!(d.settings&&Object.prototype.hasOwnProperty.call(d.settings,'themeAutoV3114'))){
+    out.settings.theme='auto';
+    out.settings.themeAutoV3114=true;
+  }
   delete out.settings.pin; delete out.settings.rate;
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
   out.matters = Array.isArray(d.matters)?d.matters:[];
@@ -637,6 +643,49 @@ function offlineStatusText(){
   if(isIOS())return 'Добавьте приложение на экран «Домой», чтобы запускать его автономно';
   return navigator.onLine?'Приложение готово к автономной работе после установки':'Сейчас работает без подключения к интернету';
 }
+function effectiveTheme(){
+  if(S.settings.theme!=='auto') return S.settings.theme==='light'?'light':'dark';
+  var h=new Date().getHours();
+  return (h>=7 && h<19)?'light':'dark';
+}
+function themeLabel(){
+  if(S.settings.theme==='auto') return 'Автоматически · '+(effectiveTheme()==='light'?'светлая сейчас':'тёмная сейчас');
+  return S.settings.theme==='light'?'Светлая':'Тёмная';
+}
+function applyTheme(){
+  var t=effectiveTheme();
+  document.body.classList.toggle('light',t==='light');
+  var meta=document.querySelector('meta[name=theme-color]');
+  if(meta) meta.content=t==='dark'?'#07111C':'#F4F6F9';
+}
+var THEME_TIMER=null;
+function scheduleThemeBoundary(){
+  if(THEME_TIMER){clearTimeout(THEME_TIMER);THEME_TIMER=null;}
+  if(S.settings.theme!=='auto') return;
+  var now=new Date(),next=new Date(now);
+  var h=now.getHours();
+  if(h<7){next.setHours(7,0,0,0);}
+  else if(h<19){next.setHours(19,0,0,0);}
+  else{next.setDate(next.getDate()+1);next.setHours(7,0,0,0);}
+  var wait=Math.max(1000,next.getTime()-now.getTime()+250);
+  THEME_TIMER=setTimeout(function(){
+    if(unlocked){render();scheduleThemeBoundary();}
+  },wait);
+}
+function sheetTheme(){
+  function opt(mode,title,sub,icon){
+    var on=S.settings.theme===mode;
+    return '<button class="row" data-act="theme-set" data-v="'+mode+'">'+ico(icon||'sun')+
+      '<span class="rl">'+title+'<small>'+sub+'</small></span>'+(on?'<span class="tag gold">✓</span>':ico('chev','s'))+'</button>';
+  }
+  openSheet('<h2>Оформление</h2><p class="sh-sub">Автоматический режим использует светлую тему днём и тёмную вечером.</p>'+
+    '<div class="card pad0">'+
+      opt('auto','Автоматически','Светлая 07:00–18:59 · тёмная с 19:00','sun')+
+      opt('light','Светлая','Всегда использовать светлое оформление','sun')+
+      opt('dark','Тёмная','Всегда использовать тёмное оформление','moon')+
+    '</div>');
+}
+
 function renderMore(){
   var w=weekStats();
   var html=brandLine()+
@@ -664,7 +713,7 @@ function renderMore(){
   '<div class="sec"><h2>Настройки</h2></div><div class="card pad0">'+
     row('user','Профиль и ставка',(S.settings.name||'Имя не указано')+' · '+(S.settings.dayRate?money(S.settings.dayRate)+'/день':'ставка не задана'),'profile')+
     rowSw('bell','Напоминания',S.settings.notify?'Включены':'Выключены','notify-sheet',S.settings.notify)+
-    rowSw('sun','Оформление',S.settings.theme==='dark'?'Тёмное':'Светлое','theme',S.settings.theme==='light')+
+    row('sun','Оформление',themeLabel(),'theme')+
     row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
   '</div>'+
   '<div class="sec"><h2>Обслуживание</h2></div><div class="card pad0">'+
@@ -672,7 +721,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.12<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.14<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -694,7 +743,7 @@ function render(){
   document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===S.ui.tab); });
   $('#sc-'+S.ui.tab).classList.add('fadein');
   setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
-  document.body.classList.toggle('light', S.settings.theme==='light');
+  applyTheme();
 }
 var NAV_TABS=[];
 function go(tab,replaceHistory){
@@ -1532,7 +1581,8 @@ document.addEventListener('click', function(ev){
     case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
     case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');});break;
     case 'notify': toggleNotify();break;
-    case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07111C':'#F4F6F9';break;
+    case 'theme': sheetTheme();break;
+    case 'theme-set': S.settings.theme=(v==='light'||v==='dark')?v:'auto';S.settings.themeAutoV3114=true;save();closeSheet();render();scheduleThemeBoundary();toast(S.settings.theme==='auto'?'Автотема включена':(S.settings.theme==='light'?'Светлая тема':'Тёмная тема'));break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
@@ -1650,7 +1700,7 @@ document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passi
 var APP_STARTED=false,hiddenAt=0;
 function afterUnlock(){
   if(!unlocked)return;
-  render();schedule();
+  render();schedule();scheduleThemeBoundary();
   if(!APP_STARTED){
     APP_STARTED=true;setInterval(schedule,15*60*1000);
     if(!S.settings.seen||(noData()&&!S.settings.dismissed)){S.settings.seen=true;save();setTimeout(showIntro,500);}
@@ -1672,9 +1722,9 @@ document.addEventListener('visibilitychange',function(){
   if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&Date.now()-hiddenAt>60000){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
-  if(unlocked){render();schedule();}
+  if(unlocked){render();schedule();scheduleThemeBoundary();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3113').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3114').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
