@@ -12,15 +12,15 @@ var DB_STORE = 'vault';
 var DB_VER = 1;
 
 var DEF = {
-  clients: [], matters: [], tasks: [], participation: [], journal: [], time: [],
+  matters: [], tasks: [], participation: [], journal: [], time: [],
   settings: {
-    theme:'dark', name:'', dayRate:0, cur:'₽', notify:false, notifySound:true,
+    theme:'dark', name:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:7, lastBackup:'',
     lockOnReturn:true, version:3
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', q:'', calM:null, calSel:null,
-    showArch:false, matterType:'', matterStage:'', matterView:'matters'
+    showArch:false, matterType:'', matterStage:''
   }
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
@@ -33,7 +33,6 @@ function mergeState(d){
   out.settings = Object.assign({}, DEF.settings, d.settings||{});
   delete out.settings.pin; delete out.settings.rate;
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
-  out.clients = Array.isArray(d.clients)?d.clients:[];
   out.matters = Array.isArray(d.matters)?d.matters:[];
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.participation = Array.isArray(d.participation)?d.participation:[];
@@ -44,20 +43,6 @@ function mergeState(d){
     if(m.dayRate==null) m.dayRate = 0;
     if(!m.type) m.type = 'other';
     if(!m.stage) m.stage = 'Первая инстанция';
-    /* 3.5: отдельная карточка доверителя. Старые дела связываются автоматически по ФИО. */
-    if(!m.clientId && m.client){
-      var nm=String(m.client||'').trim().toLowerCase();
-      var c=out.clients.filter(function(x){return String(x.name||'').trim().toLowerCase()===nm;})[0];
-      if(!c){
-        c={id:'c'+Math.random().toString(36).slice(2)+Date.now().toString(36),name:m.client,phone:m.phone||'',email:'',notes:'',created:new Date().toISOString()};
-        out.clients.push(c);
-      }else if(!c.phone && m.phone) c.phone=m.phone;
-      m.clientId=c.id;
-    }
-    if(m.clientId){
-      var linked=out.clients.filter(function(x){return x.id===m.clientId;})[0];
-      if(linked){m.client=linked.name||m.client||'';m.phone=linked.phone||m.phone||'';}
-    }
   });
   if(!out.participation.length && out.time.length){
     var seen = {};
@@ -237,51 +222,18 @@ var STAGE = ['Консультация','Досудебная работа','Д�
 var MATTER_TYPES = {
   criminal:{n:'Уголовное',short:'УК',c:'#8B7BD8'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
   admin:{n:'Административное (КАС)',short:'КАС',c:'#3FA9A0'}, koap:{n:'КоАП',short:'КоАП',c:'#D9724A'},
-  other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
+  enforcement:{n:'Исполнительное',short:'ФССП',c:'#2FA36B'}, other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
 };
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 function matterType(m){ return MATTER_TYPES[m&&m.type]||MATTER_TYPES.other; }
 function participationOf(id){ return S.participation.filter(function(p){ return p.mid===id; }); }
 function journalOf(id){ return S.journal.filter(function(j){ return j.mid===id; }); }
-function client(id){ return S.clients.filter(function(c){ return c.id===id; })[0]; }
-function mattersOfClient(id){ return S.matters.filter(function(m){ return m.clientId===id; }); }
-function clientForMatter(m){ return m&&m.clientId?client(m.clientId):null; }
-function clientLabel(c){ return c ? (c.name||'Без имени') : ''; }
-function syncMatterClient(m){
-  if(!m)return;
-  var c=clientForMatter(m);
-  if(c){ m.client=c.name||''; m.phone=c.phone||''; }
-}
-function matterContextHTML(mid){
-  var m=mid?matter(mid):null; if(!m)return '';
-  syncMatterClient(m);
-  var c=clientForMatter(m), person=(c&&c.name)||m.client||'', phone=(c&&c.phone)||m.phone||'';
-  var rows=[];
-  if(person)rows.push('<b>'+esc(person)+'</b>'+(phone?' · '+esc(phone):''));
-  if(m.number)rows.push('№ '+esc(m.number));
-  if(m.court)rows.push(esc(m.court));
-  if(m.judge||m.investigator)rows.push(esc(m.judge||m.investigator));
-  if(m.article)rows.push(esc(m.article));
-  if(m.stage)rows.push(esc(m.stage));
-  return '<div class="casecontext">'+ico('folder','s')+'<div><strong>'+esc(m.title)+'</strong><small>'+rows.join(' · ')+'</small></div></div>';
-}
-var JOURNAL_TYPES = {
-  motion:{n:'Подано ходатайство',i:'doc'}, familiarization:{n:'Ознакомление с материалами',i:'folder'},
-  interrogation:{n:'Допрос / очная ставка',i:'user'}, hearing:{n:'Судебное заседание',i:'gavel'},
-  decision:{n:'Получено решение / постановление',i:'doc'}, appeal:{n:'Подана жалоба',i:'flag'},
-  call:{n:'Телефонный разговор',i:'phone'}, documents:{n:'Документы получены / направлены',i:'doc'},
-  meeting:{n:'Встреча с доверителем',i:'user'}, participation:{n:'День участия',i:'gavel'},
-  deadline:{n:'Процессуальный срок',i:'flag'}, task:{n:'Рабочее действие',i:'check'},
-  'hearing-outcome':{n:'Итог заседания',i:'gavel'}, system:{n:'Системная запись',i:'folder'}, note:{n:'Рабочая заметка',i:'edit'}
-};
-function journalType(j){ return JOURNAL_TYPES[j&&j.type]||JOURNAL_TYPES.note; }
+
 
 function matter(id){ return S.matters.filter(function(m){ return m.id===id; })[0]; }
 function tasksOf(id){ return S.tasks.filter(function(t){ return t.mid===id; }); }
 function activeM(){ return S.matters.filter(function(m){ return !m.archived; }); }
-function isPastHearing(t){ return !!(t && t.kind==='hearing' && t.due && dd(t.due)<0); }
-function isActiveRecord(t){ return !!(t && !t.done && !isPastHearing(t)); }
-function overdue(){ return S.tasks.filter(function(t){ return !t.done && t.kind!=='hearing' && t.due && dd(t.due)<0; }); }
+function overdue(){ return S.tasks.filter(function(t){ return !t.done && t.due && dd(t.due)<0; }); }
 function dueToday(){ return S.tasks.filter(function(t){ return !t.done && t.due===today(); }); }
 function sortT(a,b){
   if(a.done!==b.done) return a.done?1:-1;
@@ -308,79 +260,51 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  /* На iPhone у нижней шторки всегда есть явная кнопка закрытия. */
-  var x = document.createElement('button');
-  x.className = 'sheetx'; x.dataset.act = 'sheet-close'; x.setAttribute('aria-label','Закрыть');
-  x.innerHTML = '<span aria-hidden="true">×</span>';
-  s.appendChild(x); s.classList.add('hasclose');
   s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
 }
-function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._cid = null;
-  p.classList.remove('reportview');
+function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null;
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#scrim').classList.remove('open'); }
 function closeSheet(){ $('#sheet').classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
-function appBack(){
-  /* Сначала закрываем верхнюю шторку, затем полноэкранную карточку.
-     Отчёты закрываем напрямую: установленный iOS PWA ненадёжно связывает
-     внутренний экран с history.back(), поэтому навигация полностью локальная. */
-  if($('#sheet').classList.contains('open')){ closeSheet(); return true; }
-  if($('#page').classList.contains('open')){
-    if(REPORT){ closeReportView(true); return true; }
-    closeAll(); return true;
-  }
-  return false;
-}
 
 /* =====================================================================
    TASK CARD
    ===================================================================== */
 function dueTag(t){
   if(!t.due) return '';
-  var n = dd(t.due), c='', s='';
-  if(t.kind==='hearing'){
-    c = (!t.done && n>=0 && n<=1) ? 'yel' : '';
-    s = n===0 ? 'сегодня' : n===1 ? 'завтра' : n<0 ? fmtShort(t.due) : relD(t.due);
-  }else{
-    c = t.done ? '' : (n<0?'red':n<=1?'yel':n<=6?'':'');
-    s = t.done ? fmtShort(t.due) : relD(t.due);
-  }
+  var n = dd(t.due), c = t.done ? '' : (n<0?'red':n<=1?'yel':n<=6?'':'');
+  var s = t.done ? fmtShort(t.due) : relD(t.due);
   return '<span class="tag '+c+'">'+ico('cal','s')+esc(s)+'</span>';
 }
 function taskCard(t,opts){
   opts = opts||{};
   var m = t.mid ? matter(t.mid) : null;
-  var sd = stepsDone(t), st = (t.steps||[]).length, hearing=t.kind==='hearing';
-  var title = hearing ? 'Судебное заседание' : t.title;
-  var outcome = hearing && t.outcome ? t.outcome : null;
-  return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done&&!hearing?' done':'')+(hearing&&t.done?' hearingdone':'')+'" data-act="task" data-id="'+t.id+'">'+
-    (hearing?'<div class="eventmark">'+ico(t.done?'check':'gavel')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>')+
+  var sd = stepsDone(t), st = (t.steps||[]).length;
+  return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done?' done':'')+'" data-act="task" data-id="'+t.id+'">'+
+    '<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>'+
     '<div class="tbody">'+
       '<div class="trow">'+
         (t.time?'<span class="ttime mono">'+esc(t.time)+'</span>':'')+
-        '<div class="tt">'+esc(title)+'</div>'+ 
-      '</div>'+ 
+        '<div class="tt">'+esc(t.title)+'</div>'+
+      '</div>'+
       '<div class="meta">'+
-        (t.kind!=='task' && !hearing ? '<span class="tag">'+ico(KIND[t.kind].i,'s')+KIND[t.kind].n+'</span>' : '')+
+        (t.kind!=='task' ? '<span class="tag">'+ico(KIND[t.kind].i,'s')+KIND[t.kind].n+'</span>' : '')+
         (opts.noMatter||!m ? '' : '<span class="tag dot" style="color:'+mColor(m.id)+'">'+esc(m.title)+'</span>')+
         (opts.noDue ? '' : dueTag(t))+
-        (hearing&&t.done?'<span class="tag grn">'+ico('check','s')+'Завершено</span>':'')+
-        (t.pri==='high' && !t.done && !hearing ? '<span class="tag red">'+ico('flag','s')+'Срочно</span>' : '')+
+        (t.pri==='high' && !t.done ? '<span class="tag red">'+ico('flag','s')+'Срочно</span>' : '')+
         (t.place?'<span class="tag">'+esc(t.place)+'</span>':'')+
-      '</div>'+ 
-      (outcome&&outcome.result?'<div class="outcomeLine"><b>Итог:</b> '+esc(outcome.result.length>180?outcome.result.slice(0,180)+'…':outcome.result)+'</div>':'')+
+      '</div>'+
       (t.note?'<div class="note">'+esc(t.note.length>140?t.note.slice(0,140)+'…':t.note)+'</div>':'')+
-      (hearing&&!t.done&&t.due&&dd(t.due)<=0?'<button class="hearingfinish" data-act="hearing-complete" data-id="'+t.id+'">'+ico('check','s')+' Заседание завершено</button>':'')+
-      (!hearing&&st?'<div class="steps"><div class="mini"><i style="width:'+(sd/st*100)+'%"></i></div>'+sd+' из '+st+' этапов</div>':'')+
+      (st?'<div class="steps"><div class="mini"><i style="width:'+(sd/st*100)+'%"></i></div>'+sd+' из '+st+' этапов</div>':'')+
     '</div></div>';
 }
 function groupList(list,opts){
   if(!list.length) return '';
-  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Завершённые заседания',[]],['Выполнено',[]]];
+  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Выполнено',[]]];
   list.forEach(function(t){
-    var i = (t.kind==='hearing' && t.done) ? 7 : t.done ? 8 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
+    var i = t.done ? 6 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
     buckets[i][1].push(t);
   });
   return buckets.filter(function(b){ return b[1].length; }).map(function(b){
@@ -399,7 +323,7 @@ function empty(icon,title,text,acts){
     : '';
   return '<div class="empty">' + ico(icon) + '<h3>' + title + '</h3><p>' + text + '</p>' + b + '</div>';
 }
-function noData(){ return !S.clients.length && !S.matters.length && !S.tasks.length && !S.participation.length && !S.journal.length; }
+function noData(){ return !S.matters.length && !S.tasks.length && !S.participation.length && !S.journal.length; }
 function backupAge(){ if(!S.settings.lastBackup) return 999; try{return Math.floor((Date.now()-new Date(S.settings.lastBackup).getTime())/864e5);}catch(e){return 999;} }
 function backupDue(){ if(!S.matters.length&&!S.tasks.length&&!S.participation.length&&!S.journal.length) return false; return backupAge() >= (+S.settings.backupEveryDays||7); }
 function deadlineTasks(){ return S.tasks.filter(function(t){ return !t.done && t.kind==='deadline' && t.due; }).sort(sortT); }
@@ -411,66 +335,70 @@ function greet(){ var h = new Date().getHours();
   return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'; }
 
 function renderToday(){
-  /* 3.5: стартовый экран — не хронологическая лента, а очередь того, что нельзя пропустить. */
-  var lateDeadlines = S.tasks.filter(function(t){return !t.done&&t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
-  var todayHearings = S.tasks.filter(function(t){return !t.done&&t.kind==='hearing'&&t.due===today();}).sort(sortT);
-  var todayTasks = S.tasks.filter(function(t){return !t.done&&t.kind!=='hearing'&&t.due===today();}).sort(sortT);
-  var otherOverdue = S.tasks.filter(function(t){return !t.done&&t.kind!=='hearing'&&t.kind!=='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
-  var upcomingHearings = S.tasks.filter(function(t){return !t.done&&t.kind==='hearing'&&t.due&&dd(t.due)>=1&&dd(t.due)<=7;}).sort(sortT);
-  var doneToday = S.tasks.filter(function(t){return t.kind!=='hearing'&&t.done&&t.doneAt&&t.doneAt.slice(0,10)===today();}).length;
-  var workToday = todayTasks.length+otherOverdue.length+lateDeadlines.length;
-  var total = workToday+doneToday;
-  var pct = total ? Math.round(doneToday/total*100) : (S.tasks.some(function(t){return t.kind!=='hearing';})?100:0);
-  var d=new Date(), critical=lateDeadlines.length+todayHearings.length+todayTasks.length+otherOverdue.length;
-  var brief = lateDeadlines.length
-    ? '<b>'+lateDeadlines.length+' '+plural(lateDeadlines.length,'процессуальный срок просрочен','процессуальных срока просрочены','процессуальных сроков просрочено')+'.</b> Это первый приоритет.'
-    : todayHearings.length
-      ? '<b>Сегодня '+todayHearings.length+' '+plural(todayHearings.length,'заседание','заседания','заседаний')+'.</b> Сначала проверьте время, суд и материалы.'
-      : todayTasks.length
-        ? '<b>'+todayTasks.length+' '+plural(todayTasks.length,'задача','задачи','задач')+' на сегодня.</b> Критичных просроченных сроков нет.'
-        : otherOverdue.length
-          ? '<b>'+otherOverdue.length+' '+plural(otherOverdue.length,'просроченная задача','просроченные задачи','просроченных задач')+'.</b> Процессуальных сроков среди них нет.'
-          : noData()?'<b>Рабочее пространство пусто.</b> Создайте доверителя или первое дело.'
-          : '<b>На сегодня критичных действий нет.</b> Ниже — ближайшие заседания и дела в работе.';
+  var od = overdue(), td = dueToday();
+  var hear = S.tasks.filter(function(t){ return !t.done && t.kind==='hearing' && t.due && dd(t.due)>=0 && dd(t.due)<=7; }).sort(sortT);
+  var dls = deadlineTasks().filter(function(t){ return dd(t.due)<=14; });
+  var todayAll = od.concat(td).filter(function(t,i,a){ return a.indexOf(t)===i; }).sort(sortT);
+  var timed = todayAll.filter(function(t){ return t.time; });
+  var untimed = todayAll.filter(function(t){ return !t.time; });
+  var doneToday = S.tasks.filter(function(t){ return t.done && t.doneAt && t.doneAt.slice(0,10)===today(); }).length;
+  var total = todayAll.length + doneToday;
+  var pct = total ? Math.round(doneToday/total*100) : (S.tasks.length?100:0);
+  var d = new Date();
+  var nh = S.tasks.filter(function(t){ return !t.done && t.kind==='hearing' && t.due && dd(t.due)>=0; }).sort(sortT)[0];
+  var brief = od.length
+    ? '<b>'+od.length+' '+plural(od.length,'просроченная задача','просроченные задачи','просроченных задач')+'</b>. Сначала закройте критичное.'
+    : td.length ? '<b>'+td.length+' '+plural(td.length,'задача','задачи','задач')+' на сегодня</b>. Контроль сроков включён.'
+    : noData() ? '<b>Рабочее пространство пусто.</b> Создайте первое досье или задачу.'
+    : '<b>Критичных задач на сегодня нет.</b> Проверьте ближайшие сроки и заседания.';
 
-  var html=brandLine()+
-  '<div class="top"><div><div class="eyebrow">'+greet()+(S.settings.name?', '+esc(S.settings.name):'')+'</div><h1>Сегодня</h1>'+ 
-    '<div class="sub">'+d.getDate()+' '+MON[d.getMonth()]+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</div></div>'+ 
-    '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Глобальный поиск">'+ico('search')+'</button>'+ 
-    '<button class="iconbtn" data-act="print-day" title="План дня">'+ico('doc')+'</button>'+ 
-    '<button class="iconbtn'+(S.settings.notify?' on':'')+'" data-act="notify-sheet">'+ico('bell')+'</button></div></div>'+ 
-  (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Нужна резервная копия</b><small>'+(S.settings.lastBackup?'Последняя — '+backupAge()+' дн. назад':'Ещё не создавалась')+'</small></span>'+ico('chev','s')+'</button>':'')+
-  '<div class="hero"><div class="ringrow">'+ring(pct)+'<div class="rt"><div class="quote">'+brief+'</div></div></div></div>'+ 
+  var html = brandLine()+
+  '<div class="top"><div><div class="eyebrow">'+greet()+(S.settings.name?', '+esc(S.settings.name):'')+'</div>'+
+    '<h1>Сегодня</h1><div class="sub">'+d.getDate()+' '+MON[d.getMonth()]+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</div></div>'+
+    '<div class="topacts">'+
+      '<button class="iconbtn" data-act="global-search" title="Глобальный поиск">'+ico('search')+'</button>'+
+      '<button class="iconbtn" data-act="print-day" title="План дня">'+ico('doc')+'</button>'+
+      '<button class="iconbtn'+(S.settings.notify?' on':'')+'" data-act="notify-sheet">'+ico('bell')+'</button>'+
+    '</div></div>'+
+  (backupDue() ? '<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Нужна резервная копия</b><small>'+(S.settings.lastBackup?'Последняя — '+backupAge()+' дн. назад':'Ещё не создавалась')+'</small></span>'+ico('chev','s')+'</button>' : '')+
+  '<div class="hero"><div class="ringrow">'+ring(pct)+'<div class="rt"><div class="quote">'+brief+'</div></div></div></div>'+
   '<div class="kpis">'+
-    kpi(lateDeadlines.length,'Сроки !','red','f-deadline')+
-    kpi(todayHearings.length,'Засед.','blue','f-hear')+
-    kpi(todayTasks.length,'Задачи','gold','f-today')+
-    kpi(activeM().length,'Дел','ok','go-matters')+
+    kpi(od.length,'Просроч.','red','f-late')+
+    kpi(td.length,'Сегодня','gold','f-today')+
+    kpi(hear.length,'Заседан.','blue','f-hear')+
+    kpi(dls.length,'Сроков','ok','f-deadline')+
   '</div>';
 
-  if(lateDeadlines.length){
-    html+='<div class="priorityhead danger"><span>1</span><div><b>Просроченные процессуальные сроки</b><small>Проверить в первую очередь</small></div></div>'+lateDeadlines.map(function(t){return taskCard(t);}).join('');
+  if(nh){
+    var nm = nh.mid?matter(nh.mid):null;
+    html += '<div class="sec"><h2>Ближайшее заседание</h2><button class="link" data-act="task" data-id="'+nh.id+'">Открыть</button></div>'+
+      '<div class="focuscard hearingfocus"><div class="focusdate"><b>'+fmtShort(nh.due)+'</b><span>'+(nh.time||'время не задано')+'</span></div><div class="focusbody"><b>'+esc(nh.title)+'</b>'+
+      '<span>'+esc([nm&&nm.title,nh.place].filter(Boolean).join(' · '))+'</span></div><button class="iconbtn" data-act="ics-task" data-id="'+nh.id+'" title="В календарь iPhone">'+ico('cal')+'</button></div>';
   }
-  if(todayHearings.length){
-    html+='<div class="priorityhead hearing"><span>2</span><div><b>Заседания сегодня</b><small>Время, суд и дело — перед глазами</small></div></div>'+todayHearings.map(function(t){return taskCard(t,{noDue:true});}).join('');
+  if(dls.length){
+    html += '<div class="sec"><h2>Процессуальные сроки</h2><button class="link" data-act="deadline">Рассчитать</button></div>'+
+      dls.slice(0,3).map(function(t){ return taskCard(t); }).join('');
   }
-  if(todayTasks.length){
-    html+='<div class="priorityhead"><span>3</span><div><b>Задачи на сегодня</b><small>После критичных сроков и заседаний</small></div></div>'+todayTasks.map(function(t){return taskCard(t,{noDue:true});}).join('');
+  if(timed.length){
+    html += '<div class="sec"><h2>Расписание дня</h2></div>' + timed.map(function(t){ return taskCard(t,{noDue:true}); }).join('');
   }
-  if(otherOverdue.length){
-    html+='<div class="sec"><h2 style="color:var(--dang)">Другие просроченные задачи</h2><button class="link" data-act="reschedule">Перенести на сегодня</button></div>'+otherOverdue.map(function(t){return taskCard(t);}).join('');
+  if(od.length){
+    html += '<div class="sec"><h2 style="color:var(--dang)">Просрочено</h2><button class="link" data-act="reschedule">Перенести на сегодня</button></div>'+
+      od.filter(function(t){ return !t.time; }).map(function(t){ return taskCard(t); }).join('');
   }
-  if(upcomingHearings.length){
-    html+='<div class="sec"><h2>Ближайшие заседания · 1–7 дней</h2><button class="link" data-act="f-hear">Все</button></div>'+upcomingHearings.slice(0,5).map(function(t){return taskCard(t);}).join('');
+  var restToday = untimed.filter(function(t){ return t.due===today(); });
+  if(restToday.length) html += '<div class="sec"><h2>На сегодня</h2></div>'+restToday.map(function(t){ return taskCard(t,{noDue:true}); }).join('');
+  if(!todayAll.length && !nh && !dls.length){
+    html += '<div class="card">'+empty('scale',noData()?'Рабочее пространство пусто':'На сегодня всё под контролем',
+      noData()?'Создайте досье доверителя, заседание или процессуальный срок — они будут собраны на этом экране.'
+        :'Срочных действий нет. Можно перейти к делам или запланировать следующую работу.',
+      noData()?[{act:'new-matter',t:'Завести дело'},{act:'quick-add',t:'Быстрая запись',ghost:1}]:null)+'</div>';
   }
-  if(!critical && !upcomingHearings.length){
-    html+='<div class="card">'+empty('scale',noData()?'Начните с доверителя или дела':'На сегодня всё под контролем',
-      noData()?'Создайте карточку доверителя, затем дело — повторно вводить ФИО и телефон больше не придётся.':'Просроченных сроков, заседаний и задач на сегодня нет.',
-      noData()?[{act:'new-client',t:'Добавить доверителя'},{act:'new-matter',t:'Завести дело',ghost:1}]:null)+'</div>';
-  }
-  var mlist=activeM().slice().sort(function(a,b){var A=matterStats(a),B=matterStats(b);if(B.late!==A.late)return B.late-A.late;var an=A.next?dd(A.next.due):9999,bn=B.next?dd(B.next.due):9999;return an-bn;});
-  if(mlist.length)html+='<div class="sec"><h2>Дела в работе</h2><button class="link" data-act="go-matters">Все</button></div>'+mlist.slice(0,3).map(matterCard).join('');
-  $('#sc-today').innerHTML=html;
+  var soon = S.tasks.filter(function(t){ return !t.done && t.due && dd(t.due)>=1 && dd(t.due)<=7 && t.kind!=='deadline' && t!==nh; }).sort(sortT).slice(0,5);
+  if(soon.length) html += '<div class="sec"><h2>Ближайшая неделя</h2><button class="link" data-act="go-tasks">Все задачи</button></div>'+soon.map(function(t){ return taskCard(t); }).join('');
+  var mlist = activeM().slice().sort(function(a,b){ var sa=matterStats(a),sb=matterStats(b); if(sb.late!==sa.late)return sb.late-sa.late; var na=sa.next?dd(sa.next.due):9999,nb=sb.next?dd(sb.next.due):9999; return na-nb; });
+  if(mlist.length) html += '<div class="sec"><h2>Дела в работе</h2><button class="link" data-act="go-matters">Все</button></div>'+mlist.slice(0,3).map(matterCard).join('');
+  $('#sc-today').innerHTML = html;
 }
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 function plural(n,a,b,c){ n = Math.abs(n)%100; var m = n%10;
@@ -494,7 +422,7 @@ function renderTasks(){
   var u = S.ui;
 
   var chips = [['','Все'],['today','Сегодня'],['high','Срочные'],['late','Просроченные'],['week','На неделю'],['hearing','Заседания'],['deadline','Сроки'],['nodue','Без срока']];
-  var open = S.tasks.filter(isActiveRecord).length;
+  var open = S.tasks.filter(function(t){ return !t.done; }).length;
   var html = brandLine()+
   '<div class="top"><div><div class="eyebrow">Всего '+open+' в работе</div><h1>Задачи</h1></div>'+
     '<div class="topacts"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search">'+ico('search')+'</button></div></div>'+
@@ -517,11 +445,11 @@ function taskFilter(){
     if(q){ var m = t.mid?matter(t.mid):null;
       var hay = (t.title+' '+(t.note||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||''):'')).toLowerCase();
       if(hay.indexOf(q)<0) return false; }
-    if(u.taskSeg==='open' && !isActiveRecord(t)) return false;
+    if(u.taskSeg==='open' && t.done) return false;
     if(u.taskSeg==='done' && !t.done) return false;
-    if(u.taskChip==='today' && !(t.due && !t.done && (t.kind==='hearing'?dd(t.due)===0:dd(t.due)<=0))) return false;
-    if(u.taskChip==='high' && (t.kind==='hearing' || t.pri!=='high')) return false;
-    if(u.taskChip==='late' && !(t.kind!=='hearing' && t.due && dd(t.due)<0 && !t.done)) return false;
+    if(u.taskChip==='today' && !(t.due && dd(t.due)<=0 && !t.done)) return false;
+    if(u.taskChip==='high' && t.pri!=='high') return false;
+    if(u.taskChip==='late' && !(t.due && dd(t.due)<0 && !t.done)) return false;
     if(u.taskChip==='week' && !(t.due && dd(t.due)>=0 && dd(t.due)<=7)) return false;
     if(u.taskChip==='nodue' && t.due) return false;
     if(u.taskChip==='hearing' && t.kind!=='hearing') return false;
@@ -535,7 +463,7 @@ function renderTaskList(){
   box.innerHTML = list.length ? groupList(list)
     : empty('list', S.ui.q ? 'Ничего не найдено' : 'Задач пока нет',
         S.ui.q ? 'Измените поисковый запрос или фильтр.'
-          : 'Здесь собраны рабочие задачи, звонки, документы, процессуальные сроки и предстоящие заседания.',
+          : 'Задача может быть заседанием, звонком, документом или процессуальным сроком — всё с напоминанием и сроком.',
         S.ui.q ? null
           : [{act:'new-task',t:'Добавить задачу'},{act:'templates',t:'Шаблон чек-листа',ghost:1}]);
 }
@@ -544,18 +472,16 @@ function renderTaskList(){
    SCREEN: ДЕЛА
    ===================================================================== */
 function matterStats(m){
-  var t = tasksOf(m.id), open = t.filter(isActiveRecord);
-  var late = open.filter(function(x){ return x.kind!=='hearing' && x.due && dd(x.due)<0; }).length;
-  var done = t.filter(function(x){ return x.done; }).length;
+  var t = tasksOf(m.id), open = t.filter(function(x){ return !x.done; });
+  var late = open.filter(function(x){ return x.due && dd(x.due)<0; }).length;
   var nh = t.filter(function(x){ return !x.done && x.kind==='hearing' && x.due && dd(x.due)>=0; }).sort(sortT)[0];
   var parts = participationOf(m.id).slice().sort(function(a,b){ return a.date<b.date?1:-1; });
   var rate = +m.dayRate || +S.settings.dayRate || 0;
   var sum = parts.reduce(function(a,e){ return a + (+e.rate||rate); },0);
-  return { open:open.length, done:done, all:t.length, late:late, next:nh,
+  return { open:open.length, done:t.length-open.length, all:t.length, late:late, next:nh,
            days:parts.length, sum:sum, parts:parts };
 }
 function matterCard(m){
-  syncMatterClient(m);
   var st = matterStats(m), mt = matterType(m), c = mColor(m.id);
   var badge = st.late ? '<span class="badge red">'+st.late+' просроч.</span>' :
     st.next&&dd(st.next.due)<=3 ? '<span class="badge gold">заседание '+relD(st.next.due)+'</span>' : '';
@@ -569,64 +495,35 @@ function matterCard(m){
     (st.next?'<div><b>'+fmtShort(st.next.due)+'</b>заседание</div>':'')+
     '</div></div>';
 }
-function clientCard(c){
-  var ms=mattersOfClient(c.id), active=ms.filter(function(m){return !m.archived;});
-  return '<button class="clientcard" data-act="client" data-id="'+c.id+'"><div class="avatar" style="background:'+mColor(c.id)+'">'+initials(c.name)+'</div>'+ 
-    '<div class="clientbody"><h3>'+esc(c.name||'Без имени')+'</h3><span>'+esc(c.phone||c.email||'Контакты не указаны')+'</span><small>'+active.length+' '+plural(active.length,'дело','дела','дел')+' в работе'+(ms.length!==active.length?' · всего '+ms.length:'')+'</small></div>'+ico('chev','s')+'</button>';
-}
 function renderMatters(){
-  var view=S.ui.matterView||'matters';
-  var html=brandLine()+'<div class="top"><div><div class="eyebrow">'+(view==='clients'?S.clients.length+' в базе':activeM().length+' в производстве')+'</div><h1>'+(view==='clients'?'Доверители':'Дела')+'</h1></div>'+ 
-    '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button>'+ 
-    (view==='matters'?'<button class="iconbtn'+(S.ui.showArch?' on':'')+'" data-act="arch">'+ico('arch')+'</button>':'')+
-    '<button class="iconbtn" data-act="'+(view==='clients'?'new-client':'new-matter')+'">'+ico('plus')+'</button></div></div>'+ 
-    '<div class="segbtns caseview"><button data-act="m-view" data-v="matters"'+(view==='matters'?' class="on"':'')+'>Дела</button><button data-act="m-view" data-v="clients"'+(view==='clients'?' class="on"':'')+'>Доверители</button></div>';
-  if(view==='clients'){
-    var cs=S.clients.slice().sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ru');});
-    html += cs.length ? '<div class="clientlist">'+cs.map(clientCard).join('')+'</div>' : empty('user','Доверителей пока нет','Создайте карточку один раз, а затем привязывайте к ней сколько угодно дел.',[{act:'new-client',t:'Добавить доверителя'}]);
-    $('#sc-matters').innerHTML=html;return;
-  }
-  var list=S.matters.filter(function(m){
-    if(S.ui.showArch ? !m.archived : m.archived)return false;
-    if(S.ui.matterType&&m.type!==S.ui.matterType)return false;
+  var list = S.matters.filter(function(m){
+    if(S.ui.showArch ? !m.archived : m.archived) return false;
+    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
     return true;
   });
-  list.sort(function(a,b){var A=matterStats(a),B=matterStats(b);if(!!A.late!==!!B.late)return A.late?-1:1;var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';if(an!==bn)return an<bn?-1:1;return B.open-A.open;});
-  var arch=S.matters.filter(function(m){return m.archived;}).length;
-  var typeChips=[['','Все']].concat(Object.keys(MATTER_TYPES).map(function(k){return[k,MATTER_TYPES[k].short];}));
-  html+='<div class="chips scroll matterfilters" style="margin:-4px 0 14px">'+typeChips.map(function(c){return '<button class="chip'+(S.ui.matterType===c[0]?' on':'')+'" data-act="m-filter" data-v="'+c[0]+'">'+c[1]+'</button>';}).join('')+'</div>';
-  html += list.length?list.map(matterCard).join(''):empty('folder',S.ui.showArch?'Архив пуст':'Дел пока нет',S.ui.showArch?'Завершённые дела можно отправлять в архив из карточки дела.':'Создайте дело и привяжите доверителя — его данные будут подставляться автоматически.',S.ui.showArch?null:[{act:'new-matter',t:'Завести дело'},{act:'new-client',t:'Сначала добавить доверителя',ghost:1}]);
-  if(!S.ui.showArch&&arch)html+='<button class="btn ghost" data-act="arch" style="margin-top:14px">Архив ('+arch+')</button>';
-  $('#sc-matters').innerHTML=html;
-}
-
-var CED=null;
-function openClient(id){
-  var c=client(id);if(!c){closeAll();return;}var ms=mattersOfClient(id).slice();ms.sort(function(a,b){return (a.archived?1:0)-(b.archived?1:0);});
-  openPage('<div class="shhead"><button class="iconbtn" data-act="close">'+ico('left')+'</button><div style="flex:1"></div><button class="iconbtn" data-act="c-edit" data-id="'+id+'">'+ico('edit')+'</button></div>'+ 
-    '<div class="casehero clienthero"><div class="avatar big" style="background:'+mColor(c.id)+'">'+initials(c.name)+'</div><div class="casehead"><div class="mtype">ДОВЕРИТЕЛЬ</div><h2>'+esc(c.name)+'</h2><div class="sh-sub">'+ms.length+' '+plural(ms.length,'дело','дела','дел')+' связано</div></div></div>'+ 
-    '<div class="card pad0 dossier">'+(c.phone?'<a class="row" href="tel:'+esc(String(c.phone).replace(/[^0-9+]/g,''))+'" style="text-decoration:none;color:inherit">'+ico('phone')+'<span class="rl">Телефон<small>'+esc(c.phone)+'</small></span>'+ico('chev','s')+'</a>':'')+
-    (c.email?infoRow('doc','E-mail',c.email):'')+(c.notes?infoRow('edit','Заметка',c.notes):'')+'</div>'+ 
-    '<div class="sec"><h2>Дела доверителя</h2><button class="link" data-act="new-matter-for-client" data-id="'+id+'">Новое дело</button></div>'+ 
-    (ms.length?ms.map(matterCard).join(''):'<div class="hint">У этого доверителя пока нет дел.</div>')+
-    '<button class="btn danger" data-act="c-del" data-id="'+id+'" style="margin-top:18px">Удалить карточку доверителя</button><div style="height:30px"></div>');
-  $('#page')._cid=id;
-}
-function editClient(c){
-  CED=c?clone(c):{id:null,name:'',phone:'',email:'',notes:''};
-  openSheet('<h2>'+(c?'Изменить доверителя':'Новый доверитель')+'</h2><p class="sh-sub">Контактные данные вводятся один раз и используются во всех связанных делах.</p>'+ 
-    '<div class="fld"><label>ФИО / организация *</label><input id="c-name" value="'+esc(CED.name||'')+'" placeholder="Иванов Иван Иванович"></div>'+ 
-    '<div class="fld"><label>Телефон</label><input id="c-phone" type="tel" value="'+esc(CED.phone||'')+'" placeholder="+7 900 000-00-00"></div>'+ 
-    '<div class="fld"><label>E-mail</label><input id="c-email" type="email" value="'+esc(CED.email||'')+'"></div>'+ 
-    '<div class="fld"><label>Заметка</label><textarea id="c-notes" rows="4" placeholder="Удобное время связи, особенности коммуникации…">'+esc(CED.notes||'')+'</textarea></div>'+ 
-    '<button class="btn" data-act="c-save">Сохранить доверителя</button>');
-}
-function saveClient(){
-  var name=$('#c-name').value.trim();if(!name){toast('Укажите ФИО доверителя');return;}
-  var o={name:name,phone:$('#c-phone').value.trim(),email:$('#c-email').value.trim(),notes:$('#c-notes').value.trim()};
-  if(CED.id){var c=client(CED.id);Object.assign(c,o);S.matters.filter(function(m){return m.clientId===c.id;}).forEach(function(m){m.client=c.name;m.phone=c.phone;});}
-  else{o.id=uid();o.created=new Date().toISOString();S.clients.unshift(o);CED.id=o.id;}
-  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._cid)openClient(CED.id);toast('Доверитель сохранён');
+  list.sort(function(a,b){
+    var A = matterStats(a), B = matterStats(b);
+    if(!!A.late !== !!B.late) return A.late?-1:1;
+    var an = A.next?A.next.due:'9999', bn = B.next?B.next.due:'9999';
+    if(an!==bn) return an<bn?-1:1;
+    return B.open-A.open;
+  });
+  var arch = S.matters.filter(function(m){ return m.archived; }).length;
+  var typeChips = [['','Все']].concat(Object.keys(MATTER_TYPES).map(function(k){ return [k,MATTER_TYPES[k].short]; }));
+  var html = brandLine()+
+  '<div class="top"><div><div class="eyebrow">'+activeM().length+' в производстве</div><h1>Дела</h1></div>'+
+    '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button>'+
+    '<button class="iconbtn'+(S.ui.showArch?' on':'')+'" data-act="arch">'+ico('arch')+'</button>'+
+    '<button class="iconbtn" data-act="new-matter">'+ico('plus')+'</button></div></div>'+
+  '<div class="chips scroll matterfilters" style="margin:-4px 0 14px">'+typeChips.map(function(c){
+    return '<button class="chip'+(S.ui.matterType===c[0]?' on':'')+'" data-act="m-filter" data-v="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'</div>';
+  html += list.length ? list.map(matterCard).join('')
+    : empty('folder', S.ui.showArch?'Архив пуст':'Дел пока нет',
+        S.ui.showArch?'Завершённые дела можно отправлять в архив из карточки дела.'
+          :'Создайте досье: тип производства, доверитель, суд/орган, стадия, задачи, участие и журнал событий.',
+        S.ui.showArch?null:[{act:'new-matter',t:'Завести дело'},{act:'templates',t:'Начать с шаблона',ghost:1}]);
+  if(!S.ui.showArch && arch) html += '<button class="btn ghost" data-act="arch" style="margin-top:14px">Архив ('+arch+')</button>';
+  $('#sc-matters').innerHTML = html;
 }
 
 /* =====================================================================
@@ -663,7 +560,7 @@ function renderCal(){
   var day = (byDay[u.calSel]||[]).sort(sortT);
   var html = brandLine()+
   '<div class="top"><div><div class="eyebrow">Планирование</div><h1>Календарь</h1></div>'+
-   '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+   '<div class="topacts"><button class="iconbtn" data-act="global-search">'+ico('search')+'</button><button class="iconbtn" data-act="cal-today">'+ico('sun')+'</button></div></div>'+
   '<div class="card"><div class="calhead">'+
     '<button class="iconbtn" data-act="cal-m" data-v="-1">'+ico('left')+'</button>'+
     '<b>'+MONN[mo]+' '+y+'</b>'+
@@ -706,7 +603,7 @@ function renderMore(){
   '<div class="top"><div><div class="eyebrow">Кабинет</div><h1>Ещё</h1></div><div class="topacts"><button class="iconbtn" data-act="global-search">'+ico('search')+'</button></div></div>'+
   '<div class="card"><div class="sec" style="margin:0 0 12px"><h2>За последние 7 дней</h2></div><div class="kpis" style="margin:0">'+
     '<div class="kpi ok"><b>'+w.done+'</b><span>выполнено</span></div><div class="kpi gold"><b>'+w.days+'</b><span>дней участия</span></div>'+
-    '<div class="kpi blue"><b>'+Math.round(w.sum/1000)+'к</b><span>участие</span></div><div class="kpi"><b>'+S.tasks.filter(isActiveRecord).length+'</b><span>в работе</span></div></div></div>'+
+    '<div class="kpi blue"><b>'+Math.round(w.sum/1000)+'к</b><span>участие</span></div><div class="kpi"><b>'+S.tasks.filter(function(t){return !t.done;}).length+'</b><span>в работе</span></div></div></div>'+
   iphoneInstallHint()+
   (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
   '<div class="sec"><h2>Инструменты</h2></div><div class="card pad0">'+
@@ -727,7 +624,6 @@ function renderMore(){
   '<div class="sec"><h2>Настройки</h2></div><div class="card pad0">'+
     row('user','Профиль и ставка',(S.settings.name||'Имя не указано')+' · '+(S.settings.dayRate?money(S.settings.dayRate)+'/день':'ставка не задана'),'profile')+
     rowSw('bell','Напоминания',S.settings.notify?'Включены':'Выключены','notify-sheet',S.settings.notify)+
-    row('bell','Проверить звук и уведомление','Тест баннера, звука и вибрации','notify-test')+
     rowSw('sun','Оформление',S.settings.theme==='dark'?'Тёмное':'Светлое','theme',S.settings.theme==='light')+
     row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
   '</div>'+
@@ -736,7 +632,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · Premium Legal Tech 4.2<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.0<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -767,23 +663,15 @@ function go(tab){ S.ui.tab = tab; S.ui.q=''; S.ui._sq=false; save(); render();
    TASK EDITOR
    ===================================================================== */
 var ED = null;
-function hearingCourt(mid){ var m=mid?matter(mid):null; return (m&&m.court)||''; }
-function syncHearingCourt(force){
-  if(!ED||ED.kind!=='hearing'||!ED.mid)return;
-  var c=hearingCourt(ED.mid);
-  if(force || !ED.place) ED.place=c;
-}
 function editTask(t,preset){
   ED = t ? JSON.parse(JSON.stringify(t))
     : Object.assign({ id:null,title:'',mid:'',note:'',due:'',time:'',place:'',pri:'mid',kind:'task',sourceDate:'',rule:'',
         done:false,steps:[] }, preset||{});
-  syncHearingCourt(false);
   drawEditor();
 }
 function drawEditor(){
-  var t = ED, isNew = !t.id, hearing=t.kind==='hearing';
-  var noneMatterLabel = hearing ? '— без дела / разовое заседание —' : '— без дела —';
-  var opts = '<option value="">'+noneMatterLabel+'</option>' + activeM().map(function(m){
+  var t = ED, isNew = !t.id;
+  var opts = '<option value="">— без дела —</option>' + activeM().map(function(m){
     return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('');
   var kinds = Object.keys(KIND).map(function(k){
     return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'">'+KIND[k].n+'</button>'; }).join('');
@@ -794,39 +682,34 @@ function drawEditor(){
       '<button class="chk" data-act="e-step-t" data-v="'+i+'" style="'+(s.d?'background:var(--ok);border-color:var(--ok);color:#fff':'')+'">'+ico('check')+'</button>'+
       '<div class="tbody" style="font-size:14px;'+(s.d?'opacity:.5;text-decoration:line-through':'')+'">'+esc(s.t)+'</div>'+
       '<button data-act="e-step-d" data-v="'+i+'" style="color:var(--muted)">'+ico('trash','s')+'</button></div>'; }).join('');
-  var quickDates = hearing ? [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя']] : [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя'],['','Без даты']];
-  var title = hearing ? (isNew?'Новое заседание':'Заседание') : (isNew?'Новая запись':'Изменить');
 
   openSheet(
-  '<div class="shhead"><h2>'+title+'</h2>'+
+  '<div class="shhead"><h2>'+(isNew?'Новая запись':'Изменить')+'</h2>'+
     (isNew?'':'<button class="iconbtn" data-act="e-dup" title="Дублировать">'+ico('doc')+'</button>')+'</div>'+
-  (hearing?'<div class="hint hearinghint"><b>Заседание — это событие, а не задача.</b><br>Дело указывать необязательно. Для разового заседания оставьте «Без дела», затем укажите дату, время и суд.</div>':'')+
+  '<div class="fld"><label>Что нужно сделать</label>'+
+    '<input id="e-title" placeholder="Подготовить апелляционную жалобу" value="'+esc(t.title)+'" autocomplete="off"></div>'+
   '<div class="fld"><label>Тип</label><div class="chips">'+kinds+'</div></div>'+
-  (!hearing?'<div class="fld"><label>Что нужно сделать</label><input id="e-title" placeholder="Подготовить апелляционную жалобу" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
-  '<div class="fld"><label>'+(hearing?'Дело (необязательно)':'Дело / доверитель')+'</label><select id="e-mid">'+opts+'</select></div>'+
-  '<div id="e-context">'+matterContextHTML(t.mid)+'</div>'+
+  '<div class="fld"><label>Дело / доверитель</label><select id="e-mid">'+opts+'</select></div>'+
   '<div class="two">'+
-    '<div class="fld"><label>Дата'+(hearing?' *':'')+'</label><input id="e-due" type="date" value="'+esc(t.due)+'"></div>'+
-    '<div class="fld"><label>Время'+(hearing?' *':'')+'</label><input id="e-time" type="time" value="'+esc(t.time)+'"></div>'+
+    '<div class="fld"><label>Дата</label><input id="e-due" type="date" value="'+esc(t.due)+'"></div>'+
+    '<div class="fld"><label>Время</label><input id="e-time" type="time" value="'+esc(t.time)+'"></div>'+
   '</div>'+
-  '<div class="chips" style="margin:-4px 0 14px">'+quickDates.map(function(x){
+  '<div class="chips" style="margin:-4px 0 14px">'+
+    [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя'],['','Без даты']].map(function(x){
       return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'+
-  (!hearing?'<div class="fld"><label>Приоритет</label><div class="chips">'+pris+'</div></div>':'')+
-  (hearing
-    ? '<div class="fld"><label>Суд / место заседания *</label><input id="e-place" placeholder="Укажите суд / место заседания" value="'+esc(t.place||'')+'"><small class="fieldhint">Если выбрано существующее дело и в его досье указан суд, он подставится автоматически. Для разового заседания заполните поле вручную.</small></div>'
-    : (t.kind==='meeting'?'<div class="fld"><label>Место</label><input id="e-place" placeholder="Адрес / кабинет" value="'+esc(t.place||'')+'"></div>':''))+
+  '<div class="fld"><label>Приоритет</label><div class="chips">'+pris+'</div></div>'+
+  (t.kind==='hearing'||t.kind==='meeting'
+    ? '<div class="fld"><label>Место / суд</label><input id="e-place" placeholder="Арбитражный суд г. Москвы, зал 312" value="'+esc(t.place||'')+'"></div>' : '')+
   (t.kind==='deadline' ? '<div class="two"><div class="fld"><label>Дата события / отсчёта</label><input id="e-source" type="date" value="'+esc(t.sourceDate||'')+'"></div><div class="fld"><label>Основание / правило</label><input id="e-rule" value="'+esc(t.rule||'')+'" placeholder="ст. 321 ГПК РФ"></div></div>' : '')+
-  (!hearing?'<div class="fld"><label>Этапы (чек-лист внутри задачи)</label>'+steps+
+  '<div class="fld"><label>Этапы (чек-лист внутри задачи)</label>'+steps+
     '<div style="display:flex;gap:8px"><input id="e-step" placeholder="Добавить этап" autocomplete="off">'+
-    '<button class="chip" data-act="e-step-a" style="padding:0 16px">'+ico('plus','s')+'</button></div></div>':'')+
-  '<div class="fld"><label>'+(hearing?'Примечание (необязательно)':'Примечание')+'</label>'+ 
-    '<textarea id="e-note" rows="3" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':'Нормы права, документы, что взять с собой…')+'">'+esc(t.note||'')+'</textarea></div>'+ 
-  (hearing&&t.done&&t.outcome?'<div class="hearingoutcome"><b>Итог заседания</b><p>'+esc(t.outcome.result||'Итог сохранён')+'</p>'+(t.outcome.nextDate?'<small>Следующее заседание: '+fmtD(t.outcome.nextDate,true)+(t.outcome.nextTime?' в '+esc(t.outcome.nextTime):'')+'</small>':'')+'</div>':'')+
-  '<button class="btn" data-act="e-save">'+(hearing?'Сохранить заседание':'Сохранить')+'</button>'+ 
-  (isNew?'':(hearing?'<button class="btn finishbtn" data-act="hearing-complete" data-id="'+t.id+'">'+(t.done?'Изменить итог заседания':'Заседание завершено')+'</button>':'')+
-   ((hearing||t.kind==='deadline'||t.kind==='meeting')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
+    '<button class="chip" data-act="e-step-a" style="padding:0 16px">'+ico('plus','s')+'</button></div></div>'+
+  '<div class="fld"><label>Примечание</label>'+
+    '<textarea id="e-note" rows="3" placeholder="Нормы права, документы, что взять с собой…">'+esc(t.note||'')+'</textarea></div>'+
+  '<button class="btn" data-act="e-save">Сохранить</button>'+
+  (isNew?'':((t.kind==='hearing'||t.kind==='deadline'||t.kind==='meeting')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger" data-act="e-del">Удалить</button>'));
-  if(isNew && !hearing) setTimeout(function(){ var e=$('#e-title'); if(e) e.focus(); },340);
+  if(isNew) setTimeout(function(){ var e=$('#e-title'); if(e) e.focus(); },340);
 }
 function pullEditor(){
   var g = function(id){ var e = $(id); return e ? e.value : undefined; };
@@ -841,14 +724,7 @@ function pullEditor(){
 }
 function saveTask(){
   pullEditor();
-  var hearing=ED.kind==='hearing';
-  if(hearing){
-    if(!ED.due){ toast('Укажите дату заседания'); return; }
-    if(!ED.time){ toast('Укажите время заседания'); return; }
-    if(!ED.place) syncHearingCourt(false);
-    if(!ED.place){ toast('Укажите суд / место заседания'); var pe=$('#e-place'); if(pe)pe.focus(); return; }
-    ED.title='Судебное заседание'; ED.pri='mid'; ED.steps=[];
-  }else if(!ED.title){ toast('Введите текст задачи'); var e=$('#e-title'); if(e) e.focus(); return; }
+  if(!ED.title){ toast('Введите текст задачи'); var e=$('#e-title'); if(e) e.focus(); return; }
   var isNew=!ED.id;
   if(ED.id){
     var t = S.tasks.filter(function(x){ return x.id===ED.id; })[0]; Object.assign(t, ED);
@@ -856,117 +732,10 @@ function saveTask(){
     ED.id=uid();ED.created=new Date().toISOString();ED.done=false;S.tasks.unshift(ED);
   }
   if(ED.mid && (isNew || ED.kind==='hearing' || ED.kind==='deadline')){
-    var label='';
-    if(ED.kind==='hearing') label='Назначено заседание'+(ED.due?' — '+fmtD(ED.due,true):'')+(ED.time?' в '+ED.time:'')+(ED.place?' · '+ED.place:'');
-    else if(ED.kind==='deadline') label='Поставлен процессуальный срок: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'');
-    else label='Добавлена задача: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'');
-    addJournal(ED.mid,label,today(),'task',true);
+    var label=ED.kind==='hearing'?'Назначено заседание: ':ED.kind==='deadline'?'Поставлен процессуальный срок: ':'Добавлена задача: ';
+    addJournal(ED.mid,label+ED.title+(ED.due?' — '+fmtD(ED.due,true):''),today(),'task',true);
   }
-  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast(hearing?'Заседание сохранено':'Сохранено');schedule();
-}
-
-/* =====================================================================
-   ЗАВЕРШЕНИЕ СУДЕБНОГО ЗАСЕДАНИЯ
-   ===================================================================== */
-var HC = null;
-function findTask(id){ return S.tasks.filter(function(t){return t.id===id;})[0]; }
-function removeGeneratedTask(id,hearingId){
-  if(!id)return;
-  S.tasks=S.tasks.filter(function(t){return !(t.id===id && t.generatedByHearing===hearingId && !t.done);});
-}
-function sheetHearingComplete(t){
-  if(!t||t.kind!=='hearing')return;
-  var o=clone(t.outcome||{}), m=t.mid?matter(t.mid):null;
-  HC={id:t.id};
-  var nextDate=o.nextDate||'', prepDue=o.prepareDue||(nextDate?addD(nextDate,-1):'');
-  openSheet(
-    '<h2>'+(t.done?'Итог заседания':'Заседание завершено')+'</h2>'+ 
-    '<p class="sh-sub">Зафиксируйте результат один раз — приложение само обновит журнал дела и создаст нужные последующие действия.</p>'+ 
-    '<div class="hearingcontext">'+ico('gavel')+'<div><b>'+esc((m&&m.title)||'Разовое заседание')+'</b><small>'+fmtD(t.due,true)+(t.time?' · '+esc(t.time):'')+(t.place?' · '+esc(t.place):'')+'</small></div></div>'+ 
-    '<div class="fld"><label>Результат / что произошло *</label><textarea id="hc-result" rows="4" placeholder="Например: судебное заседание отложено; допрошены свидетели; суд отказал в ходатайстве…">'+esc(o.result||'')+'</textarea></div>'+ 
-    '<div class="two"><div class="fld"><label>Следующее заседание</label><input id="hc-next-date" type="date" value="'+esc(nextDate)+'"></div><div class="fld"><label>Время</label><input id="hc-next-time" type="time" value="'+esc(o.nextTime||'')+'"></div></div>'+ 
-    '<div class="fld"><label>Что поручил / предложил суд</label><textarea id="hc-order" rows="3" placeholder="Например: представить оригиналы документов, уточнить исковые требования…">'+esc(o.courtOrder||'')+'</textarea></div>'+ 
-    '<div class="fld"><label>Что нужно подготовить</label><textarea id="hc-prepare" rows="3" placeholder="Если заполнить — будет создана отдельная задача'+(t.mid?' по этому делу':' без привязки к делу')+'">'+esc(o.prepare||'')+'</textarea></div>'+ 
-    '<div class="fld"><label>Подготовить до</label><input id="hc-prep-due" type="date" value="'+esc(prepDue)+'"><small class="fieldhint">Если назначено следующее заседание, по умолчанию ставится день накануне. Дату можно изменить.</small></div>'+ 
-    '<div class="hearingblock"><b>Новый процессуальный срок</b><div class="fld"><label>Что сделать / наименование срока</label><input id="hc-dl-title" value="'+esc(o.deadlineTitle||'')+'" placeholder="Например: представить возражения"></div><div class="fld"><label>Крайняя дата</label><input id="hc-dl-date" type="date" value="'+esc(o.deadlineDate||'')+'"></div></div>'+ 
-    '<label class="checkrow"><input id="hc-part" type="checkbox" '+(o.participation===false?'':'checked')+'><span><b>Учесть 1 день участия</b><small>'+(t.mid?'По этому делу и этой дате второй оплачиваемый день создан не будет.':'Разовое заседание будет учтено как отдельный день участия без привязки к делу.')+'</small></span></label>'+ 
-    '<button class="btn finishbtn" data-act="hc-save">Сохранить итог заседания</button>');
-  setTimeout(function(){var e=$('#hc-result');if(e&&!e.value)e.focus();},320);
-}
-function outcomeJournalText(t,o){
-  var a=['Заседание завершено. Результат: '+o.result];
-  if(o.courtOrder)a.push('Суд: '+o.courtOrder);
-  if(o.nextDate)a.push('Следующее заседание: '+fmtD(o.nextDate,true)+(o.nextTime?' в '+o.nextTime:'')+'.');
-  if(o.prepare)a.push('Подготовить: '+o.prepare+(o.prepareDue?' — до '+fmtD(o.prepareDue,true):'')+'.');
-  if(o.deadlineTitle&&o.deadlineDate)a.push('Новый процессуальный срок: '+o.deadlineTitle+' — '+fmtD(o.deadlineDate,true)+'.');
-  return a.join('\n');
-}
-function saveHearingOutcome(){
-  var t=findTask(HC&&HC.id); if(!t||t.kind!=='hearing'){toast('Заседание не найдено');return;}
-  var result=($('#hc-result')&&$('#hc-result').value.trim())||'';
-  if(!result){toast('Укажите результат заседания');var e=$('#hc-result');if(e)e.focus();return;}
-  if(t.due&&dd(t.due)>0&&!t.done&&!confirm('Заседание указано на будущую дату. Всё равно отметить его завершённым?'))return;
-  var nextDate=$('#hc-next-date').value, nextTime=$('#hc-next-time').value;
-  var order=$('#hc-order').value.trim(), prepare=$('#hc-prepare').value.trim(), prepDue=$('#hc-prep-due').value;
-  var dlTitle=$('#hc-dl-title').value.trim(), dlDate=$('#hc-dl-date').value;
-  if(nextDate&&!nextTime){toast('Укажите время следующего заседания');return;}
-  if(nextTime&&!nextDate){toast('Укажите дату следующего заседания');return;}
-  if((dlTitle&&!dlDate)||(!dlTitle&&dlDate)){toast('Для нового срока заполните название и крайнюю дату');return;}
-  var old=t.outcome||{}, o={
-    result:result,courtOrder:order,nextDate:nextDate,nextTime:nextTime,prepare:prepare,prepareDue:prepDue,
-    deadlineTitle:dlTitle,deadlineDate:dlDate,participation:!!$('#hc-part').checked,
-    completedAt:old.completedAt||new Date().toISOString(),followupHearingId:old.followupHearingId||'',
-    prepTaskId:old.prepTaskId||'',deadlineTaskId:old.deadlineTaskId||'',participationId:old.participationId||'',journalId:old.journalId||''
-  };
-  var m=t.mid?matter(t.mid):null;
-
-  if(nextDate){
-    var nh=o.followupHearingId?findTask(o.followupHearingId):null;
-    if(!nh){nh={id:uid(),created:new Date().toISOString()};S.tasks.unshift(nh);o.followupHearingId=nh.id;}
-    if(!nh.done)Object.assign(nh,{title:'Судебное заседание',mid:t.mid,kind:'hearing',due:nextDate,time:nextTime,place:(m&&m.court)||t.place||'',pri:'mid',note:'Назначено по итогам заседания '+fmtD(t.due,true),done:false,doneAt:null,steps:[],generatedByHearing:t.id});
-  }else if(o.followupHearingId){removeGeneratedTask(o.followupHearingId,t.id);o.followupHearingId='';}
-
-  if(prepare){
-    var pt=o.prepTaskId?findTask(o.prepTaskId):null;
-    if(!pt){pt={id:uid(),created:new Date().toISOString()};S.tasks.unshift(pt);o.prepTaskId=pt.id;}
-    if(!pt.done)Object.assign(pt,{title:/^подготов/i.test(prepare)?prepare:'Подготовить: '+prepare,mid:t.mid,kind:'task',due:prepDue||'',time:'',place:'',pri:'high',note:'По итогам заседания '+fmtD(t.due,true),done:false,doneAt:null,steps:[],generatedByHearing:t.id});
-  }else if(o.prepTaskId){removeGeneratedTask(o.prepTaskId,t.id);o.prepTaskId='';}
-
-  if(dlTitle&&dlDate){
-    var dl=o.deadlineTaskId?findTask(o.deadlineTaskId):null;
-    if(!dl){dl={id:uid(),created:new Date().toISOString()};S.tasks.unshift(dl);o.deadlineTaskId=dl.id;}
-    if(!dl.done)Object.assign(dl,{title:dlTitle,mid:t.mid,kind:'deadline',due:dlDate,time:'',place:'',pri:'high',note:'Поставлено по итогам заседания '+fmtD(t.due,true),sourceDate:t.due,rule:'',done:false,doneAt:null,steps:[],generatedByHearing:t.id});
-  }else if(o.deadlineTaskId){removeGeneratedTask(o.deadlineTaskId,t.id);o.deadlineTaskId='';}
-
-  var generatedPart=o.participationId?S.participation.filter(function(x){return x.id===o.participationId;})[0]:null;
-  if(o.participation){
-    var existing=t.mid
-      ? S.participation.filter(function(x){return x.mid===t.mid&&x.date===t.due;})[0]
-      : S.participation.filter(function(x){return x.generatedByHearing===t.id;})[0];
-    if(generatedPart){
-      generatedPart.kind='hearing';generatedPart.place=t.place;generatedPart.desc=t.mid?'Судебное заседание':'Разовое судебное заседание';generatedPart.rate=+(m&&m.dayRate)||+S.settings.dayRate||0;
-    }else if(!existing){
-      var pr={id:uid(),mid:t.mid,date:t.due,kind:'hearing',place:t.place,desc:t.mid?'Судебное заседание':'Разовое судебное заседание',rate:+(m&&m.dayRate)||+S.settings.dayRate||0,created:new Date().toISOString(),generatedByHearing:t.id};
-      S.participation.unshift(pr);o.participationId=pr.id;
-    }else if(!t.mid&&existing){
-      o.participationId=existing.id;
-    }
-  }else if(generatedPart&&generatedPart.generatedByHearing===t.id){
-    S.participation=S.participation.filter(function(x){return x.id!==generatedPart.id;});o.participationId='';
-  }
-
-  if(t.mid){
-    var jt=outcomeJournalText(t,o), jr=o.journalId?S.journal.filter(function(j){return j.id===o.journalId;})[0]:null;
-    if(!jr)jr=S.journal.filter(function(j){return j.generatedByHearing===t.id&&j.type==='hearing-outcome';})[0];
-    if(jr){jr.text=jt;jr.date=t.due;jr.mid=t.mid;}
-    else{jr={id:uid(),mid:t.mid,date:t.due,text:jt,type:'hearing-outcome',created:new Date().toISOString(),generatedByHearing:t.id};S.journal.unshift(jr);}
-    o.journalId=jr.id;
-  }else{
-    o.journalId='';
-  }
-
-  t.done=true;t.doneAt=new Date().toISOString();t.outcome=o;
-  save();closeSheet();render();if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);toast('Итог заседания сохранён');schedule();
+  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast('Сохранено');schedule();
 }
 
 /* =====================================================================
@@ -975,12 +744,8 @@ function saveHearingOutcome(){
 var MED = null;
 function openMatter(id){
   var m = matter(id); if(!m){ closeAll(); return; }
-  syncMatterClient(m); var lc=clientForMatter(m);
   var st = matterStats(m), c = mColor(m.id), mt=matterType(m);
-  var ts = tasksOf(id).sort(sortT), open = ts.filter(isActiveRecord),
-      done=ts.filter(function(t){return t.done&&t.kind!=='hearing';}),
-      completedHearings=ts.filter(function(t){return t.kind==='hearing'&&t.done;}).sort(sortT),
-      pastHearings=ts.filter(function(t){return t.kind==='hearing'&&!t.done&&isPastHearing(t);}).sort(sortT);
+  var ts = tasksOf(id).sort(sortT), open = ts.filter(function(t){ return !t.done; }), done=ts.filter(function(t){return t.done;});
   var parts = participationOf(id).slice().sort(function(a,b){ return a.date<b.date?1:-1; });
   var js = journalOf(id).slice().sort(function(a,b){ return (a.date||'')<(b.date||'')?1:-1; });
   var dossier = [
@@ -998,7 +763,6 @@ function openMatter(id){
     '<div class="kpi gold"><b>'+st.open+'</b><span>в работе</span></div><div class="kpi ok"><b>'+st.done+'</b><span>готово</span></div>'+
     '<div class="kpi blue"><b>'+st.days+'</b><span>дней участия</span></div><div class="kpi"><b>'+(st.sum?Math.round(st.sum/1000)+'к':'—')+'</b><span>участие</span></div></div>'+
   (dossier.length?'<div class="card pad0 dossier">'+dossier.map(function(r){
-      if(r[1]==='Доверитель' && lc) return '<button class="row" data-act="client" data-id="'+lc.id+'">'+ico('user')+'<span class="rl">Доверитель<small>'+esc(lc.name)+'</small></span>'+ico('chev','s')+'</button>';
       if(r[1]==='Телефон') return '<a class="row" href="tel:'+esc(String(r[2]).replace(/[^0-9+]/g,''))+'" style="text-decoration:none;color:inherit">'+ico(r[0])+'<span class="rl">'+r[1]+'<small>'+esc(r[2])+'</small></span>'+ico('chev','s')+'</a>';
       return infoRow(r[0],r[1],r[2]); }).join('')+'</div>':'')+
   '<div class="chips scroll caseactions">'+
@@ -1008,15 +772,13 @@ function openMatter(id){
     '<button class="chip" data-act="m-part" data-id="'+id+'">+ День участия</button>'+
     '<button class="chip" data-act="m-journal" data-id="'+id+'">+ Запись</button>'+
     '<button class="chip" data-act="m-tpl" data-id="'+id+'">Шаблон</button></div>'+
-  (open.length?'<div class="sec"><h2>Задачи и события</h2><span class="link">'+open.length+'</span></div>'+open.map(function(t){return taskCard(t,{noMatter:true});}).join(''):
+  (open.length?'<div class="sec"><h2>Задачи по делу</h2><span class="link">'+open.length+'</span></div>'+open.map(function(t){return taskCard(t,{noMatter:true});}).join(''):
     '<div class="card">'+empty('check','Задач нет','Добавьте действие, заседание или процессуальный срок.',[{act:'m-add',t:'Добавить задачу',id:id},{act:'m-tpl',t:'Применить шаблон',ghost:1,id:id}])+'</div>')+
-  (pastHearings.length?'<div class="sec"><h2>Прошедшие заседания</h2><span class="link">'+pastHearings.length+'</span></div>'+pastHearings.map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
-  (completedHearings.length?'<div class="sec"><h2>Завершённые заседания</h2><span class="link">'+completedHearings.length+'</span></div>'+completedHearings.slice(0,8).map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
   '<div class="sec"><h2>Дни участия</h2><button class="link" data-act="m-part" data-id="'+id+'">Добавить</button></div>'+
   (parts.length?'<div class="card pad0">'+parts.slice(0,12).map(function(e){var rate=+e.rate||+m.dayRate||+S.settings.dayRate||0;return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(e.place?' · '+esc(e.place):'')+(e.desc?' · '+esc(e.desc):'')+(rate?' · '+money(rate):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'" style="color:var(--muted)">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':
     '<div class="hint">Любое фактическое участие по делу учитывается как <b>1 день</b>, независимо от продолжительности.</div>')+
   '<div class="sec"><h2>Журнал дела</h2><button class="link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
-  (js.length?'<div class="timeline">'+js.slice(0,20).map(function(j){var jt=journalType(j);return '<div class="jitem"><i></i><div><div class="jmeta">'+ico(jt.i,'s')+'<b>'+esc(jt.n)+'</b><span>'+fmtD(j.date||today(),true)+'</span></div><p>'+esc(j.text)+'</p></div><button data-act="journal-del" data-id="'+j.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':
+  (js.length?'<div class="timeline">'+js.slice(0,20).map(function(j){return '<div class="jitem"><i></i><div><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div><button data-act="journal-del" data-id="'+j.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':
     '<div class="hint">Фиксируйте ход работы: документы получены, ходатайство подано, заседание перенесено, согласована позиция.</div>')+
   (done.length?'<div class="sec"><h2>Выполнено ('+done.length+')</h2></div>'+done.slice(0,8).map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
   '<button class="btn ghost" data-act="m-arch" data-id="'+id+'" style="margin-top:18px">'+(m.archived?'Вернуть в работу':'Отправить в архив')+'</button>'+
@@ -1025,55 +787,40 @@ function openMatter(id){
 }
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
 
-function editMatter(m,presetClientId){
-  MED=m?clone(m):{id:null,title:'',type:'civil',clientId:presetClientId||'',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
-  if(MED.clientId){var cc=client(MED.clientId);if(cc){MED.client=cc.name||MED.client;MED.phone=cc.phone||MED.phone;}}
-  var cOpts='<option value="">— новый / указать вручную —</option>'+S.clients.slice().sort(function(a,b){return String(a.name).localeCompare(String(b.name),'ru');}).map(function(c){return '<option value="'+c.id+'"'+(MED.clientId===c.id?' selected':'')+'>'+esc(c.name)+(c.phone?' · '+esc(c.phone):'')+'</option>';}).join('');
-  openSheet('<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Выберите существующего доверителя — ФИО и телефон подставятся автоматически.</p>'+ 
-  '<div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+ 
-  '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="Иванов И.И. — взыскание долга" value="'+esc(MED.title)+'"></div>'+ 
-  '<div class="fld"><label>Карточка доверителя</label><select id="m-clientid">'+cOpts+'</select><small class="fieldhint">Если доверителя ещё нет, заполните ФИО ниже — карточка создастся автоматически.</small></div>'+ 
-  '<div class="two"><div class="fld"><label>Доверитель</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="ФИО / организация"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" value="'+esc(MED.phone)+'" placeholder="+7 900 000-00-00"></div></div>'+ 
-  '<div class="two"><div class="fld"><label>Номер дела / материала</label><input id="m-number" value="'+esc(MED.number)+'"></div><div class="fld"><label>Стадия</label><select id="m-stage">'+STAGE.map(function(x){return '<option'+(MED.stage===x?' selected':'')+'>'+x+'</option>';}).join('')+'</select></div></div>'+ 
-  '<div class="fld"><label>Суд / следственный орган / ведомство</label><input id="m-court" value="'+esc(MED.court||'')+'" placeholder="Кинешемский городской суд / СО ..."></div>'+ 
-  '<div class="two"><div class="fld"><label>Судья</label><input id="m-judge" value="'+esc(MED.judge||'')+'"></div><div class="fld"><label>Следователь / дознаватель</label><input id="m-investigator" value="'+esc(MED.investigator||'')+'"></div></div>'+ 
-  '<div class="two"><div class="fld"><label>Статья / квалификация</label><input id="m-article" value="'+esc(MED.article||'')+'" placeholder="ч. 2 ст. 228 УК РФ"></div><div class="fld"><label>Статус лица</label><input id="m-role" value="'+esc(MED.role||'')+'" placeholder="обвиняемый / истец / ответчик"></div></div>'+ 
-  '<div class="two"><div class="fld"><label>Мера пресечения</label><input id="m-restraint" value="'+esc(MED.restraint||'')+'"></div><div class="fld"><label>Ставка за день участия, '+esc(S.settings.cur)+'</label><input id="m-dayrate" type="number" inputmode="numeric" value="'+esc(MED.dayRate||'')+'" placeholder="'+(S.settings.dayRate||'')+'"></div></div>'+ 
-  '<div class="fld"><label>Оппонент / другая сторона</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'"></div>'+ 
-  '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>'+ 
+function editMatter(m){
+  MED = m ? clone(m) : {id:null,title:'',type:'civil',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
+  openSheet(
+  '<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p>'+
+  '<div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
+  '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="Иванов И.И. — взыскание долга" value="'+esc(MED.title)+'"></div>'+
+  '<div class="two"><div class="fld"><label>Доверитель</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="ФИО / организация"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" value="'+esc(MED.phone)+'" placeholder="+7 900 000-00-00"></div></div>'+
+  '<div class="two"><div class="fld"><label>Номер дела / материала</label><input id="m-number" value="'+esc(MED.number)+'"></div><div class="fld"><label>Стадия</label><select id="m-stage">'+STAGE.map(function(x){return '<option'+(MED.stage===x?' selected':'')+'>'+x+'</option>';}).join('')+'</select></div></div>'+
+  '<div class="fld"><label>Суд / следственный орган / ведомство</label><input id="m-court" value="'+esc(MED.court||'')+'" placeholder="Кинешемский городской суд / СО ..."></div>'+
+  '<div class="two"><div class="fld"><label>Судья</label><input id="m-judge" value="'+esc(MED.judge||'')+'"></div><div class="fld"><label>Следователь / дознаватель</label><input id="m-investigator" value="'+esc(MED.investigator||'')+'"></div></div>'+
+  '<div class="two"><div class="fld"><label>Статья / квалификация</label><input id="m-article" value="'+esc(MED.article||'')+'" placeholder="ч. 2 ст. 228 УК РФ"></div><div class="fld"><label>Статус лица</label><input id="m-role" value="'+esc(MED.role||'')+'" placeholder="обвиняемый / истец / ответчик"></div></div>'+
+  '<div class="two"><div class="fld"><label>Мера пресечения</label><input id="m-restraint" value="'+esc(MED.restraint||'')+'"></div><div class="fld"><label>Ставка за день участия, '+esc(S.settings.cur)+'</label><input id="m-dayrate" type="number" inputmode="numeric" value="'+esc(MED.dayRate||'')+'" placeholder="'+(S.settings.dayRate||'')+'"></div></div>'+
+  '<div class="fld"><label>Оппонент / другая сторона</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'"></div>'+
+  '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>'+
   '<button class="btn" data-act="m-save">Сохранить</button>');
-  setTimeout(function(){if(!m){var e=$('#m-title');if(e)e.focus();}},340);
+  setTimeout(function(){ if(!m){ var e=$('#m-title'); if(e)e.focus(); } },340);
 }
 function saveMatter(){
-  var v=function(id){var e=$(id);return e?e.value.trim():'';},title=v('#m-title');if(!title){toast('Введите название дела');return;}
-  var cid=v('#m-clientid'), cname=v('#m-client'), cphone=v('#m-phone'), c=null;
-  if(cid)c=client(cid);
-  if(c){
-    /* Исправление контакта в досье обновляет общую карточку доверителя. */
-    if(cname)c.name=cname;if(cphone||!c.phone)c.phone=cphone;
-  }else if(cname){
-    var key=cname.toLowerCase();c=S.clients.filter(function(x){return String(x.name||'').trim().toLowerCase()===key;})[0];
-    if(!c){c={id:uid(),name:cname,phone:cphone,email:'',notes:'',created:new Date().toISOString()};S.clients.unshift(c);}else if(cphone&&!c.phone)c.phone=cphone;
-    cid=c.id;
-  }
-  var o={title:title,type:v('#m-type')||'other',clientId:cid||'',client:c?c.name:cname,phone:c?c.phone:cphone,number:v('#m-number'),stage:v('#m-stage'),court:v('#m-court'),judge:v('#m-judge'),investigator:v('#m-investigator'),article:v('#m-article'),role:v('#m-role'),restraint:v('#m-restraint'),opponent:v('#m-opponent'),dayRate:+v('#m-dayrate')||0,notes:v('#m-notes')};
+  var v=function(id){var e=$(id);return e?e.value.trim():'';}, title=v('#m-title'); if(!title){toast('Введите название дела');return;}
+  var o={title:title,type:v('#m-type')||'other',client:v('#m-client'),phone:v('#m-phone'),number:v('#m-number'),stage:v('#m-stage'),court:v('#m-court'),judge:v('#m-judge'),investigator:v('#m-investigator'),article:v('#m-article'),role:v('#m-role'),restraint:v('#m-restraint'),opponent:v('#m-opponent'),dayRate:+v('#m-dayrate')||0,notes:v('#m-notes')};
   var wasNew=!MED.id;
-  if(MED.id)Object.assign(matter(MED.id),o);else{o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
+  if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
   addJournal(MED.id,wasNew?'Досье создано':'Досье обновлено',today(),'system',true);
-  save();closeSheet();if($('#page').classList.contains('open'))openMatter(MED.id);render();toast('Дело сохранено');
+  save(); closeSheet(); if($('#page').classList.contains('open'))openMatter(MED.id); render(); toast('Дело сохранено');
 }
 
 function addJournal(mid,text,date,type,silent){
   if(!mid||!text)return; S.journal.unshift({id:uid(),mid:mid,date:date||today(),text:text,type:type||'note',created:new Date().toISOString()}); if(!silent)save();
 }
 function sheetJournal(mid){
-  var manual=['motion','familiarization','interrogation','hearing','decision','appeal','call','documents','meeting','note'];
-  openSheet('<h2>Запись в журнал дела</h2><p class="sh-sub">Выберите тип процессуального действия — хронология будет читаемой даже через несколько месяцев.</p>'+ 
+  openSheet('<h2>Запись в журнал дела</h2><p class="sh-sub">Краткая хронология работы и процессуальных событий.</p>'+
     (!mid?'<div class="fld"><label>Дело</label><select id="j-mid-select"><option value="">— выбрать дело —</option>'+activeM().map(function(m){return '<option value="'+m.id+'">'+esc(m.title)+'</option>';}).join('')+'</select></div>':'')+
-    '<div id="j-context">'+matterContextHTML(mid)+'</div>'+ 
-    '<div class="fld"><label>Тип записи</label><select id="j-type">'+manual.map(function(k){return '<option value="'+k+'">'+JOURNAL_TYPES[k].n+'</option>';}).join('')+'</select></div>'+ 
-    '<div class="fld"><label>Дата</label><input id="j-date" type="date" value="'+today()+'"></div>'+ 
-    '<div class="fld"><label>Подробности</label><textarea id="j-text" rows="4" placeholder="Например: ходатайство об истребовании доказательств приобщено судом"></textarea><small class="fieldhint">Для типовой записи подробности можно не заполнять.</small></div>'+ 
+    '<div class="fld"><label>Дата</label><input id="j-date" type="date" value="'+today()+'"></div>'+
+    '<div class="fld"><label>Событие / заметка</label><textarea id="j-text" rows="5" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea></div>'+
     '<input type="hidden" id="j-mid" value="'+esc(mid)+'"><button class="btn" data-act="j-save">Добавить в журнал</button>');
 }
 function sheetParticipation(mid){
@@ -1081,7 +828,6 @@ function sheetParticipation(mid){
   openSheet('<h2>День участия</h2><p class="sh-sub">Любое фактическое участие считается как 1 день, даже если оно длилось несколько минут.</p>'+
     '<div class="two"><div class="fld"><label>Дата</label><input id="pt-date" type="date" value="'+today()+'"></div><div class="fld"><label>Вид участия</label><select id="pt-kind">'+Object.keys(PART_KINDS).map(function(k){return '<option value="'+k+'">'+PART_KINDS[k]+'</option>';}).join('')+'</select></div></div>'+
     '<div class="fld"><label>Дело</label><select id="pt-mid"><option value="">— выбрать дело —</option>'+activeM().map(function(x){return '<option value="'+x.id+'"'+(mid===x.id?' selected':'')+'>'+esc(x.title)+'</option>';}).join('')+'</select></div>'+
-    '<div id="pt-context">'+matterContextHTML(mid)+'</div>'+
     '<div class="fld"><label>Место / орган</label><input id="pt-place" value="'+esc((m&&m.court)||'')+'" placeholder="Суд, СИЗО, следственный отдел…"></div>'+
     '<div class="fld"><label>Что было</label><input id="pt-desc" placeholder="Заседание, допрос, ознакомление, выезд…"></div>'+
     '<div class="fld"><label>Ставка за этот день, '+esc(S.settings.cur)+'</label><input id="pt-rate" type="number" inputmode="numeric" value="'+esc((m&&m.dayRate)||S.settings.dayRate||'')+'"></div>'+
@@ -1219,7 +965,6 @@ function sheetDeadline(mid){
     return '<option value="'+i+'">'+d[0]+'</option>'; }).join('')+'</select></div>'+
   '<div class="fld"><label>Дело</label><select id="dl-mid"><option value="">— без дела —</option>'+
     activeM().map(function(m){ return '<option value="'+m.id+'"'+(mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('')+'</select></div>'+
-  '<div id="dl-context">'+matterContextHTML(mid)+'</div>'+
   '<div class="hint" id="dl-out">Выберите параметры…</div>'+
   '<button class="btn" data-act="dl-add">Поставить задачу</button>'+
   '<div class="hint" style="margin-top:12px;font-size:12px">Расчёт справочный: не учитывает переносы с выходных и особенности исчисления. Всегда сверяйтесь с процессуальным кодексом и определением суда.</div>');
@@ -1245,15 +990,14 @@ function sheetParticipationLog(){
   var sum=logs.reduce(function(a,e){var m=matter(e.mid);return a+(+e.rate||+(m&&m.dayRate)||+S.settings.dayRate||0);},0);
   openSheet('<h2>Дни участия</h2><p class="sh-sub">Всего '+logs.length+' '+plural(logs.length,'день','дня','дней')+' · '+money(sum)+'</p>'+
     '<button class="btn" data-act="pt-new" style="margin-bottom:14px">Добавить день участия</button>'+
-    (logs.length?'<div class="card pad0">'+logs.slice(0,50).map(function(e){var m=matter(e.mid);return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(m?' · '+esc(m.title):(e.generatedByHearing?' · без дела':''))+(e.place?' · '+esc(e.place):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':empty('gavel','Участий пока нет','Добавьте судебное заседание, следственное действие, выезд или другое фактическое участие.')));
+    (logs.length?'<div class="card pad0">'+logs.slice(0,50).map(function(e){var m=matter(e.mid);return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(m?' · '+esc(m.title):'')+(e.place?' · '+esc(e.place):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':empty('gavel','Участий пока нет','Добавьте судебное заседание, следственное действие, выезд или другое фактическое участие.')));
 }
 
 function sheetQuickAdd(){
   openSheet('<h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без длинного маршрута по меню.</p><div class="quickgrid">'+
     quickItem('gavel','Заседание','qa-hearing')+quickItem('flag','Процессуальный срок','qa-deadline')+
     quickItem('check','Задача','qa-task')+quickItem('phone','Звонок','qa-call')+
-    quickItem('folder','Новое дело','new-matter')+quickItem('user','Доверитель','new-client')+
-    quickItem('doc','Запись в журнал','qa-journal')+
+    quickItem('folder','Новое дело','new-matter')+quickItem('doc','Запись в журнал','qa-journal')+
     quickItem('gavel','День участия','pt-new')+quickItem('tpl','Шаблон','templates')+
   '</div>');
 }
@@ -1261,13 +1005,12 @@ function quickItem(i,t,act){return '<button class="quickitem" data-act="'+act+'"
 
 var GQ='';
 function globalSearchData(q){
-  q=(q||'').trim().toLowerCase(); if(!q)return {c:[],m:[],t:[],j:[]};
+  q=(q||'').trim().toLowerCase(); if(!q)return {m:[],t:[],j:[]};
   function has(x){return String(x||'').toLowerCase().indexOf(q)>=0;}
-  var cs=S.clients.filter(function(c){return [c.name,c.phone,c.email,c.notes].some(has);}).slice(0,8);
-  var ms=S.matters.filter(function(m){var c=clientForMatter(m);return [m.title,m.client,m.phone,m.number,m.court,m.judge,m.investigator,m.article,m.role,m.notes,c&&c.name,c&&c.phone].some(has);}).slice(0,8);
+  var ms=S.matters.filter(function(m){return [m.title,m.client,m.phone,m.number,m.court,m.judge,m.investigator,m.article,m.role,m.notes].some(has);}).slice(0,8);
   var ts=S.tasks.filter(function(t){var m=t.mid?matter(t.mid):null;return [t.title,t.note,t.place,t.rule,m&&m.title,m&&m.client,m&&m.number].some(has);}).sort(sortT).slice(0,12);
   var js=S.journal.filter(function(j){var m=matter(j.mid);return [j.text,m&&m.title,m&&m.client].some(has);}).slice(0,10);
-  return {c:cs,m:ms,t:ts,j:js};
+  return {m:ms,t:ts,j:js};
 }
 function sheetGlobalSearch(){
   GQ=''; openSheet('<h2>Глобальный поиск</h2><p class="sh-sub">Доверители, номера дел, суды, статьи, задачи и журнал.</p>'+
@@ -1276,11 +1019,10 @@ function sheetGlobalSearch(){
   setTimeout(function(){var e=$('#gq');if(e)e.focus();},320);
 }
 function renderGlobalSearch(){
-  var box=$('#gresults');if(!box)return;var r=globalSearchData(GQ),n=r.c.length+r.m.length+r.t.length+r.j.length;
+  var box=$('#gresults');if(!box)return;var r=globalSearchData(GQ),n=r.m.length+r.t.length+r.j.length;
   if(!GQ.trim()){box.innerHTML='<div class="hint">Введите фамилию, номер дела, суд, статью или часть заметки.</div>';return;}
   if(!n){box.innerHTML=empty('search','Ничего не найдено','Попробуйте другой фрагмент запроса.');return;}
   var h='';
-  if(r.c.length)h+='<div class="grp">Доверители<em>'+r.c.length+'</em></div><div class="clientlist searchclients">'+r.c.map(clientCard).join('')+'</div>';
   if(r.m.length)h+='<div class="grp">Дела<em>'+r.m.length+'</em></div>'+r.m.map(matterCard).join('');
   if(r.t.length)h+='<div class="grp">Задачи<em>'+r.t.length+'</em></div>'+r.t.map(function(t){return taskCard(t);}).join('');
   if(r.j.length)h+='<div class="grp">Журнал<em>'+r.j.length+'</em></div><div class="card pad0">'+r.j.map(function(j){var m=matter(j.mid);return '<button class="row" data-act="journal-open" data-id="'+j.mid+'">'+ico('doc')+'<span class="rl">'+esc(j.text)+'<small>'+fmtD(j.date,true)+(m?' · '+esc(m.title):'')+'</small></span>'+ico('chev','s')+'</button>';}).join('')+'</div>';
@@ -1291,7 +1033,7 @@ function icsEsc(s){return String(s||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,'
 function icsDT(date,time){return date.replace(/-/g,'')+(time?'T'+time.replace(':','')+'00':'');}
 function taskICS(t){
   if(!t||!t.due)return '';
-  var m=t.mid?matter(t.mid):null, title=(t.kind==='hearing'?'Судебное заседание':t.title)+(m?' — '+m.title:''), desc=[t.note,t.rule].filter(Boolean).join('\n');
+  var m=t.mid?matter(t.mid):null, title=t.title+(m?' — '+m.title:''), desc=[t.note,t.rule].filter(Boolean).join('\n');
   var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Advokat Offline//RU','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+t.id+'@advokat-offline','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')];
   if(t.time){
     lines.push('DTSTART:'+icsDT(t.due,t.time));
@@ -1340,63 +1082,38 @@ async function restoreBackupObject(obj,password){
    ОТЧЁТЫ / ПЕЧАТЬ
    ===================================================================== */
 var REPORT = null;
-
-function closeReportView(){
-  var back = REPORT && REPORT.back;
-  REPORT = null;
-  $('#page').classList.remove('reportview');
-  if(back && matter(back)) openMatter(back);
-  else closeAll();
-}
-function reportBack(){ closeReportView(); }
-function printHTML(title,sub,rows,foot,text,backId){
+function printHTML(title,sub,rows,foot,text){
   var body = '<div class="ph"><h1>'+esc(title)+'</h1><div>'+esc(sub)+'</div></div>'+rows+
     '<div class="ft">'+esc(foot||('Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')))+'</div>';
   $('#printarea').innerHTML = body;
-  var back = backId || ($('#page').classList.contains('open') ? $('#page')._mid : '');
+  var back = $('#page').classList.contains('open') ? $('#page')._mid : '';
   REPORT = { title:title, text:text||'', back:back };
-  openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back" aria-label="Назад">'+ico('left')+'</button>'+
+  openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back">'+ico('left')+'</button>'+
     '<div style="flex:1"></div>'+
     '<button class="iconbtn" data-act="rep-share">'+ico('share')+'</button>'+
     '<button class="iconbtn" data-act="rep-print">'+ico('doc')+'</button></div>'+
     '<div class="report">'+body+'</div>'+
     '<button class="btn" data-act="rep-print" style="margin-top:16px">Печать / сохранить в PDF</button>'+
     '<button class="btn ghost" data-act="rep-share" style="margin-top:8px">Поделиться текстом</button>'+
-    '<div class="swipehint">Смахните вправо, чтобы вернуться назад</div>'+
     '<div style="height:24px"></div>');
-  $('#page').classList.add('reportview');
 }
 function doPrint(){
-  /*
-     На iPhone/PWA системное окно печати принадлежит iOS, поэтому жест
-     «слева направо» внутри него приложение перехватить не может. Раньше
-     печать открывалась через отдельный window.open('_blank'), из-за чего
-     после закрытия preview пользователь мог оказаться в отдельном WebView.
-     Теперь печатаем прямо из текущего отчёта. После «Отмена/Готово» iOS
-     возвращает пользователя сюда же, где снова работают кнопка «Назад» и
-     внутренний свайп вправо.
-  */
-  if(!REPORT){ toast('Сначала откройте отчёт'); return; }
-  var page = $('#page');
-  var scroll = page ? page.scrollTop : 0;
-  document.body.classList.add('printing-report');
-  var restored = false;
-  function restoreAfterPrint(){
-    if(restored) return;
-    restored = true;
-    document.body.classList.remove('printing-report');
-    if(page && page.classList.contains('open')){
-      requestAnimationFrame(function(){ page.scrollTop = scroll; });
-    }
-  }
-  window.addEventListener('afterprint', restoreAfterPrint, { once:true });
   try{
-    window.print();
-    setTimeout(restoreAfterPrint, 1800);
-  }catch(e){
-    restoreAfterPrint();
-    toast('Печать недоступна — используйте «Поделиться текстом»');
-  }
+    var w = window.open('', '_blank');
+    if(w){
+      w.document.write('<html><head><meta charset="utf-8"><title>'+esc(REPORT?REPORT.title:'Отчёт')+'</title>'+
+        '<style>body{font:12pt/1.45 -apple-system,Georgia,serif;color:#000;padding:18px}'+
+        'h1{font-size:18pt;margin:0 0 4px}.ph{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px}'+
+        'h2{font-size:13pt;margin:18px 0 6px;border-bottom:1px solid #999;padding-bottom:3px}'+
+        'table{width:100%;border-collapse:collapse;font-size:10.5pt}td{padding:5px 4px;border-bottom:1px solid #ddd;vertical-align:top}'+
+        '.cb{width:18px}.ft{margin-top:26px;font-size:9pt;color:#555;border-top:1px solid #ccc;padding-top:8px}</style>'+
+        '</head><body>'+$('#printarea').innerHTML+'</body></html>');
+      w.document.close(); w.focus();
+      setTimeout(function(){ try{ w.print(); }catch(e){} }, 400);
+      return;
+    }
+  }catch(e){}
+  try{ window.print(); }catch(e){ toast('Печать недоступна — используйте «Поделиться текстом»'); }
 }
 function reportText(){
   var el = document.createElement('div'); el.innerHTML = $('#printarea').innerHTML;
@@ -1430,7 +1147,7 @@ function printMatter(id){
   var rows='<h2>Сведения по делу</h2>'+info+'<h2>Задачи ('+st.open+' в работе, '+st.done+' выполнено)</h2><table>'+ts.map(function(t){return '<tr><td class="cb">'+(t.done?'☑':'☐')+'</td><td>'+esc(t.title)+(t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td><td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'—')+'</td></tr>';}).join('')+'</table>';
   if(parts.length)rows+='<h2>Дни участия</h2><table>'+parts.map(function(e){var rate=+e.rate||+m.dayRate||+S.settings.dayRate||0;return '<tr><td style="white-space:nowrap">'+fmtD(e.date)+'</td><td>'+esc(PART_KINDS[e.kind]||'Участие')+(e.place?'<br><small>'+esc(e.place)+'</small>':'')+(e.desc?'<br><small>'+esc(e.desc)+'</small>':'')+'</td><td style="text-align:right">'+(rate?money(rate):'—')+'</td></tr>';}).join('')+'</table>';
   if(js.length)rows+='<h2>Журнал дела</h2><table>'+js.map(function(j){return '<tr><td style="white-space:nowrap">'+fmtD(j.date)+'</td><td>'+esc(j.text)+'</td></tr>';}).join('')+'</table>';
-  printHTML(m.title,'Отчёт по делу · '+fmtD(today(),true),rows,null,null,id);
+  printHTML(m.title,'Отчёт по делу · '+fmtD(today(),true),rows);
 }
 function exportText(){
   var lines = ['ЕЖЕДНЕВНИК АДВОКАТА — '+fmtD(today(),true),''];
@@ -1513,17 +1230,15 @@ function sheetPin(){
 }
 function sheetNotify(){
   var st = ('Notification' in window) ? Notification.permission : 'unsupported';
-  openSheet('<h2>Напоминания</h2><p class="sh-sub">Заседание — за 1 час, задача со временем — за 10 минут, процессуальный срок без времени — в 09:00 в день срока.</p>'+
+  openSheet('<h2>Напоминания</h2><p class="sh-sub">Локальное напоминание за 10 минут до задачи и за час до заседания.</p>'+
    '<div class="hint">'+(st==='unsupported'
-     ? 'Этот браузер не поддерживает системные уведомления. На iPhone используйте веб-приложение, установленное на экран «Домой».'
-     : st==='denied' ? 'Уведомления запрещены в настройках iPhone. Откройте Настройки → Уведомления → Ежедневник адвоката и разрешите их.'
-     : S.settings.notify ? 'Системные уведомления включены. Если iPhone разрешает звук для этого веб-приложения, уведомление использует системный звук. Дополнительно ежедневник воспроизводит свой короткий сигнал, когда приложение активно.'
-     : 'Нажмите «Включить» и разрешите уведомления. На iPhone приложение должно быть добавлено на экран «Домой».')+'</div>'+
+     ? 'Этот браузер не поддерживает уведомления. На iPhone они работают, только когда приложение <b>установлено на экран «Домой»</b> (iOS 16.4 и новее).'
+     : st==='denied' ? 'Уведомления запрещены в настройках. Разрешите их: Настройки → Safari (или иконка приложения) → Уведомления.'
+     : S.settings.notify ? 'Напоминания включены. На iPhone они срабатывают только пока веб-приложение активно; iOS может приостанавливать его в фоне.'
+     : 'Нажмите «Включить» и разрешите уведомления. На iPhone предварительно добавьте приложение на экран «Домой».')+'</div>'+
    '<button class="btn'+(S.settings.notify?' ghost':'')+'" data-act="notify">'+
      (S.settings.notify?'Выключить напоминания':'Включить напоминания')+'</button>'+
-   '<button class="btn ghost" data-act="notify-sound" style="margin-top:8px">Звук: '+(S.settings.notifySound===false?'выключен':'включён')+'</button>'+
-   '<button class="btn ghost" data-act="notify-test" style="margin-top:8px">Проверить звук и уведомление</button>'+
-   '<div class="hint" style="margin-top:12px;font-size:12px"><b>Важно:</b> собственный звук браузер может воспроизвести только пока веб-приложение не выгружено iOS. Когда приложение закрыто, звук фонового Web Push определяется системой iPhone. Для гарантированного фонового Web Push потребуется подключить сервер отправки уведомлений; интерфейс 3.6 уже подготовлен к системным уведомлениям.</div>');
+   '<div class="hint" style="margin-top:12px;font-size:12px">Для судебных заседаний и критичных процессуальных сроков дополнительно используйте системный «Календарь» или «Напоминания» iPhone: полностью автономное PWA не может надёжно запускать фоновые таймеры после выгрузки системой.</div>');
 }
 function sheetReports(){
   openSheet('<h2>Отчёты</h2><p class="sh-sub">Печать или сохранение в PDF (в меню печати iPhone).</p>'+
@@ -1535,102 +1250,38 @@ function sheetReports(){
 }
 
 /* =====================================================================
-   НАПОМИНАНИЯ + ЗВУК
+   НАПОМИНАНИЯ
    ===================================================================== */
 var timers = [];
-var AUDIO_CTX = null;
-var ALERTED = {};
-function audioCtx(){
-  try{
-    var C = window.AudioContext || window.webkitAudioContext;
-    if(!C) return null;
-    if(!AUDIO_CTX) AUDIO_CTX = new C();
-    if(AUDIO_CTX.state==='suspended') AUDIO_CTX.resume().catch(function(){});
-    return AUDIO_CTX;
-  }catch(e){ return null; }
-}
-function playAlertSound(test){
-  if(S.settings.notifySound===false && !test) return;
-  var c=audioCtx(); if(!c) return;
-  try{
-    var start=c.currentTime+0.02;
-    [[880,0,.16],[660,.22,.18],[880,.48,.24]].forEach(function(x){
-      var o=c.createOscillator(), g=c.createGain();
-      o.type='sine'; o.frequency.setValueAtTime(x[0],start+x[1]);
-      g.gain.setValueAtTime(0.0001,start+x[1]);
-      g.gain.exponentialRampToValueAtTime(0.18,start+x[1]+0.025);
-      g.gain.exponentialRampToValueAtTime(0.0001,start+x[1]+x[2]);
-      o.connect(g); g.connect(c.destination); o.start(start+x[1]); o.stop(start+x[1]+x[2]+0.03);
-    });
-  }catch(e){}
-}
-function notificationBody(t){
-  var m=t.mid?matter(t.mid):null, bits=[];
-  if(m&&m.client) bits.push(m.client);
-  if(t.place) bits.push(t.place);
-  if(m&&m.number) bits.push(m.number);
-  return bits.length?bits.join(' · '):(t.title||KIND[t.kind].n);
-}
-function showSystemNotification(title,body,tag){
-  if(!('Notification' in window) || Notification.permission!=='granted') return;
-  var opts={body:body,icon:'icon-192.png',badge:'icon-192.png',tag:tag||('adv-'+Date.now()),renotify:true,silent:false,data:{url:'./'}};
-  if(navigator.serviceWorker&&navigator.serviceWorker.ready){
-    navigator.serviceWorker.ready.then(function(reg){
-      if(reg.showNotification) return reg.showNotification(title,opts);
-      try{new Notification(title,opts);}catch(e){}
-    }).catch(function(){try{new Notification(title,opts);}catch(e){}});
-  }else{try{new Notification(title,opts);}catch(e){}}
-}
-function fireReminder(t,label){
-  var key=(t.id||'x')+'|'+label+'|'+today();
-  if(ALERTED[key]) return; ALERTED[key]=1;
-  playAlertSound(false); vib([120,80,120]);
-  var title=label||KIND[t.kind].n;
-  showSystemNotification(title,notificationBody(t),'adv-'+t.id+'-'+label);
-  toast(title+' · '+(t.title||notificationBody(t)));
-}
-function reminderPoint(t){
-  if(!t.due) return null;
-  var time=t.time||'';
-  if(t.kind==='hearing'&&time) return {at:new Date(t.due+'T'+time+':00'),lead:60,label:'Заседание через 1 час'};
-  if(t.kind==='deadline'){
-    var dt=time?new Date(t.due+'T'+time+':00'):new Date(t.due+'T09:00:00');
-    return {at:dt,lead:0,label:'Процессуальный срок сегодня'};
-  }
-  if(time) return {at:new Date(t.due+'T'+time+':00'),lead:10,label:'Задача через 10 минут'};
-  return null;
-}
 function schedule(){
-  timers.forEach(clearTimeout); timers=[];
-  if(!S.settings.notify) return;
-  var now=Date.now();
-  S.tasks.filter(function(t){return !t.done&&t.due;}).forEach(function(t){
-    var rp=reminderPoint(t); if(!rp) return;
-    var target=rp.at.getTime()-rp.lead*60000, when=target-now;
-    if(when>0&&when<36*60*60*1000){
-      timers.push(setTimeout(function(){fireReminder(t,rp.label);},when));
+  timers.forEach(clearTimeout); timers = [];
+  if(!S.settings.notify || !('Notification' in window) || Notification.permission!=='granted') return;
+  var now = new Date();
+  S.tasks.filter(function(t){ return !t.done && t.due===today() && t.time; }).forEach(function(t){
+    var at = new Date(today()+'T'+t.time+':00'); var lead = t.kind==='hearing' ? 60 : 10;
+    var when = at.getTime() - lead*60000 - now.getTime();
+    if(when>0 && when<86400000){
+      timers.push(setTimeout(function(){
+        var title = KIND[t.kind].n+' через '+lead+' мин';
+        var opts = { body:t.title+(t.place?' · '+t.place:''), icon:'icon-192.png', badge:'icon-192.png', tag:'adv-'+t.id };
+        if(navigator.serviceWorker && navigator.serviceWorker.ready){
+          navigator.serviceWorker.ready.then(function(reg){
+            if(reg.showNotification) return reg.showNotification(title, opts);
+            try{ new Notification(title, opts); }catch(e){}
+          }).catch(function(){ try{ new Notification(title, opts); }catch(e){} });
+        } else { try{ new Notification(title, opts); }catch(e){} }
+      }, when));
     }
   });
 }
 function toggleNotify(){
-  if(S.settings.notify){S.settings.notify=false;save();render();toast('Напоминания выключены');return;}
-  if(!('Notification' in window)){toast('Устройство не поддерживает системные уведомления');return;}
-  audioCtx();
+  if(S.settings.notify){ S.settings.notify = false; save(); render(); toast('Напоминания выключены'); return; }
+  if(!('Notification' in window)){ toast('Устройство не поддерживает уведомления'); return; }
   Notification.requestPermission().then(function(p){
-    if(p==='granted'){S.settings.notify=true;if(S.settings.notifySound==null)S.settings.notifySound=true;save();render();schedule();playAlertSound(true);toast('Напоминания и звук включены');}
+    if(p==='granted'){ S.settings.notify = true; save(); render(); schedule();
+      toast('Напоминания включены'); }
     else toast('Разрешение не выдано');
   });
-}
-function toggleNotifySound(){
-  S.settings.notifySound=S.settings.notifySound===false?true:false;
-  save();
-  if(S.settings.notifySound){playAlertSound(true);toast('Звук включён');}else toast('Звук выключен');
-  sheetNotify();
-}
-function testNotification(){
-  audioCtx(); playAlertSound(true); vib([120,80,120]);
-  if('Notification' in window&&Notification.permission==='granted') showSystemNotification('Тестовое уведомление','Ежедневник адвоката · звук и уведомления работают','adv-test');
-  else toast('Звук воспроизведён. Для системного уведомления сначала разрешите уведомления.');
 }
 
 /* =====================================================================
@@ -1656,11 +1307,10 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 4.2</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 3.0</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
-    infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
-    infoRow('folder','Досье дела','Суд/орган, номер, статья, стадия, задачи и журнал')+
+    infoRow('folder','Досье дела','Доверитель, суд/орган, статья, стадия, задачи и журнал')+
     infoRow('gavel','Дни участия','Каждое фактическое участие = 1 день независимо от продолжительности')+
     infoRow('flag','Процессуальные сроки','Расчёт срока и отдельная подготовительная задача')+
     infoRow('cal','Календарь iPhone','Заседание или срок можно выгрузить в .ics')+
@@ -1671,7 +1321,7 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterView='matters';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.showArch=false;S.ui.matterType='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 function demo(){
@@ -1679,8 +1329,6 @@ function demo(){
   var m1={id:uid(),title:'Ошарин А.С. — освобождение по болезни',type:'criminal',client:'Ошарин Александр Сергеевич',number:'материал 4/17-2026',court:'Ивановский районный суд',article:'ст. 81 УК РФ',role:'осужденный',stage:'Первая инстанция',dayRate:10000,notes:'Оспаривается полнота медицинского освидетельствования. Контроль медицинских документов и процессуальных сроков.',archived:false,created:new Date().toISOString()};
   var m2={id:uid(),title:'Наследственный спор — признание свидетельств недействительными',type:'civil',client:'Иванова А.С.',number:'2-1438/2026',court:'Кинешемский городской суд',judge:'Судья Петрова Н.В.',stage:'Первая инстанция',dayRate:10000,notes:'Фактическое принятие наследства, спор о составе наследственной массы.',archived:false,created:new Date().toISOString()};
   var m3={id:uid(),title:'Песков — спор о квалификации',type:'criminal',client:'Песков Д.С.',number:'УД-88/2026',court:'Районный суд',article:'ч. 2 ст. 228 УК РФ / обвинение в покушении на сбыт',role:'подсудимый',stage:'Первая инстанция',dayRate:10000,archived:false,created:new Date().toISOString()};
-  var c1={id:uid(),name:m1.client,phone:'',email:'',notes:'',created:new Date().toISOString()},c2={id:uid(),name:m2.client,phone:'',email:'',notes:'',created:new Date().toISOString()},c3={id:uid(),name:m3.client,phone:'',email:'',notes:'',created:new Date().toISOString()};
-  m1.clientId=c1.id;m2.clientId=c2.id;m3.clientId=c3.id;S.clients=[c1,c2,c3].concat(S.clients);
   S.matters=[m1,m2,m3].concat(S.matters);
   var T=[
     [m1.id,'Подать апелляционную жалобу','deadline',4,'','high','','Срок обжалования постановления'],
@@ -1694,8 +1342,8 @@ function demo(){
   T.forEach(function(x){S.tasks.push({id:uid(),mid:x[0],title:x[1],kind:x[2],due:addD(today(),x[3]),time:x[4],pri:x[5],place:x[6],note:x[7],sourceDate:x[2]==='deadline'?today():'',rule:x[2]==='deadline'?'Сверить с постановлением и применимым кодексом':'',done:false,steps:[],created:new Date().toISOString()});});
   S.participation.unshift({id:uid(),mid:m2.id,date:addD(today(),-3),kind:'hearing',place:'Кинешемский городской суд',desc:'Судебное заседание',rate:10000,created:new Date().toISOString()});
   S.participation.unshift({id:uid(),mid:m3.id,date:addD(today(),-6),kind:'meeting',place:'СИЗО',desc:'Свидание с подзащитным',rate:10000,created:new Date().toISOString()});
-  S.journal.unshift({id:uid(),mid:m2.id,date:addD(today(),-2),text:'Подано ходатайство: приобщены письменные объяснения и копии документов.',type:'motion'});
-  S.journal.unshift({id:uid(),mid:m1.id,date:addD(today(),-1),text:'Документы получены / направлены: получены медицинские документы для подготовки жалобы.',type:'documents'});
+  S.journal.unshift({id:uid(),mid:m2.id,date:addD(today(),-2),text:'Приобщены письменные объяснения и копии документов.',type:'note'});
+  S.journal.unshift({id:uid(),mid:m1.id,date:addD(today(),-1),text:'Получены медицинские документы для подготовки жалобы.',type:'note'});
   S.settings.seen=true;S.ui.tab='today';save();render();toast('Примеры загружены');
 }
 
@@ -1707,11 +1355,10 @@ document.addEventListener('click', function(ev){
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
   switch(a){
     /* navigation / dashboard */
-    case 'go-matters': S.ui.matterView='matters';go('matters'); break;
+    case 'go-matters': go('matters'); break;
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
     case 'close': closeAll(); break;
-    case 'sheet-close': closeSheet(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
@@ -1725,10 +1372,9 @@ document.addEventListener('click', function(ev){
     case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;save();renderMatters();break;
     case 'm-filter': S.ui.matterType=v||'';save();renderMatters();break;
-    case 'm-view': S.ui.matterView=v||'matters';save();renderMatters();break;
 
     /* quick add */
-    case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
+    case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'high',due:today(),time:'10:00'});break;
     case 'qa-deadline': closeSheet();sheetDeadline('');break;
     case 'qa-task': closeSheet();editTask(null,{kind:'task',due:today()});break;
     case 'qa-call': closeSheet();editTask(null,{kind:'call',due:today()});break;
@@ -1737,10 +1383,8 @@ document.addEventListener('click', function(ev){
     /* tasks */
     case 'toggle': {var t=S.tasks.filter(function(x){return x.id===id;})[0];if(!t)break;t.done=!t.done;t.doneAt=t.done?new Date().toISOString():null;if(t.mid)addJournal(t.mid,(t.done?'Выполнено: ':'Возвращено в работу: ')+t.title,today(),'task',true);vib(t.done?[10,40,14]:8);save();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);if(t.done)toast('Выполнено · '+t.title.slice(0,32));break;}
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk)editTask(tk);break;}
-    case 'hearing-complete': {var ht=findTask(id);if(ht){closeSheet();sheetHearingComplete(ht);}break;}
-    case 'hc-save': saveHearingOutcome();break;
     case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
-    case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}drawEditor();break;}
+    case 'e-kind': ED.kind=v;pullEditor();drawEditor();break;
     case 'e-pri': ED.pri=v;pullEditor();drawEditor();break;
     case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor();break;
     case 'e-step-a': {pullEditor();var i1=$('#e-step');if(i1&&i1.value.trim()){ED.steps=ED.steps||[];ED.steps.push({t:i1.value.trim(),d:false});drawEditor();setTimeout(function(){var se=$('#e-step');if(se)se.focus();},60);}break;}
@@ -1748,21 +1392,15 @@ document.addEventListener('click', function(ev){
     case 'e-step-d': pullEditor();ED.steps.splice(+v,1);drawEditor();break;
     case 'e-save': saveTask();break;
     case 'e-dup': {pullEditor();var cp=clone(ED);cp.id=null;cp.done=false;ED=cp;drawEditor();toast('Копия — измените и сохраните');break;}
-    case 'e-del': if(confirm(ED&&ED.kind==='hearing'?'Удалить заседание?':'Удалить задачу?')){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;
+    case 'e-del': if(confirm('Удалить задачу?')){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;
 
     /* matters */
     case 'new-matter': closeSheet();editMatter(null);break;
-    case 'new-client': closeSheet();editClient(null);break;
-    case 'client': if(client(id)){closeSheet();openClient(id);}break;
-    case 'c-edit': {var ce=client(id);if(ce)editClient(ce);break;}
-    case 'c-save': saveClient();break;
-    case 'new-matter-for-client': editMatter(null,id);break;
-    case 'c-del': {var cd=client(id);if(!cd)break;var linked=mattersOfClient(id);if(confirm('Удалить карточку доверителя? Связанные дела останутся, но связь с общей карточкой будет снята.')){linked.forEach(function(m){m.clientId='';m.client=cd.name||m.client;m.phone=cd.phone||m.phone;});S.clients=S.clients.filter(function(c){return c.id!==id;});save();closeAll();S.ui.matterView='clients';render();toast('Карточка доверителя удалена');}break;}
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
     case 'm-save': saveMatter();break;
     case 'm-add': editTask(null,{mid:id,due:today()});break;
-    case 'm-hearing': editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;
+    case 'm-hearing': editTask(null,{mid:id,kind:'hearing',pri:'high',due:addD(today(),7),time:'10:00'});break;
     case 'm-deadline': sheetDeadline(id);break;
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
@@ -1772,7 +1410,7 @@ document.addEventListener('click', function(ev){
     case 'm-del': if(confirm('Удалить дело, связанные задачи, дни участия и журнал? Действие необратимо.')){S.tasks=S.tasks.filter(function(t){return t.mid!==id;});S.participation=S.participation.filter(function(e){return e.mid!==id;});S.journal=S.journal.filter(function(j){return j.mid!==id;});S.matters=S.matters.filter(function(m){return m.id!==id;});save();closeAll();render();toast('Дело удалено');}break;
 
     /* journal + participation */
-    case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var typ=$('#j-type')?$('#j-type').value:'note',details=$('#j-text').value.trim(),base=(JOURNAL_TYPES[typ]||JOURNAL_TYPES.note).n;if(!jm){toast('Выберите дело');break;}if(typ==='note'&&!details){toast('Введите текст заметки');break;}var jt=typ==='note'?details:(details?base+': '+details:base);addJournal(jm,jt,$('#j-date').value||today(),typ,true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
+    case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var jt=$('#j-text').value.trim();if(!jm){toast('Выберите дело');break;}if(!jt){toast('Введите запись');break;}addJournal(jm,jt,$('#j-date').value||today(),'note',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
     case 'journal-del': {S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
     case 'pt-new': closeSheet();sheetParticipation('');break;
     case 'participation-log': sheetParticipationLog();break;
@@ -1782,6 +1420,7 @@ document.addEventListener('click', function(ev){
     /* calendar */
     case 'cday': S.ui.calSel=v;save();renderCal();break;
     case 'cal-m': {var pp=S.ui.calM.split('-'),d2=new Date(+pp[0],+pp[1]-1+(+v),1);S.ui.calM=iso(d2).slice(0,7);renderCal();break;}
+    case 'cal-today': S.ui.calM=today().slice(0,7);S.ui.calSel=today();renderCal();break;
     case 'new-on-day': editTask(null,{due:S.ui.calSel});break;
 
     /* helpers */
@@ -1791,7 +1430,7 @@ document.addEventListener('click', function(ev){
     case 'dl-add': {var r=dlResult(),mid=$('#dl-mid').value;var prep=addD(r.end,-5);if(dd(prep)<0)prep=today();var main={id:uid(),mid:mid,title:r.t[0],kind:'deadline',due:r.end,time:'',pri:'high',note:r.t[3],sourceDate:r.from,rule:r.t[3],done:false,steps:[],created:new Date().toISOString()};S.tasks.unshift(main);S.tasks.unshift({id:uid(),mid:mid,title:'Подготовить документы: '+r.t[0],kind:'task',due:prep,time:'',pri:'high',note:'Крайний срок '+fmtD(r.end,true),done:false,steps:[],created:new Date().toISOString()});if(mid)addJournal(mid,'Поставлен процессуальный срок: '+r.t[0]+' — '+fmtD(r.end,true),today(),'deadline',true);save();closeSheet();render();toast('Срок и подготовка поставлены');break;}
     case 'reports': sheetReports();break;
     case 'notify-sheet': sheetNotify();break;
-    case 'rep-back': reportBack();break;
+    case 'rep-back': if(REPORT&&REPORT.back&&matter(REPORT.back))openMatter(REPORT.back);else closeAll();break;
     case 'rep-print': doPrint();break;
     case 'rep-share': shareOrCopy(REPORT?REPORT.title:'Отчёт',reportText());break;
     case 'txt-copy': copyText(TXT);break;
@@ -1806,14 +1445,12 @@ document.addEventListener('click', function(ev){
     case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
     case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');});break;
     case 'notify': toggleNotify();break;
-    case 'notify-sound': toggleNotifySound();break;
-    case 'notify-test': testNotification();break;
     case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07111C':'#F4F6F9';break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
-    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&t.kind!=='hearing';}).length;if(!n){toast('Нет выполненных задач');break;}if(confirm('Удалить '+n+' выполненных задач? Завершённые заседания останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !(t.done&&t.kind!=='hearing');});save();render();toast('Очищено');}break;}
+    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done;}).length;if(!n){toast('Нет выполненных');break;}if(confirm('Удалить '+n+' выполненных задач?')){S.tasks=S.tasks.filter(function(t){return !t.done;});save();render();toast('Очищено');}break;}
     case 'demo': demo();closeSheet();break;
     case 'new-task': editTask(null,S.ui.tab==='cal'&&S.ui.calSel?{due:S.ui.calSel}:{due:today()});break;
     case 'intro': showIntro();break;
@@ -1823,36 +1460,7 @@ document.addEventListener('click', function(ev){
 });
 document.addEventListener('change',function(e){
   if(e.target.id==='dl-date'||e.target.id==='dl-type')calcDeadline();
-  if(e.target.id==='hc-next-date'){
-    var pd=$('#hc-prep-due');
-    if(pd && !pd.value && e.target.value) pd.value=addD(e.target.value,-1);
-  }
-  if(e.target.id&&e.target.id.indexOf('e-')===0){
-    pullEditor();
-    if(e.target.id==='e-mid' && ED){
-      var ec=$('#e-context');if(ec)ec.innerHTML=matterContextHTML(ED.mid);
-      if(ED.kind==='hearing'){
-        ED.place=hearingCourt(ED.mid);
-        var pl=$('#e-place');if(pl)pl.value=ED.place||'';
-      }
-    }
-  }
-  if(e.target.id==='pt-mid'){
-    var pm=matter(e.target.value), pp=$('#pt-place'), pr=$('#pt-rate'),pc=$('#pt-context');
-    if(pp) pp.value=(pm&&pm.court)||'';
-    if(pr && !pr.value) pr.value=(pm&&pm.dayRate)||S.settings.dayRate||'';
-    if(pc)pc.innerHTML=matterContextHTML(e.target.value);
-  }
-  if(e.target.id==='dl-mid'){
-    var dc=$('#dl-context');if(dc)dc.innerHTML=matterContextHTML(e.target.value);
-  }
-  if(e.target.id==='j-mid-select'){
-    var jc=$('#j-context');if(jc)jc.innerHTML=matterContextHTML(e.target.value);
-  }
-  if(e.target.id==='m-clientid'){
-    var cc=client(e.target.value),cn=$('#m-client'),cp=$('#m-phone');
-    if(cc){if(cn)cn.value=cc.name||'';if(cp)cp.value=cc.phone||'';}
-  }
+  if(e.target.id&&e.target.id.indexOf('e-')===0)pullEditor();
 });
 document.addEventListener('input',function(e){
   if(e.target.id==='q'){S.ui.q=e.target.value;renderTaskList();}
@@ -1865,7 +1473,7 @@ document.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
 $('#fab').onclick=function(){if(!unlocked)return;vib();sheetQuickAdd();};
-$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else if(REPORT&&$('#page').classList.contains('open'))reportBack();else closeAll();};
+$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
   var f=e.target.files[0];if(!f)return;var r=new FileReader();
@@ -1879,47 +1487,6 @@ $('#file').onchange=function(e){
   };
   r.readAsText(f);
 };
-/* ---------------------------------------------------------------------
-   Мобильное «назад» для установленного PWA.
-   Жест от левого края вправо закрывает текущую форму/карточку, как в iOS.
-   Дополнительно нижнюю шторку можно закрыть коротким свайпом вниз за верхнюю область.
-   --------------------------------------------------------------------- */
-var EDGE_SWIPE = null;
-document.addEventListener('touchstart',function(e){
-  if(!unlocked || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0], sheetOpen=$('#sheet').classList.contains('open'), pageOpen=$('#page').classList.contains('open');
-  if(!sheetOpen && !pageOpen) return;
-  var reportOpen=!!REPORT && pageOpen;
-  /* На отчёте разрешаем начать жест из более широкой левой зоны.
-     Это надёжнее в standalone PWA, где самый край экрана частично забирает iOS. */
-  EDGE_SWIPE={x:t.clientX,y:t.clientY,lastX:t.clientX,lastY:t.clientY,time:Date.now(),
-    edge:t.clientX<=(reportOpen?190:(pageOpen?92:52)),sheet:sheetOpen,top:t.clientY<=160,report:reportOpen};
-},{passive:true});
-
-document.addEventListener('touchmove',function(e){
-  if(!EDGE_SWIPE || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0],dx=t.clientX-EDGE_SWIPE.x,dy=t.clientY-EDGE_SWIPE.y;
-  EDGE_SWIPE.lastX=t.clientX; EDGE_SWIPE.lastY=t.clientY;
-  /* Если на отчёте пользователь явно ведёт вправо, не отдаём жест горизонтальной
-     навигации WebKit — оставляем его приложению. Вертикальный скролл не блокируется. */
-  if(EDGE_SWIPE.report && EDGE_SWIPE.edge && dx>18 && Math.abs(dx)>Math.abs(dy)*1.15){
-    if(e.cancelable) e.preventDefault();
-  }
-},{passive:false});
-
-document.addEventListener('touchend',function(e){
-  if(!EDGE_SWIPE || !e.changedTouches || !e.changedTouches.length){EDGE_SWIPE=null;return;}
-  var t=e.changedTouches[0], dx=t.clientX-EDGE_SWIPE.x, dy=t.clientY-EDGE_SWIPE.y, dt=Date.now()-EDGE_SWIPE.time;
-  var minDx=EDGE_SWIPE.report?52:72;
-  var maxDy=EDGE_SWIPE.report?110:70;
-  var back = EDGE_SWIPE.edge && dx>=minDx && Math.abs(dy)<=maxDy && dt<=1100;
-  var down = EDGE_SWIPE.sheet && EDGE_SWIPE.top && dy>=90 && Math.abs(dx)<=80 && dt<=900;
-  EDGE_SWIPE=null;
-  if(back){ if(appBack()) vib(6); return; }
-  if(down && $('#sheet').classList.contains('open')){ closeSheet(); vib(6); }
-},{passive:true});
-document.addEventListener('touchcancel',function(){EDGE_SWIPE=null;},{passive:true});
-
 document.addEventListener('gesturestart',function(e){e.preventDefault();});
 
 /* =====================================================================
@@ -1952,9 +1519,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
-window.addEventListener('focus',function(){if(unlocked)schedule();});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=420',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
