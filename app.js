@@ -375,6 +375,10 @@ function todayUpcomingRow(t){
     '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(m?(m.number||m.title):'Судебное заседание')+'</b>'+
     '<small>'+esc(place||'Суд не указан')+'</small></span>'+ico('chev','s')+'</button>';
 }
+function todayPlaceholderRow(kind,text){
+  var icon = kind==='blue' ? 'gavel' : (kind==='green' ? 'check' : (kind==='danger' ? 'flag' : 'cal'));
+  return '<div class="today-row placeholder-row '+kind+'"><span class="today-row-ico">'+ico(icon,'s')+'</span><span class="today-row-main"><b>'+esc(text)+'</b><small>Добавьте запись через кнопку + или в карточке дела</small></span></div>';
+}
 function renderToday(){
   var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
   var overdueDeadlines=allOpen.filter(function(t){return t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
@@ -397,8 +401,7 @@ function renderToday(){
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
-    '<div class="today-quote"><div><b>Порядок в делах
-создаёт уверенность.</b><span>— А. Ф. Кони</span></div></div>';
+    '<div class="today-quote"><div><b>Порядок в делах<br>создаёт уверенность.</b><span>— А. Ф. Кони</span></div></div>';
 
   if(overdueDeadlines.length){
     html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
