@@ -1317,3 +1317,107 @@ body.light #lock{background:radial-gradient(620px 460px at 50% 12%,#FFFDF9,#EFE8
 @media (max-width:360px){
   .screen{padding-left:11px;padding-right:11px}.top h1{font-size:28px}#sc-today .top h1{font-size:32px}.brandline{grid-template-columns:30px minmax(0,1fr) auto;gap:8px}.brandseal{width:29px;height:29px}.brandcopy b{font-size:13px}.brandcopy small{font-size:6.2px}.kpi{min-height:58px}.kpi b{font-size:19px}.matter .stats{grid-template-columns:repeat(2,1fr);row-gap:7px}
 }
+
+/* ============================================================
+   4.1 — EXACT CONCEPT UI
+   Утверждённый плотный legal-tech интерфейс: светлая + тёмная темы.
+   ============================================================ */
+:root{
+  --bg:#06131D; --panel:#0A1B27; --elev:#0D2230; --elev2:#102734;
+  --txt:#ECF2F5; --txt2:#AFBEC9; --muted:#708795;
+  --line:rgba(122,165,190,.13); --line2:rgba(151,185,204,.22);
+  --gold:#B67B31; --gold2:#D4A45C; --goldsoft:rgba(193,137,61,.11);
+  --blue:#3495E6; --bluesoft:rgba(52,149,230,.10);
+  --ok:#3BAA75; --oksoft:rgba(59,170,117,.10);
+  --dang:#E25B55; --dangsoft:rgba(226,91,85,.10);
+  --warn:#D7953E; --warnsoft:rgba(215,149,62,.10);
+  --purple:#7F8DE8;
+  --shadow:none;
+}
+body.light{
+  --bg:#F6F1E9; --panel:#FFFDF9; --elev:#FBF8F2; --elev2:#F1ECE4;
+  --txt:#18232B; --txt2:#516675; --muted:#7C8D99;
+  --line:rgba(103,78,42,.10); --line2:rgba(103,78,42,.18);
+  --gold:#A66F24; --gold2:#B98332; --goldsoft:rgba(166,111,36,.09);
+  --blue:#2E83D1; --bluesoft:rgba(46,131,209,.08);
+  --ok:#2F8C63; --oksoft:rgba(47,140,99,.08);
+  --dang:#CB4742; --dangsoft:rgba(203,71,66,.08);
+  --warn:#B97925; --warnsoft:rgba(185,121,37,.08);
+  --purple:#6D75C9;
+}
+body{background:var(--bg);font-size:14px;letter-spacing:0}
+body.light{background:linear-gradient(180deg,#FAF7F1 0%,#F4EFE7 100%)}
+.screen{padding:calc(var(--top) + 11px) 13px calc(var(--bot) + 96px)}
+.brandline{display:none!important}
+
+/* Верхняя зона — компактная, как в макете */
+.top{margin:6px 1px 14px;align-items:center;min-height:52px}
+.top .eyebrow{display:none}
+.top h1,#sc-today .top h1{font-family:Georgia,'Times New Roman',serif;font-size:27px!important;font-weight:600;line-height:1.08;letter-spacing:-.025em;margin:0;color:var(--txt)}
+.top .sub{font-size:10.5px;margin-top:3px;color:var(--muted)}
+.topacts{gap:6px}.iconbtn{width:34px;height:34px;border-radius:10px;background:transparent;border:1px solid var(--line2);color:var(--txt2);box-shadow:none}.iconbtn .ico{width:18px;height:18px}.iconbtn.on{background:var(--goldsoft);color:var(--gold2);border-color:rgba(185,132,51,.25)}
+body.light .iconbtn{background:rgba(255,255,255,.50);border-color:rgba(103,78,42,.12)}
+
+/* «Сегодня»: без hero и KPI, плотная рабочая лента */
+.dailyquote{display:flex;align-items:flex-start;gap:9px;padding:10px 11px;margin-bottom:13px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,var(--panel),var(--elev));color:var(--txt2)}
+.dailyquote .quoteMark{font:600 24px/1 Georgia,serif;color:var(--gold2);opacity:.9}.dailyquote b{display:block;font:600 11.5px/1.35 Georgia,'Times New Roman',serif;color:var(--txt)}.dailyquote small{display:block;margin-top:2px;font-size:8.8px;color:var(--muted)}
+body.light .dailyquote{background:linear-gradient(135deg,#FFFDF9,#F8F1E6)}
+.agendahead{display:flex;align-items:center;gap:7px;margin:15px 1px 7px;min-height:24px;font-size:11px;color:var(--txt)}
+.agendahead>div{display:flex;align-items:center;gap:6px;min-width:0}.agendahead .ico{width:14px;height:14px}.agendahead b{font-size:11px;letter-spacing:0}.agendahead em{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:9px;font-weight:700}.agendahead .link{margin-left:6px;font-size:9px;font-weight:600;color:var(--blue)}
+.agendahead.red{color:var(--dang)}.agendahead.red em{background:var(--dangsoft);color:var(--dang)}
+.agendahead.blue{color:var(--blue)}.agendahead.blue em{background:var(--bluesoft);color:var(--blue)}
+.agendahead.green{color:var(--ok)}.agendahead.green em{background:var(--oksoft);color:var(--ok)}
+.agendahead.soft{opacity:.92}.agendahead.mutedHead{margin-top:18px}
+#sc-today>.hero,#sc-today>.kpis{display:none!important}
+#sc-more .kpis{display:grid!important}
+.backupwarn{margin:0 0 10px;padding:10px 11px;border-radius:10px}
+
+/* Карточки задач / заседаний */
+.task{margin-bottom:5px;padding:9px 10px;gap:9px;border-radius:9px;background:var(--panel);border:1px solid var(--line);border-left-width:2px;box-shadow:none;min-height:0}
+body.light .task{background:#FFFDF9}
+.task:active{transform:none;background:var(--elev)}
+.chk{width:20px;height:20px;margin-top:1px}.eventmark{width:21px;height:21px;border-radius:6px;margin-top:0}.eventmark .ico{width:13px;height:13px}
+.tt{font-size:11.5px;line-height:1.25;font-weight:650}.ttime{font-size:10.5px;min-width:35px;color:var(--blue)}
+.meta{margin-top:4px;gap:4px}.tag{padding:2px 5px;border-radius:5px;font-size:8.2px;background:var(--elev2);border:0}.tag .ico{width:9px;height:9px}.note{font-size:9.8px;margin-top:4px}.outcomeLine{font-size:9.5px;padding:6px 7px;margin-top:5px}.hearingfinish{font-size:9px;padding:5px 7px;border-radius:6px;margin-top:6px}
+.task.k-hearing{border-left-color:var(--blue);background:linear-gradient(90deg,var(--bluesoft),var(--panel) 44%)}
+.task.p-high{border-left-color:var(--dang)}.task.p-mid{border-left-color:var(--warn)}.task.p-low{border-left-color:var(--blue)}
+
+/* Группы / секции */
+.grp,.sec h2{font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:none;color:var(--txt)}
+.grp{margin:14px 1px 6px}.sec{margin:18px 1px 7px}.sec .link{font-size:9.5px;color:var(--gold)}
+
+/* Дела — как карточки досье */
+.matter{margin-bottom:7px;padding:11px;border-radius:10px;background:var(--panel);border:1px solid var(--line);box-shadow:none}
+body.light .matter{background:#FFFDF9}.matter::before{width:2px;background:var(--gold)}
+.matter .mt{gap:9px}.matter .avatar{width:30px;height:30px;border-radius:7px;font-size:10px;background:var(--goldsoft)!important;color:var(--gold2)!important;border:1px solid rgba(183,125,44,.16)}
+.matter h3{font-family:inherit;font-size:12px;font-weight:700;line-height:1.2}.mtype{font-size:7.5px;letter-spacing:.04em}.matter .cl{font-size:8.8px;margin-top:2px}.matter .stats{margin-top:8px;padding-top:7px;gap:3px}.matter .stats div{font-size:6.8px;letter-spacing:.02em;text-transform:none}.matter .stats b{font-family:inherit;font-size:10px;font-weight:700}.badge{font-size:7px;padding:2px 5px;border-radius:5px}
+
+/* Фильтры */
+.segbtns{margin-bottom:9px;padding:3px;gap:3px;border-radius:9px;background:var(--elev2);border:1px solid var(--line)}.segbtns button{min-height:29px;padding:6px 4px;border-radius:7px;font-size:9px}.segbtns button.on{background:var(--gold);color:#fff;border:0}
+.chips{gap:4px;margin-top:4px}.chip{padding:5px 8px;border-radius:8px;font-size:8.5px;background:var(--panel)}.chip.on{background:var(--gold);color:#fff}
+
+/* Календарь */
+#sc-cal>.card{padding:11px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}body.light #sc-cal>.card{background:#FFFDF9}
+.calhead{margin-bottom:8px;padding-bottom:7px}.calhead b{font-family:inherit;font-size:13px;font-weight:700}.calhead .iconbtn{width:29px;height:29px;border:0;background:transparent}
+.cgrid{gap:1px}.cdow{font-size:7.5px;padding:2px 0}.cday{border-radius:7px;font-family:inherit;font-size:10.5px;font-weight:600}.cday.sel{background:var(--gold);color:#fff}.cdots i{width:3px;height:3px}
+
+/* Настройки и строки */
+.card{padding:11px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}body.light .card{background:#FFFDF9}
+.row{min-height:45px;padding:9px 10px;gap:9px;font-size:11px}.row>.ico:first-child{width:15px;height:15px}.row .rl small{font-size:8.5px;margin-top:2px}.row>.ico:last-child{width:11px;height:11px}
+#sc-more .card>.sec{margin:0 0 8px}.footnote{font-size:8px;padding-top:15px}
+
+/* Полноэкранная карточка дела */
+.sheet.full{padding-left:12px;padding-right:12px}.casehead h2{font-family:inherit;font-size:17px;font-weight:700}.mtype{color:var(--gold)}.dossier{border-radius:9px}.dossier .row{padding:9px 10px}.focuscard{border-radius:9px;padding:9px 10px}
+
+/* Формы */
+.sheet{border-radius:18px 18px 0 0;padding-left:13px;padding-right:13px}.sheet h2{font-family:inherit;font-size:18px;font-weight:700}.sheet .sh-sub{font-size:10px}.fld{margin-bottom:10px}.fld label{font-size:8px;margin-bottom:4px}.fld input,.fld textarea,.fld select{padding:10px 10px;border-radius:9px;font-size:14px}.btn{padding:11px;border-radius:9px;font-size:12px}.sheetx{width:32px;height:32px;font-size:20px}
+
+/* Нижняя навигация */
+.tabbar{padding:5px 4px calc(var(--bot) + 5px);background:rgba(4,15,22,.96);box-shadow:none}.tab{padding:4px 0 2px;font-size:7.8px;gap:2px}.tab .ico{width:16px;height:16px}.tab.on{background:transparent;color:var(--gold2)}
+body.light .tabbar{background:rgba(255,253,249,.97)}body.light .tab.on{background:transparent;color:var(--gold)}
+.fab{width:46px;height:46px;border-radius:50%;right:14px;bottom:calc(var(--bot) + 58px);box-shadow:0 8px 20px rgba(0,0,0,.20)}.fab .ico{width:21px;height:21px}
+
+/* Пустые состояния */
+.empty{padding:31px 16px 28px}.empty .ico{width:32px;height:32px}.empty h3{font-family:inherit;font-size:13px;font-weight:700}.empty p{font-size:10px}
+
+@media(max-width:360px){.screen{padding-left:10px;padding-right:10px}.top h1,#sc-today .top h1{font-size:25px!important}.topacts{gap:4px}.iconbtn{width:31px;height:31px}.dailyquote{padding:9px}.task{padding:8px 9px}.matter{padding:10px}}
