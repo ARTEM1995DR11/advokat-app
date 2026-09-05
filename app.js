@@ -397,7 +397,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo">'+ico('scale')+'</span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=316" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
@@ -1571,7 +1571,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=315').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=316').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});

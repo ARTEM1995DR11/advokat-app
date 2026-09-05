@@ -1,4 +1,4 @@
-const CACHE = 'advokat-iphone-offline-v31-restyle-315';
+const CACHE = 'advokat-iphone-offline-v31-restyle-316';
 const SHELL = [
   './',
   './index.html',
@@ -10,7 +10,8 @@ const SHELL = [
   './icon-512.png',
   './legal-columns.svg',
   './columns-light.png',
-  './columns-dark.png'
+  './columns-dark.png',
+  './scale-gold.png'
 ];
 
 self.addEventListener('install', event => {

@@ -466,8 +466,8 @@ body{background:var(--bg)}
 /* Header */
 .today-brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:3px 0 7px;padding:0 2px}
 .today-brand-left{display:flex;align-items:center;gap:10px;min-width:0}
-.today-logo{width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--gold2);flex:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.12))}
-.today-logo .ico{width:35px;height:35px;stroke:none!important;fill:currentColor!important}
+.today-logo{width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex:none}
+.today-logo .ico{width:35px;height:35px}.today-logo img{display:block;width:41px;height:41px;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(50,30,5,.16))}
 .today-brand-left b{display:block;font:600 16.5px/1.14 Georgia,'Times New Roman',serif;color:var(--txt);white-space:nowrap}
 .today-brand-left small{display:block;margin-top:2px;font-size:10.8px;color:var(--muted)}
 .today-bell{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--txt2)}
@@ -582,4 +582,4 @@ body.light .tabbar{background:rgba(255,253,249,.94)}
 body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 
 /* 3.1.5 — approved project header assets */
-.today-logo use[href="#i-scale"]{fill:currentColor;stroke:none}
+
