@@ -466,8 +466,8 @@ body{background:var(--bg)}
 /* Header */
 .today-brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 8px;padding:0 2px}
 .today-brand-left{display:flex;align-items:center;gap:10px;min-width:0}
-.today-logo{width:35px;height:35px;display:flex;align-items:center;justify-content:center;color:var(--gold2);flex:none}
-.today-logo .ico{width:31px;height:31px;stroke-width:1.45}
+.today-logo{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--gold2);flex:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.12))}
+.today-logo .ico{width:33px;height:33px;stroke-width:1.32;stroke-linecap:round;stroke-linejoin:round}
 .today-brand-left b{display:block;font:600 16px/1.15 Georgia,'Times New Roman',serif;color:var(--txt);white-space:nowrap}
 .today-brand-left small{display:block;margin-top:2px;font-size:10.5px;color:var(--muted)}
 .today-bell{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--txt2)}
@@ -481,17 +481,17 @@ body{background:var(--bg)}
 body.light .today-actions .iconbtn{background:rgba(255,255,255,.48)}
 
 /* Quote / architectural image */
-.today-quote{height:78px;border-radius:14px;border:1px solid color-mix(in srgb,var(--gold) 42%,var(--line));overflow:hidden;margin:0 0 12px;background:
-  linear-gradient(90deg,var(--panel) 0%,var(--panel) 45%,transparent 82%),
-  url('legal-columns.svg') right center/auto 100% no-repeat,
-  var(--panel);position:relative}
+.today-quote{height:82px;border-radius:14px;border:1px solid color-mix(in srgb,var(--gold) 46%,var(--line));overflow:hidden;margin:0 0 12px;background:
+  linear-gradient(90deg,var(--panel) 0%,color-mix(in srgb,var(--panel) 96%,transparent) 48%,transparent 83%),
+  url('legal-columns.svg') right center/cover no-repeat,
+  var(--panel);position:relative;box-shadow:0 6px 18px rgba(0,0,0,.05)}
 .today-quote:before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold2)}
-.today-quote>div{position:relative;z-index:2;padding:14px 15px}
+.today-quote>div{position:relative;z-index:2;padding:14px 15px;max-width:58%}
 .today-quote b{display:block;font:600 15px/1.18 Georgia,'Times New Roman',serif;color:var(--txt)}
 .today-quote span{display:block;margin-top:5px;font-size:10.8px;color:var(--txt2)}
 body.light .today-quote{background:
-  linear-gradient(90deg,rgba(255,253,249,.98) 0%,rgba(255,253,249,.94) 52%,rgba(255,253,249,.36) 82%),
-  url('legal-columns.svg') right center/auto 100% no-repeat,
+  linear-gradient(90deg,rgba(255,253,249,.98) 0%,rgba(255,252,247,.92) 50%,rgba(255,252,247,.18) 84%),
+  url('legal-columns.svg') right center/cover no-repeat,
   #FFFDF9}
 
 /* Section headers */
