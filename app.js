@@ -264,10 +264,10 @@ function openSheet(html){
   } else s.classList.remove('withfoot');
   s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
 }
-function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null;
+function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
-  $('#scrim').classList.remove('open'); }
+  $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ $('#sheet').classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
 
@@ -677,8 +677,31 @@ function render(){
   setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
   document.body.classList.toggle('light', S.settings.theme==='light');
 }
-function go(tab){ S.ui.tab = tab; S.ui.q=''; S.ui._sq=false; save(); render();
-  var e = $('#sc-'+tab); if(e) e.scrollTop = 0; }
+var NAV_TABS=[];
+function go(tab,replaceHistory){
+  var cur=S.ui.tab;
+  if(tab!==cur && !replaceHistory){
+    if(!NAV_TABS.length || NAV_TABS[NAV_TABS.length-1]!==cur) NAV_TABS.push(cur);
+    if(NAV_TABS.length>12) NAV_TABS.shift();
+  }
+  S.ui.tab = tab; S.ui.q=''; S.ui._sq=false; save(); render();
+  var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
+}
+function appBack(){
+  var sheet=$('#sheet'), page=$('#page');
+  if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
+  if(page.classList.contains('open')){
+    if(page._navType==='report' && REPORT && REPORT.back && matter(REPORT.back)){
+      openMatter(REPORT.back); vib(5); return true;
+    }
+    closeAll(); vib(5); return true;
+  }
+  if(NAV_TABS.length){
+    var prev=NAV_TABS.pop(); go(prev,true); vib(5); return true;
+  }
+  if(S.ui.tab!=='today'){ go('today',true); vib(5); return true; }
+  return false;
+}
 
 /* =====================================================================
    TASK EDITOR
@@ -824,7 +847,7 @@ function openMatter(id){
   (done.length?'<div class="sec"><h2>Выполнено ('+done.length+')</h2></div>'+done.slice(0,8).map(function(t){return taskCard(t,{noMatter:true});}).join(''):'')+
   '<button class="btn ghost" data-act="m-arch" data-id="'+id+'" style="margin-top:18px">'+(m.archived?'Вернуть в работу':'Отправить в архив')+'</button>'+
   '<button class="btn danger" data-act="m-del" data-id="'+id+'">Удалить дело</button><div style="height:30px"></div>');
-  $('#page')._mid=id;
+  $('#page')._mid=id; $('#page')._navType='matter';
 }
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
 
@@ -1137,6 +1160,7 @@ function printHTML(title,sub,rows,foot,text){
     '<button class="btn" data-act="rep-print" style="margin-top:16px">Печать / сохранить в PDF</button>'+
     '<button class="btn ghost" data-act="rep-share" style="margin-top:8px">Поделиться текстом</button>'+
     '<div style="height:24px"></div>');
+  $('#page')._navType='report';
 }
 function doPrint(){
   try{
@@ -1227,6 +1251,7 @@ function showText(name,text){
     'border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--txt)">'+esc(text)+'</textarea>'+
     '<button class="btn" data-act="txt-copy" style="margin-top:12px">Скопировать</button>'+
     '<button class="btn ghost" data-act="txt-share" style="margin-top:8px">Поделиться</button><div style="height:24px"></div>');
+  $('#page')._navType='text';
 }
 function shareOrCopy(title,text){
   if(navigator.share){ navigator.share({title:title,text:text}).catch(function(){ copyText(text); }); }
@@ -1399,15 +1424,15 @@ document.addEventListener('click', function(ev){
     case 'go-matters': go('matters'); break;
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
-    case 'close': closeAll(); break;
+    case 'close': appBack(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=overdue();if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено: '+ov.length);}break;}
-    case 'f-late': S.ui.tab='tasks';S.ui.taskSeg='open';S.ui.taskChip='late';save();render();break;
-    case 'f-today': S.ui.tab='tasks';S.ui.taskSeg='open';S.ui.taskChip='today';save();render();break;
-    case 'f-hear': S.ui.tab='tasks';S.ui.taskSeg='open';S.ui.taskChip='hearing';save();render();break;
-    case 'f-deadline': S.ui.tab='tasks';S.ui.taskSeg='open';S.ui.taskChip='deadline';save();render();break;
+    case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';save();renderTasks();break;
+    case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';save();renderTasks();break;
+    case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='hearing';save();renderTasks();break;
+    case 'f-deadline': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='deadline';save();renderTasks();break;
     case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
     case 'chip': S.ui.taskChip=v;save();renderTasks();break;
     case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
@@ -1471,7 +1496,7 @@ document.addEventListener('click', function(ev){
     case 'dl-add': {var r=dlResult(),mid=$('#dl-mid').value;var prep=addD(r.end,-5);if(dd(prep)<0)prep=today();var main={id:uid(),mid:mid,title:r.t[0],kind:'deadline',due:r.end,time:'',pri:'high',note:r.t[3],sourceDate:r.from,rule:r.t[3],done:false,steps:[],created:new Date().toISOString()};S.tasks.unshift(main);S.tasks.unshift({id:uid(),mid:mid,title:'Подготовить документы: '+r.t[0],kind:'task',due:prep,time:'',pri:'high',note:'Крайний срок '+fmtD(r.end,true),done:false,steps:[],created:new Date().toISOString()});if(mid)addJournal(mid,'Поставлен процессуальный срок: '+r.t[0]+' — '+fmtD(r.end,true),today(),'deadline',true);save();closeSheet();render();toast('Срок и подготовка поставлены');break;}
     case 'reports': sheetReports();break;
     case 'notify-sheet': sheetNotify();break;
-    case 'rep-back': if(REPORT&&REPORT.back&&matter(REPORT.back))openMatter(REPORT.back);else closeAll();break;
+    case 'rep-back': appBack();break;
     case 'rep-print': doPrint();break;
     case 'rep-share': shareOrCopy(REPORT?REPORT.title:'Отчёт',reportText());break;
     case 'txt-copy': copyText(TXT);break;
@@ -1542,6 +1567,32 @@ $('#file').onchange=function(e){
 document.addEventListener('gesturestart',function(e){e.preventDefault();});
 
 /* =====================================================================
+   iPhone-style edge swipe: left edge -> right = Back
+   ===================================================================== */
+var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  EDGE_SWIPE.on = t.clientX <= 44;
+  EDGE_SWIPE.x=t.clientX; EDGE_SWIPE.y=t.clientY; EDGE_SWIPE.dx=0; EDGE_SWIPE.dy=0; EDGE_SWIPE.moved=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!EDGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0]; EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x; EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
+  if(EDGE_SWIPE.dx>12 && Math.abs(EDGE_SWIPE.dx)>Math.abs(EDGE_SWIPE.dy)*1.25){
+    EDGE_SWIPE.moved=true;
+    if(e.cancelable) e.preventDefault();
+  }
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!EDGE_SWIPE.on) return;
+  var ok=EDGE_SWIPE.moved && EDGE_SWIPE.dx>=68 && Math.abs(EDGE_SWIPE.dy)<=70 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.35;
+  EDGE_SWIPE.on=false;
+  if(ok) appBack();
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
+
+/* =====================================================================
    BOOT
    ===================================================================== */
 var APP_STARTED=false,hiddenAt=0;
@@ -1571,7 +1622,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=316').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=317').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});

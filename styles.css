@@ -583,3 +583,7 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 
 /* 3.1.5 — approved project header assets */
 
+
+
+/* v3.1.7 edge swipe navigation */
+#sheet,#page,.screen{touch-action:pan-y;-webkit-overflow-scrolling:touch}
