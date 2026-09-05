@@ -461,93 +461,105 @@ function ring(pct){
 function kpi(n,l,c,act){ return '<button class="kpi '+c+'" data-act="'+act+'"><b>'+n+'</b><span>'+l+'</span></button>'; }
 
 /* =====================================================================
-   SCREEN: ЗАДАЧИ
+   SCREEN: ЗАДАЧИ — проектный экран 3.1.19
    ===================================================================== */
-function taskBaseList(withSearch){
-  var u = S.ui, q = (withSearch ? u.q : '').toLowerCase().trim();
+function taskProjectBase(){
+  var q=(S.ui.q||'').toLowerCase().trim();
   return S.tasks.filter(function(t){
-    if(q){ var m = t.mid?matter(t.mid):null;
-      var hay = (t.title+' '+(t.note||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||''):'')).toLowerCase();
-      if(hay.indexOf(q)<0) return false; }
-    if(u.taskSeg==='open' && !isActiveRecord(t)) return false;
-    if(u.taskSeg==='done' && !t.done) return false;
-    return true;
+    if(!q) return true;
+    var m=t.mid?matter(t.mid):null;
+    var hay=(t.title+' '+(t.note||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||''):'')).toLowerCase();
+    return hay.indexOf(q)>=0;
   }).sort(sortT);
 }
-function taskChipMatch(t,chip){
-  if(chip==='today') return !!(t.due && !t.done && (t.kind==='hearing' ? dd(t.due)===0 : dd(t.due)<=0));
-  if(chip==='high') return t.kind!=='hearing' && t.pri==='high';
-  if(chip==='late') return !!(t.kind!=='hearing' && t.due && dd(t.due)<0 && !t.done);
-  if(chip==='week') return !!(t.due && dd(t.due)>=0 && dd(t.due)<=7);
-  if(chip==='nodue') return !t.due;
-  if(chip==='hearing') return t.kind==='hearing';
-  if(chip==='deadline') return t.kind==='deadline';
+function taskProjectMatch(t,chip){
+  if(chip==='late') return !t.done && t.kind!=='hearing' && t.due && dd(t.due)<0;
+  if(chip==='today') return !t.done && t.due && dd(t.due)===0;
   return true;
 }
-function taskCounts(){
-  var out = {}, keys = ['','today','high','late','week','hearing','deadline','nodue'], base = taskBaseList(false);
-  keys.forEach(function(k){ out[k] = base.filter(function(t){ return taskChipMatch(t,k); }).length; });
-  return out;
+function taskProjectCounts(){
+  var all=S.tasks.slice(), active=all.filter(function(t){return !t.done;});
+  return {
+    all:active.length,
+    late:active.filter(function(t){return t.kind!=='hearing'&&t.due&&dd(t.due)<0;}).length,
+    today:active.filter(function(t){return t.due&&dd(t.due)===0;}).length
+  };
 }
 function renderTasks(){
-  var u = S.ui;
-  var chips = [['','Все'],['today','Сегодня'],['high','Срочные'],['late','Просроченные'],['week','На неделю'],['hearing','Заседания'],['deadline','Сроки'],['nodue','Без срока']];
-  var open = S.tasks.filter(isActiveRecord).length;
-  var counts = taskCounts();
-  var eyebrow = u.taskSeg==='done' ? 'Выполнено '+counts[''] : (u.taskSeg==='all' ? 'Всего записей '+counts[''] : 'Всего '+open+' в работе');
-  var html = '<div class="tasks-screen">'+brandLine()+
-  '<div class="top tasks-top"><div><div class="eyebrow">'+eyebrow+'</div><h1>Задачи</h1><div class="sub">Все задачи, сроки и заседания по делам</div></div>'+
-    '<div class="topacts"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
-    (u.q!==''||u._sq ? '<div class="fld"><input id="q" placeholder="Поиск по задачам, делам, доверителям" value="'+esc(u.q)+'" autocomplete="off"></div>' : '')+
-    '<div class="tasks-seg-wrap"><div class="segbtns task-seg">'+
-    ['open','all','done'].map(function(k,i){ return '<button data-act="seg" data-v="'+k+'"'+(u.taskSeg===k?' class="on"':'')+'>'+
-      ['В работе','Все','Выполнено'][i]+'</button>'; }).join('')+
-    '</div></div>'+
-    '<div class="chips taskchips">'+chips.map(function(c){
-      var n = counts[c[0]];
-      return '<button class="chip'+(u.taskChip===c[0]?' on':'')+'" data-act="chip" data-v="'+c[0]+'"><span>'+c[1]+'</span>'+(n?'<em>'+n+'</em>':'')+'</button>'; }).join('')+'</div>'+
-    '<div id="tasklist"></div></div>';
-
-  $('#sc-tasks').innerHTML = html;
+  var u=S.ui;
+  if(['','late','today'].indexOf(u.taskChip)<0) u.taskChip='';
+  var c=taskProjectCounts();
+  var html='<div class="tasks-project">'+
+    '<div class="tasks-project-head"><div><h1>Задачи</h1><p>'+c.all+' '+plural(c.all,'задача','задачи','задач')+' в работе</p></div>'+
+      '<div class="tasks-project-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
+    (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
+    '<div class="tasks-project-filters">'+
+      '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
+      '<button class="late '+(u.taskChip==='late'?'on':'')+'" data-act="chip" data-v="late"><span>Просроченные</span><em>'+c.late+'</em></button>'+
+      '<button class="today '+(u.taskChip==='today'?'on':'')+'" data-act="chip" data-v="today"><span>Сегодня</span><em>'+c.today+'</em></button>'+
+    '</div><div id="tasklist"></div></div>';
+  $('#sc-tasks').innerHTML=html;
   renderTaskList();
-  if(u._sq){ var el = $('#q'); if(el){ el.focus(); el.setSelectionRange(el.value.length,el.value.length); } }
+  if(u._sq){var el=$('#q');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
 }
 function taskFilter(){
-  return taskBaseList(true).filter(function(t){ return taskChipMatch(t,S.ui.taskChip); });
+  return taskProjectBase().filter(function(t){return taskProjectMatch(t,S.ui.taskChip);});
 }
-function taskGroups(list){
-  var groups = [
-    {k:'late', title:'Просроченные', tone:'red', items:[]},
-    {k:'today', title:'Сегодня', tone:'blue', items:[]},
-    {k:'week', title:'На этой неделе', tone:'gold', items:[]},
-    {k:'later', title:'Позже', tone:'slate', items:[]},
-    {k:'nodue', title:'Без срока', tone:'slate', items:[]},
-    {k:'past', title:'Прошедшие заседания', tone:'slate', items:[]},
-    {k:'done', title:'Выполнено', tone:'green', items:[]}
+function taskProjectGroups(list){
+  var out=[
+    {title:'Просроченные',tone:'red',items:[]},
+    {title:'Сегодня',tone:'blue',items:[]},
+    {title:'На этой неделе',tone:'gold',items:[]},
+    {title:'Позже',tone:'slate',items:[]},
+    {title:'Без срока',tone:'slate',items:[]},
+    {title:'Прошедшие заседания',tone:'slate',items:[]},
+    {title:'Выполнено',tone:'green',items:[]}
   ];
   list.forEach(function(t){
-    var d = t.due ? dd(t.due) : null;
-    if(t.done) return groups[6].items.push(t);
-    if(t.kind==='hearing' && t.due && d<0) return groups[5].items.push(t);
-    if(!t.due) return groups[4].items.push(t);
-    if(d<0) return groups[0].items.push(t);
-    if(d===0) return groups[1].items.push(t);
-    if(d<=7) return groups[2].items.push(t);
-    return groups[3].items.push(t);
+    if(t.done){out[6].items.push(t);return;}
+    if(t.kind==='hearing'&&t.due&&dd(t.due)<0){out[5].items.push(t);return;}
+    if(!t.due){out[4].items.push(t);return;}
+    var d=dd(t.due);
+    if(d<0){out[0].items.push(t);return;}
+    if(d===0){out[1].items.push(t);return;}
+    if(d<=7){out[2].items.push(t);return;}
+    out[3].items.push(t);
   });
-  return groups.filter(function(g){ return g.items.length; });
+  return out.filter(function(g){return g.items.length;});
+}
+function taskProjectBadge(t){
+  if(t.done) return '<span class="pt-badge done">Готово</span>';
+  if(t.kind==='hearing') return '<span class="pt-badge hearing">Заседание</span>';
+  if(t.kind==='deadline') return '<span class="pt-badge deadline">Срок</span>';
+  if(t.pri==='high') return '<span class="pt-badge high">Высокий</span>';
+  if(t.pri==='mid') return '<span class="pt-badge mid">Средний</span>';
+  if(t.pri==='low') return '<span class="pt-badge low">Низкий</span>';
+  return '';
+}
+function taskProjectRow(t){
+  var m=t.mid?matter(t.mid):null;
+  var due='';
+  if(t.due){
+    var d=dd(t.due);
+    due=d<0?'<small class="pt-overdue">Просрочен: '+fmtD(t.due)+'</small>':'<small>'+(d===0?'Сегодня':fmtD(t.due))+'</small>';
+  }
+  var context=m?([m.number,m.title].filter(Boolean).join(' · ')):(t.note||'Без дела');
+  var right=(t.time?'<b class="pt-time mono">'+esc(t.time)+'</b>':'')+taskProjectBadge(t);
+  return '<div class="pt-row'+(t.done?' done':'')+'" data-act="task" data-id="'+t.id+'">'+
+    (t.kind==='hearing'?'<span class="pt-event">'+ico('gavel','s')+'</span>':'<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>')+
+    '<div class="pt-main"><b>'+esc(t.kind==='hearing'?(t.title||'Судебное заседание'):t.title)+'</b><span>'+esc(context)+'</span>'+due+'</div>'+
+    '<div class="pt-side">'+right+'</div><span class="pt-chev">'+ico('chev','s')+'</span></div>';
 }
 function renderTaskList(){
-  var box = $('#tasklist'); if(!box) return;
-  var list = taskFilter();
-  box.innerHTML = list.length ? taskGroups(list).map(function(g){
-    return '<section class="taskgroup '+g.tone+'"><div class="taskgroup-head"><b>'+g.title+'</b><span>'+g.items.length+'</span></div><div class="taskgroup-body">'+g.items.map(function(t){ return taskCard(t); }).join('')+'</div></section>';
-  }).join('')
-    : empty('list', S.ui.q ? 'Ничего не найдено' : 'Задач пока нет',
-        S.ui.q ? 'Измените поисковый запрос или фильтр.'
-          : 'Здесь собраны рабочие задачи, звонки, документы, процессуальные сроки и предстоящие заседания.',
-        S.ui.q ? null
-          : [{act:'new-task',t:'Добавить задачу'},{act:'templates',t:'Шаблон чек-листа',ghost:1}]);
+  var box=$('#tasklist');if(!box)return;
+  var list=taskFilter();
+  if(!list.length){
+    box.innerHTML=empty('list',S.ui.q?'Ничего не найдено':'Задач пока нет',S.ui.q?'Измените поисковый запрос или фильтр.':'Новые задачи появятся здесь после добавления.',S.ui.q?null:[{act:'new-task',t:'Добавить задачу'}]);
+    return;
+  }
+  box.innerHTML=taskProjectGroups(list).map(function(g){
+    return '<section class="pt-group '+g.tone+'"><div class="pt-group-head"><h2>'+g.title+'</h2><span>'+g.items.length+'</span></div><div class="pt-card">'+g.items.map(taskProjectRow).join('')+'</div></section>';
+  }).join('');
 }
 
 /* =====================================================================
