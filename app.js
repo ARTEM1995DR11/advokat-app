@@ -403,10 +403,6 @@ function renderToday(){
   var critical=overdueDeadlines.length + overdueOther.length + deadlinesToday.length;
   var quote=todayQuoteOfDay();
 
-  function moreButton(act, n, label){
-    if(n<=0)return '';
-    return '<button class="today-more" data-act="'+act+'">Ещё '+n+' '+label+' '+ico('chev','s')+'</button>';
-  }
   function block(kind, icon, title, items, renderer, extra){
     if(!items.length)return '';
     return todaySectionHead(kind,icon,title,items.length,extra||'')+
@@ -414,7 +410,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=318" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=319" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
@@ -428,19 +424,8 @@ function renderToday(){
   }
   html += block('blue','gavel','Заседания сегодня',hearingsToday,todayHearingRow);
 
-  if(tasksToday.length){
-    var shownTasks=tasksToday.slice(0,4), moreTasks=tasksToday.length-shownTasks.length;
-    html += todaySectionHead('green','check','Задачи на сегодня',tasksToday.length,'')+
-      '<div class="today-group green-group">'+shownTasks.map(todayTaskRow).join('')+
-      moreButton('today-more-tasks',moreTasks,plural(moreTasks,'задача','задачи','задач'))+'</div>';
-  }
-
-  if(upcomingHearings.length){
-    var shownHearings=upcomingHearings.slice(0,3), moreHearings=upcomingHearings.length-shownHearings.length;
-    html += todaySectionHead('slate','cal','Ближайшие заседания',upcomingHearings.length,'')+
-      '<div class="today-group slate-group">'+shownHearings.map(todayUpcomingRow).join('')+
-      moreButton('today-more-hearings',moreHearings,plural(moreHearings,'заседание','заседания','заседаний'))+'</div>';
-  }
+  html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow);
+  html += block('slate','cal','Ближайшие заседания',upcomingHearings,todayUpcomingRow);
 
   $('#sc-today').innerHTML=html;
 }
@@ -679,7 +664,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.8<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.9<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
