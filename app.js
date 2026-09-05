@@ -1614,6 +1614,37 @@ document.addEventListener('touchend',function(){
 document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
 
 /* =====================================================================
+   iPhone-style bottom sheet: pull the top area down = Close
+   ===================================================================== */
+var SHEET_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  var s=$('#sheet');
+  if(!s || !s.classList.contains('open') || s.classList.contains('full')) return;
+  var t=e.touches[0],r=s.getBoundingClientRect();
+  // The whole visual handle/header zone is draggable, not just the 4px grabber.
+  if(t.clientY < r.top || t.clientY > r.top+108) return;
+  SHEET_SWIPE.on=true;SHEET_SWIPE.x=t.clientX;SHEET_SWIPE.y=t.clientY;
+  SHEET_SWIPE.dx=0;SHEET_SWIPE.dy=0;SHEET_SWIPE.moved=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!SHEET_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  SHEET_SWIPE.dx=t.clientX-SHEET_SWIPE.x;SHEET_SWIPE.dy=t.clientY-SHEET_SWIPE.y;
+  if(SHEET_SWIPE.dy>10 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.15){
+    SHEET_SWIPE.moved=true;
+    if(e.cancelable) e.preventDefault();
+  }
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!SHEET_SWIPE.on) return;
+  var ok=SHEET_SWIPE.moved && SHEET_SWIPE.dy>=64 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.2;
+  SHEET_SWIPE.on=false;
+  if(ok){vib(5);closeSheet();}
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passive:true,capture:true});
+
+/* =====================================================================
    BOOT
    ===================================================================== */
 var APP_STARTED=false,hiddenAt=0;
@@ -1643,7 +1674,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3112').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3113').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
