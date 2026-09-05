@@ -251,6 +251,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
+  s.classList.remove('quick-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -671,7 +672,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.10<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.11<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1076,14 +1077,15 @@ function sheetParticipationLog(){
 }
 
 function sheetQuickAdd(){
-  openSheet('<h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без длинного маршрута по меню.</p><div class="quickgrid">'+
-    quickItem('gavel','Заседание','qa-hearing')+quickItem('flag','Процессуальный срок','qa-deadline')+
-    quickItem('check','Задача','qa-task')+quickItem('phone','Звонок','qa-call')+
-    quickItem('folder','Новое дело','new-matter')+quickItem('doc','Запись в журнал','qa-journal')+
-    quickItem('gavel','День участия','pt-new')+quickItem('tpl','Шаблон','templates')+
+  openSheet('<div class="quickintro"><h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без перехода по меню.</p></div><div class="quickgrid">'+
+    quickItem('gavel','Заседание','qa-hearing','blue')+quickItem('flag','Процессуальный срок','qa-deadline','red')+
+    quickItem('check','Задача','qa-task','green')+quickItem('phone','Звонок','qa-call','gold')+
+    quickItem('folder','Новое дело','new-matter','navy')+quickItem('doc','Запись в журнал','qa-journal','gold')+
+    quickItem('brief','День участия','pt-new','blue')+quickItem('tpl','Шаблон','templates','slate')+
   '</div>');
+  $('#sheet').classList.add('quick-sheet');
 }
-function quickItem(i,t,act){return '<button class="quickitem" data-act="'+act+'">'+ico(i,'l')+'<b>'+t+'</b></button>';}
+function quickItem(i,t,act,tone){return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+ico(i,'l')+'</span><b>'+t+'</b></button>';}
 
 var GQ='';
 function globalSearchData(q){
@@ -1437,6 +1439,7 @@ function demo(){
 document.addEventListener('click', function(ev){
   var el=ev.target.closest('[data-act]'); if(!el)return;
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
+  if(el.classList.contains('quickitem')) vib(7);
   switch(a){
     /* navigation / dashboard */
     case 'go-matters': go('matters'); break;
@@ -1642,7 +1645,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3110').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3111').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
