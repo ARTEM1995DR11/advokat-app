@@ -195,7 +195,7 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
-function brandLine(){ return '<div class="brandline"><span class="brandseal">'+ico('scale')+'</span><span class="brandcopy"><b>Ежедневник адвоката</b><small>SECURE LEGAL WORKSPACE</small></span><i>OFFLINE</i></div>'; }
+function brandLine(){ return '<div class="brandline"><span class="brandseal">'+ico('scale')+'</span><span class="brandcopy"><b>Ежедневник адвоката</b><small>PRIVATE LEGAL DESK</small></span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function today(){ return iso(new Date()); }
 function parseD(s){ return new Date(s+'T00:00:00'); }
@@ -736,7 +736,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · Premium Tech 3.9.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · Premium Legal 4.0<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1656,7 +1656,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 3.9.1 Premium Tech</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 4.0 Premium Legal</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1808,7 +1808,7 @@ document.addEventListener('click', function(ev){
     case 'notify': toggleNotify();break;
     case 'notify-sound': toggleNotifySound();break;
     case 'notify-test': testNotification();break;
-    case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07111C':'#F4F6F9';break;
+    case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07131D':'#F5F0E8';break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
@@ -1954,7 +1954,7 @@ document.addEventListener('visibilitychange',function(){
 });
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
 window.addEventListener('focus',function(){if(unlocked)schedule();});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=391',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=400',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});

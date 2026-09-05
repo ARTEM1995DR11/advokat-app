@@ -1,9 +1,9 @@
-const CACHE = 'advokat-premium-tech-v3.9.1';
+const CACHE = 'advokat-premium-legal-v4.0.0';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=391',
-  './app.js?v=391',
+  './styles.css?v=400',
+  './app.js?v=400',
   './manifest.webmanifest',
   './icon-180.png',
   './icon-192.png',
