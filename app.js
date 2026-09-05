@@ -381,13 +381,20 @@ function todayPlaceholderRow(kind,text){
 }
 function todayQuoteOfDay(){
   var q=[
-    ['Порядок в делах<br>создаёт уверенность.','— А. Ф. Кони'],
-    ['Главное видно сразу,<br>когда всё на своём месте.','— Ежедневник адвоката'],
-    ['Срок под контролем —<br>решение принимается спокойнее.','— Ежедневник адвоката'],
-    ['Хорошая подготовка<br>начинается с порядка.','— Ежедневник адвоката'],
-    ['Каждое действие по делу<br>должно иметь своё место.','— Ежедневник адвоката'],
-    ['План на день освобождает<br>внимание для главного.','— Ежедневник адвоката'],
-    ['Точность в мелочах<br>создаёт уверенность в позиции.','— Ежедневник адвоката']
+    ['Правосудие не может быть<br>отрешено от справедливости.','— А. Ф. Кони'],
+    ['Смерть греху, но оставьте<br>жизнь грешнику!','— Ф. Н. Плевако'],
+    ['Факты отвергать нельзя:<br>снятой головы к плечам не приставишь.','— Ф. Н. Плевако'],
+    ['Мы должны быть рабами законов,<br>чтобы стать свободными.','— Марк Туллий Цицерон'],
+    ['Судья — это говорящий закон,<br>а закон — это немой судья.','— Марк Туллий Цицерон'],
+    ['Крайняя строгость закона —<br>крайняя несправедливость.','— Марк Туллий Цицерон'],
+    ['Свобода есть право делать всё,<br>что дозволено законами.','— Шарль Монтескьё'],
+    ['Совесть — это правильный суд<br>доброго человека.','— Аристотель'],
+    ['Советуй не то, что всего приятнее,<br>а то, что всего лучше.','— Солон'],
+    ['Требуя ответа от других,<br>и сам давай отчёт.','— Солон'],
+    ['Дело судьи — истолковать закон,<br>а не даровать его.','— Фрэнсис Бэкон'],
+    ['Судья, осуждающий невиновного,<br>осуждает самого себя.','— Публилий Сир'],
+    ['Послушание несправедливым<br>приказам есть преступление.','— Вольтер'],
+    ['Быть добрым совсем нетрудно:<br>трудно быть справедливым.','— Виктор Гюго']
   ];
   var d=parseD(today()), day=Math.floor(d.getTime()/86400000);
   return q[((day%q.length)+q.length)%q.length];
@@ -664,7 +671,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.9<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.10<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1635,7 +1642,7 @@ document.addEventListener('visibilitychange',function(){
   }
   if(unlocked){render();schedule();}
 });
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=317').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=3110').then(function(reg){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
