@@ -566,7 +566,7 @@ body.light .today-quote{
 .tabbar{padding:6px 4px calc(var(--bot) + 5px);background:color-mix(in srgb,var(--bg) 94%,transparent)}
 .tab{font-size:9.5px;gap:2px;padding:4px 0}
 .tab .ico{width:18px;height:18px}
-.fab{width:48px;height:48px;border-radius:50%;right:14px;bottom:calc(var(--bot) + 60px);background:linear-gradient(145deg,var(--gold2),var(--gold));box-shadow:0 9px 24px rgba(0,0,0,.28)}
+.fab{width:48px;height:48px;border-radius:50%;right:14px;bottom:calc(var(--bot) + 68px);background:linear-gradient(145deg,var(--gold2),var(--gold));box-shadow:0 9px 24px rgba(0,0,0,.28)}
 .fab .ico{width:23px;height:23px}
 body.light .tabbar{background:rgba(255,253,249,.94)}
 
@@ -587,3 +587,8 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 
 /* v3.1.7 edge swipe navigation */
 #sheet,#page,.screen{touch-action:pan-y;-webkit-overflow-scrolling:touch}
+
+/* 3.1.8 — компактная главная */
+.today-more{width:100%;height:36px;display:flex;align-items:center;justify-content:center;gap:5px;border-top:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--gold2);background:color-mix(in srgb,var(--goldsoft) 45%,transparent)}
+.today-more .ico{width:13px;height:13px}
+.today-more:active{background:var(--goldsoft)}

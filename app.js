@@ -379,6 +379,19 @@ function todayPlaceholderRow(kind,text){
   var icon = kind==='blue' ? 'gavel' : (kind==='green' ? 'check' : (kind==='danger' ? 'flag' : 'cal'));
   return '<div class="today-row placeholder-row '+kind+'"><span class="today-row-ico">'+ico(icon,'s')+'</span><span class="today-row-main"><b>'+esc(text)+'</b><small>Добавьте запись через кнопку + или в карточке дела</small></span></div>';
 }
+function todayQuoteOfDay(){
+  var q=[
+    ['Порядок в делах<br>создаёт уверенность.','— А. Ф. Кони'],
+    ['Главное видно сразу,<br>когда всё на своём месте.','— Ежедневник адвоката'],
+    ['Срок под контролем —<br>решение принимается спокойнее.','— Ежедневник адвоката'],
+    ['Хорошая подготовка<br>начинается с порядка.','— Ежедневник адвоката'],
+    ['Каждое действие по делу<br>должно иметь своё место.','— Ежедневник адвоката'],
+    ['План на день освобождает<br>внимание для главного.','— Ежедневник адвоката'],
+    ['Точность в мелочах<br>создаёт уверенность в позиции.','— Ежедневник адвоката']
+  ];
+  var d=parseD(today()), day=Math.floor(d.getTime()/86400000);
+  return q[((day%q.length)+q.length)%q.length];
+}
 function renderToday(){
   var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
   var overdueDeadlines=allOpen.filter(function(t){return t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
@@ -388,37 +401,50 @@ function renderToday(){
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
   var upcomingHearings=allOpen.filter(function(t){return t.kind==='hearing'&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).sort(sortT);
   var critical=overdueDeadlines.length + overdueOther.length + deadlinesToday.length;
+  var quote=todayQuoteOfDay();
 
-  function block(kind, icon, title, items, renderer, count, extra, placeholder){
-    return todaySectionHead(kind,icon,title,count==null?items.length:count,extra||'') +
-      '<div class="today-group '+kind+'-group">'+
-      (items.length?items.map(renderer).join(''):todayPlaceholderRow(kind, placeholder||'Пока нет записей'))+
-      '</div>';
+  function moreButton(act, n, label){
+    if(n<=0)return '';
+    return '<button class="today-more" data-act="'+act+'">Ещё '+n+' '+label+' '+ico('chev','s')+'</button>';
+  }
+  function block(kind, icon, title, items, renderer, extra){
+    if(!items.length)return '';
+    return todaySectionHead(kind,icon,title,items.length,extra||'')+
+      '<div class="today-group '+kind+'-group">'+items.map(renderer).join('')+'</div>';
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=316" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=318" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
-    '<div class="today-quote"><div><b>Порядок в делах<br>создаёт уверенность.</b><span>— А. Ф. Кони</span></div></div>';
+      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-quote"><div><b>'+quote[0]+'</b><span>'+quote[1]+'</span></div></div>';
 
-  if(overdueDeadlines.length){
-    html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
-  }
-  if(deadlinesToday.length){
-    html += block('danger','flag','Сроки сегодня',deadlinesToday,todayDeadlineRow);
-  }
+  html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
+  html += block('danger','flag','Сроки сегодня',deadlinesToday,todayDeadlineRow);
   if(overdueOther.length){
-    html += block('danger','flag','Просроченные задачи',overdueOther,todayTaskRow,null,'<button class="today-sec-link" data-act="reschedule">Перенести</button>','Просроченных задач нет');
+    html += block('danger','flag','Просроченные задачи',overdueOther,todayTaskRow,
+      '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
+  }
+  html += block('blue','gavel','Заседания сегодня',hearingsToday,todayHearingRow);
+
+  if(tasksToday.length){
+    var shownTasks=tasksToday.slice(0,4), moreTasks=tasksToday.length-shownTasks.length;
+    html += todaySectionHead('green','check','Задачи на сегодня',tasksToday.length,'')+
+      '<div class="today-group green-group">'+shownTasks.map(todayTaskRow).join('')+
+      moreButton('today-more-tasks',moreTasks,plural(moreTasks,'задача','задачи','задач'))+'</div>';
   }
 
-  html += block('blue','gavel','Заседания сегодня',hearingsToday,todayHearingRow,null,'','Сегодня заседаний нет');
-  html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow,null,'','На сегодня задач нет');
-  html += block('slate','cal','Ближайшие заседания',upcomingHearings.slice(0,5),todayUpcomingRow,null,'','На ближайшие дни заседаний нет');
+  if(upcomingHearings.length){
+    var shownHearings=upcomingHearings.slice(0,3), moreHearings=upcomingHearings.length-shownHearings.length;
+    html += todaySectionHead('slate','cal','Ближайшие заседания',upcomingHearings.length,'')+
+      '<div class="today-group slate-group">'+shownHearings.map(todayUpcomingRow).join('')+
+      moreButton('today-more-hearings',moreHearings,plural(moreHearings,'заседание','заседания','заседаний'))+'</div>';
+  }
 
   $('#sc-today').innerHTML=html;
 }
+
 
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 function plural(n,a,b,c){ n = Math.abs(n)%100; var m = n%10;
@@ -653,7 +679,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.8<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1432,6 +1458,8 @@ document.addEventListener('click', function(ev){
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';save();renderTasks();break;
     case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';save();renderTasks();break;
     case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='hearing';save();renderTasks();break;
+    case 'today-more-tasks': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';save();renderTasks();break;
+    case 'today-more-hearings': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='hearing';save();renderTasks();break;
     case 'f-deadline': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='deadline';save();renderTasks();break;
     case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
     case 'chip': S.ui.taskChip=v;save();renderTasks();break;

@@ -1,4 +1,4 @@
-const CACHE = 'advokat-iphone-offline-v31-restyle-317';
+const CACHE = 'advokat-iphone-offline-v31-restyle-318';
 const SHELL = [
   './',
   './index.html',
