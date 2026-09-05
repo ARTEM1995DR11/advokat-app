@@ -376,53 +376,47 @@ function todayUpcomingRow(t){
     '<small>'+esc(place||'Суд не указан')+'</small></span>'+ico('chev','s')+'</button>';
 }
 function renderToday(){
-  var d=new Date();
-  var allOpen=S.tasks.filter(function(t){return !t.done;});
+  var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
   var overdueDeadlines=allOpen.filter(function(t){return t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
-  var overdueOther=allOpen.filter(function(t){return t.kind!=='deadline'&&t.kind!=='hearing'&&t.due&&dd(t.due)<0;}).sort(sortT);
+  var overdueOther=allOpen.filter(function(t){return t.kind!=='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var hearingsToday=allOpen.filter(function(t){return t.kind==='hearing'&&t.due===today();}).sort(sortT);
   var tasksToday=allOpen.filter(function(t){return t.kind!=='hearing'&&t.kind!=='deadline'&&t.due===today();}).sort(sortT);
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
-  var upcomingHearings=allOpen.filter(function(t){return t.kind==='hearing'&&t.due&&dd(t.due)>=1&&dd(t.due)<=7;}).sort(sortT);
-  var critical=overdueDeadlines.length+overdueOther.length+deadlinesToday.length;
+  var upcomingHearings=allOpen.filter(function(t){return t.kind==='hearing'&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).sort(sortT);
+  var critical=overdueDeadlines.length + overdueOther.length + deadlinesToday.length;
+
+  function block(kind, icon, title, items, renderer, count, extra, placeholder){
+    return todaySectionHead(kind,icon,title,count==null?items.length:count,extra||'') +
+      '<div class="today-group '+kind+'-group">'+
+      (items.length?items.map(renderer).join(''):todayPlaceholderRow(kind, placeholder||'Пока нет записей'))+
+      '</div>';
+  }
 
   var html =
     '<div class="today-brand"><div class="today-brand-left"><span class="today-logo">'+ico('scale')+'</span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="quick-add" title="Добавить">'+ico('plus')+'</button></div></div>'+
-    '<div class="today-quote"><div><b>Порядок в делах<br>создаёт уверенность.</b><span>— А. Ф. Кони</span></div></div>';
+    '<div class="today-quote"><div><b>Порядок в делах
+создаёт уверенность.</b><span>— А. Ф. Кони</span></div></div>';
 
   if(overdueDeadlines.length){
-    html+=todaySectionHead('danger','flag','Просроченные сроки',overdueDeadlines.length)+
-      '<div class="today-group danger-group">'+overdueDeadlines.map(todayDeadlineRow).join('')+'</div>';
+    html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
   }
   if(deadlinesToday.length){
-    html+=todaySectionHead('danger','flag','Сроки сегодня',deadlinesToday.length)+
-      '<div class="today-group danger-group">'+deadlinesToday.map(todayDeadlineRow).join('')+'</div>';
+    html += block('danger','flag','Сроки сегодня',deadlinesToday,todayDeadlineRow);
   }
   if(overdueOther.length){
-    html+=todaySectionHead('danger','flag','Просроченные задачи',overdueOther.length,
-      '<button class="today-sec-link" data-act="reschedule">Перенести</button>')+
-      '<div class="today-group danger-group">'+overdueOther.map(todayTaskRow).join('')+'</div>';
+    html += block('danger','flag','Просроченные задачи',overdueOther,todayTaskRow,null,'<button class="today-sec-link" data-act="reschedule">Перенести</button>','Просроченных задач нет');
   }
-  if(hearingsToday.length){
-    html+=todaySectionHead('blue','gavel','Заседания сегодня',hearingsToday.length)+
-      '<div class="today-group blue-group">'+hearingsToday.map(todayHearingRow).join('')+'</div>';
-  }
-  if(tasksToday.length){
-    html+=todaySectionHead('green','check','Задачи на сегодня',tasksToday.length)+
-      '<div class="today-group green-group">'+tasksToday.map(todayTaskRow).join('')+'</div>';
-  }
-  if(upcomingHearings.length){
-    html+=todaySectionHead('slate','cal','Ближайшие заседания',upcomingHearings.length)+
-      '<div class="today-group slate-group">'+upcomingHearings.slice(0,5).map(todayUpcomingRow).join('')+'</div>';
-  }
-  if(!overdueDeadlines.length&&!deadlinesToday.length&&!overdueOther.length&&!hearingsToday.length&&!tasksToday.length&&!upcomingHearings.length){
-    html+='<div class="today-empty">'+ico('scale')+'<b>На сегодня всё под контролем</b><span>Срочных сроков, заседаний и задач нет.</span><button class="btn" data-act="quick-add">Добавить запись</button></div>';
-  }
+
+  html += block('blue','gavel','Заседания сегодня',hearingsToday,todayHearingRow,null,'','Сегодня заседаний нет');
+  html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow,null,'','На сегодня задач нет');
+  html += block('slate','cal','Ближайшие заседания',upcomingHearings.slice(0,5),todayUpcomingRow,null,'','На ближайшие дни заседаний нет');
+
   $('#sc-today').innerHTML=html;
 }
+
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 function plural(n,a,b,c){ n = Math.abs(n)%100; var m = n%10;
   if(n>10&&n<20) return c; if(m>1&&m<5) return b; if(m===1) return a; return c; }
