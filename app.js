@@ -1767,7 +1767,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(reloading)return; reloading=true; window.location.reload();
     });
-    navigator.serviceWorker.register('./sw.js?v=3116').then(function(reg){
+    navigator.serviceWorker.register('./sw.js?v=3117').then(function(reg){
       reg.update().catch(function(){});
       if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');
       reg.addEventListener('updatefound',function(){
