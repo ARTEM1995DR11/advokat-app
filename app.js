@@ -195,7 +195,7 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
-function brandLine(){ return '<div class="brandline"><span class="brandseal">'+ico('scale')+'</span><span class="brandcopy"><b>Ежедневник адвоката</b><small>PRIVATE LEGAL DESK</small></span><i>OFFLINE</i></div>'; }
+function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function today(){ return iso(new Date()); }
 function parseD(s){ return new Date(s+'T00:00:00'); }
@@ -411,40 +411,65 @@ function greet(){ var h = new Date().getHours();
   return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'; }
 
 function renderToday(){
-  /* 4.1: компактный экран «Сегодня» — как утверждённый макет: без hero/KPI. */
+  /* 3.5: стартовый экран — не хронологическая лента, а очередь того, что нельзя пропустить. */
   var lateDeadlines = S.tasks.filter(function(t){return !t.done&&t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var todayHearings = S.tasks.filter(function(t){return !t.done&&t.kind==='hearing'&&t.due===today();}).sort(sortT);
   var todayTasks = S.tasks.filter(function(t){return !t.done&&t.kind!=='hearing'&&t.due===today();}).sort(sortT);
   var otherOverdue = S.tasks.filter(function(t){return !t.done&&t.kind!=='hearing'&&t.kind!=='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var upcomingHearings = S.tasks.filter(function(t){return !t.done&&t.kind==='hearing'&&t.due&&dd(t.due)>=1&&dd(t.due)<=7;}).sort(sortT);
-  var d=new Date();
-  var html =
-  '<div class="top concepttop"><div><h1>Сегодня</h1><div class="sub">'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</div></div>'+ 
-    '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button>'+ 
+  var doneToday = S.tasks.filter(function(t){return t.kind!=='hearing'&&t.done&&t.doneAt&&t.doneAt.slice(0,10)===today();}).length;
+  var workToday = todayTasks.length+otherOverdue.length+lateDeadlines.length;
+  var total = workToday+doneToday;
+  var pct = total ? Math.round(doneToday/total*100) : (S.tasks.some(function(t){return t.kind!=='hearing';})?100:0);
+  var d=new Date(), critical=lateDeadlines.length+todayHearings.length+todayTasks.length+otherOverdue.length;
+  var brief = lateDeadlines.length
+    ? '<b>'+lateDeadlines.length+' '+plural(lateDeadlines.length,'процессуальный срок просрочен','процессуальных срока просрочены','процессуальных сроков просрочено')+'.</b> Это первый приоритет.'
+    : todayHearings.length
+      ? '<b>Сегодня '+todayHearings.length+' '+plural(todayHearings.length,'заседание','заседания','заседаний')+'.</b> Сначала проверьте время, суд и материалы.'
+      : todayTasks.length
+        ? '<b>'+todayTasks.length+' '+plural(todayTasks.length,'задача','задачи','задач')+' на сегодня.</b> Критичных просроченных сроков нет.'
+        : otherOverdue.length
+          ? '<b>'+otherOverdue.length+' '+plural(otherOverdue.length,'просроченная задача','просроченные задачи','просроченных задач')+'.</b> Процессуальных сроков среди них нет.'
+          : noData()?'<b>Рабочее пространство пусто.</b> Создайте доверителя или первое дело.'
+          : '<b>На сегодня критичных действий нет.</b> Ниже — ближайшие заседания и дела в работе.';
+
+  var html=brandLine()+
+  '<div class="top"><div><div class="eyebrow">'+greet()+(S.settings.name?', '+esc(S.settings.name):'')+'</div><h1>Сегодня</h1>'+ 
+    '<div class="sub">'+d.getDate()+' '+MON[d.getMonth()]+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</div></div>'+ 
+    '<div class="topacts"><button class="iconbtn" data-act="global-search" title="Глобальный поиск">'+ico('search')+'</button>'+ 
     '<button class="iconbtn" data-act="print-day" title="План дня">'+ico('doc')+'</button>'+ 
-    '<button class="iconbtn'+(S.settings.notify?' on':'')+'" data-act="notify-sheet" title="Напоминания">'+ico('bell')+'</button></div></div>'+ 
-  '<div class="dailyquote"><span class="quoteMark">“</span><div><b>Порядок в делах создаёт уверенность.</b><small>Все критичные события — в порядке приоритета.</small></div></div>';
+    '<button class="iconbtn'+(S.settings.notify?' on':'')+'" data-act="notify-sheet">'+ico('bell')+'</button></div></div>'+ 
+  (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Нужна резервная копия</b><small>'+(S.settings.lastBackup?'Последняя — '+backupAge()+' дн. назад':'Ещё не создавалась')+'</small></span>'+ico('chev','s')+'</button>':'')+
+  '<div class="hero"><div class="ringrow">'+ring(pct)+'<div class="rt"><div class="quote">'+brief+'</div></div></div></div>'+ 
+  '<div class="kpis">'+
+    kpi(lateDeadlines.length,'Сроки !','red','f-deadline')+
+    kpi(todayHearings.length,'Засед.','blue','f-hear')+
+    kpi(todayTasks.length,'Задачи','gold','f-today')+
+    kpi(activeM().length,'Дел','ok','go-matters')+
+  '</div>';
 
   if(lateDeadlines.length){
-    html+='<div class="agendahead red"><div>'+ico('flag','s')+'<b>Просроченные сроки</b></div><em>'+lateDeadlines.length+'</em></div>'+lateDeadlines.map(function(t){return taskCard(t);}).join('');
-  }
-  if(otherOverdue.length){
-    html+='<div class="agendahead red soft"><div>'+ico('list','s')+'<b>Просроченные задачи</b></div><em>'+otherOverdue.length+'</em><button class="link" data-act="reschedule">Перенести</button></div>'+otherOverdue.map(function(t){return taskCard(t);}).join('');
+    html+='<div class="priorityhead danger"><span>1</span><div><b>Просроченные процессуальные сроки</b><small>Проверить в первую очередь</small></div></div>'+lateDeadlines.map(function(t){return taskCard(t);}).join('');
   }
   if(todayHearings.length){
-    html+='<div class="agendahead blue"><div>'+ico('gavel','s')+'<b>Заседания сегодня</b></div><em>'+todayHearings.length+'</em></div>'+todayHearings.map(function(t){return taskCard(t,{noDue:true});}).join('');
+    html+='<div class="priorityhead hearing"><span>2</span><div><b>Заседания сегодня</b><small>Время, суд и дело — перед глазами</small></div></div>'+todayHearings.map(function(t){return taskCard(t,{noDue:true});}).join('');
   }
   if(todayTasks.length){
-    html+='<div class="agendahead green"><div>'+ico('check','s')+'<b>Задачи на сегодня</b></div><em>'+todayTasks.length+'</em></div>'+todayTasks.map(function(t){return taskCard(t,{noDue:true});}).join('');
+    html+='<div class="priorityhead"><span>3</span><div><b>Задачи на сегодня</b><small>После критичных сроков и заседаний</small></div></div>'+todayTasks.map(function(t){return taskCard(t,{noDue:true});}).join('');
+  }
+  if(otherOverdue.length){
+    html+='<div class="sec"><h2 style="color:var(--dang)">Другие просроченные задачи</h2><button class="link" data-act="reschedule">Перенести на сегодня</button></div>'+otherOverdue.map(function(t){return taskCard(t);}).join('');
   }
   if(upcomingHearings.length){
-    html+='<div class="agendahead blue mutedHead"><div>'+ico('cal','s')+'<b>Ближайшие заседания</b></div><em>'+upcomingHearings.length+'</em><button class="link" data-act="f-hear">Все</button></div>'+upcomingHearings.slice(0,5).map(function(t){return taskCard(t);}).join('');
+    html+='<div class="sec"><h2>Ближайшие заседания · 1–7 дней</h2><button class="link" data-act="f-hear">Все</button></div>'+upcomingHearings.slice(0,5).map(function(t){return taskCard(t);}).join('');
   }
-  if(!lateDeadlines.length&&!otherOverdue.length&&!todayHearings.length&&!todayTasks.length&&!upcomingHearings.length){
-    html+='<div class="card">'+empty('scale',noData()?'Рабочее пространство пусто':'На сегодня всё под контролем',
-      noData()?'Создайте доверителя или первое дело — события и сроки появятся здесь автоматически.':'Просроченных сроков, заседаний и задач на сегодня нет.',
+  if(!critical && !upcomingHearings.length){
+    html+='<div class="card">'+empty('scale',noData()?'Начните с доверителя или дела':'На сегодня всё под контролем',
+      noData()?'Создайте карточку доверителя, затем дело — повторно вводить ФИО и телефон больше не придётся.':'Просроченных сроков, заседаний и задач на сегодня нет.',
       noData()?[{act:'new-client',t:'Добавить доверителя'},{act:'new-matter',t:'Завести дело',ghost:1}]:null)+'</div>';
   }
+  var mlist=activeM().slice().sort(function(a,b){var A=matterStats(a),B=matterStats(b);if(B.late!==A.late)return B.late-A.late;var an=A.next?dd(A.next.due):9999,bn=B.next?dd(B.next.due):9999;return an-bn;});
+  if(mlist.length)html+='<div class="sec"><h2>Дела в работе</h2><button class="link" data-act="go-matters">Все</button></div>'+mlist.slice(0,3).map(matterCard).join('');
   $('#sc-today').innerHTML=html;
 }
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
@@ -711,7 +736,7 @@ function renderMore(){
     row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
     row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
   '</div>'+
-  '<div class="footnote">Ежедневник адвоката · Premium Legal 4.1<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  '<div class="footnote">Ежедневник адвоката · Premium Legal Tech 4.2<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){
@@ -1631,7 +1656,7 @@ function pinPress(n){
    ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
    ===================================================================== */
 function showIntro(){
-  openSheet('<h2>Ежедневник адвоката 4.1 Premium Legal</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  openSheet('<h2>Ежедневник адвоката 4.2</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
   '<div class="card pad0">'+
     infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
     infoRow('user','Доверители','Одна карточка контакта может быть связана с несколькими делами')+
@@ -1783,7 +1808,7 @@ document.addEventListener('click', function(ev){
     case 'notify': toggleNotify();break;
     case 'notify-sound': toggleNotifySound();break;
     case 'notify-test': testNotification();break;
-    case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07131D':'#F5F0E8';break;
+    case 'theme': S.settings.theme=S.settings.theme==='dark'?'light':'dark';save();render();document.querySelector('meta[name=theme-color]').content=S.settings.theme==='dark'?'#07111C':'#F4F6F9';break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
@@ -1929,7 +1954,7 @@ document.addEventListener('visibilitychange',function(){
 });
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&unlocked){schedule();}});
 window.addEventListener('focus',function(){if(unlocked)schedule();});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=400',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js?v=420',{updateViaCache:'none'}).then(function(reg){try{reg.update();}catch(e){}if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');reg.addEventListener('updatefound',function(){var w=reg.installing;if(!w)return;w.addEventListener('statechange',function(){if(w.state==='installed'&&navigator.serviceWorker.controller){w.postMessage('SKIP_WAITING');}});});}).catch(function(){});});}
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
