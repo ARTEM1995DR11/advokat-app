@@ -2451,6 +2451,163 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.65 — вводные подсказки редактора убраны */
+/* 3.1.69 — вводные подсказки редактора убраны */
 .task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
 .task-editor-sheet .task-editor-type{margin-top:0!important}
+
+
+/* 3.1.69 — центрирование «Запись в журнал» в быстром добавлении */
+.quickgrid-core .quickitem[data-act="qa-journal"],
+body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
+  min-height:72px!important;
+  padding:12px 16px!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:14px!important;
+  text-align:center!important;
+}
+.quickgrid-core .quickitem[data-act="qa-journal"] .qico,
+body.light .quickgrid-core .quickitem[data-act="qa-journal"] .qico{
+  margin:0!important;
+}
+.quickgrid-core .quickitem[data-act="qa-journal"] b,
+body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
+  display:block!important;
+  flex:0 1 auto!important;
+  text-align:center!important;
+  font-size:15px!important;
+  line-height:1.12!important;
+}
+@media(max-width:390px){
+  .quickgrid-core .quickitem[data-act="qa-journal"],
+  body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
+    min-height:68px!important;
+    padding:11px 14px!important;
+    gap:12px!important;
+  }
+  .quickgrid-core .quickitem[data-act="qa-journal"] b,
+  body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{font-size:14.5px!important}
+}
+
+
+/* 3.1.69 — кнопка сохранения ещё ниже */
+.sheet.task-editor-sheet,
+body.light .sheet.task-editor-sheet{
+  padding-bottom:0!important;
+}
+.task-editor-sheet.withfoot .shbody,
+body.light .task-editor-sheet.withfoot .shbody{
+  padding-bottom:0!important;
+}
+.task-editor-sheet.withfoot .shfoot,
+body.light .task-editor-sheet.withfoot .shfoot{
+  margin-top:auto!important;
+  padding-top:0!important;
+  padding-bottom:max(0px, calc(var(--bot) - 18px))!important;
+  gap:4px!important;
+}
+.task-editor-sheet .task-editor-save,
+body.light .task-editor-sheet .task-editor-save{
+  min-height:46px!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
+}
+.task-editor-sheet .task-editor-delete,
+body.light .task-editor-sheet .task-editor-delete{
+  margin-top:2px!important;
+}
+@media (max-width:390px){
+  .sheet.task-editor-sheet,
+  body.light .sheet.task-editor-sheet{padding-bottom:0!important}
+  .task-editor-sheet.withfoot .shfoot,
+  body.light .task-editor-sheet.withfoot .shfoot{
+    padding-bottom:max(0px, calc(var(--bot) - 20px))!important;
+    gap:3px!important;
+  }
+  .task-editor-sheet .task-editor-save,
+  body.light .task-editor-sheet .task-editor-save{min-height:45px!important}
+}
+
+
+/* 3.1.69 — нижняя навигация ещё тоньше и ниже */
+.premium-nav.tabbar,
+body.light .premium-nav.tabbar{
+  bottom:3px!important;
+  height:calc(58px + var(--bot))!important;
+  padding:3px 8px calc(var(--bot) + 2px)!important;
+  border-radius:24px!important;
+}
+.premium-nav .tab,
+body.light .premium-nav .tab{
+  padding:1px 2px 1px!important;
+  grid-template-rows:32px 12px 3px!important;
+  row-gap:1px!important;
+  font-size:11.7px!important;
+}
+.premium-nav .tab-ico,
+body.light .premium-nav .tab-ico{
+  width:32px!important;
+  height:32px!important;
+}
+.premium-nav .tab .ico,
+body.light .premium-nav .tab .ico{
+  width:21px!important;
+  height:21px!important;
+}
+.premium-nav .tab-label,
+body.light .premium-nav .tab-label{
+  height:12px!important;
+  line-height:12px!important;
+}
+.premium-nav .tab::after,
+body.light .premium-nav .tab::after{
+  width:38px!important;
+  height:3px!important;
+}
+.screen{padding-bottom:calc(var(--bot) + 82px)!important}
+.timerpill{bottom:calc(var(--bot) + 52px)!important}
+#fab.fab{bottom:calc(var(--bot) + 58px)!important}
+
+@media(max-width:390px){
+  .premium-nav.tabbar,
+  body.light .premium-nav.tabbar{
+    left:10px!important;
+    right:10px!important;
+    bottom:2px!important;
+    height:calc(55px + var(--bot))!important;
+    padding:2px 6px calc(var(--bot) + 2px)!important;
+    border-radius:22px!important;
+  }
+  .premium-nav .tab,
+  body.light .premium-nav .tab{
+    grid-template-rows:30px 11px 3px!important;
+    row-gap:1px!important;
+    padding:1px 2px 1px!important;
+    font-size:11.2px!important;
+  }
+  .premium-nav .tab-ico,
+  body.light .premium-nav .tab-ico{width:30px!important;height:30px!important}
+  .premium-nav .tab .ico,
+  body.light .premium-nav .tab .ico{width:20px!important;height:20px!important}
+  .premium-nav .tab-label,
+  body.light .premium-nav .tab-label{height:11px!important;line-height:11px!important}
+  .premium-nav .tab::after,
+  body.light .premium-nav .tab::after{width:34px!important;height:3px!important}
+  .screen{padding-bottom:calc(var(--bot) + 78px)!important}
+  .timerpill{bottom:calc(var(--bot) + 48px)!important}
+  #fab.fab{bottom:calc(var(--bot) + 54px)!important}
+}
+
+
+/* 3.1.69 — встречи на экране «Сегодня» вынесены отдельно */
+.today-sec.purple{color:var(--purple);background:linear-gradient(90deg,rgba(139,123,216,.14),transparent)}
+.today-sec.purple .today-sec-ico{background:rgba(139,123,216,.14)}
+.today-sec.purple .today-count{background:var(--purple);color:#fff}
+.today-group.purple-group{border-left-color:rgba(139,123,216,.30)}
+.today-kindline{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important;margin-top:3px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+.today-kind-badge{display:inline-flex;align-items:center;justify-content:center;height:18px;padding:0 8px;border-radius:999px;font-size:10.2px;font-weight:800;line-height:1;background:rgba(115,139,158,.14);color:var(--txt2)}
+.today-kind-badge.meeting{background:rgba(139,123,216,.16);color:var(--purple)}
+.today-kind-context{font-size:11px!important;line-height:1.25!important;color:var(--muted)!important}
+.meeting-row .meeting-place{margin-top:4px!important;font-size:11.3px!important;line-height:1.3!important;color:#7A5BC8!important;font-weight:650!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+body.light .meeting-row .meeting-place{color:#6C56B3!important}
+body.light .today-kind-badge.meeting{background:rgba(122,91,200,.12);color:#6C56B3}

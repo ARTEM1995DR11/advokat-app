@@ -578,6 +578,17 @@ function todayTaskRow(t){
     (t.note?'<small class="today-note">'+esc(t.note)+'</small>':'')+'</span>'+
     (t.time?'<span class="today-row-time mono">'+esc(t.time)+'</span>':'')+'</div>';
 }
+function todayMeetingRow(t){
+  var m=todayMatter(t);
+  var context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  var typeLine='<small class="today-kindline"><span class="today-kind-badge meeting">Встреча</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>';
+  return '<div class="today-row task-row meeting-row" data-act="task" data-id="'+t.id+'">'+
+    '<button class="today-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button><span class="today-row-main"><b>'+esc(t.title||'Встреча')+'</b>'+
+    typeLine+
+    (t.place?'<small class="meeting-place">'+esc(t.place)+'</small>':'')+
+    (t.note?'<small class="today-note">'+esc(t.note)+'</small>':'')+'</span>'+
+    (t.time?'<span class="today-row-time mono">'+esc(t.time)+'</span>':'')+'</div>';
+}
 function todayUpcomingRow(t){
   var m=todayMatter(t), d=parseD(t.due), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
   return '<button class="today-row upcoming-row" data-act="task" data-id="'+t.id+'">'+
@@ -613,12 +624,14 @@ function renderToday(){
   var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
   var pendingHearingResults=allOpen.filter(hearingNeedsResult).sort(sortT);
   var overdueDeadlines=allOpen.filter(function(t){return t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
-  var overdueOther=allOpen.filter(function(t){return t.kind!=='deadline'&&t.kind!=='hearing'&&t.due&&dd(t.due)<0;}).sort(sortT);
+  var overdueMeetings=allOpen.filter(function(t){return t.kind==='meeting'&&t.due&&dd(t.due)<0;}).sort(sortT);
+  var overdueTasks=allOpen.filter(function(t){return t.kind==='task'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var hearingsToday=allOpen.filter(function(t){return t.kind==='hearing'&&t.due===today()&&!hearingNeedsResult(t);}).sort(sortT);
-  var tasksToday=allOpen.filter(function(t){return t.kind!=='hearing'&&t.kind!=='deadline'&&t.due===today();}).sort(sortT);
+  var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today();}).sort(sortT);
+  var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&t.due===today();}).sort(sortT);
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
   var upcomingHearings=allOpen.filter(function(t){return t.kind==='hearing'&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).sort(sortT);
-  var critical=overdueDeadlines.length + overdueOther.length + deadlinesToday.length;
+  var critical=overdueDeadlines.length + overdueMeetings.length + overdueTasks.length + deadlinesToday.length;
   var quote=todayQuoteOfDay();
 
   function block(kind, icon, title, items, renderer, extra){
@@ -636,12 +649,17 @@ function renderToday(){
 
   html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
   html += block('danger','flag','Сроки сегодня',deadlinesToday,todayDeadlineRow);
-  if(overdueOther.length){
-    html += block('danger','flag','Просроченные задачи',overdueOther,todayTaskRow,
+  if(overdueMeetings.length){
+    html += block('purple','user','Просроченные встречи',overdueMeetings,todayMeetingRow,
+      '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
+  }
+  if(overdueTasks.length){
+    html += block('danger','flag','Просроченные задачи',overdueTasks,todayTaskRow,
       '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
   }
   html += block('gold','clock','Требуют результата',pendingHearingResults,todayPendingHearingRow);
   html += block('blue','gavel','Заседания сегодня',hearingsToday,todayHearingRow);
+  html += block('purple','user','Встречи сегодня',meetingsToday,todayMeetingRow);
 
   html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow);
   html += block('slate','cal','Ближайшие заседания',upcomingHearings,todayUpcomingRow);
@@ -1394,7 +1412,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3165" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3169" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
