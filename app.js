@@ -1394,7 +1394,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3160" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3161" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   (hearing?'<div class="hint hearinghint"><b>Заседание можно сохранить и без карточки дела.</b><br>Для постоянного дела выберите досье. Для разового суда или назначения оставьте «без дела» и при необходимости укажите доверителя и номер материала.</div>':(meeting?'<div class="hint hearinghint"><b>Встречу можно привязать к делу или оставить самостоятельной записью.</b><br>Укажите тему встречи, дату и время, а при необходимости место и комментарий.</div>':''))+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
@@ -1713,8 +1713,10 @@ function sheetParticipationLog(){
 
 function sheetQuickAdd(){
   openSheet('<div class="quickintro"><h2>Быстрая запись</h2><p class="sh-sub">Добавьте нужное действие без перехода по разделам.</p></div><div class="quickgrid quickgrid-core">'+
-    quickItem('gavel','Заседание','qa-hearing','blue')+quickItem('user','Встреча','qa-meeting','purple')+quickItem('flag','Процессуальный срок','qa-deadline','red')+
-    quickItem('check','Задача','qa-task','green')+quickItem('doc','Запись в журнал','qa-journal','gold')+
+    quickItem('gavel','Заседание','qa-hearing','blue')+
+    quickItem('user','Встреча','qa-meeting','purple')+
+    quickItem('flag','Процессуальный срок','qa-deadline','red')+
+    quickItem('check','Задача','qa-task','green')+
   '</div>');
   $('#sheet').classList.add('quick-sheet');
 }
