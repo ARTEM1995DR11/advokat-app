@@ -1141,19 +1141,72 @@ var KINESHMA_CITY_JUDGES = [
 function commonCourtByValue(value){
   return COMMON_KINESHMA_COURTS.filter(function(c){return c.value===value;})[0]||null;
 }
-function judgePresetOptions(current){
-  var world=COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;});
-  var selected=current||'';
-  var cityOpts=KINESHMA_CITY_JUDGES.map(function(j){return '<option value="'+esc(j)+'"'+(j===selected?' selected':'')+'>'+esc(j)+'</option>';}).join('');
-  var worldOpts=world.map(function(c){var label=c.short+' — '+c.judge;return '<option value="'+esc(c.judge)+'"'+(c.judge===selected?' selected':'')+'>'+esc(label)+'</option>';}).join('');
-  return '<option value="">— выбрать судью —</option><optgroup label="Кинешемский городской суд">'+cityOpts+'</optgroup><optgroup label="Мировые судьи Кинешмы">'+worldOpts+'</optgroup><option value="__manual__">Другой судья — ввести вручную</option>';
+function judgeDirectory(){
+  var cityCourt=(COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0]||{}).value||'Кинешемский городской суд Ивановской области';
+  var rows=KINESHMA_CITY_JUDGES.map(function(j){return {judge:j,court:cityCourt,label:j};});
+  COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
+    rows.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
+  });
+  return rows;
 }
-function commonCourtPresetsHTML(act){
-  var main=COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0];
-  var rest=COMMON_KINESHMA_COURTS.filter(function(c){return !c.main;});
-  return '<div class="court-presets"><small class="court-presets-label">Часто используемые суды</small>'+
-    '<button class="court-preset court-preset-main" data-act="'+act+'" data-v="'+esc(main.value)+'">'+ico('gavel','s')+'<span>'+esc(main.short)+'</span></button>'+
-    '<div class="court-preset-grid">'+rest.map(function(c){return '<button class="court-preset" data-act="'+act+'" data-v="'+esc(c.value)+'">'+esc(c.short)+'</button>';}).join('')+'</div></div>';
+function normLookup(v){
+  return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/gi,'').trim();
+}
+function knownJudgeEntry(value){
+  var q=normLookup(value); if(!q)return null;
+  var rows=judgeDirectory(), exact=rows.filter(function(x){return normLookup(x.judge)===q;});
+  if(exact.length===1)return exact[0];
+  if(q.length<4)return null;
+  var candidates=rows.filter(function(x){
+    var full=normLookup(x.judge), surname=normLookup((x.judge||'').split(/\s+/)[0]);
+    return full.indexOf(q)===0||surname===q;
+  });
+  return candidates.length===1?candidates[0]:null;
+}
+function courtChoiceOptions(current){
+  var selected=current||'';
+  return '<option value="">— выбрать суд —</option>'+COMMON_KINESHMA_COURTS.map(function(c){
+    return '<option value="'+esc(c.value)+'"'+(c.value===selected?' selected':'')+'>'+esc(c.short)+'</option>';
+  }).join('');
+}
+function judgeChoiceOptions(current){
+  var selected=current||'';
+  return '<option value="">— выбрать судью —</option>'+judgeDirectory().map(function(x){
+    return '<option value="'+esc(x.judge)+'"'+(x.judge===selected?' selected':'')+'>'+esc(x.label)+'</option>';
+  }).join('');
+}
+function courtDatalist(){
+  return '<datalist id="court-options">'+COMMON_KINESHMA_COURTS.map(function(c){return '<option value="'+esc(c.value)+'">'+esc(c.short)+'</option>';}).join('')+'</datalist>';
+}
+function judgeDatalist(){
+  return '<datalist id="judge-options">'+judgeDirectory().map(function(x){return '<option value="'+esc(x.judge)+'">'+esc(x.label)+'</option>';}).join('')+'</datalist>';
+}
+function inlineChoiceField(inputId,selectId,value,placeholder,optionsHtml,listId){
+  return '<div class="inline-choice-wrap"><input id="'+inputId+'"'+(listId?' list="'+listId+'"':'')+' value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
+    '<span class="inline-choice-arrow">'+ico('chev','s')+'</span><select id="'+selectId+'" class="inline-choice-select" aria-label="Выбрать из списка">'+optionsHtml+'</select></div>';
+}
+function applyKnownJudgeCourt(judgeValue,editorMode){
+  var entry=knownJudgeEntry(judgeValue); if(!entry)return false;
+  if(editorMode==='matter'){
+    var mc=$('#m-court'); if(mc)mc.value=entry.court;
+    var mcs=$('#m-court-choice'); if(mcs)mcs.value=entry.court;
+  }else if(ED&&ED.kind==='hearing'){
+    ED.place=entry.court;
+    var pl=$('#e-place'); if(pl)pl.value=entry.court;
+    var cs=$('#e-court-choice'); if(cs)cs.value=entry.court;
+  }
+  return true;
+}
+function applyKnownCourtJudge(courtValue,editorMode){
+  var c=commonCourtByValue(courtValue); if(!c||!c.judge)return false;
+  if(editorMode==='matter'){
+    var mj=$('#m-judge'); if(mj)mj.value=c.judge;
+  }else if(ED&&ED.kind==='hearing'){
+    ED.hearingJudge=c.judge;
+    var hj=$('#e-hjudge'); if(hj)hj.value=c.judge;
+    var js=$('#e-hjudge-choice'); if(js)js.value=c.judge;
+  }
+  return true;
 }
 function editTask(t,preset){
   ED = t ? JSON.parse(JSON.stringify(t))
@@ -1185,13 +1238,13 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3142" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3144" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   (hearing?'<div class="hint hearinghint"><b>Заседание можно сохранить и без карточки дела.</b><br>Для постоянного дела выберите досье. Для разового суда или назначения оставьте «без дела» и при необходимости укажите доверителя и номер материала.</div>':'')+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>Что нужно сделать</label><input id="e-title" placeholder="Подготовить апелляционную жалобу" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':'Дело / доверитель')+'</label><select id="e-mid">'+opts+'</select></div>'+
-  (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label><select id="e-hjudge-preset">'+judgePresetOptions(t.hearingJudge||'')+'</select><input id="e-hjudge" class="hearing-judge-manual" placeholder="Фамилия И.О." value="'+esc(t.hearingJudge||'')+'"><small class="fieldhint">Для Кинешемского городского суда и мировых участков можно выбрать судью из списка. При необходимости фамилию можно ввести вручную.</small></div></div>':'')+
+  (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist()+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
     '<div class="fld"><label>Дата'+(hearing?' *':'')+'</label><input id="e-due" type="date" value="'+esc(t.due)+'"></div>'+
     '<div class="fld"><label>Время'+(hearing?' *':'')+'</label><input id="e-time" type="time" value="'+esc(t.time)+'"></div>'+
@@ -1200,7 +1253,7 @@ function drawEditor(){
       return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'):'')+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-priority-field"><label>Приоритет</label><div class="chips task-priority-chips">'+pris+'</div></div>':'')+
   (hearing
-    ? '<div class="fld hearing-court-field"><label>Суд / место заседания *</label><input id="e-place" placeholder="Выберите ниже или укажите другой суд" value="'+esc(t.place||'')+'"><small class="fieldhint">Для постоянного дела суд подставится из досье. Для разового заседания можно выбрать один из часто используемых судов ниже или ввести другой вручную.</small>'+commonCourtPresetsHTML('e-court-preset')+'</div>'
+    ? '<div class="fld hearing-court-field"><label>Суд / место заседания *</label>'+inlineChoiceField('e-place','e-court-choice',t.place||'','Суд или место заседания',courtChoiceOptions(t.place||''),'court-options')+'<small class="fieldhint">Можно выбрать Кинешемский городской суд или мировой участок стрелкой справа либо ввести любой другой суд вручную.</small>'+courtDatalist()+'</div>'
     : '')+
   (t.kind==='deadline' ? '<div class="deadline-calculator">'+
     '<div class="deadline-calculator-title"><span>'+ico('clock','s')+'</span><div><b>Юридический калькулятор срока</b><small>Правила расчёта встроены по выбранной норме</small></div></div>'+
@@ -1327,7 +1380,7 @@ function editMatter(m){
   '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="Иванов И.И. — взыскание долга" value="'+esc(MED.title)+'"></div>'+
   '<div class="two"><div class="fld"><label>Доверитель</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="ФИО / организация"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" value="'+esc(MED.phone)+'" placeholder="+7 900 000-00-00"></div></div>'+
   '<div class="two"><div class="fld"><label>Номер дела / материала</label><input id="m-number" value="'+esc(MED.number)+'"></div><div class="fld"><label>Стадия</label><select id="m-stage">'+STAGE.map(function(x){return '<option'+(MED.stage===x?' selected':'')+'>'+x+'</option>';}).join('')+'</select></div></div>'+
-  '<div class="fld matter-court-field"><label>Суд / следственный орган / ведомство</label><input id="m-court" value="'+esc(MED.court||'')+'" placeholder="Выберите суд ниже или введите другой орган">'+commonCourtPresetsHTML('m-court-preset')+'</div>'+
+  '<div class="fld matter-court-field"><label>Суд / следственный орган / ведомство</label>'+inlineChoiceField('m-court','m-court-choice',MED.court||'','Введите или выберите суд / орган',courtChoiceOptions(MED.court||''),'court-options-m')+'<datalist id="court-options-m">'+COMMON_KINESHMA_COURTS.map(function(c){return '<option value="'+esc(c.value)+'">'+esc(c.short)+'</option>';}).join('')+'</datalist></div>'+
   '<div class="two"><div class="fld"><label>Судья</label><input id="m-judge" value="'+esc(MED.judge||'')+'"></div><div class="fld"><label>Следователь / дознаватель</label><input id="m-investigator" value="'+esc(MED.investigator||'')+'"></div></div>'+
   '<div class="two"><div class="fld"><label>Статья / квалификация</label><input id="m-article" value="'+esc(MED.article||'')+'" placeholder="ч. 2 ст. 228 УК РФ"></div><div class="fld"><label>Статус лица</label><input id="m-role" value="'+esc(MED.role||'')+'" placeholder="обвиняемый / истец / ответчик"></div></div>'+
   '<div class="two"><div class="fld"><label>Мера пресечения</label><input id="m-restraint" value="'+esc(MED.restraint||'')+'"></div><div class="fld"><label>Ставка за день участия, '+esc(S.settings.cur)+'</label><input id="m-dayrate" type="number" inputmode="numeric" value="'+esc(MED.dayRate||'')+'" placeholder="'+(S.settings.dayRate||'')+'"></div></div>'+
@@ -1982,16 +2035,6 @@ document.addEventListener('click', function(ev){
     case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(prevKind==='deadline'&&v==='task'){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor();break;}
     case 'e-pri': ED.pri=v;pullEditor();drawEditor();break;
     case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor();break;
-    case 'e-court-preset': {
-      pullEditor(); ED.place=v; var cp=$('#e-place'); if(cp)cp.value=v;
-      var cc=commonCourtByValue(v);
-      if(cc&&cc.judge){
-        ED.hearingJudge=cc.judge;
-        var hj=$('#e-hjudge'); if(hj)hj.value=cc.judge;
-        var hp=$('#e-hjudge-preset'); if(hp)hp.value=cc.judge;
-      }
-      vib(5); break;
-    }
     case 'e-save': saveTask();break;
     case 'e-del': if(confirm(ED&&ED.kind==='hearing'?'Удалить заседание?':'Удалить задачу?')){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;
 
@@ -1999,7 +2042,6 @@ document.addEventListener('click', function(ev){
     case 'new-matter': closeSheet();editMatter(null);break;
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
-    case 'm-court-preset': {var mc=$('#m-court');if(mc)mc.value=v;vib(5);break;}
     case 'm-save': saveMatter();break;
     case 'm-add': editTask(null,{mid:id,due:today()});break;
     case 'm-hearing': editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;
@@ -2062,14 +2104,20 @@ document.addEventListener('click', function(ev){
   }
 });
 document.addEventListener('change',function(e){
-  if(e.target.id==='e-hjudge-preset'&&ED){
+  if(e.target.id==='e-hjudge-choice'&&ED){
     var jv=e.target.value, ji=$('#e-hjudge');
-    if(jv==='__manual__'){
-      ED.hearingJudge=''; if(ji){ji.value='';setTimeout(function(){try{ji.focus();}catch(x){}},60);}
-    }else{
-      ED.hearingJudge=jv||''; if(ji)ji.value=ED.hearingJudge;
-    }
-    return;
+    if(jv){ED.hearingJudge=jv;if(ji)ji.value=jv;applyKnownJudgeCourt(jv,'hearing');vib(5);}
+    e.target.value=''; return;
+  }
+  if(e.target.id==='e-court-choice'&&ED){
+    var cv=e.target.value, ci=$('#e-place');
+    if(cv){ED.place=cv;if(ci)ci.value=cv;applyKnownCourtJudge(cv,'hearing');vib(5);}
+    e.target.value=''; return;
+  }
+  if(e.target.id==='m-court-choice'){
+    var mv=e.target.value, mi=$('#m-court');
+    if(mv){if(mi)mi.value=mv;applyKnownCourtJudge(mv,'matter');vib(5);}
+    e.target.value=''; return;
   }
   if(e.target.id==='e-deadline-code'){
     ED.deadlineCode=e.target.value;
@@ -2095,7 +2143,7 @@ document.addEventListener('change',function(e){
         if(linkedJudge){
           ED.hearingJudge=linkedJudge;
           var hj=$('#e-hjudge'); if(hj)hj.value=linkedJudge;
-          var hp=$('#e-hjudge-preset'); if(hp)hp.value=linkedJudge;
+          var hp=$('#e-hjudge-choice'); if(hp)hp.value='';
         }
       }
     }
@@ -2109,6 +2157,14 @@ document.addEventListener('change',function(e){
 document.addEventListener('input',function(e){
   if(e.target.id==='q'){S.ui.q=e.target.value;renderTaskList();}
   if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
+  if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
+    ED.hearingJudge=e.target.value.trim(); applyKnownJudgeCourt(ED.hearingJudge,'hearing');
+  }
+  if(e.target.id==='e-place'&&ED&&ED.kind==='hearing'){
+    ED.place=e.target.value.trim(); var cc=commonCourtByValue(ED.place); if(cc&&cc.judge)applyKnownCourtJudge(ED.place,'hearing');
+  }
+  if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
+  if(e.target.id==='m-court'){ var mc=commonCourtByValue(e.target.value.trim()); if(mc&&mc.judge)applyKnownCourtJudge(e.target.value.trim(),'matter'); }
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}
