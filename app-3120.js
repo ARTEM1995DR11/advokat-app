@@ -424,7 +424,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=319" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=320" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
@@ -1780,7 +1780,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(reloading)return; reloading=true; window.location.reload();
     });
-    navigator.serviceWorker.register('./sw-3119.js', {updateViaCache:'none'}).then(function(reg){
+    navigator.serviceWorker.register('./sw-3120.js', {updateViaCache:'none'}).then(function(reg){
       try{ reg.update(); }catch(e){}
       reg.update().catch(function(){});
       if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');
