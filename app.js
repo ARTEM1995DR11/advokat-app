@@ -1269,6 +1269,9 @@ function drawEditor(){
   (isNew?'':((hearing||t.kind==='deadline')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>'));
   $('#sheet').classList.add('task-editor-sheet');
+  var editorSheet=$('#sheet'), editorBody=editorSheet&&editorSheet.querySelector('.shbody');
+  if(editorSheet) editorSheet.scrollLeft=0;
+  if(editorBody) editorBody.scrollLeft=0;
   if(isNew && !hearing) setTimeout(function(){ var e=$('#e-title'); if(e) e.focus(); },340);
 }
 function pullEditor(){
