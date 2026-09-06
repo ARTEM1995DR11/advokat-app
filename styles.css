@@ -209,6 +209,23 @@ svg{display:block}
 .sheet.open{transform:translateY(0)}
 .sheet.full{top:0;max-height:none;border-radius:0;padding-top:calc(var(--top) + 6px)}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line2);margin:7px auto 14px;flex:none}
+/* Полный запрет горизонтального смещения шторок на iPhone */
+.sheet,
+.sheet.withfoot,
+.sheet.withfoot .shbody,
+.sheet.withfoot .shfoot{
+  overflow-x:hidden!important;
+  overscroll-behavior-x:none!important;
+  touch-action:pan-y!important;
+  box-sizing:border-box;
+}
+.sheet.withfoot .shbody>* ,
+.sheet.withfoot .shfoot>*{
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box;
+}
+
 /* Шторка с закреплёнными действиями: тело прокручивается, кнопки всегда внизу */
 .sheet.withfoot{display:flex;flex-direction:column;overflow:hidden}
 .sheet.withfoot .shbody{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
@@ -1144,15 +1161,22 @@ body.light .backup-safety{background:linear-gradient(145deg,#FFFDF9,#FFF8ED);box
   background-size:100% 100%, min(86vw,520px) auto;
 }
 .task-editor-sheet.withfoot .shbody{
-  padding:0 1px 8px;
+  flex:1 1 auto;
+  min-height:0;
+  padding:0 1px 4px;
 }
 .task-editor-sheet.withfoot .shfoot{
+  position:sticky;
+  bottom:0;
+  z-index:3;
   margin:0 -2px;
-  padding:13px 2px calc(var(--bot) + 3px);
+  margin-top:auto;
+  padding:8px 2px calc(var(--bot) + 1px);
   border-top:1px solid rgba(211,169,76,.38);
-  background:linear-gradient(180deg,rgba(7,21,34,.08),rgba(7,21,34,.94) 24%,#071522 100%);
+  background:linear-gradient(180deg,rgba(7,21,34,.04),rgba(7,21,34,.94) 18%,#071522 100%);
   backdrop-filter:blur(15px);
   -webkit-backdrop-filter:blur(15px);
+  box-shadow:0 -6px 18px rgba(4,12,20,.10);
   max-height:45vh;
 }
 .task-editor-sheet .grab{
@@ -2205,15 +2229,17 @@ body.light .hearing-result-call{color:#9C6811!important}
 .pt-result-due{color:var(--warn)!important;font-weight:750!important}
 .pt-hearing-result-text{display:block!important;margin-top:5px!important;color:var(--txt2)!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.35!important}
 
-.hearing-result-head{display:flex;align-items:flex-start;gap:12px;margin:2px 0 17px}
+.hearing-result-head{display:flex;align-items:flex-start;gap:12px;margin:2px 0 17px;min-width:0;overflow:hidden}
+.hearing-result-head>div{min-width:0;flex:1 1 auto}
 .hearing-result-head-icon{width:44px;height:44px;flex:none;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--warnsoft);color:var(--warn);border:1px solid rgba(217,155,46,.26)}
 .hearing-result-head-icon.done{background:var(--oksoft);color:var(--ok);border-color:rgba(47,163,107,.25)}
 .hearing-result-head-icon .ico{width:23px;height:23px;stroke-width:2}
-.hearing-result-head h2{margin:1px 0 4px!important;font:600 24px/1.08 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em!important}
-.hearing-result-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
-.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
+.hearing-result-head h2{margin:1px 0 4px!important;font:600 24px/1.08 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em!important;overflow-wrap:anywhere}
+.hearing-result-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.45;overflow-wrap:anywhere}
+.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;min-width:0}
 .hearing-result-choice{
-  min-height:70px;
+  min-height:72px;
+  min-width:0;
   padding:10px 14px;
   border-radius:18px;
   border:1px solid rgba(63,78,94,.18);
@@ -2233,23 +2259,23 @@ body.light .hearing-result-call{color:#9C6811!important}
   background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.65)
 }
 .hearing-result-choice-icon .ico{width:28px;height:28px;stroke-width:2.2}
-.hearing-result-choice-text{display:block;font-size:17px;line-height:1.16;font-weight:800}
+.hearing-result-choice-text{display:block;font-size:17px;line-height:1.16;font-weight:800;overflow-wrap:anywhere}
 .hearing-result-choice.on{transform:translateY(-1px);box-shadow:0 8px 18px rgba(35,52,74,.10)}
-.hearing-result-choice.held{background:linear-gradient(145deg,rgba(226,243,232,.95),rgba(245,251,247,.96));border-color:rgba(129,196,146,.65);color:#0D7E3F}
-.hearing-result-choice.held .hearing-result-choice-icon{background:rgba(184,229,195,.55);color:#0A8741}
-.hearing-result-choice.postponed{background:linear-gradient(145deg,rgba(234,242,252,.96),rgba(247,250,255,.98));border-color:rgba(159,194,248,.78);color:#1757D6}
-.hearing-result-choice.postponed .hearing-result-choice-icon{background:rgba(197,219,248,.62);color:#165DE2}
-.hearing-result-choice.break{background:linear-gradient(145deg,rgba(251,245,230,.98),rgba(255,251,242,.98));border-color:rgba(239,198,94,.82);color:#9A6110}
-.hearing-result-choice.break .hearing-result-choice-icon{background:rgba(247,226,172,.62);color:#A16800}
-.hearing-result-choice.completed{background:linear-gradient(145deg,rgba(226,243,232,.95),rgba(245,251,247,.96));border-color:rgba(129,196,146,.65);color:#0D7E3F}
-.hearing-result-choice.completed .hearing-result-choice-icon{background:rgba(184,229,195,.55);color:#0A8741}
-.hearing-result-choice.cancelled{background:linear-gradient(145deg,rgba(253,236,240,.97),rgba(255,246,248,.98));border-color:rgba(244,166,177,.88);color:#B11B37}
-.hearing-result-choice.cancelled .hearing-result-choice-icon{background:rgba(250,207,215,.72);color:#E02035}
+.hearing-result-choice.held{background:linear-gradient(145deg,#ECFAF0,#E2F5E6);border-color:#9DD6A9;color:#0D7E3F}
+.hearing-result-choice.held .hearing-result-choice-icon{background:#D8F0DE;color:#0A8741}
+.hearing-result-choice.postponed{background:linear-gradient(145deg,#EEF5FF,#E3EEFF);border-color:#A8C7FF;color:#1757D6}
+.hearing-result-choice.postponed .hearing-result-choice-icon{background:#DCE8FF;color:#165DE2}
+.hearing-result-choice.break{background:linear-gradient(145deg,#FFF7E7,#FBEFD1);border-color:#EBCB82;color:#9A6110}
+.hearing-result-choice.break .hearing-result-choice-icon{background:#F9E8B7;color:#A16800}
+.hearing-result-choice.completed{background:linear-gradient(145deg,#ECFAF0,#E2F5E6);border-color:#9DD6A9;color:#0D7E3F}
+.hearing-result-choice.completed .hearing-result-choice-icon{background:#D8F0DE;color:#0A8741}
+.hearing-result-choice.cancelled{background:linear-gradient(145deg,#FFF0F3,#FCE3E8);border-color:#F1A9B7;color:#B11B37}
+.hearing-result-choice.cancelled .hearing-result-choice-icon{background:#FAD8DF;color:#E02035}
 .hearing-result-choice.on .hearing-result-choice-icon{box-shadow:0 0 0 2px rgba(255,255,255,.55) inset}
-.hearing-result-choice.held.on,.hearing-result-choice.completed.on{box-shadow:0 10px 22px rgba(77,153,99,.13)}
-.hearing-result-choice.postponed.on{box-shadow:0 10px 22px rgba(74,130,215,.12)}
-.hearing-result-choice.break.on{box-shadow:0 10px 22px rgba(188,141,42,.12)}
-.hearing-result-choice.cancelled.on{box-shadow:0 10px 22px rgba(209,93,117,.12)}
+.hearing-result-choice.held.on,.hearing-result-choice.completed.on{box-shadow:0 10px 22px rgba(77,153,99,.14)}
+.hearing-result-choice.postponed.on{box-shadow:0 10px 22px rgba(74,130,215,.14)}
+.hearing-result-choice.break.on{box-shadow:0 10px 22px rgba(188,141,42,.13)}
+.hearing-result-choice.cancelled.on{box-shadow:0 10px 22px rgba(209,93,117,.13)}
 .hearing-followup{margin:2px 0 16px;padding:14px;border:1px solid rgba(217,155,46,.24);border-radius:17px;background:linear-gradient(145deg,var(--warnsoft),transparent)}
 .hearing-followup-title{font-size:13px;font-weight:800;color:var(--warn);margin-bottom:10px}
 .hearing-followup .fld{margin-bottom:5px}
@@ -2267,8 +2293,17 @@ body.light .hearing-result-call{color:#9C6811!important}
 
 body.light .hearing-result-row{background:linear-gradient(90deg,rgba(206,150,44,.10),transparent 72%)}
 body.light .pt-row.needs-result{background:linear-gradient(90deg,rgba(206,150,44,.09),#fff 60%)}
-body.light .hearing-result-choice{background:#FFFDF9}
 body.light .hearing-result-head-icon{background:rgba(206,150,44,.12)}
+
+body:not(.light) .hearing-result-choice{background:rgba(12,22,33,.92);border-color:rgba(119,140,164,.18)}
+body:not(.light) .hearing-result-choice.held,body:not(.light) .hearing-result-choice.completed{background:linear-gradient(145deg,rgba(22,63,40,.92),rgba(14,38,25,.94));border-color:rgba(97,190,126,.34);color:#8FE0A7}
+body:not(.light) .hearing-result-choice.held .hearing-result-choice-icon,body:not(.light) .hearing-result-choice.completed .hearing-result-choice-icon{background:rgba(74,157,100,.20);border-color:rgba(97,190,126,.22);color:#98E3AE}
+body:not(.light) .hearing-result-choice.postponed{background:linear-gradient(145deg,rgba(24,46,84,.94),rgba(14,31,61,.94));border-color:rgba(95,146,245,.34);color:#7EAEFF}
+body:not(.light) .hearing-result-choice.postponed .hearing-result-choice-icon{background:rgba(73,124,219,.18);border-color:rgba(95,146,245,.22);color:#8AB5FF}
+body:not(.light) .hearing-result-choice.break{background:linear-gradient(145deg,rgba(74,55,18,.93),rgba(49,36,13,.95));border-color:rgba(226,176,78,.34);color:#F0CA74}
+body:not(.light) .hearing-result-choice.break .hearing-result-choice-icon{background:rgba(206,157,64,.18);border-color:rgba(226,176,78,.22);color:#F3D58D}
+body:not(.light) .hearing-result-choice.cancelled{background:linear-gradient(145deg,rgba(90,24,38,.93),rgba(60,15,26,.95));border-color:rgba(226,112,137,.34);color:#FF9EB3}
+body:not(.light) .hearing-result-choice.cancelled .hearing-result-choice-icon{background:rgba(213,86,113,.18);border-color:rgba(226,112,137,.22);color:#FFAAC0}
 body.light .hearing-result-summary,body.light .hearing-result-next{background:#FFFDF9}
 
 @media(max-width:390px){
@@ -2278,6 +2313,7 @@ body.light .hearing-result-summary,body.light .hearing-result-next{background:#F
   .hearing-result-choice-icon .ico{width:24px;height:24px}
   .hearing-result-choice-text{font-size:14.5px}
   .hearing-result-head h2{font-size:22px!important}
+  .hearing-result-head p{font-size:11.5px}
 }
 
 /* Заседания с результатом не выглядят как зачёркнутые обычные задачи. */
