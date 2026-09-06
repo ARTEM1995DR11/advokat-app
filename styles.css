@@ -638,7 +638,7 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
   flex-direction:column;
   align-items:flex-start;
   justify-content:space-between;
-  gap:10px;
+  gap:8px;
   position:relative;
   overflow:hidden;
   padding:11px 12px 12px;
@@ -846,6 +846,7 @@ body:not(.light) .pt-swipe-bg{background:#101D2A}
 .pt-time{font-size:13px;color:var(--txt);font-weight:750}
 .pt-badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 9px;border-radius:999px;font-size:10.5px;font-weight:750;white-space:nowrap;background:var(--elev2);color:var(--txt2)}
 .pt-badge.high,.pt-badge.deadline{background:var(--dangsoft);color:var(--dang)}
+.pt-badge.meeting{background:rgba(88,112,214,.14);color:#4063D3}
 .pt-badge.mid{background:var(--warnsoft);color:var(--warn)}
 .pt-badge.low{background:var(--oksoft);color:var(--ok)}
 .pt-badge.hearing{background:var(--bluesoft);color:var(--blue)}
@@ -1104,7 +1105,7 @@ body.light .backup-safety{background:linear-gradient(145deg,#FFFDF9,#FFF8ED);box
 .task-kind-chips .chip{
   width:100%;
   min-height:46px;
-  padding:10px 12px;
+  padding:9px 11px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -2236,11 +2237,11 @@ body.light .hearing-result-call{color:#9C6811!important}
 .hearing-result-head-icon .ico{width:23px;height:23px;stroke-width:2}
 .hearing-result-head h2{margin:1px 0 4px!important;font:600 24px/1.08 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em!important;overflow-wrap:anywhere}
 .hearing-result-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.45;overflow-wrap:anywhere}
-.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;min-width:0}
+.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;min-width:0;align-items:stretch}
 .hearing-result-choice{
-  min-height:72px;
+  min-height:66px;
   min-width:0;
-  padding:10px 14px;
+  padding:9px 11px;
   border-radius:18px;
   border:1px solid rgba(63,78,94,.18);
   background:#FFFDF9;
@@ -2248,18 +2249,18 @@ body.light .hearing-result-call{color:#9C6811!important}
   text-align:left;
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:8px;
   transition:.14s;
   box-shadow:0 1px 0 rgba(255,255,255,.55) inset;
 }
 .hearing-result-choice:last-child:nth-child(odd){grid-column:1/-1}
 .hearing-result-choice:active{transform:scale(.985)}
 .hearing-result-choice-icon{
-  width:54px;height:54px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.65)
 }
-.hearing-result-choice-icon .ico{width:28px;height:28px;stroke-width:2.2}
-.hearing-result-choice-text{display:block;font-size:17px;line-height:1.16;font-weight:800;overflow-wrap:anywhere}
+.hearing-result-choice-icon .ico{width:22px;height:22px;stroke-width:2.1}
+.hearing-result-choice-text{display:block;font-size:13.5px;line-height:1.1;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hearing-result-choice.on{transform:translateY(-1px);box-shadow:0 8px 18px rgba(35,52,74,.10)}
 .hearing-result-choice.held{background:linear-gradient(145deg,#ECFAF0,#E2F5E6);border-color:#9DD6A9;color:#0D7E3F}
 .hearing-result-choice.held .hearing-result-choice-icon{background:#D8F0DE;color:#0A8741}
@@ -2307,11 +2308,11 @@ body:not(.light) .hearing-result-choice.cancelled .hearing-result-choice-icon{ba
 body.light .hearing-result-summary,body.light .hearing-result-next{background:#FFFDF9}
 
 @media(max-width:390px){
-  .hearing-result-options{gap:9px}
-  .hearing-result-choice{min-height:64px;padding:9px 10px;gap:10px;border-radius:16px}
-  .hearing-result-choice-icon{width:44px;height:44px}
-  .hearing-result-choice-icon .ico{width:24px;height:24px}
-  .hearing-result-choice-text{font-size:14.5px}
+  .hearing-result-options{gap:8px}
+  .hearing-result-choice{min-height:60px;padding:8px 8px;gap:7px;border-radius:16px}
+  .hearing-result-choice-icon{width:36px;height:36px}
+  .hearing-result-choice-icon .ico{width:20px;height:20px}
+  .hearing-result-choice-text{font-size:12.5px;white-space:nowrap}
   .hearing-result-head h2{font-size:22px!important}
   .hearing-result-head p{font-size:11.5px}
 }
@@ -2320,3 +2321,13 @@ body.light .hearing-result-summary,body.light .hearing-result-next{background:#F
 .task.k-hearing.done{opacity:.82;border-left-color:var(--ok)}
 .task.k-hearing.done .tt{text-decoration:none}
 .pt-row.done.hearing-result-done{opacity:.82}
+
+@media(max-width:430px){
+  .hearing-result-choice-text{font-size:13px}
+}
+
+/* v3.1.60 restore floating add button */
+#fab.fab{display:flex!important;align-items:center;justify-content:center;right:14px;bottom:calc(var(--bot) + 92px);width:56px;height:56px;border-radius:50%;background:linear-gradient(145deg,var(--gold2),var(--gold));color:#211805;box-shadow:0 10px 24px rgba(0,0,0,.24);z-index:31}
+#fab.fab .ico{width:24px;height:24px;stroke-width:2.35}
+body.light #fab.fab{box-shadow:0 10px 22px rgba(93,70,15,.18)}
+@media(max-width:390px){#fab.fab{right:12px;bottom:calc(var(--bot) + 88px);width:54px;height:54px}}
