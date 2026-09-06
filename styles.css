@@ -2032,63 +2032,52 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
 .tasks-project-filters button.later:not(.on) em{background:var(--elev2);color:var(--txt2)}
 
 /* ============================================================
-   v3.1.54 — selected bottom navigation
-   Dark theme: option 3 (elegant platform)
-   Light theme: option 4 (premium light)
-   Geometry is fixed so tabs never jump between screens.
+   v3.1.56 — cleaned bottom navigation + stable geometry
+   Light theme: refined option 4.
+   Dark theme: refined option 3.
    ============================================================ */
 .premium-nav.tabbar{
-  left:10px;
-  right:10px;
-  bottom:9px;
+  left:14px;
+  right:14px;
+  bottom:12px;
   display:flex;
-  gap:2px;
-  padding:7px 7px calc(var(--bot) + 7px);
-  border:1px solid rgba(201,162,39,.52);
-  border-radius:23px;
-  background:
-    radial-gradient(140% 170% at 50% -90%,rgba(230,197,92,.075),transparent 58%),
-    linear-gradient(180deg,rgba(10,22,33,.975),rgba(5,14,23,.97));
+  gap:0;
+  padding:10px 10px calc(var(--bot) + 10px);
+  border:1px solid rgba(201,162,39,.46);
+  border-radius:31px;
+  background:linear-gradient(180deg,rgba(8,18,28,.985),rgba(5,13,21,.985));
   box-shadow:
-    0 17px 38px rgba(0,0,0,.36),
-    inset 0 1px 0 rgba(255,255,255,.035),
-    0 0 0 .5px rgba(230,197,92,.06);
-  backdrop-filter:blur(22px) saturate(135%);
-  -webkit-backdrop-filter:blur(22px) saturate(135%);
+    0 16px 34px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  backdrop-filter:blur(18px) saturate(125%);
+  -webkit-backdrop-filter:blur(18px) saturate(125%);
   overflow:hidden;
 }
-.premium-nav.tabbar::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:6%;
-  right:6%;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(244,210,117,.76),transparent);
-  pointer-events:none;
-}
+.premium-nav.tabbar::before{display:none}
 .premium-nav .tab{
   position:relative;
   flex:1;
   min-width:0;
-  min-height:69px;
-  padding:5px 1px 7px;
-  gap:3px;
-  justify-content:center;
-  border-radius:16px;
-  color:#8395A8;
-  font-size:12.2px;
+  min-height:84px;
+  padding:7px 2px 10px;
+  display:grid;
+  grid-template-rows:50px 18px 6px;
+  justify-items:center;
+  align-items:center;
+  row-gap:5px;
+  border-radius:20px;
+  color:#8EA0B5;
+  font-size:14px;
   line-height:1;
   font-weight:650;
   letter-spacing:-.015em;
   transition:color .18s ease,transform .14s var(--ease),background .18s ease;
 }
-.premium-nav .tab:active{transform:scale(.965);background:rgba(255,255,255,.022)}
+.premium-nav .tab:active{transform:scale(.985)}
 .premium-nav .tab-ico{
   position:relative;
-  width:38px;
-  height:38px;
-  flex:0 0 38px;
+  width:50px;
+  height:50px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -2099,108 +2088,76 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
   transition:color .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
 .premium-nav .tab .ico{
-  width:26px;
-  height:26px;
-  stroke-width:1.75;
+  width:30px;
+  height:30px;
+  stroke-width:1.9;
   transition:stroke-width .18s ease,filter .18s ease;
 }
 .premium-nav .tab-label{
   display:block;
-  height:14px;
-  line-height:14px;
+  height:18px;
+  line-height:18px;
   white-space:nowrap;
-  flex:0 0 14px;
 }
-/* Indicator is absolutely positioned. It never participates in layout. */
 .premium-nav .tab::after{
   content:"";
-  position:absolute;
-  left:50%;
-  bottom:1px;
-  width:42px;
-  height:3px;
-  margin:0;
+  width:58px;
+  height:5px;
   border-radius:999px;
   background:transparent;
   box-shadow:none;
   opacity:0;
-  transform:translateX(-50%);
   pointer-events:none;
-  transition:opacity .18s ease,background .18s ease,box-shadow .18s ease;
+  justify-self:center;
+  align-self:end;
 }
-/* Dark theme — option 3: elegant platform. */
-.premium-nav .tab.on{
-  color:#E7C45F;
-  background:transparent;
-  box-shadow:none;
-}
+.premium-nav .tab.on{color:#E8C86D;background:transparent}
 .premium-nav .tab.on .tab-ico{
-  color:#F1CA63;
-  border-color:transparent;
-  background:radial-gradient(circle at 50% 48%,rgba(230,197,92,.10),rgba(201,162,39,.035) 48%,transparent 72%);
-  box-shadow:none;
+  color:#F3D57E;
+  border-color:rgba(230,197,92,.18);
+  background:radial-gradient(circle at 50% 50%,rgba(236,201,101,.18) 0%,rgba(236,201,101,.08) 58%,transparent 59%);
+  box-shadow:0 0 0 1px rgba(230,197,92,.10),0 0 14px rgba(230,197,92,.10);
 }
-.premium-nav .tab.on .ico{
-  stroke-width:2.05;
-  filter:drop-shadow(0 0 5px rgba(230,197,92,.18));
-}
+.premium-nav .tab.on .ico{stroke-width:2.08}
 .premium-nav .tab.on::after{
-  background:linear-gradient(90deg,rgba(201,162,39,.20),#E6C55C,rgba(201,162,39,.20));
-  box-shadow:0 0 8px rgba(230,197,92,.26);
+  background:linear-gradient(90deg,rgba(201,162,39,.18),#E6C55C,rgba(201,162,39,.18));
+  box-shadow:0 0 8px rgba(230,197,92,.18);
   opacity:1;
 }
-/* Light theme — option 4: premium light with a circular active accent. */
 body.light .premium-nav.tabbar{
-  border-color:rgba(168,130,26,.24);
-  background:
-    radial-gradient(125% 170% at 50% -105%,rgba(213,174,82,.095),transparent 60%),
-    rgba(255,255,255,.975);
+  border-color:rgba(219,205,170,.96);
+  background:linear-gradient(180deg,rgba(255,255,255,.992),rgba(250,248,244,.992));
   box-shadow:
-    0 15px 34px rgba(56,42,19,.11),
-    inset 0 1px 0 rgba(255,255,255,.96),
-    0 0 0 .5px rgba(120,85,18,.035);
+    0 15px 32px rgba(79,59,24,.09),
+    inset 0 1px 0 rgba(255,255,255,.98);
 }
-body.light .premium-nav.tabbar::before{
-  left:10%;
-  right:10%;
-  background:linear-gradient(90deg,transparent,rgba(184,135,32,.38),transparent);
-}
-body.light .premium-nav .tab{color:#526273}
-body.light .premium-nav .tab:active{background:rgba(168,130,26,.035)}
-body.light .premium-nav .tab.on{
-  color:#956A12;
-  background:transparent;
-}
+body.light .premium-nav .tab{color:#5B6D82}
+body.light .premium-nav .tab.on{color:#9A6C14}
 body.light .premium-nav .tab.on .tab-ico{
-  color:#9B6E13;
-  border-color:rgba(190,143,43,.48);
-  background:
-    radial-gradient(circle at 35% 28%,rgba(255,255,255,.96),rgba(245,227,183,.66) 45%,rgba(202,157,58,.13) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.98),
-    0 4px 12px rgba(131,91,16,.12);
-}
-body.light .premium-nav .tab.on .ico{
-  stroke-width:2.05;
-  filter:drop-shadow(0 1px 1px rgba(128,87,11,.10));
+  color:#FFFFFF;
+  border-color:rgba(178,128,20,.26);
+  background:linear-gradient(180deg,#D8B159 0%,#BA871A 100%);
+  box-shadow:0 7px 15px rgba(159,112,18,.14), inset 0 1px 0 rgba(255,255,255,.22);
 }
 body.light .premium-nav .tab.on::after{
-  background:linear-gradient(90deg,rgba(167,119,22,.20),#A77916,rgba(167,119,22,.20));
+  background:linear-gradient(90deg,rgba(167,119,22,.20),#B9861D,rgba(167,119,22,.20));
   box-shadow:none;
   opacity:1;
 }
 
-/* navigation height compensation */
-.screen{padding-bottom:calc(var(--bot) + 145px)}
-.fab{bottom:calc(var(--bot) + 91px)}
-.timerpill{bottom:calc(var(--bot) + 98px)}
+/* The selected mock does not use the floating FAB above the tab bar. */
+.fab{display:none!important}
+
+/* Navigation height compensation */
+.screen{padding-bottom:calc(var(--bot) + 134px)}
+.timerpill{bottom:calc(var(--bot) + 88px)}
 
 @media(max-width:390px){
-  .premium-nav.tabbar{left:8px;right:8px;bottom:8px;padding-left:5px;padding-right:5px}
-  .premium-nav .tab{font-size:11.7px;min-height:67px}
-  .premium-nav .tab-ico{width:36px;height:36px;flex-basis:36px}
-  .premium-nav .tab .ico{width:24px;height:24px}
-  .premium-nav .tab::after{width:38px}
+  .premium-nav.tabbar{left:10px;right:10px;bottom:10px;padding:8px 8px calc(var(--bot) + 8px)}
+  .premium-nav .tab{font-size:12.6px;min-height:78px;grid-template-rows:46px 17px 5px;row-gap:4px}
+  .premium-nav .tab-ico{width:46px;height:46px}
+  .premium-nav .tab .ico{width:28px;height:28px}
+  .premium-nav .tab::after{width:52px;height:4px}
 }
 
 /* ============================================================
@@ -2244,14 +2201,45 @@ body.light .hearing-result-call{color:#9C6811!important}
 .hearing-result-head-icon .ico{width:23px;height:23px;stroke-width:2}
 .hearing-result-head h2{margin:1px 0 4px!important;font:600 24px/1.08 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em!important}
 .hearing-result-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
-.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
-.hearing-result-choice{min-height:50px;padding:10px 11px;border-radius:15px;border:1px solid var(--line2);background:var(--elev2);color:var(--txt2);font-size:13px;font-weight:750;text-align:center;transition:.14s}
+.hearing-result-options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
+.hearing-result-choice{
+  min-height:70px;
+  padding:10px 14px;
+  border-radius:18px;
+  border:1px solid rgba(63,78,94,.18);
+  background:#FFFDF9;
+  color:#44576D;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  transition:.14s;
+  box-shadow:0 1px 0 rgba(255,255,255,.55) inset;
+}
 .hearing-result-choice:last-child:nth-child(odd){grid-column:1/-1}
-.hearing-result-choice:active{transform:scale(.975)}
-.hearing-result-choice.on{color:#151006;border-color:transparent;box-shadow:0 8px 18px rgba(0,0,0,.15)}
-.hearing-result-choice.held.on,.hearing-result-choice.completed.on{background:linear-gradient(145deg,#64C895,#2FA36B)}
-.hearing-result-choice.postponed.on,.hearing-result-choice.break.on{background:linear-gradient(145deg,#EDBE63,#D99B2E)}
-.hearing-result-choice.cancelled.on{background:linear-gradient(145deg,#B1BFCC,#7C8EA4)}
+.hearing-result-choice:active{transform:scale(.985)}
+.hearing-result-choice-icon{
+  width:54px;height:54px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.65)
+}
+.hearing-result-choice-icon .ico{width:28px;height:28px;stroke-width:2.2}
+.hearing-result-choice-text{display:block;font-size:17px;line-height:1.16;font-weight:800}
+.hearing-result-choice.on{transform:translateY(-1px);box-shadow:0 8px 18px rgba(35,52,74,.10)}
+.hearing-result-choice.held{background:linear-gradient(145deg,rgba(226,243,232,.95),rgba(245,251,247,.96));border-color:rgba(129,196,146,.65);color:#0D7E3F}
+.hearing-result-choice.held .hearing-result-choice-icon{background:rgba(184,229,195,.55);color:#0A8741}
+.hearing-result-choice.postponed{background:linear-gradient(145deg,rgba(234,242,252,.96),rgba(247,250,255,.98));border-color:rgba(159,194,248,.78);color:#1757D6}
+.hearing-result-choice.postponed .hearing-result-choice-icon{background:rgba(197,219,248,.62);color:#165DE2}
+.hearing-result-choice.break{background:linear-gradient(145deg,rgba(251,245,230,.98),rgba(255,251,242,.98));border-color:rgba(239,198,94,.82);color:#9A6110}
+.hearing-result-choice.break .hearing-result-choice-icon{background:rgba(247,226,172,.62);color:#A16800}
+.hearing-result-choice.completed{background:linear-gradient(145deg,rgba(226,243,232,.95),rgba(245,251,247,.96));border-color:rgba(129,196,146,.65);color:#0D7E3F}
+.hearing-result-choice.completed .hearing-result-choice-icon{background:rgba(184,229,195,.55);color:#0A8741}
+.hearing-result-choice.cancelled{background:linear-gradient(145deg,rgba(253,236,240,.97),rgba(255,246,248,.98));border-color:rgba(244,166,177,.88);color:#B11B37}
+.hearing-result-choice.cancelled .hearing-result-choice-icon{background:rgba(250,207,215,.72);color:#E02035}
+.hearing-result-choice.on .hearing-result-choice-icon{box-shadow:0 0 0 2px rgba(255,255,255,.55) inset}
+.hearing-result-choice.held.on,.hearing-result-choice.completed.on{box-shadow:0 10px 22px rgba(77,153,99,.13)}
+.hearing-result-choice.postponed.on{box-shadow:0 10px 22px rgba(74,130,215,.12)}
+.hearing-result-choice.break.on{box-shadow:0 10px 22px rgba(188,141,42,.12)}
+.hearing-result-choice.cancelled.on{box-shadow:0 10px 22px rgba(209,93,117,.12)}
 .hearing-followup{margin:2px 0 16px;padding:14px;border:1px solid rgba(217,155,46,.24);border-radius:17px;background:linear-gradient(145deg,var(--warnsoft),transparent)}
 .hearing-followup-title{font-size:13px;font-weight:800;color:var(--warn);margin-bottom:10px}
 .hearing-followup .fld{margin-bottom:5px}
@@ -2263,19 +2251,22 @@ body.light .hearing-result-call{color:#9C6811!important}
 .hearing-result-summary b,.hearing-result-next b{display:block;font-size:18px;line-height:1.2}
 .hearing-result-summary p{margin:9px 0 0;color:var(--txt2);font-size:13px;line-height:1.45;white-space:pre-wrap}
 .hearing-result-next span{display:block;margin-top:5px;color:var(--txt2);font-size:12px}
-.hearing-result-summary.held,.hearing-result-summary.completed{border-color:rgba(47,163,107,.28);background:linear-gradient(145deg,var(--oksoft),var(--elev2))}
-.hearing-result-summary.postponed,.hearing-result-summary.break{border-color:rgba(217,155,46,.28);background:linear-gradient(145deg,var(--warnsoft),var(--elev2))}
-.hearing-result-summary.cancelled{border-color:rgba(124,142,164,.24)}
+.hearing-result-summary.held,.hearing-result-summary.completed{border-color:rgba(129,196,146,.55);background:linear-gradient(145deg,rgba(226,243,232,.88),#FFFDF9)}
+.hearing-result-summary.postponed,.hearing-result-summary.break{border-color:rgba(159,194,248,.56);background:linear-gradient(145deg,rgba(234,242,252,.9),#FFFDF9)}
+.hearing-result-summary.cancelled{border-color:rgba(244,166,177,.72);background:linear-gradient(145deg,rgba(253,236,240,.9),#FFFDF9)}
 
 body.light .hearing-result-row{background:linear-gradient(90deg,rgba(206,150,44,.10),transparent 72%)}
 body.light .pt-row.needs-result{background:linear-gradient(90deg,rgba(206,150,44,.09),#fff 60%)}
-body.light .hearing-result-choice{background:#FFFDF9;border-color:rgba(50,59,67,.15)}
+body.light .hearing-result-choice{background:#FFFDF9}
 body.light .hearing-result-head-icon{background:rgba(206,150,44,.12)}
 body.light .hearing-result-summary,body.light .hearing-result-next{background:#FFFDF9}
 
 @media(max-width:390px){
-  .hearing-result-options{gap:8px}
-  .hearing-result-choice{font-size:12.2px;padding-left:8px;padding-right:8px}
+  .hearing-result-options{gap:9px}
+  .hearing-result-choice{min-height:64px;padding:9px 10px;gap:10px;border-radius:16px}
+  .hearing-result-choice-icon{width:44px;height:44px}
+  .hearing-result-choice-icon .ico{width:24px;height:24px}
+  .hearing-result-choice-text{font-size:14.5px}
   .hearing-result-head h2{font-size:22px!important}
 }
 

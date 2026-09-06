@@ -731,6 +731,9 @@ function toggleTaskDone(id){
 }
 
 var HR=null;
+function hearingResultIcon(k){
+  return ({held:'check', postponed:'clock', break:'alert', completed:'flag', cancelled:'xmark'})[k]||'check';
+}
 function hearingContextText(t){
   var m=t.mid?matter(t.mid):null, bits=[];
   if(m) bits.push(m.number||m.title);
@@ -749,7 +752,13 @@ function pullHearingResult(){
 function drawHearingResultSheet(){
   if(!HR)return;
   var t=S.tasks.filter(function(x){return x.id===HR.id;})[0]; if(!t)return;
-  var choices=Object.keys(HEARING_RESULTS).map(function(k){var r=HEARING_RESULTS[k];return '<button class="hearing-result-choice '+r.tone+(HR.status===k?' on':'')+'" data-act="hearing-result-pick" data-v="'+k+'"><span>'+esc(r.label)+'</span></button>';}).join('');
+  var choices=Object.keys(HEARING_RESULTS).map(function(k){
+    var r=HEARING_RESULTS[k], ic=hearingResultIcon(k);
+    return '<button class="hearing-result-choice '+r.tone+(HR.status===k?' on':'')+'" data-act="hearing-result-pick" data-v="'+k+'">'+
+      '<span class="hearing-result-choice-icon">'+ico(ic)+'</span>'+
+      '<span class="hearing-result-choice-text">'+esc(r.label)+'</span>'+
+    '</button>';
+  }).join('');
   var follow=(HR.status==='postponed'||HR.status==='break')
     ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label><input id="hr-next-date" type="date" value="'+esc(HR.nextDate||'')+'"></div><div class="fld"><label>Время</label><input id="hr-next-time" type="time" value="'+esc(HR.nextTime||'')+'"></div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
   openSheet('<div class="hearing-result-head"><span class="hearing-result-head-icon">'+ico('gavel')+'</span><div><h2>Результат заседания</h2><p>'+esc(fmtD(t.due,true)+(t.time?' · '+t.time:'')+(hearingContextText(t)?' · '+hearingContextText(t):''))+'</p></div></div>'+ 
