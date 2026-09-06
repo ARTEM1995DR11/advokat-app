@@ -2032,201 +2032,116 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
 .tasks-project-filters button.later:not(.on) em{background:var(--elev2);color:var(--txt2)}
 
 /* ============================================================
-   v3.1.48 — premium bottom navigation
+   v3.1.51 — premium legal-tech bottom navigation (no page swipes)
    ============================================================ */
-.tabbar{
-  position:fixed;
+.premium-nav.tabbar{
   left:10px;
   right:10px;
-  bottom:10px;
-  z-index:30;
+  bottom:9px;
   display:flex;
-  gap:6px;
-  padding:10px 8px calc(var(--bot) + 8px);
-  border-radius:28px;
-  border:1px solid rgba(201,162,39,.14);
+  gap:2px;
+  padding:8px 7px calc(var(--bot) + 7px);
+  border:1px solid rgba(220,187,112,.16);
+  border-radius:25px;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0) 32%),
-    linear-gradient(180deg,rgba(12,21,31,.96),rgba(7,16,25,.98));
-  box-shadow:
-    0 18px 36px rgba(0,0,0,.42),
-    inset 0 1px 0 rgba(255,255,255,.05);
-  backdrop-filter:blur(20px) saturate(1.18);
-  -webkit-backdrop-filter:blur(20px) saturate(1.18);
+    radial-gradient(130% 150% at 50% -70%,rgba(230,197,92,.08),transparent 62%),
+    rgba(7,16,25,.94);
+  box-shadow:0 16px 36px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
   overflow:hidden;
 }
-.tabbar::before{
+.premium-nav.tabbar::before{
   content:"";
   position:absolute;
-  left:16px;
-  right:16px;
   top:0;
+  left:14%;
+  right:14%;
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(230,197,92,.34),transparent);
+  background:linear-gradient(90deg,transparent,rgba(230,197,92,.5),transparent);
 }
-.tab{
-  position:relative;
+.premium-nav .tab{
   flex:1;
+  min-width:0;
   min-height:70px;
+  padding:5px 1px 4px;
+  gap:4px;
+  justify-content:center;
+  border-radius:17px;
+  color:#8597AA;
+  font-size:12.5px;
+  line-height:1;
+  font-weight:650;
+  letter-spacing:-.015em;
+  transition:color .18s ease,transform .14s var(--ease),background .18s ease;
+}
+.premium-nav .tab:active{transform:scale(.965);background:rgba(255,255,255,.025)}
+.premium-nav .tab-ico{
+  position:relative;
+  width:37px;
+  height:37px;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:6px;
-  padding:8px 3px 7px;
-  border-radius:20px;
-  color:var(--txt2);
-  font-size:13.5px;
-  line-height:1.06;
-  font-weight:700;
-  letter-spacing:-.01em;
-  transition:transform .14s var(--ease), background .18s ease, color .18s ease, box-shadow .18s ease;
+  border-radius:13px;
+  border:1px solid transparent;
+  transition:all .18s ease;
 }
-.tab .ico{width:30px;height:30px;stroke-width:2.08}
-.tab:active{transform:scale(.96)}
-.tab:not(.on){background:transparent}
-.tab:not(.on):active{background:rgba(255,255,255,.04)}
-.tab.on{
-  color:#171003;
-  background:linear-gradient(145deg,var(--gold2),var(--gold));
-  box-shadow:
-    0 10px 22px rgba(201,162,39,.34),
-    inset 0 1px 0 rgba(255,255,255,.42);
+.premium-nav .tab .ico{
+  width:26px;
+  height:26px;
+  stroke-width:1.8;
+  transition:all .18s ease;
 }
-.tab.on .ico{
-  transform:none;
-  filter:drop-shadow(0 1px 0 rgba(255,255,255,.25));
+.premium-nav .tab-label{white-space:nowrap}
+.premium-nav .tab.on{
+  color:var(--gold2);
+  background:transparent;
+  box-shadow:none;
 }
-.tab.on::after{
-  content:"";
-  position:absolute;
-  left:20%;
-  right:20%;
-  bottom:4px;
-  height:3px;
-  border-radius:999px;
-  background:rgba(23,16,3,.24);
-}
-.fab{
-  right:18px;
-  bottom:calc(var(--bot) + 96px);
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  box-shadow:0 14px 28px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.34);
-}
-.fab .ico{width:25px;height:25px}
-.timerpill{bottom:calc(var(--bot) + 100px)}
-.screen{padding-bottom:calc(var(--bot) + 148px)}
-
-body.light .tabbar{
-  border-color:rgba(168,130,26,.14);
+.premium-nav .tab.on .tab-ico{
+  color:#F0D175;
+  border-color:rgba(230,197,92,.3);
   background:
-    linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0) 30%),
-    linear-gradient(180deg,rgba(255,252,246,.97),rgba(247,242,232,.98));
-  box-shadow:
-    0 18px 38px rgba(28,40,54,.12),
-    inset 0 1px 0 rgba(255,255,255,.82);
+    linear-gradient(145deg,rgba(230,197,92,.13),rgba(201,162,39,.035));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 15px rgba(0,0,0,.15);
 }
-body.light .tab{color:#7B8B9C}
-body.light .tab:not(.on):active{background:rgba(168,130,26,.08)}
-body.light .tab.on{
-  color:#201508;
-  background:linear-gradient(145deg,#E8C970,#C99629);
-  box-shadow:
-    0 12px 22px rgba(184,138,36,.22),
-    inset 0 1px 0 rgba(255,255,255,.52);
+.premium-nav .tab.on .ico{stroke-width:2.05;filter:drop-shadow(0 0 5px rgba(230,197,92,.14))}
+.premium-nav .tab.on::after{
+  content:"";
+  width:18px;
+  height:2px;
+  margin-top:1px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,var(--gold2),transparent);
+  box-shadow:0 0 8px rgba(230,197,92,.28);
 }
-body.light .tab.on::after{background:rgba(71,49,8,.22)}
+body.light .premium-nav.tabbar{
+  border-color:rgba(154,111,29,.16);
+  background:
+    radial-gradient(120% 145% at 50% -75%,rgba(200,157,63,.11),transparent 62%),
+    rgba(255,252,246,.96);
+  box-shadow:0 15px 34px rgba(59,43,19,.10),inset 0 1px 0 rgba(255,255,255,.9);
+}
+body.light .premium-nav .tab{color:#7A8A9A}
+body.light .premium-nav .tab:active{background:rgba(168,130,26,.035)}
+body.light .premium-nav .tab.on{color:#8A6715}
+body.light .premium-nav .tab.on .tab-ico{
+  color:#9A7118;
+  border-color:rgba(168,130,26,.25);
+  background:linear-gradient(145deg,rgba(222,187,104,.16),rgba(168,130,26,.045));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 5px 14px rgba(112,78,17,.08);
+}
+body.light .premium-nav .tab.on::after{background:linear-gradient(90deg,transparent,#A67C1B,transparent);box-shadow:none}
+
+/* navigation height compensation */
+.screen{padding-bottom:calc(var(--bot) + 145px)}
+.fab{bottom:calc(var(--bot) + 91px)}
+.timerpill{bottom:calc(var(--bot) + 98px)}
 
 @media(max-width:390px){
-  .tabbar{left:8px;right:8px;bottom:8px;padding:9px 6px calc(var(--bot) + 7px)}
-  .tab{min-height:67px;font-size:12.6px;gap:5px}
-  .tab .ico{width:28px;height:28px}
-  .fab{width:56px;height:56px;bottom:calc(var(--bot) + 92px)}
-}
-
-/* ============================================================
-   v3.1.49 — Calendar paper page swipe
-   ============================================================ */
-#sc-cal{overflow-x:hidden;perspective:1100px;perspective-origin:50% 42%}
-.calendar-page{
-  width:100%;
-  min-height:100%;
-  transform-origin:50% 50%;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  will-change:transform,opacity,filter;
-  transition:transform .22s cubic-bezier(.32,.72,0,1),opacity .18s ease,filter .18s ease;
-}
-.calendar-page.page-turn-left{
-  transform:translate3d(-22%,0,0) rotateY(14deg)!important;
-  opacity:.18;
-  filter:brightness(.88);
-}
-.calendar-page.page-turn-right{
-  transform:translate3d(22%,0,0) rotateY(-14deg)!important;
-  opacity:.18;
-  filter:brightness(.88);
-}
-.calendar-page.page-enter-right{
-  transition:none!important;
-  transform:translate3d(16%,0,0) rotateY(-9deg);
-  opacity:.3;
-}
-.calendar-page.page-enter-left{
-  transition:none!important;
-  transform:translate3d(-16%,0,0) rotateY(9deg);
-  opacity:.3;
-}
-.calendar-month-card{position:relative;overflow:hidden}
-.calendar-month-card:after{
-  content:"";
-  pointer-events:none;
-  position:absolute;
-  inset:0;
-  opacity:.22;
-  background:linear-gradient(90deg,transparent 0,rgba(255,255,255,.03) 46%,rgba(0,0,0,.12) 50%,rgba(255,255,255,.025) 54%,transparent 100%);
-}
-body.light .calendar-month-card:after{
-  opacity:.16;
-  background:linear-gradient(90deg,transparent 0,rgba(255,255,255,.55) 46%,rgba(112,82,34,.14) 50%,rgba(255,255,255,.35) 54%,transparent 100%);
-}
-
-/* ============================================================
-   v3.1.50 — page-turn transitions between main tabs
-   ============================================================ */
-#app{perspective:1100px;overflow:hidden}
-.screen{transform-origin:center center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.screen.tab-turn-screen{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  z-index:10;
-  background:var(--bg);
-  will-change:transform,opacity,filter;
-  transition:transform .36s cubic-bezier(.22,.72,.22,1),opacity .30s ease,filter .30s ease;
-}
-.screen.tab-in-right{z-index:11;transform-origin:left center;transform:perspective(1050px) translate3d(30%,0,0) rotateY(8deg);opacity:.42;filter:brightness(.88)}
-.screen.tab-in-left{z-index:11;transform-origin:right center;transform:perspective(1050px) translate3d(-30%,0,0) rotateY(-8deg);opacity:.42;filter:brightness(.88)}
-.screen.tab-out-left{z-index:12;transform-origin:left center;transform:none;opacity:1}
-.screen.tab-out-right{z-index:12;transform-origin:right center;transform:none;opacity:1}
-.screen.tab-in-right.tab-turn-go,.screen.tab-in-left.tab-turn-go{transform:perspective(1050px) translate3d(0,0,0) rotateY(0);opacity:1;filter:none}
-.screen.tab-out-left.tab-turn-go{transform:perspective(1050px) translate3d(-30%,0,0) rotateY(-8deg);opacity:.18;filter:brightness(.82)}
-.screen.tab-out-right.tab-turn-go{transform:perspective(1050px) translate3d(30%,0,0) rotateY(8deg);opacity:.18;filter:brightness(.82)}
-.screen.tab-turn-screen::after{
-  content:"";
-  position:absolute;
-  top:0;bottom:0;
-  width:28px;
-  pointer-events:none;
-  opacity:.32;
-}
-.screen.tab-out-left::after,.screen.tab-in-right::after{right:0;background:linear-gradient(90deg,transparent,rgba(0,0,0,.26))}
-.screen.tab-out-right::after,.screen.tab-in-left::after{left:0;background:linear-gradient(90deg,rgba(0,0,0,.26),transparent)}
-body.light .screen.tab-turn-screen{background:#F9F5EC}
-body.light .screen.tab-turn-screen::after{opacity:.16}
-@media(prefers-reduced-motion:reduce){
-  .screen.tab-turn-screen{transition:opacity .15s ease!important;transform:none!important;filter:none!important}
+  .premium-nav.tabbar{left:8px;right:8px;bottom:8px;padding-left:5px;padding-right:5px}
+  .premium-nav .tab{font-size:11.8px;min-height:67px}
+  .premium-nav .tab-ico{width:35px;height:35px}
+  .premium-nav .tab .ico{width:24px;height:24px}
 }
