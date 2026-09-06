@@ -2032,25 +2032,28 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
 .tasks-project-filters button.later:not(.on) em{background:var(--elev2);color:var(--txt2)}
 
 /* ============================================================
-   v3.1.56 — cleaned bottom navigation + stable geometry
-   Light theme: refined option 4.
-   Dark theme: refined option 3.
+   v3.1.57 — compact bottom navigation + no jumping
+   The bar is made lower, free space under icons is reduced,
+   and active-tab geometry no longer scales between screens.
    ============================================================ */
 .premium-nav.tabbar{
   left:14px;
   right:14px;
-  bottom:12px;
+  bottom:11px;
   display:flex;
+  align-items:stretch;
   gap:0;
-  padding:10px 10px calc(var(--bot) + 10px);
-  border:1px solid rgba(201,162,39,.46);
-  border-radius:31px;
+  padding:7px 8px calc(var(--bot) + 7px);
+  height:calc(84px + var(--bot));
+  box-sizing:border-box;
+  border:1px solid rgba(201,162,39,.44);
+  border-radius:30px;
   background:linear-gradient(180deg,rgba(8,18,28,.985),rgba(5,13,21,.985));
   box-shadow:
-    0 16px 34px rgba(0,0,0,.34),
+    0 15px 30px rgba(0,0,0,.30),
     inset 0 1px 0 rgba(255,255,255,.03);
-  backdrop-filter:blur(18px) saturate(125%);
-  -webkit-backdrop-filter:blur(18px) saturate(125%);
+  backdrop-filter:blur(18px) saturate(122%);
+  -webkit-backdrop-filter:blur(18px) saturate(122%);
   overflow:hidden;
 }
 .premium-nav.tabbar::before{display:none}
@@ -2058,26 +2061,29 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
   position:relative;
   flex:1;
   min-width:0;
-  min-height:84px;
-  padding:7px 2px 10px;
+  min-height:0;
+  height:100%;
+  padding:5px 2px 4px;
   display:grid;
-  grid-template-rows:50px 18px 6px;
+  grid-template-rows:42px 16px 4px;
   justify-items:center;
   align-items:center;
-  row-gap:5px;
-  border-radius:20px;
+  align-content:center;
+  row-gap:2px;
+  border-radius:18px;
   color:#8EA0B5;
-  font-size:14px;
+  font-size:13px;
   line-height:1;
   font-weight:650;
   letter-spacing:-.015em;
-  transition:color .18s ease,transform .14s var(--ease),background .18s ease;
+  transition:color .18s ease,background .18s ease;
+  box-sizing:border-box;
 }
-.premium-nav .tab:active{transform:scale(.985)}
+.premium-nav .tab:active{transform:none}
 .premium-nav .tab-ico{
   position:relative;
-  width:50px;
-  height:50px;
+  width:42px;
+  height:42px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -2088,21 +2094,22 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
   transition:color .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
 .premium-nav .tab .ico{
-  width:30px;
-  height:30px;
+  width:27px;
+  height:27px;
   stroke-width:1.9;
-  transition:stroke-width .18s ease,filter .18s ease;
+  transform:none !important;
+  transition:stroke-width .18s ease,filter .18s ease,color .18s ease;
 }
 .premium-nav .tab-label{
   display:block;
-  height:18px;
-  line-height:18px;
+  height:16px;
+  line-height:16px;
   white-space:nowrap;
 }
 .premium-nav .tab::after{
   content:"";
-  width:58px;
-  height:5px;
+  width:52px;
+  height:4px;
   border-radius:999px;
   background:transparent;
   box-shadow:none;
@@ -2111,33 +2118,36 @@ body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
   justify-self:center;
   align-self:end;
 }
-.premium-nav .tab.on{color:#E8C86D;background:transparent}
+.premium-nav .tab.on{
+  color:#E8C86D;
+  background:transparent;
+}
 .premium-nav .tab.on .tab-ico{
   color:#F3D57E;
-  border-color:rgba(230,197,92,.18);
-  background:radial-gradient(circle at 50% 50%,rgba(236,201,101,.18) 0%,rgba(236,201,101,.08) 58%,transparent 59%);
-  box-shadow:0 0 0 1px rgba(230,197,92,.10),0 0 14px rgba(230,197,92,.10);
+  border-color:rgba(230,197,92,.16);
+  background:radial-gradient(circle at 50% 50%,rgba(236,201,101,.15) 0%,rgba(236,201,101,.07) 58%,transparent 59%);
+  box-shadow:0 0 0 1px rgba(230,197,92,.09),0 0 10px rgba(230,197,92,.08);
 }
-.premium-nav .tab.on .ico{stroke-width:2.08}
+.premium-nav .tab.on .ico{stroke-width:2.02;transform:none !important}
 .premium-nav .tab.on::after{
   background:linear-gradient(90deg,rgba(201,162,39,.18),#E6C55C,rgba(201,162,39,.18));
-  box-shadow:0 0 8px rgba(230,197,92,.18);
+  box-shadow:0 0 6px rgba(230,197,92,.16);
   opacity:1;
 }
 body.light .premium-nav.tabbar{
   border-color:rgba(219,205,170,.96);
   background:linear-gradient(180deg,rgba(255,255,255,.992),rgba(250,248,244,.992));
   box-shadow:
-    0 15px 32px rgba(79,59,24,.09),
+    0 13px 24px rgba(79,59,24,.08),
     inset 0 1px 0 rgba(255,255,255,.98);
 }
 body.light .premium-nav .tab{color:#5B6D82}
 body.light .premium-nav .tab.on{color:#9A6C14}
 body.light .premium-nav .tab.on .tab-ico{
   color:#FFFFFF;
-  border-color:rgba(178,128,20,.26);
+  border-color:rgba(178,128,20,.22);
   background:linear-gradient(180deg,#D8B159 0%,#BA871A 100%);
-  box-shadow:0 7px 15px rgba(159,112,18,.14), inset 0 1px 0 rgba(255,255,255,.22);
+  box-shadow:0 6px 12px rgba(159,112,18,.12), inset 0 1px 0 rgba(255,255,255,.22);
 }
 body.light .premium-nav .tab.on::after{
   background:linear-gradient(90deg,rgba(167,119,22,.20),#B9861D,rgba(167,119,22,.20));
@@ -2149,15 +2159,15 @@ body.light .premium-nav .tab.on::after{
 .fab{display:none!important}
 
 /* Navigation height compensation */
-.screen{padding-bottom:calc(var(--bot) + 134px)}
-.timerpill{bottom:calc(var(--bot) + 88px)}
+.screen{padding-bottom:calc(var(--bot) + 112px)}
+.timerpill{bottom:calc(var(--bot) + 74px)}
 
 @media(max-width:390px){
-  .premium-nav.tabbar{left:10px;right:10px;bottom:10px;padding:8px 8px calc(var(--bot) + 8px)}
-  .premium-nav .tab{font-size:12.6px;min-height:78px;grid-template-rows:46px 17px 5px;row-gap:4px}
-  .premium-nav .tab-ico{width:46px;height:46px}
-  .premium-nav .tab .ico{width:28px;height:28px}
-  .premium-nav .tab::after{width:52px;height:4px}
+  .premium-nav.tabbar{left:10px;right:10px;bottom:10px;height:calc(79px + var(--bot));padding:6px 7px calc(var(--bot) + 6px)}
+  .premium-nav .tab{font-size:12.2px;grid-template-rows:38px 15px 4px;row-gap:2px;padding-top:4px;padding-bottom:3px}
+  .premium-nav .tab-ico{width:38px;height:38px}
+  .premium-nav .tab .ico{width:25px;height:25px}
+  .premium-nav .tab::after{width:46px;height:4px}
 }
 
 /* ============================================================
