@@ -2338,3 +2338,119 @@ body.light .hearing-result-summary,body.light .hearing-result-next{background:#F
 #fab.fab .ico{width:24px;height:24px;stroke-width:2.35}
 body.light #fab.fab{box-shadow:0 10px 22px rgba(93,70,15,.18)}
 @media(max-width:390px){#fab.fab{right:12px;bottom:calc(var(--bot) + 66px);width:52px;height:52px}}
+
+/* v3.1.62 — journal stays in quick add as a separate full-width action */
+.quickgrid-core .quickitem[data-act="qa-journal"]{
+  grid-column:1 / -1;
+  min-height:68px;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  padding:11px 14px;
+}
+.quickgrid-core .quickitem[data-act="qa-journal"] .qico{flex:none;margin:0}
+.quickgrid-core .quickitem[data-act="qa-journal"] b{font-size:14px}
+@media(max-width:360px){
+  .quickgrid-core .quickitem[data-act="qa-journal"]{min-height:62px;padding:10px 12px}
+}
+
+
+/* 3.1.63 — ровная сетка 2×2 для типов записи */
+.task-editor-sheet .task-kind-chips,
+body.light .task-editor-sheet .task-kind-chips{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+  max-width:none!important;
+  margin:8px 0 0!important;
+  align-items:stretch!important;
+}
+.task-editor-sheet .task-kind-chips .chip,
+body.light .task-editor-sheet .task-kind-chips .chip{
+  width:100%!important;
+  min-width:0!important;
+  min-height:48px!important;
+  padding:0 10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  line-height:1.15!important;
+  border-radius:24px!important;
+}
+.task-editor-sheet .task-kind-chips .chip:nth-child(3),
+.task-editor-sheet .task-kind-chips .chip:nth-child(4),
+body.light .task-editor-sheet .task-kind-chips .chip:nth-child(3),
+body.light .task-editor-sheet .task-kind-chips .chip:nth-child(4){
+  grid-column:auto!important;
+  width:100%!important;
+  justify-self:stretch!important;
+}
+.task-editor-sheet .task-kind-chips .chip span:last-child{
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+
+.task-editor-sheet.withfoot .shbody{padding-bottom:1px!important}
+.task-editor-sheet.withfoot .shfoot{
+  padding-top:4px!important;
+  padding-bottom:calc(var(--bot) + 0px)!important;
+  margin-top:4px!important;
+}
+.task-editor-sheet .task-editor-save{min-height:50px!important;font-size:16px!important}
+.task-editor-sheet .task-editor-delete{min-height:38px!important;font-size:14px!important}
+
+@media (max-width:390px){
+  .task-editor-sheet .task-kind-chips,
+  body.light .task-editor-sheet .task-kind-chips{gap:8px!important}
+  .task-editor-sheet .task-kind-chips .chip,
+  body.light .task-editor-sheet .task-kind-chips .chip{
+    min-height:46px!important;
+    padding:0 8px!important;
+    font-size:12.8px!important;
+    border-radius:22px!important;
+  }
+}
+
+
+/* 3.1.64 — кнопка сохранения опущена ниже */
+.sheet.withfoot .shfoot{
+  justify-content:flex-end!important;
+}
+.task-editor-sheet.withfoot .shbody{
+  padding-bottom:0!important;
+}
+.task-editor-sheet.withfoot .shfoot,
+body.light .task-editor-sheet.withfoot .shfoot{
+  margin-top:auto!important;
+  padding-top:2px!important;
+  padding-bottom:max(0px, calc(var(--bot) - 10px))!important;
+  justify-content:flex-end!important;
+  min-height:0!important;
+}
+.task-editor-sheet .task-editor-save,
+body.light .task-editor-sheet .task-editor-save{
+  margin-top:0!important;
+  margin-bottom:0!important;
+  min-height:48px!important;
+}
+.task-editor-sheet .task-editor-delete,
+body.light .task-editor-sheet .task-editor-delete{
+  margin-top:4px!important;
+  margin-bottom:0!important;
+}
+@media (max-width:390px){
+  .task-editor-sheet.withfoot .shfoot,
+  body.light .task-editor-sheet.withfoot .shfoot{
+    padding-top:1px!important;
+    padding-bottom:max(0px, calc(var(--bot) - 12px))!important;
+  }
+  .task-editor-sheet .task-editor-save,
+  body.light .task-editor-sheet .task-editor-save{min-height:46px!important}
+}
+
+
+/* 3.1.65 — вводные подсказки редактора убраны */
+.task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
+.task-editor-sheet .task-editor-type{margin-top:0!important}
