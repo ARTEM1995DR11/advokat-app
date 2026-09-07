@@ -379,13 +379,13 @@ function inferDeadlineRuleParts(t){
 var PRI = { high:{n:'Срочно',c:'red'}, mid:{n:'Обычный',c:'yel'}, low:{n:'Низкий',c:''} };
 var STAGE = ['Консультация','Досудебная работа','Дознание / следствие','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'];
 var MATTER_TYPES = {
-  criminal:{n:'Уголовное',short:'УК',c:'#C95C54'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
-  admin:{n:'Административное (КАС)',short:'КАС',c:'#3FA9A0'}, koap:{n:'КоАП',short:'КоАП',c:'#D9724A'},
+  criminal:{n:'Уголовное',short:'УК',c:'#E15B57'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
+  admin:{n:'Административное (КАС)',short:'КАС',c:'#35A996'}, koap:{n:'КоАП',short:'КоАП',c:'#D98A2B'},
   other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
 };
 var MATTER_BASIS = {
-  agreement:{n:'Соглашение',short:'Соглашение',c:'#B5873E'},
-  assigned:{n:'По назначению',short:'По назначению',c:'#2F8F67'}
+  agreement:{n:'По соглашению',short:'Соглашение',c:'#2FA08E'},
+  assigned:{n:'По назначению',short:'Назначение',c:'#8A6AD8'}
 };
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 
@@ -1257,23 +1257,31 @@ function matterStageTone(m){
   if(m.stage==='Дознание / следствие') return 'violet';
   return 'green';
 }
+function matterTypeCardLabel(m){
+  var type=(matterType(m).n||'').toUpperCase();
+  if((m&&m.type)==='koap') return 'ДЕЛО ПО КОАП';
+  if((m&&m.type)==='other') return 'ИНОЕ ДЕЛО';
+  return type+' ДЕЛО';
+}
 function matterCard(m){
-  var st=matterStats(m), mt=matterType(m);
+  var st=matterStats(m), mt=matterType(m), basis=matterBasisMeta(m.basis), meta=matterMeta(m.type||'other');
   var primary=m.number||m.title||'Без номера';
-  var subject=(m.number&&m.title&&m.title!==m.number)?m.title:'';
+  var subject=(m.title&&m.title!==m.number)?m.title:(m.article||m.stage||'Описание дела не указано');
   var court=m.court||'Суд / орган не указан';
-  var client=m.client||'Доверитель не указан';
-  var next='';
-  if(st.next){
-    next='<div class="mp-next"><span class="mp-next-icon">'+ico('cal','s')+'</span><div><small>Ближайшее заседание</small><b>'+fmtD(st.next.due,true)+(st.next.time?', '+esc(st.next.time):'')+'</b>'+(st.next.place?'<em>'+esc(st.next.place)+'</em>':'')+'</div>'+ico('chev','s')+'</div>';
-  }
-  var late=st.late?'<span class="mp-alert">'+st.late+' '+plural(st.late,'просрочено','просрочено','просрочено')+'</span>':'';
-  return '<article class="mp-card'+(m.archived?' archived':'')+'" data-act="matter" data-id="'+m.id+'">'+
-    '<div class="mp-top"><span class="mp-case-icon" style="--case:'+mt.c+'">'+ico('brief')+'</span><div class="mp-heading"><b>'+esc(primary)+'</b><small>'+esc([mt.n,matterBasisLabel(m.basis)].filter(Boolean).join(' · '))+'</small></div>'+
-      '<span class="mp-stage '+matterStageTone(m)+'">'+esc(m.archived?'Архив':(m.stage||'В производстве'))+'</span></div>'+
-    '<div class="mp-body"><h3>'+esc(client)+'</h3><p class="mp-court">'+esc(court)+'</p>'+(subject?'<p class="mp-subject">'+esc(subject)+'</p>':'')+
-      ((m.article||m.role)?'<p class="mp-law">'+esc([m.article,m.role].filter(Boolean).join(' · '))+'</p>':'')+'</div>'+
-    '<div class="mp-metrics"><span class="mp-metric work">'+ico('check','s')+'<b>'+st.open+'</b> в работе</span><span class="mp-metric done">'+ico('check','s')+'<b>'+st.done+'</b> выполнено</span><span class="mp-metric days">'+ico('gavel','s')+'<b>'+st.days+'</b> '+plural(st.days,'день участия','дня участия','дней участия')+'</span>'+late+'</div>'+next+
+  var client=m.client||'Не указано';
+  var basisChip=basis?'<span class="mp-v2-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.n)+'</span>':'';
+  var nextLabel=st.next?(fmtD(st.next.due,true)+(st.next.time?', '+st.next.time:'')):(m.stage||'Не назначено');
+  var nextCaption=st.next?'След. заседание':'Стадия';
+  var iconName=(m.type==='criminal'||m.type==='koap')?'gavel':'doc';
+  var extra=(m.article&&subject!==m.article)?'<p class="mp-v2-extra">'+esc(m.article)+'</p>':'';
+  return '<article class="mp-card mp-card-v2'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'">'+
+    '<div class="mp-v2-head"><span class="mp-v2-kicker">'+esc(matterTypeCardLabel(m))+'</span><div class="mp-v2-head-right">'+basisChip+'<span class="mp-v2-chevron">'+ico('chev','s')+'</span></div></div>'+
+    '<div class="mp-v2-main"><span class="mp-v2-icon">'+ico(iconName)+'</span><div class="mp-v2-copy"><b class="mp-v2-id">'+esc(primary)+'</b><p class="mp-v2-subject">'+esc(subject)+'</p>'+extra+'</div></div>'+
+    '<div class="mp-v2-grid">'+
+      '<div class="mp-v2-cell"><span class="mp-v2-cell-icon">'+ico('gavel','s')+'</span><div><small>'+esc(meta.courtLabel.replace(' / ведомство',''))+'</small><b>'+esc(court)+'</b></div></div>'+
+      '<div class="mp-v2-cell"><span class="mp-v2-cell-icon">'+ico('user','s')+'</span><div><small>'+esc(meta.clientLabel)+'</small><b>'+esc(client)+'</b></div></div>'+
+      '<div class="mp-v2-cell"><span class="mp-v2-cell-icon">'+ico('cal','s')+'</span><div><small>'+esc(nextCaption)+'</small><b>'+esc(nextLabel)+'</b></div></div>'+
+    '</div>'+
   '</article>';
 }
 function sheetMatterFilters(){
