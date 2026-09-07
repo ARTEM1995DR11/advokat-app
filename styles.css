@@ -4116,3 +4116,29 @@ body:not(.light) .mp-card-v2 .mp-v2-basis.assigned{
   .mp-v2-basis{padding:0 10px!important;font-size:10.4px!important}
   .mp-v2-head{align-items:flex-start!important}
 }
+
+
+/* 3.1.94 — past meetings are not overdue */
+.pt-past-meeting{color:var(--muted)!important;font-weight:650!important}
+body:not(.light) .pt-past-meeting{color:#8FA3B6!important}
+
+/* 3.1.95 — встречи не бывают просроченными: состоявшаяся встреча = история */
+.pt-badge.meeting.held,
+.matter-pill.meeting.held,
+.matter-pill.date.held{
+  background:var(--oksoft)!important;
+  color:var(--ok)!important;
+  border-color:color-mix(in srgb,var(--ok) 24%, transparent)!important;
+}
+.pt-past-meeting{
+  color:var(--ok)!important;
+  font-weight:750!important;
+}
+.eventmark.meeting-held,
+.pt-hearing-state.completed.meeting-held,
+.matter-event-check.done.meeting-held{
+  background:var(--oksoft)!important;
+  border-color:color-mix(in srgb,var(--ok) 28%, transparent)!important;
+  color:var(--ok)!important;
+}
+body:not(.light) .pt-past-meeting{color:#75D5A5!important}

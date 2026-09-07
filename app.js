@@ -575,10 +575,23 @@ function hearingNeedsResult(t){
   var at=hearingStartTime(t);
   return !!(at&&Date.now()>=at.getTime());
 }
+function meetingStartTime(t){
+  if(!t||t.kind!=='meeting'||!t.due||!t.time)return null;
+  var d=new Date(t.due+'T'+t.time+':00');
+  return isNaN(d.getTime())?null:d;
+}
+function meetingOccurred(t){
+  if(!t||t.kind!=='meeting'||t.done||!t.due)return false;
+  var diff=dd(t.due);
+  if(diff<0)return true;
+  if(diff>0)return false;
+  var at=meetingStartTime(t);
+  return !!(at&&Date.now()>=at.getTime());
+}
 function isPastHearing(t){ return !!(t&&t.kind==='hearing'&&t.due&&dd(t.due)<0&&!hearingNeedsResult(t)); }
-function isActiveRecord(t){ return !!(t && !t.done); }
-function overdue(){ return S.tasks.filter(function(t){ return !t.done && t.kind!=='hearing' && t.due && dd(t.due)<0; }); }
-function dueToday(){ return S.tasks.filter(function(t){ return !t.done && t.due===today(); }); }
+function isActiveRecord(t){ return !!(t && !t.done && !meetingOccurred(t)); }
+function overdue(){ return S.tasks.filter(function(t){ return !t.done && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0; }); }
+function dueToday(){ return S.tasks.filter(function(t){ return !t.done && !meetingOccurred(t) && t.due===today(); }); }
 function sortT(a,b){
   if(a.done!==b.done) return a.done?1:-1;
   if(!!a.due!==!!b.due) return a.due?-1:1;
@@ -623,6 +636,9 @@ function dueTag(t){
   if(t.kind==='hearing'){
     c = (!t.done && n>=0 && n<=1) ? 'yel' : '';
     s = n===0 ? 'сегодня' : n===1 ? 'завтра' : n<0 ? fmtShort(t.due) : relD(t.due);
+  }else if(t.kind==='meeting'){
+    c = (!t.done && n>=0 && n<=1) ? 'yel' : '';
+    s = n===0 ? 'сегодня' : n===1 ? 'завтра' : n<0 ? fmtShort(t.due) : relD(t.due);
   }else{
     c = t.done ? '' : (n<0?'red':n<=1?'yel':n<=6?'':'');
     s = t.done ? fmtShort(t.due) : relD(t.due);
@@ -644,7 +660,7 @@ function taskCard(t,opts){
   var hearing=t.kind==='hearing', rinfo=hearingResultInfo(t), needResult=hearingNeedsResult(t);
   var title = hearing ? (m?(m.number||'Судебное заседание'):(t.hearingNumber||t.hearingClient||'Судебное заседание')) : t.title;
   return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done?' done':'')+(needResult?' hearing-needs-result':'')+'" data-act="task" data-id="'+t.id+'">'+
-    (hearing?'<div class="eventmark '+(needResult?'needs-result':'')+'">'+ico(needResult?'clock':'gavel')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>')+
+    (hearing?'<div class="eventmark '+(needResult?'needs-result':'')+'">'+ico(needResult?'clock':'gavel')+'</div>':(meetingOccurred(t)?'<div class="eventmark meeting-held">'+ico('check')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>'))+
     '<div class="tbody">'+
       '<div class="trow">'+
         (t.time?'<span class="ttime mono">'+esc(t.time)+'</span>':'')+
@@ -664,9 +680,9 @@ function taskCard(t,opts){
 }
 function groupList(list,opts){
   if(!list.length) return '';
-  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Выполнено',[]]];
+  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Состоявшиеся встречи',[],'slate'],['Выполнено',[]]];
   list.forEach(function(t){
-    var i = t.done ? 7 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
+    var i = t.done ? 8 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : meetingOccurred(t) ? 7 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
     buckets[i][1].push(t);
   });
   return buckets.filter(function(b){ return b[1].length; }).map(function(b){
@@ -830,14 +846,12 @@ function renderToday(){
   var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
   var pendingHearingResults=allOpen.filter(hearingNeedsResult).sort(sortT);
   var overdueDeadlines=allOpen.filter(function(t){return t.kind==='deadline'&&t.due&&dd(t.due)<0;}).sort(sortT);
-  var overdueMeetings=allOpen.filter(function(t){return t.kind==='meeting'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var overdueTasks=allOpen.filter(function(t){return t.kind==='task'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var hearingsToday=allOpen.filter(function(t){return t.kind==='hearing'&&t.due===today()&&!hearingNeedsResult(t);}).sort(sortT);
-  var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today();}).sort(sortT);
+  var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today()&&!meetingOccurred(t);}).sort(sortT);
   var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&t.due===today();}).sort(sortT);
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
   var next7=allOpen.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7&&(t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');}).sort(sortT).slice(0,5);
-  var critical=overdueDeadlines.length + overdueMeetings.length + overdueTasks.length + deadlinesToday.length;
   var quote=todayQuoteOfDay();
 
   function block(kind, icon, title, items, renderer, extra){
@@ -848,17 +862,13 @@ function renderToday(){
 
   var html =
     '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+(critical?'<i>'+critical+'</i>':'')+'</button></div>'+
+      '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-quote"><div><b>'+quote[0]+'</b><span>'+quote[1]+'</span></div></div>';
 
   html += block('danger','flag','Просроченные сроки',overdueDeadlines,todayDeadlineRow);
   html += block('danger','flag','Сроки сегодня',deadlinesToday,todayDeadlineRow);
-  if(overdueMeetings.length){
-    html += block('purple','user','Просроченные встречи',overdueMeetings,todayMeetingRow,
-      '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
-  }
   if(overdueTasks.length){
     html += block('danger','flag','Просроченные задачи',overdueTasks,todayTaskRow,
       '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
@@ -1052,7 +1062,7 @@ function sheetTaskActions(id){
   var rows='<label class="row task-date-action">'+ico('cal')+
       '<span class="rl">Изменить дату<small>'+(t.due?('Сейчас: '+fmtD(t.due,true)):'Дата не установлена')+'</small></span>'+ico('chev','s')+
       '<input class="task-date-native" type="date" value="'+esc(cur)+'" data-task-date-id="'+t.id+'" aria-label="Выбрать новую дату"></label>'+ 
-      '<button class="row danger-row" data-act="task-action-delete" data-id="'+t.id+'">'+ico('trash')+'<span class="rl">Удалить<small>'+(t.kind==='hearing'?'Удалить запланированное заседание':'Удалить задачу без возможности восстановления')+'</small></span>'+ico('chev','s')+'</button>';
+      '<button class="row danger-row" data-act="task-action-delete" data-id="'+t.id+'">'+ico('trash')+'<span class="rl">Удалить<small>'+(t.kind==='hearing'?'Удалить запланированное заседание':(t.kind==='meeting'?'Удалить встречу без возможности восстановления':'Удалить задачу без возможности восстановления'))+'</small></span>'+ico('chev','s')+'</button>';
   openSheet('<h2>Быстрые действия</h2><p class="sh-sub">'+esc(t.title)+(sub?' · '+esc(sub):'')+'</p><div class="card pad0 task-action-sheet">'+rows+'</div>');
 }
 function taskTypeMeta(){
@@ -1094,26 +1104,26 @@ function taskProjectBase(){
   }).sort(sortT);
 }
 function taskProjectMatch(t,chip){
-  if(chip==='late') return !t.done && t.kind!=='hearing' && t.due && dd(t.due)<0;
-  if(chip==='today') return !t.done && t.due && dd(t.due)===0;
-  if(chip==='week') return !t.done && t.due && dd(t.due)>0 && dd(t.due)<=7;
-  if(chip==='later') return !t.done && t.due && dd(t.due)>7;
-  if(chip==='nodue') return !t.done && !t.due;
-  if(chip==='done') return !!t.done;
+  if(chip==='late') return !t.done && !meetingOccurred(t) && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0;
+  if(chip==='today') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)===0;
+  if(chip==='week') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)>0 && dd(t.due)<=7;
+  if(chip==='later') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)>7;
+  if(chip==='nodue') return !t.done && !meetingOccurred(t) && !t.due;
+  if(chip==='done') return !!t.done || meetingOccurred(t);
   return true;
 }
 function taskProjectCounts(){
   var all=taskProjectBase().filter(function(t){return taskTypeMatch(t,S.ui.taskType);});
-  var active=all.filter(function(t){return !t.done;});
+  var active=all.filter(function(t){return !t.done && !meetingOccurred(t);});
   return {
     all:all.length,
     work:active.length,
-    late:active.filter(function(t){return t.kind!=='hearing'&&t.due&&dd(t.due)<0;}).length,
+    late:active.filter(function(t){return (t.kind==='task'||t.kind==='deadline')&&t.due&&dd(t.due)<0;}).length,
     today:active.filter(function(t){return t.due&&dd(t.due)===0;}).length,
     week:active.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7;}).length,
     later:active.filter(function(t){return t.due&&dd(t.due)>7;}).length,
     nodue:active.filter(function(t){return !t.due;}).length,
-    done:all.filter(function(t){return !!t.done;}).length
+    done:all.filter(function(t){return !!t.done || meetingOccurred(t);}).length
   };
 }
 function renderTasks(){
@@ -1153,17 +1163,19 @@ function taskProjectGroups(list){
     {key:'week',title:'На этой неделе',tone:'gold',items:[]},
     {key:'later',title:'Позже',tone:'slate',items:[]},
     {key:'nodue',title:'Без срока',tone:'slate',items:[]},
+    {key:'past-meetings',title:'Состоявшиеся встречи',tone:'green',items:[]},
     {key:'hearing-history',title:'История заседаний',tone:'blue',items:[]},
     {key:'done',title:'Выполнено',tone:'green',items:[]}
   ];
   list.forEach(function(t){
     if(t.done){
-      if(t.kind==='hearing' && hearingHasResult(t)){out[6].items.push(t);return;}
-      out[7].items.push(t);return;
+      if(t.kind==='hearing' && hearingHasResult(t)){out[7].items.push(t);return;}
+      out[8].items.push(t);return;
     }
     if(hearingNeedsResult(t)){out[0].items.push(t);return;}
     if(!t.due){out[5].items.push(t);return;}
     var d=dd(t.due);
+    if(meetingOccurred(t)){out[6].items.push(t);return;}
     if(d<0){out[1].items.push(t);return;}
     if(d===0){out[2].items.push(t);return;}
     if(d<=7){out[3].items.push(t);return;}
@@ -1176,6 +1188,7 @@ function taskProjectBadge(t){
   if(ri) return '<span class="pt-badge hearing-result '+ri.tone+'">'+esc(ri.label)+'</span>';
   if(hearingNeedsResult(t)) return '<span class="pt-badge hearing-result pending">Результат</span>';
   if(t.done) return '<span class="pt-badge done">Готово</span>';
+  if(meetingOccurred(t)) return '<span class="pt-badge meeting held">Состоялась</span>';
   if(t.kind==='hearing') return '<span class="pt-badge hearing">Заседание</span>';
   if(t.kind==='meeting') return '<span class="pt-badge meeting">Встреча</span>';
   if(t.kind==='deadline') return '<span class="pt-badge deadline">Срок</span>';
@@ -1189,6 +1202,7 @@ function taskDueText(t){
   var d=dd(t.due);
   if(hearingNeedsResult(t)) return '<small class="pt-result-due">Требуется результат · '+fmtD(t.due)+'</small>';
   if(t.done) return '<small>'+fmtD(t.due)+'</small>';
+  if(meetingOccurred(t)) return '<small class="pt-past-meeting">Состоялась'+(t.time?' · '+esc(t.time):'')+' · '+fmtD(t.due)+'</small>';
   if(d<0) return '<small class="pt-overdue">Просрочено на '+Math.abs(d)+' '+plural(Math.abs(d),'день','дня','дней')+'</small>';
   if(d===0) return '<small>Сегодня</small>';
   if(d===1) return '<small>Завтра</small>';
@@ -1205,7 +1219,9 @@ function taskProjectRow(t){
     ? (hearingNeedsResult(t)
         ? '<button class="pt-hearing-state pending" data-act="hearing-result" data-id="'+t.id+'">'+ico('clock','s')+'</button>'
         : '<span class="pt-hearing-state '+(hearingHasResult(t)?'completed':'scheduled')+'">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>')
-    : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>';
+    : (meetingOccurred(t)
+        ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
+        : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   return '<div class="pt-item" data-id="'+t.id+'">'+
     '<div class="pt-swipe-bg"><span></span><span class="pt-swipe-more">Ещё'+ico('more','s')+'</span></div>'+ 
     '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+'" data-id="'+t.id+'">'+
@@ -1241,8 +1257,8 @@ function renderTaskList(){
    ===================================================================== */
 function matterStats(m){
   var t = tasksOf(m.id), open = t.filter(isActiveRecord);
-  var late = open.filter(function(x){ return x.kind!=='hearing' && x.due && dd(x.due)<0; }).length;
-  var done = t.filter(function(x){ return x.done; }).length;
+  var late = open.filter(function(x){ return (x.kind==='task'||x.kind==='deadline') && x.due && dd(x.due)<0; }).length;
+  var done = t.filter(function(x){ return x.done || meetingOccurred(x); }).length;
   var nh = t.filter(function(x){ return !x.done && x.kind==='hearing' && x.due && dd(x.due)>=0; }).sort(sortT)[0];
   var parts = participationOf(m.id).slice().sort(function(a,b){ return a.date<b.date?1:-1; });
   var rate = +m.dayRate || +S.settings.dayRate || 0;
@@ -1878,17 +1894,19 @@ function matterPremiumTaskRow(t,m){
   else subtitle=(m&&m.number)?('По делу № '+m.number):(m&&m.client?m.client:'');
   var dateBadge='';
   if(t.due){
-    var d=dd(t.due), dateLabel=d<0?'просрочено':(d===0?'сегодня':(d===1?'завтра':fmtShort(t.due)));
-    dateBadge=matterPremiumBadge('date '+(d<0?'overdue':(d===0?'today':'')),dateLabel);
+    var d=dd(t.due), held=meetingOccurred(t), dateLabel=held?'состоялась':(d<0?'просрочено':(d===0?'сегодня':(d===1?'завтра':fmtShort(t.due))));
+    dateBadge=matterPremiumBadge('date '+(held?'held':(d<0?'overdue':(d===0?'today':''))),dateLabel);
   }
   var kindLabel='';
   if(t.kind==='hearing') kindLabel=matterPremiumBadge('hearing','Заседание');
-  else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting','Встреча');
+  else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting'+(meetingOccurred(t)?' held':''),meetingOccurred(t)?'Состоялась':'Встреча');
   else if(t.kind==='deadline') kindLabel=matterPremiumBadge('deadline','Срок');
   else kindLabel=matterPremiumBadge('task','Задача');
   var lead=t.kind==='hearing'
     ? '<span class="matter-event-check icon">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>'
-    : '<button class="matter-event-check'+(t.done?' done':'')+'" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>';
+    : (meetingOccurred(t)
+        ? '<span class="matter-event-check done meeting-held">'+ico('check','s')+'</span>'
+        : '<button class="matter-event-check'+(t.done?' done':'')+'" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   return '<div class="matter-event-card'+(t.done?' done':'')+(t.kind==='hearing'?' hearing':'')+(t.kind==='meeting'?' meeting':'')+(t.kind==='deadline'?' deadline':'')+'">'+
     lead+
     '<div class="matter-event-main"><button class="matter-event-open" data-act="'+(hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+t.id+'"><b>'+esc(title)+'</b>'+
@@ -1963,7 +1981,7 @@ function openMatter(id){
   var m = matter(id); if(!m){ closeAll(); return; }
   var ts = tasksOf(id).sort(sortT);
   var open = ts.filter(isActiveRecord);
-  var done = ts.filter(function(t){ return t.done; });
+  var done = ts.filter(function(t){ return t.done || meetingOccurred(t); });
   var activeDeadlines = open.filter(function(t){ return t.kind==='deadline'; });
   var activeFlow = open.filter(function(t){ return t.kind!=='deadline'; });
   var hearings = open.filter(function(t){ return t.kind==='hearing' || t.kind==='meeting'; }).sort(sortT);
