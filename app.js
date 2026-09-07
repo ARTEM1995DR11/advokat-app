@@ -523,6 +523,7 @@ function matterDossierRows(m){
   push('user',cfg.roleLabel,m.role);
   if(cfg.showRestraint) push('lock','Мера пресечения',m.restraint);
   if(cfg.showOpponent) push('user',cfg.opponentLabel,m.opponent);
+  push('clock','Стадия',m.stage);
   push('doc','Суть / рабочая заметка',m.notes);
   return rows;
 }
@@ -1291,7 +1292,7 @@ function renderMatters(){
   var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'Тип';
   var html='<div class="matters-project">'+
     '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button><button class="iconbtn" data-act="new-matter" title="Новое дело">'+ico('plus')+'</button></div></div>'+
+      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
       '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+
@@ -1565,7 +1566,7 @@ function render(){
     $('#sc-'+k).classList.toggle('hide', S.ui.tab!==k); });
   ({today:renderToday,tasks:renderTasks,matters:renderMatters,cal:renderCal,more:renderMore})[S.ui.tab]();
   document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===S.ui.tab); });
-  $('#fab').classList.toggle('fab-context-hide',S.ui.tab==='matters');
+  $('#fab').classList.toggle('fab-context-hide',false);
   $('#sc-'+S.ui.tab).classList.add('fadein');
   setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
   applyTheme();
@@ -1877,59 +1878,105 @@ function matterJournalRow(j){
   return '<div class="matter-jline"><i></i><div class="matter-jcopy"><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div><button class="matter-jdel" data-act="journal-del" data-id="'+j.id+'">'+ico('trash','s')+'</button></div>';
 }
 
+
+function matterStatusText(m){
+  if(!m) return 'В производстве';
+  if(m.archived) return 'Архив';
+  if(m.stage==='Завершено') return 'Завершено';
+  return 'В производстве';
+}
+function matterStatusClass(m){
+  if(!m) return 'green';
+  if(m.archived) return 'slate';
+  if(m.stage==='Завершено') return 'blue';
+  if(m.stage==='Апелляция' || m.stage==='Кассация' || m.stage==='Надзор') return 'blue';
+  return 'green';
+}
+function matterDisplayTitle(m){
+  return esc(m.number||m.title||'Карточка дела');
+}
+function matterDisplaySubtitle(m){
+  if(m.number && m.title && m.title!==m.number) return esc(m.title);
+  return esc([matterType(m).n,m.client].filter(Boolean).join(' · ') || 'Карточка дела');
+}
+function matterSegment(label,count,active){
+  return '<span class="matter-detail-seg'+(active?' on':'')+'">'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</span>';
+}
+function matterNextHearingCard(t,m){
+  if(!t) return '';
+  var title=t.kind==='meeting'?'Ближайшая встреча':'Следующее заседание';
+  var place=t.kind==='hearing' ? hearingPlace(t).replace(/<br>/g,' · ') : (t.place||'');
+  var judge=t.kind==='hearing' ? hearingJudgeName(t,m) : '';
+  var subtitle=[place,judge].filter(Boolean).join(' · ');
+  return '<button class="matter-next-card" data-act="'+(hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+t.id+'">'+
+    '<span class="matter-next-icon">'+ico(t.kind==='meeting'?'user':'cal','s')+'</span>'+
+    '<span class="matter-next-copy"><small>'+title+'</small><b>'+fmtD(t.due,true)+(t.time?', '+esc(t.time):'')+'</b>'+(subtitle?'<span>'+esc(subtitle)+'</span>':'')+'</span>'+
+    '<span class="matter-next-tail">'+ico('chev','s')+'</span>'+
+  '</button>';
+}
+function matterCompactDeadlineRow(t){
+  var days=typeof dd==='function'&&t.due?dd(t.due):null;
+  var label=days===null?'':(days<0?'просрочено':days===0?'сегодня':days===1?'1 день':String(days)+' дней');
+  return '<button class="matter-deadline-row" data-act="task" data-id="'+t.id+'">'+
+    '<span class="matter-deadline-dot '+(days!==null&&days<0?'overdue':'')+'"></span>'+
+    '<span class="matter-deadline-copy"><b>'+esc(t.title||'Процессуальный срок')+'</b><small>'+esc(fmtD(t.due,true)+(t.ruleArticle?' · '+t.ruleArticle:''))+'</small></span>'+
+    (label?'<span class="matter-deadline-tag '+(days!==null&&days<0?'overdue':'')+'">'+esc(label)+'</span>':'')+
+  '</button>';
+}
+function sheetMatterMore(id){
+  var m=matter(id); if(!m) return;
+  var rows=''+
+    '<div class="row" data-act="m-hearing" data-id="'+id+'">'+ico('cal')+'<span class="rl">Заседание<small>Назначить судебное заседание</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row" data-act="m-deadline" data-id="'+id+'">'+ico('clock')+'<span class="rl">Процессуальный срок<small>Добавить контролируемый срок</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row" data-act="m-journal" data-id="'+id+'">'+ico('doc')+'<span class="rl">Запись в журнал<small>Зафиксировать действие по делу</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row" data-act="m-edit" data-id="'+id+'">'+ico('edit')+'<span class="rl">Изменить карточку<small>Отредактировать реквизиты дела</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row" data-act="m-print" data-id="'+id+'">'+ico('share')+'<span class="rl">Экспорт / печать<small>Подготовить сводку по делу</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row" data-act="m-arch" data-id="'+id+'">'+ico('arch')+'<span class="rl">'+esc(m.archived?'Вернуть в работу':'Отправить в архив')+'<small>Скрыть дело из активного списка</small></span>'+ico('chev','s')+'</div>'+
+    '<div class="row danger-row" data-act="m-del" data-id="'+id+'">'+ico('trash')+'<span class="rl">Удалить дело<small>Связанные записи также будут удалены</small></span>'+ico('chev','s')+'</div>';
+  openSheet('<h2>Действия по делу</h2><p class="sh-sub">'+matterDisplayTitle(m)+'</p><div class="card pad0 task-action-sheet">'+rows+'</div>');
+}
+
 function openMatter(id){
   var m = matter(id); if(!m){ closeAll(); return; }
-  var st = matterStats(m), c = mColor(m.id), mt=matterType(m), tone=matterStageTone(m);
-  var ts = tasksOf(id).sort(sortT), open = ts.filter(isActiveRecord), done=ts.filter(function(t){return t.done;});
+  var ts = tasksOf(id).sort(sortT);
+  var open = ts.filter(isActiveRecord);
+  var done = ts.filter(function(t){ return t.done; });
+  var activeDeadlines = open.filter(function(t){ return t.kind==='deadline'; });
+  var activeFlow = open.filter(function(t){ return t.kind!=='deadline'; });
+  var hearings = open.filter(function(t){ return t.kind==='hearing' || t.kind==='meeting'; }).sort(sortT);
+  var nextEvent = hearings[0] || null;
   var js = journalOf(id).slice().sort(function(a,b){ return (a.date||'')<(b.date||'')?1:-1; });
   var dossier = matterDossierRows(m);
   var noteRow = dossier.filter(function(r){ return r[1]==='Суть / рабочая заметка'; })[0] || null;
   var mainRows = dossier.filter(function(r){ return r[1]!=='Суть / рабочая заметка'; });
-  var workCount=open.filter(function(t){ return t.kind==='task'; }).length;
-  var eventCount=open.filter(function(t){ return t.kind==='hearing' || t.kind==='meeting'; }).length;
-  var deadlineCount=open.filter(function(t){ return t.kind==='deadline'; }).length;
-  var subLine=[m.stage||'Без стадии',m.number].filter(Boolean).join(' · ');
-  var archiveText=m.archived?'Вернуть в работу':'Отправить в архив';
 
   openPage(
-  '<div class="shhead matter-headerbar"><button class="iconbtn" data-act="close">'+ico('left')+'</button>'+
-    '<div class="matter-header-brand">Ежедневник адвоката</div>'+
-    '<div class="matter-header-actions"><button class="iconbtn" data-act="global-search">'+ico('search')+'</button><button class="iconbtn" data-act="m-print">'+ico('doc')+'</button><button class="iconbtn" data-act="m-edit">'+ico('edit')+'</button></div></div>'+
-  '<div class="matter-detail-shell">'+
-    '<div class="matter-detail-hero">'+
-      '<div class="matter-detail-avatar" style="--case:'+mt.c+';--avatar:'+c+'">'+initials(m.client||m.title).slice(0,1)+'</div>'+
-      '<div class="matter-detail-copy">'+
-        '<div class="matter-type-pill" style="--pill:'+mt.c+'">'+esc(mt.n.toUpperCase())+'</div>'+
-        '<h1>'+esc(m.title)+'</h1>'+
-        '<p>'+(subLine?esc(subLine):'Карточка дела')+'</p>'+
+  '<div class="shhead matter-headerbar matter-headerbar-project"><button class="iconbtn" data-act="close">'+ico('left')+'</button>'+
+    '<div class="matter-header-brand">Карточка дела</div>'+
+    '<div class="matter-header-actions"><button class="iconbtn" data-act="m-print">'+ico('share')+'</button><button class="iconbtn" data-act="m-edit">'+ico('edit')+'</button></div></div>'+
+  '<div class="matter-detail-shell matter-detail-shell-project">'+
+    '<div class="matter-project-topcard">'+
+      '<div class="matter-project-topline"><div class="matter-project-headcopy"><h1>'+matterDisplayTitle(m)+'</h1><p>'+matterDisplaySubtitle(m)+'</p></div><span class="matter-project-status '+matterStatusClass(m)+'">'+esc(matterStatusText(m))+'</span></div>'+
+      '<div class="matter-project-tabs">'+
+        matterSegment('Общее',0,true)+matterSegment('Сроки',activeDeadlines.length,false)+matterSegment('Задачи',activeFlow.length,false)+matterSegment('События',js.length,false)+
       '</div>'+
     '</div>'+
-    '<div class="matter-summary-grid matter-summary-grid-premium">'+
-      '<div class="matter-summary-card gold"><span class="matter-summary-icon">'+ico('brief','s')+'</span><b>'+workCount+'</b><span>в работе</span></div>'+
-      '<div class="matter-summary-card green"><span class="matter-summary-icon">'+ico('check','s')+'</span><b>'+st.done+'</b><span>готово</span></div>'+
-      '<div class="matter-summary-card blue"><span class="matter-summary-icon">'+ico('cal','s')+'</span><b>'+eventCount+'</b><span>события</span></div>'+
-      '<div class="matter-summary-card red"><span class="matter-summary-icon">'+ico('clock','s')+'</span><b>'+deadlineCount+'</b><span>срок</span></div>'+
+    (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
+    matterNextHearingCard(nextEvent,m)+
+    (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2><button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button></div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
+    '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2><button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button></div>'+
+      (activeFlow.length?'<div class="matter-events-list matter-events-list-compact">'+activeFlow.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card"><div class="hint">Добавьте по делу первую задачу, заседание или встречу.</div></div>')+
     '</div>'+
-    (mainRows.length?'<div class="matter-dossier-panel">'+mainRows.map(function(r){
-      if(r[1]==='Телефон') return matterPanelRow(r[0],r[1],r[2],{href:'tel:'+esc(String(r[2]).replace(/[^0-9+]/g,''))});
-      return matterPanelRow(r[0],r[1],r[2],{chev:true});
-    }).join('')+'</div>':'')+
-    matterNoteCard(noteRow&&noteRow[2])+
-    '<div class="matter-actions-grid">'+
-      '<button class="matter-action-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+'<span>Задача</span></button>'+
-      '<button class="matter-action-btn" data-act="m-hearing" data-id="'+id+'">'+ico('cal','s')+'<span>Заседание</span></button>'+
-      '<button class="matter-action-btn" data-act="m-deadline" data-id="'+id+'">'+ico('clock','s')+'<span>Срок</span></button>'+
-      '<button class="matter-action-btn" data-act="m-journal" data-id="'+id+'">'+ico('doc','s')+'<span>Новая запись</span></button>'+
+    '<div class="matter-premium-section" id="matter-sec-journal"><div class="matter-premium-section-head"><h2>Недавние действия</h2><button class="matter-section-link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
+      (js.length?'<div class="matter-journal-list matter-journal-list-card">'+js.slice(0,8).map(matterJournalRow).join('')+'</div>':'<div class="hint">Записи журнала помогут быстро восстановить ход работы по делу.</div>')+
     '</div>'+
-    '<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Задачи и события</h2><button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+open.length+'</button></div>'+
-      (open.length?'<div class="matter-events-list">'+open.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card">'+empty('check','Пока пусто','Добавьте первую задачу, заседание или срок по делу.',[{act:'m-add',t:'Добавить задачу',id:id}])+'</div>')+
+    (noteRow&&noteRow[2]?matterNoteCard(noteRow[2]):'')+
+    (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list matter-events-list-compact done-list">'+done.slice(0,4).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
+    '<div class="matter-bottom-actions">'+
+      '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('folder','s')+' <span>Добавить задачу</span></button>'+
+      '<button class="matter-bottom-btn" data-act="m-moremenu" data-id="'+id+'">'+ico('more','s')+' <span>Ещё действия</span></button>'+
     '</div>'+
-    '<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Журнал дела</h2><button class="matter-section-link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
-      (js.length?'<div class="matter-journal-list">'+js.slice(0,20).map(matterJournalRow).join('')+'</div>':'<div class="hint">Фиксируйте ключевые действия: документы получены, позиция согласована, ходатайство подано, заседание перенесено.</div>')+
-    '</div>'+
-    (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list done-list">'+done.slice(0,8).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
-    '<button class="btn matter-archive-btn" data-act="m-arch" data-id="'+id+'">'+ico('folder')+' '+archiveText+'</button>'+
-    '<button class="btn danger matter-danger-link" data-act="m-del" data-id="'+id+'">Удалить дело</button><div style="height:30px"></div>'+
+    '<div style="height:18px"></div>'+
   '</div>');
   $('#page')._mid=id; $('#page')._navType='matter';
 }
@@ -2611,6 +2658,7 @@ document.addEventListener('click', function(ev){
     case 'new-matter': closeSheet();editMatter(null);break;
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
+    case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
     case 'm-save': saveMatter();break;
     case 'm-add': editTask(null,{mid:id,due:today()});break;
     case 'm-hearing': editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;
@@ -2751,7 +2799,7 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
-$('#fab').onclick=function(){if(!unlocked)return;vib();sheetQuickAdd();};
+$('#fab').onclick=function(){if(!unlocked)return;vib(); if(S.ui.tab==='matters' && !$('#page').classList.contains('open')){ closeSheet(); editMatter(null); } else sheetQuickAdd();};
 $('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
