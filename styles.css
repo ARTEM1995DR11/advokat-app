@@ -2451,12 +2451,12 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.69 — вводные подсказки редактора убраны */
+/* 3.1.70 — вводные подсказки редактора убраны */
 .task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
 .task-editor-sheet .task-editor-type{margin-top:0!important}
 
 
-/* 3.1.69 — центрирование «Запись в журнал» в быстром добавлении */
+/* 3.1.70 — центрирование «Запись в журнал» в быстром добавлении */
 .quickgrid-core .quickitem[data-act="qa-journal"],
 body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
   min-height:72px!important;
@@ -2490,7 +2490,7 @@ body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
 }
 
 
-/* 3.1.69 — кнопка сохранения ещё ниже */
+/* 3.1.70 — кнопка сохранения ещё ниже */
 .sheet.task-editor-sheet,
 body.light .sheet.task-editor-sheet{
   padding-bottom:0!important;
@@ -2529,7 +2529,7 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.69 — нижняя навигация ещё тоньше и ниже */
+/* 3.1.70 — нижняя навигация ещё тоньше и ниже */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   bottom:3px!important;
@@ -2599,7 +2599,7 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.69 — встречи на экране «Сегодня» вынесены отдельно */
+/* 3.1.70 — встречи на экране «Сегодня» вынесены отдельно */
 .today-sec.purple{color:var(--purple);background:linear-gradient(90deg,rgba(139,123,216,.14),transparent)}
 .today-sec.purple .today-sec-ico{background:rgba(139,123,216,.14)}
 .today-sec.purple .today-count{background:var(--purple);color:#fff}
@@ -2611,3 +2611,35 @@ body.light .premium-nav .tab::after{
 .meeting-row .meeting-place{margin-top:4px!important;font-size:11.3px!important;line-height:1.3!important;color:#7A5BC8!important;font-weight:650!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
 body.light .meeting-row .meeting-place{color:#6C56B3!important}
 body.light .today-kind-badge.meeting{background:rgba(122,91,200,.12);color:#6C56B3}
+
+
+/* 3.1.70 — единые маркеры типов на «Сегодня» и в календаре */
+.tag.kind-tag{font-weight:750}
+.tag.kind-task{background:rgba(47,163,107,.12);color:#20885A}
+.tag.kind-hearing{background:rgba(55,152,229,.13);color:#2E79C7}
+.tag.kind-meeting{background:rgba(139,123,216,.16);color:#765FC8}
+.tag.kind-deadline{background:rgba(217,155,46,.14);color:#A96C05}
+body.light .tag.kind-task{background:rgba(47,163,107,.10);color:#1F7D55}
+body.light .tag.kind-hearing{background:rgba(55,152,229,.10);color:#246EBA}
+body.light .tag.kind-meeting{background:rgba(122,91,200,.12);color:#6C56B3}
+body.light .tag.kind-deadline{background:rgba(183,121,12,.11);color:#8A6105}
+
+.today-kind-badge.task{background:rgba(47,163,107,.13);color:#20885A}
+.today-kind-badge.hearing{background:rgba(55,152,229,.14);color:#2E79C7}
+.today-kind-badge.deadline{background:rgba(217,155,46,.14);color:#A96C05}
+body.light .today-kind-badge.task{background:rgba(47,163,107,.10);color:#1F7D55}
+body.light .today-kind-badge.hearing{background:rgba(55,152,229,.10);color:#246EBA}
+body.light .today-kind-badge.deadline{background:rgba(183,121,12,.11);color:#8A6105}
+
+.today-row.kind-task{border-left:3px solid rgba(47,163,107,.30)}
+.today-row.kind-hearing{border-left:3px solid rgba(55,152,229,.32)}
+.today-row.kind-meeting{border-left:3px solid rgba(139,123,216,.32)}
+.today-row.kind-deadline{border-left:3px solid rgba(217,155,46,.36)}
+body.light .today-row.kind-task{background:linear-gradient(90deg,rgba(47,163,107,.045),rgba(255,255,255,0) 34%)}
+body.light .today-row.kind-hearing{background:linear-gradient(90deg,rgba(55,152,229,.045),rgba(255,255,255,0) 34%)}
+body.light .today-row.kind-meeting{background:linear-gradient(90deg,rgba(122,91,200,.045),rgba(255,255,255,0) 34%)}
+body.light .today-row.kind-deadline{background:linear-gradient(90deg,rgba(183,121,12,.05),rgba(255,255,255,0) 34%)}
+body:not(.light) .today-row.kind-task{background:linear-gradient(90deg,rgba(47,163,107,.065),rgba(7,17,28,0) 36%)}
+body:not(.light) .today-row.kind-hearing{background:linear-gradient(90deg,rgba(55,152,229,.07),rgba(7,17,28,0) 36%)}
+body:not(.light) .today-row.kind-meeting{background:linear-gradient(90deg,rgba(139,123,216,.08),rgba(7,17,28,0) 36%)}
+body:not(.light) .today-row.kind-deadline{background:linear-gradient(90deg,rgba(217,155,46,.08),rgba(7,17,28,0) 36%)}

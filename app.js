@@ -467,6 +467,15 @@ function dueTag(t){
   }
   return '<span class="tag '+c+'">'+ico('cal','s')+esc(s)+'</span>';
 }
+
+function kindTag(t){
+  var cls='kind-'+(t.kind||'task');
+  if(t.kind==='hearing') return '<span class="tag kind-tag '+cls+'">'+ico('gavel','s')+'Заседание</span>';
+  if(t.kind==='meeting') return '<span class="tag kind-tag '+cls+'">'+ico('user','s')+'Встреча</span>';
+  if(t.kind==='deadline') return '<span class="tag kind-tag '+cls+'">'+ico('clock','s')+'Срок</span>';
+  return '<span class="tag kind-tag '+cls+'">'+ico('check','s')+'Задача</span>';
+}
+
 function taskCard(t,opts){
   opts = opts||{};
   var m = t.mid ? matter(t.mid) : null;
@@ -480,7 +489,7 @@ function taskCard(t,opts){
         '<div class="tt">'+esc(title)+'</div>'+
       '</div>'+
       '<div class="meta">'+
-        (t.kind!=='task' && !hearing ? '<span class="tag">'+ico(KIND[t.kind].i,'s')+KIND[t.kind].n+'</span>' : '')+
+        kindTag(t)+
         (opts.noMatter||!m ? '' : '<span class="tag dot" style="color:'+mColor(m.id)+'">'+esc(m.title)+'</span>')+
         (opts.noDue ? '' : dueTag(t))+
         (needResult?'<span class="tag hearing-result-pending">Указать результат</span>':'')+
@@ -532,10 +541,12 @@ function todaySectionHead(kind,icon,title,count,extra){
 }
 function todayDeadlineRow(t){
   var m=todayMatter(t), late=dd(t.due), title=t.title||'Процессуальный срок';
-  return '<button class="today-row deadline-row" data-act="task" data-id="'+t.id+'">'+
-    '<span class="today-row-ico">'+ico('cal','s')+'</span><span class="today-row-main"><b>'+esc(title)+'</b>'+
-    (m?'<small>'+esc(m.title+(m.number?' · '+m.number:''))+'</small>':'')+
-    '<em>Просрочен'+(late<-1?' на '+(-late)+' дн.':'')+'</em></span>'+ico('chev','s')+'</button>';
+  var context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  var state=late<0?('Просрочен'+(late<-1?' на '+(-late)+' дн.':'')):(dd(t.due)===0?'Истекает сегодня':fmtD(t.due,true));
+  return '<button class="today-row deadline-row kind-deadline" data-act="task" data-id="'+t.id+'">'+
+    '<span class="today-row-ico">'+ico('clock','s')+'</span><span class="today-row-main"><b>'+esc(title)+'</b>'+
+    '<small class="today-kindline"><span class="today-kind-badge deadline">Срок</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
+    '<em>'+esc(state)+'</em></span>'+ico('chev','s')+'</button>';
 }
 function hearingCaption(t,m){
   if(m) return m.number||m.title;
@@ -555,16 +566,18 @@ function hearingMetaLine(t,m){
   return bits.join('<span class="hearing-dot"> · </span>');
 }
 function todayHearingRow(t){
-  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
-  return '<button class="today-row hearing-row" data-act="task" data-id="'+t.id+'">'+
+  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  return '<button class="today-row hearing-row kind-hearing" data-act="task" data-id="'+t.id+'">'+
     '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
+    '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
     (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
     '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+(t.note?'<small class="hearing-note">'+esc(t.note)+'</small>':'')+'</span>'+ico('chev','s')+'</button>';
 }
 function todayPendingHearingRow(t){
-  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), when=t.due===today()?'сегодня':fmtD(t.due,true);
-  return '<button class="today-row hearing-row hearing-result-row" data-act="hearing-result" data-id="'+t.id+'">'+
+  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), when=t.due===today()?'сегодня':fmtD(t.due,true), context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  return '<button class="today-row hearing-row hearing-result-row kind-hearing" data-act="hearing-result" data-id="'+t.id+'">'+
     '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
+    '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
     (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
     '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+
     '<em class="hearing-result-call">Указать результат · '+esc(when)+' →</em></span>'+ico('chev','s')+'</button>';
@@ -572,9 +585,9 @@ function todayPendingHearingRow(t){
 function todayTaskRow(t){
   var m=todayMatter(t);
   var context=m?(m.title+(m.number?' · '+m.number:'')):'';
-  return '<div class="today-row task-row" data-act="task" data-id="'+t.id+'">'+
+  return '<div class="today-row task-row kind-task" data-act="task" data-id="'+t.id+'">'+
     '<button class="today-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button><span class="today-row-main"><b>'+esc(t.title)+'</b>'+
-    (context?'<small class="today-context">'+esc(context)+'</small>':'')+
+    '<small class="today-kindline"><span class="today-kind-badge task">Задача</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
     (t.note?'<small class="today-note">'+esc(t.note)+'</small>':'')+'</span>'+
     (t.time?'<span class="today-row-time mono">'+esc(t.time)+'</span>':'')+'</div>';
 }
@@ -582,7 +595,7 @@ function todayMeetingRow(t){
   var m=todayMatter(t);
   var context=m?(m.title+(m.number?' · '+m.number:'')):'';
   var typeLine='<small class="today-kindline"><span class="today-kind-badge meeting">Встреча</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>';
-  return '<div class="today-row task-row meeting-row" data-act="task" data-id="'+t.id+'">'+
+  return '<div class="today-row task-row meeting-row kind-meeting" data-act="task" data-id="'+t.id+'">'+
     '<button class="today-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button><span class="today-row-main"><b>'+esc(t.title||'Встреча')+'</b>'+
     typeLine+
     (t.place?'<small class="meeting-place">'+esc(t.place)+'</small>':'')+
@@ -590,10 +603,11 @@ function todayMeetingRow(t){
     (t.time?'<span class="today-row-time mono">'+esc(t.time)+'</span>':'')+'</div>';
 }
 function todayUpcomingRow(t){
-  var m=todayMatter(t), d=parseD(t.due), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
-  return '<button class="today-row upcoming-row" data-act="task" data-id="'+t.id+'">'+
+  var m=todayMatter(t), d=parseD(t.due), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  return '<button class="today-row upcoming-row kind-hearing" data-act="task" data-id="'+t.id+'">'+
     '<span class="today-date"><b>'+d.getDate()+'</b><small>'+MON[d.getMonth()].slice(0,3)+'</small></span>'+
     '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
+    '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
     (meta?'<small class="hearing-meta">'+meta+'</small>':'')+'<small class="hearing-court">'+esc(place||'Суд не указан')+'</small></span>'+ico('chev','s')+'</button>';
 }
 function todayPlaceholderRow(kind,text){
@@ -1412,7 +1426,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3169" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3170" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
