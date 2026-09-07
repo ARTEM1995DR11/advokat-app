@@ -20,7 +20,7 @@ var DEF = {
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null,
-    showArch:false, matterType:'', matterStage:'', matterScope:'active', taskGroupOpen:{}
+    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', taskGroupOpen:{}
   }
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
@@ -45,6 +45,7 @@ function mergeState(d){
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
+  if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
   out.matters = Array.isArray(d.matters)?d.matters:[];
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.tasks.forEach(function(t){
@@ -60,6 +61,7 @@ function mergeState(d){
     if(m.dayRate==null) m.dayRate = 0;
     if(!m.type) m.type = 'other';
     if(!m.stage) m.stage = 'Первая инстанция';
+    if(typeof m.basis!=='string') m.basis = '';
   });
   if(!out.participation.length && out.time.length){
     var seen = {};
@@ -377,9 +379,13 @@ function inferDeadlineRuleParts(t){
 var PRI = { high:{n:'Срочно',c:'red'}, mid:{n:'Обычный',c:'yel'}, low:{n:'Низкий',c:''} };
 var STAGE = ['Консультация','Досудебная работа','Дознание / следствие','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'];
 var MATTER_TYPES = {
-  criminal:{n:'Уголовное',short:'УК',c:'#8B7BD8'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
+  criminal:{n:'Уголовное',short:'УК',c:'#C95C54'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
   admin:{n:'Административное (КАС)',short:'КАС',c:'#3FA9A0'}, koap:{n:'КоАП',short:'КоАП',c:'#D9724A'},
   other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
+};
+var MATTER_BASIS = {
+  agreement:{n:'Соглашение',short:'Соглашение',c:'#B5873E'},
+  assigned:{n:'По назначению',short:'По назначению',c:'#2F8F67'}
 };
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 
@@ -460,7 +466,7 @@ function matterMeta(type){
 }
 function pullMatterDraft(){
   if(!MED)return;
-  var map={type:'#m-type',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
+  var map={type:'#m-type',basis:'#m-basis',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
 }
 function matterDynamicFields(){
@@ -508,6 +514,7 @@ function sanitizeMatterByType(o){
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
   if(!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
+  if(typeof o.basis!=='string') o.basis='';
   return o;
 }
 function matterDossierRows(m){
@@ -523,12 +530,15 @@ function matterDossierRows(m){
   push('user',cfg.roleLabel,m.role);
   if(cfg.showRestraint) push('lock','Мера пресечения',m.restraint);
   if(cfg.showOpponent) push('user',cfg.opponentLabel,m.opponent);
+  push('doc','Основание ведения',matterBasisLabel(m.basis));
   push('clock','Стадия',m.stage);
   push('doc','Суть / рабочая заметка',m.notes);
   return rows;
 }
 
 function matterType(m){ return MATTER_TYPES[m&&m.type]||MATTER_TYPES.other; }
+function matterBasisMeta(v){ return MATTER_BASIS[v]||null; }
+function matterBasisLabel(v){ var x=matterBasisMeta(v); return x?x.n:''; }
 function participationOf(id){ return S.participation.filter(function(p){ return p.mid===id; }); }
 function journalOf(id){ return S.journal.filter(function(j){ return j.mid===id; }); }
 
@@ -1259,7 +1269,7 @@ function matterCard(m){
   }
   var late=st.late?'<span class="mp-alert">'+st.late+' '+plural(st.late,'просрочено','просрочено','просрочено')+'</span>':'';
   return '<article class="mp-card'+(m.archived?' archived':'')+'" data-act="matter" data-id="'+m.id+'">'+
-    '<div class="mp-top"><span class="mp-case-icon" style="--case:'+mt.c+'">'+ico('brief')+'</span><div class="mp-heading"><b>'+esc(primary)+'</b><small>'+esc(mt.n)+'</small></div>'+
+    '<div class="mp-top"><span class="mp-case-icon" style="--case:'+mt.c+'">'+ico('brief')+'</span><div class="mp-heading"><b>'+esc(primary)+'</b><small>'+esc([mt.n,matterBasisLabel(m.basis)].filter(Boolean).join(' · '))+'</small></div>'+
       '<span class="mp-stage '+matterStageTone(m)+'">'+esc(m.archived?'Архив':(m.stage||'В производстве'))+'</span></div>'+
     '<div class="mp-body"><h3>'+esc(client)+'</h3><p class="mp-court">'+esc(court)+'</p>'+(subject?'<p class="mp-subject">'+esc(subject)+'</p>':'')+
       ((m.article||m.role)?'<p class="mp-law">'+esc([m.article,m.role].filter(Boolean).join(' · '))+'</p>':'')+'</div>'+
@@ -1267,9 +1277,11 @@ function matterCard(m){
   '</article>';
 }
 function sheetMatterFilters(){
-  var rows='<button class="row" data-act="m-filter" data-v="">'+ico('folder')+'<span class="rl">Все производства<small>Показывать дела всех типов</small></span>'+(S.ui.matterType===''?ico('check','s'):ico('chev','s'))+'</button>'+
+  var typeRows='<button class="row" data-act="m-filter" data-v="">'+ico('folder')+'<span class="rl">Все производства<small>Показывать дела всех типов</small></span>'+(S.ui.matterType===''?ico('check','s'):ico('chev','s'))+'</button>'+
     Object.keys(MATTER_TYPES).map(function(k){var t=MATTER_TYPES[k];return '<button class="row" data-act="m-filter" data-v="'+k+'"><span class="mf-dot" style="background:'+t.c+'"></span><span class="rl">'+esc(t.n)+'<small>'+esc(t.short)+'</small></span>'+(S.ui.matterType===k?ico('check','s'):ico('chev','s'))+'</button>';}).join('');
-  openSheet('<h2>Фильтр дел</h2><p class="sh-sub">Тип производства</p><div class="card pad0 matter-filter-sheet">'+rows+'</div>');
+  var basisRows='<button class="row" data-act="m-basis-filter" data-v="">'+ico('doc')+'<span class="rl">Все основания<small>Соглашение и дела по назначению</small></span>'+(S.ui.matterBasis===''?ico('check','s'):ico('chev','s'))+'</button>'+
+    Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return '<button class="row" data-act="m-basis-filter" data-v="'+k+'"><span class="mf-dot" style="background:'+t.c+'"></span><span class="rl">'+esc(t.n)+'<small>'+esc(t.short)+'</small></span>'+(S.ui.matterBasis===k?ico('check','s'):ico('chev','s'))+'</button>';}).join('');
+  openSheet('<h2>Фильтр дел</h2><p class="sh-sub">Тип производства</p><div class="card pad0 matter-filter-sheet">'+typeRows+'</div><p class="sh-sub">Основание ведения</p><div class="card pad0 matter-filter-sheet">'+basisRows+'</div>');
 }
 function renderMatters(){
   var scope=S.ui.matterScope||'active';
@@ -1279,6 +1291,7 @@ function renderMatters(){
     if(scope==='active' && m.archived) return false;
     if(scope==='archive' && !m.archived) return false;
     if(S.ui.matterType && m.type!==S.ui.matterType) return false;
+    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
     return true;
   });
   list.sort(function(a,b){
@@ -1289,7 +1302,9 @@ function renderMatters(){
     if(an!==bn) return an<bn?-1:1;
     return B.open-A.open;
   });
-  var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'Тип';
+  var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'';
+  var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
+  var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
     '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
@@ -1298,7 +1313,7 @@ function renderMatters(){
       '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+
       '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+
       '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button>'+
-      '<button class="matter-filter-btn'+(S.ui.matterType?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр по типу">'+ico('list','s')+'<span>'+typeName+'</span></button></div>'+
+      '<button class="matter-filter-btn'+((S.ui.matterType||S.ui.matterBasis)?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр дел">'+ico('list','s')+'<span>'+filterName+'</span></button></div>'+
     '<div class="matters-list">';
   html+=list.length?list.map(matterCard).join(''):
     empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]);
@@ -1897,7 +1912,7 @@ function matterDisplayTitle(m){
 }
 function matterDisplaySubtitle(m){
   if(m.number && m.title && m.title!==m.number) return esc(m.title);
-  return esc([matterType(m).n,m.client].filter(Boolean).join(' · ') || 'Карточка дела');
+  return esc([matterType(m).n,matterBasisLabel(m.basis),m.client].filter(Boolean).join(' · ') || 'Карточка дела');
 }
 function matterSegment(label,count,active){
   return '<span class="matter-detail-seg'+(active?' on':'')+'">'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</span>';
@@ -1983,11 +1998,12 @@ function openMatter(id){
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
 
 function editMatter(m){
-  MED = m ? clone(m) : {id:null,title:'',type:'civil',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
+  MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
   MED = sanitizeMatterByType(MED);
   openSheet(
   '<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p>'+
-  '<div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
+  '<div class="two"><div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
+  '<div class="fld"><label>Основание ведения</label><select id="m-basis"><option value="">— не выбрано —</option>'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div></div>'+
   '<div id="matter-dynamic"></div>'+
   '<button class="btn" data-act="m-save">Сохранить</button>');
   renderMatterDynamic();
@@ -1996,7 +2012,7 @@ function editMatter(m){
 function saveMatter(){
   pullMatterDraft();
   var title=(MED&&MED.title||'').trim(); if(!title){toast('Введите название дела');return;}
-  var o={title:title,type:MED.type||'other',client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
+  var o={title:title,type:MED.type||'other',basis:MED.basis||'',client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
   o=sanitizeMatterByType(o);
   var wasNew=!MED.id;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
@@ -2386,7 +2402,7 @@ function printDay(){
 function printMatter(id){
   var m=matter(id),st=matterStats(m),ts=tasksOf(id).sort(sortT),parts=participationOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;}),js=journalOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;});
   var info='<table>'+[
-    ['Тип',matterType(m).n],['Доверитель',m.client],['Номер дела / материала',m.number],['Суд / орган',m.court],['Судья',m.judge],['Следователь',m.investigator],['Статья / квалификация',m.article],['Статус',m.role],['Мера пресечения',m.restraint],['Оппонент',m.opponent],['Стадия',m.stage]
+    ['Тип',matterType(m).n],['Основание ведения',matterBasisLabel(m.basis)],['Доверитель',m.client],['Номер дела / материала',m.number],['Суд / орган',m.court],['Судья',m.judge],['Следователь',m.investigator],['Статья / квалификация',m.article],['Статус',m.role],['Мера пресечения',m.restraint],['Оппонент',m.opponent],['Стадия',m.stage]
   ].filter(function(r){return r[1];}).map(function(r){return '<tr><td style="width:38%;color:#555">'+r[0]+'</td><td><b>'+esc(r[1])+'</b></td></tr>';}).join('')+
   '<tr><td style="color:#555">Дни участия</td><td><b>'+st.days+(st.sum?' · '+money(st.sum):'')+'</b></td></tr></table>';
   var rows='<h2>Сведения по делу</h2>'+info+'<h2>Задачи ('+st.open+' в работе, '+st.done+' выполнено)</h2><table>'+ts.map(function(t){return '<tr><td class="cb">'+(t.done?'☑':'☐')+'</td><td>'+esc(t.title)+(t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td><td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'—')+'</td></tr>';}).join('')+'</table>';
@@ -2567,7 +2583,7 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 function demo(){
@@ -2628,6 +2644,7 @@ document.addEventListener('click', function(ev){
     case 'matter-scope': S.ui.matterScope=v||'active';S.ui.showArch=S.ui.matterScope==='archive';save();renderMatters();break;
     case 'matter-filter-sheet': sheetMatterFilters();break;
     case 'm-filter': S.ui.matterType=v||'';save();closeSheet();renderMatters();break;
+    case 'm-basis-filter': S.ui.matterBasis=v||'';save();closeSheet();renderMatters();break;
 
     /* quick add */
     case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
