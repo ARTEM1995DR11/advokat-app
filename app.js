@@ -431,7 +431,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -829,6 +829,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><textarea id="hr-note" rows="4" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(HR.note||'')+'</textarea></div>'+ 
     '<div class="hint hearing-result-hint">После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</div>'+ 
     '<button class="btn" data-act="hearing-result-save">Сохранить результат</button>');
+  $('#sheet').classList.add('hearing-result-sheet');
 }
 function sheetHearingResult(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0]; if(!t||t.kind!=='hearing')return;
@@ -873,6 +874,7 @@ function sheetHearingResultSummary(id){
     '<div class="hearing-result-summary '+(ri?ri.tone:'')+'"><small>Результат</small><b>'+esc(ri?ri.label:'Зафиксирован')+'</b>'+(t.hearingResultText?'<p>'+esc(t.hearingResultText)+'</p>':'')+'</div>'+ 
     (next?'<div class="hearing-result-next"><small>Следующее заседание</small><b>'+esc(fmtD(next.due,true)+' · '+next.time)+'</b><span>'+esc(next.place||'')+'</span></div>':'')+
     '<div class="hint">Запись сохранена в истории'+(t.mid?' и журнале дела':'')+'. Завершённые заседания автоматически не удаляются.</div>');
+  $('#sheet').classList.add('hearing-result-sheet');
 }
 
 function sheetTaskActions(id){
@@ -1152,54 +1154,124 @@ function renderMatters(){
   $('#sc-matters').innerHTML=html;
 }
 
+
+function calAgendaTone(t){
+  if(hearingNeedsResult(t)) return 'result';
+  if(hearingHasResult(t)) return 'history';
+  if(t.done) return 'done';
+  if(t.kind==='hearing') return 'hearing';
+  if(t.kind==='meeting') return 'meeting';
+  if(t.kind==='deadline') return 'deadline';
+  if(t.pri==='high') return 'high';
+  if(t.pri==='mid') return 'mid';
+  return 'task';
+}
+function calAgendaLabel(t){
+  var ri=hearingResultInfo(t);
+  if(ri) return ri.label;
+  if(hearingNeedsResult(t)) return 'Результат';
+  if(t.kind==='hearing') return 'Заседание';
+  if(t.kind==='meeting') return 'Встреча';
+  if(t.kind==='deadline') return 'Срок';
+  if(t.done) return 'Готово';
+  if(t.pri==='high') return 'Высокий';
+  if(t.pri==='mid') return 'Средний';
+  if(t.pri==='low') return 'Низкий';
+  return 'Задача';
+}
+function calAgendaIcon(t){
+  if(hearingNeedsResult(t)) return ico('clock','s');
+  if(t.kind==='hearing') return ico(hearingHasResult(t)?'check':'gavel','s');
+  if(t.kind==='meeting') return ico('user','s');
+  if(t.kind==='deadline') return ico('clock','s');
+  return ico('check','s');
+}
+function calAgendaRow(t){
+  var m=t.mid?matter(t.mid):null;
+  var tone=calAgendaTone(t), label=calAgendaLabel(t);
+  var title=t.kind==='hearing'?(t.title||'Судебное заседание'):(t.title||'Без названия');
+  var sub='';
+  if(t.kind==='hearing') sub=hearingContextText(t)||t.place||'';
+  else if(t.kind==='meeting') sub=t.place||((m&&m.client)?m.client:'Встреча');
+  else if(t.kind==='deadline') sub=t.rule||((m&&m.number)?m.number:'Процессуальный срок');
+  else sub=(m?[m.number,m.title].filter(Boolean).join(' · '):'');
+  var note='';
+  if(t.kind==='hearing'&&t.place) note=t.place;
+  else if(t.note) note=t.note;
+  var meta=[sub,note].filter(function(x,i,a){ return x && a.indexOf(x)===i; }).join(' · ');
+  var act=hearingNeedsResult(t)?'hearing-result':'task';
+  return '<button class="cal-agenda-item '+tone+'" data-act="'+act+'" data-id="'+t.id+'">'+
+    '<span class="cal-agenda-time mono">'+esc(t.time||'—')+'</span>'+
+    '<span class="cal-agenda-icon">'+calAgendaIcon(t)+'</span>'+
+    '<span class="cal-agenda-main"><b>'+esc(title)+'</b>'+
+      (meta?'<small>'+esc(meta)+'</small>':'')+
+      (t.mid&&m?'<em>'+esc([m.number,m.client||m.title].filter(Boolean).join(' · '))+'</em>':'')+
+    '</span>'+
+    '<span class="cal-agenda-side"><span class="cal-agenda-badge '+tone+'">'+esc(label)+'</span><i>'+ico('chev','s')+'</i></span>'+
+  '</button>';
+}
+function profileInitials(name){
+  var raw=(name||'Адвокат').trim();
+  if(!raw) return 'АК';
+  var parts=raw.split(/\s+/).filter(Boolean);
+  if(parts.length===1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0].slice(0,1)+parts[1].slice(0,1)).toUpperCase();
+}
+
 /* =====================================================================
    SCREEN: КАЛЕНДАРЬ
    ===================================================================== */
 function renderCal(){
-  var u = S.ui;
-  if(!u.calM) u.calM = today().slice(0,7);
-  if(!u.calSel) u.calSel = today();
-  var y = +u.calM.slice(0,4), mo = +u.calM.slice(5,7)-1;
-  var first = new Date(y,mo,1), start = (first.getDay()+6)%7;
-  var dim = new Date(y,mo+1,0).getDate(), dimPrev = new Date(y,mo,0).getDate();
-  var cells = [];
+  var u=S.ui;
+  if(!u.calM) u.calM=today().slice(0,7);
+  if(!u.calSel) u.calSel=today();
+  var y=+u.calM.slice(0,4), mo=+u.calM.slice(5,7)-1;
+  var first=new Date(y,mo,1), start=(first.getDay()+6)%7;
+  var dim=new Date(y,mo+1,0).getDate(), dimPrev=new Date(y,mo,0).getDate();
+  var cells=[];
   for(var i=0;i<start;i++) cells.push({d:iso(new Date(y,mo-1,dimPrev-start+i+1)),out:true});
   for(var j=1;j<=dim;j++) cells.push({d:iso(new Date(y,mo,j))});
   while(cells.length%7) cells.push({d:iso(new Date(y,mo+1,cells.length-start-dim+1)),out:true});
 
-  var byDay = {};
+  var byDay={};
   S.tasks.forEach(function(t){ if(t.due){ (byDay[t.due]=byDay[t.due]||[]).push(t); } });
+  var monthItems=S.tasks.filter(function(t){ return t.due && t.due.slice(0,7)===u.calM; });
+  var monthOpen=monthItems.filter(isActiveRecord).length;
+  var monthHearings=monthItems.filter(function(t){ return t.kind==='hearing'; }).length;
+  var monthDeadlines=monthItems.filter(function(t){ return t.kind==='deadline'; }).length;
 
-  var grid = ['пн','вт','ср','чт','пт','сб','вс'].map(function(d){ return '<div class="cdow">'+d+'</div>'; }).join('');
+  var grid=['пн','вт','ср','чт','пт','сб','вс'].map(function(d){ return '<div class="cdow">'+d+'</div>'; }).join('');
   grid += cells.map(function(c){
-    var dayItems = (byDay[c.d]||[]), its=dayItems.filter(function(t){ return !t.done; });
-    var dots = [];
-    if(its.some(function(t){ return t.kind==='hearing'&&!hearingNeedsResult(t); })) dots.push('var(--purple)');
+    var dayItems=(byDay[c.d]||[]), its=dayItems.filter(function(t){ return !t.done; });
+    var dots=[];
+    if(its.some(function(t){ return t.kind==='hearing'&&!hearingNeedsResult(t); })) dots.push('var(--blue)');
     if(its.some(hearingNeedsResult)) dots.push('var(--warn)');
     if(dayItems.some(function(t){ return t.kind==='hearing'&&hearingHasResult(t); })) dots.push('var(--ok)');
-    if(its.some(function(t){ return t.pri==='high'&&t.kind!=='hearing'; })) dots.push('var(--dang)');
-    if(its.some(function(t){ return t.pri!=='high'&&t.kind!=='hearing'; })) dots.push('var(--gold)');
-    var wd = parseD(c.d).getDay();
-    return '<button class="cday'+(c.out?' out':'')+(c.d===today()?' today':'')+(c.d===u.calSel?' sel':'')+
-      ((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'">'+parseD(c.d).getDate()+
-      '<span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
+    if(its.some(function(t){ return t.kind==='deadline'; })) dots.push('var(--dang)');
+    if(its.some(function(t){ return t.kind==='meeting'; })) dots.push('var(--purple)');
+    if(its.some(function(t){ return t.kind==='task'; })) dots.push('var(--gold)');
+    var wd=parseD(c.d).getDay();
+    return '<button class="cday'+(c.out?' out':'')+(c.d===today()?' today':'')+(c.d===u.calSel?' sel':'')+((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'">'+parseD(c.d).getDate()+'<span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
   }).join('');
 
-  var day = (byDay[u.calSel]||[]).sort(sortT);
-  var html = brandLine()+
-  '<div class="top"><div><div class="eyebrow">Планирование</div><h1>Календарь</h1></div>'+
-   '<div class="topacts"><button class="iconbtn" data-act="global-search">'+ico('search')+'</button><button class="iconbtn" data-act="cal-today">'+ico('sun')+'</button></div></div>'+
-  '<div class="card"><div class="calhead">'+
-    '<button class="iconbtn" data-act="cal-m" data-v="-1">'+ico('left')+'</button>'+
-    '<b>'+MONN[mo]+' '+y+'</b>'+
-    '<button class="iconbtn" data-act="cal-m" data-v="1">'+ico('chev')+'</button></div>'+
-    '<div class="cgrid">'+grid+'</div></div>'+
-  '<div class="sec"><h2>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</h2>'+
-    '<button class="link" data-act="new-on-day">Добавить</button></div>'+
-  (day.length ? day.map(function(t){ return taskCard(t,{noDue:true}); }).join('')
-    : '<div class="card">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',
-        [{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>');
-  $('#sc-cal').innerHTML = html;
+  var day=(byDay[u.calSel]||[]).sort(sortT);
+  var dHear=day.filter(function(t){ return t.kind==='hearing'; }).length;
+  var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
+  var dOpen=day.filter(isActiveRecord).length;
+  var html='<div class="calendar-project">'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
+    '<div class="calendar-month-card">'+
+      '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
+      '<div class="cgrid calendar-grid">'+grid+'</div>'+
+      '<div class="calendar-month-stats"><span><b>'+monthOpen+'</b><small>в работе</small></span><span><b>'+monthHearings+'</b><small>заседаний</small></span><span><b>'+monthDeadlines+'</b><small>сроков</small></span></div>'+
+    '</div>'+
+    '<div class="calendar-day-card">'+
+      '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
+      '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
+      (day.length?('<div class="calendar-agenda-list">'+day.map(calAgendaRow).join('')+'</div>'):'<div class="calendar-empty">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',[{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>')+
+    '</div></div>';
+  $('#sc-cal').innerHTML=html;
 }
 
 /* =====================================================================
@@ -1282,45 +1354,47 @@ function backupStatusText(){
   return age===0?'Последняя копия: сегодня':'Последняя копия: '+fmtD(S.settings.lastBackup.slice(0,10),true);
 }
 function renderMore(){
-  var w=weekStats(),bs=backupPlanStats();
-  var html=brandLine()+
-  '<div class="top"><div><div class="eyebrow">Кабинет</div><h1>Ещё</h1></div><div class="topacts"><button class="iconbtn" data-act="global-search">'+ico('search')+'</button></div></div>'+
-  '<div class="card"><div class="sec" style="margin:0 0 12px"><h2>За последние 7 дней</h2></div><div class="kpis" style="margin:0">'+
-    '<div class="kpi ok"><b>'+w.done+'</b><span>выполнено</span></div><div class="kpi gold"><b>'+w.days+'</b><span>дней участия</span></div>'+
-    '<div class="kpi blue"><b>'+Math.round(w.sum/1000)+'к</b><span>участие</span></div><div class="kpi"><b>'+S.tasks.filter(isActiveRecord).length+'</b><span>в работе</span></div></div></div>'+
-  iphoneInstallHint()+
-  (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
-  '<div class="sec"><h2>Инструменты</h2></div><div class="card pad0">'+
-    row('search','Глобальный поиск','Дела, доверители, задачи, заметки и журнал','global-search')+
-    row('tpl','Шаблоны чек-листов','Готовые планы по типовым поручениям','templates')+
-    row('flag','Калькулятор сроков','Создание процессуального срока и подготовки','deadline')+
-    row('gavel','Дни участия','Суд, следственные действия, выезды','participation-log')+
-  '</div>'+
-  '<div class="sec"><h2>Отчёты</h2></div><div class="card pad0">'+
-    row('doc','Отчёты и печать','План дня и отчёт по выбранному делу','reports')+
-    row('share','Экспорт списка','Отправить рабочий список в заметки или мессенджер','export')+
-  '</div>'+
-  '<div class="sec"><h2>Данные и безопасность</h2></div>'+
-  '<div class="backup-safety"><div class="backup-safety-top"><span class="backup-safety-icon">'+ico('lock')+'</span><div><b>Резервная копия планов</b><small>'+backupStatusText()+'</small></div></div>'+
-    '<div class="backup-safety-stats"><span><b>'+bs.tasks+'</b> задач</span><span><b>'+bs.hearings+'</b> заседаний</span><span><b>'+bs.deadlines+'</b> сроков</span></div>'+
-    '<p>Сохраняются все дела, задачи, заседания, процессуальные сроки и связанные записи.</p>'+
-    '<button class="btn backup-main-btn" data-act="backup-sheet">Создать резервную копию</button></div>'+
-  '<div class="card pad0">'+
-    row('folder','Восстановить из копии','Вернуть данные после переустановки или сбоя','restore')+
-    row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён · база зашифрована ключом PIN':'База зашифрована локальным ключом устройства','pin')+
-  '</div>'+
-  '<div class="sec"><h2>Настройки</h2></div><div class="card pad0">'+
-    row('user','Профиль и ставка',(S.settings.name||'Имя не указано')+' · '+(S.settings.dayRate?money(S.settings.dayRate)+'/день':'ставка не задана'),'profile')+
-    rowSw('bell','Напоминания',S.settings.notify?'Включены':'Выключены','notify-sheet',S.settings.notify)+
-    row('sun','Оформление',themeLabel(),'theme')+
-    row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
-  '</div>'+
-  '<div class="sec"><h2>Обслуживание</h2></div><div class="card pad0">'+
-    row('list','Загрузить примеры','Учебные дела и задачи','demo')+
-    row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
-    row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
-  '</div>'+
-  '<div class="footnote">Ежедневник адвоката · iPhone Offline 3.1.32<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>';
+  var w=weekStats(), bs=backupPlanStats();
+  var active=S.tasks.filter(isActiveRecord).length;
+  var backupText=backupStatusText();
+  var profileName=S.settings.name||'Адвокат';
+  var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
+  var html='<div class="more-project">'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
+    '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
+    '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
+    (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
+    iphoneInstallHint()+
+    '<div class="settings-section-title">Инструменты</div><div class="card pad0 settings-card">'+
+      row('flag','Калькулятор сроков','Создание и расчёт процессуальных сроков','deadline')+
+      row('gavel','Дни участия','Суд, следственные действия и выезды','participation-log')+
+      row('tpl','Шаблоны чек-листов','Готовые планы по типовым поручениям','templates')+
+      row('doc','Отчёты и печать','План дня и выгрузка по делу','reports')+
+      row('share','Экспорт списка','Отправить рабочий список в заметки или мессенджер','export')+
+    '</div>'+
+    '<div class="settings-section-title">Уведомления и оформление</div><div class="card pad0 settings-card">'+
+      rowSw('bell','Напоминания',S.settings.notify?'Уведомления включены':'Уведомления выключены','notify-sheet',S.settings.notify)+
+      row('sun','Оформление',themeLabel(),'theme')+
+      row('search','Глобальный поиск','Дела, доверители, задачи, заметки и журнал','global-search')+
+    '</div>'+
+    '<div class="settings-section-title">Безопасность и данные</div>'+
+    '<div class="backup-safety settings-backup-card"><div class="backup-safety-top"><span class="backup-safety-icon">'+ico('lock')+'</span><div><b>Резервная копия планов</b><small>'+backupText+'</small></div></div>'+
+      '<div class="backup-safety-stats"><span><b>'+bs.tasks+'</b> задач</span><span><b>'+bs.hearings+'</b> заседаний</span><span><b>'+bs.deadlines+'</b> сроков</span></div>'+
+      '<p>Сохраняются все дела, задачи, заседания, процессуальные сроки и связанные записи.</p>'+
+      '<button class="btn backup-main-btn" data-act="backup-sheet">Создать резервную копию</button></div>'+
+    '<div class="card pad0 settings-card">'+
+      row('folder','Восстановить из копии','Вернуть данные после переустановки или сбоя','restore')+
+      row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён · база зашифрована':'База зашифрована локальным ключом устройства','pin')+
+    '</div>'+
+    '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
+      row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
+      row('list','Загрузить примеры','Учебные дела и задачи','demo')+
+      row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
+      row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
+    '</div>'+
+    '<div class="settings-footnote">Ежедневник адвоката · iPhone Offline 3.1.82<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>'+
+  '</div>';
   $('#sc-more').innerHTML=html;
 }
 function rowSw(i,t,s,act,on){

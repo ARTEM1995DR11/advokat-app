@@ -3322,3 +3322,144 @@ body:not(.light) .mp-stage.violet{background:rgba(139,123,216,.13)!important;col
   .mp-metrics{padding-left:12px!important;padding-right:10px!important;gap:6px 9px!important}
   .mp-next{margin-left:10px!important;margin-right:9px!important}
 }
+
+
+/* 3.1.81 — результат заседания: центр широкого статуса и кнопка ниже */
+.sheet.hearing-result-sheet,
+body.light .sheet.hearing-result-sheet{
+  padding-bottom:0!important;
+}
+.sheet.hearing-result-sheet.withfoot .shbody,
+body.light .sheet.hearing-result-sheet.withfoot .shbody{
+  padding-bottom:0!important;
+}
+.sheet.hearing-result-sheet.withfoot .shfoot,
+body.light .sheet.hearing-result-sheet.withfoot .shfoot{
+  margin-top:2px!important;
+  padding-top:4px!important;
+  padding-bottom:max(2px, calc(var(--bot) - 28px))!important;
+}
+.sheet.hearing-result-sheet .hearing-result-choice:last-child:nth-child(odd){
+  grid-column:1/-1;
+  justify-content:center;
+  text-align:center;
+  padding-left:18px;
+  padding-right:18px;
+}
+.sheet.hearing-result-sheet .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-text{
+  flex:0 1 auto;
+  text-align:center;
+}
+@media(max-width:420px){
+  .sheet.hearing-result-sheet.withfoot .shfoot,
+  body.light .sheet.hearing-result-sheet.withfoot .shfoot{
+    padding-bottom:max(0px, calc(var(--bot) - 30px))!important;
+  }
+  .sheet.hearing-result-sheet .hearing-result-choice:last-child:nth-child(odd){
+    padding-left:14px;
+    padding-right:14px;
+  }
+}
+
+
+/* ============================================================
+   3.1.82 — Calendar + More brought to approved project style
+   ============================================================ */
+#sc-cal,#sc-more{padding-left:12px;padding-right:12px}
+.calendar-project,.more-project{padding-top:0}
+.calendar-title-head,.more-title-head{margin-top:2px;margin-bottom:11px}
+.calendar-title-head h1,.more-title-head h1{font-size:37px!important;letter-spacing:-.035em!important}
+.calendar-title-head p,.more-title-head p{font-size:12.5px!important;color:var(--muted)!important;font-weight:400!important;letter-spacing:0!important;text-transform:none!important;margin-top:6px!important}
+
+.calendar-month-card,.calendar-day-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:12px;box-shadow:0 5px 18px rgba(0,0,0,.035);margin-bottom:10px}
+.calendar-month-top{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.calendar-month-label{flex:1;min-width:0;text-align:center;font:600 26px/1.08 Georgia,'Times New Roman',serif;color:var(--txt);letter-spacing:-.025em}
+.calendar-month-actions{display:flex;align-items:center;gap:8px}
+.calendar-today-btn,.calendar-add-btn{height:34px;padding:0 12px;border-radius:11px;border:1px solid rgba(198,151,66,.35);background:var(--goldsoft);color:var(--gold2);font-size:12px;font-weight:700;white-space:nowrap}
+body.light .calendar-today-btn,body.light .calendar-add-btn{background:rgba(198,151,66,.10);color:var(--gold)}
+.calendar-grid{gap:5px}
+.calendar-month-card .cdow{font-size:10px;letter-spacing:.08em;color:var(--muted);padding-bottom:6px}
+.calendar-month-card .cday{min-height:44px;aspect-ratio:1;border-radius:12px;font-size:15px;font-weight:700;color:var(--txt2);background:transparent;border:1px solid transparent;gap:4px}
+.calendar-month-card .cday:hover{background:rgba(255,255,255,.02)}
+.calendar-month-card .cday.today{border-color:rgba(198,151,66,.45);color:var(--gold2)}
+.calendar-month-card .cday.sel{background:linear-gradient(145deg,var(--gold2),var(--gold));color:#1A1204;border-color:transparent;box-shadow:0 8px 18px rgba(0,0,0,.16)}
+.calendar-month-card .cday.out{opacity:.34}
+.calendar-month-card .cday.wk{color:var(--muted)}
+.calendar-month-card .cdots{height:6px;gap:3px}
+.calendar-month-card .cdots i{width:6px;height:6px}
+.calendar-month-stats,.calendar-day-stats,.settings-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.calendar-month-stats{margin-top:12px}
+.calendar-month-stats span,.calendar-day-stats span,.settings-kpis span{border:1px solid var(--line);border-radius:12px;background:rgba(127,146,163,.05);padding:8px 6px;text-align:center}
+.calendar-month-stats b,.calendar-day-stats b,.settings-kpis b{display:block;font-size:17px;line-height:1;color:var(--txt);font-weight:750}
+.calendar-month-stats small,.calendar-day-stats small,.settings-kpis small{display:block;margin-top:3px;font-size:10px;line-height:1.2;color:var(--muted);font-weight:650}
+.calendar-day-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:10px}
+.calendar-day-head h2{margin:0;font:600 24px/1.06 Georgia,'Times New Roman',serif;color:var(--txt);letter-spacing:-.03em}
+.calendar-day-head p{margin:5px 0 0;font-size:11.5px;color:var(--muted)}
+.calendar-day-stats{margin:0 0 12px}
+.calendar-agenda-list{display:flex;flex-direction:column;gap:8px}
+.cal-agenda-item{width:100%;display:flex;align-items:flex-start;gap:10px;padding:11px 10px;border-radius:14px;border:1px solid var(--line);background:rgba(127,146,163,.035);text-align:left;color:var(--txt);position:relative;overflow:hidden}
+.cal-agenda-item:active{transform:scale(.992)}
+.cal-agenda-item.hearing{border-left:3px solid var(--blue)}
+.cal-agenda-item.meeting{border-left:3px solid var(--purple)}
+.cal-agenda-item.deadline{border-left:3px solid var(--dang)}
+.cal-agenda-item.task{border-left:3px solid var(--gold)}
+.cal-agenda-item.high{border-left:3px solid var(--dang)}
+.cal-agenda-item.mid{border-left:3px solid var(--warn)}
+.cal-agenda-item.done,.cal-agenda-item.history{border-left:3px solid var(--ok)}
+.cal-agenda-item.result{border-left:3px solid var(--warn);background:linear-gradient(90deg,var(--goldsoft),transparent 72%)}
+.cal-agenda-time{width:42px;flex:none;padding-top:3px;font-size:14px;font-weight:800;color:var(--txt)}
+.cal-agenda-icon{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--elev2);color:var(--txt2)}
+.cal-agenda-item.hearing .cal-agenda-icon{background:var(--bluesoft);color:var(--blue)}
+.cal-agenda-item.meeting .cal-agenda-icon{background:rgba(139,123,216,.14);color:#9C8AE7}
+.cal-agenda-item.deadline .cal-agenda-icon,.cal-agenda-item.result .cal-agenda-icon{background:var(--goldsoft);color:var(--gold2)}
+.cal-agenda-item.done .cal-agenda-icon,.cal-agenda-item.history .cal-agenda-icon{background:var(--oksoft);color:var(--ok)}
+.cal-agenda-main{flex:1;min-width:0}
+.cal-agenda-main b{display:block;font-size:14.5px;line-height:1.2;font-weight:750;color:var(--txt)}
+.cal-agenda-main small,.cal-agenda-main em{display:block;margin-top:3px;font-style:normal;font-size:11px;line-height:1.28;color:var(--muted)}
+.cal-agenda-main em{color:var(--txt2)}
+.cal-agenda-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none;padding-top:1px}
+.cal-agenda-side i{display:flex;color:var(--muted);opacity:.72}
+.cal-agenda-badge{display:inline-flex;align-items:center;justify-content:center;min-height:23px;padding:4px 9px;border-radius:999px;font-size:10px;line-height:1.12;font-weight:800;white-space:nowrap;background:var(--elev2);color:var(--txt2)}
+.cal-agenda-badge.hearing{background:var(--bluesoft);color:var(--blue)}
+.cal-agenda-badge.meeting{background:rgba(139,123,216,.14);color:#9C8AE7}
+.cal-agenda-badge.deadline,.cal-agenda-badge.result{background:var(--goldsoft);color:var(--gold2)}
+.cal-agenda-badge.task,.cal-agenda-badge.mid{background:var(--goldsoft);color:var(--gold2)}
+.cal-agenda-badge.high{background:var(--dangsoft);color:var(--dang)}
+.cal-agenda-badge.done,.cal-agenda-badge.history{background:var(--oksoft);color:var(--ok)}
+.calendar-empty .empty{padding:34px 16px 30px}
+body.light .calendar-month-card,body.light .calendar-day-card{background:#FFFFFF;box-shadow:0 6px 18px rgba(40,35,25,.045)}
+body.light .calendar-month-card .cday.sel{color:#fff;box-shadow:0 8px 18px rgba(154,109,28,.18)}
+body.light .calendar-month-card .cday:hover{background:rgba(10,20,30,.02)}
+body:not(.light) .calendar-month-card{background:#071822}
+body:not(.light) .calendar-day-card{background:#071822}
+
+.settings-profile-card{width:100%;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid rgba(198,151,66,.28);border-radius:18px;background:linear-gradient(145deg,var(--panel),var(--elev));text-align:left;color:var(--txt);box-shadow:0 5px 18px rgba(0,0,0,.035);margin:0 0 12px}
+.settings-profile-avatar{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,var(--gold2),var(--gold));color:#241A06;font:700 18px/1 -apple-system,BlinkMacSystemFont,sans-serif;flex:none}
+.settings-profile-meta{flex:1;min-width:0;display:block}
+.settings-profile-meta b{display:block;font:600 18px/1.08 Georgia,'Times New Roman',serif;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.settings-profile-meta small{display:block;margin-top:3px;font-size:11px;color:var(--muted)}
+.settings-profile-meta em{display:block;margin-top:4px;font-style:normal;font-size:11.5px;color:var(--txt2);line-height:1.3}
+.settings-profile-chevron{display:flex;color:var(--muted);opacity:.75}
+.settings-kpis{margin:0 0 12px}
+.settings-section-title{margin:18px 2px 8px;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.settings-card{border-radius:18px;overflow:hidden;background:var(--panel);box-shadow:0 5px 18px rgba(0,0,0,.035)}
+.settings-card .row{padding:14px 14px 14px 12px;min-height:58px}
+.settings-card .row .ico:first-child{width:19px;height:19px;color:var(--gold2)}
+.settings-card .row .rl{font-size:14.2px;font-weight:650;color:var(--txt)}
+.settings-card .row .rl small{margin-top:4px;font-size:11.2px;line-height:1.28;color:var(--muted)}
+.settings-backup-card{margin-bottom:12px}
+.settings-footnote{text-align:center;color:var(--muted);font-size:10.5px;padding:10px 10px 2px;line-height:1.65}
+body.light .settings-profile-card{background:linear-gradient(145deg,#FFFDF9,#FFF8ED);box-shadow:0 10px 28px rgba(45,35,22,.06)}
+body.light .settings-card{background:#FFFFFF;box-shadow:0 6px 18px rgba(40,35,25,.045)}
+body:not(.light) .settings-profile-card,body:not(.light) .settings-card{background:#071822}
+body:not(.light) .settings-card .row .rl{color:#E9EFF6}
+body:not(.light) .settings-card .row .rl small{color:#91A4B8}
+@media (max-width:380px){
+  .calendar-title-head h1,.more-title-head h1{font-size:35px!important}
+  .calendar-month-label{font-size:23px}
+  .calendar-day-head h2{font-size:21px}
+  .calendar-today-btn,.calendar-add-btn{padding:0 10px;font-size:11.5px}
+  .cal-agenda-item{padding-left:9px;padding-right:9px}
+  .cal-agenda-time{width:38px;font-size:13px}
+  .settings-profile-meta b{font-size:16.5px}
+}
