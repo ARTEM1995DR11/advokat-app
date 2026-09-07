@@ -1109,7 +1109,7 @@ function matterCard(m){
       '<span class="mp-stage '+matterStageTone(m)+'">'+esc(m.archived?'Архив':(m.stage||'В производстве'))+'</span></div>'+
     '<div class="mp-body"><h3>'+esc(client)+'</h3><p class="mp-court">'+esc(court)+'</p>'+(subject?'<p class="mp-subject">'+esc(subject)+'</p>':'')+
       ((m.article||m.role)?'<p class="mp-law">'+esc([m.article,m.role].filter(Boolean).join(' · '))+'</p>':'')+'</div>'+
-    '<div class="mp-metrics"><span><b>'+st.open+'</b> в работе</span><span><b>'+st.done+'</b> выполнено</span><span><b>'+st.days+'</b> '+plural(st.days,'день участия','дня участия','дней участия')+'</span>'+late+'</div>'+next+
+    '<div class="mp-metrics"><span class="mp-metric work">'+ico('check','s')+'<b>'+st.open+'</b> в работе</span><span class="mp-metric done">'+ico('check','s')+'<b>'+st.done+'</b> выполнено</span><span class="mp-metric days">'+ico('gavel','s')+'<b>'+st.days+'</b> '+plural(st.days,'день участия','дня участия','дней участия')+'</span>'+late+'</div>'+next+
   '</article>';
 }
 function sheetMatterFilters(){
@@ -1495,7 +1495,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3176" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3180" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+

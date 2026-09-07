@@ -2451,12 +2451,12 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.76 — вводные подсказки редактора убраны */
+/* 3.1.80 — вводные подсказки редактора убраны */
 .task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
 .task-editor-sheet .task-editor-type{margin-top:0!important}
 
 
-/* 3.1.76 — центрирование «Запись в журнал» в быстром добавлении */
+/* 3.1.80 — центрирование «Запись в журнал» в быстром добавлении */
 .quickgrid-core .quickitem[data-act="qa-journal"],
 body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
   min-height:72px!important;
@@ -2490,7 +2490,7 @@ body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
 }
 
 
-/* 3.1.76 — кнопка сохранения ещё ниже */
+/* 3.1.80 — кнопка сохранения ещё ниже */
 .sheet.task-editor-sheet,
 body.light .sheet.task-editor-sheet{
   padding-bottom:0!important;
@@ -2529,7 +2529,7 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.76 — нижняя навигация ещё тоньше и ниже */
+/* 3.1.80 — нижняя навигация ещё тоньше и ниже */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   bottom:3px!important;
@@ -2599,7 +2599,7 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.76 — встречи на экране «Сегодня» вынесены отдельно */
+/* 3.1.80 — встречи на экране «Сегодня» вынесены отдельно */
 .today-sec.purple{color:var(--purple);background:linear-gradient(90deg,rgba(139,123,216,.14),transparent)}
 .today-sec.purple .today-sec-ico{background:rgba(139,123,216,.14)}
 .today-sec.purple .today-count{background:var(--purple);color:#fff}
@@ -2613,7 +2613,7 @@ body.light .meeting-row .meeting-place{color:#6C56B3!important}
 body.light .today-kind-badge.meeting{background:rgba(122,91,200,.12);color:#6C56B3}
 
 
-/* 3.1.76 — единые маркеры типов на «Сегодня» и в календаре */
+/* 3.1.80 — единые маркеры типов на «Сегодня» и в календаре */
 .tag.kind-tag{font-weight:750}
 .tag.kind-task{background:rgba(47,163,107,.12);color:#20885A}
 .tag.kind-hearing{background:rgba(55,152,229,.13);color:#2E79C7}
@@ -2645,7 +2645,7 @@ body:not(.light) .today-row.kind-meeting{background:linear-gradient(90deg,rgba(1
 body:not(.light) .today-row.kind-deadline{background:linear-gradient(90deg,rgba(217,155,46,.08),rgba(7,17,28,0) 36%)}
 
 
-/* 3.1.76 — нижняя панель по фактической высоте контента, без пустого низа */
+/* 3.1.80 — нижняя панель по фактической высоте контента, без пустого низа */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   left:12px!important;
@@ -2726,7 +2726,7 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.76 — на главной добавлен блок «Ближайшие 7 дней» */
+/* 3.1.80 — на главной добавлен блок «Ближайшие 7 дней» */
 .next7-row .today-row-main b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .next7-row .today-time{color:var(--txt2);font-size:12.5px;padding-top:4px}
 .next7-row .soon-rel{margin-top:4px!important;font-size:11.2px!important;line-height:1.3!important;color:#A07B1C!important;font-weight:700!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
@@ -2735,7 +2735,7 @@ body.light .next7-row .soon-rel{color:#8E6E17!important}
 .next7-row .meeting-place{margin-top:4px!important}
 
 
-/* 3.1.76 — страница «Задачи»: фильтр по типу + история заседаний */
+/* 3.1.80 — страница «Задачи»: фильтр по типу + история заседаний */
 .today-actions .task-type-trigger{
   height:45px;
   min-width:88px;
@@ -2769,7 +2769,7 @@ body:not(.light) .today-actions .task-type-trigger.on{color:#E6C55C}
 }
 
 
-/* 3.1.76 — нижняя панель опущена ещё ниже, зазор к краю экрана минимальный */
+/* 3.1.80 — нижняя панель опущена ещё ниже, зазор к краю экрана минимальный */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   bottom:var(--bot)!important;
@@ -2789,7 +2789,7 @@ body.light .premium-nav.tabbar{
 }
 
 
-/* 3.1.76 — редакторы: нижние действия прижаты ниже, убран лишний пустой хвост */
+/* 3.1.80 — редакторы: нижние действия прижаты ниже, убран лишний пустой хвост */
 .sheet.task-editor-sheet,
 body.light .sheet.task-editor-sheet{
   padding-bottom:0!important;
@@ -2841,7 +2841,7 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.76 — страница «Задачи»: кнопка фильтра вынесена ниже поиска справа */
+/* 3.1.80 — страница «Задачи»: кнопка фильтра вынесена ниже поиска справа */
 .tasks-actions-row{
   display:flex;
   justify-content:flex-end;
@@ -2875,4 +2875,450 @@ body:not(.light) .task-type-trigger.on{color:#E6C55C}
 @media(max-width:420px){
   .tasks-actions-row{margin:2px 2px 4px}
   .task-type-trigger{min-width:132px;padding:0 12px;font-size:12px}
+}
+
+
+/* 3.1.80 — результат заседания: полный текст статусов без обрезки */
+.hearing-result-choice{
+  min-height:78px;
+  align-items:center;
+}
+.hearing-result-choice-text{
+  display:flex;
+  align-items:center;
+  flex:1 1 auto;
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  word-break:break-word;
+  line-height:1.16;
+  font-size:13.2px;
+}
+@media(max-width:420px){
+  .hearing-result-choice{min-height:74px;padding:9px 10px}
+  .hearing-result-choice-text{font-size:12.6px;line-height:1.14}
+}
+
+
+/* 3.1.80 — быстрое добавление: центрирование иконок и текста в плитках */
+.quickgrid-core .quickitem,
+body.light .quickgrid-core .quickitem{
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:12px 12px!important;
+  gap:10px!important;
+}
+.quickgrid-core .quickitem .qico,
+body.light .quickgrid-core .quickitem .qico{
+  margin:0 auto!important;
+}
+.quickgrid-core .quickitem b,
+body.light .quickgrid-core .quickitem b{
+  width:100%!important;
+  text-align:center!important;
+}
+.quickgrid-core .quickitem[data-act="qa-journal"],
+body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
+  flex-direction:row!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+}
+.quickgrid-core .quickitem[data-act="qa-journal"] b,
+body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
+  width:auto!important;
+}
+@media(max-width:390px){
+  .quickgrid-core .quickitem,
+  body.light .quickgrid-core .quickitem{
+    padding:11px 10px!important;
+    gap:8px!important;
+  }
+}
+
+
+/* 3.1.80 — страница «Задачи»: кнопка фильтра не смещает заголовок */
+.tasks-project,
+body.light .tasks-project{
+  position:relative!important;
+}
+.tasks-actions-row,
+body.light .tasks-actions-row{
+  position:absolute!important;
+  right:2px!important;
+  top:56px!important;
+  margin:0!important;
+  z-index:6!important;
+}
+.tasks-title-head,
+body.light .tasks-title-head{
+  margin-top:4px!important;
+  margin-bottom:10px!important;
+}
+@media(max-width:420px){
+  .tasks-actions-row,
+  body.light .tasks-actions-row{
+    right:2px!important;
+    top:54px!important;
+  }
+  .tasks-title-head,
+  body.light .tasks-title-head{
+    margin-top:2px!important;
+  }
+}
+
+
+/* 3.1.80 — ДЕЛА: приведение экрана к утвержденному проекту (светлая + тёмная тема) */
+.matters-project{
+  padding-top:0!important;
+}
+.matters-project .today-brand{
+  margin-bottom:4px!important;
+}
+.matters-title-head{
+  margin:3px 2px 11px!important;
+  align-items:flex-end!important;
+}
+.matters-title-head h1{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:37px!important;
+  line-height:1!important;
+  font-weight:600!important;
+  letter-spacing:-.035em!important;
+  color:var(--txt)!important;
+}
+.matters-title-head p{
+  margin-top:6px!important;
+  font-size:12.5px!important;
+  line-height:1.25!important;
+  font-weight:400!important;
+  letter-spacing:0!important;
+  text-transform:none!important;
+  color:var(--muted)!important;
+}
+
+/* Верхние фильтры — компактные, как в проекте */
+.matters-scope{
+  position:sticky!important;
+  top:-1px!important;
+  z-index:7!important;
+  display:grid!important;
+  grid-template-columns:1fr 1.18fr 1fr 42px!important;
+  gap:7px!important;
+  margin:0 0 12px!important;
+  padding:6px 0 8px!important;
+  background:var(--bg)!important;
+}
+.matters-scope>button{
+  height:38px!important;
+  min-width:0!important;
+  border-radius:12px!important;
+  border:1px solid var(--line2)!important;
+  background:transparent!important;
+  color:var(--txt2)!important;
+  box-shadow:none!important;
+  padding:0 9px!important;
+  font-size:11.6px!important;
+  font-weight:700!important;
+}
+.matters-scope>button em{
+  min-width:19px!important;
+  height:19px!important;
+  padding:0 5px!important;
+  border-radius:999px!important;
+  background:var(--elev2)!important;
+  color:var(--muted)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+.matters-scope>button.on{
+  background:var(--goldsoft)!important;
+  border-color:rgba(198,151,66,.38)!important;
+  color:var(--gold2)!important;
+}
+.matters-scope>button.on em{
+  background:rgba(198,151,66,.18)!important;
+  color:inherit!important;
+}
+.matters-scope .matter-filter-btn{
+  width:42px!important;
+  padding:0!important;
+}
+.matters-scope .matter-filter-btn .ico{
+  width:17px!important;
+  height:17px!important;
+  stroke-width:1.9!important;
+}
+
+.matters-list{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+}
+
+/* Карточка дела */
+.mp-card{
+  position:relative!important;
+  overflow:hidden!important;
+  border-radius:16px!important;
+  border:1px solid var(--line)!important;
+  background:var(--panel)!important;
+  box-shadow:0 7px 22px rgba(30,38,45,.05)!important;
+  transition:transform .12s var(--ease),box-shadow .12s var(--ease)!important;
+}
+.mp-card::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,var(--gold2),rgba(198,151,66,.28));
+  opacity:.9;
+  pointer-events:none;
+}
+.mp-card:active{
+  transform:scale(.992)!important;
+}
+.mp-card.archived{
+  opacity:.68!important;
+}
+.mp-top{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  padding:12px 12px 8px 14px!important;
+}
+.mp-case-icon{
+  width:34px!important;
+  height:34px!important;
+  border-radius:10px!important;
+  background:color-mix(in srgb,var(--case) 12%,transparent)!important;
+  color:var(--case)!important;
+  border:1px solid color-mix(in srgb,var(--case) 22%,transparent)!important;
+  flex:none!important;
+}
+.mp-case-icon .ico{
+  width:18px!important;
+  height:18px!important;
+  stroke-width:1.85!important;
+}
+.mp-heading{
+  flex:1!important;
+  min-width:0!important;
+  padding-top:1px!important;
+}
+.mp-heading>b{
+  display:block!important;
+  font-size:15.4px!important;
+  line-height:1.16!important;
+  font-weight:800!important;
+  letter-spacing:-.012em!important;
+  color:var(--txt)!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.mp-heading>small{
+  display:block!important;
+  margin-top:3px!important;
+  font-size:10px!important;
+  line-height:1.25!important;
+  color:var(--muted)!important;
+}
+.mp-stage{
+  flex:none!important;
+  max-width:112px!important;
+  min-height:23px!important;
+  padding:4px 8px!important;
+  border-radius:999px!important;
+  font-size:9px!important;
+  line-height:1.15!important;
+  font-weight:800!important;
+  text-align:center!important;
+  white-space:normal!important;
+}
+.mp-stage.green{background:var(--oksoft)!important;color:var(--ok)!important}
+.mp-stage.blue{background:var(--bluesoft)!important;color:var(--blue)!important}
+.mp-stage.gold{background:var(--goldsoft)!important;color:var(--gold2)!important}
+.mp-stage.violet{background:rgba(139,123,216,.13)!important;color:#806ACF!important}
+.mp-stage.slate{background:var(--elev2)!important;color:var(--muted)!important}
+
+.mp-body{
+  padding:0 12px 10px 58px!important;
+}
+.mp-body h3{
+  margin:0!important;
+  font-size:13.6px!important;
+  line-height:1.25!important;
+  font-weight:750!important;
+  color:var(--txt)!important;
+}
+.mp-body p{
+  margin:3px 0 0!important;
+  line-height:1.3!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.mp-court{
+  font-size:10.8px!important;
+  color:var(--muted)!important;
+}
+.mp-subject{
+  font-size:11.2px!important;
+  color:var(--txt2)!important;
+}
+.mp-law{
+  font-size:10.3px!important;
+  font-weight:700!important;
+  color:var(--gold2)!important;
+}
+
+.mp-metrics{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px 11px!important;
+  flex-wrap:wrap!important;
+  padding:8px 12px 8px 14px!important;
+  border-top:1px solid var(--line)!important;
+  background:color-mix(in srgb,var(--elev2) 36%,transparent)!important;
+}
+.mp-metric{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  font-size:9.8px!important;
+  line-height:1!important;
+  color:var(--muted)!important;
+  white-space:nowrap!important;
+}
+.mp-metric .ico{
+  width:12px!important;
+  height:12px!important;
+  stroke-width:2!important;
+  color:var(--gold2)!important;
+}
+.mp-metric b{
+  font-size:10.8px!important;
+  color:var(--txt2)!important;
+}
+.mp-alert{
+  margin-left:auto!important;
+  padding:4px 7px!important;
+  border-radius:999px!important;
+  background:var(--dangsoft)!important;
+  color:var(--dang)!important;
+  font-size:9.5px!important;
+  font-weight:800!important;
+}
+
+/* Ближайшее заседание — отдельная компактная плашка */
+.mp-next{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  margin:0 10px 10px 12px!important;
+  padding:9px 10px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(198,151,66,.18)!important;
+  background:linear-gradient(90deg,rgba(198,151,66,.11),rgba(198,151,66,.035))!important;
+  color:var(--gold2)!important;
+}
+.mp-next-icon{
+  width:28px!important;
+  height:28px!important;
+  border-radius:8px!important;
+  background:rgba(198,151,66,.14)!important;
+  color:var(--gold2)!important;
+}
+.mp-next-icon .ico{width:15px!important;height:15px!important;stroke-width:1.9!important}
+.mp-next>div{flex:1!important;min-width:0!important}
+.mp-next small{
+  display:block!important;
+  margin:0!important;
+  font-size:8.8px!important;
+  line-height:1.2!important;
+  font-weight:750!important;
+  text-transform:uppercase!important;
+  letter-spacing:.045em!important;
+  color:var(--muted)!important;
+}
+.mp-next b{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:11.1px!important;
+  line-height:1.25!important;
+  color:var(--txt)!important;
+  font-weight:800!important;
+}
+.mp-next em{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:9.4px!important;
+  line-height:1.25!important;
+  color:var(--muted)!important;
+  font-style:normal!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.mp-next>.ico{width:14px!important;height:14px!important;color:var(--muted)!important;flex:none!important}
+
+/* Светлая тема */
+body.light .mp-card{
+  background:#FFFDF9!important;
+  border-color:rgba(61,67,72,.12)!important;
+  box-shadow:0 8px 20px rgba(53,42,28,.045)!important;
+}
+body.light .mp-metrics{
+  background:rgba(126,142,154,.035)!important;
+}
+body.light .mp-next{
+  background:linear-gradient(90deg,rgba(198,151,66,.10),rgba(198,151,66,.03))!important;
+  border-color:rgba(169,111,25,.18)!important;
+}
+body.light .mp-stage.violet{color:#6F58BA!important}
+
+/* Тёмная тема */
+body:not(.light) .mp-card{
+  background:#0B1825!important;
+  border-color:rgba(170,194,216,.10)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.20)!important;
+}
+body:not(.light) .mp-card::before{
+  opacity:.78!important;
+}
+body:not(.light) .mp-heading>b,
+body:not(.light) .mp-body h3{
+  color:#F0F4F8!important;
+}
+body:not(.light) .mp-court{color:#8FA3B6!important}
+body:not(.light) .mp-subject{color:#BAC7D3!important}
+body:not(.light) .mp-law{color:#D8B55A!important}
+body:not(.light) .mp-metrics{
+  background:rgba(255,255,255,.018)!important;
+  border-top-color:rgba(170,194,216,.09)!important;
+}
+body:not(.light) .mp-next{
+  background:linear-gradient(90deg,rgba(184,140,45,.12),rgba(184,140,45,.035))!important;
+  border-color:rgba(211,169,76,.18)!important;
+}
+body:not(.light) .mp-next b{color:#EAF0F5!important}
+body:not(.light) .mp-stage.green{background:rgba(45,153,104,.13)!important;color:#69C99A!important}
+body:not(.light) .mp-stage.blue{background:rgba(55,152,229,.12)!important;color:#7CB5E4!important}
+body:not(.light) .mp-stage.gold{background:rgba(198,151,66,.13)!important;color:#E0BE6F!important}
+body:not(.light) .mp-stage.violet{background:rgba(139,123,216,.13)!important;color:#B2A5EE!important}
+
+@media(max-width:390px){
+  .matters-title-head h1{font-size:35px!important}
+  .matters-scope{gap:5px!important;grid-template-columns:.9fr 1.15fr .9fr 40px!important}
+  .matters-scope>button{padding:0 6px!important;font-size:10.7px!important}
+  .mp-top{padding:11px 10px 8px 12px!important}
+  .mp-case-icon{width:32px!important;height:32px!important}
+  .mp-heading>b{font-size:14.8px!important}
+  .mp-stage{max-width:96px!important;font-size:8.5px!important;padding-left:6px!important;padding-right:6px!important}
+  .mp-body{padding-left:54px!important;padding-right:10px!important}
+  .mp-metrics{padding-left:12px!important;padding-right:10px!important;gap:6px 9px!important}
+  .mp-next{margin-left:10px!important;margin-right:9px!important}
 }
