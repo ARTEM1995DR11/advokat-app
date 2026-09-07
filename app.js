@@ -19,7 +19,7 @@ var DEF = {
     lockOnReturn:true, version:3
   },
   ui: {
-    tab:'today', taskSeg:'open', taskChip:'', q:'', calM:null, calSel:null,
+    tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null,
     showArch:false, matterType:'', matterStage:'', matterScope:'active', taskGroupOpen:{}
   }
 };
@@ -891,6 +891,35 @@ function sheetTaskActions(id){
       '<button class="row danger-row" data-act="task-action-delete" data-id="'+t.id+'">'+ico('trash')+'<span class="rl">Удалить<small>'+(t.kind==='hearing'?'Удалить запланированное заседание':'Удалить задачу без возможности восстановления')+'</small></span>'+ico('chev','s')+'</button>';
   openSheet('<h2>Быстрые действия</h2><p class="sh-sub">'+esc(t.title)+(sub?' · '+esc(sub):'')+'</p><div class="card pad0 task-action-sheet">'+rows+'</div>');
 }
+function taskTypeMeta(){
+  var type=S.ui.taskType||'';
+  var map={
+    '':{name:'Все типы', short:'Все типы', hint:'Показывать задачи, заседания, встречи и сроки'},
+    task:{name:'Задачи', short:'Задачи', hint:'Только обычные задачи'},
+    hearing:{name:'Заседания', short:'Заседания', hint:'Только судебные заседания'},
+    meeting:{name:'Встречи', short:'Встречи', hint:'Только встречи с доверителями и иные встречи'},
+    deadline:{name:'Сроки', short:'Сроки', hint:'Только процессуальные сроки'}
+  };
+  return map[type]||map[''];
+}
+function taskTypeMatch(t,type){ return !type || (t&&t.kind===type); }
+function sheetTaskTypeFilters(){
+  var base=taskProjectBase();
+  var counts={
+    all:base.length,
+    task:base.filter(function(t){return t.kind==='task';}).length,
+    hearing:base.filter(function(t){return t.kind==='hearing';}).length,
+    meeting:base.filter(function(t){return t.kind==='meeting';}).length,
+    deadline:base.filter(function(t){return t.kind==='deadline';}).length
+  };
+  var rows=''+
+    '<button class="row" data-act="task-type-filter" data-v="">'+ico('list')+'<span class="rl">Все типы<small>Задачи, заседания, встречи и сроки</small></span><span class="row-count">'+counts.all+'</span>'+(S.ui.taskType===''?ico('check','s'):ico('chev','s'))+'</button>'+
+    '<button class="row" data-act="task-type-filter" data-v="task">'+ico('check')+'<span class="rl">Задачи<small>Обычные рабочие задачи</small></span><span class="row-count">'+counts.task+'</span>'+(S.ui.taskType==='task'?ico('check','s'):ico('chev','s'))+'</button>'+
+    '<button class="row" data-act="task-type-filter" data-v="hearing">'+ico('gavel')+'<span class="rl">Заседания<small>Судебные заседания и их история</small></span><span class="row-count">'+counts.hearing+'</span>'+(S.ui.taskType==='hearing'?ico('check','s'):ico('chev','s'))+'</button>'+
+    '<button class="row" data-act="task-type-filter" data-v="meeting">'+ico('user')+'<span class="rl">Встречи<small>Встречи с доверителями и иные встречи</small></span><span class="row-count">'+counts.meeting+'</span>'+(S.ui.taskType==='meeting'?ico('check','s'):ico('chev','s'))+'</button>'+
+    '<button class="row" data-act="task-type-filter" data-v="deadline">'+ico('clock')+'<span class="rl">Сроки<small>Процессуальные сроки</small></span><span class="row-count">'+counts.deadline+'</span>'+(S.ui.taskType==='deadline'?ico('check','s'):ico('chev','s'))+'</button>';
+  openSheet('<h2>Фильтр записей</h2><p class="sh-sub">Выберите тип записи</p><div class="card pad0 matter-filter-sheet">'+rows+'</div>');
+}
 function taskProjectBase(){
   var q=(S.ui.q||'').toLowerCase().trim();
   return S.tasks.filter(function(t){
@@ -910,7 +939,8 @@ function taskProjectMatch(t,chip){
   return true;
 }
 function taskProjectCounts(){
-  var all=S.tasks.slice(), active=all.filter(function(t){return !t.done;});
+  var all=taskProjectBase().filter(function(t){return taskTypeMatch(t,S.ui.taskType);});
+  var active=all.filter(function(t){return !t.done;});
   return {
     all:all.length,
     work:active.length,
@@ -925,11 +955,15 @@ function taskProjectCounts(){
 function renderTasks(){
   var u=S.ui;
   if(['','late','today','week','later','nodue','done'].indexOf(u.taskChip)<0) u.taskChip='';
-  var c=taskProjectCounts();
+  if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
+  var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
     '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=329" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button></div></div>'+
-    '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'задача','задачи','задач')+' в работе</p></div></div>'+
+      '<div class="today-actions">'+
+        '<button class="task-type-trigger'+(u.taskType?' on':'')+'" data-act="task-type-sheet" title="Фильтр по типу">'+ico('list','s')+'<span>'+esc(tt.short)+'</span></button>'+
+        '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button>'+
+      '</div></div>'+
+    '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div></div>'+
     (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
     '<div class="tasks-project-filters">'+
       '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
@@ -945,7 +979,7 @@ function renderTasks(){
   if(u._sq){var el=$('#q');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
 }
 function taskFilter(){
-  return taskProjectBase().filter(function(t){return taskProjectMatch(t,S.ui.taskChip);});
+  return taskProjectBase().filter(function(t){return taskTypeMatch(t,S.ui.taskType) && taskProjectMatch(t,S.ui.taskChip);});
 }
 function taskProjectGroups(list){
   var out=[
@@ -955,10 +989,14 @@ function taskProjectGroups(list){
     {key:'week',title:'На этой неделе',tone:'gold',items:[]},
     {key:'later',title:'Позже',tone:'slate',items:[]},
     {key:'nodue',title:'Без срока',tone:'slate',items:[]},
+    {key:'hearing-history',title:'История заседаний',tone:'blue',items:[]},
     {key:'done',title:'Выполнено',tone:'green',items:[]}
   ];
   list.forEach(function(t){
-    if(t.done){out[6].items.push(t);return;}
+    if(t.done){
+      if(t.kind==='hearing' && hearingHasResult(t)){out[6].items.push(t);return;}
+      out[7].items.push(t);return;
+    }
     if(hearingNeedsResult(t)){out[0].items.push(t);return;}
     if(!t.due){out[5].items.push(t);return;}
     var d=dd(t.due);
@@ -1457,7 +1495,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3172" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3173" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2188,7 +2226,7 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.showArch=false;S.ui.matterType='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 function demo(){
@@ -2234,15 +2272,17 @@ document.addEventListener('click', function(ev){
     case 'global-search': sheetGlobalSearch(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=overdue();if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено: '+ov.length);}break;}
-    case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';save();renderTasks();break;
-    case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';save();renderTasks();break;
-    case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='hearing';save();renderTasks();break;
-    case 'today-more-tasks': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';save();renderTasks();break;
-    case 'today-more-hearings': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='hearing';save();renderTasks();break;
-    case 'f-deadline': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='deadline';save();renderTasks();break;
+    case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
+    case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';S.ui.taskType='';save();renderTasks();break;
+    case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='hearing';save();renderTasks();break;
+    case 'today-more-tasks': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';S.ui.taskType='';save();renderTasks();break;
+    case 'today-more-hearings': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='hearing';save();renderTasks();break;
+    case 'f-deadline': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='deadline';save();renderTasks();break;
     case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
     case 'chip': S.ui.taskChip=v;save();renderTasks();break;
     case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
+    case 'task-type-sheet': sheetTaskTypeFilters();break;
+    case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
     case 'matter-scope': S.ui.matterScope=v||'active';S.ui.showArch=S.ui.matterScope==='archive';save();renderMatters();break;
     case 'matter-filter-sheet': sheetMatterFilters();break;

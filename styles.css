@@ -2451,12 +2451,12 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.72 — вводные подсказки редактора убраны */
+/* 3.1.73 — вводные подсказки редактора убраны */
 .task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
 .task-editor-sheet .task-editor-type{margin-top:0!important}
 
 
-/* 3.1.72 — центрирование «Запись в журнал» в быстром добавлении */
+/* 3.1.73 — центрирование «Запись в журнал» в быстром добавлении */
 .quickgrid-core .quickitem[data-act="qa-journal"],
 body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
   min-height:72px!important;
@@ -2490,7 +2490,7 @@ body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
 }
 
 
-/* 3.1.72 — кнопка сохранения ещё ниже */
+/* 3.1.73 — кнопка сохранения ещё ниже */
 .sheet.task-editor-sheet,
 body.light .sheet.task-editor-sheet{
   padding-bottom:0!important;
@@ -2529,7 +2529,7 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.72 — нижняя навигация ещё тоньше и ниже */
+/* 3.1.73 — нижняя навигация ещё тоньше и ниже */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   bottom:3px!important;
@@ -2599,7 +2599,7 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.72 — встречи на экране «Сегодня» вынесены отдельно */
+/* 3.1.73 — встречи на экране «Сегодня» вынесены отдельно */
 .today-sec.purple{color:var(--purple);background:linear-gradient(90deg,rgba(139,123,216,.14),transparent)}
 .today-sec.purple .today-sec-ico{background:rgba(139,123,216,.14)}
 .today-sec.purple .today-count{background:var(--purple);color:#fff}
@@ -2613,7 +2613,7 @@ body.light .meeting-row .meeting-place{color:#6C56B3!important}
 body.light .today-kind-badge.meeting{background:rgba(122,91,200,.12);color:#6C56B3}
 
 
-/* 3.1.72 — единые маркеры типов на «Сегодня» и в календаре */
+/* 3.1.73 — единые маркеры типов на «Сегодня» и в календаре */
 .tag.kind-tag{font-weight:750}
 .tag.kind-task{background:rgba(47,163,107,.12);color:#20885A}
 .tag.kind-hearing{background:rgba(55,152,229,.13);color:#2E79C7}
@@ -2645,7 +2645,7 @@ body:not(.light) .today-row.kind-meeting{background:linear-gradient(90deg,rgba(1
 body:not(.light) .today-row.kind-deadline{background:linear-gradient(90deg,rgba(217,155,46,.08),rgba(7,17,28,0) 36%)}
 
 
-/* 3.1.72 — нижняя панель по фактической высоте контента, без пустого низа */
+/* 3.1.73 — нижняя панель по фактической высоте контента, без пустого низа */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   left:12px!important;
@@ -2726,10 +2726,44 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.72 — на главной добавлен блок «Ближайшие 7 дней» */
+/* 3.1.73 — на главной добавлен блок «Ближайшие 7 дней» */
 .next7-row .today-row-main b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .next7-row .today-time{color:var(--txt2);font-size:12.5px;padding-top:4px}
 .next7-row .soon-rel{margin-top:4px!important;font-size:11.2px!important;line-height:1.3!important;color:#A07B1C!important;font-weight:700!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
 body.light .next7-row .soon-rel{color:#8E6E17!important}
 .next7-row .today-note{font-size:11.4px!important;line-height:1.3!important;color:var(--txt2)!important;margin-top:4px!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
 .next7-row .meeting-place{margin-top:4px!important}
+
+
+/* 3.1.73 — страница «Задачи»: фильтр по типу + история заседаний */
+.today-actions .task-type-trigger{
+  height:45px;
+  min-width:88px;
+  padding:0 12px;
+  border-radius:14px;
+  border:1px solid var(--line2);
+  background:var(--panel);
+  color:var(--txt2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  box-shadow:0 6px 18px rgba(0,0,0,.04);
+  font-size:12.5px;
+  font-weight:700;
+}
+.today-actions .task-type-trigger .ico{width:17px;height:17px;stroke-width:1.85}
+.today-actions .task-type-trigger.on{background:var(--goldsoft);color:var(--gold2);border-color:rgba(198,151,66,.35)}
+.today-actions .task-type-trigger span{white-space:nowrap}
+.row-count{
+  min-width:24px;height:22px;padding:0 7px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--elev2);color:var(--muted);font-size:11px;font-weight:800;flex:none;
+}
+.matter-filter-sheet .row .row-count{margin-left:auto}
+body.light .today-actions .task-type-trigger{background:#FFFDF9;border-color:rgba(26,37,48,.12)}
+body:not(.light) .today-actions .task-type-trigger{background:#0D1825;border-color:rgba(255,255,255,.10);color:#D6E0EA}
+body:not(.light) .today-actions .task-type-trigger.on{color:#E6C55C}
+@media(max-width:420px){
+  .today-actions .task-type-trigger{min-width:82px;padding:0 10px;font-size:12px}
+}
