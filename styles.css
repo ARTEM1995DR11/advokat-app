@@ -2451,12 +2451,12 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.70 — вводные подсказки редактора убраны */
+/* 3.1.72 — вводные подсказки редактора убраны */
 .task-editor-sheet .hearinghint{display:none!important;margin:0!important;padding:0!important}
 .task-editor-sheet .task-editor-type{margin-top:0!important}
 
 
-/* 3.1.70 — центрирование «Запись в журнал» в быстром добавлении */
+/* 3.1.72 — центрирование «Запись в журнал» в быстром добавлении */
 .quickgrid-core .quickitem[data-act="qa-journal"],
 body.light .quickgrid-core .quickitem[data-act="qa-journal"]{
   min-height:72px!important;
@@ -2490,7 +2490,7 @@ body.light .quickgrid-core .quickitem[data-act="qa-journal"] b{
 }
 
 
-/* 3.1.70 — кнопка сохранения ещё ниже */
+/* 3.1.72 — кнопка сохранения ещё ниже */
 .sheet.task-editor-sheet,
 body.light .sheet.task-editor-sheet{
   padding-bottom:0!important;
@@ -2529,7 +2529,7 @@ body.light .task-editor-sheet .task-editor-delete{
 }
 
 
-/* 3.1.70 — нижняя навигация ещё тоньше и ниже */
+/* 3.1.72 — нижняя навигация ещё тоньше и ниже */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar{
   bottom:3px!important;
@@ -2599,7 +2599,7 @@ body.light .premium-nav .tab::after{
 }
 
 
-/* 3.1.70 — встречи на экране «Сегодня» вынесены отдельно */
+/* 3.1.72 — встречи на экране «Сегодня» вынесены отдельно */
 .today-sec.purple{color:var(--purple);background:linear-gradient(90deg,rgba(139,123,216,.14),transparent)}
 .today-sec.purple .today-sec-ico{background:rgba(139,123,216,.14)}
 .today-sec.purple .today-count{background:var(--purple);color:#fff}
@@ -2613,7 +2613,7 @@ body.light .meeting-row .meeting-place{color:#6C56B3!important}
 body.light .today-kind-badge.meeting{background:rgba(122,91,200,.12);color:#6C56B3}
 
 
-/* 3.1.70 — единые маркеры типов на «Сегодня» и в календаре */
+/* 3.1.72 — единые маркеры типов на «Сегодня» и в календаре */
 .tag.kind-tag{font-weight:750}
 .tag.kind-task{background:rgba(47,163,107,.12);color:#20885A}
 .tag.kind-hearing{background:rgba(55,152,229,.13);color:#2E79C7}
@@ -2643,3 +2643,93 @@ body:not(.light) .today-row.kind-task{background:linear-gradient(90deg,rgba(47,1
 body:not(.light) .today-row.kind-hearing{background:linear-gradient(90deg,rgba(55,152,229,.07),rgba(7,17,28,0) 36%)}
 body:not(.light) .today-row.kind-meeting{background:linear-gradient(90deg,rgba(139,123,216,.08),rgba(7,17,28,0) 36%)}
 body:not(.light) .today-row.kind-deadline{background:linear-gradient(90deg,rgba(217,155,46,.08),rgba(7,17,28,0) 36%)}
+
+
+/* 3.1.72 — нижняя панель по фактической высоте контента, без пустого низа */
+.premium-nav.tabbar,
+body.light .premium-nav.tabbar{
+  left:12px!important;
+  right:12px!important;
+  bottom:calc(var(--bot) + 2px)!important;
+  height:56px!important;
+  padding:2px 8px 2px!important;
+  border-radius:22px!important;
+  align-items:stretch!important;
+  overflow:hidden!important;
+}
+.premium-nav .tab,
+body.light .premium-nav .tab{
+  padding:1px 2px 0!important;
+  grid-template-rows:28px 12px 3px!important;
+  row-gap:0!important;
+  align-content:center!important;
+  font-size:11.5px!important;
+}
+.premium-nav .tab-ico,
+body.light .premium-nav .tab-ico{
+  width:28px!important;
+  height:28px!important;
+}
+.premium-nav .tab .ico,
+body.light .premium-nav .tab .ico{
+  width:19px!important;
+  height:19px!important;
+}
+.premium-nav .tab-label,
+body.light .premium-nav .tab-label{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  min-height:12px!important;
+  height:12px!important;
+  line-height:12px!important;
+}
+.premium-nav .tab::after,
+body.light .premium-nav .tab::after{
+  width:34px!important;
+  height:3px!important;
+  align-self:start!important;
+  margin-top:-1px!important;
+}
+.screen{padding-bottom:calc(var(--bot) + 72px)!important}
+.timerpill{bottom:calc(var(--bot) + 64px)!important}
+#fab.fab{bottom:calc(var(--bot) + 66px)!important}
+
+@media(max-width:390px){
+  .premium-nav.tabbar,
+  body.light .premium-nav.tabbar{
+    left:10px!important;
+    right:10px!important;
+    bottom:calc(var(--bot) + 1px)!important;
+    height:53px!important;
+    padding:1px 6px 1px!important;
+    border-radius:20px!important;
+  }
+  .premium-nav .tab,
+  body.light .premium-nav .tab{
+    grid-template-rows:26px 11px 3px!important;
+    row-gap:0!important;
+    font-size:10.9px!important;
+    padding:1px 2px 0!important;
+  }
+  .premium-nav .tab-ico,
+  body.light .premium-nav .tab-ico{width:26px!important;height:26px!important}
+  .premium-nav .tab .ico,
+  body.light .premium-nav .tab .ico{width:18px!important;height:18px!important}
+  .premium-nav .tab-label,
+  body.light .premium-nav .tab-label{min-height:11px!important;height:11px!important;line-height:11px!important}
+  .premium-nav .tab::after,
+  body.light .premium-nav .tab::after{width:31px!important;height:3px!important}
+  .screen{padding-bottom:calc(var(--bot) + 68px)!important}
+  .timerpill{bottom:calc(var(--bot) + 60px)!important}
+  #fab.fab{bottom:calc(var(--bot) + 62px)!important}
+}
+
+
+/* 3.1.72 — на главной добавлен блок «Ближайшие 7 дней» */
+.next7-row .today-row-main b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.next7-row .today-time{color:var(--txt2);font-size:12.5px;padding-top:4px}
+.next7-row .soon-rel{margin-top:4px!important;font-size:11.2px!important;line-height:1.3!important;color:#A07B1C!important;font-weight:700!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+body.light .next7-row .soon-rel{color:#8E6E17!important}
+.next7-row .today-note{font-size:11.4px!important;line-height:1.3!important;color:var(--txt2)!important;margin-top:4px!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+.next7-row .meeting-place{margin-top:4px!important}

@@ -610,6 +610,36 @@ function todayUpcomingRow(t){
     '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
     (meta?'<small class="hearing-meta">'+meta+'</small>':'')+'<small class="hearing-court">'+esc(place||'Суд не указан')+'</small></span>'+ico('chev','s')+'</button>';
 }
+
+function todayNext7Row(t){
+  var m=todayMatter(t), d=parseD(t.due), context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  var cls='kind-'+(t.kind||'task'), badge='', title='', line2='', line3='';
+  if(t.kind==='hearing'){
+    var place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
+    badge='<span class="today-kind-badge hearing">Заседание</span>';
+    title=hearingCaption(t,m);
+    if(meta) line2='<small class="hearing-meta">'+meta+'</small>';
+    if(place) line3='<small class="hearing-court">'+esc(place)+'</small>';
+  }else if(t.kind==='meeting'){
+    badge='<span class="today-kind-badge meeting">Встреча</span>';
+    title=t.title||'Встреча';
+    if(t.place) line2='<small class="meeting-place">'+esc(t.place)+'</small>';
+    else if(t.note) line2='<small class="today-note">'+esc(t.note)+'</small>';
+    line3='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
+  }else{
+    badge='<span class="today-kind-badge deadline">Срок</span>';
+    title=t.title||'Процессуальный срок';
+    line2='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
+    if(t.note) line3='<small class="today-note">'+esc(t.note)+'</small>';
+  }
+  return '<button class="today-row upcoming-row next7-row '+cls+'" data-act="task" data-id="'+t.id+'">'+
+    '<span class="today-date"><b>'+d.getDate()+'</b><small>'+MON[d.getMonth()].slice(0,3)+'</small></span>'+
+    '<span class="today-time mono">'+esc(t.time||'')+'</span>'+
+    '<span class="today-row-main"><b>'+esc(title)+'</b>'+
+      '<small class="today-kindline">'+badge+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
+      line2+line3+
+    '</span>'+ico('chev','s')+'</button>';
+}
 function todayPlaceholderRow(kind,text){
   var icon = kind==='blue' ? 'gavel' : (kind==='green' ? 'check' : (kind==='danger' ? 'flag' : 'cal'));
   return '<div class="today-row placeholder-row '+kind+'"><span class="today-row-ico">'+ico(icon,'s')+'</span><span class="today-row-main"><b>'+esc(text)+'</b><small>Добавьте запись через кнопку + или в карточке дела</small></span></div>';
@@ -644,7 +674,7 @@ function renderToday(){
   var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today();}).sort(sortT);
   var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&t.due===today();}).sort(sortT);
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
-  var upcomingHearings=allOpen.filter(function(t){return t.kind==='hearing'&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).sort(sortT);
+  var next7=allOpen.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7&&(t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');}).sort(sortT).slice(0,5);
   var critical=overdueDeadlines.length + overdueMeetings.length + overdueTasks.length + deadlinesToday.length;
   var quote=todayQuoteOfDay();
 
@@ -676,7 +706,8 @@ function renderToday(){
   html += block('purple','user','Встречи сегодня',meetingsToday,todayMeetingRow);
 
   html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow);
-  html += block('slate','cal','Ближайшие заседания',upcomingHearings,todayUpcomingRow);
+  html += block('slate','cal','Ближайшие 7 дней',next7,todayNext7Row,
+    '<button class="today-sec-link" data-act="go-cal">Все →</button>');
 
   $('#sc-today').innerHTML=html;
 }
@@ -1426,7 +1457,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=3170" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=3172" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2197,6 +2228,7 @@ document.addEventListener('click', function(ev){
     case 'go-matters': go('matters'); break;
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
+    case 'go-cal': go('cal'); break;
     case 'close': appBack(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
