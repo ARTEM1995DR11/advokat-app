@@ -1288,10 +1288,22 @@ function matterStageTone(m){
   return 'green';
 }
 function matterTypeCardLabel(m){
-  var type=(matterType(m).n||'').toUpperCase();
+  if((m&&m.type)==='criminal') return 'УГОЛОВНОЕ ДЕЛО';
+  if((m&&m.type)==='civil') return 'ГРАЖДАНСКОЕ ДЕЛО';
+  if((m&&m.type)==='admin') return 'ИСК КАС';
   if((m&&m.type)==='koap') return 'ДЕЛО ПО КОАП';
   if((m&&m.type)==='other') return 'ИНОЕ ДЕЛО';
+  var type=(matterType(m).n||'').toUpperCase();
   return type+' ДЕЛО';
+}
+function matterCardIconName(m){
+  if(!m) return 'doc';
+  if(m.type==='criminal') return 'gavel';
+  if(m.type==='civil') return 'brief';
+  if(m.type==='admin') return 'flag';
+  if(m.type==='koap') return 'lock';
+  if(m.type==='other') return 'folder';
+  return 'doc';
 }
 function matterCardSubject(m){
   if(!m)return '';
@@ -1363,7 +1375,7 @@ function matterCardNextAction(m){
 }
 function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
-  var iconName=(m.type==='criminal'||m.type==='koap')?'gavel':'doc';
+  var iconName=matterCardIconName(m);
   var title=matterCardTitle(m);
   var number=m.number||'без номера';
   var client=m.client||'доверитель не указан';
@@ -1689,7 +1701,7 @@ function render(){
     $('#sc-'+k).classList.toggle('hide', S.ui.tab!==k); });
   ({today:renderToday,tasks:renderTasks,matters:renderMatters,cal:renderCal,more:renderMore})[S.ui.tab]();
   document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===S.ui.tab); });
-  $('#fab').classList.toggle('fab-context-hide',false);
+  $('#fab').classList.toggle('fab-context-hide',S.ui.tab==='more');
   $('#sc-'+S.ui.tab).classList.add('fadein');
   setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
   applyTheme();
@@ -3067,6 +3079,14 @@ document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passi
 var APP_STARTED=false,hiddenAt=0;
 function afterUnlock(){
   if(!unlocked)return;
+  if(!APP_STARTED){
+    S.ui.tab='today';
+    S.ui.q='';
+    S.ui._sq=false;
+    NAV_TABS=[];
+    closeAll();
+    save();
+  }
   render();schedule();scheduleThemeBoundary();
   if(!APP_STARTED){
     APP_STARTED=true;setInterval(schedule,15*60*1000);
@@ -3088,10 +3108,21 @@ boot();
 
 document.addEventListener('visibilitychange',function(){
   if(document.hidden){hiddenAt=Date.now();persistNow();return;}
+  var wasAway=hiddenAt&&Date.now()-hiddenAt>1200;
   if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&Date.now()-hiddenAt>60000){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
-  if(unlocked){render();schedule();scheduleThemeBoundary();}
+  if(unlocked){
+    if(wasAway){
+      closeAll();
+      NAV_TABS=[];
+      S.ui.tab='today';
+      S.ui.q='';
+      S.ui._sq=false;
+      save();
+    }
+    render();schedule();scheduleThemeBoundary();
+  }
 });
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
