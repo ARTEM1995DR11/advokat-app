@@ -4749,3 +4749,80 @@ body:not(.light) .pt-time,
 body:not(.light) .today-time{
   color:#F2F6FA!important;
 }
+
+/* 4.0.7 — финальная читаемость рабочих подписей и метаданных */
+/* Светлая тема: рабочая информация почти чёрная, а не бледно-серая */
+body.light .today-head p,
+body.light .tasks-title-head p,
+body.light .matters-title-head p{
+  color:#17232D!important;
+  font-weight:520!important;
+}
+body.light .tasks-project-filters button:not(.on),
+body.light .matters-scope>button:not(.on){
+  color:#17232D!important;
+  font-weight:720!important;
+}
+body.light .tasks-project-filters button:not(.on) em,
+body.light .matters-scope>button:not(.on) em{
+  color:#3E5264!important;
+  font-weight:850!important;
+}
+body.light .today-row.task-row .today-context,
+body.light .today-row-main small,
+body.light .pt-link,
+body.light .pt-context,
+body.light .pt-main>span,
+body.light .pt-main>small:not(.pt-note),
+body.light .matter-compact-card.ultra .matter-ultra-meta,
+body.light .mp-heading>small,
+body.light .mp-court{
+  color:#283A49!important;
+  font-weight:600!important;
+}
+body.light .matter-compact-card.ultra .matter-ultra-meta span{
+  color:#283A49!important;
+  font-weight:720!important;
+}
+body.light .today-brand-left small{
+  color:#4B6072!important;
+  font-weight:500!important;
+}
+
+/* Тёмная тема: аналогичные элементы — светлые и контрастные */
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p{
+  color:#E5EDF5!important;
+  font-weight:520!important;
+}
+body:not(.light) .tasks-project-filters button:not(.on),
+body:not(.light) .matters-scope>button:not(.on){
+  color:#EDF3F8!important;
+  font-weight:720!important;
+}
+body:not(.light) .tasks-project-filters button:not(.on) em,
+body:not(.light) .matters-scope>button:not(.on) em{
+  color:#D5E0EA!important;
+  font-weight:850!important;
+}
+body:not(.light) .today-row.task-row .today-context,
+body:not(.light) .today-row-main small,
+body:not(.light) .pt-link,
+body:not(.light) .pt-context,
+body:not(.light) .pt-main>span,
+body:not(.light) .pt-main>small:not(.pt-note),
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta,
+body:not(.light) .mp-heading>small,
+body:not(.light) .mp-court{
+  color:#D4E0EA!important;
+  font-weight:600!important;
+}
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta span{
+  color:#DCE6EF!important;
+  font-weight:720!important;
+}
+body:not(.light) .today-brand-left small{
+  color:#B8C8D6!important;
+  font-weight:500!important;
+}
