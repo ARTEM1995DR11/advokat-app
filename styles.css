@@ -5023,3 +5023,155 @@ body:not(.light) .tasks-project-filters button.on,
 body:not(.light) .matters-scope>button.on{color:var(--gold2)!important}
 body:not(.light) .tasks-project-filters button.late:not(.on) em{color:#FF8A8A!important}
 body:not(.light) .tasks-project-filters button.today:not(.on) em{color:#8CC8FF!important}
+
+
+/* 4.0.10 — компактная шторка фильтра дел + финальный контраст текста */
+.sheet.matter-filter-premium{
+  padding-top:8px!important;
+  max-height:calc(100dvh - max(22px, calc(var(--top) + 8px)))!important;
+}
+@supports not (height: 100dvh){
+  .sheet.matter-filter-premium{
+    max-height:calc(100vh - max(22px, calc(var(--top) + 8px)))!important;
+  }
+}
+.sheet.filter-premium-sheet>.grab,
+.sheet.matter-filter-premium>.grab,
+.sheet.task-filter-premium>.grab{
+  margin-top:2px!important;
+  margin-bottom:10px!important;
+}
+.filter-premium-head{
+  margin:0 0 14px!important;
+  align-items:center!important;
+}
+.filter-premium-head p{
+  margin-top:3px!important;
+}
+@media (max-width: 430px){
+  .sheet.matter-filter-premium{
+    padding-left:12px!important;
+    padding-right:12px!important;
+    padding-top:6px!important;
+  }
+  .filter-premium-head{
+    gap:11px!important;
+    margin-bottom:12px!important;
+  }
+  .filter-premium-head-icon{
+    width:44px!important;
+    height:44px!important;
+    border-radius:15px!important;
+  }
+  .sheet.filter-premium-sheet .filter-premium-head h2{
+    font-size:26px!important;
+    line-height:1.02!important;
+  }
+  .filter-premium-head p{
+    font-size:12.5px!important;
+  }
+}
+
+/* Светлая тема: рабочий вторичный текст — тёмный, почти чёрный */
+body.light .today-brand-left small,
+body.light .today-head p,
+body.light .tasks-title-head p,
+body.light .matters-title-head p,
+body.light .today-row-main small,
+body.light .today-row.task-row .today-context,
+body.light .pt-link,
+body.light .pt-context,
+body.light .pt-main>span,
+body.light .pt-main>small:not(.pt-note),
+body.light .matter-compact-card.ultra .matter-ultra-meta,
+body.light .matter-compact-card.ultra .matter-ultra-meta span,
+body.light .filter-premium-head p,
+body.light .filter-premium-label,
+body.light .filter-premium-copy small,
+body.light .filter-premium-count,
+body.light .filter-premium-tail,
+body.light .mp-heading>small,
+body.light .mp-court,
+body.light .mp-metrics>span,
+body.light .mp-next small,
+body.light .mp-next em,
+body.light .calendar-subhead,
+body.light .calendar-month-sub,
+body.light .casehead .sh-sub,
+body.light .screen .muted,
+body.light .screen [class*="sub"],
+body.light .screen .meta,
+body.light .screen .small,
+body.light .screen small,
+body.light .screen .subtitle,
+body.light .sheet.filter-premium-sheet small,
+body.light .sheet.filter-premium-sheet p,
+body.light .sheet.filter-premium-sheet .filter-premium-count,
+body.light .sheet.filter-premium-sheet .filter-premium-tail,
+body.light .sheet.filter-premium-sheet .filter-premium-label{
+  color:#111A22!important;
+}
+body.light .tasks-project-filters button,
+body.light .tasks-project-filters button em,
+body.light .matters-scope>button,
+body.light .matters-scope>button em{
+  color:#111A22!important;
+}
+body.light .tasks-project-filters button.on,
+body.light .matters-scope>button.on{
+  color:var(--gold2)!important;
+}
+body.light .tasks-project-filters button.late:not(.on) em{color:var(--dang)!important}
+body.light .tasks-project-filters button.today:not(.on) em{color:var(--blue)!important}
+
+/* Тёмная тема: аналогично — светлый, почти белый */
+body:not(.light) .today-brand-left small,
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p,
+body:not(.light) .today-row-main small,
+body:not(.light) .today-row.task-row .today-context,
+body:not(.light) .pt-link,
+body:not(.light) .pt-context,
+body:not(.light) .pt-main>span,
+body:not(.light) .pt-main>small:not(.pt-note),
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta,
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta span,
+body:not(.light) .filter-premium-head p,
+body:not(.light) .filter-premium-label,
+body:not(.light) .filter-premium-copy small,
+body:not(.light) .filter-premium-count,
+body:not(.light) .filter-premium-tail,
+body:not(.light) .mp-heading>small,
+body:not(.light) .mp-court,
+body:not(.light) .mp-metrics>span,
+body:not(.light) .mp-next small,
+body:not(.light) .mp-next em,
+body:not(.light) .calendar-subhead,
+body:not(.light) .calendar-month-sub,
+body:not(.light) .casehead .sh-sub,
+body:not(.light) .screen .muted,
+body:not(.light) .screen [class*="sub"],
+body:not(.light) .screen .meta,
+body:not(.light) .screen .small,
+body:not(.light) .screen small,
+body:not(.light) .screen .subtitle,
+body:not(.light) .sheet.filter-premium-sheet small,
+body:not(.light) .sheet.filter-premium-sheet p,
+body:not(.light) .sheet.filter-premium-sheet .filter-premium-count,
+body:not(.light) .sheet.filter-premium-sheet .filter-premium-tail,
+body:not(.light) .sheet.filter-premium-sheet .filter-premium-label{
+  color:#F3F7FB!important;
+}
+body:not(.light) .tasks-project-filters button,
+body:not(.light) .tasks-project-filters button em,
+body:not(.light) .matters-scope>button,
+body:not(.light) .matters-scope>button em{
+  color:#F3F7FB!important;
+}
+body:not(.light) .tasks-project-filters button.on,
+body:not(.light) .matters-scope>button.on{
+  color:var(--gold2)!important;
+}
+body:not(.light) .tasks-project-filters button.late:not(.on) em{color:#FF8A8A!important}
+body:not(.light) .tasks-project-filters button.today:not(.on) em{color:#8CC8FF!important}
