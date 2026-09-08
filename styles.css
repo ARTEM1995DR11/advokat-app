@@ -4662,3 +4662,90 @@ body:not(.light) .sheet.matter-filter-premium{
   background-position:50% 0, 0 0!important;
 }
 #fab.fab-context-hide{display:none!important}
+
+/* 4.0.6 — усиление контраста текста в светлой и тёмной темах */
+/* Светлая тема: вторичные подписи и метаданные делаем заметно темнее */
+body.light .today-head p,
+body.light .tasks-title-head p,
+body.light .matters-title-head p{
+  color:#2A3947!important;
+  font-weight:500!important;
+}
+
+body.light .tasks-project-filters button,
+body.light .matters-scope>button{
+  color:#2A3947!important;
+  font-weight:700!important;
+}
+body.light .tasks-project-filters button em,
+body.light .matters-scope>button em{
+  color:#586D80!important;
+}
+body.light .tasks-project-filters button.on,
+body.light .matters-scope>button.on{
+  color:#2A3947!important;
+}
+body.light .tasks-project-filters button.on em,
+body.light .matters-scope>button.on em{
+  color:#2A3947!important;
+}
+
+body.light .today-row.task-row .today-context,
+body.light .pt-link,
+body.light .pt-context,
+body.light .pt-main>span,
+body.light .pt-main>small:not(.pt-note),
+body.light .mp-heading>small,
+body.light .mp-court,
+body.light .mp-metrics>span,
+body.light .mp-next small,
+body.light .mp-next em{
+  color:#4A6073!important;
+  font-weight:500!important;
+}
+body.light .mp-metrics>span b,
+body.light .pt-time,
+body.light .today-time{
+  color:#1E2D3A!important;
+}
+
+/* Тёмная тема: поднимаем контраст приглушённых подписей и метаданных */
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p{
+  color:#CDD8E4!important;
+  font-weight:500!important;
+}
+
+body:not(.light) .tasks-project-filters button,
+body:not(.light) .matters-scope>button{
+  color:#E5EDF5!important;
+  font-weight:700!important;
+}
+body:not(.light) .tasks-project-filters button em,
+body:not(.light) .matters-scope>button em{
+  color:#C7D4E0!important;
+}
+body:not(.light) .tasks-project-filters button.on,
+body:not(.light) .matters-scope>button.on{
+  color:#F0D37B!important;
+}
+
+body:not(.light) .today-row.task-row .today-context,
+body:not(.light) .pt-link,
+body:not(.light) .pt-context,
+body:not(.light) .pt-main>span,
+body:not(.light) .pt-main>small:not(.pt-note),
+body:not(.light) .mp-heading>small,
+body:not(.light) .mp-court,
+body:not(.light) .mp-metrics>span,
+body:not(.light) .mp-next small,
+body:not(.light) .mp-next em{
+  color:#C4D1DD!important;
+  font-weight:500!important;
+}
+body:not(.light) .mp-metrics>span b,
+body:not(.light) .pt-time,
+body:not(.light) .today-time{
+  color:#F2F6FA!important;
+}
