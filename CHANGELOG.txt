@@ -1,3 +1,8 @@
+4.0.23
+- compacted bottom navigation while preserving larger icons;
+- replaced shared architectural background with unique background treatment per main screen;
+- added separate light/dark styling for Today, Tasks, Matters, Calendar and More.
+
 4.0.22
 - added premium branded page backgrounds for Today, Tasks, Matters, Calendar and More screens;
 - restored visual depth on the Today screen with subtle architectural backdrop while preserving readability;
