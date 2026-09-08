@@ -1680,7 +1680,7 @@ function renderMore(){
       row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
       row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
     '</div>'+
-    '<div class="settings-footnote">Ежедневник адвоката · iPhone Offline 4.0.7<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>'+
+    '<div class="settings-footnote">Ежедневник адвоката · iPhone Offline 4.0.9<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>'+
   '</div>';
   $('#sc-more').innerHTML=html;
 }

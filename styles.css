@@ -4941,3 +4941,85 @@ body:not(.light) .matter-compact-card.ultra .matter-ultra-meta i{
   background:#F1F5F9!important;
   opacity:.34!important;
 }
+
+/* 4.0.9 — убираем серый рабочий текст: светлая = чёрный, тёмная = светлый */
+/* На основных экранах все вторичные рабочие подписи наследуют контрастный цвет. */
+body.light .screen,
+body.light .sheet.filter-premium-sheet{
+  --txt2:#17232D;
+  --muted:#17232D;
+}
+body:not(.light) .screen,
+body:not(.light) .sheet.filter-premium-sheet{
+  --txt2:#F2F6FA;
+  --muted:#F2F6FA;
+}
+
+/* Принудительно перекрываем исторические фиксированные серые значения. */
+body.light .today-brand-left small,
+body.light .today-head p,
+body.light .tasks-title-head p,
+body.light .matters-title-head p,
+body.light .tasks-project-filters button,
+body.light .tasks-project-filters button em,
+body.light .matters-scope>button,
+body.light .matters-scope>button em,
+body.light .today-row-main small,
+body.light .today-row.task-row .today-context,
+body.light .pt-link,
+body.light .pt-context,
+body.light .pt-main>span,
+body.light .pt-main>small:not(.pt-note),
+body.light .matter-compact-card.ultra .matter-ultra-meta,
+body.light .matter-compact-card.ultra .matter-ultra-meta span,
+body.light .filter-premium-head p,
+body.light .filter-premium-label,
+body.light .filter-premium-copy small,
+body.light .filter-premium-count,
+body.light .filter-premium-tail,
+body.light .mp-heading>small,
+body.light .mp-court,
+body.light .mp-metrics>span,
+body.light .mp-next small,
+body.light .mp-next em{
+  color:#17232D!important;
+}
+
+body:not(.light) .today-brand-left small,
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p,
+body:not(.light) .tasks-project-filters button,
+body:not(.light) .tasks-project-filters button em,
+body:not(.light) .matters-scope>button,
+body:not(.light) .matters-scope>button em,
+body:not(.light) .today-row-main small,
+body:not(.light) .today-row.task-row .today-context,
+body:not(.light) .pt-link,
+body:not(.light) .pt-context,
+body:not(.light) .pt-main>span,
+body:not(.light) .pt-main>small:not(.pt-note),
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta,
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta span,
+body:not(.light) .filter-premium-head p,
+body:not(.light) .filter-premium-label,
+body:not(.light) .filter-premium-copy small,
+body:not(.light) .filter-premium-count,
+body:not(.light) .filter-premium-tail,
+body:not(.light) .mp-heading>small,
+body:not(.light) .mp-court,
+body:not(.light) .mp-metrics>span,
+body:not(.light) .mp-next small,
+body:not(.light) .mp-next em{
+  color:#F2F6FA!important;
+}
+
+/* Цветовые акценты сохраняем там, где они несут смысл. */
+body.light .tasks-project-filters button.on,
+body.light .matters-scope>button.on{color:var(--gold2)!important}
+body.light .tasks-project-filters button.late:not(.on) em{color:var(--dang)!important}
+body.light .tasks-project-filters button.today:not(.on) em{color:var(--blue)!important}
+body:not(.light) .tasks-project-filters button.on,
+body:not(.light) .matters-scope>button.on{color:var(--gold2)!important}
+body:not(.light) .tasks-project-filters button.late:not(.on) em{color:#FF8A8A!important}
+body:not(.light) .tasks-project-filters button.today:not(.on) em{color:#8CC8FF!important}
