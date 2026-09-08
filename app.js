@@ -1136,17 +1136,19 @@ function renderTasks(){
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button>'+
       '</div></div>'+
-    '<div class="tasks-actions-row"><button class="task-type-trigger'+(u.taskType?' on':'')+'" data-act="task-type-sheet" title="Фильтр по типу">'+ico('list','s')+'<span>'+esc(tt.short)+'</span></button></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div></div>'+
     (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
-    '<div class="tasks-project-filters">'+
-      '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
-      '<button class="late '+(u.taskChip==='late'?'on':'')+'" data-act="chip" data-v="late"><span>Просроченные</span><em>'+c.late+'</em></button>'+
-      '<button class="today '+(u.taskChip==='today'?'on':'')+'" data-act="chip" data-v="today"><span>Сегодня</span><em>'+c.today+'</em></button>'+
-      '<button class="week '+(u.taskChip==='week'?'on':'')+'" data-act="chip" data-v="week"><span>На этой неделе</span><em>'+c.week+'</em></button>'+
-      '<button class="later '+(u.taskChip==='later'?'on':'')+'" data-act="chip" data-v="later"><span>Позже</span><em>'+c.later+'</em></button>'+
-      '<button class="nodue '+(u.taskChip==='nodue'?'on':'')+'" data-act="chip" data-v="nodue"><span>Без срока</span><em>'+c.nodue+'</em></button>'+
-      '<button class="done '+(u.taskChip==='done'?'on':'')+'" data-act="chip" data-v="done"><span>Выполнено</span><em>'+c.done+'</em></button>'+
+    '<div class="tasks-filterbar">'+
+      '<div class="tasks-project-filters">'+
+        '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
+        '<button class="late '+(u.taskChip==='late'?'on':'')+'" data-act="chip" data-v="late"><span>Просроченные</span><em>'+c.late+'</em></button>'+
+        '<button class="today '+(u.taskChip==='today'?'on':'')+'" data-act="chip" data-v="today"><span>Сегодня</span><em>'+c.today+'</em></button>'+
+        '<button class="week '+(u.taskChip==='week'?'on':'')+'" data-act="chip" data-v="week"><span>На этой неделе</span><em>'+c.week+'</em></button>'+
+        '<button class="later '+(u.taskChip==='later'?'on':'')+'" data-act="chip" data-v="later"><span>Позже</span><em>'+c.later+'</em></button>'+
+        '<button class="nodue '+(u.taskChip==='nodue'?'on':'')+'" data-act="chip" data-v="nodue"><span>Без срока</span><em>'+c.nodue+'</em></button>'+
+        '<button class="done '+(u.taskChip==='done'?'on':'')+'" data-act="chip" data-v="done"><span>Выполнено</span><em>'+c.done+'</em></button>'+
+      '</div>'+
+      '<button class="task-type-trigger'+(u.taskType?' on':'')+'" data-act="task-type-sheet" title="Фильтр по типу">'+ico('list','s')+'<span>'+esc(tt.short)+'</span></button>'+
     '</div><div id="tasklist"></div></div>';
   $('#sc-tasks').innerHTML=html;
   renderTaskList();

@@ -4283,3 +4283,83 @@ body:not(.light) .calendar-month-card .cday.today:not(.sel){
   color:#E0BE6F!important;
   border-color:rgba(216,181,88,.54)!important;
 }
+
+
+/* ============================================================
+   3.1.98 — Задачи: фильтр типа как на странице «Дела»
+   ============================================================ */
+.tasks-filterbar{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 42px!important;
+  align-items:center!important;
+  gap:7px!important;
+  position:sticky!important;
+  top:-1px!important;
+  z-index:7!important;
+  margin:0 0 12px!important;
+  padding:6px 0 8px!important;
+  background:var(--bg)!important;
+}
+.tasks-filterbar .tasks-project-filters{
+  position:static!important;
+  top:auto!important;
+  z-index:auto!important;
+  margin:0!important;
+  padding:0 2px!important;
+  background:transparent!important;
+  min-width:0!important;
+}
+.tasks-filterbar .task-type-trigger{
+  width:42px!important;
+  min-width:42px!important;
+  max-width:42px!important;
+  height:38px!important;
+  padding:0!important;
+  border-radius:12px!important;
+  border:1px solid var(--line2)!important;
+  background:transparent!important;
+  color:var(--txt2)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-shadow:none!important;
+  gap:0!important;
+  flex:none!important;
+}
+.tasks-filterbar .task-type-trigger span{display:none!important}
+.tasks-filterbar .task-type-trigger .ico{
+  width:17px!important;
+  height:17px!important;
+  stroke-width:1.9!important;
+}
+.tasks-filterbar .task-type-trigger.on{
+  background:var(--goldsoft)!important;
+  border-color:rgba(198,151,66,.38)!important;
+  color:var(--gold2)!important;
+}
+body.light .tasks-filterbar .task-type-trigger{
+  background:transparent!important;
+  border-color:rgba(26,37,48,.12)!important;
+  color:#526A80!important;
+}
+body.light .tasks-filterbar .task-type-trigger.on{
+  background:rgba(198,151,66,.10)!important;
+  border-color:rgba(198,151,66,.38)!important;
+  color:#A96F18!important;
+}
+body:not(.light) .tasks-filterbar .task-type-trigger{
+  background:transparent!important;
+  border-color:rgba(255,255,255,.12)!important;
+  color:#B8C6D5!important;
+}
+body:not(.light) .tasks-filterbar .task-type-trigger.on{
+  background:rgba(198,151,66,.12)!important;
+  border-color:rgba(198,151,66,.38)!important;
+  color:#E6C55C!important;
+}
+/* Старую вынесенную строку фильтра больше не используем. */
+.tasks-actions-row{display:none!important}
+@media(max-width:420px){
+  .tasks-filterbar{grid-template-columns:minmax(0,1fr) 42px!important;gap:7px!important}
+  .tasks-filterbar .task-type-trigger{width:42px!important;min-width:42px!important;height:38px!important}
+}
