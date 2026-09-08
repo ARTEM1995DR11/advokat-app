@@ -5200,6 +5200,206 @@ body:not(.light) .tasks-project-filters button.today:not(.on) em{color:#8CC8FF!i
   margin-top:0!important;
 }
 
+
+/* 4.0.16 — фон и premium-оформление экрана «Новое дело / Изменить досье» */
+.sheet.matter-editor-sheet{
+  position:relative;
+  overflow:hidden;
+  background:var(--panel)!important;
+}
+.sheet.matter-editor-sheet::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.sheet.matter-editor-sheet>.grab,
+.sheet.matter-editor-sheet>.shbody,
+.sheet.matter-editor-sheet>.shfoot{
+  position:relative;
+  z-index:1;
+}
+.sheet.matter-editor-sheet .shbody{
+  padding-left:16px!important;
+  padding-right:16px!important;
+}
+.sheet.matter-editor-sheet .shbody>h2,
+.sheet.matter-editor-sheet>h2{
+  margin-bottom:8px!important;
+  font:600 28px/1.03 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  color:var(--txt)!important;
+}
+.sheet.matter-editor-sheet .sh-sub{
+  margin:0 0 18px!important;
+  font-size:13px!important;
+  line-height:1.4!important;
+  color:var(--txt2)!important;
+}
+.sheet.matter-editor-sheet .fld label{
+  color:var(--txt2)!important;
+  font-size:12.5px!important;
+  font-weight:760!important;
+  letter-spacing:.02em!important;
+}
+.sheet.matter-editor-sheet .fld input,
+.sheet.matter-editor-sheet .fld textarea,
+.sheet.matter-editor-sheet .fld select{
+  border-radius:18px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 8px 22px rgba(0,0,0,.03);
+  transition:border-color .16s ease, box-shadow .16s ease, background-color .16s ease, transform .12s ease;
+}
+.sheet.matter-editor-sheet .fld input:hover,
+.sheet.matter-editor-sheet .fld textarea:hover,
+.sheet.matter-editor-sheet .fld select:hover{
+  transform:translateY(-1px);
+}
+.sheet.matter-editor-sheet .fld input:focus,
+.sheet.matter-editor-sheet .fld textarea:focus,
+.sheet.matter-editor-sheet .fld select:focus{
+  transform:none;
+}
+.sheet.matter-editor-sheet .btn[data-act='m-save'],
+.sheet.matter-editor-sheet .shfoot .btn{
+  box-shadow:0 12px 24px rgba(171,123,31,.14), inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+
+body.light .sheet.matter-editor-sheet{
+  background-color:#FCF7ED!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,252,245,.94) 0%,rgba(250,245,235,.96) 42%,#F8F1E5 100%),
+    radial-gradient(circle at 87% 14%,rgba(199,153,66,.13),transparent 26%),
+    radial-gradient(circle at 14% 0%,rgba(214,179,102,.10),transparent 24%),
+    linear-gradient(135deg,rgba(198,151,66,.045),transparent 42%),
+    url('scale-gold.png')!important;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat!important;
+  background-position:center,center,center,center,right -54px top 92px!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%,210px auto!important;
+}
+body.light .sheet.matter-editor-sheet::before{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.70),rgba(255,255,255,.22) 128px,transparent 210px),
+    repeating-linear-gradient(180deg,transparent,transparent 34px,rgba(196,154,66,.026) 34px,rgba(196,154,66,.026) 35px),
+    linear-gradient(90deg,rgba(172,123,34,.045),transparent 16%,transparent 84%,rgba(172,123,34,.04));
+}
+body.light .sheet.matter-editor-sheet>.grab{
+  background:linear-gradient(90deg,rgba(193,151,71,.10),rgba(193,151,71,.35),rgba(193,151,71,.10))!important;
+}
+body.light .sheet.matter-editor-sheet .shbody>h2,
+body.light .sheet.matter-editor-sheet>h2{
+  color:#172434!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.92),0 5px 18px rgba(74,51,21,.04);
+}
+body.light .sheet.matter-editor-sheet .sh-sub{
+  color:#6E7F90!important;
+}
+body.light .sheet.matter-editor-sheet .fld label{
+  color:#657A8E!important;
+}
+body.light .sheet.matter-editor-sheet .fld input,
+body.light .sheet.matter-editor-sheet .fld textarea,
+body.light .sheet.matter-editor-sheet .fld select{
+  background:rgba(255,255,255,.80)!important;
+  border-color:rgba(37,45,53,.12)!important;
+  color:#172434!important;
+  backdrop-filter:blur(2px) saturate(1.04);
+}
+body.light .sheet.matter-editor-sheet .fld input::placeholder,
+body.light .sheet.matter-editor-sheet .fld textarea::placeholder{
+  color:#94A1AF!important;
+}
+body.light .sheet.matter-editor-sheet .fld input:hover,
+body.light .sheet.matter-editor-sheet .fld textarea:hover,
+body.light .sheet.matter-editor-sheet .fld select:hover{
+  border-color:rgba(196,154,66,.24)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 10px 24px rgba(76,56,24,.05)!important;
+}
+body.light .sheet.matter-editor-sheet .fld input:focus,
+body.light .sheet.matter-editor-sheet .fld textarea:focus,
+body.light .sheet.matter-editor-sheet .fld select:focus{
+  border-color:rgba(196,154,66,.42)!important;
+  box-shadow:0 0 0 4px rgba(212,170,78,.12),0 10px 24px rgba(76,56,24,.06)!important;
+}
+body.light .sheet.matter-editor-sheet.withfoot .shfoot,
+body.light .sheet.matter-editor-sheet .shfoot{
+  background:linear-gradient(180deg,rgba(248,241,229,.16),rgba(248,241,229,.84) 22%,rgba(248,241,229,.98) 58%,#F8F1E5 100%)!important;
+  border-top:1px solid rgba(170,122,35,.14)!important;
+  box-shadow:0 -12px 30px rgba(74,53,25,.045)!important;
+}
+
+body:not(.light) .sheet.matter-editor-sheet{
+  background-color:#081522!important;
+  background-image:
+    linear-gradient(180deg,rgba(10,22,34,.98) 0%,rgba(8,19,30,.97) 46%,#081522 100%),
+    radial-gradient(circle at 87% 14%,rgba(199,153,66,.14),transparent 25%),
+    radial-gradient(circle at 14% 0%,rgba(214,179,102,.08),transparent 22%),
+    linear-gradient(135deg,rgba(198,151,66,.05),transparent 42%),
+    url('scale-gold.png')!important;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat!important;
+  background-position:center,center,center,center,right -56px top 96px!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%,220px auto!important;
+}
+body:not(.light) .sheet.matter-editor-sheet::before{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.03),transparent 140px),
+    radial-gradient(circle at 50% 0%,rgba(205,162,67,.08),transparent 31%),
+    repeating-linear-gradient(180deg,transparent,transparent 34px,rgba(163,188,208,.022) 34px,rgba(163,188,208,.022) 35px),
+    linear-gradient(90deg,rgba(198,151,66,.04),transparent 14%,transparent 86%,rgba(198,151,66,.03));
+}
+body:not(.light) .sheet.matter-editor-sheet>.grab{
+  background:linear-gradient(90deg,rgba(198,151,66,.12),rgba(198,151,66,.34),rgba(198,151,66,.12))!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .shbody>h2,
+body:not(.light) .sheet.matter-editor-sheet>h2{
+  color:#F2F6FB!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .sh-sub{
+  color:#A7B7C8!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .fld label{
+  color:#A2B4C6!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .fld input,
+body:not(.light) .sheet.matter-editor-sheet .fld textarea,
+body:not(.light) .sheet.matter-editor-sheet .fld select{
+  background:rgba(11,28,42,.76)!important;
+  border-color:rgba(151,178,200,.16)!important;
+  color:#F3F7FB!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 10px 26px rgba(0,0,0,.16)!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .fld input::placeholder,
+body:not(.light) .sheet.matter-editor-sheet .fld textarea::placeholder{
+  color:#90A4B7!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .fld select option{background:#0B1D2C;color:#F1F6FA}
+body:not(.light) .sheet.matter-editor-sheet .fld input:hover,
+body:not(.light) .sheet.matter-editor-sheet .fld textarea:hover,
+body:not(.light) .sheet.matter-editor-sheet .fld select:hover{
+  border-color:rgba(198,151,66,.26)!important;
+}
+body:not(.light) .sheet.matter-editor-sheet .fld input:focus,
+body:not(.light) .sheet.matter-editor-sheet .fld textarea:focus,
+body:not(.light) .sheet.matter-editor-sheet .fld select:focus{
+  border-color:rgba(198,151,66,.44)!important;
+  box-shadow:0 0 0 4px rgba(198,151,66,.14),0 10px 28px rgba(0,0,0,.18)!important;
+}
+body:not(.light) .sheet.matter-editor-sheet.withfoot .shfoot,
+body:not(.light) .sheet.matter-editor-sheet .shfoot{
+  background:linear-gradient(180deg,rgba(8,21,34,.16),rgba(8,21,34,.86) 22%,rgba(8,21,34,.98) 58%,#081522 100%)!important;
+  border-top:1px solid rgba(151,178,200,.13)!important;
+  box-shadow:0 -12px 34px rgba(0,0,0,.22)!important;
+}
+
+@media (max-width:390px){
+  .sheet.matter-editor-sheet .shbody{padding-left:14px!important;padding-right:14px!important}
+  .sheet.matter-editor-sheet .shbody>h2,
+  .sheet.matter-editor-sheet>h2{font-size:25px!important}
+  .sheet.matter-editor-sheet .sh-sub{font-size:12.5px!important;margin-bottom:16px!important}
+  body.light .sheet.matter-editor-sheet,
+  body:not(.light) .sheet.matter-editor-sheet{background-size:100% 100%,100% 100%,100% 100%,100% 100%,184px auto!important;background-position:center,center,center,center,right -52px top 92px!important}
+}
+
 /* Premium quick actions */
 .sheet.task-actions-premium{
   padding-left:16px!important;
@@ -5468,4 +5668,26 @@ body:not(.light) .matter-act-ico{background:color-mix(in srgb,var(--tone) 14%,#0
   .matter-act-ico .ico{width:19px;height:19px}
   .matter-act-copy b{font-size:14.5px}
   .matter-act-copy small{font-size:11px}
+}
+
+
+/* 4.0.17 — процессуальные сроки: корректное размещение длинных названий */
+.pt-row.deadline-record .pt-open>b{
+  word-break:normal!important;
+  overflow-wrap:break-word!important;
+  hyphens:auto;
+}
+.pt-row.deadline-record .pt-side{
+  min-width:42px!important;
+}
+.pt-row.deadline-record .pt-badge.deadline{
+  min-width:38px!important;
+  min-height:22px!important;
+  padding:0 8px!important;
+  font-size:9.5px!important;
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  .pt-row.deadline-record .pt-side{min-width:36px!important}
+  .pt-row.deadline-record .pt-badge.deadline{min-width:34px!important;padding:0 7px!important;font-size:9px!important}
 }
