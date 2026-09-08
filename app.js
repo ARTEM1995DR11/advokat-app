@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.17';
-var APP_BUILD='4017';
+var APP_VERSION='4.0.20';
+var APP_BUILD='4020';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -267,45 +267,45 @@ var LEGAL_DEADLINE_CODES = [
 var LEGAL_DEADLINE_RULES = [
   /* ГПК РФ */
   {id:'gpk-appeal',code:'GPK',name:'Апелляционная жалоба на решение',article:'ч. 2 ст. 321 ГПК РФ',unit:'months',n:1,dateLabel:'Дата принятия решения в окончательной форме',note:'1 месяц со дня принятия решения суда в окончательной форме.'},
-  {id:'gpk-simple-appeal',code:'GPK',name:'Апелляция — упрощённое производство',article:'ч. 8 ст. 232.4 ГПК РФ',unit:'workdays',n:15,dateLabel:'Дата принятия решения / окончательной формы',note:'15 рабочих дней; при составлении мотивированного решения по заявлению — со дня принятия решения в окончательной форме.'},
-  {id:'gpk-private',code:'GPK',name:'Частная жалоба на определение',article:'ст. 332 ГПК РФ',unit:'workdays',n:15,dateLabel:'Дата вынесения определения',note:'15 рабочих дней, если иной срок прямо не установлен ГПК РФ.'},
-  {id:'gpk-order',code:'GPK',name:'Возражения на судебный приказ',article:'ст. 128 ГПК РФ',unit:'workdays',n:10,dateLabel:'Дата получения судебного приказа',note:'10 рабочих дней со дня получения судебного приказа.'},
-  {id:'gpk-default',code:'GPK',name:'Отмена заочного решения',article:'ч. 1 ст. 237 ГПК РФ',unit:'workdays',n:7,dateLabel:'Дата вручения копии заочного решения',note:'7 рабочих дней со дня вручения копии заочного решения.'},
+  {id:'gpk-simple-appeal',code:'GPK',name:'Апелляция — упрощённое производство',shortName:'Апелляция — упрощённое',article:'ч. 8 ст. 232.4 ГПК РФ',unit:'workdays',n:15,dateLabel:'Дата принятия решения / окончательной формы',note:'15 рабочих дней; при составлении мотивированного решения по заявлению — со дня принятия решения в окончательной форме.'},
+  {id:'gpk-private',code:'GPK',name:'Частная жалоба на определение',shortName:'Частная жалоба',article:'ст. 332 ГПК РФ',unit:'workdays',n:15,dateLabel:'Дата вынесения определения',note:'15 рабочих дней, если иной срок прямо не установлен ГПК РФ.'},
+  {id:'gpk-order',code:'GPK',name:'Возражения на судебный приказ',shortName:'Возражения на приказ',article:'ст. 128 ГПК РФ',unit:'workdays',n:10,dateLabel:'Дата получения судебного приказа',note:'10 рабочих дней со дня получения судебного приказа.'},
+  {id:'gpk-default',code:'GPK',name:'Отмена заочного решения',shortName:'Отмена заочного решения',article:'ч. 1 ст. 237 ГПК РФ',unit:'workdays',n:7,dateLabel:'Дата вручения копии заочного решения',note:'7 рабочих дней со дня вручения копии заочного решения.'},
   {id:'gpk-cass',code:'GPK',name:'Кассационная жалоба',article:'ст. 376.1 ГПК РФ',unit:'months',n:3,dateLabel:'Дата вступления акта в силу / мотивированного апелляционного определения',note:'3 месяца. Если акт был обжалован в апелляции — срок исчисляется со дня изготовления мотивированного апелляционного определения.'},
-  {id:'gpk-supervision',code:'GPK',name:'Надзорная жалоба',article:'ч. 2 ст. 391.2 ГПК РФ',unit:'months',n:3,dateLabel:'Дата вступления судебного постановления в законную силу',note:'3 месяца со дня вступления судебного постановления в законную силу.'},
-  {id:'gpk-costs',code:'GPK',name:'Заявление о судебных расходах',article:'ст. 103.1 ГПК РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта, которым закончено рассмотрение дела.'},
-  {id:'gpk-simple-motive',code:'GPK',name:'Заявление о мотивированном решении — упрощённое',article:'ч. 3 ст. 232.4 ГПК РФ',unit:'workdays',n:5,dateLabel:'Дата подписания резолютивной части',note:'5 рабочих дней со дня подписания резолютивной части решения.'},
+  {id:'gpk-supervision',code:'GPK',name:'Надзорная жалоба',shortName:'Надзорная жалоба',article:'ч. 2 ст. 391.2 ГПК РФ',unit:'months',n:3,dateLabel:'Дата вступления судебного постановления в законную силу',note:'3 месяца со дня вступления судебного постановления в законную силу.'},
+  {id:'gpk-costs',code:'GPK',name:'Заявление о судебных расходах',shortName:'Судебные расходы',article:'ст. 103.1 ГПК РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта, которым закончено рассмотрение дела.'},
+  {id:'gpk-simple-motive',code:'GPK',name:'Заявление о мотивированном решении — упрощённое',shortName:'Мотивированное решение',article:'ч. 3 ст. 232.4 ГПК РФ',unit:'workdays',n:5,dateLabel:'Дата подписания резолютивной части',note:'5 рабочих дней со дня подписания резолютивной части решения.'},
 
   /* АПК РФ */
-  {id:'apk-appeal',code:'APK',name:'Апелляционная жалоба на решение',article:'ч. 1 ст. 259 АПК РФ',unit:'months',n:1,dateLabel:'Дата принятия решения',note:'1 месяц после принятия решения, если иной срок не установлен АПК РФ.'},
-  {id:'apk-simple-appeal',code:'APK',name:'Апелляция — упрощённое производство',article:'ч. 4 ст. 229 АПК РФ',unit:'workdays',n:15,dateLabel:'Дата принятия решения / решения в полном объёме',note:'15 рабочих дней; при составлении мотивированного решения — со дня принятия решения в полном объёме.'},
-  {id:'apk-ruling',code:'APK',name:'Жалоба на определение суда',article:'ч. 3 ст. 188 АПК РФ',unit:'months',n:1,dateLabel:'Дата вынесения определения',note:'Не более 1 месяца со дня вынесения определения, если иной срок не установлен АПК РФ.'},
+  {id:'apk-appeal',code:'APK',name:'Апелляционная жалоба на решение',shortName:'Апелляционная жалоба',article:'ч. 1 ст. 259 АПК РФ',unit:'months',n:1,dateLabel:'Дата принятия решения',note:'1 месяц после принятия решения, если иной срок не установлен АПК РФ.'},
+  {id:'apk-simple-appeal',code:'APK',name:'Апелляция — упрощённое производство',shortName:'Апелляция — упрощённое',article:'ч. 4 ст. 229 АПК РФ',unit:'workdays',n:15,dateLabel:'Дата принятия решения / решения в полном объёме',note:'15 рабочих дней; при составлении мотивированного решения — со дня принятия решения в полном объёме.'},
+  {id:'apk-ruling',code:'APK',name:'Жалоба на определение суда',shortName:'Жалоба на определение',article:'ч. 3 ст. 188 АПК РФ',unit:'months',n:1,dateLabel:'Дата вынесения определения',note:'Не более 1 месяца со дня вынесения определения, если иной срок не установлен АПК РФ.'},
   {id:'apk-cass',code:'APK',name:'Кассационная жалоба',article:'ч. 1 ст. 276 АПК РФ',unit:'months',n:2,dateLabel:'Дата вступления судебного акта в законную силу',note:'Не более 2 месяцев со дня вступления обжалуемого судебного акта в законную силу.'},
-  {id:'apk-costs',code:'APK',name:'Заявление о судебных расходах',article:'ч. 2 ст. 112 АПК РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта.'},
-  {id:'apk-simple-motive',code:'APK',name:'Заявление о мотивированном решении — упрощённое',article:'ч. 2 ст. 229 АПК РФ',unit:'workdays',n:5,dateLabel:'Дата размещения решения в сети Интернет',note:'5 рабочих дней со дня размещения решения, принятого в упрощённом производстве.'},
+  {id:'apk-costs',code:'APK',name:'Заявление о судебных расходах',shortName:'Судебные расходы',article:'ч. 2 ст. 112 АПК РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта.'},
+  {id:'apk-simple-motive',code:'APK',name:'Заявление о мотивированном решении — упрощённое',shortName:'Мотивированное решение',article:'ч. 2 ст. 229 АПК РФ',unit:'workdays',n:5,dateLabel:'Дата размещения решения в сети Интернет',note:'5 рабочих дней со дня размещения решения, принятого в упрощённом производстве.'},
 
   /* КАС РФ */
   {id:'kas-appeal',code:'KAS',name:'Апелляционная жалоба',article:'ч. 1 ст. 298 КАС РФ',unit:'months',n:1,dateLabel:'Дата принятия решения в окончательной форме',note:'1 месяц со дня принятия решения суда в окончательной форме, если КАС РФ не установлен специальный срок.'},
-  {id:'kas-private',code:'KAS',name:'Частная жалоба на определение',article:'ч. 1 ст. 314 КАС РФ',unit:'workdays',n:15,dateLabel:'Дата вынесения определения',note:'15 рабочих дней, если специальный срок не установлен ст. 314 КАС РФ.'},
+  {id:'kas-private',code:'KAS',name:'Частная жалоба на определение',shortName:'Частная жалоба',article:'ч. 1 ст. 314 КАС РФ',unit:'workdays',n:15,dateLabel:'Дата вынесения определения',note:'15 рабочих дней, если специальный срок не установлен ст. 314 КАС РФ.'},
   {id:'kas-cass',code:'KAS',name:'Кассационная жалоба',article:'ч. 2 ст. 318 КАС РФ',unit:'months',n:6,dateLabel:'Дата вступления судебного акта в законную силу',note:'6 месяцев со дня вступления судебного акта в законную силу при соблюдении условий кассационного обжалования.'},
   {id:'kas-supervision',code:'KAS',name:'Надзорная жалоба',article:'ч. 2 ст. 333 КАС РФ',unit:'months',n:3,dateLabel:'Дата вступления судебного акта в законную силу',note:'3 месяца со дня вступления судебного акта в законную силу.'},
-  {id:'kas-costs',code:'KAS',name:'Заявление о судебных расходах',article:'ст. 114.1 КАС РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта.'},
-  {id:'kas-claim-general',code:'KAS',name:'Административный иск — общий срок',article:'ч. 1 ст. 219 КАС РФ',unit:'months',n:3,dateLabel:'Дата, когда стало известно о нарушении права',note:'3 месяца со дня, когда стало известно о нарушении прав, если специальный срок не установлен.'},
-  {id:'kas-bailiff',code:'KAS',name:'Иск об оспаривании действий / бездействия пристава',article:'ч. 3 ст. 219 КАС РФ',unit:'workdays',n:10,dateLabel:'Дата, когда стало известно о нарушении права',note:'10 рабочих дней со дня, когда стало известно о нарушении права.'},
+  {id:'kas-costs',code:'KAS',name:'Заявление о судебных расходах',shortName:'Судебные расходы',article:'ст. 114.1 КАС РФ',unit:'months',n:3,dateLabel:'Дата вступления в силу последнего судебного акта',note:'3 месяца со дня вступления в законную силу последнего судебного акта.'},
+  {id:'kas-claim-general',code:'KAS',name:'Административный иск — общий срок',shortName:'Административный иск',article:'ч. 1 ст. 219 КАС РФ',unit:'months',n:3,dateLabel:'Дата, когда стало известно о нарушении права',note:'3 месяца со дня, когда стало известно о нарушении прав, если специальный срок не установлен.'},
+  {id:'kas-bailiff',code:'KAS',name:'Иск об оспаривании действий / бездействия пристава',shortName:'Оспаривание действий пристава',article:'ч. 3 ст. 219 КАС РФ',unit:'workdays',n:10,dateLabel:'Дата, когда стало известно о нарушении права',note:'10 рабочих дней со дня, когда стало известно о нарушении права.'},
 
   /* УПК РФ */
-  {id:'upk-appeal',code:'UPK',name:'Апелляционная жалоба — общий случай',article:'ч. 1 ст. 389.4 УПК РФ',unit:'caldays',n:15,dateLabel:'Дата постановления приговора / вынесения решения',note:'15 суток. Нерабочие дни входят в срок; если последний день нерабочий — окончание переносится на следующий рабочий день.'},
-  {id:'upk-appeal-custody',code:'UPK',name:'Апелляция — осуждённый под стражей',article:'ч. 1 ст. 389.4 УПК РФ',unit:'caldays',n:15,dateLabel:'Дата вручения копии приговора / решения осуждённому',note:'15 суток со дня вручения копии осуждённому, содержащемуся под стражей.'},
-  {id:'upk-cass',code:'UPK',name:'Кассационная жалоба — сплошная кассация',article:'ч. 4 ст. 401.3 УПК РФ',unit:'months',n:6,dateLabel:'Дата вступления итогового судебного решения в законную силу',note:'6 месяцев для жалоб, рассматриваемых в порядке ст. 401.7 и 401.8 УПК РФ.'},
-  {id:'upk-cass-custody',code:'UPK',name:'Кассация — осуждённый под стражей',article:'ч. 4 ст. 401.3 УПК РФ',unit:'months',n:6,dateLabel:'Дата вручения копии вступившего в силу решения',note:'6 месяцев со дня вручения осуждённому под стражей копии вступившего в силу итогового судебного решения.'},
+  {id:'upk-appeal',code:'UPK',name:'Апелляционная жалоба — общий случай',shortName:'Апелляционная жалоба',article:'ч. 1 ст. 389.4 УПК РФ',unit:'caldays',n:15,dateLabel:'Дата постановления приговора / вынесения решения',note:'15 суток. Нерабочие дни входят в срок; если последний день нерабочий — окончание переносится на следующий рабочий день.'},
+  {id:'upk-appeal-custody',code:'UPK',name:'Апелляция — осуждённый под стражей',shortName:'Апелляция — под стражей',article:'ч. 1 ст. 389.4 УПК РФ',unit:'caldays',n:15,dateLabel:'Дата вручения копии приговора / решения осуждённому',note:'15 суток со дня вручения копии осуждённому, содержащемуся под стражей.'},
+  {id:'upk-cass',code:'UPK',name:'Кассационная жалоба — сплошная кассация',shortName:'Кассационная жалоба',article:'ч. 4 ст. 401.3 УПК РФ',unit:'months',n:6,dateLabel:'Дата вступления итогового судебного решения в законную силу',note:'6 месяцев для жалоб, рассматриваемых в порядке ст. 401.7 и 401.8 УПК РФ.'},
+  {id:'upk-cass-custody',code:'UPK',name:'Кассация — осуждённый под стражей',shortName:'Кассация — под стражей',article:'ч. 4 ст. 401.3 УПК РФ',unit:'months',n:6,dateLabel:'Дата вручения копии вступившего в силу решения',note:'6 месяцев со дня вручения осуждённому под стражей копии вступившего в силу итогового судебного решения.'},
 
   /* КоАП РФ */
-  {id:'koap-appeal',code:'KOAP',name:'Жалоба на постановление по делу об АП',article:'ч. 1 ст. 30.3 КоАП РФ',unit:'caldays',n:10,dateLabel:'Дата вручения / получения копии постановления',note:'10 календарных дней; начало — со следующего дня, последний нерабочий день переносится на следующий рабочий.'},
-  {id:'koap-appeal-election',code:'KOAP',name:'Жалоба по отдельным избирательным составам',article:'ч. 3 ст. 30.3 КоАП РФ',unit:'caldays',n:5,dateLabel:'Дата вручения / получения копии постановления',note:'5 календарных дней для составов, прямо перечисленных в ч. 3 ст. 30.3 КоАП РФ.'},
-  {id:'koap-followup',code:'KOAP',name:'Жалоба на решение по жалобе',article:'ст. 30.9 во взаимосвязи со ст. 30.3 КоАП РФ',unit:'caldays',n:10,dateLabel:'Дата вручения / получения копии решения',note:'Последующая жалоба подаётся в порядке и сроки, установленные ст. 30.2–30.8 КоАП РФ.'},
+  {id:'koap-appeal',code:'KOAP',name:'Жалоба на постановление по делу об АП',shortName:'Жалоба на постановление',article:'ч. 1 ст. 30.3 КоАП РФ',unit:'caldays',n:10,dateLabel:'Дата вручения / получения копии постановления',note:'10 календарных дней; начало — со следующего дня, последний нерабочий день переносится на следующий рабочий.'},
+  {id:'koap-appeal-election',code:'KOAP',name:'Жалоба по отдельным избирательным составам',shortName:'Жалоба по избирательным составам',article:'ч. 3 ст. 30.3 КоАП РФ',unit:'caldays',n:5,dateLabel:'Дата вручения / получения копии постановления',note:'5 календарных дней для составов, прямо перечисленных в ч. 3 ст. 30.3 КоАП РФ.'},
+  {id:'koap-followup',code:'KOAP',name:'Жалоба на решение по жалобе',shortName:'Жалоба на решение по жалобе',article:'ст. 30.9 во взаимосвязи со ст. 30.3 КоАП РФ',unit:'caldays',n:10,dateLabel:'Дата вручения / получения копии решения',note:'Последующая жалоба подаётся в порядке и сроки, установленные ст. 30.2–30.8 КоАП РФ.'},
 
   /* Исполнительное производство */
-  {id:'fssp-complaint',code:'FSSP',name:'Жалоба на постановление / действие пристава',article:'ст. 122, ч. 2 ст. 15 Закона № 229-ФЗ',unit:'workdays',n:10,dateLabel:'Дата постановления / действия / установления бездействия',note:'10 рабочих дней. Для лица, не извещённого о действии, — со дня, когда оно узнало или должно было узнать.'}
+  {id:'fssp-complaint',code:'FSSP',name:'Жалоба на постановление / действие пристава',shortName:'Жалоба на пристава',article:'ст. 122, ч. 2 ст. 15 Закона № 229-ФЗ',unit:'workdays',n:10,dateLabel:'Дата постановления / действия / установления бездействия',note:'10 рабочих дней. Для лица, не извещённого о действии, — со дня, когда оно узнало или должно было узнать.'}
 ];
 function legalDeadlineCode(id){ return LEGAL_DEADLINE_CODES.filter(function(x){return x.id===id;})[0]||LEGAL_DEADLINE_CODES[0]; }
 function legalDeadlineRule(id){ return LEGAL_DEADLINE_RULES.filter(function(x){return x.id===id;})[0]||null; }
@@ -314,7 +314,7 @@ function legalDeadlineCodeOptions(value){
   return LEGAL_DEADLINE_CODES.map(function(c){return '<option value="'+c.id+'"'+(c.id===value?' selected':'')+'>'+esc(c.name)+'</option>';}).join('');
 }
 function legalDeadlineRuleOptions(code,value){
-  var a=legalDeadlineRules(code); return a.map(function(r){return '<option value="'+r.id+'"'+(r.id===value?' selected':'')+'>'+esc(r.name)+'</option>';}).join('');
+  var a=legalDeadlineRules(code); return a.map(function(r){var label=r.shortName||r.name;return '<option value="'+r.id+'"'+(r.id===value?' selected':'')+'>'+esc(label)+'</option>';}).join('');
 }
 function legalDeadlineTerm(r){
   if(!r)return '';
@@ -621,8 +621,9 @@ function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; 
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ $('#sheet').classList.remove('open');
-  if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open'); }
+function closeSheet(){ var sh=$('#sheet'); sh.classList.remove('open');
+  if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open');
+  setTimeout(function(){ if(!sh.classList.contains('open')){ sh.classList.remove('matter-editor-sheet'); } },380); }
 
 /* =====================================================================
    TASK CARD
@@ -837,7 +838,9 @@ function todayQuoteOfDay(){
     ['Быть добрым совсем нетрудно:<br>трудно быть справедливым.','— Виктор Гюго']
   ];
   var d=parseD(today()), day=Math.floor(d.getTime()/86400000);
-  return q[((day%q.length)+q.length)%q.length];
+  var item=q[((day%q.length)+q.length)%q.length];
+  if(!item[1]||!String(item[1]).trim()) item[1]='— Автор не указан';
+  return item;
 }
 function renderToday(){
   var d=new Date(), allOpen=S.tasks.filter(function(t){return !t.done;});
@@ -858,7 +861,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4017" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4020" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
@@ -1138,7 +1141,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4017" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4020" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1426,7 +1429,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4017" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4020" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1546,7 +1549,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4017" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4020" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1647,7 +1650,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4017" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4020" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1858,7 +1861,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4017" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4020" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+

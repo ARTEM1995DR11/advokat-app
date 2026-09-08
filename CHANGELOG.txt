@@ -1,3 +1,13 @@
+4.0.20
+- Fixed matter editor remaining visible after close (position fixed restored).
+- Added distinct matter-editor backdrop using legal-paper texture and scales watermark.
+- Synced PWA cache/build to 4020.
+
+4.0.19
+- Проверены 14/14 цитат: у всех есть автор.
+- Исправлено обрезание подписи автора у длинных цитат.
+- Карточка цитаты теперь имеет динамическую высоту.
+
 4.0.17
 - Исправлено отображение длинных названий процессуальных сроков в списке задач.
 - Бейдж «Процессуальный срок» сокращён до «Срок», убран перенос слова по одной букве.
