@@ -4826,3 +4826,118 @@ body:not(.light) .today-brand-left small{
   color:#B8C8D6!important;
   font-weight:500!important;
 }
+
+
+/* 4.0.8 — вторичный рабочий текст делаем чёрным/светлым, а не серым */
+/* Светлая тема */
+body.light .today-brand-left small,
+body.light .today-head p,
+body.light .tasks-title-head p,
+body.light .matters-title-head p,
+body.light .today-row-main small,
+body.light .today-row.task-row .today-context,
+body.light .pt-link,
+body.light .pt-context,
+body.light .pt-main>span,
+body.light .pt-main>small:not(.pt-note),
+body.light .matter-compact-card.ultra .matter-ultra-meta,
+body.light .matter-compact-card.ultra .matter-ultra-meta span,
+body.light .mp-heading>small,
+body.light .mp-court,
+body.light .filter-premium-head p,
+body.light .filter-premium-label,
+body.light .filter-premium-copy small,
+body.light .row .rl small,
+body.light .sheet .sh-sub,
+body.light .fld label,
+body.light .focusdate span,
+body.light .focusbody span,
+body.light .backupwarn small,
+body.light .calendar-subhead,
+body.light .calendar-month-sub,
+body.light .matter-detail-sub,
+body.light .casehead .sh-sub{
+  color:#17232D!important;
+  font-weight:520!important;
+}
+
+body.light .tasks-project-filters button:not(.on),
+body.light .matters-scope>button:not(.on),
+body.light .filter-premium-count,
+body.light .filter-premium-tail,
+body.light .tasks-project-filters button:not(.on) em,
+body.light .matters-scope>button:not(.on) em{
+  color:#17232D!important;
+  font-weight:720!important;
+}
+
+body.light .tasks-project-filters button:not(.on) em,
+body.light .matters-scope>button:not(.on) em,
+body.light .filter-premium-count{
+  border-color:rgba(23,35,45,.16)!important;
+}
+
+body.light .tasks-project-filters button:not(.on) em,
+body.light .matters-scope>button:not(.on) em,
+body.light .filter-premium-count{
+  background:rgba(23,35,45,.06)!important;
+}
+
+body.light .matter-compact-card.ultra .matter-ultra-meta i{
+  background:#17232D!important;
+  opacity:.38!important;
+}
+
+/* Тёмная тема */
+body:not(.light) .today-brand-left small,
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p,
+body:not(.light) .today-row-main small,
+body:not(.light) .today-row.task-row .today-context,
+body:not(.light) .pt-link,
+body:not(.light) .pt-context,
+body:not(.light) .pt-main>span,
+body:not(.light) .pt-main>small:not(.pt-note),
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta,
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta span,
+body:not(.light) .mp-heading>small,
+body:not(.light) .mp-court,
+body:not(.light) .filter-premium-head p,
+body:not(.light) .filter-premium-label,
+body:not(.light) .filter-premium-copy small,
+body:not(.light) .row .rl small,
+body:not(.light) .sheet .sh-sub,
+body:not(.light) .fld label,
+body:not(.light) .focusdate span,
+body:not(.light) .focusbody span,
+body:not(.light) .backupwarn small,
+body:not(.light) .calendar-subhead,
+body:not(.light) .calendar-month-sub,
+body:not(.light) .matter-detail-sub,
+body:not(.light) .casehead .sh-sub{
+  color:#F1F5F9!important;
+  font-weight:520!important;
+}
+
+body:not(.light) .tasks-project-filters button:not(.on),
+body:not(.light) .matters-scope>button:not(.on),
+body:not(.light) .filter-premium-count,
+body:not(.light) .filter-premium-tail,
+body:not(.light) .tasks-project-filters button:not(.on) em,
+body:not(.light) .matters-scope>button:not(.on) em{
+  color:#F1F5F9!important;
+  font-weight:720!important;
+}
+
+body:not(.light) .tasks-project-filters button:not(.on) em,
+body:not(.light) .matters-scope>button:not(.on) em,
+body:not(.light) .filter-premium-count{
+  background:rgba(241,245,249,.08)!important;
+  border-color:rgba(241,245,249,.16)!important;
+}
+
+body:not(.light) .matter-compact-card.ultra .matter-ultra-meta i{
+  background:#F1F5F9!important;
+  opacity:.34!important;
+}
