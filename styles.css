@@ -5845,3 +5845,193 @@ body:not(.light) .sheet.matter-editor-sheet .shfoot{
     top:88px;
   }
 }
+
+
+/* 4.0.21 — вариант 3: увеличенная нижняя навигация для iPhone */
+.premium-nav.tabbar,
+body.light .premium-nav.tabbar{
+  left:12px!important;
+  right:12px!important;
+  bottom:var(--bot)!important;
+  height:calc(94px + var(--bot))!important;
+  padding:6px 8px calc(var(--bot) + 6px)!important;
+  border-radius:28px!important;
+  align-items:stretch!important;
+  overflow:hidden!important;
+}
+.premium-nav .tab,
+body.light .premium-nav .tab{
+  padding:2px 3px 1px!important;
+  grid-template-rows:54px 18px 4px!important;
+  row-gap:2px!important;
+  align-content:center!important;
+  font-size:15.6px!important;
+  line-height:1!important;
+}
+.premium-nav .tab-ico,
+body.light .premium-nav .tab-ico{
+  width:42px!important;
+  height:42px!important;
+}
+.premium-nav .tab .ico,
+body.light .premium-nav .tab .ico{
+  width:30px!important;
+  height:30px!important;
+  stroke-width:2.02!important;
+}
+.premium-nav .tab-label,
+body.light .premium-nav .tab-label{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:18px!important;
+  height:18px!important;
+  line-height:18px!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  font-weight:700!important;
+}
+.premium-nav .tab::after,
+body.light .premium-nav .tab::after{
+  width:46px!important;
+  height:4px!important;
+  margin-top:0!important;
+}
+.premium-nav .tab.on .tab-ico,
+body.light .premium-nav .tab.on .tab-ico{
+  width:54px!important;
+  height:54px!important;
+}
+.premium-nav .tab.on .ico,
+body.light .premium-nav .tab.on .ico{
+  width:34px!important;
+  height:34px!important;
+  stroke-width:2.16!important;
+}
+.screen{padding-bottom:calc(var(--bot) + 110px)!important}
+.timerpill{bottom:calc(var(--bot) + 102px)!important}
+#fab.fab{bottom:calc(var(--bot) + 104px)!important}
+
+@media(max-width:390px){
+  .premium-nav.tabbar,
+  body.light .premium-nav.tabbar{
+    left:10px!important;
+    right:10px!important;
+    height:calc(90px + var(--bot))!important;
+    padding:5px 6px calc(var(--bot) + 5px)!important;
+    border-radius:26px!important;
+  }
+  .premium-nav .tab,
+  body.light .premium-nav .tab{
+    grid-template-rows:51px 17px 4px!important;
+    font-size:14.6px!important;
+  }
+  .premium-nav .tab-ico,
+  body.light .premium-nav .tab-ico{width:40px!important;height:40px!important}
+  .premium-nav .tab .ico,
+  body.light .premium-nav .tab .ico{width:28px!important;height:28px!important}
+  .premium-nav .tab-label,
+  body.light .premium-nav .tab-label{min-height:17px!important;height:17px!important;line-height:17px!important}
+  .premium-nav .tab::after,
+  body.light .premium-nav .tab::after{width:42px!important;height:4px!important}
+  .premium-nav .tab.on .tab-ico,
+  body.light .premium-nav .tab.on .tab-ico{width:50px!important;height:50px!important}
+  .premium-nav .tab.on .ico,
+  body.light .premium-nav .tab.on .ico{width:32px!important;height:32px!important}
+  .screen{padding-bottom:calc(var(--bot) + 104px)!important}
+  .timerpill{bottom:calc(var(--bot) + 96px)!important}
+  #fab.fab{bottom:calc(var(--bot) + 98px)!important}
+}
+
+
+/* 4.0.22 — премиальный фон основных страниц */
+#sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
+  position:relative;
+  overflow-x:hidden;
+}
+#sc-today>* ,#sc-tasks>* ,#sc-matters>* ,#sc-cal>* ,#sc-more>*{
+  position:relative;
+  z-index:1;
+}
+body.light #sc-today,
+body.light #sc-tasks,
+body.light #sc-matters,
+body.light #sc-cal,
+body.light #sc-more{
+  background-color:#F8F4EC;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.42) 0%,rgba(248,243,233,.78) 18%,rgba(248,244,236,.96) 42%,#F8F4EC 72%),
+    radial-gradient(circle at 14% 7%,rgba(221,177,89,.11),transparent 26%),
+    url('columns-light.png');
+  background-repeat:no-repeat,no-repeat,no-repeat;
+  background-size:100% 100%,100% 100%,min(96vw,540px) auto;
+  background-attachment:local,local,local;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
+body.light #sc-today::before,
+body.light #sc-tasks::before,
+body.light #sc-matters::before,
+body.light #sc-cal::before,
+body.light #sc-more::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    linear-gradient(90deg,rgba(172,123,34,.045),transparent 13%,transparent 87%,rgba(172,123,34,.038)),
+    radial-gradient(ellipse at 50% -4%,rgba(255,255,255,.92),transparent 42%);
+}
+body.light #sc-today{background-position:center,center,right -96px top 56px}
+body.light #sc-tasks{background-position:center,center,right -122px top 74px}
+body.light #sc-matters{background-position:center,center,right -114px top 82px}
+body.light #sc-cal{background-position:center,center,right -104px top 70px}
+body.light #sc-more{background-position:center,center,right -124px top 68px}
+
+body:not(.light) #sc-today,
+body:not(.light) #sc-tasks,
+body:not(.light) #sc-matters,
+body:not(.light) #sc-cal,
+body:not(.light) #sc-more{
+  background-color:#071522;
+  background-image:
+    linear-gradient(180deg,rgba(7,21,34,.58) 0%,rgba(7,21,34,.84) 22%,rgba(7,21,34,.96) 54%,#071522 100%),
+    radial-gradient(circle at 14% 6%,rgba(214,171,89,.10),transparent 26%),
+    url('columns-dark.png');
+  background-repeat:no-repeat,no-repeat,no-repeat;
+  background-size:100% 100%,100% 100%,min(96vw,540px) auto;
+  background-attachment:local,local,local;
+}
+body:not(.light) #sc-today::before,
+body:not(.light) #sc-tasks::before,
+body:not(.light) #sc-matters::before,
+body:not(.light) #sc-cal::before,
+body:not(.light) #sc-more::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    linear-gradient(90deg,rgba(201,162,39,.06),transparent 14%,transparent 86%,rgba(201,162,39,.04)),
+    radial-gradient(ellipse at 50% -5%,rgba(255,255,255,.055),transparent 34%);
+}
+body:not(.light) #sc-today{background-position:center,center,right -82px top 54px}
+body:not(.light) #sc-tasks{background-position:center,center,right -112px top 72px}
+body:not(.light) #sc-matters{background-position:center,center,right -104px top 80px}
+body:not(.light) #sc-cal{background-position:center,center,right -94px top 68px}
+body:not(.light) #sc-more{background-position:center,center,right -112px top 66px}
+
+/* Чтобы sticky-зоны аккуратно ложились на новый фон */
+body.light .tasks-project-filters,
+body.light .matters-scope{
+  background:linear-gradient(180deg,rgba(248,244,236,.96),rgba(248,244,236,.88))!important;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+body:not(.light) .tasks-project-filters,
+body:not(.light) .matters-scope{
+  background:linear-gradient(180deg,rgba(7,21,34,.94),rgba(7,21,34,.86))!important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}

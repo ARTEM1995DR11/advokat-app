@@ -1,3 +1,13 @@
+4.0.22
+- added premium branded page backgrounds for Today, Tasks, Matters, Calendar and More screens;
+- restored visual depth on the Today screen with subtle architectural backdrop while preserving readability;
+- bumped version/build to 4.0.22 / 4022.
+
+4.0.21
+- increased bottom navigation icon sizes for iPhone-friendly variant 3;
+- enlarged active tab badge and labels;
+- rebalanced bottom offsets for content, quick-add button and timer pill.
+
 4.0.20
 - Fixed matter editor remaining visible after close (position fixed restored).
 - Added distinct matter-editor backdrop using legal-paper texture and scales watermark.
