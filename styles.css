@@ -5373,3 +5373,95 @@ body:not(.light) .task-action-premium-icon{color:#C7D4DF;background:#102433;bord
   .task-action-premium-icon{width:40px;height:40px;border-radius:13px}
   .task-action-premium-copy b{font-size:15px}
 }
+
+
+/* 4.0.13 — баланс нижней кнопки в редакторе дела */
+/* Убираем лишний нижний отступ у всей шторки и опускаем кнопку «Сохранить» ниже,
+   чтобы свободное место под ней не оставалось. */
+.sheet.matter-editor-sheet.withfoot{
+  padding-bottom:0!important;
+}
+.sheet.matter-editor-sheet.withfoot .shbody,
+body.light .sheet.matter-editor-sheet.withfoot .shbody{
+  padding-bottom:0!important;
+}
+.sheet.matter-editor-sheet.withfoot .shfoot,
+body.light .sheet.matter-editor-sheet.withfoot .shfoot{
+  margin-top:auto!important;
+  padding-top:8px!important;
+  padding-bottom:max(4px, calc(var(--bot) - 8px))!important;
+  background:var(--panel)!important;
+  border-top-color:var(--line)!important;
+}
+.sheet.matter-editor-sheet.withfoot .shfoot .btn,
+body.light .sheet.matter-editor-sheet.withfoot .shfoot .btn{
+  min-height:50px!important;
+  margin:0!important;
+}
+@media (max-width:390px){
+  .sheet.matter-editor-sheet.withfoot .shfoot,
+  body.light .sheet.matter-editor-sheet.withfoot .shfoot{
+    padding-bottom:max(2px, calc(var(--bot) - 10px))!important;
+  }
+  .sheet.matter-editor-sheet.withfoot .shfoot .btn,
+  body.light .sheet.matter-editor-sheet.withfoot .shfoot .btn{
+    min-height:48px!important;
+  }
+}
+
+
+/* 4.0.14 — premium шторка «Действия по делу» */
+.sheet.matter-actions-premium{
+  padding-left:14px!important;
+  padding-right:14px!important;
+  background:radial-gradient(430px 190px at 50% 0%,rgba(198,151,66,.12),transparent 72%),#071522!important;
+}
+.matter-actions-premium>.grab{width:42px;height:5px;margin-top:8px;margin-bottom:16px;background:rgba(180,198,211,.26)}
+.matter-actions-head{display:flex;align-items:center;gap:13px;margin:0 2px 16px}
+.matter-actions-head-icon{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none;background:linear-gradient(145deg,rgba(221,186,92,.20),rgba(184,140,45,.10));border:1px solid rgba(198,151,66,.28);color:var(--gold2);box-shadow:0 8px 18px rgba(0,0,0,.08)}
+.matter-actions-head-icon .ico{width:23px;height:23px;stroke-width:1.9}
+.matter-actions-head>div{min-width:0;flex:1}
+.sheet.matter-actions-premium .matter-actions-head h2{margin:0!important;font-family:Georgia,'Times New Roman',serif;font-size:28px!important;line-height:1.03;font-weight:600;letter-spacing:-.035em;color:var(--txt)}
+.matter-actions-head p{margin:6px 0 0;font-size:13px;line-height:1.35;color:var(--muted)}
+.matter-actions-card{overflow:hidden;border:1px solid var(--line2);border-radius:22px;background:linear-gradient(180deg,var(--panel),var(--elev));box-shadow:0 12px 30px rgba(0,0,0,.075)}
+.matter-act-row{position:relative;width:100%;min-height:78px;display:flex;align-items:center;gap:12px;padding:12px 14px;border:0;border-top:1px solid var(--line);background:transparent;text-align:left;color:var(--txt);transition:background .14s,border-color .14s,transform .12s}
+.matter-act-row:first-child{border-top:0}
+.matter-act-row:active{transform:scale(.992);background:linear-gradient(90deg,color-mix(in srgb,var(--tone) 12%,transparent),transparent 78%)}
+.matter-act-row.danger:active{background:linear-gradient(90deg,color-mix(in srgb,#E06161 12%,transparent),transparent 78%)}
+.matter-act-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none;background:color-mix(in srgb,var(--tone) 11%,var(--elev2));border:1px solid color-mix(in srgb,var(--tone) 22%,var(--line));color:var(--tone)}
+.matter-act-ico .ico{width:21px;height:21px;stroke-width:1.9}
+.matter-act-copy{flex:1;min-width:0;display:block}
+.matter-act-copy b{display:block;font-size:15.5px;line-height:1.18;font-weight:720;color:var(--txt)}
+.matter-act-copy small{display:block;margin-top:4px;font-size:11.8px;line-height:1.3;font-weight:450;color:var(--muted)}
+.matter-act-tail{width:22px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--muted)}
+.matter-act-tail .ico{width:16px;height:16px;stroke-width:2}
+.matter-act-row:active .matter-act-tail{color:var(--tone)}
+.matter-act-row.danger .matter-act-copy b,.matter-act-row.danger .matter-act-ico{color:#E06161}
+.matter-act-row.danger .matter-act-ico{background:color-mix(in srgb,#E06161 10%,var(--elev2));border-color:color-mix(in srgb,#E06161 24%,var(--line))}
+.matter-act-row.danger:active .matter-act-tail{color:#E06161}
+
+body.light .sheet.matter-actions-premium{background:radial-gradient(430px 185px at 50% 0%,rgba(212,170,78,.11),transparent 70%),#FFFCF6!important}
+body.light .matter-actions-premium>.grab{background:rgba(70,75,78,.16)}
+body.light .matter-actions-card{background:linear-gradient(180deg,#FFFFFF,#FCFBF8);border-color:rgba(38,45,53,.10);box-shadow:0 12px 30px rgba(44,36,23,.055)}
+body.light .matter-act-row{border-top-color:rgba(38,45,53,.08)}
+body.light .matter-act-ico{background:color-mix(in srgb,var(--tone) 9%,#FFFFFF);border-color:color-mix(in srgb,var(--tone) 18%,rgba(38,45,53,.08))}
+body.light .matter-actions-head p,body.light .matter-act-copy small,body.light .matter-act-tail{color:#7E8E9E!important}
+
+body:not(.light) .matter-actions-card{background:linear-gradient(180deg,#0B1B2A,#071725);border-color:rgba(144,170,194,.18);box-shadow:0 16px 36px rgba(0,0,0,.28)}
+body:not(.light) .matter-act-row{border-top-color:rgba(144,170,194,.13)}
+body:not(.light) .matter-act-copy b{color:#F0F5FA}
+body:not(.light) .matter-actions-head p,body:not(.light) .matter-act-copy small,body:not(.light) .matter-act-tail{color:#91A5B9!important}
+body:not(.light) .matter-act-ico{background:color-mix(in srgb,var(--tone) 14%,#0D2030);border-color:color-mix(in srgb,var(--tone) 28%,rgba(144,170,194,.14))}
+
+@media (max-width:390px){
+  .sheet.matter-actions-premium{padding-left:12px!important;padding-right:12px!important}
+  .matter-actions-head{gap:11px;margin-bottom:14px}
+  .matter-actions-head-icon{width:44px;height:44px;border-radius:14px}
+  .sheet.matter-actions-premium .matter-actions-head h2{font-size:25px!important}
+  .matter-actions-head p{font-size:12.5px}
+  .matter-act-row{min-height:72px;padding:11px 12px;gap:10px}
+  .matter-act-ico{width:40px;height:40px;border-radius:12px}
+  .matter-act-ico .ico{width:19px;height:19px}
+  .matter-act-copy b{font-size:14.5px}
+  .matter-act-copy small{font-size:11px}
+}
