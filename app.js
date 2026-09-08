@@ -1365,24 +1365,17 @@ function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
   var iconName=(m.type==='criminal'||m.type==='koap')?'gavel':'doc';
   var title=matterCardTitle(m);
-  var number=m.number||'не указан';
-  var client=m.client||'не указан';
-  var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.n)+'</span>':'';
-  return '<article class="matter-compact-card'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'">'+
-    '<div class="matter-compact-top">'+
-      '<span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+
-      '<div class="matter-compact-top-right">'+basisChip+'<span class="matter-compact-chevron">'+ico('chev','s')+'</span></div>'+
+  var number=m.number||'без номера';
+  var client=m.client||'доверитель не указан';
+  var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
+  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'">'+
+    '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+
+    '<div class="matter-compact-copy">'+
+      '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
+      '<b class="matter-compact-title">'+esc(title)+'</b>'+
+      '<div class="matter-ultra-meta"><span>№ '+esc(number)+'</span><i></i><span>'+esc(client)+'</span></div>'+
     '</div>'+
-    '<div class="matter-compact-main">'+
-      '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+
-      '<div class="matter-compact-copy">'+
-        '<b class="matter-compact-title">'+esc(title)+'</b>'+
-        '<div class="matter-compact-meta">'+
-          '<span class="matter-compact-line"><small>№ дела</small><strong>'+esc(number)+'</strong></span>'+
-          '<span class="matter-compact-line"><small>Доверитель</small><strong>'+esc(client)+'</strong></span>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
+    '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+
   '</article>';
 }
 function sheetMatterFilters(){
