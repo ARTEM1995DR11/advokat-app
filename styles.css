@@ -4645,3 +4645,20 @@ body:not(.light) .matter-compact-card.ultra .matter-ultra-meta{color:#A8BDD0!imp
   .matter-compact-card.ultra .matter-compact-basis{min-height:20px!important;padding:0 7px!important;font-size:8.9px!important}
   .matter-ultra-meta{font-size:10.8px!important;gap:6px!important}
 }
+
+
+/* v4.0.5 safe-area polish for iPhone Dynamic Island + no FAB in settings */
+.sheet.matter-filter-premium{
+  padding-top:calc(var(--top) + 8px)!important;
+  max-height:calc(100dvh - max(78px, calc(var(--top) + 30px)))!important;
+}
+@supports not (height: 100dvh){
+  .sheet.matter-filter-premium{
+    max-height:calc(100vh - max(78px, calc(var(--top) + 30px)))!important;
+  }
+}
+body.light .sheet.matter-filter-premium,
+body:not(.light) .sheet.matter-filter-premium{
+  background-position:50% 0, 0 0!important;
+}
+#fab.fab-context-hide{display:none!important}

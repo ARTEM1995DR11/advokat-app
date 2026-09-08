@@ -1701,7 +1701,9 @@ function render(){
     $('#sc-'+k).classList.toggle('hide', S.ui.tab!==k); });
   ({today:renderToday,tasks:renderTasks,matters:renderMatters,cal:renderCal,more:renderMore})[S.ui.tab]();
   document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===S.ui.tab); });
-  $('#fab').classList.toggle('fab-context-hide',S.ui.tab==='more');
+  var hideFab=(S.ui.tab==='more');
+  $('#fab').classList.toggle('fab-context-hide',hideFab);
+  $('#fab').style.display=hideFab?'none':'flex';
   $('#sc-'+S.ui.tab).classList.add('fadein');
   setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
   applyTheme();
