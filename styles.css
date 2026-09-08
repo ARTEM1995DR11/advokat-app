@@ -1919,18 +1919,21 @@ body.light .task-editor-sheet .btn.ghost{
    Без дублирующих панелей: ручной ввод остаётся, список открывается стрелкой.
    ============================================================ */
 .task-editor-sheet .inline-choice-wrap,
-.sheet .matter-court-field .inline-choice-wrap{
+.sheet .matter-court-field .inline-choice-wrap,
+.sheet .inline-choice-wrap{
   position:relative;
   width:100%;
 }
 .task-editor-sheet .inline-choice-wrap>input,
-.sheet .matter-court-field .inline-choice-wrap>input{
+.sheet .matter-court-field .inline-choice-wrap>input,
+.sheet .inline-choice-wrap>input{
   width:100%!important;
   padding-right:54px!important;
   box-sizing:border-box!important;
 }
 .task-editor-sheet .inline-choice-arrow,
-.sheet .matter-court-field .inline-choice-arrow{
+.sheet .matter-court-field .inline-choice-arrow,
+.sheet .inline-choice-arrow{
   position:absolute;
   right:17px;
   top:50%;
@@ -1945,9 +1948,11 @@ body.light .task-editor-sheet .btn.ghost{
   z-index:2;
 }
 .task-editor-sheet .inline-choice-arrow .ico,
-.sheet .matter-court-field .inline-choice-arrow .ico{width:18px;height:18px;stroke-width:2}
+.sheet .matter-court-field .inline-choice-arrow .ico,
+.sheet .inline-choice-arrow .ico{width:18px;height:18px;stroke-width:2}
 .task-editor-sheet select.inline-choice-select,
-.sheet .matter-court-field select.inline-choice-select{
+.sheet .matter-court-field select.inline-choice-select,
+.sheet select.inline-choice-select{
   position:absolute!important;
   z-index:3!important;
   right:0!important;
@@ -1980,7 +1985,8 @@ body.light .task-editor-sheet .btn.ghost{
 .task-editor-sheet .court-presets,
 .sheet .matter-court-field .court-presets{display:none!important}
 body.light .task-editor-sheet .inline-choice-arrow,
-body.light .sheet .matter-court-field .inline-choice-arrow{color:#A96F18}
+body.light .sheet .matter-court-field .inline-choice-arrow,
+body.light .sheet .inline-choice-arrow{color:#A96F18}
 
 
 /* ============================================================
@@ -3880,4 +3886,400 @@ body:not(.light) .matter-note-card{background:linear-gradient(145deg,rgba(184,14
   .matter-bottom-actions{grid-template-columns:1fr 1fr;gap:8px}
   .matter-bottom-btn{min-height:52px;font-size:12.5px;gap:7px}
   .matter-bottom-btn .ico{width:16px;height:16px}
+}
+
+/* =========================
+   3.1.93 — Карточки дел, вариант 2
+   ========================= */
+.matters-project .matters-list{
+  gap:12px!important;
+}
+.mp-card-v2{
+  position:relative!important;
+  overflow:hidden!important;
+  border-radius:18px!important;
+  padding:14px 14px 12px!important;
+  border:1px solid color-mix(in srgb,var(--case) 22%, var(--line))!important;
+  border-left:4px solid var(--case)!important;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--case) 10%, #FFFFFF),#FFFFFF 72%)!important;
+  box-shadow:0 10px 24px rgba(47,41,29,.055)!important;
+}
+.mp-card-v2::before{display:none!important}
+.mp-card-v2.archived{opacity:.72!important;filter:saturate(.82)!important}
+.mp-v2-head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  margin-bottom:10px!important;
+}
+.mp-v2-head-right{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-width:0!important;
+  flex:none!important;
+}
+.mp-v2-kicker{
+  min-width:0!important;
+  flex:1!important;
+  font-size:10.5px!important;
+  line-height:1.2!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+  font-weight:900!important;
+  color:var(--case)!important;
+}
+.mp-v2-chevron{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:26px!important;
+  height:26px!important;
+  border-radius:999px!important;
+  color:color-mix(in srgb,var(--case) 72%, #516479)!important;
+  background:color-mix(in srgb,var(--case) 8%, transparent)!important;
+  flex:none!important;
+}
+.mp-v2-chevron .ico{width:14px!important;height:14px!important;stroke-width:2!important}
+.mp-v2-basis{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:28px!important;
+  padding:0 12px!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  border:1px solid transparent!important;
+  white-space:nowrap!important;
+}
+.mp-v2-basis.agreement{
+  background:rgba(47,160,142,.14)!important;
+  color:#256F64!important;
+  border-color:rgba(47,160,142,.18)!important;
+}
+.mp-v2-basis.assigned{
+  background:rgba(138,106,216,.13)!important;
+  color:#765BC5!important;
+  border-color:rgba(138,106,216,.17)!important;
+}
+.mp-v2-main{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:12px!important;
+  margin-bottom:12px!important;
+}
+.mp-v2-icon{
+  width:46px!important;
+  height:46px!important;
+  border-radius:14px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:color-mix(in srgb,var(--case) 13%, #FFFFFF)!important;
+  border:1px solid color-mix(in srgb,var(--case) 20%, #FFFFFF)!important;
+  color:var(--case)!important;
+  flex:none!important;
+}
+.mp-v2-icon .ico{width:22px!important;height:22px!important;stroke-width:1.9!important}
+.mp-v2-copy{min-width:0!important;flex:1!important}
+.mp-v2-id{
+  display:block!important;
+  margin:0!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:24px!important;
+  line-height:1.06!important;
+  letter-spacing:-.02em!important;
+  color:var(--txt)!important;
+}
+.mp-v2-subject{
+  margin:5px 0 0!important;
+  font-size:13.5px!important;
+  line-height:1.28!important;
+  color:var(--txt2)!important;
+}
+.mp-v2-extra{
+  margin:4px 0 0!important;
+  font-size:11.2px!important;
+  line-height:1.28!important;
+  color:var(--muted)!important;
+}
+.mp-v2-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  border-top:1px solid color-mix(in srgb,var(--case) 10%, var(--line))!important;
+}
+.mp-v2-cell{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  padding:11px 10px 0 0!important;
+  min-width:0!important;
+}
+.mp-v2-cell + .mp-v2-cell{
+  border-left:1px solid color-mix(in srgb,var(--case) 9%, var(--line))!important;
+  padding-left:12px!important;
+}
+.mp-v2-cell-icon{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:22px!important;
+  height:22px!important;
+  border-radius:8px!important;
+  color:var(--case)!important;
+  flex:none!important;
+  margin-top:1px!important;
+}
+.mp-v2-cell-icon .ico{width:14px!important;height:14px!important;stroke-width:1.95!important}
+.mp-v2-cell div{min-width:0!important;flex:1!important}
+.mp-v2-cell small{
+  display:block!important;
+  margin:0 0 3px!important;
+  font-size:9.8px!important;
+  line-height:1.15!important;
+  text-transform:uppercase!important;
+  letter-spacing:.06em!important;
+  color:var(--muted)!important;
+}
+.mp-v2-cell b{
+  display:block!important;
+  font-size:12.4px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+  color:var(--txt)!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+body.light .mp-card-v2{
+  background:linear-gradient(135deg,color-mix(in srgb,var(--case) 12%, #FFFFFF),#FFFFFF 74%)!important;
+  border-color:color-mix(in srgb,var(--case) 20%, rgba(49,56,63,.12))!important;
+}
+body.light .mp-card-v2 .mp-v2-cell b,
+body.light .mp-card-v2 .mp-v2-id{color:#1E2A36!important}
+
+body:not(.light) .mp-card-v2{
+  background:linear-gradient(135deg,color-mix(in srgb,var(--case) 18%, #071624),#0A1724 70%)!important;
+  border-color:color-mix(in srgb,var(--case) 30%, rgba(156,184,205,.12))!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-id,
+body:not(.light) .mp-card-v2 .mp-v2-cell b{
+  color:#EFF4F8!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-subject{
+  color:#D1DCEA!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-extra,
+body:not(.light) .mp-card-v2 .mp-v2-cell small{
+  color:#94A8BC!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-icon{
+  background:color-mix(in srgb,var(--case) 16%, rgba(255,255,255,.03))!important;
+  border-color:color-mix(in srgb,var(--case) 26%, rgba(255,255,255,.08))!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-chevron{
+  background:color-mix(in srgb,var(--case) 12%, rgba(255,255,255,.02))!important;
+  color:#D7E4F1!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-grid{
+  border-top-color:color-mix(in srgb,var(--case) 12%, rgba(173,195,216,.12))!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-cell + .mp-v2-cell{
+  border-left-color:color-mix(in srgb,var(--case) 10%, rgba(173,195,216,.1))!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-basis.agreement{
+  background:rgba(47,160,142,.18)!important;
+  border-color:rgba(47,160,142,.24)!important;
+  color:#9FE0D4!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-basis.assigned{
+  background:rgba(138,106,216,.19)!important;
+  border-color:rgba(138,106,216,.25)!important;
+  color:#C9BAFF!important;
+}
+
+@media(max-width:720px){
+  .mp-v2-grid{grid-template-columns:1fr!important}
+  .mp-v2-cell{padding:9px 0 0!important}
+  .mp-v2-cell + .mp-v2-cell{border-left:0!important;border-top:1px solid color-mix(in srgb,var(--case) 9%, var(--line))!important;padding-left:0!important;padding-top:10px!important}
+  body:not(.light) .mp-card-v2 .mp-v2-cell + .mp-v2-cell{border-top-color:color-mix(in srgb,var(--case) 10%, rgba(173,195,216,.1))!important}
+}
+@media(max-width:390px){
+  .mp-card-v2{padding:12px 12px 11px!important}
+  .mp-v2-id{font-size:21px!important}
+  .mp-v2-subject{font-size:12.9px!important}
+  .mp-v2-basis{padding:0 10px!important;font-size:10.4px!important}
+  .mp-v2-head{align-items:flex-start!important}
+}
+
+
+/* 3.1.94 — past meetings are not overdue */
+.pt-past-meeting{color:var(--muted)!important;font-weight:650!important}
+body:not(.light) .pt-past-meeting{color:#8FA3B6!important}
+
+/* 3.1.95 — встречи не бывают просроченными: состоявшаяся встреча = история */
+.pt-badge.meeting.held,
+.matter-pill.meeting.held,
+.matter-pill.date.held{
+  background:var(--oksoft)!important;
+  color:var(--ok)!important;
+  border-color:color-mix(in srgb,var(--ok) 24%, transparent)!important;
+}
+.pt-past-meeting{
+  color:var(--ok)!important;
+  font-weight:750!important;
+}
+.eventmark.meeting-held,
+.pt-hearing-state.completed.meeting-held,
+.matter-event-check.done.meeting-held{
+  background:var(--oksoft)!important;
+  border-color:color-mix(in srgb,var(--ok) 28%, transparent)!important;
+  color:var(--ok)!important;
+}
+body:not(.light) .pt-past-meeting{color:#75D5A5!important}
+
+/* ============================================================
+   3.1.96 — более яркие категории дел + явные процессуальные сроки
+   ============================================================ */
+/* Вариант 2 сохраняется, но цвет категории становится заметнее. */
+body.light .mp-card-v2{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--case) 23%, #FFFFFF),
+    color-mix(in srgb,var(--case) 10%, #FFFFFF) 55%,
+    #FFFFFF 88%)!important;
+  border-color:color-mix(in srgb,var(--case) 38%, rgba(49,56,63,.12))!important;
+  border-left-width:5px!important;
+  box-shadow:0 10px 25px color-mix(in srgb,var(--case) 9%, rgba(45,38,28,.08))!important;
+}
+body.light .mp-card-v2 .mp-v2-icon{
+  background:color-mix(in srgb,var(--case) 22%, #FFFFFF)!important;
+  border-color:color-mix(in srgb,var(--case) 32%, #FFFFFF)!important;
+}
+body.light .mp-card-v2 .mp-v2-chevron{
+  background:color-mix(in srgb,var(--case) 16%, #FFFFFF)!important;
+  color:color-mix(in srgb,var(--case) 82%, #2E4358)!important;
+}
+body.light .mp-card-v2 .mp-v2-kicker,
+body.light .mp-card-v2 .mp-v2-cell-icon{color:color-mix(in srgb,var(--case) 88%, #26384B)!important}
+
+body:not(.light) .mp-card-v2{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--case) 32%, #071624),
+    color-mix(in srgb,var(--case) 17%, #071624) 57%,
+    #091724 90%)!important;
+  border-color:color-mix(in srgb,var(--case) 50%, rgba(156,184,205,.12))!important;
+  border-left-width:5px!important;
+  box-shadow:0 13px 32px rgba(0,0,0,.30),0 0 22px color-mix(in srgb,var(--case) 10%, transparent)!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-icon{
+  background:color-mix(in srgb,var(--case) 26%, rgba(255,255,255,.025))!important;
+  border-color:color-mix(in srgb,var(--case) 42%, rgba(255,255,255,.08))!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-kicker,
+body:not(.light) .mp-card-v2 .mp-v2-cell-icon{color:color-mix(in srgb,var(--case) 78%, #EAF4FC)!important}
+
+/* Основание ведения — более заметные, но отдельные от категории цвета. */
+body.light .mp-card-v2 .mp-v2-basis.agreement{
+  background:rgba(27,166,142,.21)!important;
+  border-color:rgba(27,166,142,.34)!important;
+  color:#176E60!important;
+  box-shadow:0 4px 12px rgba(27,166,142,.08)!important;
+}
+body.light .mp-card-v2 .mp-v2-basis.assigned{
+  background:rgba(132,91,218,.20)!important;
+  border-color:rgba(132,91,218,.32)!important;
+  color:#6746B5!important;
+  box-shadow:0 4px 12px rgba(132,91,218,.08)!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-basis.agreement{
+  background:rgba(28,174,148,.25)!important;
+  border-color:rgba(67,218,191,.42)!important;
+  color:#A7F1E4!important;
+}
+body:not(.light) .mp-card-v2 .mp-v2-basis.assigned{
+  background:rgba(139,96,230,.27)!important;
+  border-color:rgba(176,141,250,.42)!important;
+  color:#D8C6FF!important;
+}
+
+/* На странице «Задачи» процессуальный срок должен читаться как отдельный тип. */
+.pt-badge.deadline{
+  max-width:152px!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.1!important;
+  padding-top:5px!important;
+  padding-bottom:5px!important;
+}
+.pt-group.gold .pt-group-head h2{letter-spacing:-.01em}
+
+/* ============================================================
+   3.1.97 — исправления контраста в светлой и тёмной темах
+   ============================================================ */
+/* Тёмная тема: основная кнопка карточки дела не должна терять золотой фон
+   из-за общего правила для .matter-bottom-btn. */
+body:not(.light) .matter-bottom-btn.primary{
+  background:linear-gradient(145deg,#D8B558,#B9842F)!important;
+  border-color:rgba(232,195,105,.44)!important;
+  color:#171106!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28),0 0 18px rgba(216,181,88,.12)!important;
+}
+body:not(.light) .matter-bottom-btn.primary .ico{
+  color:#171106!important;
+}
+body:not(.light) .matter-bottom-btn:not(.primary){
+  background:linear-gradient(180deg,#0B1B27,#081721)!important;
+  border-color:rgba(151,177,201,.24)!important;
+  color:#F1F5F8!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.22)!important;
+}
+body:not(.light) .matter-bottom-btn:not(.primary) .ico{
+  color:#D8B558!important;
+}
+
+/* Календарь: фиксируем выбранный день явными цветами, чтобы на iPhone
+   выбранная дата не становилась белой на белом в светлой теме. */
+body.light .calendar-month-card .cday.sel,
+body.light .calendar-month-card .cday.today.sel{
+  background:linear-gradient(145deg,#D9B553,#B97C24)!important;
+  color:#FFFFFF!important;
+  border-color:#BE852B!important;
+  box-shadow:0 8px 18px rgba(169,111,25,.22)!important;
+  opacity:1!important;
+}
+body.light .calendar-month-card .cday.sel .cdots i,
+body.light .calendar-month-card .cday.today.sel .cdots i{
+  background:#FFFFFF!important;
+  opacity:1!important;
+}
+body.light .calendar-month-card .cday.today:not(.sel){
+  background:rgba(198,151,66,.065)!important;
+  color:#A96F19!important;
+  border-color:rgba(198,151,66,.68)!important;
+  box-shadow:none!important;
+}
+
+/* Тёмная тема календаря — такой же однозначный выбранный день. */
+body:not(.light) .calendar-month-card .cday.sel,
+body:not(.light) .calendar-month-card .cday.today.sel{
+  background:linear-gradient(145deg,#D8B558,#B9842F)!important;
+  color:#07111C!important;
+  border-color:#D8B558!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.34),0 0 0 1px rgba(216,181,88,.16)!important;
+  opacity:1!important;
+}
+body:not(.light) .calendar-month-card .cday.sel .cdots i,
+body:not(.light) .calendar-month-card .cday.today.sel .cdots i{
+  background:#07111C!important;
+  opacity:1!important;
+}
+body:not(.light) .calendar-month-card .cday.today:not(.sel){
+  background:rgba(216,181,88,.06)!important;
+  color:#E0BE6F!important;
+  border-color:rgba(216,181,88,.54)!important;
 }
