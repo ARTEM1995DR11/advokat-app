@@ -7221,3 +7221,174 @@ body:not(.light) #sc-more{
     linear-gradient(180deg,rgba(6,18,29,.36) 0%,rgba(6,18,29,.44) 22%,rgba(6,18,29,.58) 48%,rgba(6,18,29,.78) 100%),
     url('bg-more-marble-office.png')!important;
 }
+
+
+/* ============================================================
+   4.0.32 — FIX ДЛЯ ВКЛАДКИ «ЗАДАЧИ»
+   ============================================================ */
+#sc-tasks{
+  position:relative!important;
+  isolation:isolate!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:right top!important;
+  background-attachment:scroll!important;
+}
+#sc-tasks::before,#sc-tasks::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body.light #sc-tasks{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,250,243,.04) 0%,rgba(252,247,239,.08) 18%,rgba(248,242,232,.14) 48%,rgba(246,239,227,.30) 100%),
+    url('bg-tasks-planner.png')!important;
+  background-position:right top!important;
+  background-size:cover!important;
+}
+body:not(.light) #sc-tasks{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.30) 0%,rgba(6,18,29,.38) 18%,rgba(6,18,29,.50) 48%,rgba(6,18,29,.72) 100%),
+    url('bg-tasks-planner.png')!important;
+  background-position:right top!important;
+  background-size:cover!important;
+}
+#sc-tasks .tasks-project,
+#sc-tasks .tasks-screen{
+  background:transparent!important;
+}
+#sc-tasks .tasks-project-filters{
+  background:transparent!important;
+  backdrop-filter:none!important;
+}
+
+
+/* ============================================================
+   4.0.33 — ЧИТАЕМОСТЬ ТЁМНОЙ ТЕМЫ НА НОВЫХ ФОНАХ
+   ============================================================ */
+body:not(.light) #sc-today,
+body:not(.light) #sc-tasks,
+body:not(.light) #sc-matters,
+body:not(.light) #sc-cal,
+body:not(.light) #sc-more{
+  position:relative!important;
+  isolation:isolate!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center top!important;
+  background-attachment:scroll!important;
+}
+
+/* Более плотный затемняющий слой: фон остаётся виден, но текст читается лучше */
+body:not(.light) #sc-today{
+  background-color:#07131E!important;
+  background-image:
+    linear-gradient(180deg,rgba(4,10,18,.58) 0%,rgba(4,10,18,.50) 18%,rgba(4,10,18,.42) 34%,rgba(4,10,18,.54) 62%,rgba(4,10,18,.84) 100%),
+    url('bg-today-desk.png')!important;
+}
+body:not(.light) #sc-tasks{
+  background-color:#07131E!important;
+  background-image:
+    linear-gradient(180deg,rgba(4,10,18,.60) 0%,rgba(4,10,18,.52) 18%,rgba(4,10,18,.44) 34%,rgba(4,10,18,.56) 62%,rgba(4,10,18,.85) 100%),
+    url('bg-tasks-planner.png')!important;
+  background-position:right top!important;
+}
+body:not(.light) #sc-matters{
+  background-color:#07131E!important;
+  background-image:
+    linear-gradient(180deg,rgba(4,10,18,.58) 0%,rgba(4,10,18,.50) 18%,rgba(4,10,18,.42) 34%,rgba(4,10,18,.54) 62%,rgba(4,10,18,.84) 100%),
+    url('bg-matters-folders.png')!important;
+}
+body:not(.light) #sc-cal{
+  background-color:#07131E!important;
+  background-image:
+    linear-gradient(180deg,rgba(4,10,18,.62) 0%,rgba(4,10,18,.54) 18%,rgba(4,10,18,.46) 34%,rgba(4,10,18,.58) 62%,rgba(4,10,18,.86) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body:not(.light) #sc-more{
+  background-color:#07131E!important;
+  background-image:
+    linear-gradient(180deg,rgba(4,10,18,.60) 0%,rgba(4,10,18,.52) 18%,rgba(4,10,18,.44) 34%,rgba(4,10,18,.56) 62%,rgba(4,10,18,.85) 100%),
+    url('bg-more-marble-office.png')!important;
+}
+
+/* Дополнительный мягкий скрим — без рывков при прокрутке */
+body:not(.light) #sc-today::before,
+body:not(.light) #sc-tasks::before,
+body:not(.light) #sc-matters::before,
+body:not(.light) #sc-cal::before,
+body:not(.light) #sc-more::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.14) 0%,rgba(0,0,0,.05) 160px,rgba(0,0,0,.00) 300px,rgba(0,0,0,.08) 62%,rgba(0,0,0,.18) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 78%,rgba(0,0,0,.10) 100%)!important;
+}
+body:not(.light) #sc-today::after,
+body:not(.light) #sc-tasks::after,
+body:not(.light) #sc-matters::after,
+body:not(.light) #sc-cal::after,
+body:not(.light) #sc-more::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body:not(.light) #sc-today>*,
+body:not(.light) #sc-tasks>*,
+body:not(.light) #sc-matters>*,
+body:not(.light) #sc-cal>*,
+body:not(.light) #sc-more>*{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* Верх шапки экрана — контрастнее */
+body:not(.light) .today-brand-left b,
+body:not(.light) .today-head h1,
+body:not(.light) .tasks-title-head h1,
+body:not(.light) .matters-title-head h1,
+body:not(.light) .calendar-title-head h1,
+body:not(.light) .more-title-head h1{
+  color:#FAFCFE!important;
+  text-shadow:0 2px 14px rgba(0,0,0,.42)!important;
+}
+body:not(.light) .today-brand-left small,
+body:not(.light) .today-head p,
+body:not(.light) .tasks-title-head p,
+body:not(.light) .matters-title-head p,
+body:not(.light) .calendar-title-head p,
+body:not(.light) .more-title-head p{
+  color:rgba(247,250,253,.93)!important;
+  text-shadow:0 1px 10px rgba(0,0,0,.38)!important;
+}
+
+/* Иконка поиска / действия сверху на светлых участках фона */
+body:not(.light) .today-actions .iconbtn,
+body:not(.light) .today-brand .iconbtn{
+  background:rgba(6,18,29,.26)!important;
+  border-color:rgba(255,255,255,.22)!important;
+  box-shadow:0 12px 24px rgba(0,0,0,.16)!important;
+  backdrop-filter:blur(6px)!important;
+}
+body:not(.light) .today-actions .iconbtn svg,
+body:not(.light) .today-brand .iconbtn svg{
+  color:#F6F8FB!important;
+  stroke:#F6F8FB!important;
+}
+
+/* Заголовки секций в настройках и служебные подзаголовки */
+body:not(.light) .settings-section-title,
+body:not(.light) .calendar-subhead,
+body:not(.light) .calendar-month-sub,
+body:not(.light) .screen .muted,
+body:not(.light) .screen small,
+body:not(.light) .screen .subtitle{
+  color:#F2F6FA!important;
+  text-shadow:0 1px 8px rgba(0,0,0,.34)!important;
+}
