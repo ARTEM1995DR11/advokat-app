@@ -1,6 +1,6 @@
-4.0.41
-- Возвращён горизонтальный свайп справа налево по задаче, встрече и процессуальному сроку.
-- Свайп открывает premium-шторку «Быстрые действия»: изменить дату или удалить запись.
-- Заседания исключены из жеста и сохраняют отдельную логику результата заседания.
-- Добавлен порог осознанного свайпа, чтобы вертикальная прокрутка не вызывала действия случайно.
-- Build обновлён до 4041.
+4.0.42
+- Premium redesign of Hearing Result sheet.
+- Added smart next-action/overdue pulse to matter cards.
+- Matter filter counts now respect current scope.
+- Added reset-filters action for empty matter lists.
+- Build bumped to 4042.
