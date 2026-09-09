@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.39';
-var APP_BUILD='4039';
+var APP_VERSION='4.0.41';
+var APP_BUILD='4041';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -861,7 +861,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4041" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1150,9 +1150,9 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4041" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
-        '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button>'+
+        '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div></div>'+
     (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
@@ -1249,8 +1249,10 @@ function taskProjectRow(t){
     : (meetingOccurred(t)
         ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
+  var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline');
   return '<div class="pt-item" data-id="'+t.id+'">'+
-    '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+(t.kind==='deadline'?' deadline-record':'')+'" data-id="'+t.id+'">'+
+    (swipeAllowed?'<div class="pt-swipe-bg"><span></span><span class="pt-swipe-more">Действия'+ico('more','s')+'</span></div>':'')+
+    '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+(t.kind==='deadline'?' deadline-record':'')+'" data-id="'+t.id+'" data-kind="'+esc(t.kind||'task')+'">'+
       leadIcon+
       '<div class="pt-main">'+
         '<button class="pt-open" data-act="task" data-id="'+t.id+'"><b>'+title+'</b></button>'+ 
@@ -1267,7 +1269,7 @@ function renderTaskList(){
   var list=taskFilter();
   if(!list.length){
     var filtered=!!(S.ui.q||S.ui.taskChip||S.ui.taskType);
-    box.innerHTML=empty('list',S.ui.q?'Ничего не найдено':(filtered?'Нет записей по фильтру':'Задач пока нет'),S.ui.q?'Измените поисковый запрос или фильтр.':(filtered?'Измените выбранный период или тип записи.':'Новые задачи появятся здесь после добавления.'),filtered?null:[{act:'new-task',t:'Добавить задачу'}]);
+    box.innerHTML=empty('list',S.ui.q?'Ничего не найдено':(filtered?'Нет записей по фильтру':'Задач пока нет'),S.ui.q?'Измените поисковый запрос или фильтр.':(filtered?'Измените выбранный период или тип записи.':'Новые задачи появятся здесь после добавления.'),filtered?[{act:'reset-task-filters',t:'Сбросить фильтры',ghost:true}]:[{act:'new-task',t:'Добавить задачу'}]);
     return;
   }
   box.innerHTML=taskProjectGroups(list).map(function(g){
@@ -1439,7 +1441,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4041" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1559,7 +1561,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4041" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1660,7 +1662,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4041" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1871,7 +1873,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4039" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4041" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2795,6 +2797,7 @@ document.addEventListener('click', function(ev){
     case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
     case 'chip': S.ui.taskChip=v;save();renderTasks();break;
     case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
+    case 'reset-task-filters': S.ui.q='';S.ui._sq=false;S.ui.taskChip='';S.ui.taskType='';save();renderTasks();toast('Фильтры сброшены');break;
     case 'task-type-sheet': sheetTaskTypeFilters();break;
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
@@ -2826,7 +2829,7 @@ document.addEventListener('click', function(ev){
     case 'e-pri': ED.pri=v;pullEditor();drawEditor();break;
     case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor();break;
     case 'e-save': saveTask();break;
-    case 'e-del': {var edt=ED&&ED.id?S.tasks.filter(function(x){return x.id===ED.id;})[0]:null;if(edt&&edt.kind==='hearing'&&(hearingNeedsResult(edt)||hearingHasResult(edt))){toast('Прошедшее заседание сохраняется в истории');break;}if(confirm(ED&&ED.kind==='hearing'?'Удалить заседание?':(ED&&ED.kind==='meeting'?'Удалить встречу?':'Удалить задачу?'))){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;}
+    case 'e-del': {var edt=ED&&ED.id?S.tasks.filter(function(x){return x.id===ED.id;})[0]:null;if(edt&&edt.kind==='hearing'&&(hearingNeedsResult(edt)||hearingHasResult(edt))){toast('Прошедшее заседание сохраняется в истории');break;}if(confirm(ED&&ED.kind==='hearing'?'Удалить заседание?':(ED&&ED.kind==='meeting'?'Удалить встречу?':(ED&&ED.kind==='deadline'?'Удалить процессуальный срок?':'Удалить задачу?')))){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;}
 
     /* matters */
     case 'new-matter': closeSheet();editMatter(null);break;
@@ -3016,7 +3019,69 @@ document.addEventListener('touchend',function(){
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
 
-/* Горизонтальные свайпы по строкам задач отключены: действия выполняются через явные элементы интерфейса. */
+/* =====================================================================
+   Swipe по задачам / встречам / процессуальным срокам — 4.0.41
+   Свайп справа налево открывает «Быстрые действия».
+   Заседания намеренно исключены: у них отдельная логика результата.
+   Вертикальная прокрутка имеет приоритет; короткий случайный жест ничего не делает.
+   ===================================================================== */
+var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
+function taskTouchReset(animate){
+  var row=TASK_TOUCH.row;
+  if(row){
+    if(animate) row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  }
+  TASK_TOUCH.on=false;TASK_TOUCH.row=null;TASK_TOUCH.id='';TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;
+}
+function finishTaskSwipe(openActions){
+  var id=TASK_TOUCH.id;
+  taskTouchReset(true);
+  if(!openActions || !id) return;
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(7);
+  setTimeout(function(){sheetTaskActions(id);},40);
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || S.ui.tab!=='tasks' || !e.touches || e.touches.length!==1) return;
+  var row=e.target.closest('#tasklist .pt-row');
+  if(!row || e.target.closest('[data-act="toggle"]')) return;
+  var id=row.dataset.id||'';
+  var rec=S.tasks.filter(function(x){return x.id===id;})[0];
+  if(!rec || ['task','meeting','deadline'].indexOf(rec.kind)<0) return;
+  var t=e.touches[0];
+  if(t.clientX<=44) return; // не конфликтуем с системным свайпом «Назад»
+  TASK_TOUCH.on=true;TASK_TOUCH.row=row;TASK_TOUCH.id=id;
+  TASK_TOUCH.sx=t.clientX;TASK_TOUCH.sy=t.clientY;TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;
+  row.classList.remove('swipe-snap');
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!TASK_TOUCH.on || !TASK_TOUCH.row || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  TASK_TOUCH.dx=t.clientX-TASK_TOUCH.sx;TASK_TOUCH.dy=t.clientY-TASK_TOUCH.sy;
+  if(!TASK_TOUCH.horizontal){
+    if(Math.abs(TASK_TOUCH.dy)>14 && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*1.15){taskTouchReset(true);return;}
+    if(TASK_TOUCH.dx<-14 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.20) TASK_TOUCH.horizontal=true;
+  }
+  if(!TASK_TOUCH.horizontal) return;
+  if(e.cancelable)e.preventDefault();
+  var x=Math.max(-108,Math.min(0,TASK_TOUCH.dx));
+  TASK_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
+  TASK_TOUCH.row.classList.toggle('swipe-left',x<=-30);
+  TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-78);
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!TASK_TOUCH.on) return;
+  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-78 && Math.abs(TASK_TOUCH.dy)<=70 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.25;
+  finishTaskSwipe(intentional);
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){
+  if(!TASK_TOUCH.on) return;
+  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-88 && Math.abs(TASK_TOUCH.dy)<=70;
+  finishTaskSwipe(intentional);
+},{passive:true,capture:true});
 
 /* =====================================================================
    iPhone-style bottom sheet: pull the top area down = Close

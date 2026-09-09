@@ -7739,3 +7739,48 @@ body:not(.light) #sc-tasks .pt-chev{color:#C5D0DB!important}
   overscroll-behavior-x:contain!important;
   scroll-behavior:smooth;
 }
+
+
+/* ============================================================
+   4.0.41 — ВОЗВРАТ SWIPE-БЫСТРЫХ ДЕЙСТВИЙ НА «ЗАДАЧАХ»
+   ============================================================ */
+#sc-tasks .pt-item{position:relative!important;overflow:hidden!important}
+#sc-tasks .pt-swipe-bg{
+  display:flex!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  padding:0 18px!important;
+  pointer-events:none!important;
+}
+body.light #sc-tasks .pt-swipe-bg{
+  background:linear-gradient(90deg,#F3EEE5 0%,#E9DFC9 100%)!important;
+}
+body:not(.light) #sc-tasks .pt-swipe-bg{
+  background:linear-gradient(90deg,#101D2A 0%,#172433 100%)!important;
+}
+#sc-tasks .pt-swipe-more{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:7px!important;
+  min-width:92px!important;
+  color:var(--gold2)!important;
+  font-size:11.5px!important;
+  font-weight:800!important;
+  opacity:0!important;
+  transition:opacity .08s!important;
+}
+#sc-tasks .pt-swipe-more .ico{width:17px!important;height:17px!important}
+#sc-tasks .pt-item:has(.pt-row.swipe-left) .pt-swipe-more{opacity:.78!important}
+#sc-tasks .pt-item:has(.pt-row.swipe-ready) .pt-swipe-more{opacity:1!important}
+#sc-tasks .pt-row{
+  position:relative!important;
+  z-index:2!important;
+  touch-action:pan-y!important;
+  will-change:transform!important;
+}
+#sc-tasks .pt-row.swipe-ready{box-shadow:-8px 0 22px rgba(198,151,66,.14)!important}
+#sc-tasks .pt-row.swipe-snap{transition:transform .18s cubic-bezier(.2,.8,.2,1)!important}
