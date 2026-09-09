@@ -1,6 +1,6 @@
-4.0.43
-- Added left swipe for hearings that already require a result.
-- Swipe action opens the hearing result workflow.
-- Added scale-of-justice background to the hearing result sheet, matching the New Matter editor concept.
-- Fixed awkward word breaks in hearing result status cards.
-- Build bumped to 4043.
+4.0.44
+- Исправлен скачок шторки «Результат заседания» при выборе «Отложено» или «Объявлен перерыв».
+- Высота шторки результата зафиксирована с безопасным отступом от Dynamic Island.
+- При перерисовке результата сохраняется положение внутренней прокрутки.
+- Блок «Следующее заседание» увеличен: нормальные поля даты/времени, крупнее подписи и пояснение.
+- Build обновлён до 4044.
