@@ -6252,3 +6252,240 @@ body:not(.light) #sc-more{
   background-position:center!important;
 }
 body:not(.light) #sc-more::before{background:radial-gradient(circle at 12% 20%,rgba(93,130,160,.055),transparent 24%)!important}
+
+
+/* 4.0.24 — доводка нижней панели + единая гамма premium-фонов */
+/* Нижняя панель: границы идут почти по контуру иконок и подписей, без лишнего пустого низа */
+.premium-nav.tabbar,
+body.light .premium-nav.tabbar,
+body:not(.light) .premium-nav.tabbar{
+  left:12px!important;
+  right:12px!important;
+  bottom:var(--bot)!important;
+  height:calc(70px + var(--bot))!important;
+  padding:4px 8px max(0px, calc(var(--bot) - 2px))!important;
+  border-radius:24px!important;
+  align-items:stretch!important;
+}
+.premium-nav .tab,
+body.light .premium-nav .tab,
+body:not(.light) .premium-nav .tab{
+  min-height:auto!important;
+  padding:0 2px!important;
+  grid-template-rows:42px 15px 3px!important;
+  row-gap:1px!important;
+  align-content:start!important;
+  justify-items:center!important;
+  font-size:14px!important;
+}
+.premium-nav .tab-ico,
+body.light .premium-nav .tab-ico,
+body:not(.light) .premium-nav .tab-ico{
+  width:37px!important;
+  height:37px!important;
+}
+.premium-nav .tab .ico,
+body.light .premium-nav .tab .ico,
+body:not(.light) .premium-nav .tab .ico{
+  width:28px!important;
+  height:28px!important;
+  stroke-width:2.06!important;
+}
+.premium-nav .tab.on .tab-ico,
+body.light .premium-nav .tab.on .tab-ico,
+body:not(.light) .premium-nav .tab.on .tab-ico{
+  width:46px!important;
+  height:46px!important;
+}
+.premium-nav .tab.on .ico,
+body.light .premium-nav .tab.on .ico,
+body:not(.light) .premium-nav .tab.on .ico{
+  width:32px!important;
+  height:32px!important;
+  stroke-width:2.14!important;
+}
+.premium-nav .tab-label,
+body.light .premium-nav .tab-label,
+body:not(.light) .premium-nav .tab-label{
+  min-height:15px!important;
+  height:15px!important;
+  line-height:15px!important;
+  font-size:13.7px!important;
+  font-weight:700!important;
+}
+.premium-nav .tab::after,
+body.light .premium-nav .tab::after,
+body:not(.light) .premium-nav .tab::after{
+  width:42px!important;
+  height:3px!important;
+  margin-top:0!important;
+}
+.screen{padding-bottom:calc(var(--bot) + 84px)!important}
+#fab.fab{bottom:calc(var(--bot) + 76px)!important}
+.timerpill{bottom:calc(var(--bot) + 74px)!important}
+
+@media(max-width:390px){
+  .premium-nav.tabbar,
+  body.light .premium-nav.tabbar,
+  body:not(.light) .premium-nav.tabbar{
+    left:10px!important;
+    right:10px!important;
+    height:calc(67px + var(--bot))!important;
+    padding:3px 6px max(0px, calc(var(--bot) - 3px))!important;
+    border-radius:22px!important;
+  }
+  .premium-nav .tab,
+  body.light .premium-nav .tab,
+  body:not(.light) .premium-nav .tab{
+    grid-template-rows:40px 14px 3px!important;
+    font-size:13.2px!important;
+  }
+  .premium-nav .tab-ico,
+  body.light .premium-nav .tab-ico,
+  body:not(.light) .premium-nav .tab-ico{width:35px!important;height:35px!important}
+  .premium-nav .tab .ico,
+  body.light .premium-nav .tab .ico,
+  body:not(.light) .premium-nav .tab .ico{width:26px!important;height:26px!important}
+  .premium-nav .tab.on .tab-ico,
+  body.light .premium-nav .tab.on .tab-ico,
+  body:not(.light) .premium-nav .tab.on .tab-ico{width:44px!important;height:44px!important}
+  .premium-nav .tab.on .ico,
+  body.light .premium-nav .tab.on .ico,
+  body:not(.light) .premium-nav .tab.on .ico{width:30px!important;height:30px!important}
+  .premium-nav .tab-label,
+  body.light .premium-nav .tab-label,
+  body:not(.light) .premium-nav .tab-label{min-height:14px!important;height:14px!important;line-height:14px!important;font-size:12.9px!important}
+  .screen{padding-bottom:calc(var(--bot) + 80px)!important}
+  #fab.fab{bottom:calc(var(--bot) + 72px)!important}
+  .timerpill{bottom:calc(var(--bot) + 70px)!important}
+}
+
+/* Все основные страницы — в одной тёплой premium-гамме; различается только фактура */
+#sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
+  background-repeat:no-repeat!important;
+  background-attachment:local!important;
+}
+
+/* СЕГОДНЯ — тёплая юридическая бумага, другой фон чем у создания дела */
+body.light #sc-today{
+  background-color:#F8F4EC!important;
+  background-image:
+    radial-gradient(circle at 82% 10%,rgba(198,151,66,.10),transparent 22%),
+    radial-gradient(circle at 14% 24%,rgba(92,111,132,.055),transparent 24%),
+    repeating-linear-gradient(180deg,transparent 0,transparent 42px,rgba(171,127,38,.022) 42px,rgba(171,127,38,.022) 43px),
+    linear-gradient(135deg,rgba(171,127,38,.028) 0,rgba(171,127,38,0) 32%),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 62%,#F4EFE5)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body.light #sc-today::before{
+  background:
+    linear-gradient(90deg,rgba(171,127,38,.03),transparent 16%,transparent 84%,rgba(104,125,145,.025)),
+    radial-gradient(circle at 78% 16%,rgba(255,255,255,.24),transparent 18%)!important;
+}
+body:not(.light) #sc-today{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(circle at 82% 10%,rgba(198,151,66,.11),transparent 22%),
+    radial-gradient(circle at 14% 24%,rgba(92,123,152,.07),transparent 24%),
+    repeating-linear-gradient(180deg,transparent 0,transparent 42px,rgba(198,151,66,.018) 42px,rgba(198,151,66,.018) 43px),
+    linear-gradient(135deg,rgba(198,151,66,.03) 0,rgba(198,151,66,0) 32%),
+    linear-gradient(180deg,#0A1A28,#071522 70%)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body:not(.light) #sc-today::before{
+  background:linear-gradient(90deg,rgba(198,151,66,.02),transparent 16%,transparent 84%,rgba(140,163,183,.02))!important;
+}
+
+/* ЗАДАЧИ — тот же тон, но спокойная сетка ежедневника */
+body.light #sc-tasks{
+  background-color:#F8F4EC!important;
+  background-image:
+    radial-gradient(circle at 10% 10%,rgba(47,163,107,.06),transparent 22%),
+    radial-gradient(circle at 90% 14%,rgba(61,130,188,.055),transparent 23%),
+    repeating-linear-gradient(0deg,rgba(106,123,139,.025) 0,rgba(106,123,139,.025) 1px,transparent 1px,transparent 31px),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 64%,#F4EFE5)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body.light #sc-tasks::before{background:linear-gradient(90deg,rgba(47,163,107,.022),transparent 18%,transparent 82%,rgba(61,130,188,.02))!important}
+body:not(.light) #sc-tasks{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(circle at 10% 10%,rgba(47,163,107,.08),transparent 22%),
+    radial-gradient(circle at 90% 14%,rgba(61,130,188,.075),transparent 23%),
+    repeating-linear-gradient(0deg,rgba(143,166,185,.024) 0,rgba(143,166,185,.024) 1px,transparent 1px,transparent 31px),
+    linear-gradient(180deg,#0A1A28,#071522 70%)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body:not(.light) #sc-tasks::before{background:linear-gradient(90deg,rgba(47,163,107,.022),transparent 18%,transparent 82%,rgba(61,130,188,.022))!important}
+
+/* ДЕЛА — та же гамма, но архивная вертикальная фактура */
+body.light #sc-matters{
+  background-color:#F8F4EC!important;
+  background-image:
+    radial-gradient(circle at 90% 10%,rgba(61,130,188,.05),transparent 23%),
+    radial-gradient(circle at 12% 26%,rgba(45,163,151,.05),transparent 22%),
+    repeating-linear-gradient(90deg,transparent 0,transparent 54px,rgba(98,116,132,.022) 54px,rgba(98,116,132,.022) 55px),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 63%,#F4EFE5)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body.light #sc-matters::before{background:linear-gradient(180deg,rgba(255,255,255,.26),transparent 220px)!important}
+body:not(.light) #sc-matters{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(circle at 90% 10%,rgba(61,130,188,.07),transparent 23%),
+    radial-gradient(circle at 12% 26%,rgba(45,163,151,.07),transparent 22%),
+    repeating-linear-gradient(90deg,transparent 0,transparent 54px,rgba(143,166,185,.022) 54px,rgba(143,166,185,.022) 55px),
+    linear-gradient(180deg,#0A1A28,#071522 70%)!important;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body:not(.light) #sc-matters::before{background:linear-gradient(180deg,rgba(255,255,255,.02),transparent 220px)!important}
+
+/* КАЛЕНДАРЬ — общая гамма, но точечная сетка */
+body.light #sc-cal{
+  background-color:#F8F4EC!important;
+  background-image:
+    radial-gradient(circle at 50% 5%,rgba(198,151,66,.09),transparent 24%),
+    radial-gradient(circle,rgba(103,120,136,.05) 1.05px,transparent 1.25px),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 67%,#F4EFE5)!important;
+  background-size:100% 100%,33px 33px,100% 100%!important;
+  background-position:center,7px 12px,center!important;
+}
+body.light #sc-cal::before{background:linear-gradient(90deg,rgba(198,151,66,.022),transparent 18%,transparent 82%,rgba(95,112,130,.02))!important}
+body:not(.light) #sc-cal{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(circle at 50% 5%,rgba(198,151,66,.10),transparent 24%),
+    radial-gradient(circle,rgba(143,166,185,.05) 1.05px,transparent 1.25px),
+    linear-gradient(180deg,#0A1A28,#071522 70%)!important;
+  background-size:100% 100%,33px 33px,100% 100%!important;
+  background-position:center,7px 12px,center!important;
+}
+body:not(.light) #sc-cal::before{background:linear-gradient(90deg,rgba(198,151,66,.02),transparent 18%,transparent 82%,rgba(143,166,185,.018))!important}
+
+/* ЕЩЁ — общая гамма, но диагональная premium-фактура */
+body.light #sc-more{
+  background-color:#F8F4EC!important;
+  background-image:
+    radial-gradient(circle at 86% 8%,rgba(198,151,66,.085),transparent 23%),
+    repeating-linear-gradient(135deg,rgba(145,117,68,.022) 0,rgba(145,117,68,.022) 1px,transparent 1px,transparent 24px),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 68%,#F4EFE5)!important;
+  background-size:100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body.light #sc-more::before{background:radial-gradient(circle at 12% 20%,rgba(91,109,130,.038),transparent 22%)!important}
+body:not(.light) #sc-more{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(circle at 86% 8%,rgba(198,151,66,.095),transparent 23%),
+    repeating-linear-gradient(135deg,rgba(147,169,187,.022) 0,rgba(147,169,187,.022) 1px,transparent 1px,transparent 24px),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:100% 100%,100% 100%,100% 100%!important;
+  background-position:center!important;
+}
+body:not(.light) #sc-more::before{background:radial-gradient(circle at 12% 20%,rgba(93,130,160,.05),transparent 22%)!important}
