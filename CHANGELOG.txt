@@ -1,5 +1,5 @@
-4.0.27
-- Replaced reused page watermarks with 5 new custom page background illustrations.
-- Assigned unique background image to each core tab: Today, Tasks, Matters, Calendar, More.
-- Kept unified warm premium color palette across all main pages.
-- Bumped build to 4027 to force iPhone cache refresh.
+4.0.28
+- Fixed CSS override order that kept showing the old page backgrounds.
+- Applied five new generated images as full-page backgrounds for Today, Tasks, Matters, Calendar and More.
+- Preserved one unified warm premium palette across all tabs.
+- Bumped PWA build/cache to 4028.
