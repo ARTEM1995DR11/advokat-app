@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.52';
-var APP_BUILD='4052';
+var APP_VERSION='4.0.55';
+var APP_BUILD='4055';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -370,6 +370,116 @@ function clearPremiumTimePicker(){
   if(!TIME_PICKER)return;var tp=TIME_PICKER,inp=tp.target?$('#'+tp.target):null;if(inp)inp.value='';var btn=tp.target?document.querySelector('[data-time-for="'+tp.target+'"]'):null;if(btn){btn.classList.add('empty');var b=btn.querySelector('b');if(b)b.textContent='Выберите время';}if(tp.target==='hr-next-time'&&HR)HR.nextTime='';closePremiumTimePicker();if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
 }
 
+
+/* ------------------------- premium list picker ------------------------- */
+var LIST_PICKER=null;
+function listPickerMeta(target){
+  var map={
+    'e-mid':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
+    'j-mid-select':{title:'Выбор дела',sub:'Выберите дело для записи в журнал',search:'Поиск по делам…',icon:'folder'},
+    'pt-mid':{title:'Выбор дела',sub:'Выберите дело для учёта участия',search:'Поиск по делам…',icon:'folder'},
+    'e-hjudge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
+    'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
+    'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
+    'm-court-choice':{title:'Выбор суда',sub:'Выберите суд или орган',search:'Поиск по судам…',icon:'gavel'},
+    'm-stage-choice':{title:'Стадия дела',sub:'Выберите текущую стадию',search:'Поиск по стадиям…',icon:'flag'},
+    'm-role-choice':{title:'Процессуальный статус',sub:'Выберите статус доверителя',search:'Поиск по статусам…',icon:'user'},
+    'm-restraint-choice':{title:'Мера пресечения',sub:'Выберите меру пресечения',search:'Поиск…',icon:'lock'},
+    'm-type':{title:'Тип производства',sub:'Выберите категорию дела',search:'Поиск…',icon:'folder'},
+    'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
+    'e-deadline-code':{title:'Производство / кодекс',sub:'Выберите применимый кодекс',search:'Поиск…',icon:'doc'},
+    'e-deadline-rule':{title:'Процессуальный срок',sub:'Выберите правило расчёта',search:'Поиск по срокам…',icon:'clock'},
+    'pt-kind':{title:'Вид участия',sub:'Выберите вид процессуального действия',search:'Поиск…',icon:'gavel'}
+  };
+  return map[target]||{title:'Выбор',sub:'Выберите значение из списка',search:'Поиск…',icon:'list'};
+}
+function premiumListItemExtra(target,value,label){
+  if((target==='e-mid'||target==='j-mid-select'||target==='pt-mid')&&value){
+    var m=matter(value); if(m){
+      var bits=[]; if(m.client)bits.push(m.client); if(m.number)bits.push('№ '+m.number); if(m.court)bits.push(m.court);
+      return bits.join(' · ');
+    }
+  }
+  if((target==='e-mid'||target==='j-mid-select'||target==='pt-mid')&&!value) return 'Запись без привязки к конкретному делу';
+  if(target==='e-hjudge-choice'||target==='m-judge-choice'){
+    var j=knownJudgeEntry(value); if(j&&j.court)return j.court;
+  }
+  if(target==='e-court-choice'||target==='m-court-choice'){
+    var c=commonCourtByValue(value); if(c&&c.short&&c.short!==label)return c.short;
+  }
+  return '';
+}
+function premiumListSelectedValue(sel,inputId){
+  if(inputId){var inp=$('#'+inputId);if(inp&&inp.value)return inp.value;}
+  return sel?sel.value:'';
+}
+function openPremiumListPicker(target,inputId){
+  var sel=target?$('#'+target):null;if(!sel||sel.tagName!=='SELECT')return;
+  var meta=listPickerMeta(target),items=Array.prototype.slice.call(sel.options).map(function(o){
+    return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim())};
+  });
+  LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
+  renderPremiumListPicker();
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
+  document.body.classList.add('premium-list-open');vib(5);
+}
+function closePremiumListPicker(){
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.remove('open');if(scr)scr.classList.remove('open');
+  document.body.classList.remove('premium-list-open');LIST_PICKER=null;
+}
+function renderPremiumListPicker(){
+  if(!LIST_PICKER)return;var modal=$('#premium-list-modal');if(!modal)return;
+  var q=(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
+  var rows=LIST_PICKER.items.filter(function(it){
+    if(!q)return true;return ((it.label||'')+' '+(it.extra||'')).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
+  });
+  var search='<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off"></div>';
+  var list=rows.length?rows.map(function(it){
+    var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value;
+    return '<button type="button" class="premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+'" data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
+      '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(LIST_PICKER.meta.icon||'list','s'))+'</span>'+ 
+      '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
+      '<span class="premium-list-row-end">'+(selected?'<em>Выбрано</em>':ico('chev','s'))+'</span></button>';
+  }).join(''):'<div class="premium-list-empty">'+ico('search')+'<b>Ничего не найдено</b><small>Измените поисковый запрос.</small></div>';
+  modal.innerHTML='<div class="premium-list-grab"></div>'+ 
+    '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
+    search+'<div class="premium-list-body">'+list+'</div>'+ 
+    '<div class="premium-list-sign"><i></i><span>'+ico('scale','s')+'</span><i></i></div>';
+}
+function syncPremiumSelectButton(id){
+  var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
+  var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
+  var b=btn.querySelector('b');if(b)b.textContent=label||'— выбрать —';btn.classList.toggle('empty',!sel.value);
+}
+function upgradePremiumSelects(root){
+  root=root||document;
+  Array.prototype.slice.call(root.querySelectorAll('select')).forEach(function(sel){
+    if(!sel.id||sel.dataset.premiumReady==='1')return;
+    sel.dataset.premiumReady='1';
+    if(sel.classList.contains('inline-choice-select')){
+      sel.classList.add('premium-select-native');
+      var wrap=sel.closest('.inline-choice-wrap');if(!wrap)return;
+      var inp=wrap.querySelector('input'),old=wrap.querySelector('.inline-choice-arrow');if(old)old.remove();
+      var trigger=document.createElement('button');trigger.type='button';trigger.className='inline-choice-arrow premium-list-trigger';trigger.dataset.act='list-open';trigger.dataset.target=sel.id;trigger.dataset.input=inp?inp.id:'';trigger.setAttribute('aria-label','Выбрать из списка');trigger.innerHTML=ico('chev','s');
+      wrap.appendChild(trigger);return;
+    }
+    var parent=sel.parentNode;if(!parent)return;
+    var wrap2=document.createElement('div');wrap2.className='premium-select-wrap';parent.insertBefore(wrap2,sel);wrap2.appendChild(sel);sel.classList.add('premium-select-native');
+    var btn=document.createElement('button');btn.type='button';btn.className='premium-select-field';btn.dataset.act='list-open';btn.dataset.target=sel.id;btn.dataset.premiumSelectFor=sel.id;btn.innerHTML='<span class="premium-select-field-copy"><b></b></span><span class="premium-select-field-arrow">'+ico('chev','s')+'</span>';
+    wrap2.appendChild(btn);syncPremiumSelectButton(sel.id);
+  });
+}
+function applyPremiumListChoice(value){
+  if(!LIST_PICKER)return;var lp=LIST_PICKER,sel=$('#'+lp.target);if(!sel)return;
+  var item=lp.items.filter(function(x){return String(x.value)===String(value);})[0];if(!item||item.disabled)return;
+  LIST_PICKER.selected=item.value;
+  sel.value=item.value;
+  if(lp.inputId&&!item.value){var inp=$('#'+lp.inputId);if(inp){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}));}}
+  syncPremiumSelectButton(sel.id);
+  sel.dispatchEvent(new Event('change',{bubbles:true}));
+  closePremiumListPicker();vib(5);
+}
+
 function relD(s){ var n = dd(s);
   if(n===0) return 'сегодня'; if(n===1) return 'завтра'; if(n===-1) return 'вчера';
   if(n<0) return 'просрочено '+(-n)+' дн.'; if(n<=6) return 'через '+n+' дн.'; return fmtShort(s); }
@@ -640,7 +750,7 @@ function matterDynamicFields(){
     '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>';
   return html;
 }
-function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box) box.innerHTML=matterDynamicFields(); }
+function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
 function sanitizeMatterByType(o){
   var cfg=matterMeta(o.type||'other');
   if(!cfg.showInvestigator) o.investigator='';
@@ -684,11 +794,12 @@ function activeM(){ return S.matters.filter(function(m){ return !m.archived; });
 
 var HEARING_RESULTS={
   held:{label:'Состоялось',tone:'held',sheetTitle:'Состоялось',sheetSub:'Заседание прошло'},
-  postponed:{label:'Отложено',tone:'postponed',sheetTitle:'Отложено',sheetSub:'Назначить новую дату'},
+  postponed:{label:'Отложено',tone:'postponed',sheetTitle:'Отложено',sheetSub:'Перенесено или объявлен перерыв'},
   break:{label:'Объявлен перерыв',tone:'break',sheetTitle:'Перерыв',sheetSub:'Продолжение заседания'},
   completed:{label:'Рассмотрение завершено',tone:'completed',sheetTitle:'Завершено',sheetSub:'Рассмотрение окончено'},
   cancelled:{label:'Не состоялось / снято',tone:'cancelled',sheetTitle:'Не состоялось',sheetSub:'Снято или не рассмотрено'}
 };
+var HEARING_RESULT_CHOICES=['held','postponed','cancelled'];
 function hearingResultInfo(t){ return t&&t.hearingResultStatus?HEARING_RESULTS[t.hearingResultStatus]||null:null; }
 function completedHearingFeedback(t){
   var ri=hearingResultInfo(t);
@@ -754,10 +865,11 @@ function openSheet(html){
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
   s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(DATE_PICKER)closePremiumDatePicker(); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ var sh=$('#sheet'); sh.classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open');
@@ -890,7 +1002,7 @@ function todayHearingRow(t){
 function todayPendingHearingRow(t){
   var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), when=t.due===today()?'сегодня':fmtD(t.due,true), context=m?(m.title+(m.number?' · '+m.number:'')):'';
   return '<div class="today-hearing-swipe" data-id="'+t.id+'">'+
-    '<div class="today-hearing-swipe-bg"><span>'+ico('gavel','s')+'<b>Результат</b><small>Отметить итог или перенос</small></span></div>'+
+    '<div class="today-hearing-swipe-bg"><span class="today-hearing-swipe-more">Результат'+ico('gavel','s')+'</span></div>'+
     '<button class="today-row hearing-row hearing-result-row kind-hearing today-hearing-swipe-row" data-act="hearing-result" data-id="'+t.id+'">'+
       '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
       '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
@@ -1002,7 +1114,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4055" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1131,7 +1243,7 @@ function drawHearingResultSheet(){
   if(!HR)return;
   var oldBody=$('#sheet .shbody'), oldScroll=oldBody?oldBody.scrollTop:0;
   var t=S.tasks.filter(function(x){return x.id===HR.id;})[0]; if(!t)return;
-  var choices=Object.keys(HEARING_RESULTS).map(function(k){
+  var choices=HEARING_RESULT_CHOICES.map(function(k){
     var r=HEARING_RESULTS[k], ic=hearingResultIcon(k), selected=HR.status===k;
     return '<button class="hearing-result-choice '+r.tone+(selected?' on':'')+'" data-act="hearing-result-pick" data-v="'+k+'" aria-pressed="'+(selected?'true':'false')+'">'+
       '<span class="hearing-result-choice-icon">'+ico(ic)+'</span>'+
@@ -1142,7 +1254,7 @@ function drawHearingResultSheet(){
       (selected?'<span class="hearing-result-choice-selected">'+ico('check','s')+'</span>':'')+
     '</button>';
   }).join('');
-  var follow=(HR.status==='postponed'||HR.status==='break')
+  var follow=(HR.status==='postponed')
     ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('hr-next-date',HR.nextDate||'','Выберите дату')+'</div><div class="fld"><label>Время</label>'+premiumTimeControl('hr-next-time',HR.nextTime||'','hearing','Выберите время')+'</div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
   var hrDate=fmtD(t.due,true)+(t.time?' · '+t.time:'');
   var hrContext=hearingContextText(t)||'';
@@ -1168,7 +1280,7 @@ function saveHearingResult(){
   if(!HR)return; pullHearingResult();
   var t=S.tasks.filter(function(x){return x.id===HR.id;})[0]; if(!t)return;
   if(!HR.status){toast('Выберите результат заседания');return;}
-  var isFollow=HR.status==='postponed'||HR.status==='break';
+  var isFollow=HR.status==='postponed';
   if(isFollow && ((HR.nextDate&&!HR.nextTime)||(!HR.nextDate&&HR.nextTime))){toast('Для следующего заседания укажите дату и время');return;}
   if(isFollow&&HR.nextTime&&!isHearingTime(HR.nextTime)){toast('Следующее заседание можно назначить с 08:00 до 18:00');openPremiumTimePicker('hr-next-time',HR.nextTime,'hearing');return;}
   var now=new Date().toISOString(),ri=HEARING_RESULTS[HR.status];
@@ -1303,7 +1415,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4055" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1617,7 +1729,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4055" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1740,7 +1852,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4055" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1841,7 +1953,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4055" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1913,6 +2025,7 @@ function go(tab,replaceHistory){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
@@ -1999,7 +2112,7 @@ function judgeDatalist(){
 }
 function inlineChoiceField(inputId,selectId,value,placeholder,optionsHtml,listId){
   return '<div class="inline-choice-wrap"><input id="'+inputId+'"'+(listId?' list="'+listId+'"':'')+' value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
-    '<span class="inline-choice-arrow">'+ico('chev','s')+'</span><select id="'+selectId+'" class="inline-choice-select" aria-label="Выбрать из списка">'+optionsHtml+'</select></div>';
+    '<select id="'+selectId+'" class="inline-choice-select premium-select-native" aria-label="Выбрать из списка">'+optionsHtml+'</select></div>';
 }
 function applyKnownJudgeCourt(judgeValue,editorMode){
   var entry=knownJudgeEntry(judgeValue); if(!entry)return false;
@@ -2054,7 +2167,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4052" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4055" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2984,6 +3097,9 @@ document.addEventListener('click', function(ev){
     case 'time-apply': applyPremiumTimePicker();break;
     case 'time-clear': clearPremiumTimePicker();break;
     case 'time-close': closePremiumTimePicker();break;
+    case 'list-open': openPremiumListPicker(el.dataset.target||'',el.dataset.input||'');break;
+    case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
+    case 'list-close': closePremiumListPicker();break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
@@ -3098,6 +3214,7 @@ document.addEventListener('click', function(ev){
   }
 });
 document.addEventListener('change',function(e){
+  if(e.target&&e.target.tagName==='SELECT'&&e.target.id) syncPremiumSelectButton(e.target.id);
   if(e.target.id==='e-hjudge-choice'&&ED){
     var jv=e.target.value, ji=$('#e-hjudge');
     if(jv){ED.hearingJudge=jv;if(ji)ji.value=jv;applyKnownJudgeCourt(jv,'hearing');vib(5);}
@@ -3129,7 +3246,7 @@ document.addEventListener('change',function(e){
     ED.deadlineCode=e.target.value;
     var rs=legalDeadlineRules(ED.deadlineCode),sel=$('#e-deadline-rule');
     ED.deadlineRuleId=(rs[0]||{}).id||'';
-    if(sel){sel.innerHTML=legalDeadlineRuleOptions(ED.deadlineCode,ED.deadlineRuleId);sel.value=ED.deadlineRuleId;}
+    if(sel){sel.innerHTML=legalDeadlineRuleOptions(ED.deadlineCode,ED.deadlineRuleId);sel.value=ED.deadlineRuleId;syncPremiumSelectButton('e-deadline-rule');}
     applyDeadlineRuleFromDom(); return;
   }
   if(e.target.id==='e-deadline-rule'||e.target.id==='e-source'){pullEditor();applyDeadlineRuleFromDom();return;}
@@ -3156,6 +3273,7 @@ document.addEventListener('change',function(e){
   }
 });
 document.addEventListener('input',function(e){
+  if(e.target.id==='premium-list-search'&&LIST_PICKER){LIST_PICKER.query=e.target.value;renderPremiumListPicker();var q=$('#premium-list-search');if(q){q.focus({preventScroll:true});try{q.setSelectionRange(q.value.length,q.value.length);}catch(_){}}return;}
   if(e.target.id==='q'){S.ui.q=e.target.value;renderTaskList();}
   if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
   if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
@@ -3332,14 +3450,14 @@ document.addEventListener('touchmove',function(e){
   }
   if(!TODAY_HEARING_TOUCH.horizontal) return;
   if(e.cancelable)e.preventDefault();
-  var x=Math.max(-118,Math.min(0,TODAY_HEARING_TOUCH.dx));
+  var x=Math.max(-104,Math.min(0,TODAY_HEARING_TOUCH.dx));
   TODAY_HEARING_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
   TODAY_HEARING_TOUCH.row.classList.toggle('swipe-left',x<=-30);
-  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-ready',x<=-82);
+  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-ready',x<=-72);
 },{passive:false,capture:true});
 document.addEventListener('touchend',function(){
   if(!TODAY_HEARING_TOUCH.on) return;
-  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-82 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.25;
+  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-72 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.25;
   finishTodayHearingSwipe(intentional);
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){
