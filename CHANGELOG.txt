@@ -1,4 +1,4 @@
-4.0.24
+4.0.25
 - compacted bottom navigation while preserving larger icons;
 - replaced shared architectural background with unique background treatment per main screen;
 - added separate light/dark styling for Today, Tasks, Matters, Calendar and More.

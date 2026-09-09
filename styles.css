@@ -6489,3 +6489,170 @@ body:not(.light) #sc-more{
   background-position:center!important;
 }
 body:not(.light) #sc-more::before{background:radial-gradient(circle at 12% 20%,rgba(93,130,160,.05),transparent 22%)!important}
+
+
+/* 4.0.25 — визуально заметная фиксация панели и фонов + новый build 4025 */
+/* Панель ровно по содержимому: без safe-area внутри самой плашки. Safe-area остаётся только как отступ от края экрана. */
+.premium-nav.tabbar,
+body.light .premium-nav.tabbar,
+body:not(.light) .premium-nav.tabbar{
+  left:10px!important;
+  right:10px!important;
+  bottom:max(2px,var(--bot))!important;
+  height:64px!important;
+  min-height:64px!important;
+  padding:3px 7px 2px!important;
+  border-radius:22px!important;
+  box-sizing:border-box!important;
+  align-items:stretch!important;
+}
+.premium-nav .tab,
+body.light .premium-nav .tab,
+body:not(.light) .premium-nav .tab{
+  height:58px!important;
+  min-height:58px!important;
+  padding:0 2px!important;
+  display:grid!important;
+  grid-template-rows:39px 14px 3px!important;
+  row-gap:1px!important;
+  align-content:start!important;
+}
+.premium-nav .tab-ico,
+body.light .premium-nav .tab-ico,
+body:not(.light) .premium-nav .tab-ico{
+  width:36px!important;
+  height:36px!important;
+}
+.premium-nav .tab .ico,
+body.light .premium-nav .tab .ico,
+body:not(.light) .premium-nav .tab .ico{
+  width:27px!important;
+  height:27px!important;
+}
+.premium-nav .tab.on .tab-ico,
+body.light .premium-nav .tab.on .tab-ico,
+body:not(.light) .premium-nav .tab.on .tab-ico{
+  width:43px!important;
+  height:43px!important;
+}
+.premium-nav .tab.on .ico,
+body.light .premium-nav .tab.on .ico,
+body:not(.light) .premium-nav .tab.on .ico{
+  width:30px!important;
+  height:30px!important;
+}
+.premium-nav .tab-label,
+body.light .premium-nav .tab-label,
+body:not(.light) .premium-nav .tab-label{
+  height:14px!important;
+  min-height:14px!important;
+  line-height:14px!important;
+  font-size:12.8px!important;
+  font-weight:700!important;
+}
+.premium-nav .tab::after,
+body.light .premium-nav .tab::after,
+body:not(.light) .premium-nav .tab::after{
+  width:38px!important;
+  height:3px!important;
+  margin:0!important;
+}
+.screen{padding-bottom:calc(var(--bot) + 76px)!important}
+#fab.fab{bottom:calc(var(--bot) + 70px)!important}
+.timerpill{bottom:calc(var(--bot) + 68px)!important}
+
+/* Общая гамма везде: один ivory/champagne в light и один navy/gold в dark. Отличается только рисунок. */
+body.light #sc-today,body.light #sc-tasks,body.light #sc-matters,body.light #sc-cal,body.light #sc-more{background-color:#F8F4EC!important}
+body:not(.light) #sc-today,body:not(.light) #sc-tasks,body:not(.light) #sc-matters,body:not(.light) #sc-cal,body:not(.light) #sc-more{background-color:#071522!important}
+
+/* Сегодня: мягкие дуги/линии юридического бланка — без колонн и без весов */
+body.light #sc-today{
+  background-image:
+    radial-gradient(120% 42% at 102% -4%,rgba(198,151,66,.13),transparent 54%),
+    radial-gradient(75% 30% at -10% 28%,rgba(94,113,132,.055),transparent 58%),
+    repeating-linear-gradient(180deg,transparent 0,transparent 45px,rgba(166,124,41,.03) 45px,rgba(166,124,41,.03) 46px),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 66%,#F5F0E6)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+body:not(.light) #sc-today{
+  background-image:
+    radial-gradient(120% 42% at 102% -4%,rgba(198,151,66,.14),transparent 54%),
+    radial-gradient(75% 30% at -10% 28%,rgba(107,139,165,.075),transparent 58%),
+    repeating-linear-gradient(180deg,transparent 0,transparent 45px,rgba(198,151,66,.025) 45px,rgba(198,151,66,.025) 46px),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+
+/* Задачи: та же гамма, лёгкая канцелярская сетка */
+body.light #sc-tasks{
+  background-image:
+    linear-gradient(rgba(116,132,146,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(116,132,146,.026) 1px,transparent 1px),
+    radial-gradient(circle at 88% 8%,rgba(198,151,66,.085),transparent 24%),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 66%,#F5F0E6)!important;
+  background-size:32px 32px,32px 32px,100% 100%,100% 100%!important;
+  background-position:0 0,0 0,center,center!important;
+}
+body:not(.light) #sc-tasks{
+  background-image:
+    linear-gradient(rgba(146,169,189,.027) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(146,169,189,.023) 1px,transparent 1px),
+    radial-gradient(circle at 88% 8%,rgba(198,151,66,.095),transparent 24%),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:32px 32px,32px 32px,100% 100%,100% 100%!important;
+  background-position:0 0,0 0,center,center!important;
+}
+
+/* Дела: вертикальная dossier-фактура */
+body.light #sc-matters{
+  background-image:
+    repeating-linear-gradient(90deg,transparent 0,transparent 66px,rgba(103,120,136,.034) 66px,rgba(103,120,136,.034) 67px),
+    radial-gradient(circle at 87% 9%,rgba(198,151,66,.09),transparent 24%),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 66%,#F5F0E6)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+body:not(.light) #sc-matters{
+  background-image:
+    repeating-linear-gradient(90deg,transparent 0,transparent 66px,rgba(145,167,187,.028) 66px,rgba(145,167,187,.028) 67px),
+    radial-gradient(circle at 87% 9%,rgba(198,151,66,.10),transparent 24%),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+
+/* Календарь: точечная сетка */
+body.light #sc-cal{
+  background-image:
+    radial-gradient(circle,rgba(104,120,135,.07) 1.1px,transparent 1.3px),
+    radial-gradient(circle at 50% 5%,rgba(198,151,66,.10),transparent 24%),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 66%,#F5F0E6)!important;
+  background-size:34px 34px,100% 100%,100% 100%!important;
+  background-position:7px 12px,center,center!important;
+}
+body:not(.light) #sc-cal{
+  background-image:
+    radial-gradient(circle,rgba(147,169,188,.06) 1.1px,transparent 1.3px),
+    radial-gradient(circle at 50% 5%,rgba(198,151,66,.11),transparent 24%),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:34px 34px,100% 100%,100% 100%!important;
+  background-position:7px 12px,center,center!important;
+}
+
+/* Ещё: диагональная фактура */
+body.light #sc-more{
+  background-image:
+    repeating-linear-gradient(135deg,rgba(145,117,68,.034) 0,rgba(145,117,68,.034) 1px,transparent 1px,transparent 25px),
+    radial-gradient(circle at 86% 8%,rgba(198,151,66,.09),transparent 24%),
+    linear-gradient(180deg,#FCFAF5,#F8F4EC 66%,#F5F0E6)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+body:not(.light) #sc-more{
+  background-image:
+    repeating-linear-gradient(135deg,rgba(147,169,187,.027) 0,rgba(147,169,187,.027) 1px,transparent 1px,transparent 25px),
+    radial-gradient(circle at 86% 8%,rgba(198,151,66,.10),transparent 24%),
+    linear-gradient(180deg,#0A1A28,#071522 72%)!important;
+  background-size:100% 100%!important;background-position:center!important;
+}
+
+/* Sticky-плашки не должны перекрашивать фон в другой оттенок */
+body.light .tasks-project-filters,body.light .matters-scope{background:rgba(248,244,236,.91)!important}
+body:not(.light) .tasks-project-filters,body:not(.light) .matters-scope{background:rgba(7,21,34,.91)!important}
