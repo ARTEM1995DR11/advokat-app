@@ -7463,3 +7463,39 @@ body:not(.light) .pt-group.green .pt-group-head{
   border-color:rgba(47,163,107,.24)!important;
   background:linear-gradient(90deg,rgba(34,166,111,.26) 0%,rgba(34,166,111,.16) 58%,rgba(34,166,111,.08) 100%)!important;
 }
+
+
+/* ============================================================
+   4.0.35 — ПОЛНОСТЬЮ НЕПРОЗРАЧНЫЕ ЦВЕТНЫЕ ПОЛОСКИ
+   ============================================================ */
+
+/* Светлая тема — экран Сегодня */
+body.light .today-sec.danger,
+body.light .today-sec.danger{background:linear-gradient(90deg,#FCE6E5 0%,#F9EFEE 100%)!important;color:#D94747!important;border-color:#F1C9C7!important}
+body.light .today-sec.blue{background:linear-gradient(90deg,#E5F1FF 0%,#EEF6FF 100%)!important;color:#3E7EC6!important;border-color:#CBDEF5!important}
+body.light .today-sec.green{background:linear-gradient(90deg,#E4F5EC 0%,#EEF8F2 100%)!important;color:#2F9B67!important;border-color:#CBE8D8!important}
+body.light .today-sec.gold{background:linear-gradient(90deg,#F7EED8 0%,#FBF4E5 100%)!important;color:#BE8A2A!important;border-color:#E7D1A2!important}
+body.light .today-sec.slate{background:linear-gradient(90deg,#E9EEF3 0%,#F3F6F8 100%)!important;color:#6A7C8C!important;border-color:#D7E0E8!important}
+body.light .today-sec.purple{background:linear-gradient(90deg,#EEE8FC 0%,#F6F2FF 100%)!important;color:#7F6ACB!important;border-color:#DDD3F6!important}
+
+/* Светлая тема — экран Задачи */
+body.light .pt-group.red .pt-group-head{background:linear-gradient(90deg,#FCE6E5 0%,#F9EFEE 100%)!important;color:#D94747!important;border-color:#F1C9C7!important}
+body.light .pt-group.blue .pt-group-head{background:linear-gradient(90deg,#E5F1FF 0%,#EEF6FF 100%)!important;color:#3E7EC6!important;border-color:#CBDEF5!important}
+body.light .pt-group.gold .pt-group-head,
+body.light .pt-group.result .pt-group-head{background:linear-gradient(90deg,#F7EED8 0%,#FBF4E5 100%)!important;color:#BE8A2A!important;border-color:#E7D1A2!important}
+body.light .pt-group.green .pt-group-head{background:linear-gradient(90deg,#E4F5EC 0%,#EEF8F2 100%)!important;color:#2F9B67!important;border-color:#CBE8D8!important}
+
+/* Тёмная тема — экран Сегодня */
+body:not(.light) .today-sec.danger{background:linear-gradient(90deg,#4E2224 0%,#3A1B1D 100%)!important;color:#FF7373!important;border-color:#6E3437!important}
+body:not(.light) .today-sec.blue{background:linear-gradient(90deg,#19354F 0%,#122B42 100%)!important;color:#7EC2FF!important;border-color:#295276!important}
+body:not(.light) .today-sec.green{background:linear-gradient(90deg,#18372B 0%,#112D23 100%)!important;color:#5EDAA0!important;border-color:#295741!important}
+body:not(.light) .today-sec.gold{background:linear-gradient(90deg,#44351A 0%,#352913 100%)!important;color:#F1CB74!important;border-color:#655028!important}
+body:not(.light) .today-sec.slate{background:linear-gradient(90deg,#2C3944 0%,#23303A 100%)!important;color:#DDE6EF!important;border-color:#43525E!important}
+body:not(.light) .today-sec.purple{background:linear-gradient(90deg,#352C4A 0%,#2B243F 100%)!important;color:#D0C2FF!important;border-color:#51486A!important}
+
+/* Тёмная тема — экран Задачи */
+body:not(.light) .pt-group.red .pt-group-head{background:linear-gradient(90deg,#4E2224 0%,#3A1B1D 100%)!important;color:#FF7373!important;border-color:#6E3437!important}
+body:not(.light) .pt-group.blue .pt-group-head{background:linear-gradient(90deg,#19354F 0%,#122B42 100%)!important;color:#7EC2FF!important;border-color:#295276!important}
+body:not(.light) .pt-group.gold .pt-group-head,
+body:not(.light) .pt-group.result .pt-group-head{background:linear-gradient(90deg,#44351A 0%,#352913 100%)!important;color:#F1CB74!important;border-color:#655028!important}
+body:not(.light) .pt-group.green .pt-group-head{background:linear-gradient(90deg,#18372B 0%,#112D23 100%)!important;color:#5EDAA0!important;border-color:#295741!important}
