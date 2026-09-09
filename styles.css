@@ -7049,3 +7049,88 @@ body:not(.light) .matters-scope{
   -webkit-backdrop-filter:blur(10px)!important;
   backdrop-filter:blur(10px)!important;
 }
+
+
+/* ============================================================
+   4.0.30 — ЧИСТЫЙ РЕНДЕР ФОНОВ ОСНОВНЫХ ЭКРАНОВ
+   Цель: убрать плитку/расчерчивание и артефакты fixed-layer на iPhone.
+   Финальный override: прямой фон на .screen без псевдо-слоёв.
+   ============================================================ */
+#sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
+  position:relative!important;
+  isolation:isolate!important;
+  background-attachment:scroll!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center top!important;
+}
+#sc-today::before,#sc-tasks::before,#sc-matters::before,#sc-cal::before,#sc-more::before,
+#sc-today::after,#sc-tasks::after,#sc-matters::after,#sc-cal::after,#sc-more::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+#sc-today>*,#sc-tasks>*,#sc-matters>*,#sc-cal>*,#sc-more>*{
+  position:relative!important;
+  z-index:1!important;
+}
+body.light #sc-today{
+  background-color:#F7F1E6!important;
+  background-image:
+    linear-gradient(180deg,rgba(252,248,240,.70) 0%,rgba(248,242,232,.78) 34%,rgba(247,240,229,.88) 72%,rgba(247,240,229,.95) 100%),
+    url('bg-today-desk.png')!important;
+}
+body.light #sc-tasks{
+  background-color:#F7F1E6!important;
+  background-image:
+    linear-gradient(180deg,rgba(252,248,240,.72) 0%,rgba(248,242,232,.80) 34%,rgba(247,240,229,.89) 72%,rgba(247,240,229,.95) 100%),
+    url('bg-tasks-planner.png')!important;
+}
+body.light #sc-matters{
+  background-color:#F7F1E6!important;
+  background-image:
+    linear-gradient(180deg,rgba(252,248,240,.70) 0%,rgba(248,242,232,.79) 34%,rgba(247,240,229,.89) 72%,rgba(247,240,229,.95) 100%),
+    url('bg-matters-folders.png')!important;
+}
+body.light #sc-cal{
+  background-color:#F7F1E6!important;
+  background-image:
+    linear-gradient(180deg,rgba(252,248,240,.74) 0%,rgba(248,242,232,.82) 34%,rgba(247,240,229,.90) 72%,rgba(247,240,229,.96) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body.light #sc-more{
+  background-color:#F7F1E6!important;
+  background-image:
+    linear-gradient(180deg,rgba(252,248,240,.72) 0%,rgba(248,242,232,.80) 34%,rgba(247,240,229,.89) 72%,rgba(247,240,229,.95) 100%),
+    url('bg-more-marble-office.png')!important;
+}
+body:not(.light) #sc-today{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.72) 0%,rgba(6,18,29,.82) 34%,rgba(6,18,29,.91) 72%,rgba(6,18,29,.96) 100%),
+    url('bg-today-desk.png')!important;
+}
+body:not(.light) #sc-tasks{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.72) 0%,rgba(6,18,29,.82) 34%,rgba(6,18,29,.91) 72%,rgba(6,18,29,.96) 100%),
+    url('bg-tasks-planner.png')!important;
+}
+body:not(.light) #sc-matters{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.72) 0%,rgba(6,18,29,.82) 34%,rgba(6,18,29,.91) 72%,rgba(6,18,29,.96) 100%),
+    url('bg-matters-folders.png')!important;
+}
+body:not(.light) #sc-cal{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.74) 0%,rgba(6,18,29,.84) 34%,rgba(6,18,29,.92) 72%,rgba(6,18,29,.97) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body:not(.light) #sc-more{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.72) 0%,rgba(6,18,29,.82) 34%,rgba(6,18,29,.91) 72%,rgba(6,18,29,.96) 100%),
+    url('bg-more-marble-office.png')!important;
+}
