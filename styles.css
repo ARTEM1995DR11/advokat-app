@@ -7392,3 +7392,74 @@ body:not(.light) .screen .subtitle{
   color:#F2F6FA!important;
   text-shadow:0 1px 8px rgba(0,0,0,.34)!important;
 }
+
+
+/* ============================================================
+   4.0.34 — ВИДИМЫЕ ЦВЕТНЫЕ ПОЛОСКИ В ТЁМНОЙ ТЕМЕ
+   ============================================================ */
+body:not(.light) .today-sec,
+body:not(.light) .pt-group-head{
+  backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+
+/* Экран Сегодня — верхние цветные ленты блоков */
+body:not(.light) .today-sec.danger{
+  color:#FF6868!important;
+  border-color:rgba(255,112,112,.22)!important;
+  background:linear-gradient(90deg,rgba(194,57,52,.30) 0%,rgba(194,57,52,.18) 58%,rgba(194,57,52,.08) 100%)!important;
+}
+body:not(.light) .today-sec.blue{
+  color:#6DB9FF!important;
+  border-color:rgba(78,134,198,.24)!important;
+  background:linear-gradient(90deg,rgba(45,145,229,.28) 0%,rgba(45,145,229,.17) 58%,rgba(45,145,229,.08) 100%)!important;
+}
+body:not(.light) .today-sec.green{
+  color:#46D090!important;
+  border-color:rgba(47,163,107,.24)!important;
+  background:linear-gradient(90deg,rgba(34,166,111,.26) 0%,rgba(34,166,111,.16) 58%,rgba(34,166,111,.08) 100%)!important;
+}
+body:not(.light) .today-sec.gold{
+  color:#F0C56A!important;
+  border-color:rgba(201,162,39,.24)!important;
+  background:linear-gradient(90deg,rgba(185,132,47,.28) 0%,rgba(185,132,47,.17) 58%,rgba(185,132,47,.08) 100%)!important;
+}
+body:not(.light) .today-sec.slate{
+  color:#DDE6EF!important;
+  border-color:rgba(115,139,158,.22)!important;
+  background:linear-gradient(90deg,rgba(115,139,158,.24) 0%,rgba(115,139,158,.14) 58%,rgba(115,139,158,.06) 100%)!important;
+}
+body:not(.light) .today-sec.purple{
+  color:#CBBEFF!important;
+  border-color:rgba(139,123,216,.24)!important;
+  background:linear-gradient(90deg,rgba(139,123,216,.28) 0%,rgba(139,123,216,.16) 58%,rgba(139,123,216,.08) 100%)!important;
+}
+body:not(.light) .today-sec .today-sec-ico{
+  border:1px solid rgba(255,255,255,.10)!important;
+}
+
+/* Экран Задачи — шапки групп */
+body:not(.light) .pt-group-head{
+  border-color:rgba(255,255,255,.11)!important;
+}
+body:not(.light) .pt-group.red .pt-group-head{
+  color:#FF6666!important;
+  border-color:rgba(255,112,112,.22)!important;
+  background:linear-gradient(90deg,rgba(194,57,52,.28) 0%,rgba(194,57,52,.17) 58%,rgba(194,57,52,.08) 100%)!important;
+}
+body:not(.light) .pt-group.blue .pt-group-head{
+  color:#6DB9FF!important;
+  border-color:rgba(78,134,198,.24)!important;
+  background:linear-gradient(90deg,rgba(45,145,229,.27) 0%,rgba(45,145,229,.16) 58%,rgba(45,145,229,.08) 100%)!important;
+}
+body:not(.light) .pt-group.gold .pt-group-head,
+body:not(.light) .pt-group.result .pt-group-head{
+  color:#EEC46A!important;
+  border-color:rgba(201,162,39,.24)!important;
+  background:linear-gradient(90deg,rgba(185,132,47,.28) 0%,rgba(185,132,47,.17) 58%,rgba(185,132,47,.08) 100%)!important;
+}
+body:not(.light) .pt-group.green .pt-group-head{
+  color:#46D090!important;
+  border-color:rgba(47,163,107,.24)!important;
+  background:linear-gradient(90deg,rgba(34,166,111,.26) 0%,rgba(34,166,111,.16) 58%,rgba(34,166,111,.08) 100%)!important;
+}
