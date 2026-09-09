@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.37';
-var APP_BUILD='4037';
+var APP_VERSION='4.0.39';
+var APP_BUILD='4039';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -861,14 +861,14 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4037" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-quote"><div><b>'+quote[0]+'</b><span>'+quote[1]+'</span></div></div>';
 
   html += block('danger','flag','Просроченные процессуальные сроки',overdueDeadlines,todayDeadlineRow);
-  html += block('danger','flag','Процессуальные сроки сегодня',deadlinesToday,todayDeadlineRow);
+  html += block('gold','clock','Процессуальные сроки сегодня',deadlinesToday,todayDeadlineRow);
   if(overdueTasks.length){
     html += block('danger','flag','Просроченные задачи',overdueTasks,todayTaskRow,
       '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
@@ -941,7 +941,8 @@ function deleteTaskById(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0];
   if(!t) return;
   if(t.kind==='hearing'&&(hearingNeedsResult(t)||hearingHasResult(t))){toast('Прошедшее заседание сохраняется в истории');return;}
-  if(confirm((t.kind==='hearing'?'Удалить заседание?':'Удалить задачу?'))){
+  var deleteQuestion=t.kind==='hearing'?'Удалить заседание?':(t.kind==='meeting'?'Удалить встречу?':(t.kind==='deadline'?'Удалить процессуальный срок?':'Удалить задачу?'));
+  if(confirm(deleteQuestion)){
     S.tasks=S.tasks.filter(function(x){return x.id!==id;});
     save(); render();
     if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
@@ -1108,7 +1109,7 @@ function taskProjectBase(){
   return S.tasks.filter(function(t){
     if(!q) return true;
     var m=t.mid?matter(t.mid):null;
-    var hay=(t.title+' '+(t.note||'')+' '+(t.hearingClient||'')+' '+(t.hearingNumber||'')+' '+(t.hearingJudge||'')+' '+(t.hearingResultText||'')+' '+(t.hearingResultStatus||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||''):'')).toLowerCase();
+    var hay=(t.title+' '+(t.note||'')+' '+(t.place||'')+' '+(t.rule||'')+' '+(t.ruleArticle||'')+' '+(t.ruleCode||'')+' '+(t.hearingClient||'')+' '+(t.hearingNumber||'')+' '+(t.hearingJudge||'')+' '+(t.hearingResultText||'')+' '+(t.hearingResultStatus||'')+' '+(m?m.title+' '+(m.client||'')+' '+(m.number||'')+' '+(m.court||'')+' '+(m.judge||'')+' '+(m.article||''):'')).toLowerCase();
     return hay.indexOf(q)>=0;
   }).sort(sortT);
 }
@@ -1135,13 +1136,21 @@ function taskProjectCounts(){
     done:all.filter(function(t){return !!t.done || meetingOccurred(t);}).length
   };
 }
+function revealActiveTaskChip(){
+  var strip=document.querySelector('#sc-tasks .tasks-project-filters');
+  if(!strip)return;
+  var active=strip.querySelector('button.on');
+  if(!active)return;
+  var target=active.offsetLeft-(strip.clientWidth-active.offsetWidth)/2;
+  strip.scrollLeft=Math.max(0,target);
+}
 function renderTasks(){
   var u=S.ui;
   if(['','late','today','week','later','nodue','done'].indexOf(u.taskChip)<0) u.taskChip='';
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4037" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1161,6 +1170,7 @@ function renderTasks(){
     '</div><div id="tasklist"></div></div>';
   $('#sc-tasks').innerHTML=html;
   renderTaskList();
+  requestAnimationFrame(revealActiveTaskChip);
   if(u._sq){var el=$('#q');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
 }
 function taskFilter(){
@@ -1240,7 +1250,6 @@ function taskProjectRow(t){
         ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   return '<div class="pt-item" data-id="'+t.id+'">'+
-    '<div class="pt-swipe-bg"><span></span><span class="pt-swipe-more">Ещё'+ico('more','s')+'</span></div>'+ 
     '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+(t.kind==='deadline'?' deadline-record':'')+'" data-id="'+t.id+'">'+
       leadIcon+
       '<div class="pt-main">'+
@@ -1251,13 +1260,14 @@ function taskProjectRow(t){
         (hearingHasResult(t)&&t.hearingResultText?'<small class="pt-hearing-result-text">'+esc(t.hearingResultText)+'</small>':(t.note?'<small class="pt-note">'+esc(t.note)+'</small>':''))+
         due+
       '</div>'+ 
-      '<div class="pt-side">'+right+'</div><span class="pt-chev">'+ico('chev','s')+'</span></div></div>';
+      '<div class="pt-side">'+right+'</div><button class="pt-chev" data-act="task" data-id="'+t.id+'" aria-label="Открыть запись">'+ico('chev','s')+'</button></div></div>';
 }
 function renderTaskList(){
   var box=$('#tasklist');if(!box)return;
   var list=taskFilter();
   if(!list.length){
-    box.innerHTML=empty('list',S.ui.q?'Ничего не найдено':'Задач пока нет',S.ui.q?'Измените поисковый запрос или фильтр.':'Новые задачи появятся здесь после добавления.',S.ui.q?null:[{act:'new-task',t:'Добавить задачу'}]);
+    var filtered=!!(S.ui.q||S.ui.taskChip||S.ui.taskType);
+    box.innerHTML=empty('list',S.ui.q?'Ничего не найдено':(filtered?'Нет записей по фильтру':'Задач пока нет'),S.ui.q?'Измените поисковый запрос или фильтр.':(filtered?'Измените выбранный период или тип записи.':'Новые задачи появятся здесь после добавления.'),filtered?null:[{act:'new-task',t:'Добавить задачу'}]);
     return;
   }
   box.innerHTML=taskProjectGroups(list).map(function(g){
@@ -1429,7 +1439,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4037" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1549,7 +1559,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4037" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1650,7 +1660,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4037" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4039" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1861,7 +1871,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4037" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4039" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2775,7 +2785,7 @@ document.addEventListener('click', function(ev){
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
-    case 'reschedule': {var ov=overdue();if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено: '+ov.length);}break;}
+    case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
     case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';S.ui.taskType='';save();renderTasks();break;
     case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='hearing';save();renderTasks();break;
@@ -3006,66 +3016,7 @@ document.addEventListener('touchend',function(){
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
 
-/* =====================================================================
-   Swipe по задачам — 3.1.27
-   Завершение: только кружок слева.
-   Свайп справа налево: быстрые действия только после осознанного жеста
-   и отпускания пальца. Микросвайпы ничего не открывают.
-   ===================================================================== */
-var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
-function taskTouchReset(animate){
-  var row=TASK_TOUCH.row;
-  if(row){
-    if(animate) row.classList.add('swipe-snap');
-    row.style.transform='';
-    row.classList.remove('swipe-left','swipe-ready');
-    if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
-  }
-  TASK_TOUCH.on=false;TASK_TOUCH.row=null;TASK_TOUCH.id='';TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;
-}
-function finishTaskSwipe(openActions){
-  var id=TASK_TOUCH.id;
-  taskTouchReset(true);
-  if(!openActions || !id) return;
-  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
-  vib(7);
-  setTimeout(function(){sheetTaskActions(id);},40);
-}
-document.addEventListener('touchstart',function(e){
-  if(!unlocked || S.ui.tab!=='tasks' || !e.touches || e.touches.length!==1) return;
-  var row=e.target.closest('#tasklist .pt-row');
-  if(!row || e.target.closest('[data-act="toggle"]')) return;
-  var t=e.touches[0];
-  if(t.clientX<=44) return;
-  TASK_TOUCH.on=true;TASK_TOUCH.row=row;TASK_TOUCH.id=row.dataset.id||'';
-  TASK_TOUCH.sx=t.clientX;TASK_TOUCH.sy=t.clientY;TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;
-  row.classList.remove('swipe-snap');
-},{passive:true,capture:true});
-document.addEventListener('touchmove',function(e){
-  if(!TASK_TOUCH.on || !TASK_TOUCH.row || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0];
-  TASK_TOUCH.dx=t.clientX-TASK_TOUCH.sx;TASK_TOUCH.dy=t.clientY-TASK_TOUCH.sy;
-  if(!TASK_TOUCH.horizontal){
-    if(Math.abs(TASK_TOUCH.dy)>14 && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*1.15){taskTouchReset(true);return;}
-    if(TASK_TOUCH.dx<-14 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.20) TASK_TOUCH.horizontal=true;
-  }
-  if(!TASK_TOUCH.horizontal) return;
-  if(e.cancelable)e.preventDefault();
-  var x=Math.max(-104,Math.min(0,TASK_TOUCH.dx));
-  TASK_TOUCH.row.style.transform='translate3d('+x+'px,0,0)';
-  TASK_TOUCH.row.classList.toggle('swipe-left',x<=-30);
-  TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-78);
-},{passive:false,capture:true});
-document.addEventListener('touchend',function(){
-  if(!TASK_TOUCH.on) return;
-  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-78 && Math.abs(TASK_TOUCH.dy)<=70 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.25;
-  finishTaskSwipe(intentional);
-},{passive:true,capture:true});
-document.addEventListener('touchcancel',function(){
-  if(!TASK_TOUCH.on) return;
-  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-88 && Math.abs(TASK_TOUCH.dy)<=70;
-  finishTaskSwipe(intentional);
-},{passive:true,capture:true});
+/* Горизонтальные свайпы по строкам задач отключены: действия выполняются через явные элементы интерфейса. */
 
 /* =====================================================================
    iPhone-style bottom sheet: pull the top area down = Close
