@@ -6491,7 +6491,7 @@ body:not(.light) #sc-more{
 body:not(.light) #sc-more::before{background:radial-gradient(circle at 12% 20%,rgba(93,130,160,.05),transparent 22%)!important}
 
 
-/* 4.0.25 — визуально заметная фиксация панели и фонов + новый build 4025 */
+/* 4.0.26 — визуально заметная фиксация панели и фонов + новый build 4026 */
 /* Панель ровно по содержимому: без safe-area внутри самой плашки. Safe-area остаётся только как отступ от края экрана. */
 .premium-nav.tabbar,
 body.light .premium-nav.tabbar,
@@ -6656,3 +6656,176 @@ body:not(.light) #sc-more{
 /* Sticky-плашки не должны перекрашивать фон в другой оттенок */
 body.light .tasks-project-filters,body.light .matters-scope{background:rgba(248,244,236,.91)!important}
 body:not(.light) .tasks-project-filters,body:not(.light) .matters-scope{background:rgba(7,21,34,.91)!important}
+
+
+/* ============================================================
+   4.0.26 — заметные фоновые изображения на КАЖДОЙ основной странице
+   Единая тёплая премиальная гамма, но у каждой вкладки свой образ.
+   ============================================================ */
+.screen{
+  position:relative;
+  isolation:isolate;
+}
+.screen>*{
+  position:relative;
+  z-index:1;
+}
+.screen::before,
+.screen::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+}
+.screen::before{
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(188,137,49,.04),transparent 10%,transparent 90%,rgba(188,137,49,.03)),
+    repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(169,118,34,.028) 39px,rgba(169,118,34,.028) 40px),
+    radial-gradient(ellipse at 50% -16%,rgba(255,255,255,.72),transparent 52%);
+  opacity:.95;
+}
+.screen::after{
+  width:var(--page-watermark-w,260px);
+  height:var(--page-watermark-h,260px);
+  top:var(--page-watermark-top,58px);
+  left:var(--page-watermark-left,auto);
+  right:var(--page-watermark-right,-52px);
+  bottom:var(--page-watermark-bottom,auto);
+  background:var(--page-watermark,none) center/contain no-repeat;
+  opacity:var(--page-watermark-opacity,.11);
+  transform:rotate(var(--page-watermark-rotate,-6deg));
+  filter:var(--page-watermark-filter,drop-shadow(0 10px 24px rgba(115,76,18,.08)));
+}
+
+body.light #sc-today,
+body.light #sc-tasks,
+body.light #sc-matters,
+body.light #sc-cal,
+body.light #sc-more{
+  background-color:#F7EFE2;
+  background-image:
+    radial-gradient(900px 340px at 18% -8%,rgba(255,255,255,.93) 0%,rgba(255,255,255,.52) 34%,transparent 64%),
+    radial-gradient(420px 190px at 92% 8%,rgba(214,173,88,.11),transparent 60%),
+    linear-gradient(180deg,#FBF6ED 0%,#F7EFE3 46%,#F2E8DA 100%);
+  background-repeat:no-repeat;
+}
+body.light #sc-today{
+  --page-watermark:url('columns-light.png');
+  --page-watermark-w:320px;
+  --page-watermark-h:320px;
+  --page-watermark-top:30px;
+  --page-watermark-right:-52px;
+  --page-watermark-opacity:.12;
+  --page-watermark-rotate:-4deg;
+}
+body.light #sc-tasks{
+  --page-watermark:url('scale-gold.png');
+  --page-watermark-w:248px;
+  --page-watermark-h:248px;
+  --page-watermark-top:92px;
+  --page-watermark-right:-22px;
+  --page-watermark-opacity:.105;
+  --page-watermark-rotate:-7deg;
+}
+body.light #sc-matters{
+  --page-watermark:url('columns-light.png');
+  --page-watermark-w:292px;
+  --page-watermark-h:292px;
+  --page-watermark-top:108px;
+  --page-watermark-right:-42px;
+  --page-watermark-opacity:.11;
+  --page-watermark-rotate:4deg;
+}
+body.light #sc-cal{
+  --page-watermark:url('scale-gold.png');
+  --page-watermark-w:232px;
+  --page-watermark-h:232px;
+  --page-watermark-top:74px;
+  --page-watermark-right:4px;
+  --page-watermark-opacity:.10;
+  --page-watermark-rotate:7deg;
+}
+body.light #sc-more{
+  --page-watermark:url('columns-light.png');
+  --page-watermark-w:274px;
+  --page-watermark-h:274px;
+  --page-watermark-top:118px;
+  --page-watermark-right:-48px;
+  --page-watermark-opacity:.10;
+  --page-watermark-rotate:-7deg;
+}
+
+body:not(.light) #sc-today,
+body:not(.light) #sc-tasks,
+body:not(.light) #sc-matters,
+body:not(.light) #sc-cal,
+body:not(.light) #sc-more{
+  background-color:#081521;
+  background-image:
+    radial-gradient(820px 300px at 20% -10%,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 36%,transparent 62%),
+    radial-gradient(380px 170px at 92% 8%,rgba(198,151,66,.12),transparent 58%),
+    linear-gradient(180deg,#0B1B29 0%,#091724 46%,#07131F 100%);
+  background-repeat:no-repeat;
+}
+body:not(.light) .screen::before{
+  background:
+    linear-gradient(90deg,rgba(198,151,66,.04),transparent 10%,transparent 90%,rgba(198,151,66,.03)),
+    repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(155,182,204,.022) 39px,rgba(155,182,204,.022) 40px),
+    radial-gradient(ellipse at 50% -14%,rgba(255,255,255,.05),transparent 48%);
+}
+body:not(.light) #sc-today{
+  --page-watermark:url('columns-dark.png');
+  --page-watermark-w:330px;
+  --page-watermark-h:330px;
+  --page-watermark-top:32px;
+  --page-watermark-right:-56px;
+  --page-watermark-opacity:.085;
+  --page-watermark-rotate:-4deg;
+  --page-watermark-filter:drop-shadow(0 12px 30px rgba(0,0,0,.28));
+}
+body:not(.light) #sc-tasks{
+  --page-watermark:url('scale-gold.png');
+  --page-watermark-w:248px;
+  --page-watermark-h:248px;
+  --page-watermark-top:92px;
+  --page-watermark-right:-22px;
+  --page-watermark-opacity:.07;
+  --page-watermark-rotate:-6deg;
+  --page-watermark-filter:drop-shadow(0 12px 30px rgba(0,0,0,.34));
+}
+body:not(.light) #sc-matters{
+  --page-watermark:url('columns-dark.png');
+  --page-watermark-w:300px;
+  --page-watermark-h:300px;
+  --page-watermark-top:112px;
+  --page-watermark-right:-48px;
+  --page-watermark-opacity:.082;
+  --page-watermark-rotate:4deg;
+}
+body:not(.light) #sc-cal{
+  --page-watermark:url('scale-gold.png');
+  --page-watermark-w:232px;
+  --page-watermark-h:232px;
+  --page-watermark-top:76px;
+  --page-watermark-right:2px;
+  --page-watermark-opacity:.068;
+  --page-watermark-rotate:7deg;
+}
+body:not(.light) #sc-more{
+  --page-watermark:url('columns-dark.png');
+  --page-watermark-w:282px;
+  --page-watermark-h:282px;
+  --page-watermark-top:122px;
+  --page-watermark-right:-52px;
+  --page-watermark-opacity:.078;
+  --page-watermark-rotate:-7deg;
+}
+
+@media(max-width:390px){
+  .screen::after{
+    width:calc(var(--page-watermark-w,260px) - 34px);
+    height:calc(var(--page-watermark-h,260px) - 34px);
+    top:calc(var(--page-watermark-top,58px) + 8px);
+  }
+}
