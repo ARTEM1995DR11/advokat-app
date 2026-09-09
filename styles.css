@@ -8031,7 +8031,7 @@ body:not(.light) .hearing-result-hint{
 
 
 /* ============================================================
-   4.0.44 — RESULT SHEET: STABLE SAFE AREA + LARGE FOLLOW-UP FIELDS
+   4.0.45 — RESULT SHEET: STABLE SAFE AREA + LARGE FOLLOW-UP FIELDS
    ============================================================ */
 
 /* Шторка всегда одной высоты: появление блока «Следующее заседание»
@@ -8161,4 +8161,155 @@ body:not(.light) .hearing-followup>small{color:#A8BAC9!important}
   .hearing-followup{padding:15px 14px 14px!important}
   .hearing-followup .two{gap:10px!important}
   .hearing-followup .fld input{height:58px!important;min-height:58px!important;font-size:15.5px!important;line-height:58px!important}
+}
+
+
+/* ============================================================
+   4.0.45 — RESULT SHEET PREMIUM STATUS CARDS
+   ============================================================ */
+.hearing-result-options{gap:12px!important;margin-bottom:18px!important}
+.hearing-result-choice{
+  position:relative!important;
+  overflow:hidden!important;
+  display:grid!important;
+  grid-template-columns:48px minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:12px!important;
+  row-gap:4px!important;
+  min-height:94px!important;
+  padding:14px 14px 14px 16px!important;
+  border-radius:22px!important;
+  border:1px solid var(--line2)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(250,247,241,.96))!important;
+  box-shadow:0 10px 24px rgba(26,34,44,.05), inset 0 1px 0 rgba(255,255,255,.78)!important;
+  color:var(--txt)!important;
+  text-align:left!important;
+  transform:none!important;
+}
+.hearing-result-choice::before{
+  content:"";
+  position:absolute;
+  left:0;top:14px;bottom:14px;
+  width:4px;border-radius:0 4px 4px 0;
+  background:var(--hr-accent,#C79E46);
+  opacity:.95;
+}
+.hearing-result-choice:last-child:nth-child(odd){grid-column:1/-1!important}
+.hearing-result-choice-accent{display:none!important}
+.hearing-result-choice-icon{
+  width:48px!important;height:48px!important;border-radius:16px!important;
+  background:var(--hr-soft,#F7F0E0)!important;
+  color:var(--hr-accent,#A9781A)!important;
+  border:1px solid var(--hr-border-soft,rgba(169,120,26,.18))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.66)!important;
+}
+.hearing-result-choice-icon .ico{width:24px!important;height:24px!important;stroke-width:2!important}
+.hearing-result-choice-copy{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-width:0!important;gap:3px!important}
+.hearing-result-choice-title{
+  display:block!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:17px!important;
+  line-height:1.06!important;
+  font-weight:700!important;
+  color:var(--hr-title,var(--txt))!important;
+  letter-spacing:-.022em!important;
+  white-space:normal!important;
+}
+.hearing-result-choice-sub{
+  display:block!important;
+  font-size:12.5px!important;
+  line-height:1.3!important;
+  font-weight:560!important;
+  color:var(--muted)!important;
+  white-space:normal!important;
+}
+.hearing-result-choice-mark{
+  position:absolute!important;
+  top:12px!important;
+  right:12px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:28px!important;
+  padding:0 10px!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  font-weight:760!important;
+  letter-spacing:.01em!important;
+  color:var(--hr-accent,#A9781A)!important;
+  background:var(--hr-soft,#F7F0E0)!important;
+  border:1px solid var(--hr-border-soft,rgba(169,120,26,.16))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62)!important;
+}
+.hearing-result-choice:hover{transform:none!important}
+.hearing-result-choice:active{transform:scale(.992)!important}
+.hearing-result-choice.on{
+  background:linear-gradient(180deg,#FFFDF8 0%,#F7F0E5 100%)!important;
+  border-color:rgba(198,151,66,.58)!important;
+  box-shadow:0 16px 34px rgba(160,118,31,.14), inset 0 1px 0 rgba(255,255,255,.88)!important;
+  outline:none!important;
+}
+.hearing-result-choice.on::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:22px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);
+  pointer-events:none;
+}
+.hearing-result-choice.on .hearing-result-choice-mark{
+  background:linear-gradient(180deg,#E8C874 0%,#D5AA42 100%)!important;
+  border-color:rgba(176,125,24,.38)!important;
+  color:#2A2110!important;
+}
+.hearing-result-choice.on .hearing-result-choice-title{color:#1B2631!important}
+.hearing-result-choice.held{--hr-accent:#1E9351;--hr-soft:#EAF7EF;--hr-border-soft:rgba(30,147,81,.18);--hr-title:#187946}
+.hearing-result-choice.postponed{--hr-accent:#2F68D9;--hr-soft:#EAF1FF;--hr-border-soft:rgba(47,104,217,.18);--hr-title:#245AC5}
+.hearing-result-choice.break{--hr-accent:#B07612;--hr-soft:#FBF3DE;--hr-border-soft:rgba(176,118,18,.18);--hr-title:#9C690F}
+.hearing-result-choice.completed{--hr-accent:#188367;--hr-soft:#E7F7F1;--hr-border-soft:rgba(24,131,103,.18);--hr-title:#146F57}
+.hearing-result-choice.cancelled{--hr-accent:#C33B58;--hr-soft:#FCECF0;--hr-border-soft:rgba(195,59,88,.18);--hr-title:#AF2D4A}
+.hearing-result-choice.cancelled .hearing-result-choice-title{letter-spacing:-.018em!important}
+body.light .hearing-result-choice{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(249,246,239,.98))!important}
+body.light .hearing-result-choice-sub{color:#667B8E!important}
+body:not(.light) .hearing-result-choice{
+  background:linear-gradient(180deg,rgba(9,23,35,.96),rgba(7,19,29,.96))!important;
+  border-color:rgba(139,162,184,.16)!important;
+  box-shadow:0 14px 28px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04)!important;
+  color:#F3F7FB!important;
+}
+body:not(.light) .hearing-result-choice::before{opacity:.82!important}
+body:not(.light) .hearing-result-choice-title{color:#F1F5F8!important}
+body:not(.light) .hearing-result-choice-sub{color:#95AABC!important}
+body:not(.light) .hearing-result-choice-icon{box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+body:not(.light) .hearing-result-choice.on{
+  background:linear-gradient(180deg,rgba(24,33,43,.98),rgba(14,24,33,.98))!important;
+  border-color:rgba(213,171,74,.44)!important;
+  box-shadow:0 18px 34px rgba(0,0,0,.36),0 0 0 1px rgba(213,171,74,.14) inset!important;
+}
+body:not(.light) .hearing-result-choice.on .hearing-result-choice-title{color:#F7F1E5!important}
+body:not(.light) .hearing-result-choice.on .hearing-result-choice-mark{
+  background:linear-gradient(180deg,#E0BC63 0%,#C8952A 100%)!important;
+  border-color:rgba(230,190,98,.30)!important;
+  color:#20160A!important;
+}
+body:not(.light) .hearing-result-choice.held{--hr-accent:#87D7A2;--hr-soft:rgba(48,113,73,.22);--hr-border-soft:rgba(135,215,162,.22);--hr-title:#A8E7BA}
+body:not(.light) .hearing-result-choice.postponed{--hr-accent:#8CB5FF;--hr-soft:rgba(49,95,182,.22);--hr-border-soft:rgba(140,181,255,.22);--hr-title:#B5D0FF}
+body:not(.light) .hearing-result-choice.break{--hr-accent:#F0C66D;--hr-soft:rgba(138,101,28,.22);--hr-border-soft:rgba(240,198,109,.20);--hr-title:#F4D58E}
+body:not(.light) .hearing-result-choice.completed{--hr-accent:#8FDCC8;--hr-soft:rgba(36,118,98,.22);--hr-border-soft:rgba(143,220,200,.22);--hr-title:#AEEBDD}
+body:not(.light) .hearing-result-choice.cancelled{--hr-accent:#FF9FB4;--hr-soft:rgba(138,43,66,.22);--hr-border-soft:rgba(255,159,180,.22);--hr-title:#FFC3D0}
+@media(max-width:430px){
+  .hearing-result-options{gap:10px!important}
+  .hearing-result-choice{min-height:88px!important;padding:12px 12px 12px 14px!important;grid-template-columns:44px minmax(0,1fr)!important;column-gap:10px!important}
+  .hearing-result-choice-icon{width:44px!important;height:44px!important}
+  .hearing-result-choice-title{font-size:15.6px!important}
+  .hearing-result-choice-sub{font-size:11.8px!important}
+  .hearing-result-choice-mark{top:10px!important;right:10px!important;min-height:26px!important;padding:0 9px!important;font-size:10.5px!important}
+}
+@media(max-width:390px){
+  .hearing-result-choice{min-height:84px!important;grid-template-columns:41px minmax(0,1fr)!important;column-gap:9px!important}
+  .hearing-result-choice-icon{width:41px!important;height:41px!important;border-radius:14px!important}
+  .hearing-result-choice-icon .ico{width:21px!important;height:21px!important}
+  .hearing-result-choice-title{font-size:14.6px!important}
+  .hearing-result-choice-sub{font-size:11.1px!important;line-height:1.24!important}
+  .hearing-result-choice-mark{padding:0 8px!important}
 }
