@@ -7134,3 +7134,90 @@ body:not(.light) #sc-more{
     linear-gradient(180deg,rgba(6,18,29,.72) 0%,rgba(6,18,29,.82) 34%,rgba(6,18,29,.91) 72%,rgba(6,18,29,.96) 100%),
     url('bg-more-marble-office.png')!important;
 }
+
+
+/* ============================================================
+   4.0.31 — ЯРКИЕ ФОНЫ КАК НА УДАЧНОЙ ВКЛАДКЕ «КАЛЕНДАРЬ»
+   Финальный override: единая тёплая гамма, меньшая вуаль, фон явно виден.
+   ============================================================ */
+#sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
+  position:relative!important;
+  isolation:isolate!important;
+  background-attachment:scroll!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+}
+#sc-today::before,#sc-tasks::before,#sc-matters::before,#sc-cal::before,#sc-more::before,
+#sc-today::after,#sc-tasks::after,#sc-matters::after,#sc-cal::after,#sc-more::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+#sc-today>*,#sc-tasks>*,#sc-matters>*,#sc-cal>*,#sc-more>*{
+  position:relative!important;
+  z-index:1!important;
+}
+/* Светлая тема: делаем фон ярче и ближе по ощущению к экрану «Календарь» */
+body.light #sc-today{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.14) 0%,rgba(251,246,238,.18) 22%,rgba(248,242,232,.28) 48%,rgba(246,239,227,.56) 100%),
+    url('bg-today-desk.png')!important;
+}
+body.light #sc-tasks{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.10) 0%,rgba(250,245,236,.14) 22%,rgba(248,242,232,.22) 48%,rgba(246,239,227,.48) 100%),
+    url('bg-tasks-planner.png')!important;
+  background-position:center top!important;
+}
+body.light #sc-matters{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.14) 0%,rgba(251,246,238,.18) 22%,rgba(248,242,232,.28) 48%,rgba(246,239,227,.54) 100%),
+    url('bg-matters-folders.png')!important;
+}
+body.light #sc-cal{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.08) 0%,rgba(250,245,236,.12) 22%,rgba(248,242,232,.20) 50%,rgba(246,239,227,.44) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body.light #sc-more{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(253,249,242,.14) 0%,rgba(251,246,238,.18) 22%,rgba(248,242,232,.28) 48%,rgba(246,239,227,.54) 100%),
+    url('bg-more-marble-office.png')!important;
+}
+/* Тёмная тема: фон виден, но остаётся читаемым */
+body:not(.light) #sc-today{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.36) 0%,rgba(6,18,29,.44) 22%,rgba(6,18,29,.58) 48%,rgba(6,18,29,.78) 100%),
+    url('bg-today-desk.png')!important;
+}
+body:not(.light) #sc-tasks{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.34) 0%,rgba(6,18,29,.42) 22%,rgba(6,18,29,.54) 48%,rgba(6,18,29,.76) 100%),
+    url('bg-tasks-planner.png')!important;
+}
+body:not(.light) #sc-matters{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.36) 0%,rgba(6,18,29,.44) 22%,rgba(6,18,29,.58) 48%,rgba(6,18,29,.78) 100%),
+    url('bg-matters-folders.png')!important;
+}
+body:not(.light) #sc-cal{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.32) 0%,rgba(6,18,29,.40) 22%,rgba(6,18,29,.52) 48%,rgba(6,18,29,.74) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body:not(.light) #sc-more{
+  background-color:#081521!important;
+  background-image:
+    linear-gradient(180deg,rgba(6,18,29,.36) 0%,rgba(6,18,29,.44) 22%,rgba(6,18,29,.58) 48%,rgba(6,18,29,.78) 100%),
+    url('bg-more-marble-office.png')!important;
+}
