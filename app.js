@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.45';
-var APP_BUILD='4045';
+var APP_VERSION='4.0.48';
+var APP_BUILD='4048';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -232,6 +232,74 @@ var DOW = ['вс','пн','вт','ср','чт','пт','сб'];
 function fmtD(s,long){ var d = parseD(s);
   return d.getDate()+' '+MON[d.getMonth()]+(long?' '+d.getFullYear():''); }
 function fmtShort(s){ var d = parseD(s); return d.getDate()+' '+MON[d.getMonth()].slice(0,3); }
+
+/* ------------------------- premium date picker ------------------------- */
+var DATE_PICKER=null;
+function premiumDateControl(id,value,emptyLabel){
+  var v=value||'', label=v?fmtD(v,true):(emptyLabel||'Выберите дату');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="premium-date-field'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
+      '<span class="premium-date-field-copy"><small>Дата</small><b>'+esc(label)+'</b></span><span class="premium-date-field-icon">'+ico('cal','s')+'</span>'+
+    '</button>';
+}
+function datePickerMonthLabel(ym){
+  var p=(ym||today().slice(0,7)).split('-'), y=+p[0],m=+p[1];
+  return MONN[m-1]+' '+y;
+}
+function datePickerShiftMonth(ym,delta){
+  var p=(ym||today().slice(0,7)).split('-'),d=new Date(+p[0],(+p[1]-1)+delta,1);
+  return iso(d).slice(0,7);
+}
+function openPremiumDatePicker(target,value,mode,taskId){
+  var selected=value||((target&&$('#'+target))?$('#'+target).value:'')||'';
+  DATE_PICKER={target:target||'',selected:selected,month:(selected||today()).slice(0,7),mode:mode||'field',taskId:taskId||''};
+  renderPremiumDatePicker();
+  var modal=$('#premium-date-modal'), scr=$('#date-scrim');
+  if(modal)modal.classList.add('open'); if(scr)scr.classList.add('open');
+  document.body.classList.add('premium-date-open');
+  vib(5);
+}
+function closePremiumDatePicker(){
+  var modal=$('#premium-date-modal'),scr=$('#date-scrim');
+  if(modal)modal.classList.remove('open'); if(scr)scr.classList.remove('open');
+  document.body.classList.remove('premium-date-open'); DATE_PICKER=null;
+}
+function renderPremiumDatePicker(){
+  if(!DATE_PICKER)return;
+  var modal=$('#premium-date-modal');if(!modal)return;
+  var p=DATE_PICKER.month.split('-'), y=+p[0],m=+p[1], first=new Date(y,m-1,1);
+  var offset=(first.getDay()+6)%7,start=new Date(y,m-1,1-offset), cells='';
+  for(var i=0;i<42;i++){
+    var d=new Date(start);d.setDate(start.getDate()+i);var ds=iso(d),outside=d.getMonth()!==(m-1),sel=DATE_PICKER.selected===ds,isToday=ds===today();
+    cells+='<button type="button" class="premium-date-day'+(outside?' outside':'')+(sel?' selected':'')+(isToday?' today':'')+'" data-act="date-day" data-v="'+ds+'" aria-label="'+esc(fmtD(ds,true))+'"><span>'+d.getDate()+'</span></button>';
+  }
+  modal.innerHTML='<div class="premium-date-grab"></div>'+
+    '<div class="premium-date-head"><div><small>Выбор даты</small><h3>'+esc(datePickerMonthLabel(DATE_PICKER.month))+'</h3></div><div class="premium-date-nav"><button type="button" data-act="date-prev" aria-label="Предыдущий месяц">'+ico('left')+'</button><button type="button" data-act="date-next" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
+    '<div class="premium-date-week"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div>'+
+    '<div class="premium-date-grid">'+cells+'</div>'+
+    '<div class="premium-date-selected"><span>'+ico('cal','s')+'</span><div><small>Выбрано</small><b>'+(DATE_PICKER.selected?esc(fmtD(DATE_PICKER.selected,true)):'Дата не выбрана')+'</b></div></div>'+
+    '<div class="premium-date-actions">'+
+      '<button type="button" class="premium-date-secondary" data-act="date-today">Сегодня</button>'+
+      (DATE_PICKER.mode==='field'?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
+      '<button type="button" class="premium-date-primary" data-act="date-apply">Готово '+ico('check','s')+'</button>'+
+    '</div>';
+}
+function applyPremiumDatePicker(){
+  if(!DATE_PICKER)return; var dp=DATE_PICKER;
+  if(dp.mode==='task'){
+    if(!dp.selected){toast('Выберите дату');return;}
+    closePremiumDatePicker();closeSheet();moveTaskToDate(dp.taskId,dp.selected,'Дата изменена');return;
+  }
+  var inp=dp.target?$('#'+dp.target):null;if(inp)inp.value=dp.selected||'';
+  var btn=dp.target?document.querySelector('[data-date-for="'+dp.target+'"]'):null;
+  if(btn){
+    btn.classList.toggle('empty',!dp.selected);
+    var b=btn.querySelector('.premium-date-field-copy b');if(b)b.textContent=dp.selected?fmtD(dp.selected,true):'Выберите дату';
+  }
+  if(dp.target==='hr-next-date'&&HR)HR.nextDate=dp.selected||'';
+  closePremiumDatePicker();
+  if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
+}
 function relD(s){ var n = dd(s);
   if(n===0) return 'сегодня'; if(n===1) return 'завтра'; if(n===-1) return 'вчера';
   if(n<0) return 'просрочено '+(-n)+' дн.'; if(n<=6) return 'через '+n+' дн.'; return fmtShort(s); }
@@ -619,7 +687,7 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(DATE_PICKER)closePremiumDatePicker(); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ var sh=$('#sheet'); sh.classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open');
@@ -751,12 +819,15 @@ function todayHearingRow(t){
 }
 function todayPendingHearingRow(t){
   var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), when=t.due===today()?'сегодня':fmtD(t.due,true), context=m?(m.title+(m.number?' · '+m.number:'')):'';
-  return '<button class="today-row hearing-row hearing-result-row kind-hearing" data-act="hearing-result" data-id="'+t.id+'">'+
-    '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
-    '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
-    (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
-    '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+
-    '<em class="hearing-result-call">Указать результат · '+esc(when)+' →</em></span>'+ico('chev','s')+'</button>';
+  return '<div class="today-hearing-swipe" data-id="'+t.id+'">'+
+    '<div class="today-hearing-swipe-bg"><span>'+ico('gavel','s')+'<b>Результат</b><small>Отметить итог или перенос</small></span></div>'+
+    '<button class="today-row hearing-row hearing-result-row kind-hearing today-hearing-swipe-row" data-act="hearing-result" data-id="'+t.id+'">'+
+      '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
+      '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
+      (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
+      '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+
+      '<em class="hearing-result-call">Указать результат · '+esc(when)+' →</em></span>'+ico('chev','s')+'</button>'+
+  '</div>';
 }
 function todayTaskRow(t){
   var m=todayMatter(t);
@@ -861,7 +932,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4045" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -991,18 +1062,17 @@ function drawHearingResultSheet(){
   var t=S.tasks.filter(function(x){return x.id===HR.id;})[0]; if(!t)return;
   var choices=Object.keys(HEARING_RESULTS).map(function(k){
     var r=HEARING_RESULTS[k], ic=hearingResultIcon(k), selected=HR.status===k;
-    return '<button class="hearing-result-choice '+r.tone+(selected?' on':'')+'" data-act="hearing-result-pick" data-v="'+k+'">'+
-      '<span class="hearing-result-choice-accent" aria-hidden="true"></span>'+
+    return '<button class="hearing-result-choice '+r.tone+(selected?' on':'')+'" data-act="hearing-result-pick" data-v="'+k+'" aria-pressed="'+(selected?'true':'false')+'">'+
       '<span class="hearing-result-choice-icon">'+ico(ic)+'</span>'+
       '<span class="hearing-result-choice-copy">'+
         '<span class="hearing-result-choice-title">'+esc(r.sheetTitle||r.label)+'</span>'+
         '<span class="hearing-result-choice-sub">'+esc(r.sheetSub||'')+'</span>'+
       '</span>'+
-      '<span class="hearing-result-choice-mark">'+(selected?'Выбрано':'Выбрать')+'</span>'+
+      (selected?'<span class="hearing-result-choice-selected">'+ico('check','s')+'</span>':'')+
     '</button>';
   }).join('');
   var follow=(HR.status==='postponed'||HR.status==='break')
-    ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label><input id="hr-next-date" type="date" value="'+esc(HR.nextDate||'')+'"></div><div class="fld"><label>Время</label><input id="hr-next-time" type="time" value="'+esc(HR.nextTime||'')+'"></div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
+    ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('hr-next-date',HR.nextDate||'','Выберите дату')+'</div><div class="fld"><label>Время</label><input id="hr-next-time" type="time" value="'+esc(HR.nextTime||'')+'"></div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
   var hrDate=fmtD(t.due,true)+(t.time?' · '+t.time:'');
   var hrContext=hearingContextText(t)||'';
   openSheet('<div class="hearing-result-head premium"><span class="hearing-result-head-icon">'+ico('gavel')+'</span><div><h2>Результат заседания</h2><p><span>'+esc(hrDate)+'</span>'+(hrContext?'<b>'+esc(hrContext)+'</b>':'')+'</p></div></div>'+ 
@@ -1074,9 +1144,8 @@ function sheetTaskActions(id){
   var cur=t.due||today();
   var kmeta={task:{icon:'check',title:'Задача',tone:'green'},meeting:{icon:'user',title:'Встреча',tone:'purple'},deadline:{icon:'clock',title:'Процессуальный срок',tone:'red'},hearing:{icon:'gavel',title:'Заседание',tone:'blue'}}[t.kind]||{icon:'check',title:'Запись',tone:'gold'};
   var deleteText=t.kind==='hearing'?'Удалить запланированное заседание':(t.kind==='meeting'?'Удалить встречу без возможности восстановления':(t.kind==='deadline'?'Удалить процессуальный срок без возможности восстановления':'Удалить задачу без возможности восстановления'));
-  var rows='<label class="task-action-premium-row date">'+
-      '<span class="task-action-premium-icon">'+ico('cal')+'</span><span class="task-action-premium-copy"><b>Изменить дату</b><small>'+(t.due?('Сейчас: '+fmtD(t.due,true)):'Дата не установлена')+'</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span>'+ 
-      '<input class="task-date-native" type="date" value="'+esc(cur)+'" data-task-date-id="'+t.id+'" aria-label="Выбрать новую дату"></label>'+ 
+  var rows='<button type="button" class="task-action-premium-row date" data-act="date-open-task" data-id="'+t.id+'" data-date-value="'+esc(cur)+'">'+
+      '<span class="task-action-premium-icon">'+ico('cal')+'</span><span class="task-action-premium-copy"><b>Изменить дату</b><small>'+(t.due?('Сейчас: '+fmtD(t.due,true)):'Дата не установлена')+'</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span></button>'+ 
       '<button class="task-action-premium-row delete" data-act="task-action-delete" data-id="'+t.id+'"><span class="task-action-premium-icon">'+ico('trash')+'</span><span class="task-action-premium-copy"><b>Удалить</b><small>'+deleteText+'</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span></button>';
   openSheet('<div class="task-action-premium-head '+kmeta.tone+'"><span class="task-action-premium-head-icon">'+ico(kmeta.icon)+'</span><div><small>'+esc(kmeta.title)+'</small><h2>Быстрые действия</h2><p>'+esc(t.title)+(sub?' · '+esc(sub):'')+'</p></div></div><div class="task-action-premium-card">'+rows+'</div>');
   $('#sheet').classList.add('task-actions-premium');
@@ -1162,7 +1231,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4045" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1299,6 +1368,7 @@ function renderTaskList(){
    ===================================================================== */
 function matterStats(m){
   var t = tasksOf(m.id), open = t.filter(isActiveRecord);
+  var pendingResults = open.filter(function(x){ return x.kind==='hearing' && hearingNeedsResult(x); }).sort(sortT);
   var lateItems = open.filter(function(x){ return (x.kind==='task'||x.kind==='deadline') && x.due && dd(x.due)<0; }).sort(sortT);
   var late = lateItems.length;
   var done = t.filter(function(x){ return x.done || meetingOccurred(x); }).length;
@@ -1307,6 +1377,7 @@ function matterStats(m){
   var rate = +m.dayRate || +S.settings.dayRate || 0;
   var sum = parts.reduce(function(a,e){ return a + (+e.rate||rate); },0);
   return { open:open.length, done:done, all:t.length, late:late, lateItems:lateItems, next:next,
+           pendingResults:pendingResults, pendingResult:pendingResults[0]||null,
            days:parts.length, sum:sum, parts:parts };
 }
 function matterStageTone(m){
@@ -1404,6 +1475,10 @@ function matterCardNextAction(m){
 }
 function matterCardPulse(m){
   var st=matterStats(m);
+  if(st.pendingResult){
+    var p=st.pendingResult;
+    return '<div class="matter-ultra-pulse result"><i></i><span>Требуется результат · '+esc(fmtShort(p.due))+(p.time?' · '+esc(p.time):'')+'</span></div>';
+  }
   if(st.late){
     return '<div class="matter-ultra-pulse overdue"><i></i><span>Просрочено · '+st.late+' '+plural(st.late,'запись','записи','записей')+'</span></div>';
   }
@@ -1421,7 +1496,7 @@ function matterCard(m){
   var number=m.number||'без номера';
   var client=m.client||'доверитель не указан';
   var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
-  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'">'+
+  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
     '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+
     '<div class="matter-compact-copy">'+
       '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
@@ -1440,7 +1515,7 @@ function sheetMatterFilters(){
     return '<button class="filter-premium-row'+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+v+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span><span class="filter-premium-count">'+count+'</span><span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
   }
   var typeRows=mr('m-filter','','folder','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
-    Object.keys(MATTER_TYPES).map(function(k){var t=MATTER_TYPES[k];return mr('m-filter',k,'brief',esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
+    Object.keys(MATTER_TYPES).map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
   var basisRows=mr('m-basis-filter','','doc','Все основания','Соглашение и дела по назначению',basisCounts.all,'#B88C2D',S.ui.matterBasis==='')+
     Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return mr('m-basis-filter',k,k==='agreement'?'doc':'user',esc(t.n),esc(t.short),basisCounts[k]||0,t.c,S.ui.matterBasis===k);}).join('');
   openSheet('<div class="filter-premium-head"><span class="filter-premium-head-icon">'+ico('folder')+'</span><div><h2>Фильтр дел</h2><p>Быстрый отбор по типу и основанию</p></div></div><div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card">'+typeRows+'</div></div><div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card">'+basisRows+'</div></div>');
@@ -1460,6 +1535,7 @@ function renderMatters(){
   list.sort(function(a,b){
     if(a.archived!==b.archived) return a.archived?1:-1;
     var A=matterStats(a),B=matterStats(b);
+    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
     if(!!A.late!==!!B.late) return A.late?-1:1;
     var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
     if(an!==bn) return an<bn?-1:1;
@@ -1469,7 +1545,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4045" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1592,7 +1668,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4045" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1693,7 +1769,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4045" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1765,6 +1841,7 @@ function go(tab,replaceHistory){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
   if(page.classList.contains('open')){
@@ -1904,14 +1981,14 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4045" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4048" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist()+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
-    '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label><input id="e-due" type="date" value="'+esc(t.due)+'"></div>'+
+    '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label>'+premiumDateControl('e-due',t.due||'','Выберите дату')+'</div>'+
     '<div class="fld"><label>Время'+(timedEvent?' *':'')+'</label><input id="e-time" type="time" value="'+esc(t.time)+'"></div>'+
   '</div>'+
   '<div class="chips task-quick-dates">'+quickDates.map(function(x){
@@ -1924,7 +2001,7 @@ function drawEditor(){
     '<div class="deadline-calculator-title"><span>'+ico('clock','s')+'</span><div><b>Юридический калькулятор срока</b><small>Правила расчёта встроены по выбранной норме</small></div></div>'+
     '<div class="two deadline-calc-grid"><div class="fld"><label>Производство / кодекс</label><select id="e-deadline-code">'+legalDeadlineCodeOptions(t.deadlineCode||'GPK')+'</select></div>'+
     '<div class="fld"><label>Что рассчитываем</label><select id="e-deadline-rule">'+legalDeadlineRuleOptions(t.deadlineCode||'GPK',t.deadlineRuleId)+'</select></div></div>'+
-    '<div class="fld deadline-source-field"><label id="e-source-label">'+esc(deadlineRule?deadlineRule.dateLabel:'Исходная дата')+'</label><input id="e-source" type="date" value="'+esc(t.sourceDate||today())+'"></div>'+
+    '<div class="fld deadline-source-field"><label id="e-source-label">'+esc(deadlineRule?deadlineRule.dateLabel:'Исходная дата')+'</label>'+premiumDateControl('e-source',t.sourceDate||today(),'Выберите исходную дату')+'</div>'+
     '<div id="e-deadline-result">'+deadlineCalcResultHTML(deadlineRule,deadlineRes)+'</div>'+
     '<div class="deadline-calc-footnote">Расчёт учитывает правило начала срока со следующего дня, способ исчисления по соответствующему кодексу и перенос окончания с нерабочего дня. Производственный календарь 2026 учтён полностью.</div>'+
     '</div>' : '')+
@@ -1963,14 +2040,14 @@ function saveTask(){
   pullEditor();
   var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
   if(hearing){
-    if(!ED.due){ toast('Укажите дату заседания'); return; }
+    if(!ED.due){ toast('Укажите дату заседания'); openPremiumDatePicker('e-due',''); return; }
     if(!ED.time){ toast('Укажите время заседания'); return; }
     if(!ED.place) syncHearingCourt(false);
     if(!ED.place){ toast('Укажите суд / место заседания'); var pe=$('#e-place'); if(pe)pe.focus(); return; }
     ED.title='Судебное заседание'; ED.pri='mid'; ED.steps=[];
   }else if(meeting){
     if(!ED.title){ toast('Введите тему встречи'); var me=$('#e-title'); if(me) me.focus(); return; }
-    if(!ED.due){ toast('Укажите дату встречи'); var de=$('#e-due'); if(de) de.focus(); return; }
+    if(!ED.due){ toast('Укажите дату встречи'); openPremiumDatePicker('e-due',''); return; }
     if(!ED.time){ toast('Укажите время встречи'); var te=$('#e-time'); if(te) te.focus(); return; }
     ED.pri='mid'; ED.steps=[];
   }else if(ED.kind==='deadline'){
@@ -2084,19 +2161,20 @@ function matterDisplaySubtitle(m){
   if(m.number && m.title && m.title!==m.number) return esc(m.title);
   return esc([matterType(m).n,matterBasisLabel(m.basis),m.client].filter(Boolean).join(' · ') || 'Карточка дела');
 }
-function matterSegment(label,count,active){
-  return '<span class="matter-detail-seg'+(active?' on':'')+'">'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</span>';
+function matterSegment(label,count,active,target,disabled){
+  return '<button type="button" class="matter-detail-seg'+(active?' on':'')+'"'+(disabled?' disabled aria-disabled="true"':' data-act="matter-jump" data-v="'+esc(target||'matter-detail-top')+'"')+'>'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</button>';
 }
 function matterNextHearingCard(t,m){
   if(!t) return '';
-  var title=t.kind==='meeting'?'Ближайшая встреча':'Следующее заседание';
+  var needs=t.kind==='hearing'&&hearingNeedsResult(t);
+  var title=needs?'Требуется результат заседания':(t.kind==='meeting'?'Ближайшая встреча':'Следующее заседание');
   var place=t.kind==='hearing' ? hearingPlace(t).replace(/<br>/g,' · ') : (t.place||'');
   var judge=t.kind==='hearing' ? hearingJudgeName(t,m) : '';
   var subtitle=[place,judge].filter(Boolean).join(' · ');
-  return '<button class="matter-next-card" data-act="'+(hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+t.id+'">'+
-    '<span class="matter-next-icon">'+ico(t.kind==='meeting'?'user':'cal','s')+'</span>'+
-    '<span class="matter-next-copy"><small>'+title+'</small><b>'+fmtD(t.due,true)+(t.time?', '+esc(t.time):'')+'</b>'+(subtitle?'<span>'+esc(subtitle)+'</span>':'')+'</span>'+
-    '<span class="matter-next-tail">'+ico('chev','s')+'</span>'+
+  return '<button class="matter-next-card'+(needs?' needs-result':'')+'" data-act="'+(needs?'hearing-result':'task')+'" data-id="'+t.id+'">'+
+    '<span class="matter-next-icon">'+ico(needs?'gavel':(t.kind==='meeting'?'user':'cal'),'s')+'</span>'+ 
+    '<span class="matter-next-copy"><small>'+title+'</small><b>'+fmtD(t.due,true)+(t.time?', '+esc(t.time):'')+'</b>'+(subtitle?'<span>'+esc(subtitle)+'</span>':'')+'</span>'+ 
+    '<span class="matter-next-tail">'+ico('chev','s')+'</span>'+ 
   '</button>';
 }
 function matterCompactDeadlineRow(t){
@@ -2156,10 +2234,13 @@ function openMatter(id){
     '<div class="matter-header-brand">Карточка дела</div>'+
     '<div class="matter-header-actions"><button class="iconbtn" data-act="m-print">'+ico('share')+'</button><button class="iconbtn" data-act="m-edit">'+ico('edit')+'</button></div></div>'+
   '<div class="matter-detail-shell matter-detail-shell-project">'+
-    '<div class="matter-project-topcard">'+
+    '<div class="matter-project-topcard" id="matter-detail-top">'+
       '<div class="matter-project-topline"><div class="matter-project-headcopy"><h1>'+matterDisplayTitle(m)+'</h1><p>'+matterDisplaySubtitle(m)+'</p></div><span class="matter-project-status '+matterStatusClass(m)+'">'+esc(matterStatusText(m))+'</span></div>'+
       '<div class="matter-project-tabs">'+
-        matterSegment('Общее',0,true)+matterSegment('Сроки',activeDeadlines.length,false)+matterSegment('Задачи',activeFlow.length,false)+matterSegment('События',js.length,false)+
+        matterSegment('Общее',0,true,'matter-detail-top',false)+
+        matterSegment('Сроки',activeDeadlines.length,false,'matter-sec-deadlines',!activeDeadlines.length)+
+        matterSegment('Задачи',activeFlow.length,false,'matter-sec-flow',false)+
+        matterSegment('Журнал',js.length,false,'matter-sec-journal',false)+
       '</div>'+
     '</div>'+
     (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
@@ -2174,7 +2255,7 @@ function openMatter(id){
     (noteRow&&noteRow[2]?matterNoteCard(noteRow[2]):'')+
     (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list matter-events-list-compact done-list">'+done.slice(0,4).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
     '<div class="matter-bottom-actions">'+
-      '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('folder','s')+' <span>Добавить задачу</span></button>'+
+      '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+' <span>Добавить задачу</span></button>'+
       '<button class="matter-bottom-btn" data-act="m-moremenu" data-id="'+id+'">'+ico('more','s')+' <span>Ещё действия</span></button>'+
     '</div>'+
     '<div style="height:18px"></div>'+
@@ -2213,7 +2294,7 @@ function addJournal(mid,text,date,type,silent){
 function sheetJournal(mid){
   openSheet(premiumHead('doc','Запись в журнал дела','Краткая хронология работы и процессуальных событий.')+
     (!mid?'<div class="fld"><label>Дело</label><select id="j-mid-select"><option value="">— выбрать дело —</option>'+activeM().map(function(m){return '<option value="'+m.id+'">'+esc(m.title)+'</option>';}).join('')+'</select></div>':'')+
-    '<div class="fld"><label>Дата</label><input id="j-date" type="date" value="'+today()+'"></div>'+
+    '<div class="fld"><label>Дата</label>'+premiumDateControl('j-date',today(),'Выберите дату')+'</div>'+
     '<div class="fld"><label>Событие / заметка</label><textarea id="j-text" rows="5" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea></div>'+
     '<input type="hidden" id="j-mid" value="'+esc(mid)+'"><button class="btn" data-act="j-save">Добавить в журнал</button>');
   $('#sheet').classList.add('sheet-premium-form');
@@ -2221,7 +2302,7 @@ function sheetJournal(mid){
 function sheetParticipation(mid){
   var m=mid?matter(mid):null;
   openSheet('<h2>День участия</h2><p class="sh-sub">Любое фактическое участие считается как 1 день, даже если оно длилось несколько минут.</p>'+
-    '<div class="two"><div class="fld"><label>Дата</label><input id="pt-date" type="date" value="'+today()+'"></div><div class="fld"><label>Вид участия</label><select id="pt-kind">'+Object.keys(PART_KINDS).map(function(k){return '<option value="'+k+'">'+PART_KINDS[k]+'</option>';}).join('')+'</select></div></div>'+
+    '<div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('pt-date',today(),'Выберите дату')+'</div><div class="fld"><label>Вид участия</label><select id="pt-kind">'+Object.keys(PART_KINDS).map(function(k){return '<option value="'+k+'">'+PART_KINDS[k]+'</option>';}).join('')+'</select></div></div>'+
     '<div class="fld"><label>Дело</label><select id="pt-mid"><option value="">— выбрать дело —</option>'+activeM().map(function(x){return '<option value="'+x.id+'"'+(mid===x.id?' selected':'')+'>'+esc(x.title)+'</option>';}).join('')+'</select></div>'+
     '<div class="fld"><label>Место / орган</label><input id="pt-place" value="'+esc((m&&m.court)||'')+'" placeholder="Суд, СИЗО, следственный отдел…"></div>'+
     '<div class="fld"><label>Что было</label><input id="pt-desc" placeholder="Заседание, допрос, ознакомление, выезд…"></div>'+
@@ -2817,6 +2898,15 @@ document.addEventListener('click', function(ev){
     case 'close': appBack(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
+    case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
+    case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
+    case 'date-prev': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,-1);renderPremiumDatePicker();}break;
+    case 'date-next': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,1);renderPremiumDatePicker();}break;
+    case 'date-day': if(DATE_PICKER){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
+    case 'date-today': if(DATE_PICKER){DATE_PICKER.selected=today();DATE_PICKER.month=today().slice(0,7);renderPremiumDatePicker();}break;
+    case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
+    case 'date-apply': applyPremiumDatePicker();break;
+    case 'date-close': closePremiumDatePicker();break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
@@ -2866,6 +2956,7 @@ document.addEventListener('click', function(ev){
     /* matters */
     case 'new-matter': closeSheet();editMatter(null);break;
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
+    case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
     case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
     case 'm-save': saveMatter();break;
@@ -2965,11 +3056,6 @@ document.addEventListener('change',function(e){
     applyDeadlineRuleFromDom(); return;
   }
   if(e.target.id==='e-deadline-rule'||e.target.id==='e-source'){pullEditor();applyDeadlineRuleFromDom();return;}
-  if(e.target.classList&&e.target.classList.contains('task-date-native')){
-    var tid=e.target.dataset.taskDateId, val=e.target.value;
-    if(tid&&val){ closeSheet(); moveTaskToDate(tid,val,'Дата изменена'); }
-    return;
-  }
   if(e.target.id&&e.target.id.indexOf('e-')===0){
     pullEditor();
     if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
@@ -3114,6 +3200,67 @@ document.addEventListener('touchcancel',function(){
   if(!TASK_TOUCH.on) return;
   var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-88 && Math.abs(TASK_TOUCH.dy)<=70;
   finishTaskSwipe(intentional);
+},{passive:true,capture:true});
+
+/* =====================================================================
+   Swipe прошедшего заседания на экране «Сегодня» — 4.0.48
+   Свайп справа налево сразу открывает фиксацию результата.
+   ===================================================================== */
+var TODAY_HEARING_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
+function todayHearingTouchReset(animate){
+  var row=TODAY_HEARING_TOUCH.row;
+  if(row){
+    if(animate) row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  }
+  TODAY_HEARING_TOUCH.on=false;TODAY_HEARING_TOUCH.row=null;TODAY_HEARING_TOUCH.id='';TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;
+}
+function finishTodayHearingSwipe(openResult){
+  var id=TODAY_HEARING_TOUCH.id;
+  todayHearingTouchReset(true);
+  if(!openResult || !id) return;
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(7);
+  setTimeout(function(){sheetHearingResult(id);},40);
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || S.ui.tab!=='today' || !e.touches || e.touches.length!==1) return;
+  var row=e.target.closest('#sc-today .today-hearing-swipe-row');
+  if(!row) return;
+  var id=row.dataset.id||'',rec=S.tasks.filter(function(x){return x.id===id;})[0];
+  if(!rec || rec.kind!=='hearing' || !hearingNeedsResult(rec)) return;
+  var t=e.touches[0];
+  if(t.clientX<=44) return;
+  TODAY_HEARING_TOUCH.on=true;TODAY_HEARING_TOUCH.row=row;TODAY_HEARING_TOUCH.id=id;
+  TODAY_HEARING_TOUCH.sx=t.clientX;TODAY_HEARING_TOUCH.sy=t.clientY;TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;
+  row.classList.remove('swipe-snap');
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!TODAY_HEARING_TOUCH.on || !TODAY_HEARING_TOUCH.row || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  TODAY_HEARING_TOUCH.dx=t.clientX-TODAY_HEARING_TOUCH.sx;TODAY_HEARING_TOUCH.dy=t.clientY-TODAY_HEARING_TOUCH.sy;
+  if(!TODAY_HEARING_TOUCH.horizontal){
+    if(Math.abs(TODAY_HEARING_TOUCH.dy)>14 && Math.abs(TODAY_HEARING_TOUCH.dy)>Math.abs(TODAY_HEARING_TOUCH.dx)*1.15){todayHearingTouchReset(true);return;}
+    if(TODAY_HEARING_TOUCH.dx<-14 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.20) TODAY_HEARING_TOUCH.horizontal=true;
+  }
+  if(!TODAY_HEARING_TOUCH.horizontal) return;
+  if(e.cancelable)e.preventDefault();
+  var x=Math.max(-118,Math.min(0,TODAY_HEARING_TOUCH.dx));
+  TODAY_HEARING_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
+  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-left',x<=-30);
+  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-ready',x<=-82);
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!TODAY_HEARING_TOUCH.on) return;
+  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-82 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.25;
+  finishTodayHearingSwipe(intentional);
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){
+  if(!TODAY_HEARING_TOUCH.on) return;
+  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-92 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70;
+  finishTodayHearingSwipe(intentional);
 },{passive:true,capture:true});
 
 /* =====================================================================

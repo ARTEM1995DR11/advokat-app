@@ -8313,3 +8313,308 @@ body:not(.light) .hearing-result-choice.cancelled{--hr-accent:#FF9FB4;--hr-soft:
   .hearing-result-choice-sub{font-size:11.1px!important;line-height:1.24!important}
   .hearing-result-choice-mark{padding:0 8px!important}
 }
+
+
+/* ============================================================
+   4.0.48 — FINAL AUDIT «ДЕЛА»
+   ============================================================ */
+.matter-ultra-pulse.result{color:#B47913!important;font-weight:820!important}
+.matter-ultra-pulse.result i{background:#D99A2B!important;box-shadow:0 0 0 3px rgba(217,154,43,.12)!important}
+body:not(.light) .matter-ultra-pulse.result{color:#F2C76E!important}
+body:not(.light) .matter-ultra-pulse.result i{background:#E6B84F!important;box-shadow:0 0 0 3px rgba(230,184,79,.13)!important}
+
+.matter-next-card.needs-result{
+  border-color:rgba(211,151,42,.38)!important;
+  background:linear-gradient(145deg,rgba(220,166,58,.18),rgba(194,132,28,.07)),linear-gradient(180deg,var(--panel),var(--elev))!important;
+}
+.matter-next-card.needs-result .matter-next-icon{
+  color:#B97812!important;background:rgba(217,154,43,.14)!important;border-color:rgba(217,154,43,.24)!important;
+}
+.matter-next-card.needs-result .matter-next-copy small{color:#B97812!important}
+body:not(.light) .matter-next-card.needs-result{
+  border-color:rgba(230,184,79,.34)!important;
+  background:linear-gradient(145deg,rgba(143,102,26,.26),rgba(8,24,36,.94)),linear-gradient(180deg,#071927,#05131F)!important;
+}
+body:not(.light) .matter-next-card.needs-result .matter-next-icon{color:#F1CA75!important;background:rgba(180,132,38,.19)!important;border-color:rgba(230,184,79,.25)!important}
+body:not(.light) .matter-next-card.needs-result .matter-next-copy small{color:#F1CA75!important}
+
+.matter-project-tabs button.matter-detail-seg{
+  appearance:none!important;-webkit-appearance:none!important;border:0!important;border-left:1px solid var(--line2)!important;
+  background:transparent!important;font-family:inherit!important;cursor:pointer!important;padding:0 4px!important;
+}
+.matter-project-tabs button.matter-detail-seg:first-child{border-left:none!important}
+.matter-project-tabs button.matter-detail-seg.on{background:linear-gradient(145deg,#DDBA5C,#B88C2D)!important;color:#201607!important}
+.matter-project-tabs button.matter-detail-seg:active:not(.disabled){background:rgba(184,140,45,.10)!important}
+.matter-project-tabs button.matter-detail-seg.disabled{opacity:.42!important;cursor:default!important}
+body.light .matter-project-tabs button.matter-detail-seg{border-left-color:rgba(26,37,48,.10)!important;color:#50677D!important}
+body.light .matter-project-tabs button.matter-detail-seg.on{color:#201607!important}
+body:not(.light) .matter-project-tabs button.matter-detail-seg{border-left-color:rgba(118,144,169,.18)!important;color:#C4D1DE!important}
+body:not(.light) .matter-project-tabs button.matter-detail-seg.on{color:#201607!important;box-shadow:0 0 0 1px rgba(255,215,145,.18),0 8px 18px rgba(184,140,45,.18) inset!important}
+
+#matter-detail-top,#matter-sec-deadlines,#matter-sec-flow,#matter-sec-journal{scroll-margin-top:74px!important}
+.matter-compact-card.ultra[role="button"]{cursor:pointer!important}
+.matter-compact-card.ultra:focus-visible{outline:2px solid rgba(198,151,66,.72)!important;outline-offset:2px!important}
+
+
+/* ============================================================
+   4.0.48 — CALM PREMIUM HEARING RESULT + TODAY SWIPE
+   ============================================================ */
+/* Спокойные статус-карточки: без постоянных бейджей «Выбрать». */
+.hearing-result-options{gap:11px!important;margin-bottom:18px!important}
+.hearing-result-choice{
+  position:relative!important;
+  overflow:hidden!important;
+  display:grid!important;
+  grid-template-columns:46px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:11px!important;
+  min-height:88px!important;
+  padding:13px 14px 13px 15px!important;
+  border-radius:20px!important;
+  border:1px solid rgba(52,65,76,.13)!important;
+  background:rgba(255,255,255,.88)!important;
+  color:var(--txt)!important;
+  box-shadow:0 8px 20px rgba(35,44,54,.045),inset 0 1px 0 rgba(255,255,255,.72)!important;
+  outline:none!important;
+  transform:none!important;
+  text-align:left!important;
+}
+.hearing-result-choice::before{
+  content:""!important;position:absolute!important;left:0!important;top:14px!important;bottom:14px!important;width:3px!important;
+  border-radius:0 3px 3px 0!important;background:var(--hr-accent,#B78A2F)!important;opacity:.88!important;
+}
+.hearing-result-choice:last-child:nth-child(odd){grid-column:1/-1!important}
+.hearing-result-choice-icon{
+  width:46px!important;height:46px!important;border-radius:15px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  background:var(--hr-soft,#F7F0E0)!important;color:var(--hr-accent,#A9781A)!important;border:1px solid var(--hr-border-soft,rgba(169,120,26,.17))!important;
+  box-shadow:none!important;
+}
+.hearing-result-choice-icon .ico{width:23px!important;height:23px!important;stroke-width:2!important}
+.hearing-result-choice-copy{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:3px!important;min-width:0!important;padding-right:2px!important}
+.hearing-result-choice-title{
+  display:block!important;font-family:Georgia,'Times New Roman',serif!important;font-size:16.4px!important;line-height:1.08!important;font-weight:700!important;
+  letter-spacing:-.022em!important;color:#192630!important;white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important;
+}
+.hearing-result-choice-sub{display:block!important;font-size:12.2px!important;line-height:1.28!important;font-weight:520!important;color:#708396!important;white-space:normal!important}
+.hearing-result-choice-selected{
+  position:absolute!important;right:11px!important;top:11px!important;width:28px!important;height:28px!important;border-radius:999px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;background:linear-gradient(180deg,#E4C46F,#CF9F35)!important;
+  color:#2A2110!important;border:1px solid rgba(174,122,20,.32)!important;box-shadow:0 5px 12px rgba(164,115,22,.18)!important;
+}
+.hearing-result-choice-selected .ico{width:15px!important;height:15px!important;stroke-width:2.5!important}
+.hearing-result-choice.on{
+  border-color:rgba(198,151,66,.72)!important;background:linear-gradient(180deg,#FFFDF9 0%,#F7F0E4 100%)!important;
+  box-shadow:0 14px 28px rgba(157,113,25,.13),inset 0 0 0 1px rgba(255,255,255,.72)!important;transform:translateY(-1px)!important;
+}
+.hearing-result-choice:active{transform:scale(.992)!important}
+.hearing-result-choice.held{--hr-accent:#248A54;--hr-soft:#EBF7F0;--hr-border-soft:rgba(36,138,84,.17)}
+.hearing-result-choice.postponed{--hr-accent:#3568C7;--hr-soft:#EDF3FD;--hr-border-soft:rgba(53,104,199,.17)}
+.hearing-result-choice.break{--hr-accent:#A87418;--hr-soft:#FAF3E2;--hr-border-soft:rgba(168,116,24,.17)}
+.hearing-result-choice.completed{--hr-accent:#25806A;--hr-soft:#EAF7F3;--hr-border-soft:rgba(37,128,106,.17)}
+.hearing-result-choice.cancelled{--hr-accent:#BB3E59;--hr-soft:#FBEFF2;--hr-border-soft:rgba(187,62,89,.17)}
+body.light .hearing-result-choice{background:rgba(255,255,255,.88)!important}
+body.light .hearing-result-choice.on{background:linear-gradient(180deg,#FFFDF9 0%,#F7F0E4 100%)!important}
+body:not(.light) .hearing-result-choice{
+  background:rgba(8,23,35,.91)!important;border-color:rgba(145,168,190,.16)!important;box-shadow:0 12px 26px rgba(0,0,0,.26)!important;
+}
+body:not(.light) .hearing-result-choice-title{color:#F1F5F8!important}
+body:not(.light) .hearing-result-choice-sub{color:#93A8BB!important}
+body:not(.light) .hearing-result-choice.on{
+  background:linear-gradient(180deg,rgba(22,33,43,.98),rgba(13,24,33,.98))!important;border-color:rgba(212,170,74,.54)!important;
+  box-shadow:0 16px 32px rgba(0,0,0,.34),inset 0 0 0 1px rgba(212,170,74,.08)!important;
+}
+body:not(.light) .hearing-result-choice.held{--hr-accent:#86D5A1;--hr-soft:rgba(41,107,68,.22);--hr-border-soft:rgba(134,213,161,.20)}
+body:not(.light) .hearing-result-choice.postponed{--hr-accent:#8BB3FF;--hr-soft:rgba(48,92,172,.23);--hr-border-soft:rgba(139,179,255,.20)}
+body:not(.light) .hearing-result-choice.break{--hr-accent:#EBC56F;--hr-soft:rgba(129,94,27,.23);--hr-border-soft:rgba(235,197,111,.20)}
+body:not(.light) .hearing-result-choice.completed{--hr-accent:#8CD7C5;--hr-soft:rgba(35,108,91,.23);--hr-border-soft:rgba(140,215,197,.20)}
+body:not(.light) .hearing-result-choice.cancelled{--hr-accent:#F59EB1;--hr-soft:rgba(126,42,61,.23);--hr-border-soft:rgba(245,158,177,.20)}
+@media(max-width:430px){
+  .hearing-result-choice{min-height:84px!important;padding:12px 12px 12px 14px!important;grid-template-columns:42px minmax(0,1fr)!important;gap:9px!important}
+  .hearing-result-choice-icon{width:42px!important;height:42px!important;border-radius:14px!important}
+  .hearing-result-choice-icon .ico{width:21px!important;height:21px!important}
+  .hearing-result-choice-title{font-size:14.9px!important}
+  .hearing-result-choice-sub{font-size:11.3px!important}
+  .hearing-result-choice-selected{right:9px!important;top:9px!important;width:25px!important;height:25px!important}
+}
+
+/* «Сегодня»: свайп прошедшего заседания с раскрытием действия «Результат». */
+.today-hearing-swipe{position:relative!important;overflow:hidden!important;background:var(--elev)!important}
+.today-hearing-swipe-bg{
+  position:absolute!important;inset:0!important;z-index:1!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  padding:0 18px!important;background:linear-gradient(90deg,var(--elev) 0%,color-mix(in srgb,var(--warnsoft) 78%,var(--elev)) 100%)!important;pointer-events:none!important;
+}
+.today-hearing-swipe-bg>span{display:flex!important;align-items:center!important;gap:7px!important;color:var(--warn)!important;opacity:.78!important}
+.today-hearing-swipe-bg .ico{width:19px!important;height:19px!important}
+.today-hearing-swipe-bg b{font-size:12px!important;font-weight:850!important}
+.today-hearing-swipe-bg small{font-size:10px!important;font-weight:600!important;color:var(--muted)!important}
+.today-hearing-swipe-row{position:relative!important;z-index:2!important;background:var(--panel)!important;will-change:transform!important;touch-action:pan-y!important}
+.today-hearing-swipe-row.swipe-left{box-shadow:-8px 0 22px rgba(198,151,66,.12)!important}
+.today-hearing-swipe-row.swipe-ready{box-shadow:-10px 0 26px rgba(198,151,66,.18)!important}
+.today-hearing-swipe-row.swipe-snap{transition:transform .18s cubic-bezier(.2,.8,.2,1)!important}
+body.light .today-hearing-swipe{background:#F4EFE5!important}
+body.light .today-hearing-swipe-bg{background:linear-gradient(90deg,#F4EFE5,#F8E8C8)!important}
+body:not(.light) .today-hearing-swipe{background:#0E1B28!important}
+body:not(.light) .today-hearing-swipe-bg{background:linear-gradient(90deg,#0E1B28,#332A18)!important}
+body:not(.light) .today-hearing-swipe-bg small{color:#AFC0CE!important}
+
+
+/* ============================================================
+   4.0.48 — ALIGNED FORMS + PREMIUM CUSTOM CALENDAR
+   ============================================================ */
+
+/* Новый контрол даты вместо системного iOS date picker */
+.premium-date-field{
+  width:100%!important;
+  min-height:60px!important;
+  padding:8px 12px 8px 14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  border-radius:18px!important;
+  border:1px solid var(--line2)!important;
+  background:linear-gradient(180deg,var(--elev2),var(--panel))!important;
+  color:var(--txt)!important;
+  text-align:left!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 16px rgba(0,0,0,.035)!important;
+}
+.premium-date-field:active{transform:scale(.992)!important}
+.premium-date-field-copy{display:flex!important;flex-direction:column!important;min-width:0!important;gap:2px!important}
+.premium-date-field-copy small{font-size:9.8px!important;line-height:1!important;font-weight:760!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:var(--muted)!important}
+.premium-date-field-copy b{font-size:14.5px!important;line-height:1.2!important;font-weight:680!important;color:var(--txt)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.premium-date-field.empty .premium-date-field-copy b{color:var(--muted)!important;font-weight:560!important}
+.premium-date-field-icon{width:34px!important;height:34px!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;background:rgba(198,151,66,.10)!important;border:1px solid rgba(198,151,66,.18)!important;color:var(--gold2)!important}
+.premium-date-field-icon .ico{width:18px!important;height:18px!important}
+body.light .premium-date-field{background:rgba(255,255,255,.88)!important;border-color:rgba(45,55,65,.14)!important;color:#17232D!important}
+body.light .premium-date-field-copy b{color:#17232D!important}
+body.light .premium-date-field-copy small{color:#7B8C9C!important}
+body:not(.light) .premium-date-field{background:linear-gradient(180deg,#0D2030,#091725)!important;border-color:rgba(144,170,194,.17)!important;color:#F3F7FA!important}
+body:not(.light) .premium-date-field-copy b{color:#F3F7FA!important}
+body:not(.light) .premium-date-field-copy small{color:#91A7BA!important}
+
+/* Календарь — отдельная premium-шторка поверх любых форм */
+.premium-date-scrim{
+  position:fixed!important;inset:0!important;z-index:9998!important;
+  background:rgba(7,13,20,.34)!important;
+  backdrop-filter:blur(7px)!important;-webkit-backdrop-filter:blur(7px)!important;
+  opacity:0!important;pointer-events:none!important;transition:opacity .18s ease!important;
+}
+.premium-date-scrim.open{opacity:1!important;pointer-events:auto!important}
+.premium-date-modal{
+  position:fixed!important;z-index:9999!important;
+  left:50%!important;bottom:max(12px,env(safe-area-inset-bottom))!important;
+  width:min(calc(100vw - 24px),430px)!important;
+  transform:translate(-50%,calc(100% + 36px)) scale(.985)!important;
+  opacity:0!important;pointer-events:none!important;
+  padding:9px 16px 16px!important;
+  border-radius:30px!important;
+  border:1px solid rgba(198,151,66,.20)!important;
+  background:radial-gradient(420px 170px at 82% -30px,rgba(206,162,68,.12),transparent 70%),#FFFDF8!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.88)!important;
+  transition:transform .22s cubic-bezier(.2,.75,.2,1),opacity .18s ease!important;
+  overflow:hidden!important;
+}
+.premium-date-modal.open{transform:translate(-50%,0) scale(1)!important;opacity:1!important;pointer-events:auto!important}
+.premium-date-grab{width:44px!important;height:5px!important;border-radius:999px!important;margin:1px auto 13px!important;background:rgba(91,102,112,.20)!important}
+.premium-date-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:13px!important}
+.premium-date-head>div:first-child{min-width:0!important}
+.premium-date-head small{display:block!important;margin-bottom:3px!important;font-size:10px!important;font-weight:800!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:var(--gold2)!important}
+.premium-date-head h3{margin:0!important;font-family:Georgia,'Times New Roman',serif!important;font-size:27px!important;line-height:1!important;letter-spacing:-.03em!important;color:#17232D!important}
+.premium-date-nav{display:flex!important;gap:7px!important;flex:none!important}
+.premium-date-nav button{width:42px!important;height:42px!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important;border:1px solid rgba(48,58,68,.10)!important;background:#F8F4EC!important;color:#50677B!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important}
+.premium-date-nav .ico{width:19px!important;height:19px!important}
+.premium-date-week{display:grid!important;grid-template-columns:repeat(7,1fr)!important;gap:3px!important;margin:2px 0 5px!important;padding:0 2px!important}
+.premium-date-week span{text-align:center!important;font-size:9.5px!important;font-weight:800!important;letter-spacing:.05em!important;color:#82919F!important}
+.premium-date-grid{display:grid!important;grid-template-columns:repeat(7,1fr)!important;gap:4px!important}
+.premium-date-day{aspect-ratio:1/1!important;min-width:0!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important;border:1px solid transparent!important;background:transparent!important;color:#25323E!important;font-size:14px!important;font-weight:650!important;transition:.12s!important}
+.premium-date-day span{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:100%!important;border-radius:inherit!important}
+.premium-date-day.outside{color:#B9C0C7!important;font-weight:500!important}
+.premium-date-day.today{border-color:rgba(198,151,66,.40)!important;color:#A8761A!important}
+.premium-date-day.selected{background:linear-gradient(145deg,#E5C468,#C9962B)!important;border-color:#B47F1E!important;color:#1D1609!important;box-shadow:0 8px 18px rgba(170,119,25,.20),inset 0 1px 0 rgba(255,255,255,.54)!important;font-weight:850!important}
+.premium-date-selected{display:flex!important;align-items:center!important;gap:10px!important;margin:13px 0 12px!important;padding:10px 12px!important;border-radius:17px!important;background:#F8F3E9!important;border:1px solid rgba(198,151,66,.14)!important}
+.premium-date-selected>span{width:34px!important;height:34px!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;color:var(--gold2)!important;background:rgba(198,151,66,.10)!important}
+.premium-date-selected .ico{width:18px!important;height:18px!important}
+.premium-date-selected div{display:flex!important;flex-direction:column!important;gap:1px!important;min-width:0!important}
+.premium-date-selected small{font-size:9.5px!important;font-weight:780!important;text-transform:uppercase!important;letter-spacing:.08em!important;color:#8996A3!important}
+.premium-date-selected b{font-size:13.5px!important;line-height:1.2!important;color:#273543!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.premium-date-actions{display:grid!important;grid-template-columns:auto auto 1fr!important;gap:8px!important;align-items:center!important}
+.premium-date-actions button{min-height:48px!important;border-radius:15px!important;padding:0 14px!important;font-size:13px!important;font-weight:760!important}
+.premium-date-secondary{background:#F5F1E9!important;border:1px solid rgba(48,58,68,.10)!important;color:#566B7E!important}
+.premium-date-secondary.reset{color:#8C6C35!important}
+.premium-date-primary{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;background:linear-gradient(145deg,#E4C15F,#C89427)!important;color:#1E1607!important;border:1px solid rgba(169,116,20,.28)!important;box-shadow:0 9px 20px rgba(164,112,19,.18)!important}
+.premium-date-primary .ico{width:17px!important;height:17px!important}
+body:not(.light) .premium-date-modal{background:radial-gradient(420px 170px at 82% -30px,rgba(198,151,66,.12),transparent 70%),#081723!important;border-color:rgba(198,151,66,.18)!important;box-shadow:0 30px 90px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.04)!important}
+body:not(.light) .premium-date-grab{background:rgba(200,213,224,.20)!important}
+body:not(.light) .premium-date-head h3{color:#F3F6F9!important}
+body:not(.light) .premium-date-nav button{background:#0D2030!important;border-color:rgba(143,169,193,.15)!important;color:#B8CAD9!important;box-shadow:none!important}
+body:not(.light) .premium-date-week span{color:#7890A4!important}
+body:not(.light) .premium-date-day{color:#E9EFF5!important}
+body:not(.light) .premium-date-day.outside{color:#536779!important}
+body:not(.light) .premium-date-day.today{border-color:rgba(211,171,78,.50)!important;color:#F0CA72!important}
+body:not(.light) .premium-date-day.selected{background:linear-gradient(145deg,#E0BC62,#C79225)!important;color:#1F1606!important;border-color:#E2BD60!important}
+body:not(.light) .premium-date-selected{background:#0D2030!important;border-color:rgba(143,169,193,.13)!important}
+body:not(.light) .premium-date-selected small{color:#8298AB!important}
+body:not(.light) .premium-date-selected b{color:#EAF0F5!important}
+body:not(.light) .premium-date-secondary{background:#0D2030!important;border-color:rgba(143,169,193,.14)!important;color:#B9CAD8!important}
+body:not(.light) .premium-date-secondary.reset{color:#E0BD6B!important}
+body.premium-date-open .sheet.open .shbody,body.premium-date-open .page.open{overscroll-behavior:none!important}
+
+/* Новое дело / редактирование дела: ровная двухколоночная геометрия */
+.sheet.matter-editor-sheet .two{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:16px!important;
+  align-items:start!important;
+}
+.sheet.matter-editor-sheet .two>.fld{
+  min-width:0!important;
+  margin-bottom:16px!important;
+}
+.sheet.matter-editor-sheet .two>.fld>label{
+  min-height:42px!important;
+  margin:0 0 8px!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  line-height:1.18!important;
+}
+.sheet.matter-editor-sheet .two>.fld>input,
+.sheet.matter-editor-sheet .two>.fld>select,
+.sheet.matter-editor-sheet .two>.fld>.inline-choice-wrap{
+  height:62px!important;
+  min-height:62px!important;
+}
+.sheet.matter-editor-sheet .two>.fld>.inline-choice-wrap>input{
+  height:62px!important;
+  min-height:62px!important;
+}
+.sheet.matter-editor-sheet .two>.fld input,
+.sheet.matter-editor-sheet .two>.fld select{font-size:15.5px!important}
+.sheet.matter-editor-sheet .fld:not(.two .fld)>label{line-height:1.2!important}
+
+/* Выравнивание парных полей и в остальных формах */
+.sheet .two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:start!important}
+.sheet .two>.fld{min-width:0!important}
+.task-editor-sheet .two>.fld>label,
+.hearing-result-sheet .two>.fld>label,
+.sheet-premium-form .two>.fld>label{min-height:30px!important;display:flex!important;align-items:flex-end!important;line-height:1.18!important}
+
+/* Дата и время в блоке следующего заседания имеют одинаковый размер */
+.hearing-followup .premium-date-field,
+.hearing-followup .fld input[type='time']{height:62px!important;min-height:62px!important}
+.hearing-followup .premium-date-field-copy small{display:none!important}
+.hearing-followup .premium-date-field-copy b{font-size:15.5px!important}
+
+@media(max-width:390px){
+  .premium-date-modal{width:calc(100vw - 16px)!important;padding:8px 12px 13px!important;border-radius:27px!important}
+  .premium-date-head h3{font-size:24px!important}
+  .premium-date-nav button{width:39px!important;height:39px!important}
+  .premium-date-grid{gap:2px!important}
+  .premium-date-day{border-radius:12px!important;font-size:13.2px!important}
+  .premium-date-actions{gap:6px!important}
+  .premium-date-actions button{min-height:46px!important;padding:0 11px!important;font-size:12.2px!important}
+  .sheet.matter-editor-sheet .two{gap:12px!important}
+  .sheet.matter-editor-sheet .two>.fld>label{min-height:40px!important;font-size:12px!important}
+  .sheet.matter-editor-sheet .two>.fld>input,
+  .sheet.matter-editor-sheet .two>.fld>select,
+  .sheet.matter-editor-sheet .two>.fld>.inline-choice-wrap,
+  .sheet.matter-editor-sheet .two>.fld>.inline-choice-wrap>input{height:60px!important;min-height:60px!important}
+}
