@@ -1,5 +1,5 @@
-4.0.26
-- Added visible premium image backgrounds to each main screen (Today / Tasks / Matters / Calendar / More).
-- Kept a unified warm palette while varying only the watermark image and composition.
-- Preserved the approved compact bottom navigation proportions.
-- Bumped build to 4026 to force iPhone cache refresh.
+4.0.27
+- Replaced reused page watermarks with 5 new custom page background illustrations.
+- Assigned unique background image to each core tab: Today, Tasks, Matters, Calendar, More.
+- Kept unified warm premium color palette across all main pages.
+- Bumped build to 4027 to force iPhone cache refresh.
