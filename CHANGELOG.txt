@@ -1,5 +1,5 @@
-4.0.28
+4.0.29
 - Fixed CSS override order that kept showing the old page backgrounds.
 - Applied five new generated images as full-page backgrounds for Today, Tasks, Matters, Calendar and More.
 - Preserved one unified warm premium palette across all tabs.
-- Bumped PWA build/cache to 4028.
+- Bumped PWA build/cache to 4029.

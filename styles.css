@@ -6832,7 +6832,7 @@ body:not(.light) #sc-more{
 
 
 /* ============================================================
-   4.0.28 — ПЯТЬ НОВЫХ ПОЛНОЦЕННЫХ ФОНОВ СТРАНИЦ
+   4.0.29 — ПЯТЬ НОВЫХ ПОЛНОЦЕННЫХ ФОНОВ СТРАНИЦ
    Финальный override: намеренно в самом конце файла.
    ============================================================ */
 #sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
@@ -6940,4 +6940,112 @@ body.light .calendar-day-card,
 body.light .settings-profile-card{
   backdrop-filter:blur(2px) saturate(1.02);
   -webkit-backdrop-filter:blur(2px) saturate(1.02);
+}
+
+/* ============================================================
+   4.0.29 — СТАБИЛЬНЫЕ ФОНЫ ОСНОВНЫХ ЭКРАНОВ
+   Исправления:
+   1) фон на вкладке «Задачи» виден так же, как на других вкладках;
+   2) фон больше не «трясётся» при прокрутке на «Календаре» и «Ещё»;
+   3) у каждой вкладки свой сюжет, но единая тёплая premium-гамма.
+   ============================================================ */
+#sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
+  position:relative!important;
+  isolation:isolate!important;
+  background:none!important;
+}
+#sc-today>*,#sc-tasks>*,#sc-matters>*,#sc-cal>*,#sc-more>*{
+  position:relative!important;
+  z-index:1!important;
+}
+#sc-today::before,#sc-tasks::before,#sc-matters::before,#sc-cal::before,#sc-more::before,
+#sc-today::after,#sc-tasks::after,#sc-matters::after,#sc-cal::after,#sc-more::after{
+  content:""!important;
+  position:fixed!important;
+  inset:0!important;
+  pointer-events:none!important;
+}
+#sc-today::before,#sc-tasks::before,#sc-matters::before,#sc-cal::before,#sc-more::before{
+  z-index:0!important;
+  background-color:#F7F1E6!important;
+  background-image:var(--screen-bg-overlay),var(--screen-bg-image)!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-size:100% 100%,cover!important;
+  background-position:center center,var(--screen-bg-pos,center top)!important;
+  transform:translateZ(0)!important;
+  backface-visibility:hidden!important;
+  will-change:transform!important;
+}
+#sc-today::after,#sc-tasks::after,#sc-matters::after,#sc-cal::after,#sc-more::after{
+  z-index:0!important;
+  background:
+    radial-gradient(ellipse at 50% -5%,rgba(255,255,255,.62),transparent 44%),
+    linear-gradient(90deg,rgba(170,121,34,.022),transparent 14%,transparent 86%,rgba(170,121,34,.022))!important;
+}
+.screen.hide::before,.screen.hide::after{content:none!important;display:none!important}
+
+body.light #sc-today{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(253,249,242,.34) 0%,rgba(248,243,233,.52) 30%,rgba(247,240,229,.72) 68%,rgba(247,240,229,.84) 100%);
+  --screen-bg-image:url('bg-today-desk.png');
+  --screen-bg-pos:center top;
+}
+body.light #sc-tasks{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(253,249,242,.30) 0%,rgba(248,243,233,.48) 30%,rgba(247,240,229,.70) 68%,rgba(247,240,229,.84) 100%);
+  --screen-bg-image:url('bg-tasks-planner.png');
+  --screen-bg-pos:center top;
+}
+body.light #sc-matters{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(253,249,242,.34) 0%,rgba(248,243,233,.52) 30%,rgba(247,240,229,.72) 68%,rgba(247,240,229,.84) 100%);
+  --screen-bg-image:url('bg-matters-folders.png');
+  --screen-bg-pos:center top;
+}
+body.light #sc-cal{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(253,249,242,.26) 0%,rgba(248,243,233,.42) 26%,rgba(247,240,229,.62) 62%,rgba(247,240,229,.80) 100%);
+  --screen-bg-image:url('bg-cal-marble-calendar.png');
+  --screen-bg-pos:center top;
+}
+body.light #sc-more{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(253,249,242,.28) 0%,rgba(248,243,233,.46) 28%,rgba(247,240,229,.66) 66%,rgba(247,240,229,.82) 100%);
+  --screen-bg-image:url('bg-more-marble-office.png');
+  --screen-bg-pos:center top;
+}
+
+body:not(.light) #sc-today{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(6,18,29,.30) 0%,rgba(6,18,29,.50) 28%,rgba(6,18,29,.72) 68%,rgba(6,18,29,.86) 100%);
+  --screen-bg-image:url('bg-today-desk.png');
+  --screen-bg-pos:center top;
+}
+body:not(.light) #sc-tasks{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(6,18,29,.28) 0%,rgba(6,18,29,.46) 28%,rgba(6,18,29,.68) 68%,rgba(6,18,29,.84) 100%);
+  --screen-bg-image:url('bg-tasks-planner.png');
+  --screen-bg-pos:center top;
+}
+body:not(.light) #sc-matters{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(6,18,29,.30) 0%,rgba(6,18,29,.50) 28%,rgba(6,18,29,.72) 68%,rgba(6,18,29,.86) 100%);
+  --screen-bg-image:url('bg-matters-folders.png');
+  --screen-bg-pos:center top;
+}
+body:not(.light) #sc-cal{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(6,18,29,.24) 0%,rgba(6,18,29,.42) 26%,rgba(6,18,29,.64) 62%,rgba(6,18,29,.82) 100%);
+  --screen-bg-image:url('bg-cal-marble-calendar.png');
+  --screen-bg-pos:center top;
+}
+body:not(.light) #sc-more{
+  --screen-bg-overlay:linear-gradient(180deg,rgba(6,18,29,.26) 0%,rgba(6,18,29,.44) 28%,rgba(6,18,29,.66) 66%,rgba(6,18,29,.82) 100%);
+  --screen-bg-image:url('bg-more-marble-office.png');
+  --screen-bg-pos:center top;
+}
+
+/* Плашки и липкие фильтры аккуратно ложатся на фон, не создавая мерцания */
+body.light .tasks-project-filters,
+body.light .matters-scope{
+  background:linear-gradient(180deg,rgba(248,244,236,.86),rgba(248,244,236,.76))!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+  backdrop-filter:blur(8px)!important;
+}
+body:not(.light) .tasks-project-filters,
+body:not(.light) .matters-scope{
+  background:linear-gradient(180deg,rgba(7,21,34,.84),rgba(7,21,34,.76))!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  backdrop-filter:blur(10px)!important;
 }
