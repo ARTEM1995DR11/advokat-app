@@ -8672,7 +8672,7 @@ body:not(.light) .premium-time-modal{background:radial-gradient(420px 170px at 8
 
 
 /* ============================================================
-   4.0.55 — PREMIUM LIST PICKERS: ДЕЛА / СУДЬИ / СУДЫ / СПРАВОЧНИКИ
+   4.0.56 — PREMIUM LIST PICKERS: ДЕЛА / СУДЬИ / СУДЫ / СПРАВОЧНИКИ
    ============================================================ */
 .premium-select-native{display:none!important}
 .premium-select-wrap{position:relative!important;width:100%!important;min-width:0!important}
@@ -8697,11 +8697,13 @@ body:not(.light) .premium-select-field-copy b{color:#F3F7FA!important}
 /* В комбинированных input + список больше нет невидимого системного select поверх поля. */
 .inline-choice-wrap{position:relative!important}
 .inline-choice-wrap .inline-choice-arrow.premium-list-trigger{
-  position:absolute!important;right:8px!important;top:50%!important;transform:translateY(-50%)!important;z-index:4!important;
+  position:absolute!important;right:8px!important;top:50%!important;transform:translateY(-50%)!important;z-index:8!important;
   width:42px!important;height:42px!important;border:0!important;border-radius:14px!important;padding:0!important;
   display:flex!important;align-items:center!important;justify-content:center!important;color:var(--gold2)!important;
   background:linear-gradient(180deg,rgba(198,151,66,.10),rgba(198,151,66,.05))!important;
   box-shadow:inset 0 0 0 1px rgba(198,151,66,.14)!important;
+  pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent!important;
 }
 .inline-choice-wrap .inline-choice-arrow.premium-list-trigger:active{transform:translateY(-50%) scale(.96)!important}
 .inline-choice-wrap .inline-choice-arrow.premium-list-trigger .ico{width:18px!important;height:18px!important}
@@ -8784,3 +8786,22 @@ body:not(.light) .premium-list-empty b{color:#D9E3EB!important}
   .premium-list-modal{width:calc(100vw - 12px)!important;padding-left:11px!important;padding-right:11px!important;border-radius:27px!important}
   .premium-list-head{grid-template-columns:48px minmax(0,1fr) 40px!important;gap:10px!important}.premium-list-head-icon{width:48px!important;height:48px!important;border-radius:16px!important}.premium-list-head h3{font-size:24px!important}.premium-list-row{min-height:62px!important;padding:9px 10px!important;grid-template-columns:38px minmax(0,1fr) auto!important;gap:9px!important}.premium-list-row-mark{width:38px!important;height:38px!important}.premium-list-row-copy b{font-size:14.4px!important}.premium-list-row-copy small{font-size:10.7px!important}
 }
+
+
+/* ============================================================
+   4.0.56 — FIX: ВСЕ PREMIUM-СПИСКИ КЛИКАБЕЛЬНЫ
+   Старые inline-choice стили задавали pointer-events:none для стрелки.
+   ============================================================ */
+.sheet .inline-choice-arrow.premium-list-trigger,
+.task-editor-sheet .inline-choice-arrow.premium-list-trigger,
+.matter-editor-sheet .inline-choice-arrow.premium-list-trigger{
+  pointer-events:auto!important;
+  z-index:12!important;
+}
+.premium-select-field,
+.premium-select-field-arrow,
+.premium-list-trigger{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+.premium-select-field-arrow{pointer-events:none!important}
