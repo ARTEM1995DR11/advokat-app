@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.48';
-var APP_BUILD='4048';
+var APP_VERSION='4.0.52';
+var APP_BUILD='4052';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -239,7 +239,7 @@ function premiumDateControl(id,value,emptyLabel){
   var v=value||'', label=v?fmtD(v,true):(emptyLabel||'Выберите дату');
   return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
     '<button type="button" class="premium-date-field'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
-      '<span class="premium-date-field-copy"><small>Дата</small><b>'+esc(label)+'</b></span><span class="premium-date-field-icon">'+ico('cal','s')+'</span>'+
+      '<span class="premium-date-field-copy"><small>Дата</small><b>'+esc(label)+'</b></span>'+
     '</button>';
 }
 function datePickerMonthLabel(ym){
@@ -300,6 +300,76 @@ function applyPremiumDatePicker(){
   closePremiumDatePicker();
   if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
 }
+/* ------------------------- premium time wheel picker ------------------------- */
+var TIME_PICKER=null;
+function timeToMinutes(v){ var p=String(v||'').split(':'); if(p.length<2)return NaN; var h=+p[0],m=+p[1]; return (isFinite(h)&&isFinite(m))?h*60+m:NaN; }
+function minutesToTime(n){ n=Math.max(0,Math.min(1439,Math.round(n))); return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'); }
+function isHearingTime(v){ var n=timeToMinutes(v); return isFinite(n)&&n>=480&&n<=1080; }
+function timePickerRange(mode){ return mode==='hearing'?{min:480,max:1080,title:'Судебное заседание',range:'08:00 — 18:00'}:{min:0,max:1439,title:'Выбор времени',range:'00:00 — 23:59'}; }
+function premiumTimeControl(id,value,mode,emptyLabel){
+  var v=value||'',label=v?v:(emptyLabel||'Выберите время');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="premium-time-field'+(v?'':' empty')+'" data-act="time-open" data-target="'+esc(id)+'" data-time-mode="'+esc(mode||'default')+'" data-time-for="'+esc(id)+'"><b>'+esc(label)+'</b></button>';
+}
+function openPremiumTimePicker(target,value,mode){
+  var r=timePickerRange(mode||'default'),raw=value||((target&&$('#'+target))?$('#'+target).value:'')||'',n=timeToMinutes(raw);
+  if(!isFinite(n)||n<r.min||n>r.max){ if(mode==='hearing')n=540; else {var d=new Date();n=d.getHours()*60+d.getMinutes();} }
+  TIME_PICKER={target:target||'',mode:mode||'default',hour:Math.floor(n/60),minute:n%60,min:r.min,max:r.max,title:r.title,rangeLabel:r.range};
+  normalizePremiumTimeSelection(); renderPremiumTimePicker();
+  var modal=$('#premium-time-modal'),scr=$('#time-scrim'); if(modal)modal.classList.add('open'); if(scr)scr.classList.add('open');
+  document.body.classList.add('premium-time-open'); vib(5);
+}
+function closePremiumTimePicker(){ var modal=$('#premium-time-modal'),scr=$('#time-scrim'); if(modal)modal.classList.remove('open'); if(scr)scr.classList.remove('open'); document.body.classList.remove('premium-time-open'); TIME_PICKER=null; }
+function normalizePremiumTimeSelection(){ if(!TIME_PICKER)return; var n=TIME_PICKER.hour*60+TIME_PICKER.minute; if(n<TIME_PICKER.min)n=TIME_PICKER.min; if(n>TIME_PICKER.max)n=TIME_PICKER.max; TIME_PICKER.hour=Math.floor(n/60);TIME_PICKER.minute=n%60; }
+function premiumTimeMinuteAllowed(h,m){ if(!TIME_PICKER)return true;var n=h*60+m;return n>=TIME_PICKER.min&&n<=TIME_PICKER.max; }
+function renderPremiumTimePicker(){
+  if(!TIME_PICKER)return; var modal=$('#premium-time-modal');if(!modal)return;
+  var minH=Math.floor(TIME_PICKER.min/60),maxH=Math.floor(TIME_PICKER.max/60),hours='',minutes='';
+  for(var h=minH;h<=maxH;h++)hours+='<button type="button" class="premium-time-item'+(h===TIME_PICKER.hour?' selected':'')+'" data-act="time-hour" data-v="'+h+'">'+String(h).padStart(2,'0')+'</button>';
+  for(var m=0;m<60;m++){var ok=premiumTimeMinuteAllowed(TIME_PICKER.hour,m);minutes+='<button type="button" class="premium-time-item'+(m===TIME_PICKER.minute?' selected':'')+(ok?'':' disabled')+'" data-act="time-minute" data-v="'+m+'"'+(ok?'':' disabled')+'>'+String(m).padStart(2,'0')+'</button>';}
+  modal.innerHTML='<div class="premium-time-grab"></div><div class="premium-time-head"><div><small>Выбор времени</small><h3>'+esc(TIME_PICKER.title)+'</h3></div><span class="premium-time-range">'+esc(TIME_PICKER.rangeLabel)+'</span></div>'+ 
+    '<div class="premium-time-wheels"><div class="premium-time-center"></div><div class="premium-time-wheel" data-wheel="hour">'+hours+'</div><b class="premium-time-colon">:</b><div class="premium-time-wheel" data-wheel="minute">'+minutes+'</div></div>'+ 
+    '<div class="premium-time-selected"><small>Выбрано</small><b>'+minutesToTime(TIME_PICKER.hour*60+TIME_PICKER.minute)+'</b></div>'+ 
+    '<div class="premium-time-actions"><button type="button" class="premium-time-secondary" data-act="time-clear">Сбросить</button><button type="button" class="premium-time-primary" data-act="time-apply">Готово '+ico('check','s')+'</button></div>';
+  setTimeout(bindPremiumTimeWheels,0);
+}
+function bindPremiumTimeWheels(){
+  if(!TIME_PICKER)return; var itemH=52;
+  ['hour','minute'].forEach(function(type){
+    var wheel=document.querySelector('#premium-time-modal .premium-time-wheel[data-wheel="'+type+'"]');if(!wheel)return;
+    var items=Array.prototype.slice.call(wheel.querySelectorAll('.premium-time-item')),val=type==='hour'?TIME_PICKER.hour:TIME_PICKER.minute,idx=items.findIndex(function(b){return +b.dataset.v===val;});if(idx<0)idx=0;
+    wheel.scrollTop=idx*itemH;
+    wheel.addEventListener('scroll',function(){clearTimeout(wheel._tw);wheel._tw=setTimeout(function(){
+      if(!TIME_PICKER)return;var i=Math.max(0,Math.min(items.length-1,Math.round(wheel.scrollTop/itemH))),btn=items[i];if(!btn)return;var n=+btn.dataset.v;
+      if(type==='hour'){
+        TIME_PICKER.hour=n;normalizePremiumTimeSelection();
+        if(!premiumTimeMinuteAllowed(TIME_PICKER.hour,TIME_PICKER.minute))TIME_PICKER.minute=(TIME_PICKER.hour*60>=TIME_PICKER.max)?TIME_PICKER.max%60:Math.max(0,TIME_PICKER.min-TIME_PICKER.hour*60);
+        updatePremiumTimeWheelVisuals();
+        var mw=document.querySelector('#premium-time-modal .premium-time-wheel[data-wheel="minute"]');if(mw){var mi=Array.prototype.slice.call(mw.querySelectorAll('.premium-time-item')).findIndex(function(x){return +x.dataset.v===TIME_PICKER.minute;});if(mi>=0)mw.scrollTo({top:mi*itemH,behavior:'smooth'});}
+      }else{
+        if(!premiumTimeMinuteAllowed(TIME_PICKER.hour,n)){var valid=(TIME_PICKER.hour*60>=TIME_PICKER.max)?TIME_PICKER.max%60:Math.max(0,TIME_PICKER.min-TIME_PICKER.hour*60);TIME_PICKER.minute=valid;var vi=items.findIndex(function(x){return +x.dataset.v===valid;});if(vi>=0)wheel.scrollTo({top:vi*itemH,behavior:'smooth'});}else TIME_PICKER.minute=n;
+        updatePremiumTimeWheelVisuals();
+      }
+      vib(3);
+    },85);},{passive:true});
+  });
+}
+function updatePremiumTimeWheelVisuals(){
+  if(!TIME_PICKER)return;var modal=$('#premium-time-modal');if(!modal)return;
+  modal.querySelectorAll('.premium-time-wheel[data-wheel="hour"] .premium-time-item').forEach(function(b){b.classList.toggle('selected',+b.dataset.v===TIME_PICKER.hour);});
+  modal.querySelectorAll('.premium-time-wheel[data-wheel="minute"] .premium-time-item').forEach(function(b){var m=+b.dataset.v,ok=premiumTimeMinuteAllowed(TIME_PICKER.hour,m);b.disabled=!ok;b.classList.toggle('disabled',!ok);b.classList.toggle('selected',m===TIME_PICKER.minute);});
+  var sel=modal.querySelector('.premium-time-selected b');if(sel)sel.textContent=minutesToTime(TIME_PICKER.hour*60+TIME_PICKER.minute);
+}
+function applyPremiumTimePicker(){
+  if(!TIME_PICKER)return;var tp=TIME_PICKER,v=minutesToTime(tp.hour*60+tp.minute),inp=tp.target?$('#'+tp.target):null;
+  if(tp.mode==='hearing'&&!isHearingTime(v)){toast('Заседания можно назначать с 08:00 до 18:00');return;}
+  if(inp)inp.value=v;var btn=tp.target?document.querySelector('[data-time-for="'+tp.target+'"]'):null;if(btn){btn.classList.remove('empty');var b=btn.querySelector('b');if(b)b.textContent=v;}
+  if(tp.target==='hr-next-time'&&HR)HR.nextTime=v;closePremiumTimePicker();if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
+}
+function clearPremiumTimePicker(){
+  if(!TIME_PICKER)return;var tp=TIME_PICKER,inp=tp.target?$('#'+tp.target):null;if(inp)inp.value='';var btn=tp.target?document.querySelector('[data-time-for="'+tp.target+'"]'):null;if(btn){btn.classList.add('empty');var b=btn.querySelector('b');if(b)b.textContent='Выберите время';}if(tp.target==='hr-next-time'&&HR)HR.nextTime='';closePremiumTimePicker();if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
+}
+
 function relD(s){ var n = dd(s);
   if(n===0) return 'сегодня'; if(n===1) return 'завтра'; if(n===-1) return 'вчера';
   if(n<0) return 'просрочено '+(-n)+' дн.'; if(n<=6) return 'через '+n+' дн.'; return fmtShort(s); }
@@ -671,7 +741,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -932,7 +1002,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -953,6 +1023,7 @@ function renderToday(){
     '<button class="today-sec-link" data-act="go-cal">Все →</button>');
 
   $('#sc-today').innerHTML=html;
+  setTimeout(resetAllTodayHearingSwipes,0);
 }
 
 
@@ -1072,7 +1143,7 @@ function drawHearingResultSheet(){
     '</button>';
   }).join('');
   var follow=(HR.status==='postponed'||HR.status==='break')
-    ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('hr-next-date',HR.nextDate||'','Выберите дату')+'</div><div class="fld"><label>Время</label><input id="hr-next-time" type="time" value="'+esc(HR.nextTime||'')+'"></div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
+    ? '<div class="hearing-followup"><div class="hearing-followup-title">Следующее заседание</div><div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('hr-next-date',HR.nextDate||'','Выберите дату')+'</div><div class="fld"><label>Время</label>'+premiumTimeControl('hr-next-time',HR.nextTime||'','hearing','Выберите время')+'</div></div><small>Если новая дата уже известна, приложение создаст следующее заседание с тем же делом, судом и судьёй.</small></div>' : '';
   var hrDate=fmtD(t.due,true)+(t.time?' · '+t.time:'');
   var hrContext=hearingContextText(t)||'';
   openSheet('<div class="hearing-result-head premium"><span class="hearing-result-head-icon">'+ico('gavel')+'</span><div><h2>Результат заседания</h2><p><span>'+esc(hrDate)+'</span>'+(hrContext?'<b>'+esc(hrContext)+'</b>':'')+'</p></div></div>'+ 
@@ -1099,6 +1170,7 @@ function saveHearingResult(){
   if(!HR.status){toast('Выберите результат заседания');return;}
   var isFollow=HR.status==='postponed'||HR.status==='break';
   if(isFollow && ((HR.nextDate&&!HR.nextTime)||(!HR.nextDate&&HR.nextTime))){toast('Для следующего заседания укажите дату и время');return;}
+  if(isFollow&&HR.nextTime&&!isHearingTime(HR.nextTime)){toast('Следующее заседание можно назначить с 08:00 до 18:00');openPremiumTimePicker('hr-next-time',HR.nextTime,'hearing');return;}
   var now=new Date().toISOString(),ri=HEARING_RESULTS[HR.status];
   t.hearingResultStatus=HR.status;
   t.hearingResultText=HR.note||'';
@@ -1231,7 +1303,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1545,7 +1617,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1668,7 +1740,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1769,7 +1841,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4048" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4052" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1841,6 +1913,7 @@ function go(tab,replaceHistory){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
@@ -1981,7 +2054,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4048" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4052" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -1989,7 +2062,7 @@ function drawEditor(){
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist()+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
     '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label>'+premiumDateControl('e-due',t.due||'','Выберите дату')+'</div>'+
-    '<div class="fld"><label>Время'+(timedEvent?' *':'')+'</label><input id="e-time" type="time" value="'+esc(t.time)+'"></div>'+
+    '<div class="fld"><label>Время'+(timedEvent?' *':'')+'</label>'+premiumTimeControl('e-time',t.time||'',hearing?'hearing':'default','Выберите время')+'</div>'+
   '</div>'+
   '<div class="chips task-quick-dates">'+quickDates.map(function(x){
       return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'):'')+
@@ -2041,14 +2114,15 @@ function saveTask(){
   var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
   if(hearing){
     if(!ED.due){ toast('Укажите дату заседания'); openPremiumDatePicker('e-due',''); return; }
-    if(!ED.time){ toast('Укажите время заседания'); return; }
+    if(!ED.time){ toast('Укажите время заседания'); openPremiumTimePicker('e-time','','hearing'); return; }
+    if(!isHearingTime(ED.time)){ toast('Время заседания: с 08:00 до 18:00'); openPremiumTimePicker('e-time',ED.time,'hearing'); return; }
     if(!ED.place) syncHearingCourt(false);
     if(!ED.place){ toast('Укажите суд / место заседания'); var pe=$('#e-place'); if(pe)pe.focus(); return; }
     ED.title='Судебное заседание'; ED.pri='mid'; ED.steps=[];
   }else if(meeting){
     if(!ED.title){ toast('Введите тему встречи'); var me=$('#e-title'); if(me) me.focus(); return; }
     if(!ED.due){ toast('Укажите дату встречи'); openPremiumDatePicker('e-due',''); return; }
-    if(!ED.time){ toast('Укажите время встречи'); var te=$('#e-time'); if(te) te.focus(); return; }
+    if(!ED.time){ toast('Укажите время встречи'); openPremiumTimePicker('e-time','','default'); return; }
     ED.pri='mid'; ED.steps=[];
   }else if(ED.kind==='deadline'){
     var dc=applyDeadlineRuleFromDom();
@@ -2762,16 +2836,13 @@ function sheetPin(){
   }
 }
 function sheetNotify(){
-  var st = ('Notification' in window) ? Notification.permission : 'unsupported';
-  openSheet('<h2>Напоминания</h2><p class="sh-sub">Локальное напоминание за 10 минут до задачи и за час до заседания.</p>'+
-   '<div class="hint">'+(st==='unsupported'
-     ? 'Этот браузер не поддерживает уведомления. На iPhone они работают, только когда приложение <b>установлено на экран «Домой»</b> (iOS 16.4 и новее).'
-     : st==='denied' ? 'Уведомления запрещены в настройках. Разрешите их: Настройки → Safari (или иконка приложения) → Уведомления.'
-     : S.settings.notify ? 'Напоминания включены. На iPhone они срабатывают только пока веб-приложение активно; iOS может приостанавливать его в фоне.'
-     : 'Нажмите «Включить» и разрешите уведомления. На iPhone предварительно добавьте приложение на экран «Домой».')+'</div>'+
-   '<button class="btn'+(S.settings.notify?' ghost':'')+'" data-act="notify">'+
-     (S.settings.notify?'Выключить напоминания':'Включить напоминания')+'</button>'+
-   '<div class="hint" style="margin-top:12px;font-size:12px">Для судебных заседаний и критичных процессуальных сроков дополнительно используйте системный «Календарь» или «Напоминания» iPhone: полностью автономное PWA не может надёжно запускать фоновые таймеры после выгрузки системой.</div>');
+  var st=('Notification' in window)?Notification.permission:'unsupported';
+  var firstText=st==='unsupported'?'Этот браузер не поддерживает уведомления. На iPhone они доступны после установки приложения на экран «Домой».':st==='denied'?'Уведомления запрещены в настройках iPhone. Разрешите их для приложения, чтобы получать локальные напоминания.':S.settings.notify?'Напоминания включены. На iPhone они срабатывают, пока веб-приложение активно; iOS может приостанавливать его в фоне.':'Напоминания сейчас выключены. После включения приложение запросит разрешение iPhone на уведомления.';
+  openSheet('<div class="notify-premium-head"><span class="notify-premium-head-icon">'+ico('bell')+'</span><div><h2>Напоминания</h2><p>Локальное напоминание за 10 минут до задачи и за час до заседания.</p></div></div>'+ 
+    '<div class="notify-premium-card"><span class="notify-premium-card-icon">'+ico('info','s')+'</span><div><b>'+(S.settings.notify?'Напоминания включены':'Локальные уведомления')+'</b><p>'+firstText+'</p></div></div>'+ 
+    '<div class="notify-premium-card"><span class="notify-premium-card-icon">'+ico('cal','s')+'</span><div><b>Критичные события — в системный календарь</b><p>Для судебных заседаний и важных процессуальных сроков дополнительно используйте «Календарь» или «Напоминания» iPhone. Автономное PWA не может гарантировать фоновые таймеры после выгрузки системой.</p></div></div>'+ 
+    '<button class="btn notify-premium-toggle'+(S.settings.notify?' off':' on')+'" data-act="notify"><span>'+ico(S.settings.notify?'bell':'check','s')+'</span>'+(S.settings.notify?'Выключить напоминания':'Включить напоминания')+ico('chev','s')+'</button>');
+  $('#sheet').classList.add('notify-premium-sheet');
 }
 function sheetReports(){
   openSheet('<h2>Отчёты</h2><p class="sh-sub">Печать или сохранение в PDF (в меню печати iPhone).</p>'+
@@ -2907,6 +2978,12 @@ document.addEventListener('click', function(ev){
     case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
     case 'date-apply': applyPremiumDatePicker();break;
     case 'date-close': closePremiumDatePicker();break;
+    case 'time-open': {var tt=el.dataset.target||'',ti=tt?$('#'+tt):null;openPremiumTimePicker(tt,ti?ti.value:'',el.dataset.timeMode||'default');break;}
+    case 'time-hour': if(TIME_PICKER){TIME_PICKER.hour=+v;normalizePremiumTimeSelection();renderPremiumTimePicker();vib(4);}break;
+    case 'time-minute': if(TIME_PICKER&&premiumTimeMinuteAllowed(TIME_PICKER.hour,+v)){TIME_PICKER.minute=+v;updatePremiumTimeWheelVisuals();vib(4);}break;
+    case 'time-apply': applyPremiumTimePicker();break;
+    case 'time-clear': clearPremiumTimePicker();break;
+    case 'time-close': closePremiumTimePicker();break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
@@ -3216,6 +3293,14 @@ function todayHearingTouchReset(animate){
     if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
   }
   TODAY_HEARING_TOUCH.on=false;TODAY_HEARING_TOUCH.row=null;TODAY_HEARING_TOUCH.id='';TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;
+}
+function resetAllTodayHearingSwipes(){
+  $$('#sc-today .today-hearing-swipe-row').forEach(function(row){
+    row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  });
 }
 function finishTodayHearingSwipe(openResult){
   var id=TODAY_HEARING_TOUCH.id;
