@@ -7787,7 +7787,7 @@ body:not(.light) #sc-tasks .pt-swipe-bg{
 
 
 /* ============================================================
-   4.0.42 — PREMIUM «РЕЗУЛЬТАТ ЗАСЕДАНИЯ» + MATTERS SMART PULSE
+   4.0.43 — PREMIUM «РЕЗУЛЬТАТ ЗАСЕДАНИЯ» + MATTERS SMART PULSE
    ============================================================ */
 .sheet.hearing-result-sheet{
   padding-left:18px!important;
@@ -7870,4 +7870,161 @@ body:not(.light) .matter-ultra-pulse.task{color:#86D6B2!important}
   .hearing-result-choice-text{font-size:13.7px!important}
   .matter-compact-card.ultra{min-height:86px!important}
   .matter-ultra-pulse{font-size:9.3px!important}
+}
+
+
+/* ============================================================
+   4.0.43 — SWIPE ПРОШЕДШЕГО ЗАСЕДАНИЯ + ФОН ВЕСОВ
+   ============================================================ */
+
+/* Для прошедшего заседания справа показываем не абстрактные действия,
+   а понятный следующий шаг — «Результат». */
+#sc-tasks .pt-swipe-bg.result{
+  background:linear-gradient(90deg,var(--elev),color-mix(in srgb,var(--warnsoft) 72%,var(--elev)))!important;
+}
+#sc-tasks .pt-swipe-bg.result .pt-swipe-more{
+  color:var(--warn)!important;
+}
+body.light #sc-tasks .pt-swipe-bg.result{
+  background:linear-gradient(90deg,#F2EEE6,#F7EBCF)!important;
+}
+body:not(.light) #sc-tasks .pt-swipe-bg.result{
+  background:linear-gradient(90deg,#101D2A,#322A18)!important;
+}
+
+/* Экран «Результат заседания» получает тот же юридический фон с весами,
+   что и редактор «Новое дело». */
+.sheet.hearing-result-sheet{
+  position:fixed!important;
+  isolation:isolate!important;
+  background:#071522!important;
+}
+.sheet.hearing-result-sheet::before,
+.sheet.hearing-result-sheet::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+}
+.sheet.hearing-result-sheet::before{inset:0}
+.sheet.hearing-result-sheet::after{
+  width:286px;
+  height:286px;
+  right:-70px;
+  top:92px;
+  background:url('scale-gold.png') center/contain no-repeat;
+  transform:rotate(-5deg);
+}
+.sheet.hearing-result-sheet>.grab,
+.sheet.hearing-result-sheet>.shbody,
+.sheet.hearing-result-sheet>.shfoot{
+  position:relative!important;
+  z-index:2!important;
+}
+body.light .sheet.hearing-result-sheet{
+  background-color:#F8F0E3!important;
+  background-image:
+    radial-gradient(ellipse at 16% -8%,rgba(255,255,255,.98) 0%,rgba(255,255,255,.70) 34%,transparent 56%),
+    radial-gradient(circle at 92% 14%,rgba(199,151,66,.14),transparent 27%),
+    linear-gradient(180deg,#FFF9EE 0%,#F9F1E5 46%,#F4E9DA 100%)!important;
+  background-repeat:no-repeat!important;
+}
+body.light .sheet.hearing-result-sheet::before{
+  background:
+    linear-gradient(90deg,rgba(188,137,49,.055),transparent 13%,transparent 87%,rgba(188,137,49,.04)),
+    repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(169,118,34,.028) 39px,rgba(169,118,34,.028) 40px),
+    radial-gradient(ellipse at 50% 10%,rgba(255,255,255,.62),transparent 48%);
+}
+body.light .sheet.hearing-result-sheet::after{
+  opacity:.105;
+  filter:sepia(.16) saturate(.9) drop-shadow(0 10px 28px rgba(115,76,18,.11));
+}
+body:not(.light) .sheet.hearing-result-sheet{
+  background-color:#071522!important;
+  background-image:
+    radial-gradient(ellipse at 18% -8%,rgba(42,63,82,.33),transparent 48%),
+    radial-gradient(circle at 92% 15%,rgba(199,151,66,.12),transparent 25%),
+    linear-gradient(180deg,#0A1A28 0%,#081725 48%,#06131F 100%)!important;
+}
+body:not(.light) .sheet.hearing-result-sheet::before{
+  background:
+    linear-gradient(90deg,rgba(198,151,66,.045),transparent 13%,transparent 87%,rgba(198,151,66,.035)),
+    repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(155,182,204,.021) 39px,rgba(155,182,204,.021) 40px),
+    radial-gradient(ellipse at 50% 8%,rgba(255,255,255,.03),transparent 48%);
+}
+body:not(.light) .sheet.hearing-result-sheet::after{
+  opacity:.055;
+  filter:saturate(.8) drop-shadow(0 12px 30px rgba(0,0,0,.30));
+}
+
+/* Шапка компактнее — заголовок не должен некрасиво разваливаться на iPhone. */
+.hearing-result-head.premium{
+  display:grid!important;
+  grid-template-columns:54px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:13px!important;
+}
+.hearing-result-head.premium>div{min-width:0!important}
+.hearing-result-head.premium h2{
+  font-size:27px!important;
+  line-height:1.02!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+.hearing-result-head.premium p b{
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+
+/* Статусы: запрещаем разрыв внутри слова («Рассмотрен / ие»). */
+.hearing-result-choice-text{
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+}
+
+/* Поля и инфоблок чуть прозрачнее — фон весов ощущается, но не мешает чтению. */
+body.light .hearing-result-note-field textarea{
+  background:rgba(255,255,255,.82)!important;
+  backdrop-filter:blur(5px) saturate(1.03)!important;
+  -webkit-backdrop-filter:blur(5px) saturate(1.03)!important;
+}
+body.light .hearing-result-hint{
+  background:rgba(248,242,230,.86)!important;
+  backdrop-filter:blur(5px)!important;
+  -webkit-backdrop-filter:blur(5px)!important;
+}
+body:not(.light) .hearing-result-note-field textarea{
+  background:rgba(9,28,43,.82)!important;
+  backdrop-filter:blur(5px)!important;
+  -webkit-backdrop-filter:blur(5px)!important;
+}
+body:not(.light) .hearing-result-hint{
+  background:rgba(11,29,43,.86)!important;
+  backdrop-filter:blur(5px)!important;
+  -webkit-backdrop-filter:blur(5px)!important;
+}
+
+@media(max-width:430px){
+  .hearing-result-head.premium{
+    grid-template-columns:48px minmax(0,1fr)!important;
+    gap:10px!important;
+  }
+  .hearing-result-head.premium .hearing-result-head-icon{
+    width:48px!important;height:48px!important;border-radius:15px!important;
+  }
+  .hearing-result-head.premium h2{font-size:24px!important}
+  .hearing-result-choice{padding:9px 8px!important;gap:6px!important}
+  .hearing-result-choice-icon{width:38px!important;height:38px!important}
+  .hearing-result-choice-icon .ico{width:20px!important;height:20px!important}
+  .hearing-result-choice-text{font-size:12px!important;line-height:1.12!important}
+}
+@media(max-width:390px){
+  .sheet.hearing-result-sheet::after{
+    width:232px;height:232px;right:-58px;top:100px;
+  }
+  .hearing-result-head.premium h2{font-size:23px!important}
+  .hearing-result-choice-text{font-size:11.8px!important}
 }

@@ -1,6 +1,6 @@
-4.0.42
-- Premium redesign of Hearing Result sheet.
-- Added smart next-action/overdue pulse to matter cards.
-- Matter filter counts now respect current scope.
-- Added reset-filters action for empty matter lists.
-- Build bumped to 4042.
+4.0.43
+- Added left swipe for hearings that already require a result.
+- Swipe action opens the hearing result workflow.
+- Added scale-of-justice background to the hearing result sheet, matching the New Matter editor concept.
+- Fixed awkward word breaks in hearing result status cards.
+- Build bumped to 4043.

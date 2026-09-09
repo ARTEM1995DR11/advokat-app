@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.42';
-var APP_BUILD='4042';
+var APP_VERSION='4.0.43';
+var APP_BUILD='4043';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -861,7 +861,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4042" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4043" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1152,7 +1152,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4042" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4043" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1251,9 +1251,10 @@ function taskProjectRow(t){
     : (meetingOccurred(t)
         ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
-  var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline');
+  var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline'||(t.kind==='hearing'&&hearingNeedsResult(t)));
+  var swipeCaption=(t.kind==='hearing'&&hearingNeedsResult(t))?'Результат':'Действия';
   return '<div class="pt-item" data-id="'+t.id+'">'+
-    (swipeAllowed?'<div class="pt-swipe-bg"><span></span><span class="pt-swipe-more">Действия'+ico('more','s')+'</span></div>':'')+
+    (swipeAllowed?'<div class="pt-swipe-bg'+((t.kind==='hearing'&&hearingNeedsResult(t))?' result':'')+'"><span></span><span class="pt-swipe-more">'+swipeCaption+ico((t.kind==='hearing'&&hearingNeedsResult(t))?'gavel':'more','s')+'</span></div>':'')+
     '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+(t.kind==='deadline'?' deadline-record':'')+'" data-id="'+t.id+'" data-kind="'+esc(t.kind||'task')+'">'+
       leadIcon+
       '<div class="pt-main">'+
@@ -1458,7 +1459,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4042" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4043" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -1581,7 +1582,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4042" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4043" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -1682,7 +1683,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4042" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4043" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -1893,7 +1894,7 @@ function drawEditor(){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4042" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4043" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3041,9 +3042,9 @@ document.addEventListener('touchend',function(){
 document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
 
 /* =====================================================================
-   Swipe по задачам / встречам / процессуальным срокам — 4.0.42
+   Swipe по задачам / встречам / срокам / прошедшим заседаниям — 4.0.43
    Свайп справа налево открывает «Быстрые действия».
-   Заседания намеренно исключены: у них отдельная логика результата.
+   Для заседания после наступления времени свайп сразу ведёт к фиксации результата.
    Вертикальная прокрутка имеет приоритет; короткий случайный жест ничего не делает.
    ===================================================================== */
 var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
@@ -3071,7 +3072,8 @@ document.addEventListener('touchstart',function(e){
   if(!row || e.target.closest('[data-act="toggle"]')) return;
   var id=row.dataset.id||'';
   var rec=S.tasks.filter(function(x){return x.id===id;})[0];
-  if(!rec || ['task','meeting','deadline'].indexOf(rec.kind)<0) return;
+  var swipeKindOk=rec && (['task','meeting','deadline'].indexOf(rec.kind)>=0 || (rec.kind==='hearing'&&hearingNeedsResult(rec)));
+  if(!swipeKindOk) return;
   var t=e.touches[0];
   if(t.clientX<=44) return; // не конфликтуем с системным свайпом «Назад»
   TASK_TOUCH.on=true;TASK_TOUCH.row=row;TASK_TOUCH.id=id;
