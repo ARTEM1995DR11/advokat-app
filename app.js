@@ -409,6 +409,13 @@ function premiumListItemExtra(target,value,label){
   }
   return '';
 }
+function judgePickerToneMeta(value){
+  if(!value)return null;
+  var entry=knownJudgeEntry(value), judge=(entry&&entry.judge)||value||'', surname=normLookup((judge||'').split(/\s+/)[0]), court=(entry&&entry.court)||'';
+  if(CRIMINAL_JUDGE_SURNAMES[surname]) return {type:'judge-red',color:'#D96464',icon:'user'};
+  if(/судебный участок/i.test(court)||/миров/i.test(court)) return null;
+  return {type:'judge-blue',color:'#4E86C6',icon:'user'};
+}
 function premiumListMatterMeta(target,value){
   if(target==='e-deadline-code'){
     var codeMap={
@@ -420,6 +427,7 @@ function premiumListMatterMeta(target,value){
     };
     return codeMap[value]||{type:'other',color:'#7A8FA6',icon:'doc'};
   }
+  if(target==='e-hjudge-choice'||target==='m-judge-choice') return judgePickerToneMeta(value);
   if(target!=='e-mid'&&target!=='j-mid-select'&&target!=='pt-mid')return null;
   if(!value)return {type:'none',color:'#B78A2F',icon:'folder'};
   var m=matter(value);if(!m)return {type:'other',color:MATTER_TYPES.other.c,icon:'folder'};
@@ -465,7 +473,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span>'+ico('scale','s')+'</span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4063" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -2103,6 +2111,15 @@ var KINESHMA_CITY_JUDGES = [
   'Разуваев Г.Л.','Туроватов Д.В.','Шилова Н.Ю.','Ширшин А.А.','Румянцева Ю.А.','Хватова О.И.',
   'Коровкина О.А.','Лобанкова А.Е.','Силина О.А.','Пангачева М.В.'
 ];
+var CRIMINAL_JUDGE_SURNAMES = {
+  'асташкин':1,
+  'груздев':1,
+  'туроватов':1,
+  'кротов':1,
+  'разуваев':1,
+  'шилова':1,
+  'ширшин':1
+};
 function commonCourtByValue(value){
   return COMMON_KINESHMA_COURTS.filter(function(c){return c.value===value;})[0]||null;
 }
