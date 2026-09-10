@@ -8805,3 +8805,191 @@ body:not(.light) .premium-list-empty b{color:#D9E3EB!important}
   touch-action:manipulation!important;
 }
 .premium-select-field-arrow{pointer-events:none!important}
+
+
+/* ============================================================
+   4.0.57 — CATEGORY-COLORED MATTER PICKER + CENTERED CHEVRONS
+   ============================================================ */
+/* Стрелка строго по геометрическому центру квадратной кнопки. */
+.inline-choice-wrap .inline-choice-arrow.premium-list-trigger,
+.premium-select-field-arrow{
+  line-height:0!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.inline-choice-wrap .inline-choice-arrow.premium-list-trigger .ico,
+.premium-select-field-arrow .ico{
+  display:block!important;
+  margin:0!important;
+  position:relative!important;
+  top:1px!important;
+  transform:none!important;
+  flex:none!important;
+}
+.inline-choice-wrap .inline-choice-arrow.premium-list-trigger:active{
+  transform:translateY(-50%) scale(.96)!important;
+}
+
+/* Выбор дела: та же цветовая система, что и на экране «Дела». */
+.premium-list-row.matter-option{
+  --matter-color:#7A8FA6;
+  border-left:3px solid color-mix(in srgb,var(--matter-color) 82%,transparent)!important;
+}
+.premium-list-row.matter-option .premium-list-row-mark{
+  color:var(--matter-color)!important;
+  background:color-mix(in srgb,var(--matter-color) 10%,#FFFFFF)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 24%,transparent)!important;
+}
+.premium-list-row.matter-option .premium-list-row-mark .ico{
+  stroke:currentColor!important;
+}
+.premium-list-row.matter-option .premium-list-row-copy b{
+  color:color-mix(in srgb,var(--matter-color) 23%,#18304A)!important;
+}
+.premium-list-row.matter-option.selected{
+  border-color:color-mix(in srgb,var(--matter-color) 58%,#C69742)!important;
+  border-left-color:var(--matter-color)!important;
+  background:linear-gradient(180deg,#FFFDF8,color-mix(in srgb,var(--matter-color) 6%,#FBF4E6))!important;
+}
+.premium-list-row.matter-option.selected .premium-list-row-mark{
+  color:var(--matter-color)!important;
+  background:color-mix(in srgb,var(--matter-color) 13%,#FFF8EA)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 32%,transparent)!important;
+}
+.premium-list-row.matter-option.selected .premium-list-row-end em{
+  color:color-mix(in srgb,var(--matter-color) 38%,#8B6117)!important;
+  background:color-mix(in srgb,var(--matter-color) 8%,#F5E8C9)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 20%,transparent)!important;
+}
+/* «Без дела» остаётся фирменным золотым, а не цветом категории. */
+.premium-list-row.matter-none{--matter-color:#B78A2F!important}
+
+body:not(.light) .premium-list-row.matter-option{
+  border-left-color:color-mix(in srgb,var(--matter-color) 78%,transparent)!important;
+}
+body:not(.light) .premium-list-row.matter-option .premium-list-row-mark{
+  color:color-mix(in srgb,var(--matter-color) 72%,#E9F0F6)!important;
+  background:color-mix(in srgb,var(--matter-color) 16%,#112839)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 28%,transparent)!important;
+}
+body:not(.light) .premium-list-row.matter-option .premium-list-row-copy b{
+  color:color-mix(in srgb,var(--matter-color) 28%,#EFF4F8)!important;
+}
+body:not(.light) .premium-list-row.matter-option.selected{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--matter-color) 13%,#172B38),#102431)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 48%,#D5AB4E)!important;
+  border-left-color:var(--matter-color)!important;
+}
+body:not(.light) .premium-list-row.matter-option.selected .premium-list-row-end em{
+  color:color-mix(in srgb,var(--matter-color) 48%,#F1D280)!important;
+  background:color-mix(in srgb,var(--matter-color) 14%,#17202A)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 30%,transparent)!important;
+}
+
+
+/* ============================================================
+   4.0.60 — PREMIUM PICKER MEDALLION
+   Фирменная нижняя эмблема для всех premium-списков
+   ============================================================ */
+.premium-list-sign{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:minmax(34px,1fr) 58px minmax(34px,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  width:min(360px,88%)!important;
+  margin:10px auto 1px!important;
+  min-height:58px!important;
+  color:#B9892E!important;
+  opacity:1!important;
+  flex:none!important;
+}
+.premium-list-sign>i{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent 0%,rgba(190,145,60,.18) 14%,rgba(190,145,60,.72) 100%)!important;
+}
+.premium-list-sign>i:last-child{
+  background:linear-gradient(90deg,rgba(190,145,60,.72) 0%,rgba(190,145,60,.18) 86%,transparent 100%)!important;
+}
+.premium-list-sign>i:first-child::after,
+.premium-list-sign>i:last-child::before{
+  content:""!important;
+  position:absolute!important;
+  top:50%!important;
+  width:7px!important;
+  height:7px!important;
+  border:1px solid rgba(190,145,60,.72)!important;
+  background:#FFF9EE!important;
+  transform:translateY(-50%) rotate(45deg)!important;
+  box-sizing:border-box!important;
+}
+.premium-list-sign>i:first-child::after{right:-2px!important}
+.premium-list-sign>i:last-child::before{left:-2px!important}
+.premium-list-sign>span{
+  position:relative!important;
+  width:56px!important;
+  height:56px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:50%!important;
+  color:#A97518!important;
+  background:
+    radial-gradient(circle at 34% 28%,rgba(255,255,255,.96),rgba(255,250,238,.92) 34%,rgba(242,218,168,.82) 100%)!important;
+  border:1px solid rgba(188,137,40,.54)!important;
+  box-shadow:
+    0 7px 18px rgba(144,100,25,.12),
+    inset 0 0 0 4px rgba(255,255,255,.58),
+    inset 0 0 0 5px rgba(194,149,65,.17)!important;
+}
+.premium-list-sign>span::before{
+  content:""!important;
+  position:absolute!important;
+  inset:5px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(185,137,48,.24)!important;
+  pointer-events:none!important;
+}
+.premium-list-sign>span::after{
+  content:""!important;
+  position:absolute!important;
+  inset:-4px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(202,161,76,.13)!important;
+  pointer-events:none!important;
+}
+.premium-list-sign>span .ico{
+  width:28px!important;
+  height:28px!important;
+  stroke-width:1.75!important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.78))!important;
+}
+body:not(.light) .premium-list-sign{color:#D2AA57!important}
+body:not(.light) .premium-list-sign>i{
+  background:linear-gradient(90deg,transparent 0%,rgba(213,171,78,.13) 14%,rgba(213,171,78,.56) 100%)!important;
+}
+body:not(.light) .premium-list-sign>i:last-child{
+  background:linear-gradient(90deg,rgba(213,171,78,.56) 0%,rgba(213,171,78,.13) 86%,transparent 100%)!important;
+}
+body:not(.light) .premium-list-sign>i:first-child::after,
+body:not(.light) .premium-list-sign>i:last-child::before{
+  background:#0B1B27!important;
+  border-color:rgba(220,181,95,.56)!important;
+}
+body:not(.light) .premium-list-sign>span{
+  color:#E2BC68!important;
+  background:radial-gradient(circle at 34% 28%,#1A2B36 0%,#10232F 56%,#0B1B27 100%)!important;
+  border-color:rgba(213,171,78,.48)!important;
+  box-shadow:0 9px 22px rgba(0,0,0,.30),inset 0 0 0 4px rgba(255,255,255,.018),inset 0 0 0 5px rgba(213,171,78,.10)!important;
+}
+body:not(.light) .premium-list-sign>span::before{border-color:rgba(226,188,104,.22)!important}
+body:not(.light) .premium-list-sign>span::after{border-color:rgba(226,188,104,.10)!important}
+@media(max-width:390px){
+  .premium-list-sign{width:84%!important;grid-template-columns:minmax(26px,1fr) 52px minmax(26px,1fr)!important;gap:8px!important;min-height:53px!important}
+  .premium-list-sign>span{width:50px!important;height:50px!important}
+  .premium-list-sign>span .ico{width:25px!important;height:25px!important}
+}
