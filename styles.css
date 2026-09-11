@@ -9257,3 +9257,27 @@ body:not(.light) .mp-stage.red{background:rgba(217,100,100,.13)!important;color:
 }
 
 /* 4.0.78 — compact matter choice sheets: search field intentionally hidden by render logic */
+
+
+/* ============================================================
+   4.0.86 — ЕДИНЫЙ КОЛОКОЛЬЧИК НА ВСЕХ ОСНОВНЫХ ЭКРАНАХ
+   ============================================================ */
+.today-brand > .today-bell{
+  box-sizing:border-box!important;
+  flex:0 0 42px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  padding:0!important;
+  border-radius:14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.today-brand > .today-bell .ico{
+  width:22px!important;
+  height:22px!important;
+  flex:none!important;
+  stroke-width:1.9!important;
+}
