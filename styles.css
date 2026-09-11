@@ -10265,3 +10265,112 @@ body.light #fab.fab{
   }
   #fab.fab::before{inset:5px;border-radius:12px;}
 }
+
+/* ============================================================
+   5.0.28 — точная квадратная premium-кнопка + и единая лупа на «Ещё»
+   1) FAB использует подготовленный графический актив без упрощения CSS.
+   2) Заголовок страницы «Ещё» и кнопка поиска сведены к той же геометрии,
+      что и на остальных основных страницах.
+   ============================================================ */
+#fab.fab{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:fixed!important;
+  right:12px!important;
+  bottom:calc(var(--bot) + 68px)!important;
+  width:76px!important;
+  height:76px!important;
+  min-width:76px!important;
+  min-height:76px!important;
+  max-width:76px!important;
+  max-height:76px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:22px!important;
+  background:transparent url('fab-plus-square-premium.png') center/contain no-repeat!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  overflow:visible!important;
+}
+#fab.fab::before,
+#fab.fab::after{display:none!important;content:none!important;}
+#fab.fab .ico{
+  opacity:0!important;
+  width:0!important;
+  height:0!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:0!important;
+  max-height:0!important;
+  overflow:hidden!important;
+}
+#fab.fab:active{
+  transform:translateY(1px) scale(.975)!important;
+  box-shadow:none!important;
+}
+@media (max-width:390px){
+  #fab.fab{
+    right:10px!important;
+    bottom:calc(var(--bot) + 64px)!important;
+    width:72px!important;
+    height:72px!important;
+    min-width:72px!important;
+    min-height:72px!important;
+    max-width:72px!important;
+    max-height:72px!important;
+  }
+}
+
+#sc-more .more-project{
+  padding-top:0!important;
+}
+#sc-more .more-project > .main-brand-fixed{
+  margin-bottom:4px!important;
+}
+#sc-more .more-title-head,
+#sc-more .today-head.more-title-head,
+#sc-more .today-head.matters-title-head.more-title-head{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:auto!important;
+  margin:3px 2px 11px!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+}
+#sc-more .more-title-head > div:first-child{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+#sc-more .more-title-head > .today-actions{
+  position:static!important;
+  flex:0 0 42px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  align-self:flex-end!important;
+  transform:none!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search{
+  position:static!important;
+  inset:auto!important;
+  margin:0!important;
+  transform:none!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search .ico{
+  width:22px!important;
+  height:22px!important;
+}

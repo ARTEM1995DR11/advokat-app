@@ -3007,7 +3007,7 @@ function renderMore(){
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
     mainBrandHeader()+
-    '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
+    '<div class="today-head matters-title-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
