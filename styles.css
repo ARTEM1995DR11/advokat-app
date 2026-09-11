@@ -9158,3 +9158,46 @@ body:not(.light) .matter-editor-sheet .premium-select-field.matter-choice-tone .
 .premium-list-row.matter-basis-agreement{--matter-color:#2FA08E!important}
 .premium-list-row.matter-basis-assigned{--matter-color:#8A6AD8!important}
 #m-phone{font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+/* ============================================================
+   4.0.73 — стадия дела + зависимый суд / орган расследования
+   ============================================================ */
+.matter-editor-sheet .matter-stage-field .premium-select-field{
+  min-height:58px!important;
+}
+.matter-editor-sheet .matter-stage-field .premium-select-field-copy b{
+  font-weight:700!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="investigation"]{
+  --place-accent:#8A6AD8;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="judicial"]{
+  --place-accent:#4E86C6;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="execution"]{
+  --place-accent:#C29130;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="other"],
+.matter-editor-sheet .matter-court-field[data-place-mode="completed"]{
+  --place-accent:#7A8FA6;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+.matter-editor-sheet .matter-court-field[data-place-mode]>input{
+  border-color:color-mix(in srgb,var(--place-accent) 28%,var(--line2))!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--place-accent) 74%,transparent),0 6px 16px rgba(29,43,57,.045)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-arrow.premium-list-trigger{
+  color:var(--place-accent)!important;
+  background:color-mix(in srgb,var(--place-accent) 9%,var(--panel))!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--place-accent) 18%,transparent)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] label{
+  color:color-mix(in srgb,var(--place-accent) 34%,var(--txt2))!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode]>input{
+  border-color:color-mix(in srgb,var(--place-accent) 30%,rgba(143,169,193,.18))!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--place-accent) 68%,transparent),0 8px 18px rgba(0,0,0,.14)!important;
+}
+.mp-stage.red{background:rgba(217,100,100,.12)!important;color:#D96464!important}
+body:not(.light) .mp-stage.red{background:rgba(217,100,100,.13)!important;color:#F08B8B!important}
