@@ -9065,7 +9065,7 @@ body.light .task-editor-sheet .deadline-time-hint{color:#718599}
 
 
 /* ============================================================
-   4.0.67 — premium page transitions for main-tab swipe
+   4.0.68 — premium page transitions; corrected swipe direction
    Свайп вправо открывает следующую вкладку (она входит слева),
    свайп влево — предыдущую (она входит справа).
    ============================================================ */
