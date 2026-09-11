@@ -10077,3 +10077,85 @@ body:not(.light) .matter-ultra-professional b{color:#C8D7E5!important}
   touch-action:manipulation!important;
   visibility:visible!important;
 }
+
+
+/* ============================================================
+   5.0.23 — единая лупа поиска на всех основных страницах
+   Одинаковые размер, фон, рамка, тень, цвет иконки и активное состояние.
+   Старые page-specific правила больше не влияют на вид кнопки.
+   ============================================================ */
+.today-head .today-actions .app-header-search,
+#sc-today .today-head .today-actions .app-header-search,
+#sc-tasks .today-head .today-actions .app-header-search,
+#sc-matters .today-head .today-actions .app-header-search,
+#sc-cal .today-head .today-actions .app-header-search,
+#sc-more .today-head .today-actions .app-header-search{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  box-sizing:border-box!important;
+  flex:0 0 42px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid var(--app-bell-border)!important;
+  border-radius:14px!important;
+  background:var(--app-bell-bg)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+  opacity:1!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+.today-head .today-actions .app-header-search:hover,
+.today-head .today-actions .app-header-search:focus,
+.today-head .today-actions .app-header-search:focus-visible{
+  background:var(--app-bell-bg)!important;
+  border-color:var(--app-bell-border)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+  outline:none!important;
+}
+.today-head .today-actions .app-header-search:active{
+  transform:scale(.97)!important;
+}
+.today-head .today-actions .app-header-search.on{
+  border-color:rgba(201,162,39,.50)!important;
+  background:linear-gradient(180deg,#F7ECD0,#EFE2BE)!important;
+  color:#8A6418!important;
+  box-shadow:0 8px 18px rgba(138,100,24,.13)!important;
+}
+body:not(.light) .today-head .today-actions .app-header-search.on{
+  border-color:rgba(230,197,92,.38)!important;
+  background:#2B2414!important;
+  color:#E8C86D!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.24)!important;
+}
+.today-head .today-actions .app-header-search .ico{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  max-width:22px!important;
+  max-height:22px!important;
+  margin:0!important;
+  padding:0!important;
+  color:inherit!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}

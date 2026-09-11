@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.22';
-var APP_BUILD='5022';
+var APP_VERSION='5.0.25';
+var APP_BUILD='5025';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -244,6 +244,12 @@ function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
   return '<button class="today-bell app-header-bell" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:1px!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-width:42px!important;max-height:42px!important;margin:0!important;padding:0!important;border:1px solid var(--app-bell-border)!important;border-radius:14px!important;background:var(--app-bell-bg)!important;color:var(--app-bell-color)!important;box-shadow:var(--app-bell-shadow)!important;opacity:1!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button>';
+}
+function headerSearch(action,active,label){
+  action=action||'global-search';
+  label=label||'Поиск';
+  var cls='iconbtn app-header-search'+(active?' on':'');
+  return '<button class="'+cls+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button">'+ico('search')+'</button>';
 }
 function mainBrandHeader(){
   return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:44px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4098" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+headerBell()+'</div>';
@@ -1069,6 +1075,7 @@ var MATTER_TYPES = {
   admin:{n:'Административное (КАС)',short:'КАС',c:'#35A996'}, koap:{n:'КоАП',short:'КоАП',c:'#D98A2B'},
   other:{n:'Иное',short:'Иное',c:'#7A8FA6'}
 };
+var MATTER_TYPE_KEYS=['criminal','civil','admin','koap'];
 var MATTER_BASIS = {
   agreement:{n:'По соглашению',short:'Соглашение',c:'#2FA08E'},
   assigned:{n:'По назначению',short:'Назначение',c:'#8A6AD8'}
@@ -1512,6 +1519,10 @@ function pullMatterDraft(){
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
   MED.phone=formatRussianPhone(MED.phone||'');
   MED.article=normalizeMatterArticle(MED.type||'other',MED.article||'');
+  // Поля редактора динамические: часть из них исчезает при смене типа/стадии.
+  // После чтения формы сразу очищаем значения, которые больше не относятся
+  // к текущему контексту, чтобы скрытые старые данные не возвращались позже.
+  MED=sanitizeMatterByType(MED);
 }
 function matterDynamicFields(){
   var cfg=matterMeta((MED&&MED.type)||'other',(MED&&MED.basis)||'');
@@ -1626,6 +1637,31 @@ function sanitizeMatterByType(o){
   }
   if(o.type!=='criminal'||o.stage!=='Исполнение приговора'){o.executionIssue='';o.executionInstitution='';}
   else if(o.executionIssue&&!criminalExecutionIssue(o.executionIssue)){o.executionIssue='';o.executionInstitution='';}
+
+  // 5.0.25: взаимно исключаемые реквизиты очищаются не только визуально,
+  // но и в самой записи дела. Иначе старый судья мог снова появиться после
+  // перехода на дознание, а следователь — после возврата в судебную стадию.
+  var ctx=matterPlaceContext(o.type||'other',o.stage||'',o.court||'');
+  var judicial=ctx.mode==='judicial'||(ctx.mode==='execution'&&o.type==='criminal');
+  var investigation=ctx.mode==='investigation';
+  if(judicial){
+    o.investigator='';
+    if(matterInvestigationOrgByValue(o.court||'')) o.court='';
+    // Для известных судов не оставляем судью, которого этот суд/тип дела не допускает.
+    if(o.judge&&commonCourtByValue(o.court||'')&&!judgeAllowedForCourt(o.judge,o.court||'',o.type||'',o.stage||'')) o.judge='';
+  }else if(investigation){
+    o.judge='';
+    if(commonCourtByValue(o.court||'')) o.court='';
+    var knownOrg=matterInvestigationOrgByValue(o.court||'');
+    if(knownOrg){
+      var allowed=matterInvestigationOrgList(o.stage||'').map(function(x){return x.value;});
+      if(allowed.indexOf(o.court)<0) o.court='';
+    }
+  }else{
+    o.judge='';
+    o.investigator='';
+  }
+
   o.role=normalizeMatterClientRole(o.type||'other',o.role,o.stage||'',o.executionIssue||'');
   if(typeof o.basis!=='string') o.basis='';
   return o;
@@ -1987,7 +2023,7 @@ function renderToday(){
   var html =
     mainBrandHeader()+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
+      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     '<div class="today-quote"><div><b>'+quote[0]+'</b><span>'+quote[1]+'</span></div></div>';
 
   html += block('danger','flag','Просроченные процессуальные сроки',overdueDeadlines,todayDeadlineRow);
@@ -2287,7 +2323,7 @@ function renderTasks(){
   var html='<div class="tasks-project">'+
     mainBrandHeader()+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
-      '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
+      '<div class="today-actions">'+headerSearch('search',!!u.q,'Поиск по задачам')+'</div></div>'+
     (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
     '<div class="tasks-filterbar">'+
       '<div class="tasks-project-filters">'+
@@ -2662,7 +2698,7 @@ function matterSortLabel(v){
 function sheetMatterFilters(){
   var scope=S.ui.matterScope||'active';
   var scopeMatters=S.matters.filter(function(m){return scope==='all'||(scope==='active'?!m.archived:!!m.archived);});
-  var typeCounts={all:scopeMatters.length}; Object.keys(MATTER_TYPES).forEach(function(k){ typeCounts[k]=scopeMatters.filter(function(m){return m.type===k;}).length; });
+  var typeCounts={all:scopeMatters.length}; MATTER_TYPE_KEYS.forEach(function(k){ typeCounts[k]=scopeMatters.filter(function(m){return m.type===k;}).length; });
   var basisCounts={all:scopeMatters.length}; Object.keys(MATTER_BASIS).forEach(function(k){ basisCounts[k]=scopeMatters.filter(function(m){return m.basis===k;}).length; });
   var stageBase=scopeMatters.filter(function(m){
     if(S.ui.matterType&&m.type!==S.ui.matterType)return false;
@@ -2675,7 +2711,7 @@ function sheetMatterFilters(){
     return '<button class="filter-premium-row'+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
   }
   var typeRows=mr('m-filter','','folder','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
-    Object.keys(MATTER_TYPES).map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
+    MATTER_TYPE_KEYS.map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
   var basisRows=mr('m-basis-filter','','doc','Все основания','Соглашение и дела по назначению',basisCounts.all,'#B88C2D',S.ui.matterBasis==='')+
     Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return mr('m-basis-filter',k,k==='agreement'?'doc':'user',esc(t.n),esc(t.short),basisCounts[k]||0,t.c,S.ui.matterBasis===k);}).join('');
   var stageRows=mr('m-stage-filter','','flag','Все стадии','Без ограничения по стадии',stageCounts.all,'#B88C2D',S.ui.matterStage==='')+
@@ -2693,6 +2729,7 @@ function sheetMatterFilters(){
 }
 
 function renderMatters(){
+  if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
   var scope=S.ui.matterScope||'active';
   if(['all','active','archive'].indexOf(scope)<0) scope='active';
   var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
@@ -2742,7 +2779,7 @@ function renderMatters(){
   var html='<div class="matters-project">'+
     mainBrandHeader()+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+scopeCaption+'</p></div>'+ 
-      '<div class="today-actions"><button class="iconbtn'+((S.ui.matterSearchOpen||q)?' on':'')+'" data-act="matter-search" title="Поиск по делам" aria-label="Поиск по делам">'+ico('search')+'</button></div></div>'+ 
+      '<div class="today-actions">'+headerSearch('matter-search',!!(S.ui.matterSearchOpen||q),'Поиск по делам')+'</div></div>'+ 
     ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off"></div>':'')+
     '<div class="matters-scope">'+
       '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
@@ -2869,7 +2906,7 @@ function renderCal(){
   var html='<div class="calendar-project">'+
     mainBrandHeader()+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
+      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
       '<div class="cgrid calendar-grid">'+grid+'</div>'+
@@ -2971,7 +3008,7 @@ function renderMore(){
   var html='<div class="more-project">'+
     mainBrandHeader()+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
+      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
     (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
@@ -3568,7 +3605,7 @@ function editMatter(m){
   if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
   openSheet(
   '<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p>'+
-  '<div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
+  '<div class="fld"><label>Тип производства</label><select id="m-type">'+((MED.type==='other')?'<option value="other" selected disabled>Иное (старое дело — выберите новый тип)</option>':'')+MATTER_TYPE_KEYS.map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
   '<div class="fld"><label>Основание ведения *</label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+
   '<div id="matter-dynamic"></div>'+
   '<button class="btn" data-act="m-save">Сохранить</button>');
@@ -4387,10 +4424,17 @@ document.addEventListener('change',function(e){
     return;
   }
   if(e.target.id==='m-type'){
+    var oldType=(MED&&MED.type)||'other';
     pullMatterDraft();
-    MED.type=e.target.value||'other';
+    var newType=e.target.value||'other';
+    MED.type=newType;
+    if(oldType!==newType){
+      // Тип производства меняет смысл зависимых реквизитов. Не переносим
+      // судью из уголовного дела в КоАП, статью УК в другую категорию и т.п.
+      MED.court='';MED.judge='';MED.investigator='';MED.article='';MED.role='';MED.restraint='';MED.opponent='';
+      MED.executionIssue='';MED.executionInstitution='';
+    }
     MED=sanitizeMatterByType(MED);
-    if(MED.judge&&!judgeAllowedForCourt(MED.judge,MED.court||'',MED.type||'',MED.stage||''))MED.judge='';
     renderMatterDynamic();
     vib(5);
     return;
@@ -4407,20 +4451,22 @@ document.addEventListener('change',function(e){
       MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage,MED.executionIssue||'');
       if((MED.type||'other')==='criminal'&&(newStage==='Материал проверки'||newStage==='Исполнение приговора')) MED.restraint='';
       if(newCtx.mode==='judicial'){
-        MED.court=''; MED.judge='';
+        MED.court=''; MED.judge=''; MED.investigator='';
       }else if(newCtx.mode==='investigation'){
+        MED.judge='';
         var allowed=matterInvestigationOrgList(newStage).map(function(o){return o.value;});
         if(MED.court&&allowed.indexOf(MED.court)<0)MED.court='';
         if(oldMode!=='investigation'||oldStage!==newStage)MED.investigator='';
       }else if(newCtx.mode==='execution'){
-        if(matterInvestigationOrgByValue(MED.court))MED.court='';
-        MED.investigator='';
+        // Новая стадия исполнения имеет собственную подсудность/орган исполнения.
+        // Старый суд, судья или следователь из предыдущей стадии не переносится.
+        MED.court=''; MED.judge=''; MED.investigator='';
       }else if(oldMode==='judicial'||oldMode==='investigation'||oldMode==='execution'){
         if(MED.type==='criminal'){MED.executionIssue='';MED.executionInstitution='';}
-        MED.court=''; MED.judge='';
-        MED.court='';
+        MED.court=''; MED.judge=''; MED.investigator='';
       }
     }
+    MED=sanitizeMatterByType(MED);
     renderMatterDynamic(); vib(5); return;
   }
   if(e.target.id==='m-execution-issue'){
@@ -4474,7 +4520,16 @@ document.addEventListener('input',function(e){
     ED.place=e.target.value.trim(); var cc=commonCourtByValue(ED.place); if(cc&&cc.judge)applyKnownCourtJudge(ED.place,'hearing');
   }
   if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
-  if(e.target.id==='m-court'){ var mcv=e.target.value.trim(),mc=commonCourtByValue(mcv); if(MED)MED.court=mcv; if(mc&&mc.judge)applyKnownCourtJudge(mcv,'matter'); }
+  if(e.target.id==='m-court'){
+    var mcv=e.target.value.trim(),mc=commonCourtByValue(mcv),prevCourt=(MED&&MED.court)||'';
+    if(MED){
+      MED.court=mcv;
+      // При ручной замене суда/органа старый судья не должен оставаться
+      // привязанным к новому месту рассмотрения.
+      if(prevCourt!==mcv&&MED.judge) MED.judge='';
+    }
+    if(mc&&mc.judge)applyKnownCourtJudge(mcv,'matter');
+  }
   if(e.target.id==='m-phone'){
     var rawPhone=e.target.value||'',rawPos=e.target.selectionStart==null?rawPhone.length:e.target.selectionStart;
     var before=phoneDigitCountBefore(rawPhone,rawPos),rawDigits=String(rawPhone).replace(/\D/g,'');
