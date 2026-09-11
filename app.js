@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.71';
-var APP_BUILD='4071';
+var APP_VERSION='4.0.85';
+var APP_BUILD='4085';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -486,6 +486,9 @@ function openPremiumListPicker(target,inputId){
     var mm=premiumListMatterMeta(target,o.value);
     return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm};
   });
+  // В статусах доверителя пустое значение остаётся только техническим состоянием
+  // до первого выбора, но не показывается отдельной строкой в premium-списке.
+  if(target==='m-role')items=items.filter(function(it){return !!String(it.value||'').trim();});
   LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
   renderPremiumListPicker();
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
@@ -519,11 +522,12 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4080" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4085" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
+  if(id==='m-role'&&sel.value)label=matterRoleDisplayLabel((MED&&MED.type)||'other',(MED&&MED.stage)||'',sel.value);
   var b=btn.querySelector('b');if(b)b.textContent=label||'— выбрать —';btn.classList.toggle('empty',!sel.value);
   var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role')?premiumListMatterMeta(id,sel.value):null;
   btn.classList.toggle('matter-choice-tone',!!tone);
@@ -1078,7 +1082,7 @@ var CRIMINAL_ROLE_STAGE_MAP = {
   'Материал проверки':[
     'заявитель',
     'лицо, в отношении которого проводится проверка',
-    'пострадавший (до признания потерпевшим)',
+    'лицо, которому причинён вред',
     'лицо, дающее объяснение'
   ],
   'Дознание':[
@@ -1111,17 +1115,35 @@ function matterRoleList(type,stage){
   if(type==='criminal'&&stage&&CRIMINAL_ROLE_STAGE_MAP[stage]) return CRIMINAL_ROLE_STAGE_MAP[stage].slice();
   return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice();
 }
+// Полное процессуальное наименование хранится в данных и показывается в списке
+// выбора. В компактных полях карточки используем короткую понятную подпись,
+// чтобы длинный статус не ломал геометрию формы на iPhone.
+function matterRoleDisplayLabel(type,stage,role){
+  var r=String(role||'').trim();
+  if(!r)return '';
+  if(type==='criminal'&&stage==='Материал проверки'){
+    var shortMap={
+      'заявитель':'Заявитель',
+      'лицо, в отношении которого проводится проверка':'Проверяемое лицо',
+      'лицо, которому причинён вред':'Лицо, которому причинён вред',
+      'лицо, дающее объяснение':'Даёт объяснение'
+    };
+    if(shortMap[r])return shortMap[r];
+  }
+  return r;
+}
 function normalizeMatterClientRole(type,role,stage){
   var r=String(role||'').trim();
   if(!r)return '';
   var legacy={
     'осужденный':'осуждённый',
     'лицо, привлекаемое к административной ответственности':'лицо, в отношении которого ведётся производство',
-    'пострадавший':'пострадавший (до признания потерпевшим)'
+    'пострадавший':'лицо, которому причинён вред',
+    'пострадавший (до признания потерпевшим)':'лицо, которому причинён вред'
   };
   r=legacy[r]||r;
   if(type==='criminal'&&stage==='Материал проверки'){
-    if(r==='потерпевший')r='пострадавший (до признания потерпевшим)';
+    if(r==='потерпевший')r='лицо, которому причинён вред';
     if(r==='свидетель')r='лицо, дающее объяснение';
   }
   // Старые значения, описывавшие роль адвоката, больше не являются
@@ -1201,8 +1223,10 @@ function matterDynamicFields(){
   var currentRoleList=matterRoleList((MED&&MED.type)||'other',currentStage);
   var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'',currentStage);
   if(MED)MED.role=currentRole;
-  var roleField='<select id="m-role"><option value=""'+(!currentRole?' selected':'')+'>—</option>'+currentRoleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
-  var restraintField=cfg.showRestraint?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
+  var roleField='<select id="m-role"><option value="" hidden disabled'+(!currentRole?' selected':'')+'></option>'+currentRoleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
+  var showRestraintNow=!!(cfg.showRestraint&&currentStage!=='Материал проверки');
+  if(MED&&!showRestraintNow) MED.restraint='';
+  var restraintField=showRestraintNow?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
   var html=''+
     '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+ 
     '<div class="two"><div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div></div>'+ 
@@ -1222,14 +1246,13 @@ function matterDynamicFields(){
     html += '<div class="fld"><label>'+esc(cfg.roleLabel)+'</label>'+roleField+'</div>';
   }
 
-  if(cfg.showRestraint){
+  if(showRestraintNow){
     html += '<div class="fld"><label>Мера пресечения</label>'+restraintField+'</div>';
   }
   if(cfg.showOpponent){
     html += '<div class="fld"><label>'+esc(cfg.opponentLabel)+'</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'" placeholder="'+esc(cfg.opponentPlaceholder||'')+'"></div>';
   }
-  html += '<div class="fld"><label>Ставка за день участия, '+esc(S.settings.cur)+'</label><input id="m-dayrate" type="number" inputmode="numeric" value="'+esc(MED.dayRate||'')+'" placeholder="'+(S.settings.dayRate||'')+'"></div>'+ 
-    '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>';
+  html += '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>';
   return html;
 }
 function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
@@ -1251,7 +1274,7 @@ function sanitizeMatterByType(o){
   var cfg=matterMeta(o.type||'other');
   if(!cfg.showInvestigator) o.investigator='';
   if(!cfg.showArticle) o.article='';
-  if(!cfg.showRestraint) o.restraint='';
+  if(!cfg.showRestraint || (o.type==='criminal'&&o.stage==='Материал проверки')) o.restraint='';
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
   if(o.stage!=='Завершено'&&!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
@@ -1269,8 +1292,8 @@ function matterDossierRows(m){
   if(ctx.mode==='judicial'&&cfg.showJudge) push('user',cfg.judgeLabel,m.judge);
   if(ctx.mode==='investigation'&&cfg.showInvestigator) push('user',matterInvestigatorLabel(m.stage),m.investigator);
   if(cfg.showArticle) push('lock','Статья / квалификация',m.article);
-  push('user',cfg.roleLabel,m.role);
-  if(cfg.showRestraint) push('lock','Мера пресечения',m.restraint);
+  push('user',cfg.roleLabel,matterRoleDisplayLabel((m&&m.type)||'other',(m&&m.stage)||'',m.role));
+  if(cfg.showRestraint&&m.stage!=='Материал проверки') push('lock','Мера пресечения',m.restraint);
   if(cfg.showOpponent) push('user',cfg.opponentLabel,m.opponent);
   push('doc','Основание ведения',matterBasisLabel(m.basis));
   push('clock','Стадия',m.stage);
@@ -1611,7 +1634,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1912,7 +1935,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
@@ -2106,7 +2129,7 @@ function matterCardInfoRow(icon,label,value,sub){
   return '<div class="mp-v3-row"><span class="mp-v3-row-icon">'+ico(icon,'s')+'</span><div class="mp-v3-row-copy"><small>'+esc(label)+'</small><b>'+esc(value)+'</b>'+(sub?'<em>'+esc(sub)+'</em>':'')+'</div></div>';
 }
 function matterCardInfoRows(m){
-  var rows=[], client=m.client||'', role=m.role||'', court=m.court||'', judge=m.judge||'', inv=m.investigator||'', opp=m.opponent||'';
+  var rows=[], client=m.client||'', role=matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role||''), court=m.court||'', judge=m.judge||'', inv=m.investigator||'', opp=m.opponent||'';
   var ctx=matterPlaceContext(m.type||'other',m.stage||'',court);
   function add(icon,label,value,sub){ if(value) rows.push(matterCardInfoRow(icon,label,value,sub)); }
   if(m.type==='criminal'){
@@ -2118,7 +2141,7 @@ function matterCardInfoRows(m){
     }else if(court){
       add(ctx.mode==='judicial'?'gavel':'brief',ctx.label,court,ctx.mode==='judicial'?judge:'');
     }
-    if(m.restraint) add('lock','Мера пресечения',m.restraint,'');
+    if(m.restraint&&m.stage!=='Материал проверки') add('lock','Мера пресечения',m.restraint,'');
   }else if(m.type==='civil'){
     add('user','Доверитель',client,role);
     if(court)add(ctx.mode==='judicial'?'gavel':'brief',ctx.label,court,ctx.mode==='judicial'?judge:'');
@@ -2237,7 +2260,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2361,7 +2384,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2464,7 +2487,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2699,7 +2722,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4080" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4085" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3411,7 +3434,7 @@ function printMatter(id){
   var m=matter(id),st=matterStats(m),ts=tasksOf(id).sort(sortT),parts=participationOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;}),js=journalOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;});
   var pctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
   var info='<table>'+[
-    ['Тип',matterType(m).n],['Основание ведения',matterBasisLabel(m.basis)],['Доверитель',m.client],['Номер дела / материала',m.number],[pctx.label,m.court],[pctx.mode==='judicial'?'Судья':'',pctx.mode==='judicial'?m.judge:''],[pctx.mode==='investigation'?matterInvestigatorLabel(m.stage):'',pctx.mode==='investigation'?m.investigator:''],['Статья / квалификация',m.article],['Статус',m.role],['Мера пресечения',m.restraint],['Оппонент',m.opponent],['Стадия',m.stage]
+    ['Тип',matterType(m).n],['Основание ведения',matterBasisLabel(m.basis)],['Доверитель',m.client],['Номер дела / материала',m.number],[pctx.label,m.court],[pctx.mode==='judicial'?'Судья':'',pctx.mode==='judicial'?m.judge:''],[pctx.mode==='investigation'?matterInvestigatorLabel(m.stage):'',pctx.mode==='investigation'?m.investigator:''],['Статья / квалификация',m.article],['Статус',matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role)],['Мера пресечения',m.stage==='Материал проверки'?'':m.restraint],['Оппонент',m.opponent],['Стадия',m.stage]
   ].filter(function(r){return r[0]&&r[1];}).map(function(r){return '<tr><td style="width:38%;color:#555">'+r[0]+'</td><td><b>'+esc(r[1])+'</b></td></tr>';}).join('')+
   '<tr><td style="color:#555">Дни участия</td><td><b>'+st.days+(st.sum?' · '+money(st.sum):'')+'</b></td></tr></table>';
   var rows='<h2>Сведения по делу</h2>'+info+'<h2>Задачи ('+st.open+' в работе, '+st.done+' выполнено)</h2><table>'+ts.map(function(t){return '<tr><td class="cb">'+(t.done?'☑':'☐')+'</td><td>'+esc(t.title)+(t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td><td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'—')+'</td></tr>';}).join('')+'</table>';
@@ -3805,6 +3828,7 @@ document.addEventListener('change',function(e){
       // При смене стадии не сохраняем процессуальный статус, который на новой
       // стадии невозможен. Пользователь выбирает актуальный статус доверителя заново.
       MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage);
+      if((MED.type||'other')==='criminal'&&newStage==='Материал проверки') MED.restraint='';
       if(newCtx.mode==='judicial'){
         MED.court=''; MED.judge='';
       }else if(newCtx.mode==='investigation'){
