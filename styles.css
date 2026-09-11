@@ -9428,7 +9428,7 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
 
 
 /* ============================================================
-   4.0.96 — окончательная унификация колокольчика
+   4.0.97 — окончательная унификация колокольчика
    Один компонент, одна геометрия и одна позиция на 5 экранах.
    ============================================================ */
 #sc-today,
@@ -9497,4 +9497,82 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
   min-height:22px!important;
   transform:none!important;
   stroke-width:1.9!important;
+}
+
+/* ============================================================
+   4.0.97 — визуально ОДИНАКОВЫЙ колокольчик на всех 5 вкладках
+   Никакой прозрачности: фон страницы больше не меняет вид кнопки.
+   ============================================================ */
+body.light #sc-today .main-brand-fixed > .today-bell,
+body.light #sc-tasks .main-brand-fixed > .today-bell,
+body.light #sc-matters .main-brand-fixed > .today-bell,
+body.light #sc-cal .main-brand-fixed > .today-bell,
+body.light #sc-more .main-brand-fixed > .today-bell{
+  position:absolute!important;
+  top:1px!important;
+  right:2px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:14px!important;
+  border:1px solid rgba(35,49,61,.14)!important;
+  background:#F1F2F2!important;
+  color:#172A3B!important;
+  box-shadow:0 8px 18px rgba(25,34,42,.13)!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  opacity:1!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+  z-index:5!important;
+}
+body:not(.light) #sc-today .main-brand-fixed > .today-bell,
+body:not(.light) #sc-tasks .main-brand-fixed > .today-bell,
+body:not(.light) #sc-matters .main-brand-fixed > .today-bell,
+body:not(.light) #sc-cal .main-brand-fixed > .today-bell,
+body:not(.light) #sc-more .main-brand-fixed > .today-bell{
+  position:absolute!important;
+  top:1px!important;
+  right:2px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  background:#132433!important;
+  color:#F2F6F9!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.24)!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  opacity:1!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+  z-index:5!important;
+}
+#sc-today .main-brand-fixed > .today-bell .ico,
+#sc-tasks .main-brand-fixed > .today-bell .ico,
+#sc-matters .main-brand-fixed > .today-bell .ico,
+#sc-cal .main-brand-fixed > .today-bell .ico,
+#sc-more .main-brand-fixed > .today-bell .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  color:inherit!important;
+  stroke-width:1.9!important;
+  transform:none!important;
 }
