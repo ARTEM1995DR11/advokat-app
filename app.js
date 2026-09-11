@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.92';
-var APP_BUILD='4092';
+var APP_VERSION='4.0.95';
+var APP_BUILD='4095';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -396,6 +396,7 @@ function listPickerMeta(target){
     'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
     'm-stage':{title:'Стадия дела',sub:'Текущий этап производства',search:'Поиск по стадиям…',icon:'flag'},
+    'm-execution-issue':{title:'Вопрос исполнения приговора',sub:'Глава 47 УПК РФ · выберите предмет судебного рассмотрения',search:'Поиск по УДО, статье или вопросу…',icon:'gavel'},
     'm-restraint-choice':{title:'Мера пресечения',sub:'Выберите меру пресечения',search:'Поиск…',icon:'lock'},
     'm-type':{title:'Тип производства',sub:'Выберите категорию дела',search:'Поиск…',icon:'folder'},
     'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
@@ -418,6 +419,9 @@ function premiumListItemExtra(target,value,label){
   }
   if(target==='e-deadline-code'&&value){
     var dc=legalDeadlineCode(value); return legalDeadlineCount(value)+' '+plural(legalDeadlineCount(value),'срок','срока','сроков')+' в разделе';
+  }
+  if(target==='m-execution-issue'&&value){
+    var exi=criminalExecutionIssue(value); if(exi)return exi.article+' · '+exi.jurisdictionLabel;
   }
   if(target==='e-hjudge-choice'||target==='m-judge-choice'){
     var j=knownJudgeEntry(value); if(j&&j.court)return j.court;
@@ -464,6 +468,9 @@ function premiumListMatterMeta(target,value){
   if(target==='m-stage'&&value){
     var sm=matterStageMeta(value); return {type:'stage-'+normLookup(value),color:sm.c||'#7A8FA6',icon:sm.icon||'flag'};
   }
+  if(target==='m-execution-issue'&&value){
+    return {type:'execution-issue',color:'#C29130',icon:'gavel'};
+  }
   if(target==='m-role'&&value){
     var roleType=(MED&&MED.type)||'other',roleMatter=MATTER_TYPES[roleType]||MATTER_TYPES.other;
     return {type:'role-'+roleType,color:roleMatter.c||'#7A8FA6',icon:'user'};
@@ -487,6 +494,16 @@ function premiumListSelectedValue(sel,inputId){
 }
 function openPremiumListPicker(target,inputId){
   var sel=target?$('#'+target):null;if(!sel||sel.tagName!=='SELECT')return;
+  if(target==='m-judge-choice'){
+    var courtNow=(($('#m-court')||{}).value||((MED&&MED.court)||'')).trim();
+    var judgeNow=(($('#m-judge')||{}).value||((MED&&MED.judge)||'')).trim();
+    sel.innerHTML=matterChoiceOptions(judgeDirectory(courtNow).map(function(x){return x.judge;}),judgeNow,'— выбрать судью —');
+  }
+  if(target==='e-hjudge-choice'&&ED){
+    var hearingCourtNow=(($('#e-place')||{}).value||ED.place||'').trim();
+    var hearingJudgeNow=(($('#e-hjudge')||{}).value||ED.hearingJudge||'').trim();
+    sel.innerHTML=judgeChoiceOptions(hearingJudgeNow,hearingCourtNow);
+  }
   var meta=listPickerMeta(target),items=Array.prototype.slice.call(sel.options).map(function(o){
     var mm=premiumListMatterMeta(target,o.value);
     return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm};
@@ -953,6 +970,7 @@ var MATTER_STAGE_META = {
   'Кассация':{c:'#6D65C4',icon:'gavel',mode:'judicial'},
   'Надзор':{c:'#9A62A6',icon:'gavel',mode:'judicial'},
   'Исполнение':{c:'#C29130',icon:'brief',mode:'execution'},
+  'Исполнение приговора':{c:'#C29130',icon:'gavel',mode:'execution'},
   'Завершено':{c:'#7A8FA6',icon:'check',mode:'completed'}
 };
 var MATTER_INVESTIGATION_ORGANS = [
@@ -961,6 +979,57 @@ var MATTER_INVESTIGATION_ORGANS = [
   {short:'СО по г. Кинешма СУ СК РФ',value:'СО по г. Кинешма СУ СК РФ',kind:'sk',c:'#D96464',extra:'Следствие СК России'},
   {short:'Кинешемский РОСП',value:'Кинешемский РОСП',kind:'fssp',c:'#8A6AD8',extra:'Дознание ФССП'}
 ];
+
+// Глава 47 УПК РФ: вопросы, рассматриваемые судом на стадии исполнения приговора.
+// jurisdiction: sentence — суд, постановивший приговор; institution — по месту учреждения;
+// residence — по месту жительства осуждённого; detention — по месту задержания;
+// crimeResidence — по подсудности преступления и последнему месту жительства; conviction — ст. 400 УПК РФ.
+var CRIMINAL_EXECUTION_ISSUES = [
+  {id:'udo',name:'Условно-досрочное освобождение',short:'УДО',article:'п. 4 ст. 397 УПК РФ · ст. 79 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'softer',name:'Замена неотбытой части наказания более мягким видом',short:'Замена наказания · ст. 80 УК РФ',article:'п. 5 ст. 397 УПК РФ · ст. 80 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'illness',name:'Освобождение от наказания в связи с болезнью',short:'Освобождение по болезни',article:'п. 6 ст. 397 УПК РФ · ст. 81 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'institution-type',name:'Изменение вида исправительного учреждения',short:'Изменение вида ИУ',article:'п. 3 ст. 397 УПК РФ · ст. 78, 140 УИК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'reverse-law',name:'Освобождение или смягчение наказания вследствие нового уголовного закона',short:'Обратная сила уголовного закона',article:'п. 13 ст. 397 УПК РФ · ст. 10 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'pmh',name:'Назначение, продление, изменение или прекращение ПММХ',short:'ПММХ',article:'п. 12 ст. 397 УПК РФ · ст. 102, 104 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту применения ПММХ'},
+  {id:'pmh-expert',name:'Назначение судебно-психиатрической экспертизы при исполнении приговора',short:'Экспертиза при исполнении',article:'п. 4.2 ст. 397 УПК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения / применения ПММХ'},
+  {id:'replace-evasion',name:'Замена наказания при злостном уклонении от его отбывания',short:'Замена за уклонение',article:'п. 2 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'forced-to-prison',name:'Замена принудительных работ лишением свободы',short:'Принудительные работы → лишение свободы',article:'п. 2.1 ст. 397 УПК РФ · ст. 53.1 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'cancel-udo',name:'Отмена условно-досрочного освобождения',short:'Отмена УДО',article:'п. 4.1 ст. 397 УПК РФ · ст. 79 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
+  {id:'conditional',name:'Отмена условного осуждения или продление испытательного срока',short:'Условное осуждение',article:'п. 7 ст. 397 УПК РФ · ст. 74 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
+  {id:'conditional-duties',name:'Отмена или дополнение обязанностей условно осуждённого',short:'Обязанности условно осуждённого',article:'п. 8 ст. 397 УПК РФ · ст. 73 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
+  {id:'restriction',name:'Изменение ограничений при наказании в виде ограничения свободы',short:'Ограничение свободы',article:'п. 8.1 ст. 397 УПК РФ · ст. 53 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
+  {id:'limitation',name:'Освобождение от наказания вследствие истечения сроков давности приговора',short:'Давность исполнения приговора',article:'п. 9 ст. 397 УПК РФ · ст. 83 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'multiple-sentences',name:'Исполнение приговора при наличии других неисполненных приговоров',short:'Несколько приговоров',article:'п. 10 ст. 397 УПК РФ · ст. 70 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'credit',name:'Зачёт времени содержания под стражей / пребывания в лечебном учреждении',short:'Зачёт срока',article:'п. 11 ст. 397 УПК РФ · ст. 72, 103, 104 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'deductions',name:'Снижение удержаний из заработной платы при исправительных работах',short:'Снижение удержаний',article:'п. 14 ст. 397 УПК РФ · ст. 44 УИК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'clarify',name:'Разъяснение сомнений и неясностей при исполнении приговора',short:'Разъяснение приговора',article:'п. 15 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'minor',name:'Освобождение несовершеннолетнего от наказания с применением мер воспитательного воздействия',short:'Несовершеннолетний · освобождение',article:'п. 16 ст. 397 УПК РФ · ст. 92 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'defer',name:'Отсрочка исполнения приговора / отсрочка или рассрочка штрафа',short:'Отсрочка исполнения приговора',article:'ст. 398 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'defer-change',name:'Отмена или сокращение отсрочки отбывания наказания',short:'Изменение / отмена отсрочки',article:'п. 17, 17.1, 17.2 ст. 397 УПК РФ · ст. 82, 82.1 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
+  {id:'detention-evasion',name:'Заключение под стражу осуждённого, уклоняющегося от отбывания наказания',short:'Заключение под стражу за уклонение',article:'п. 18, 18.1 ст. 397 УПК РФ',jurisdiction:'detention',jurisdictionLabel:'суд по месту задержания осуждённого'},
+  {id:'military',name:'Замена наказания / освобождение военнослужащего, уволенного с военной службы',short:'Ограничение по военной службе',article:'п. 19 ст. 397 УПК РФ · ст. 148 УИК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения / органа, исполняющего наказание'},
+  {id:'rehabilitation',name:'Возмещение вреда и восстановление прав реабилитированного',short:'Реабилитация',article:'п. 1 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'property',name:'Меры по обеспечению сохранности имущества или жилого помещения',short:'Сохранность имущества',article:'п. 22 ст. 397 УПК РФ · ст. 313.1 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'foreign-transfer',name:'Передача осуждённого / исполнения наказания иностранному государству',short:'Передача исполнения иностранному государству',article:'п. 20, 20.1 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'foreign-recognition',name:'Признание и исполнение приговора суда иностранного государства',short:'Иностранный приговор',article:'п. 21, 23 ст. 397 УПК РФ',jurisdiction:'crimeResidence',jurisdictionLabel:'суд по подсудности преступления и последнему месту жительства в РФ'},
+  {id:'conviction-remove',name:'Снятие судимости',short:'Снятие судимости',article:'ст. 400 УПК РФ · ст. 86 УК РФ',jurisdiction:'conviction',jurisdictionLabel:'суд / мировой судья по месту жительства лица, отбывшего наказание'}
+];
+function criminalExecutionIssue(id){ return CRIMINAL_EXECUTION_ISSUES.filter(function(x){return x.id===id;})[0]||null; }
+function criminalExecutionIssueOptions(current){
+  return '<option value="" hidden disabled'+(!current?' selected':'')+'></option>'+CRIMINAL_EXECUTION_ISSUES.map(function(x){return '<option value="'+esc(x.id)+'"'+(current===x.id?' selected':'')+'>'+esc(x.short)+'</option>';}).join('');
+}
+function criminalExecutionJurisdiction(issueId){ var x=criminalExecutionIssue(issueId); return x?x.jurisdiction:''; }
+function criminalExecutionRoleList(issueId){
+  if(issueId==='rehabilitation')return ['реабилитированный'];
+  if(issueId==='pmh'||issueId==='pmh-expert')return ['лицо, в отношении которого исполняется принудительная мера медицинского характера'];
+  if(issueId==='conviction-remove')return ['лицо, отбывшее наказание'];
+  if(issueId==='cancel-udo')return ['условно-досрочно освобождённый'];
+  if(issueId==='conditional'||issueId==='conditional-duties')return ['условно осуждённый'];
+  if(issueId==='restriction')return ['осуждённый к ограничению свободы'];
+  if(issueId==='defer-change')return ['осуждённый с отсрочкой отбывания наказания'];
+  if(issueId==='udo'||issueId==='softer'||issueId==='military'||issueId==='defer')return ['осуждённый','потерпевший'];
+  return ['осуждённый'];
+}
 var MATTER_TYPES = {
   criminal:{n:'Уголовное',short:'УК',c:'#E15B57'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
   admin:{n:'Административное (КАС)',short:'КАС',c:'#35A996'}, koap:{n:'КоАП',short:'КоАП',c:'#D98A2B'},
@@ -973,7 +1042,7 @@ var MATTER_BASIS = {
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 
 var MATTER_STAGE_MAP = {
-  criminal:['Материал проверки','Дознание','Следствие МВД','Следствие СК','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
+  criminal:['Материал проверки','Дознание','Следствие МВД','Следствие СК','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение приговора'],
   civil:['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
   admin:['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
   koap:['Проверка / административное расследование','Первая инстанция','Пересмотр / апелляция','Исполнение'],
@@ -1006,6 +1075,7 @@ function matterPlaceContext(type,stage,currentPlace){
   // «выберите суд / орган» — пустое значение выглядит чище и спокойнее.
   if(mode==='judicial') return {mode:mode,label:'Суд',title:'Суд',sub:'Суды и судебные участки',search:'Поиск по судам…',placeholder:'',empty:'',icon:'gavel'};
   if(mode==='investigation') return {mode:mode,label:'Орган расследования',title:'Орган расследования',sub:'Подразделение, ведущее материал или уголовное дело',search:'Поиск по органам расследования…',placeholder:'',empty:'',icon:'brief'};
+  if(mode==='execution'&&type==='criminal') return {mode:mode,label:'Суд',title:'Суд',sub:'Суд, разрешающий вопрос в порядке главы 47 УПК РФ',search:'Поиск по судам…',placeholder:'',empty:'',icon:'gavel'};
   if(mode==='execution') return {mode:mode,label:'Орган исполнения',title:'Орган исполнения',sub:'Орган, исполняющий судебный акт',search:'Поиск по органам…',placeholder:'',empty:'',icon:'brief'};
   if(type==='koap'&&stage==='Проверка / административное расследование') return {mode:'other',label:'Орган производства',title:'Орган производства',sub:'Орган, ведущий производство по делу',search:'Поиск по органам…',placeholder:'',empty:'',icon:'brief'};
   return {mode:mode,label:'Орган / ведомство',title:'Орган / ведомство',sub:'Орган или ведомство по делу',search:'Поиск…',placeholder:'',empty:'',icon:'brief'};
@@ -1017,8 +1087,26 @@ function matterInvestigatorLabel(stage){
 }
 function matterPlaceEntries(type,stage,currentPlace){
   var ctx=matterPlaceContext(type,stage,currentPlace);
-  if(ctx.mode==='judicial') return COMMON_KINESHMA_COURTS.slice();
+  if(ctx.mode==='judicial'){
+    var courts=COMMON_KINESHMA_COURTS.slice();
+    // Апелляционная инстанция не может быть мировым судьёй / судебным участком.
+    // Поэтому на апелляционных стадиях мировые участки из справочника скрываем.
+    if(stage==='Апелляция'||stage==='Пересмотр / апелляция'){
+      courts=courts.filter(function(c){return !!c.main;});
+    }
+    return courts;
+  }
   if(ctx.mode==='investigation') return matterInvestigationOrgList(stage);
+  if(ctx.mode==='execution'&&type==='criminal'){
+    var exIssue=(MED&&MED.executionIssue)||'';
+    var jur=criminalExecutionJurisdiction(exIssue);
+    var courts=COMMON_KINESHMA_COURTS.slice();
+    // По месту учреждения / жительства / задержания вопрос разрешает суд соответствующей территории;
+    // мировые участки не подмешиваем. Для суда, постановившего приговор, и снятия судимости
+    // мировой судья может быть допустим, поэтому сохраняем весь справочник.
+    if(jur==='institution'||jur==='residence'||jur==='detention'||jur==='crimeResidence')courts=courts.filter(function(c){return !!c.main;});
+    return courts;
+  }
   if(ctx.mode==='execution') return [];
   return [];
 }
@@ -1038,8 +1126,9 @@ var MATTER_ROLE_MAP = {
     'заявитель','лицо, в отношении которого проводится проверка','лицо, которому причинён вред','лицо, дающее объяснение',
     'подозреваемый','обвиняемый','подсудимый','осуждённый','оправданный','потерпевший','частный обвинитель','свидетель',
     'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера',
-    'лицо, в отношении которого уголовное дело прекращено','реабилитированный','лицо, в отношении которого решается вопрос исполнения приговора',
-    'лицо, в отношении которого исполняется принудительная мера медицинского характера'
+    'лицо, в отношении которого уголовное дело прекращено','реабилитированный','осуждённый','условно-досрочно освобождённый','условно осуждённый',
+    'осуждённый к ограничению свободы','осуждённый с отсрочкой отбывания наказания','лицо, отбывшее наказание',
+    'лицо, в отношении которого решается вопрос исполнения приговора','лицо, в отношении которого исполняется принудительная мера медицинского характера'
   ],
   civil:[
     'будущий истец','будущий ответчик','заявитель','кредитор','должник','истец','ответчик',
@@ -1099,11 +1188,7 @@ var MATTER_ROLE_STAGE_MAP = {
       'лицо, в отношении которого уголовное дело прекращено',
       'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
     ],
-    'Исполнение':[
-      'осуждённый','реабилитированный','потерпевший',
-      'лицо, в отношении которого решается вопрос исполнения приговора',
-      'лицо, в отношении которого исполняется принудительная мера медицинского характера'
-    ]
+    'Исполнение приговора':['осуждённый']
   },
   civil:{
     'Досудебная работа':[
@@ -1174,7 +1259,8 @@ var MATTER_ARTICLE_HINTS = {
   other:'Статья, договор, основание спора — при необходимости'
 };
 function matterStageList(type){ return (MATTER_STAGE_MAP[type]||STAGE).slice(); }
-function matterRoleList(type,stage){
+function matterRoleList(type,stage,executionIssue){
+  if(type==='criminal'&&stage==='Исполнение приговора')return criminalExecutionRoleList(executionIssue||'');
   var byType=MATTER_ROLE_STAGE_MAP[type]||null;
   if(byType&&stage&&byType[stage]) return byType[stage].slice();
   return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice();
@@ -1191,6 +1277,12 @@ function matterRoleDisplayLabel(type,stage,role){
     'лицо, дающее объяснение':'Даёт объяснение',
     'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера':'Лицо по ПММХ',
     'лицо, в отношении которого исполняется принудительная мера медицинского характера':'Лицо по ПММХ',
+    'условно-досрочно освобождённый':'Условно-досрочно освобождённый',
+    'условно осуждённый':'Условно осуждённый',
+    'осуждённый к ограничению свободы':'Ограничение свободы',
+    'осуждённый с отсрочкой отбывания наказания':'Осуждённый с отсрочкой',
+    'лицо, отбывшее наказание':'Лицо, отбывшее наказание',
+    'лицо, в отношении которого исполняется принудительная мера медицинского характера':'Лицо по ПММХ',
     'лицо, в отношении которого уголовное дело прекращено':'Дело прекращено',
     'лицо, в отношении которого решается вопрос исполнения приговора':'Вопрос исполнения приговора',
     'третье лицо с самостоятельными требованиями':'3-е лицо с требованиями',
@@ -1205,7 +1297,7 @@ function matterRoleDisplayLabel(type,stage,role){
   };
   return shortMap[r]||r;
 }
-function normalizeMatterClientRole(type,role,stage){
+function normalizeMatterClientRole(type,role,stage,executionIssue){
   var r=String(role||'').trim();
   if(!r)return '';
   var legacy={
@@ -1225,7 +1317,7 @@ function normalizeMatterClientRole(type,role,stage){
   // актуальное процессуальное положение доверителя.
   if(type==='criminal'&&(r==='гражданский истец'||r==='гражданский ответчик'))return '';
   if(r==='представитель'||r==='защитник')return '';
-  return matterRoleList(type,stage).indexOf(r)>=0?r:'';
+  return matterRoleList(type,stage,executionIssue).indexOf(r)>=0?r:'';
 }
 function matterRestraintList(type){ return (MATTER_RESTRAINT_MAP[type]||[]).slice(); }
 function matterChoiceOptions(list,current,emptyLabel){
@@ -1273,7 +1365,7 @@ function matterMeta(type){
 }
 function pullMatterDraft(){
   if(!MED)return;
-  var map={type:'#m-type',basis:'#m-basis',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
+  var map={type:'#m-type',basis:'#m-basis',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',executionIssue:'#m-execution-issue',executionInstitution:'#m-execution-institution',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
   MED.phone=formatRussianPhone(MED.phone||'');
 }
@@ -1293,20 +1385,30 @@ function matterDynamicFields(){
   var placeField=placeEntries.length
     ? inlineChoiceField('m-court','m-court-choice',MED.court||'',placeCtx.placeholder,matterPlaceChoiceOptions((MED&&MED.type)||'other',currentStage,MED.court||''),'matter-place-options')+matterPlaceDatalist('matter-place-options',(MED&&MED.type)||'other',currentStage,MED.court||'')
     : '<input id="m-court" value="'+esc(MED.court||'')+'" placeholder="'+esc(placeCtx.placeholder)+'">';
-  var showJudgeNow=!!(cfg.showJudge&&placeCtx.mode==='judicial');
+  var showJudgeNow=!!(cfg.showJudge&&(placeCtx.mode==='judicial'||(placeCtx.mode==='execution'&&(MED&&MED.type)==='criminal')));
   var showInvestigatorNow=!!(cfg.showInvestigator&&placeCtx.mode==='investigation');
-  var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory().map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
-  var currentRoleList=matterRoleList((MED&&MED.type)||'other',currentStage);
-  var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'',currentStage);
+  var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory((MED&&MED.court)||'').map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
+  var currentRoleList=matterRoleList((MED&&MED.type)||'other',currentStage,(MED&&MED.executionIssue)||'');
+  var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'',currentStage,(MED&&MED.executionIssue)||'');
   if(MED)MED.role=currentRole;
   var roleField='<select id="m-role"><option value="" hidden disabled'+(!currentRole?' selected':'')+'></option>'+currentRoleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
-  var showRestraintNow=!!(cfg.showRestraint&&currentStage!=='Материал проверки');
+  var showRestraintNow=!!(cfg.showRestraint&&currentStage!=='Материал проверки'&&currentStage!=='Исполнение приговора');
   if(MED&&!showRestraintNow) MED.restraint='';
   var restraintField=showRestraintNow?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
+  var executionBlock='';
+  if((MED&&MED.type)==='criminal'&&currentStage==='Исполнение приговора'){
+    var exIssue=criminalExecutionIssue((MED&&MED.executionIssue)||'');
+    executionBlock='<div class="fld matter-execution-issue"><label>Вопрос исполнения приговора *</label><select id="m-execution-issue">'+criminalExecutionIssueOptions((MED&&MED.executionIssue)||'')+'</select></div>';
+    if(exIssue){
+      executionBlock+='<div class="hint matter-execution-jurisdiction"><b>Подсудность:</b> '+esc(exIssue.jurisdictionLabel)+' · '+esc(exIssue.article)+'</div>';
+      if(exIssue.jurisdiction==='institution')executionBlock+='<div class="fld"><label>Учреждение / место отбывания наказания</label><input id="m-execution-institution" value="'+esc(MED.executionInstitution||'')+'" placeholder="Например: ИК-4, УФИЦ, медицинская организация"></div>';
+    }
+  }
   var html=''+
     '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+ 
     '<div class="two"><div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div></div>'+ 
     '<div class="two"><div class="fld"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div><div class="fld matter-stage-field"><label>Стадия</label>'+stageField+'</div></div>'+ 
+    executionBlock+
     '<div class="fld matter-court-field" data-place-mode="'+esc(placeCtx.mode)+'"><label>'+esc(placeCtx.label)+'</label>'+placeField+'</div>';
 
   if(showJudgeNow){
@@ -1326,7 +1428,11 @@ function matterDynamicFields(){
     html += '<div class="fld"><label>Мера пресечения</label>'+restraintField+'</div>';
   }
   if(cfg.showOpponent){
-    html += '<div class="fld"><label>'+esc(cfg.opponentLabel)+'</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'" placeholder="'+esc(cfg.opponentPlaceholder||'')+'"></div>';
+    var oppLabel=cfg.opponentLabel,oppPlaceholder=cfg.opponentPlaceholder||'';
+    if((MED&&MED.type)==='criminal'&&currentStage==='Исполнение приговора'){
+      oppLabel='Учреждение / орган / иной участник'; oppPlaceholder='ИК, УФИЦ, УИИ, прокурор, потерпевший…';
+    }
+    html += '<div class="fld"><label>'+esc(oppLabel)+'</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'" placeholder="'+esc(oppPlaceholder)+'"></div>';
   }
   html += '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>';
   return html;
@@ -1339,10 +1445,11 @@ function normalizeLegacyMatterStage(o){
     else if(o.stage==='Досудебная работа')o.stage='Материал проверки';
     else if(o.stage==='Дознание / следствие')o.stage='Следствие МВД';
     else if(o.stage==='Консультация')o.stage='Материал проверки';
+    else if(o.stage==='Исполнение')o.stage='Исполнение приговора';
   }else if(o.stage==='Консультация'){
     o.stage=(o.type==='koap')?'Проверка / административное расследование':'Досудебная работа';
   }
-  if(o.stage==='Исполнение'&&o.court==='Кинешемский РОСП')o.court='';
+  if((o.stage==='Исполнение'||o.stage==='Исполнение приговора')&&o.court==='Кинешемский РОСП')o.court='';
   return o;
 }
 function sanitizeMatterByType(o){
@@ -1350,11 +1457,13 @@ function sanitizeMatterByType(o){
   var cfg=matterMeta(o.type||'other');
   if(!cfg.showInvestigator) o.investigator='';
   if(!cfg.showArticle) o.article='';
-  if(!cfg.showRestraint || (o.type==='criminal'&&o.stage==='Материал проверки')) o.restraint='';
+  if(!cfg.showRestraint || (o.type==='criminal'&&(o.stage==='Материал проверки'||o.stage==='Исполнение приговора'))) o.restraint='';
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
   if(o.stage!=='Завершено'&&!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
-  o.role=normalizeMatterClientRole(o.type||'other',o.role,o.stage||'');
+  if(o.type!=='criminal'||o.stage!=='Исполнение приговора'){o.executionIssue='';o.executionInstitution='';}
+  else if(o.executionIssue&&!criminalExecutionIssue(o.executionIssue)){o.executionIssue='';o.executionInstitution='';}
+  o.role=normalizeMatterClientRole(o.type||'other',o.role,o.stage||'',o.executionIssue||'');
   if(typeof o.basis!=='string') o.basis='';
   return o;
 }
@@ -1364,12 +1473,14 @@ function matterDossierRows(m){
   push('user',cfg.clientLabel,m.client);
   push('phone','Телефон',m.phone);
   push('folder',cfg.numberLabel,m.number);
-  push(ctx.mode==='judicial'?'gavel':'brief',ctx.label,m.court);
-  if(ctx.mode==='judicial'&&cfg.showJudge) push('user',cfg.judgeLabel,m.judge);
+  push((ctx.mode==='judicial'||(ctx.mode==='execution'&&m.type==='criminal'))?'gavel':'brief',ctx.label,m.court);
+  if((ctx.mode==='judicial'||(ctx.mode==='execution'&&m.type==='criminal'))&&cfg.showJudge) push('user',cfg.judgeLabel,m.judge);
+  if(m.type==='criminal'&&m.stage==='Исполнение приговора'&&m.executionIssue){ var exd=criminalExecutionIssue(m.executionIssue); if(exd){push('gavel','Вопрос исполнения приговора',exd.short); push('doc','Правовое основание',exd.article); push('brief','Подсудность',exd.jurisdictionLabel);} }
+  if(m.type==='criminal'&&m.stage==='Исполнение приговора') push('brief','Учреждение / место отбывания',m.executionInstitution);
   if(ctx.mode==='investigation'&&cfg.showInvestigator) push('user',matterInvestigatorLabel(m.stage),m.investigator);
   if(cfg.showArticle) push('lock','Статья / квалификация',m.article);
   push('user',cfg.roleLabel,matterRoleDisplayLabel((m&&m.type)||'other',(m&&m.stage)||'',m.role));
-  if(cfg.showRestraint&&m.stage!=='Материал проверки') push('lock','Мера пресечения',m.restraint);
+  if(cfg.showRestraint&&m.stage!=='Материал проверки'&&m.stage!=='Исполнение приговора') push('lock','Мера пресечения',m.restraint);
   if(cfg.showOpponent) push('user',cfg.opponentLabel,m.opponent);
   push('doc','Основание ведения',matterBasisLabel(m.basis));
   push('clock','Стадия',m.stage);
@@ -2702,10 +2813,9 @@ var CRIMINAL_JUDGE_SURNAMES = {
 function commonCourtByValue(value){
   return COMMON_KINESHMA_COURTS.filter(function(c){return c.value===value;})[0]||null;
 }
-function judgeDirectory(){
+function judgeDirectory(courtValue){
   var cityCourt=(COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0]||{}).value||'Кинешемский городской суд Ивановской области';
-  // Premium order: first criminal judges (red), then civil judges (blue), then magistrates (green).
-  // Keep the familiar directory order inside each colour group.
+  // Premium order without a selected court: criminal (red), civil (blue), magistrates (green).
   var criminal=[], civil=[];
   KINESHMA_CITY_JUDGES.forEach(function(j){
     var surname=normLookup((j||'').split(/\s+/)[0]);
@@ -2716,14 +2826,29 @@ function judgeDirectory(){
   COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
     magistrates.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
   });
-  return criminal.concat(civil,magistrates);
+  var rows=criminal.concat(civil,magistrates);
+  var selected=String(courtValue||'').trim();
+  if(!selected)return rows;
+  var known=commonCourtByValue(selected);
+  if(known){
+    // If Kineshma City Court is selected, only its judges are shown.
+    // If a magistrate court is selected, only the judge of that court is shown.
+    return rows.filter(function(r){return r.court===known.value;});
+  }
+  // For an arbitrary manually entered court do not suggest judges from Kineshma directories.
+  return [];
+}
+function judgeAllowedForCourt(judgeValue,courtValue){
+  if(!judgeValue)return true;
+  var allowed=judgeDirectory(courtValue);
+  return allowed.some(function(r){return r.judge===judgeValue;});
 }
 function normLookup(v){
   return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/gi,'').trim();
 }
 function knownJudgeEntry(value){
   var q=normLookup(value); if(!q)return null;
-  var rows=judgeDirectory(), exact=rows.filter(function(x){return normLookup(x.judge)===q;});
+  var rows=judgeDirectory(''), exact=rows.filter(function(x){return normLookup(x.judge)===q;});
   if(exact.length===1)return exact[0];
   if(q.length<4)return null;
   var candidates=rows.filter(function(x){
@@ -2738,17 +2863,17 @@ function courtChoiceOptions(current){
     return '<option value="'+esc(c.value)+'"'+(c.value===selected?' selected':'')+'>'+esc(c.short)+'</option>';
   }).join('');
 }
-function judgeChoiceOptions(current){
+function judgeChoiceOptions(current,courtValue){
   var selected=current||'';
-  return '<option value="">— выбрать судью —</option>'+judgeDirectory().map(function(x){
+  return '<option value="">— выбрать судью —</option>'+judgeDirectory(courtValue||'').map(function(x){
     return '<option value="'+esc(x.judge)+'"'+(x.judge===selected?' selected':'')+'>'+esc(x.label)+'</option>';
   }).join('');
 }
 function courtDatalist(){
   return '<datalist id="court-options">'+COMMON_KINESHMA_COURTS.map(function(c){return '<option value="'+esc(c.value)+'">'+esc(c.short)+'</option>';}).join('')+'</datalist>';
 }
-function judgeDatalist(){
-  return '<datalist id="judge-options">'+judgeDirectory().map(function(x){return '<option value="'+esc(x.judge)+'">'+esc(x.label)+'</option>';}).join('')+'</datalist>';
+function judgeDatalist(courtValue){
+  return '<datalist id="judge-options">'+judgeDirectory(courtValue||'').map(function(x){return '<option value="'+esc(x.judge)+'">'+esc(x.label)+'</option>';}).join('')+'</datalist>';
 }
 function inlineChoiceField(inputId,selectId,value,placeholder,optionsHtml,listId){
   return '<div class="inline-choice-wrap"><input id="'+inputId+'"'+(listId?' list="'+listId+'"':'')+' value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
@@ -2769,6 +2894,7 @@ function applyKnownJudgeCourt(judgeValue,editorMode){
 function applyKnownCourtJudge(courtValue,editorMode){
   var c=commonCourtByValue(courtValue); if(!c||!c.judge)return false;
   if(editorMode==='matter'){
+    if(MED)MED.judge=c.judge;
     var mj=$('#m-judge'); if(mj)mj.value=c.judge;
   }else if(ED&&ED.kind==='hearing'){
     ED.hearingJudge=c.judge;
@@ -2814,7 +2940,7 @@ function drawEditor(preserveScroll){
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
-  (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist()+'</div></div>':'')+
+  (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
     '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label>'+premiumDateControl('e-due',t.due||'','Выберите дату')+'</div>'+
     '<div class="fld"><label>Время'+(timedEvent?' *':'')+'</label>'+premiumTimeControl('e-time',t.time||'',hearing?'hearing':'default','Выберите время')+'</div>'+
@@ -3110,7 +3236,7 @@ function openMatter(id){
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
 
 function editMatter(m){
-  MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
+  MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',executionIssue:'',executionInstitution:'',dayRate:'',notes:'',archived:false};
   MED = sanitizeMatterByType(MED);
   if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
   openSheet(
@@ -3127,7 +3253,8 @@ function saveMatter(){
   pullMatterDraft();
   var title=(MED&&MED.title||'').trim(); if(!title){toast('Введите название дела');return;}
   if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
-  var o={title:title,type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
+  if(MED.type==='criminal'&&MED.stage==='Исполнение приговора'&&!MED.executionIssue){toast('Выберите вопрос исполнения приговора');return;}
+  var o={title:title,type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
   o=sanitizeMatterByType(o);
   var wasNew=!MED.id;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
@@ -3894,7 +4021,16 @@ document.addEventListener('change',function(e){
   }
   if(e.target.id==='m-court-choice'){
     var mv=e.target.value, mi=$('#m-court');
-    if(mv){if(mi)mi.value=mv;applyKnownCourtJudge(mv,'matter');vib(5);}
+    if(mv){
+      if(mi)mi.value=mv;
+      if(MED){
+        MED.court=mv;
+        if(MED.judge&&!judgeAllowedForCourt(MED.judge,mv))MED.judge='';
+      }
+      applyKnownCourtJudge(mv,'matter');
+      renderMatterDynamic();
+      vib(5);
+    }
     e.target.value=''; return;
   }
   if(e.target.id==='m-type'){
@@ -3914,8 +4050,8 @@ document.addEventListener('change',function(e){
     if(oldStage!==newStage){
       // При смене стадии не сохраняем процессуальный статус, который на новой
       // стадии невозможен. Пользователь выбирает актуальный статус доверителя заново.
-      MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage);
-      if((MED.type||'other')==='criminal'&&newStage==='Материал проверки') MED.restraint='';
+      MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage,MED.executionIssue||'');
+      if((MED.type||'other')==='criminal'&&(newStage==='Материал проверки'||newStage==='Исполнение приговора')) MED.restraint='';
       if(newCtx.mode==='judicial'){
         MED.court=''; MED.judge='';
       }else if(newCtx.mode==='investigation'){
@@ -3924,11 +4060,20 @@ document.addEventListener('change',function(e){
         if(oldMode!=='investigation'||oldStage!==newStage)MED.investigator='';
       }else if(newCtx.mode==='execution'){
         if(matterInvestigationOrgByValue(MED.court))MED.court='';
-        MED.judge=''; MED.investigator='';
-      }else if(oldMode==='judicial'||oldMode==='investigation'){
+        MED.investigator='';
+      }else if(oldMode==='judicial'||oldMode==='investigation'||oldMode==='execution'){
+        if(MED.type==='criminal'){MED.executionIssue='';MED.executionInstitution='';}
+        MED.court=''; MED.judge='';
         MED.court='';
       }
     }
+    renderMatterDynamic(); vib(5); return;
+  }
+  if(e.target.id==='m-execution-issue'){
+    if(!MED)return;
+    pullMatterDraft(); MED.executionIssue=e.target.value||'';
+    MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',MED.stage||'',MED.executionIssue||'');
+    MED.court=''; MED.judge=''; MED.executionInstitution='';
     renderMatterDynamic(); vib(5); return;
   }
   if(e.target.id==='m-restraint-choice'){ var rr=e.target.value, i3=$('#m-restraint'); if(rr&&i3){ i3.value=rr; MED&& (MED.restraint=rr); vib(5);} e.target.value=''; return; }
@@ -3974,7 +4119,7 @@ document.addEventListener('input',function(e){
     ED.place=e.target.value.trim(); var cc=commonCourtByValue(ED.place); if(cc&&cc.judge)applyKnownCourtJudge(ED.place,'hearing');
   }
   if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
-  if(e.target.id==='m-court'){ var mc=commonCourtByValue(e.target.value.trim()); if(mc&&mc.judge)applyKnownCourtJudge(e.target.value.trim(),'matter'); }
+  if(e.target.id==='m-court'){ var mcv=e.target.value.trim(),mc=commonCourtByValue(mcv); if(MED)MED.court=mcv; if(mc&&mc.judge)applyKnownCourtJudge(mcv,'matter'); }
   if(e.target.id==='m-phone'){
     var rawPhone=e.target.value||'',rawPos=e.target.selectionStart==null?rawPhone.length:e.target.selectionStart;
     var before=phoneDigitCountBefore(rawPhone,rawPos),rawDigits=String(rawPhone).replace(/\D/g,'');
