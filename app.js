@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.70';
-var APP_BUILD='4070';
+var APP_VERSION='4.0.71';
+var APP_BUILD='4071';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -440,6 +440,14 @@ function premiumListMatterMeta(target,value){
       var rm=ruleMap[rr.code]||['other','#7A8FA6']; return {type:rm[0],color:rm[1],icon:'clock'};
     }
   }
+  if(target==='m-type'&&value){
+    var mtChoice=MATTER_TYPES[value]||MATTER_TYPES.other;
+    return {type:'type-'+value,color:mtChoice.c||MATTER_TYPES.other.c,icon:matterCardIconName({type:value})||'folder'};
+  }
+  if(target==='m-basis'){
+    var mbChoice=MATTER_BASIS[value]||null;
+    if(mbChoice)return {type:'basis-'+value,color:mbChoice.c||'#7A8FA6',icon:value==='assigned'?'user':'brief'};
+  }
   if(target==='e-hjudge-choice'||target==='m-judge-choice') return judgePickerToneMeta(value);
   if(target!=='e-mid'&&target!=='j-mid-select'&&target!=='pt-mid')return null;
   if(!value)return {type:'none',color:'#B78A2F',icon:'folder'};
@@ -486,12 +494,16 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4070" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4071" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
   var b=btn.querySelector('b');if(b)b.textContent=label||'— выбрать —';btn.classList.toggle('empty',!sel.value);
+  var tone=(id==='m-type'||id==='m-basis')?premiumListMatterMeta(id,sel.value):null;
+  btn.classList.toggle('matter-choice-tone',!!tone);
+  if(tone){btn.style.setProperty('--matter-choice-color',tone.color||'#7A8FA6');btn.dataset.matterTone=tone.type||'other';}
+  else{btn.style.removeProperty('--matter-choice-color');delete btn.dataset.matterTone;}
 }
 function upgradePremiumSelects(root){
   root=root||document;
@@ -535,6 +547,20 @@ function applyPremiumListChoice(value){
   syncPremiumSelectButton(sel.id);
   sel.dispatchEvent(new Event('change',{bubbles:true}));
   closePremiumListPicker();vib(5);
+}
+
+function formatRussianPhone(value){
+  var digits=String(value||'').replace(/\D/g,'');
+  if(!digits)return '';
+  if(digits.charAt(0)==='8')digits='7'+digits.slice(1);
+  else if(digits.charAt(0)!=='7')digits='7'+digits;
+  digits=digits.slice(0,11);
+  var n=digits.slice(1),out='+7';
+  if(n.length){out+=' ('+n.slice(0,3);if(n.length>=3)out+=')';}
+  if(n.length>3)out+=' '+n.slice(3,6);
+  if(n.length>6)out+='-'+n.slice(6,8);
+  if(n.length>8)out+='-'+n.slice(8,10);
+  return out;
 }
 
 function relD(s){ var n = dd(s);
@@ -898,6 +924,7 @@ function pullMatterDraft(){
   if(!MED)return;
   var map={type:'#m-type',basis:'#m-basis',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
+  MED.phone=formatRussianPhone(MED.phone||'');
 }
 function matterDynamicFields(){
   var cfg=matterMeta((MED&&MED.type)||'other');
@@ -907,7 +934,7 @@ function matterDynamicFields(){
   var restraintField=cfg.showRestraint?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
   var html=''+
     '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+
-    '<div class="two"><div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" value="'+esc(MED.phone)+'" placeholder="+7 900 000-00-00"></div></div>'+
+    '<div class="two"><div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div></div>'+
     '<div class="two"><div class="fld"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div><div class="fld"><label>Стадия</label>'+stageField+'</div></div>'+
     '<div class="fld matter-court-field"><label>'+esc(cfg.courtLabel)+'</label>'+inlineChoiceField('m-court','m-court-choice',MED.court||'','Введите или выберите суд / орган',courtChoiceOptions(MED.court||''),'court-options-m')+'<datalist id="court-options-m">'+COMMON_KINESHMA_COURTS.map(function(c){return '<option value="'+esc(c.value)+'">'+esc(c.short)+'</option>';}).join('')+'</datalist></div>';
 
@@ -1299,7 +1326,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4070" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4071" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1600,7 +1627,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4070" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4071" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
@@ -1913,7 +1940,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4070" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4071" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2037,7 +2064,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4070" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4071" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2140,7 +2167,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4070" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4071" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2375,7 +2402,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4070" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4071" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2678,10 +2705,11 @@ function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l
 function editMatter(m){
   MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',dayRate:'',notes:'',archived:false};
   MED = sanitizeMatterByType(MED);
+  if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
   openSheet(
   '<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p>'+
   '<div class="two"><div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
-  '<div class="fld"><label>Основание ведения</label><select id="m-basis"><option value="">— не выбрано —</option>'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div></div>'+
+  '<div class="fld"><label>Основание ведения *</label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div></div>'+
   '<div id="matter-dynamic"></div>'+
   '<button class="btn" data-act="m-save">Сохранить</button>');
   $('#sheet').classList.add('matter-editor-sheet');
@@ -2691,7 +2719,8 @@ function editMatter(m){
 function saveMatter(){
   pullMatterDraft();
   var title=(MED&&MED.title||'').trim(); if(!title){toast('Введите название дела');return;}
-  var o={title:title,type:MED.type||'other',basis:MED.basis||'',client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
+  if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
+  var o={title:title,type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
   o=sanitizeMatterByType(o);
   var wasNew=!MED.id;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
@@ -3514,6 +3543,11 @@ document.addEventListener('input',function(e){
   }
   if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
   if(e.target.id==='m-court'){ var mc=commonCourtByValue(e.target.value.trim()); if(mc&&mc.judge)applyKnownCourtJudge(e.target.value.trim(),'matter'); }
+  if(e.target.id==='m-phone'){
+    var masked=formatRussianPhone(e.target.value);
+    if(e.target.value!==masked)e.target.value=masked;
+    if(MED)MED.phone=masked;
+  }
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}

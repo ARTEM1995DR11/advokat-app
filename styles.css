@@ -9116,3 +9116,45 @@ body:not(.light) #sc-tasks .tasks-title-head .today-actions .iconbtn{
    4.0.70 — единый колокольчик на всех основных страницах
    Все пять экранов используют один компонент .today-bell.
    ============================================================ */
+
+
+/* ============================================================
+   4.0.71 — Цветовые категории в редакторе дела + маска телефона
+   ============================================================ */
+.matter-editor-sheet .premium-select-field.matter-choice-tone{
+  --matter-choice-color:#7A8FA6;
+  position:relative!important;
+  border-color:color-mix(in srgb,var(--matter-choice-color) 34%,rgba(45,58,70,.12))!important;
+  background:linear-gradient(180deg,#FFFFFF,color-mix(in srgb,var(--matter-choice-color) 5%,#FBFAF7))!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--matter-choice-color) 82%,transparent),0 7px 18px rgba(27,43,58,.055)!important;
+}
+.matter-editor-sheet .premium-select-field.matter-choice-tone .premium-select-field-copy b{
+  color:color-mix(in srgb,var(--matter-choice-color) 30%,#172B3D)!important;
+}
+.matter-editor-sheet .premium-select-field.matter-choice-tone .premium-select-field-arrow{
+  color:var(--matter-choice-color)!important;
+  background:color-mix(in srgb,var(--matter-choice-color) 9%,#FFFFFF)!important;
+  border-color:color-mix(in srgb,var(--matter-choice-color) 20%,transparent)!important;
+}
+body:not(.light) .matter-editor-sheet .premium-select-field.matter-choice-tone{
+  border-color:color-mix(in srgb,var(--matter-choice-color) 33%,rgba(143,169,193,.15))!important;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--matter-choice-color) 10%,#0D2030),#0A1B28)!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--matter-choice-color) 78%,transparent),0 8px 20px rgba(0,0,0,.18)!important;
+}
+body:not(.light) .matter-editor-sheet .premium-select-field.matter-choice-tone .premium-select-field-copy b{
+  color:color-mix(in srgb,var(--matter-choice-color) 34%,#F0F5F8)!important;
+}
+body:not(.light) .matter-editor-sheet .premium-select-field.matter-choice-tone .premium-select-field-arrow{
+  color:color-mix(in srgb,var(--matter-choice-color) 72%,#EAF2F7)!important;
+  background:color-mix(in srgb,var(--matter-choice-color) 14%,#102432)!important;
+}
+/* В premium-окнах «Тип производства» и «Основание ведения» каждая строка
+   получает свой постоянный цвет, а не только золотой цвет выбранного пункта. */
+.premium-list-row.matter-type-criminal{--matter-color:#E15B57!important}
+.premium-list-row.matter-type-civil{--matter-color:#4E86C6!important}
+.premium-list-row.matter-type-admin{--matter-color:#35A996!important}
+.premium-list-row.matter-type-koap{--matter-color:#D98A2B!important}
+.premium-list-row.matter-type-other{--matter-color:#7A8FA6!important}
+.premium-list-row.matter-basis-agreement{--matter-color:#2FA08E!important}
+.premium-list-row.matter-basis-assigned{--matter-color:#8A6AD8!important}
+#m-phone{font-variant-numeric:tabular-nums;letter-spacing:.01em}
