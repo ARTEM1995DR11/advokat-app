@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.87';
-var APP_BUILD='4087';
+var APP_VERSION='4.0.92';
+var APP_BUILD='4092';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -220,6 +220,9 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){ return '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button>'; }
+function mainBrandHeader(){
+  return '<div class="today-brand main-brand-fixed"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4090" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+headerBell()+'</div>';
+}
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function today(){ return iso(new Date()); }
@@ -378,7 +381,8 @@ var LIST_PICKER=null;
 function listPickerMeta(target){
   if(target==='m-role'){
     var rt=(MED&&MED.type)||'other',rs=(MED&&MED.stage)||'';
-    return {title:'Статус доверителя',sub:(rt==='criminal'&&rs)?(rs+' · только статусы этой стадии'):'Процессуальное положение доверителя по делу',search:'Поиск по статусам…',icon:'user'};
+    var mapped=!!(MATTER_ROLE_STAGE_MAP[rt]&&rs&&MATTER_ROLE_STAGE_MAP[rt][rs]);
+    return {title:'Статус доверителя',sub:mapped?(rs+' · только статусы этой стадии'):'Процессуальное положение доверителя по делу',search:'Поиск по статусам…',icon:'user'};
   }
   if(target==='m-court-choice'){
     var pc=matterPlaceContext((MED&&MED.type)||'other',(MED&&MED.stage)||'',(MED&&MED.court)||'');
@@ -487,9 +491,9 @@ function openPremiumListPicker(target,inputId){
     var mm=premiumListMatterMeta(target,o.value);
     return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm};
   });
-  // В статусах доверителя пустое значение остаётся только техническим состоянием
-  // до первого выбора, но не показывается отдельной строкой в premium-списке.
-  if(target==='m-role')items=items.filter(function(it){return !!String(it.value||'').trim();});
+  // В редакторе дела пустые служебные варианты («выбрать судью», «выбрать меру» и т.п.)
+  // остаются только техническим состоянием поля и не показываются отдельной строкой.
+  if(matterEditorPickerWithoutSearch(target))items=items.filter(function(it){return !!String(it.value||'').trim();});
   LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
   renderPremiumListPicker();
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
@@ -523,13 +527,15 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4087" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4090" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
+  var inMatterEditor=!!sel.closest('.matter-editor-sheet');
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
   if(id==='m-role'&&sel.value)label=matterRoleDisplayLabel((MED&&MED.type)||'other',(MED&&MED.stage)||'',sel.value);
-  var b=btn.querySelector('b');if(b)b.textContent=label||'— выбрать —';btn.classList.toggle('empty',!sel.value);
+  if(inMatterEditor&&!sel.value)label='';
+  var b=btn.querySelector('b');if(b)b.textContent=label||(inMatterEditor?'':'— выбрать —');btn.classList.toggle('empty',!sel.value);
   var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role')?premiumListMatterMeta(id,sel.value):null;
   btn.classList.toggle('matter-choice-tone',!!tone);
   if(tone){btn.style.setProperty('--matter-choice-color',tone.color||'#7A8FA6');btn.dataset.matterTone=tone.type||'other';}
@@ -544,7 +550,9 @@ function upgradePremiumSelects(root){
       sel.classList.add('premium-select-native');
       var wrap=sel.closest('.inline-choice-wrap');if(!wrap)return;
       var inp=wrap.querySelector('input'),old=wrap.querySelector('.inline-choice-arrow');if(old)old.remove();
-      var trigger=document.createElement('button');trigger.type='button';trigger.className='inline-choice-arrow premium-list-trigger';trigger.dataset.act='list-open';trigger.dataset.target=sel.id;trigger.dataset.input=inp?inp.id:'';trigger.setAttribute('aria-label','Выбрать из списка');trigger.style.pointerEvents='auto';trigger.style.touchAction='manipulation';trigger.innerHTML=ico('chev','s');
+      var inMatterInline=!!sel.closest('.matter-editor-sheet');
+      if(inMatterInline)wrap.classList.add('matter-inline-choice-clean');
+      var trigger=document.createElement('button');trigger.type='button';trigger.className='inline-choice-arrow premium-list-trigger'+(inMatterInline?' matter-choice-chevron-clean':'');trigger.dataset.act='list-open';trigger.dataset.target=sel.id;trigger.dataset.input=inp?inp.id:'';trigger.setAttribute('aria-label','Выбрать из списка');trigger.style.pointerEvents='auto';trigger.style.touchAction='manipulation';trigger.innerHTML=ico('chev','s');
       wrap.appendChild(trigger);return;
     }
     var parent=sel.parentNode;if(!parent)return;
@@ -1024,50 +1032,139 @@ function matterPlaceDatalist(id,type,stage,current){
   return '<datalist id="'+id+'">'+matterPlaceEntries(type,stage,current).map(function(o){return '<option value="'+esc(o.value)+'">'+esc(o.short||o.value)+'</option>';}).join('')+'</datalist>';
 }
 var MATTER_ROLE_MAP = {
-  // Здесь указывается исключительно процессуальное положение доверителя.
-  // Роли самого адвоката («представитель», «защитник») намеренно отсутствуют.
+  // Базовые резервные списки. Основная логика ниже задаётся матрицей
+  // «тип производства → стадия → допустимый статус доверителя».
   criminal:[
-    'лицо, в отношении которого проводится проверка',
-    'заявитель',
-    'подозреваемый',
-    'обвиняемый',
-    'подсудимый',
-    'осуждённый',
-    'оправданный',
-    'потерпевший',
-    'частный обвинитель',
-    'гражданский истец',
-    'гражданский ответчик',
-    'свидетель'
+    'заявитель','лицо, в отношении которого проводится проверка','лицо, которому причинён вред','лицо, дающее объяснение',
+    'подозреваемый','обвиняемый','подсудимый','осуждённый','оправданный','потерпевший','частный обвинитель','свидетель',
+    'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера',
+    'лицо, в отношении которого уголовное дело прекращено','реабилитированный','лицо, в отношении которого решается вопрос исполнения приговора',
+    'лицо, в отношении которого исполняется принудительная мера медицинского характера'
   ],
   civil:[
-    'истец',
-    'ответчик',
-    'третье лицо',
-    'третье лицо с самостоятельными требованиями',
-    'третье лицо без самостоятельных требований',
-    'заявитель',
-    'заинтересованное лицо',
-    'взыскатель',
-    'должник'
+    'будущий истец','будущий ответчик','заявитель','кредитор','должник','истец','ответчик',
+    'третье лицо с самостоятельными требованиями','третье лицо без самостоятельных требований',
+    'заинтересованное лицо','взыскатель','лицо, чьи права затронуты судебным актом'
   ],
   admin:[
-    'административный истец',
-    'административный ответчик',
-    'заинтересованное лицо',
-    'заявитель',
-    'взыскатель',
-    'должник'
+    'будущий административный истец','будущий административный ответчик','административный истец','административный ответчик',
+    'заинтересованное лицо','взыскатель','должник','лицо, чьи права затронуты судебным актом'
   ],
   koap:[
-    'лицо, в отношении которого ведётся производство',
-    'потерпевший',
-    'законный представитель физического лица',
-    'законный представитель юридического лица',
-    'свидетель'
+    'лицо, в отношении которого ведётся производство','лицо, привлечённое к административной ответственности','потерпевший','свидетель',
+    'законный представитель физического лица','законный представитель юридического лица'
   ],
   other:['заявитель','заинтересованное лицо','взыскатель','должник','истец','ответчик']
 };
+
+// Полная матрица допустимых статусов доверителя.
+// Статус зависит одновременно от вида производства и фактической стадии.
+// При смене стадии несовместимый статус автоматически очищается.
+var MATTER_ROLE_STAGE_MAP = {
+  criminal:{
+    'Материал проверки':[
+      'заявитель',
+      'лицо, в отношении которого проводится проверка',
+      'лицо, которому причинён вред',
+      'лицо, дающее объяснение'
+    ],
+    'Дознание':[
+      'подозреваемый','обвиняемый','потерпевший','свидетель',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Следствие МВД':[
+      'подозреваемый','обвиняемый','потерпевший','свидетель',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Следствие СК':[
+      'подозреваемый','обвиняемый','потерпевший','свидетель',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Первая инстанция':[
+      'обвиняемый','подсудимый','потерпевший','частный обвинитель','свидетель',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Апелляция':[
+      'осуждённый','оправданный','потерпевший','частный обвинитель',
+      'лицо, в отношении которого уголовное дело прекращено',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Кассация':[
+      'осуждённый','оправданный','потерпевший','частный обвинитель',
+      'лицо, в отношении которого уголовное дело прекращено',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Надзор':[
+      'осуждённый','оправданный','потерпевший','частный обвинитель',
+      'лицо, в отношении которого уголовное дело прекращено',
+      'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера'
+    ],
+    'Исполнение':[
+      'осуждённый','реабилитированный','потерпевший',
+      'лицо, в отношении которого решается вопрос исполнения приговора',
+      'лицо, в отношении которого исполняется принудительная мера медицинского характера'
+    ]
+  },
+  civil:{
+    'Досудебная работа':[
+      'будущий истец','будущий ответчик','заявитель','кредитор','должник'
+    ],
+    'Первая инстанция':[
+      'истец','ответчик','третье лицо с самостоятельными требованиями','третье лицо без самостоятельных требований',
+      'заявитель','заинтересованное лицо','взыскатель','должник'
+    ],
+    'Апелляция':[
+      'истец','ответчик','третье лицо с самостоятельными требованиями','третье лицо без самостоятельных требований',
+      'заявитель','заинтересованное лицо','лицо, чьи права затронуты судебным актом'
+    ],
+    'Кассация':[
+      'истец','ответчик','третье лицо с самостоятельными требованиями','третье лицо без самостоятельных требований',
+      'заявитель','заинтересованное лицо','взыскатель','должник','лицо, чьи права затронуты судебным актом'
+    ],
+    'Надзор':[
+      'истец','ответчик','третье лицо с самостоятельными требованиями','третье лицо без самостоятельных требований',
+      'заявитель','заинтересованное лицо','взыскатель','должник','лицо, чьи права затронуты судебным актом'
+    ],
+    'Исполнение':['взыскатель','должник']
+  },
+  admin:{
+    'Досудебная работа':[
+      'будущий административный истец','будущий административный ответчик','заинтересованное лицо'
+    ],
+    'Первая инстанция':[
+      'административный истец','административный ответчик','заинтересованное лицо','взыскатель','должник'
+    ],
+    'Апелляция':[
+      'административный истец','административный ответчик','заинтересованное лицо','лицо, чьи права затронуты судебным актом'
+    ],
+    'Кассация':[
+      'административный истец','административный ответчик','заинтересованное лицо','взыскатель','должник','лицо, чьи права затронуты судебным актом'
+    ],
+    'Надзор':[
+      'административный истец','административный ответчик','заинтересованное лицо','взыскатель','должник','лицо, чьи права затронуты судебным актом'
+    ],
+    'Исполнение':['взыскатель','должник']
+  },
+  koap:{
+    'Проверка / административное расследование':[
+      'лицо, в отношении которого ведётся производство','потерпевший','свидетель',
+      'законный представитель физического лица','законный представитель юридического лица'
+    ],
+    'Первая инстанция':[
+      'лицо, в отношении которого ведётся производство','потерпевший','свидетель',
+      'законный представитель физического лица','законный представитель юридического лица'
+    ],
+    'Пересмотр / апелляция':[
+      'лицо, в отношении которого ведётся производство','потерпевший',
+      'законный представитель физического лица','законный представитель юридического лица'
+    ],
+    'Исполнение':[
+      'лицо, привлечённое к административной ответственности','потерпевший',
+      'законный представитель физического лица','законный представитель юридического лица'
+    ]
+  }
+};
+
 var MATTER_RESTRAINT_MAP = {
   criminal:['подписка о невыезде','запрет определённых действий','личное поручительство','залог','домашний арест','заключение под стражу','наблюдение командования воинской части']
 };
@@ -1076,44 +1173,10 @@ var MATTER_ARTICLE_HINTS = {
   koap:'Например: ч. 1 ст. 12.8 КоАП РФ',
   other:'Статья, договор, основание спора — при необходимости'
 };
-// Для уголовного производства статус доверителя зависит не только от категории,
-// но и от фактической стадии. Это исключает невозможные сочетания вроде
-// «обвиняемый» на материале проверки или «подсудимый» на дознании.
-var CRIMINAL_ROLE_STAGE_MAP = {
-  'Материал проверки':[
-    'заявитель',
-    'лицо, в отношении которого проводится проверка',
-    'лицо, которому причинён вред',
-    'лицо, дающее объяснение'
-  ],
-  'Дознание':[
-    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
-  ],
-  'Следствие МВД':[
-    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
-  ],
-  'Следствие СК':[
-    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
-  ],
-  'Первая инстанция':[
-    'подсудимый','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','свидетель'
-  ],
-  'Апелляция':[
-    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
-  ],
-  'Кассация':[
-    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
-  ],
-  'Надзор':[
-    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
-  ],
-  'Исполнение':[
-    'осуждённый','реабилитированный','лицо, в отношении которого решается вопрос исполнения приговора'
-  ]
-};
 function matterStageList(type){ return (MATTER_STAGE_MAP[type]||STAGE).slice(); }
 function matterRoleList(type,stage){
-  if(type==='criminal'&&stage&&CRIMINAL_ROLE_STAGE_MAP[stage]) return CRIMINAL_ROLE_STAGE_MAP[stage].slice();
+  var byType=MATTER_ROLE_STAGE_MAP[type]||null;
+  if(byType&&stage&&byType[stage]) return byType[stage].slice();
   return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice();
 }
 // Полное процессуальное наименование хранится в данных и показывается в списке
@@ -1122,16 +1185,25 @@ function matterRoleList(type,stage){
 function matterRoleDisplayLabel(type,stage,role){
   var r=String(role||'').trim();
   if(!r)return '';
-  if(type==='criminal'&&stage==='Материал проверки'){
-    var shortMap={
-      'заявитель':'Заявитель',
-      'лицо, в отношении которого проводится проверка':'Проверяемое лицо',
-      'лицо, которому причинён вред':'Лицо, которому причинён вред',
-      'лицо, дающее объяснение':'Даёт объяснение'
-    };
-    if(shortMap[r])return shortMap[r];
-  }
-  return r;
+  var shortMap={
+    'лицо, в отношении которого проводится проверка':'Проверяемое лицо',
+    'лицо, которому причинён вред':'Лицо, которому причинён вред',
+    'лицо, дающее объяснение':'Даёт объяснение',
+    'лицо, в отношении которого ведётся производство о применении принудительной меры медицинского характера':'Лицо по ПММХ',
+    'лицо, в отношении которого исполняется принудительная мера медицинского характера':'Лицо по ПММХ',
+    'лицо, в отношении которого уголовное дело прекращено':'Дело прекращено',
+    'лицо, в отношении которого решается вопрос исполнения приговора':'Вопрос исполнения приговора',
+    'третье лицо с самостоятельными требованиями':'3-е лицо с требованиями',
+    'третье лицо без самостоятельных требований':'3-е лицо без требований',
+    'лицо, чьи права затронуты судебным актом':'Права затронуты судебным актом',
+    'будущий административный истец':'Будущий адм. истец',
+    'будущий административный ответчик':'Будущий адм. ответчик',
+    'лицо, в отношении которого ведётся производство':'Привлекаемое лицо',
+    'лицо, привлечённое к административной ответственности':'Привлечён к ответственности',
+    'законный представитель физического лица':'Законный представитель физлица',
+    'законный представитель юридического лица':'Законный представитель юрлица'
+  };
+  return shortMap[r]||r;
 }
 function normalizeMatterClientRole(type,role,stage){
   var r=String(role||'').trim();
@@ -1147,8 +1219,11 @@ function normalizeMatterClientRole(type,role,stage){
     if(r==='потерпевший')r='лицо, которому причинён вред';
     if(r==='свидетель')r='лицо, дающее объяснение';
   }
-  // Старые значения, описывавшие роль адвоката, больше не являются
-  // процессуальным статусом доверителя.
+  // «Гражданский истец» и «гражданский ответчик» намеренно не являются
+  // основными статусами доверителя в уголовной карточке. Старые значения
+  // не переопределяем автоматически, а очищаем, чтобы пользователь выбрал
+  // актуальное процессуальное положение доверителя.
+  if(type==='criminal'&&(r==='гражданский истец'||r==='гражданский ответчик'))return '';
   if(r==='представитель'||r==='защитник')return '';
   return matterRoleList(type,stage).indexOf(r)>=0?r:'';
 }
@@ -1173,7 +1248,7 @@ function matterMeta(type){
   if(t==='criminal') return Object.assign(base,{
     numberLabel:'Номер дела / материала', courtLabel:'Суд / следственный орган / ведомство', clientLabel:'Подзащитный / доверитель',
     clientPlaceholder:'ФИО подзащитного / доверителя', titlePlaceholder:'Иванов И.И. — защита по уголовному делу',
-    roleLabel:'Статус доверителя', opponentLabel:'Потерпевший / иной участник', opponentPlaceholder:'Потерпевший, гражданский истец…',
+    roleLabel:'Статус доверителя', opponentLabel:'Потерпевший / иной участник', opponentPlaceholder:'Потерпевший, иной участник…',
     showJudge:true, showInvestigator:true, showArticle:true, showRestraint:true, showOpponent:true
   });
   if(t==='civil') return Object.assign(base,{
@@ -1635,8 +1710,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4087" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      headerBell()+'</div>'+
+    mainBrandHeader()+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-quote"><div><b>'+quote[0]+'</b><span>'+quote[1]+'</span></div></div>';
@@ -1936,8 +2010,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4087" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      headerBell()+'</div>'+
+    mainBrandHeader()+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
     (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
@@ -2269,8 +2342,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4087" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      headerBell()+'</div>'+
+    mainBrandHeader()+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
     '<div class="matters-scope">'+
@@ -2393,8 +2465,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4087" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      headerBell()+'</div>'+
+    mainBrandHeader()+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
     '<div class="calendar-month-card">'+
@@ -2496,8 +2567,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4087" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-      headerBell()+'</div>'+
+    mainBrandHeader()+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
@@ -2634,11 +2704,19 @@ function commonCourtByValue(value){
 }
 function judgeDirectory(){
   var cityCourt=(COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0]||{}).value||'Кинешемский городской суд Ивановской области';
-  var rows=KINESHMA_CITY_JUDGES.map(function(j){return {judge:j,court:cityCourt,label:j};});
-  COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
-    rows.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
+  // Premium order: first criminal judges (red), then civil judges (blue), then magistrates (green).
+  // Keep the familiar directory order inside each colour group.
+  var criminal=[], civil=[];
+  KINESHMA_CITY_JUDGES.forEach(function(j){
+    var surname=normLookup((j||'').split(/\s+/)[0]);
+    var row={judge:j,court:cityCourt,label:j};
+    if(CRIMINAL_JUDGE_SURNAMES[surname]) criminal.push(row); else civil.push(row);
   });
-  return rows;
+  var magistrates=[];
+  COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
+    magistrates.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
+  });
+  return criminal.concat(civil,magistrates);
 }
 function normLookup(v){
   return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/gi,'').trim();
@@ -2731,7 +2809,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4087" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4090" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
