@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.09';
-var APP_BUILD='5009';
+var APP_VERSION='5.0.10';
+var APP_BUILD='5010';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1448,9 +1448,11 @@ function matterDynamicFields(){
     }
   }
   var html=''+
-    '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+ 
-    '<div class="two"><div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div><div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div></div>'+ 
-    '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div>'+     '<div class="fld matter-stage-field matter-stage-field-full"><label>Стадия</label>'+stageField+'</div>'+ 
+    '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+
+    '<div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div>'+
+    '<div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div>'+
+    '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div>'+
+    '<div class="fld matter-stage-field matter-stage-field-full"><label>Стадия</label>'+stageField+'</div>'+
     executionBlock+
     '<div class="fld matter-court-field" data-place-mode="'+esc(placeCtx.mode)+'"><label>'+esc(placeCtx.label)+'</label>'+placeField+'</div>';
 
@@ -1466,7 +1468,8 @@ function matterDynamicFields(){
       html += '<div class="fld matter-article-field matter-article-field-wide"><label>'+esc(matterArticleLabel((MED&&MED.type)||'other'))+'</label><textarea id="m-article" rows="3" placeholder="Например: ч. 3 ст. 30, ч. 5 ст. 228.1; ч. 2 ст. 228">'+esc(MED.article||'')+'</textarea></div>';
       html += '<div class="fld matter-role-field-wide"><label>'+esc(cfg.roleLabel)+'</label>'+roleField+'</div>';
     }else{
-      html += '<div class="two"><div class="fld"><label>'+esc(matterArticleLabel((MED&&MED.type)||'other'))+'</label><input id="m-article" value="'+esc(MED.article||'')+'" placeholder="'+esc(cfg.articlePlaceholder||'')+'"></div><div class="fld"><label>'+esc(cfg.roleLabel)+'</label>'+roleField+'</div></div>';
+      html += '<div class="fld"><label>'+esc(matterArticleLabel((MED&&MED.type)||'other'))+'</label><input id="m-article" value="'+esc(MED.article||'')+'" placeholder="'+esc(cfg.articlePlaceholder||'')+'"></div>';
+      html += '<div class="fld"><label>'+esc(cfg.roleLabel)+'</label>'+roleField+'</div>';
     }
   }else{
     html += '<div class="fld"><label>'+esc(cfg.roleLabel)+'</label>'+roleField+'</div>';
@@ -3369,8 +3372,8 @@ function editMatter(m){
   if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
   openSheet(
   '<h2>'+(m?'Изменить досье':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p>'+
-  '<div class="two"><div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
-  '<div class="fld"><label>Основание ведения *</label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div></div>'+
+  '<div class="fld"><label>Тип производства</label><select id="m-type">'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+
+  '<div class="fld"><label>Основание ведения *</label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+
   '<div id="matter-dynamic"></div>'+
   '<button class="btn" data-act="m-save">Сохранить</button>');
   $('#sheet').classList.add('matter-editor-sheet');
