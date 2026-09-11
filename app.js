@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.14';
-var APP_BUILD='5014';
+var APP_VERSION='5.0.16';
+var APP_BUILD='5016';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -81,6 +81,10 @@ function mergeState(d){
     if(!m.stage) m.stage = 'Первая инстанция';
     normalizeLegacyMatterStage(m);
     if(typeof m.basis!=='string') m.basis = '';
+    // 5.0.16: название дела не вводится вручную. Для старых карточек
+    // сразу формируем его из структурированных данных, чтобы весь интерфейс
+    // (списки, поиск, отчёты, заседания) использовал одно актуальное название.
+    m.title=matterAutoTitle(m);
   });
   if(!out.participation.length && out.time.length){
     var seen = {};
@@ -1369,6 +1373,71 @@ function matterArticleLabel(type){
   if(type==='koap')return 'Статья КоАП РФ';
   return 'Статья / квалификация';
 }
+
+function matterAutoTitlePiece(value,maxLen){
+  var text=String(value||'').replace(/\s+/g,' ').trim();
+  if(!text)return '';
+  maxLen=maxLen||72;
+  // Для описания берём первую смысловую фразу: именно она играет роль
+  // краткого предмета дела в автоматически сформированном названии.
+  var sentence=text.match(/^(.+?)(?:[.!?](?:\s|$)|$)/);
+  var piece=(sentence&&sentence[1]?sentence[1]:text).trim();
+  if(piece.length<=maxLen)return piece;
+  var cut=piece.slice(0,maxLen+1),space=cut.lastIndexOf(' ');
+  if(space>Math.floor(maxLen*.62))cut=cut.slice(0,space);
+  else cut=cut.slice(0,maxLen);
+  return cut.replace(/[,:;\-–—\s]+$/,'').trim()+'…';
+}
+function matterAutoClientLabel(value){
+  var text=String(value||'').replace(/\s+/g,' ').trim();
+  if(!text)return '';
+  // Организации и ИП оставляем как введены: сокращение ФИО здесь неуместно.
+  if(/^(?:ООО|АО|ПАО|ИП|ФКУ|ФКУЗ|ГУ|МБУ|МУП|УФСИН|ОМВД|МВД|СУ\s+СК|РОСП)\b/i.test(text) || /[«»"]/.test(text)){
+    return matterAutoTitlePiece(text,58);
+  }
+  // Уже сокращённое ФИО вида «Иванов И.И.» не меняем.
+  if(/^[А-ЯЁA-Z][А-Яа-яЁёA-Za-z'’\-]+\s+[А-ЯЁA-Z]\.[А-ЯЁA-Z]\.?$/u.test(text))return text;
+  var words=text.split(' ');
+  if(words.length>=2 && words.length<=4 && words.every(function(w){return /^[А-ЯЁA-Z][А-Яа-яЁёA-Za-z'’\-]+$/u.test(w);} )){
+    var initials=words.slice(1,3).map(function(w){return w.charAt(0).toUpperCase()+'.';}).join('');
+    return words[0]+(initials?' '+initials:'');
+  }
+  return matterAutoTitlePiece(text,58);
+}
+function matterAutoTitle(o){
+  o=o||{};
+  var client=matterAutoClientLabel(o.client||'');
+  var article=matterAutoTitlePiece(o.article||'',72);
+  var note=matterAutoTitlePiece(o.notes||'',62);
+  var execution='';
+  if(o.type==='criminal'&&o.stage==='Исполнение приговора'&&o.executionIssue){
+    var issue=criminalExecutionIssue(o.executionIssue);
+    execution=issue?(issue.short||issue.name||''):'';
+  }
+  var parts=[];
+  function add(part){
+    part=String(part||'').trim(); if(!part)return;
+    var low=part.toLowerCase();
+    if(parts.some(function(x){var xl=x.toLowerCase();return xl===low||xl.indexOf(low)>=0||low.indexOf(xl)>=0;}))return;
+    parts.push(part);
+  }
+  // Основная формула: доверитель + статья/квалификация + краткая суть.
+  add(client);
+  add(article);
+  add(note);
+  // Для исполнения приговора конкретный вопрос полезнее общей стадии,
+  // но добавляем его только когда описание не сформулировано пользователем.
+  if(!note)add(execution);
+  if(parts.length<2){
+    if(o.type==='criminal'&&o.stage==='Материал проверки')add('материал проверки');
+    else if(o.stage)add(String(o.stage).toLowerCase());
+  }
+  if(!parts.length){
+    var fallback={criminal:'Уголовное дело',civil:'Гражданское дело',admin:'Административное дело',koap:'Дело по КоАП РФ',other:'Дело'};
+    return fallback[o.type]||'Дело';
+  }
+  return parts.join(' — ');
+}
 function matterMeta(type,basis){
   var t=type||'other';
   var base={
@@ -1406,7 +1475,7 @@ function matterMeta(type,basis){
 }
 function pullMatterDraft(){
   if(!MED)return;
-  var map={type:'#m-type',basis:'#m-basis',title:'#m-title',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',executionIssue:'#m-execution-issue',executionInstitution:'#m-execution-institution',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
+  var map={type:'#m-type',basis:'#m-basis',client:'#m-client',phone:'#m-phone',number:'#m-number',stage:'#m-stage',executionIssue:'#m-execution-issue',executionInstitution:'#m-execution-institution',court:'#m-court',judge:'#m-judge',investigator:'#m-investigator',article:'#m-article',role:'#m-role',restraint:'#m-restraint',opponent:'#m-opponent',dayRate:'#m-dayrate',notes:'#m-notes'};
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
   MED.phone=formatRussianPhone(MED.phone||'');
   MED.article=normalizeMatterArticle(MED.type||'other',MED.article||'');
@@ -1448,7 +1517,6 @@ function matterDynamicFields(){
     }
   }
   var html=''+
-    '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+
     '<div class="fld"><label>'+esc(cfg.clientLabel)+'</label><input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'"></div>'+
     '<div class="fld"><label>Телефон</label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__"></div>'+
     '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div>'+
@@ -1485,7 +1553,7 @@ function matterDynamicFields(){
     }
     html += '<div class="fld"><label>'+esc(oppLabel)+'</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'" placeholder="'+esc(oppPlaceholder)+'"></div>';
   }
-  html += '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Ключевые обстоятельства, позиция, что важно не забыть…">'+esc(MED.notes||'')+'</textarea></div>';
+  html += '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Кратко: предмет дела, спор или основной вопрос…">'+esc(MED.notes||'')+'</textarea><small class="fieldhint">Первая фраза используется приложением для автоматического названия дела.</small></div>';
   return html;
 }
 function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
@@ -2512,7 +2580,7 @@ function matterCard(m){
     '<div class="matter-compact-copy">'+
       '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
       '<b class="matter-compact-title">'+esc(title)+'</b>'+
-      '<div class="matter-ultra-meta"><span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span><i></i><span>'+esc(client)+'</span></div>'+matterCardPulse(m)+
+      '<div class="matter-ultra-meta"><span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span>'+(m.stage?'<i></i><span>'+esc(m.stage)+'</span>':'')+'</div>'+matterCardPulse(m)+
     '</div>'+
     '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+
   '</article>';
@@ -3261,7 +3329,7 @@ function matterDisplayTitle(m){
 }
 function matterDisplaySubtitle(m){
   if(m.number && m.title && m.title!==m.number) return esc(m.title);
-  return esc([matterType(m).n,matterBasisLabel(m.basis),m.client].filter(Boolean).join(' · ') || 'Карточка дела');
+  return esc([matterType(m).n,matterBasisLabel(m.basis),m.stage].filter(Boolean).join(' · ') || 'Карточка дела');
 }
 function matterSegment(label,count,active,target,disabled){
   return '<button type="button" class="matter-detail-seg'+(active?' on':'')+'"'+(disabled?' disabled aria-disabled="true"':' data-act="matter-jump" data-v="'+esc(target||'matter-detail-top')+'"')+'>'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</button>';
@@ -3378,15 +3446,16 @@ function editMatter(m){
   '<button class="btn" data-act="m-save">Сохранить</button>');
   $('#sheet').classList.add('matter-editor-sheet');
   renderMatterDynamic();
-  setTimeout(function(){ if(!m){ var e=$('#m-title'); if(e)e.focus(); } },340);
+  setTimeout(function(){ if(!m){ var e=$('#m-client'); if(e)e.focus(); } },340);
 }
 function saveMatter(){
   pullMatterDraft();
-  var title=(MED&&MED.title||'').trim(); if(!title){toast('Введите название дела');return;}
   if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
   if(MED.type==='criminal'&&MED.stage==='Исполнение приговора'&&!MED.executionIssue){toast('Выберите вопрос исполнения приговора');return;}
-  var o={title:title,type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim()};
+  var notes=(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim();
+  var o={title:'',type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:notes};
   o=sanitizeMatterByType(o);
+  o.title=matterAutoTitle(o);
   var wasNew=!MED.id;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
   addJournal(MED.id,wasNew?'Досье создано':'Досье обновлено',today(),'system',true);
@@ -3966,6 +4035,7 @@ function demo(){
   var m2={id:uid(),title:'Наследственный спор — признание свидетельств недействительными',type:'civil',client:'Иванова А.С.',number:'2-1438/2026',court:'Кинешемский городской суд',judge:'Судья Петрова Н.В.',stage:'Первая инстанция',dayRate:10000,notes:'Фактическое принятие наследства, спор о составе наследственной массы.',archived:false,created:new Date().toISOString()};
   var m3={id:uid(),title:'Песков — спор о квалификации',type:'criminal',client:'Песков Д.С.',number:'УД-88/2026',court:'Районный суд',article:'ч. 2 ст. 228 УК РФ / обвинение в покушении на сбыт',role:'подсудимый',stage:'Первая инстанция',dayRate:10000,archived:false,created:new Date().toISOString()};
   S.matters=[m1,m2,m3].concat(S.matters);
+  S.matters.forEach(function(m){m.title=matterAutoTitle(m);});
   var T=[
     [m1.id,'Подать апелляционную жалобу','deadline',4,'','high','','Срок обжалования постановления'],
     [m1.id,'Получить копию заключения медицинской комиссии','task',0,'','high','',''],
