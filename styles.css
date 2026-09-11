@@ -9281,7 +9281,69 @@ body:not(.light) .mp-stage.red{background:rgba(217,100,100,.13)!important;color:
   flex:none!important;
   stroke-width:1.9!important;
 }
-\n\n/* ============================================================\n   4.0.88 — жёсткое выравнивание общей верхней бренд-строки\n   Колокольчик занимает одну и ту же позицию на всех 5 экранах.\n   ============================================================ */\n#sc-today > .main-brand-fixed,\n#sc-tasks .tasks-project > .main-brand-fixed,\n#sc-matters .matters-project > .main-brand-fixed,\n#sc-cal .calendar-project > .main-brand-fixed,\n#sc-more .more-project > .main-brand-fixed{\n  position:relative!important;\n  box-sizing:border-box!important;\n  width:100%!important;\n  height:44px!important;\n  min-height:44px!important;\n  margin:0 0 8px!important;\n  padding:0 2px!important;\n  display:flex!important;\n  align-items:center!important;\n  justify-content:space-between!important;\n  gap:12px!important;\n}\n#sc-today > .main-brand-fixed > .today-bell,\n#sc-tasks .tasks-project > .main-brand-fixed > .today-bell,\n#sc-matters .matters-project > .main-brand-fixed > .today-bell,\n#sc-cal .calendar-project > .main-brand-fixed > .today-bell,\n#sc-more .more-project > .main-brand-fixed > .today-bell{\n  position:absolute!important;\n  top:1px!important;\n  right:0!important;\n  margin:0!important;\n  transform:none!important;\n  box-sizing:border-box!important;\n  width:42px!important;\n  height:42px!important;\n  min-width:42px!important;\n  min-height:42px!important;\n  max-width:42px!important;\n  max-height:42px!important;\n  padding:0!important;\n  border-radius:14px!important;\n  display:flex!important;\n  align-items:center!important;\n  justify-content:center!important;\n}\n#sc-today > .main-brand-fixed > .today-bell .ico,\n#sc-tasks .tasks-project > .main-brand-fixed > .today-bell .ico,\n#sc-matters .matters-project > .main-brand-fixed > .today-bell .ico,\n#sc-cal .calendar-project > .main-brand-fixed > .today-bell .ico,\n#sc-more .more-project > .main-brand-fixed > .today-bell .ico{\n  width:22px!important;\n  height:22px!important;\n  stroke-width:1.9!important;\n  transform:none!important;\n}\n/* Один и тот же старт контента: вложенные проектные контейнеры не добавляют\n   собственный верхний отступ поверх общего screen padding. */\n#sc-tasks .tasks-project,\n#sc-matters .matters-project,\n#sc-cal .calendar-project,\n#sc-more .more-project{padding-top:0!important;margin-top:0!important;}\n
+
+
+/* ============================================================
+   4.0.88 — жёсткое выравнивание общей верхней бренд-строки
+   Колокольчик занимает одну и ту же позицию на всех 5 экранах.
+   ============================================================ */
+#sc-today > .main-brand-fixed,
+#sc-tasks .tasks-project > .main-brand-fixed,
+#sc-matters .matters-project > .main-brand-fixed,
+#sc-cal .calendar-project > .main-brand-fixed,
+#sc-more .more-project > .main-brand-fixed{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:44px!important;
+  min-height:44px!important;
+  margin:0 0 8px!important;
+  padding:0 2px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+}
+#sc-today > .main-brand-fixed > .today-bell,
+#sc-tasks .tasks-project > .main-brand-fixed > .today-bell,
+#sc-matters .matters-project > .main-brand-fixed > .today-bell,
+#sc-cal .calendar-project > .main-brand-fixed > .today-bell,
+#sc-more .more-project > .main-brand-fixed > .today-bell{
+  position:absolute!important;
+  top:1px!important;
+  right:0!important;
+  margin:0!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  padding:0!important;
+  border-radius:14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#sc-today > .main-brand-fixed > .today-bell .ico,
+#sc-tasks .tasks-project > .main-brand-fixed > .today-bell .ico,
+#sc-matters .matters-project > .main-brand-fixed > .today-bell .ico,
+#sc-cal .calendar-project > .main-brand-fixed > .today-bell .ico,
+#sc-more .more-project > .main-brand-fixed > .today-bell .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.9!important;
+  transform:none!important;
+}
+/* Один и тот же старт контента: вложенные проектные контейнеры не добавляют
+   собственный верхний отступ поверх общего screen padding. */
+#sc-tasks .tasks-project,
+#sc-matters .matters-project,
+#sc-cal .calendar-project,
+#sc-more .more-project{padding-top:0!important;margin-top:0!important;}
+
 /* 4.0.88 — одинаковая геометрия рабочей области пяти вкладок */
 #sc-today,#sc-tasks,#sc-matters,#sc-cal,#sc-more{
   padding-left:12px!important;
@@ -9363,3 +9425,76 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
    целиком; отдельный шеврон у них не показываем. */
 .matter-editor-sheet .premium-select-field .premium-select-field-arrow{display:none!important;}
 .matter-editor-sheet .premium-select-field.empty .premium-select-field-copy b:empty{display:block!important;min-height:1em!important;}
+
+
+/* ============================================================
+   4.0.96 — окончательная унификация колокольчика
+   Один компонент, одна геометрия и одна позиция на 5 экранах.
+   ============================================================ */
+#sc-today,
+#sc-tasks,
+#sc-matters,
+#sc-cal,
+#sc-more{
+  padding-left:12px!important;
+  padding-right:12px!important;
+}
+#sc-tasks .tasks-project,
+#sc-matters .matters-project,
+#sc-cal .calendar-project,
+#sc-more .more-project{
+  padding-top:0!important;
+  margin-top:0!important;
+}
+#sc-today > .main-brand-fixed,
+#sc-tasks .tasks-project > .main-brand-fixed,
+#sc-matters .matters-project > .main-brand-fixed,
+#sc-cal .calendar-project > .main-brand-fixed,
+#sc-more .more-project > .main-brand-fixed{
+  position:relative!important;
+  width:100%!important;
+  height:44px!important;
+  min-height:44px!important;
+  box-sizing:border-box!important;
+  margin:0 0 8px!important;
+  padding:0 2px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+}
+#sc-today > .main-brand-fixed > .today-bell,
+#sc-tasks .tasks-project > .main-brand-fixed > .today-bell,
+#sc-matters .matters-project > .main-brand-fixed > .today-bell,
+#sc-cal .calendar-project > .main-brand-fixed > .today-bell,
+#sc-more .more-project > .main-brand-fixed > .today-bell{
+  position:absolute!important;
+  top:1px!important;
+  right:2px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  border-radius:14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+  z-index:3!important;
+}
+#sc-today > .main-brand-fixed > .today-bell .ico,
+#sc-tasks .tasks-project > .main-brand-fixed > .today-bell .ico,
+#sc-matters .matters-project > .main-brand-fixed > .today-bell .ico,
+#sc-cal .calendar-project > .main-brand-fixed > .today-bell .ico,
+#sc-more .more-project > .main-brand-fixed > .today-bell .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  transform:none!important;
+  stroke-width:1.9!important;
+}
