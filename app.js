@@ -387,7 +387,7 @@ function listPickerMeta(target){
     'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
     'm-stage':{title:'Стадия дела',sub:'Текущий этап производства',search:'Поиск по стадиям…',icon:'flag'},
-    'm-role-choice':{title:'Процессуальный статус',sub:'Выберите статус доверителя',search:'Поиск по статусам…',icon:'user'},
+    'm-role':{title:'Статус доверителя',sub:'Процессуальное положение доверителя по делу',search:'Поиск по статусам…',icon:'user'},
     'm-restraint-choice':{title:'Мера пресечения',sub:'Выберите меру пресечения',search:'Поиск…',icon:'lock'},
     'm-type':{title:'Тип производства',sub:'Выберите категорию дела',search:'Поиск…',icon:'folder'},
     'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
@@ -456,6 +456,10 @@ function premiumListMatterMeta(target,value){
   if(target==='m-stage'&&value){
     var sm=matterStageMeta(value); return {type:'stage-'+normLookup(value),color:sm.c||'#7A8FA6',icon:sm.icon||'flag'};
   }
+  if(target==='m-role'&&value){
+    var roleType=(MED&&MED.type)||'other',roleMatter=MATTER_TYPES[roleType]||MATTER_TYPES.other;
+    return {type:'role-'+roleType,color:roleMatter.c||'#7A8FA6',icon:'user'};
+  }
   if(target==='m-court-choice'&&value){
     var orgChoice=matterInvestigationOrgByValue(value);
     if(orgChoice)return {type:'org-'+orgChoice.kind,color:orgChoice.c||'#7A8FA6',icon:'brief'};
@@ -508,13 +512,13 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4073" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4075" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
   var b=btn.querySelector('b');if(b)b.textContent=label||'— выбрать —';btn.classList.toggle('empty',!sel.value);
-  var tone=(id==='m-type'||id==='m-basis'||id==='m-stage')?premiumListMatterMeta(id,sel.value):null;
+  var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role')?premiumListMatterMeta(id,sel.value):null;
   btn.classList.toggle('matter-choice-tone',!!tone);
   if(tone){btn.style.setProperty('--matter-choice-color',tone.color||'#7A8FA6');btn.dataset.matterTone=tone.type||'other';}
   else{btn.style.removeProperty('--matter-choice-color');delete btn.dataset.matterTone;}
@@ -563,18 +567,79 @@ function applyPremiumListChoice(value){
   closePremiumListPicker();vib(5);
 }
 
-function formatRussianPhone(value){
+function russianPhoneDigits(value){
   var digits=String(value||'').replace(/\D/g,'');
   if(!digits)return '';
   if(digits.charAt(0)==='8')digits='7'+digits.slice(1);
   else if(digits.charAt(0)!=='7')digits='7'+digits;
-  digits=digits.slice(0,11);
+  return digits.slice(0,11);
+}
+function formatRussianPhone(value){
+  var digits=russianPhoneDigits(value);
+  if(!digits)return '';
   var n=digits.slice(1),out='+7';
   if(n.length){out+=' ('+n.slice(0,3);if(n.length>=3)out+=')';}
   if(n.length>3)out+=' '+n.slice(3,6);
   if(n.length>6)out+='-'+n.slice(6,8);
   if(n.length>8)out+='-'+n.slice(8,10);
   return out;
+}
+function phoneDigitCountBefore(value,pos){
+  var s=String(value||''),end=Math.max(0,Math.min(typeof pos==='number'?pos:s.length,s.length)),n=0;
+  for(var i=0;i<end;i++)if(/\d/.test(s.charAt(i)))n++;
+  return n;
+}
+function phoneCaretAfterDigits(value,count){
+  var s=String(value||'');
+  if(count<=0)return 0;
+  var seen=0;
+  for(var i=0;i<s.length;i++){
+    if(/\d/.test(s.charAt(i))){seen++;if(seen>=count)return i+1;}
+  }
+  return s.length;
+}
+function setPhoneValueAndCaret(input,digits,caretDigitCount){
+  var masked=formatRussianPhone(digits);
+  input.value=masked;
+  if(MED)MED.phone=masked;
+  var pos=phoneCaretAfterDigits(masked,Math.min(caretDigitCount,russianPhoneDigits(masked).length));
+  try{input.setSelectionRange(pos,pos);}catch(_){ }
+}
+function handlePhoneDeleteKey(e){
+  var input=e.target;
+  if(!input||input.id!=='m-phone'||(e.key!=='Backspace'&&e.key!=='Delete'))return false;
+  if(e.metaKey||e.ctrlKey||e.altKey)return false;
+  var value=input.value||'',start=input.selectionStart==null?value.length:input.selectionStart,end=input.selectionEnd==null?start:input.selectionEnd;
+  var positions=[],digits='';
+  for(var i=0;i<value.length;i++)if(/\d/.test(value.charAt(i))){positions.push(i);digits+=value.charAt(i);}
+  if(!digits)return false;
+  var keep=[],caretDigits=phoneDigitCountBefore(value,start),removed=false;
+  if(start!==end){
+    for(var j=0;j<positions.length;j++){
+      if(positions[j]>=start&&positions[j]<end){removed=true;continue;}
+      keep.push(digits.charAt(j));
+    }
+  }else{
+    var target=-1;
+    if(e.key==='Backspace'){
+      for(var b=positions.length-1;b>=0;b--)if(positions[b]<start){target=b;break;}
+      if(target>=0)caretDigits=Math.max(0,caretDigits-1);
+    }else{
+      for(var d=0;d<positions.length;d++)if(positions[d]>=start){target=d;break;}
+    }
+    if(target<0)return false;
+    for(var k=0;k<digits.length;k++){
+      if(k===target){removed=true;continue;}
+      keep.push(digits.charAt(k));
+    }
+  }
+  if(!removed)return false;
+  e.preventDefault();
+  var next=keep.join('');
+  /* Если удалён только префикс 7 при оставшихся цифрах, сохраняем российский префикс. */
+  if(next&&next.charAt(0)!=='7')next='7'+next;
+  setPhoneValueAndCaret(input,next,caretDigits);
+  return true;
 }
 
 function relD(s){ var n = dd(s);
@@ -918,11 +983,13 @@ function matterInvestigationOrgList(stage){
 }
 function matterPlaceContext(type,stage,currentPlace){
   var mode=matterStageMode(type,stage,currentPlace);
-  if(mode==='judicial') return {mode:mode,label:'Суд',title:'Выбор суда',sub:'Выберите суд для текущей судебной стадии',search:'Поиск по судам…',placeholder:'Введите или выберите суд',empty:'— выбрать суд —',icon:'gavel'};
-  if(mode==='investigation') return {mode:mode,label:'Орган расследования',title:'Орган расследования',sub:'Выберите подразделение для текущей стадии',search:'Поиск по органам расследования…',placeholder:'Введите или выберите орган расследования',empty:'— выбрать орган расследования —',icon:'brief'};
-  if(mode==='execution') return {mode:mode,label:'Орган исполнения',title:'Орган исполнения',sub:'Выберите орган исполнения либо введите его вручную',search:'Поиск по органам…',placeholder:'Введите или выберите орган исполнения',empty:'— выбрать орган исполнения —',icon:'brief'};
-  if(type==='koap'&&stage==='Проверка / административное расследование') return {mode:'other',label:'Орган производства',title:'Орган производства',sub:'Укажите орган, ведущий производство по делу',search:'Поиск по органам…',placeholder:'Введите орган производства',empty:'— выбрать орган —',icon:'brief'};
-  return {mode:mode,label:'Орган / ведомство',title:'Орган / ведомство',sub:'Укажите орган или ведомство, если это необходимо',search:'Поиск…',placeholder:'Введите орган / ведомство',empty:'— выбрать орган / ведомство —',icon:'brief'};
+  // В форме уже есть подпись поля. Внутри самого поля не повторяем
+  // «выберите суд / орган» — пустое значение выглядит чище и спокойнее.
+  if(mode==='judicial') return {mode:mode,label:'Суд',title:'Суд',sub:'Суды и судебные участки',search:'Поиск по судам…',placeholder:'',empty:'',icon:'gavel'};
+  if(mode==='investigation') return {mode:mode,label:'Орган расследования',title:'Орган расследования',sub:'Подразделение, ведущее материал или уголовное дело',search:'Поиск по органам расследования…',placeholder:'',empty:'',icon:'brief'};
+  if(mode==='execution') return {mode:mode,label:'Орган исполнения',title:'Орган исполнения',sub:'Орган, исполняющий судебный акт',search:'Поиск по органам…',placeholder:'',empty:'',icon:'brief'};
+  if(type==='koap'&&stage==='Проверка / административное расследование') return {mode:'other',label:'Орган производства',title:'Орган производства',sub:'Орган, ведущий производство по делу',search:'Поиск по органам…',placeholder:'',empty:'',icon:'brief'};
+  return {mode:mode,label:'Орган / ведомство',title:'Орган / ведомство',sub:'Орган или ведомство по делу',search:'Поиск…',placeholder:'',empty:'',icon:'brief'};
 }
 function matterInvestigatorLabel(stage){
   if(stage==='Дознание')return 'Дознаватель';
@@ -937,18 +1004,58 @@ function matterPlaceEntries(type,stage,currentPlace){
   return [];
 }
 function matterPlaceChoiceOptions(type,stage,current){
-  var ctx=matterPlaceContext(type,stage,current),selected=current||'',entries=matterPlaceEntries(type,stage,current);
-  return '<option value="">'+esc(ctx.empty)+'</option>'+entries.map(function(o){return '<option value="'+esc(o.value)+'"'+(o.value===selected?' selected':'')+'>'+esc(o.short||o.value)+'</option>';}).join('');
+  var selected=current||'',entries=matterPlaceEntries(type,stage,current);
+  // Пустую строку «выбрать суд / орган» в premium-списке не показываем:
+  // назначение поля уже указано его заголовком.
+  return entries.map(function(o){return '<option value="'+esc(o.value)+'"'+(o.value===selected?' selected':'')+'>'+esc(o.short||o.value)+'</option>';}).join('');
 }
 function matterPlaceDatalist(id,type,stage,current){
   return '<datalist id="'+id+'">'+matterPlaceEntries(type,stage,current).map(function(o){return '<option value="'+esc(o.value)+'">'+esc(o.short||o.value)+'</option>';}).join('')+'</datalist>';
 }
 var MATTER_ROLE_MAP = {
-  criminal:['подозреваемый','обвиняемый','подсудимый','осужденный','потерпевший','свидетель','гражданский истец','гражданский ответчик'],
-  civil:['истец','ответчик','третье лицо','заявитель','заинтересованное лицо','представитель'],
-  admin:['административный истец','административный ответчик','заявитель','заинтересованное лицо','представитель'],
-  koap:['лицо, привлекаемое к административной ответственности','потерпевший','законный представитель','защитник','представитель'],
-  other:['заявитель','истец','ответчик','представитель']
+  // Здесь указывается исключительно процессуальное положение доверителя.
+  // Роли самого адвоката («представитель», «защитник») намеренно отсутствуют.
+  criminal:[
+    'лицо, в отношении которого проводится проверка',
+    'заявитель',
+    'подозреваемый',
+    'обвиняемый',
+    'подсудимый',
+    'осуждённый',
+    'оправданный',
+    'потерпевший',
+    'частный обвинитель',
+    'гражданский истец',
+    'гражданский ответчик',
+    'свидетель'
+  ],
+  civil:[
+    'истец',
+    'ответчик',
+    'третье лицо',
+    'третье лицо с самостоятельными требованиями',
+    'третье лицо без самостоятельных требований',
+    'заявитель',
+    'заинтересованное лицо',
+    'взыскатель',
+    'должник'
+  ],
+  admin:[
+    'административный истец',
+    'административный ответчик',
+    'заинтересованное лицо',
+    'заявитель',
+    'взыскатель',
+    'должник'
+  ],
+  koap:[
+    'лицо, в отношении которого ведётся производство',
+    'потерпевший',
+    'законный представитель физического лица',
+    'законный представитель юридического лица',
+    'свидетель'
+  ],
+  other:['заявитель','заинтересованное лицо','взыскатель','должник','истец','ответчик']
 };
 var MATTER_RESTRAINT_MAP = {
   criminal:['подписка о невыезде','запрет определённых действий','личное поручительство','залог','домашний арест','заключение под стражу','наблюдение командования воинской части']
@@ -960,6 +1067,19 @@ var MATTER_ARTICLE_HINTS = {
 };
 function matterStageList(type){ return (MATTER_STAGE_MAP[type]||STAGE).slice(); }
 function matterRoleList(type){ return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice(); }
+function normalizeMatterClientRole(type,role){
+  var r=String(role||'').trim();
+  if(!r)return '';
+  var legacy={
+    'осужденный':'осуждённый',
+    'лицо, привлекаемое к административной ответственности':'лицо, в отношении которого ведётся производство'
+  };
+  r=legacy[r]||r;
+  // Старые значения, описывавшие роль адвоката, больше не являются
+  // процессуальным статусом доверителя.
+  if(r==='представитель'||r==='защитник')return '';
+  return matterRoleList(type).indexOf(r)>=0?r:'';
+}
 function matterRestraintList(type){ return (MATTER_RESTRAINT_MAP[type]||[]).slice(); }
 function matterChoiceOptions(list,current,emptyLabel){
   return '<option value="">'+esc(emptyLabel||'— выбрать —')+'</option>'+list.map(function(x){ return '<option value="'+esc(x)+'"'+(current===x?' selected':'')+'>'+esc(x)+'</option>'; }).join('');
@@ -974,33 +1094,33 @@ function matterMeta(type){
   var base={
     numberLabel:'Номер дела / материала', courtLabel:'Суд / орган / ведомство', judgeLabel:'Судья', investigatorLabel:'Следователь / дознаватель',
     clientLabel:'Доверитель', clientPlaceholder:'ФИО / организация', titlePlaceholder:'Иванов И.И. — взыскание долга',
-    roleLabel:'Статус лица', opponentLabel:'Оппонент / другая сторона', opponentPlaceholder:'ФИО / организация',
+    roleLabel:'Статус доверителя', opponentLabel:'Оппонент / другая сторона', opponentPlaceholder:'ФИО / организация',
     showJudge:true, showInvestigator:false, showArticle:false, showRestraint:false, showOpponent:true,
     stageList:matterStageList(t), roleList:matterRoleList(t), restraintList:matterRestraintList(t), articlePlaceholder:MATTER_ARTICLE_HINTS[t]||''
   };
   if(t==='criminal') return Object.assign(base,{
     numberLabel:'Номер дела / материала', courtLabel:'Суд / следственный орган / ведомство', clientLabel:'Подзащитный / доверитель',
     clientPlaceholder:'ФИО подзащитного / доверителя', titlePlaceholder:'Иванов И.И. — защита по уголовному делу',
-    roleLabel:'Процессуальный статус', opponentLabel:'Потерпевший / иной участник', opponentPlaceholder:'Потерпевший, гражданский истец…',
+    roleLabel:'Статус доверителя', opponentLabel:'Потерпевший / иной участник', opponentPlaceholder:'Потерпевший, гражданский истец…',
     showJudge:true, showInvestigator:true, showArticle:true, showRestraint:true, showOpponent:true
   });
   if(t==='civil') return Object.assign(base,{
     numberLabel:'Номер дела', courtLabel:'Суд / орган / ведомство', clientLabel:'Доверитель', titlePlaceholder:'Иванов И.И. — взыскание долга',
-    roleLabel:'Процессуальный статус', opponentLabel:'Ответчик / другая сторона', opponentPlaceholder:'Ответчик, истец по встречному иску…',
+    roleLabel:'Статус доверителя', opponentLabel:'Ответчик / другая сторона', opponentPlaceholder:'Ответчик, истец по встречному иску…',
     showJudge:true, showInvestigator:false, showArticle:false, showRestraint:false, showOpponent:true
   });
   if(t==='admin') return Object.assign(base,{
     numberLabel:'Номер дела', courtLabel:'Суд / административный орган', clientLabel:'Доверитель', titlePlaceholder:'Иванов И.И. — административный иск',
-    roleLabel:'Процессуальный статус', opponentLabel:'Административный ответчик / орган', opponentPlaceholder:'Орган, должностное лицо…',
+    roleLabel:'Статус доверителя', opponentLabel:'Административный ответчик / орган', opponentPlaceholder:'Орган, должностное лицо…',
     showJudge:true, showInvestigator:false, showArticle:false, showRestraint:false, showOpponent:true
   });
   if(t==='koap') return Object.assign(base,{
     numberLabel:'Номер дела / протокола', courtLabel:'Суд / орган / должностное лицо', clientLabel:'Лицо / доверитель', titlePlaceholder:'Иванов И.И. — дело по КоАП',
-    judgeLabel:'Судья / должностное лицо', roleLabel:'Статус лица', opponentLabel:'Орган / потерпевший', opponentPlaceholder:'Отдел МВД, инспектор, потерпевший…',
+    judgeLabel:'Судья / должностное лицо', roleLabel:'Статус доверителя', opponentLabel:'Орган / потерпевший', opponentPlaceholder:'Отдел МВД, инспектор, потерпевший…',
     showJudge:true, showInvestigator:false, showArticle:true, showRestraint:false, showOpponent:true
   });
   return Object.assign(base,{
-    titlePlaceholder:'Иванов И.И. — рабочее дело', roleLabel:'Статус / роль', showJudge:true, showInvestigator:false,
+    titlePlaceholder:'Иванов И.И. — рабочее дело', roleLabel:'Статус доверителя', showJudge:true, showInvestigator:false,
     showArticle:true, showRestraint:false, showOpponent:true
   });
 }
@@ -1024,7 +1144,9 @@ function matterDynamicFields(){
   var showJudgeNow=!!(cfg.showJudge&&placeCtx.mode==='judicial');
   var showInvestigatorNow=!!(cfg.showInvestigator&&placeCtx.mode==='investigation');
   var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory().map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
-  var roleField=inlineMatterChoiceField('m-role','m-role-choice',MED.role||'','Введите или выберите статус',cfg.roleList,'— выбрать статус —','m-role-list');
+  var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'');
+  if(MED)MED.role=currentRole;
+  var roleField='<select id="m-role"><option value=""'+(!currentRole?' selected':'')+'>—</option>'+cfg.roleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
   var restraintField=cfg.showRestraint?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
   var html=''+
     '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+ 
@@ -1072,6 +1194,7 @@ function sanitizeMatterByType(o){
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
   if(!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
+  o.role=normalizeMatterClientRole(o.type||'other',o.role);
   if(typeof o.basis!=='string') o.basis='';
   return o;
 }
@@ -1427,7 +1550,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4073" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1728,7 +1851,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4073" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
@@ -2045,7 +2168,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4073" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2169,7 +2292,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4073" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2272,7 +2395,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4073" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2507,7 +2630,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4073" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4075" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3624,7 +3747,6 @@ document.addEventListener('change',function(e){
     }
     renderMatterDynamic(); vib(5); return;
   }
-  if(e.target.id==='m-role-choice'){ var r=e.target.value, i2=$('#m-role'); if(r&&i2){ i2.value=r; MED&& (MED.role=r); vib(5);} e.target.value=''; return; }
   if(e.target.id==='m-restraint-choice'){ var rr=e.target.value, i3=$('#m-restraint'); if(rr&&i3){ i3.value=rr; MED&& (MED.restraint=rr); vib(5);} e.target.value=''; return; }
   if(e.target.id==='m-judge-choice'){ var jv=e.target.value, ji=$('#m-judge'); if(jv){ if(ji)ji.value=jv; MED&& (MED.judge=jv); applyKnownJudgeCourt(jv,'matter'); vib(5);} e.target.value=''; return; }
   if(e.target.id==='e-deadline-code'){
@@ -3670,12 +3792,19 @@ document.addEventListener('input',function(e){
   if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
   if(e.target.id==='m-court'){ var mc=commonCourtByValue(e.target.value.trim()); if(mc&&mc.judge)applyKnownCourtJudge(e.target.value.trim(),'matter'); }
   if(e.target.id==='m-phone'){
-    var masked=formatRussianPhone(e.target.value);
+    var rawPhone=e.target.value||'',rawPos=e.target.selectionStart==null?rawPhone.length:e.target.selectionStart;
+    var before=phoneDigitCountBefore(rawPhone,rawPos),rawDigits=String(rawPhone).replace(/\D/g,'');
+    /* При вводе номера без 7/8 форматтер добавляет код страны сам — учитываем его в позиции курсора. */
+    if(rawDigits&&rawDigits.charAt(0)!=='7'&&rawDigits.charAt(0)!=='8')before++;
+    var masked=formatRussianPhone(rawPhone);
     if(e.target.value!==masked)e.target.value=masked;
     if(MED)MED.phone=masked;
+    var caret=phoneCaretAfterDigits(masked,before);
+    try{e.target.setSelectionRange(caret,caret);}catch(_){ }
   }
 });
 document.addEventListener('keydown',function(e){
+  if(handlePhoneDeleteKey(e))return;
   if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
