@@ -9693,3 +9693,13 @@ body:not(.light){
   padding-top:0!important;
   margin-top:0!important;
 }
+
+/* 5.0.09 — уголовная квалификация: полноширинное многострочное поле */
+.sheet .matter-article-field-wide textarea{
+  width:100%;
+  min-height:104px;
+  resize:vertical;
+  line-height:1.4;
+  white-space:pre-wrap;
+}
+.sheet .matter-role-field-wide{width:100%;}
