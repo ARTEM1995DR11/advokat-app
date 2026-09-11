@@ -9427,6 +9427,50 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
 .matter-editor-sheet .premium-select-field.empty .premium-select-field-copy b:empty{display:block!important;min-height:1em!important;}
 
 
+
+
+/* ============================================================
+   5.0.11 — подсветка строк выбора в карточке дела
+   Поля «Суд / орган расследования» и «Мера пресечения»,
+   которые выбираются из списка, визуально выделены так же,
+   как и остальные важные поля выбора.
+   ============================================================ */
+.matter-editor-sheet .matter-court-field[data-place-mode],
+.matter-editor-sheet .matter-restraint-field{
+  --inline-choice-accent:var(--place-accent,#C29130);
+}
+.matter-editor-sheet .matter-restraint-field{
+  --inline-choice-accent:#C29130;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+.matter-editor-sheet .matter-restraint-field .inline-choice-wrap>input{
+  background:linear-gradient(180deg,#FFFFFF,color-mix(in srgb,var(--inline-choice-accent) 5%,#FBFAF7))!important;
+  border-color:color-mix(in srgb,var(--inline-choice-accent) 34%,rgba(45,58,70,.14))!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--inline-choice-accent) 82%,transparent),0 7px 18px rgba(27,43,58,.055)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-arrow.premium-list-trigger,
+.matter-editor-sheet .matter-restraint-field .inline-choice-arrow.premium-list-trigger{
+  color:var(--inline-choice-accent)!important;
+  background:color-mix(in srgb,var(--inline-choice-accent) 9%,#FFFFFF)!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--inline-choice-accent) 20%,transparent)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode] label,
+.matter-editor-sheet .matter-restraint-field label{
+  color:color-mix(in srgb,var(--inline-choice-accent) 34%,var(--txt2))!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+body:not(.light) .matter-editor-sheet .matter-restraint-field .inline-choice-wrap>input{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--inline-choice-accent) 10%,#0D2030),#0A1B28)!important;
+  border-color:color-mix(in srgb,var(--inline-choice-accent) 33%,rgba(143,169,193,.18))!important;
+  box-shadow:inset 3px 0 0 color-mix(in srgb,var(--inline-choice-accent) 78%,transparent),0 8px 20px rgba(0,0,0,.18)!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inline-choice-arrow.premium-list-trigger,
+body:not(.light) .matter-editor-sheet .matter-restraint-field .inline-choice-arrow.premium-list-trigger{
+  color:color-mix(in srgb,var(--inline-choice-accent) 72%,#EAF2F7)!important;
+  background:color-mix(in srgb,var(--inline-choice-accent) 14%,#102432)!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--inline-choice-accent) 22%,transparent)!important;
+}
+
 /* ============================================================
    4.0.98 — окончательная унификация колокольчика
    Один компонент, одна геометрия и одна позиция на 5 экранах.

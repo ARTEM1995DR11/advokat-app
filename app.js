@@ -1476,7 +1476,7 @@ function matterDynamicFields(){
   }
 
   if(showRestraintNow){
-    html += '<div class="fld"><label>Мера пресечения</label>'+restraintField+'</div>';
+    html += '<div class="fld matter-restraint-field"><label>Мера пресечения</label>'+restraintField+'</div>';
   }
   if(cfg.showOpponent){
     var oppLabel=cfg.opponentLabel,oppPlaceholder=cfg.opponentPlaceholder||'';
