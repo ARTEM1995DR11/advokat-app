@@ -9977,3 +9977,83 @@ body:not(.light) .matter-ultra-professional b{color:#C8D7E5!important}
   .matter-ultra-professional small{font-size:8.7px!important}
   .matter-ultra-professional b{font-size:10.1px!important}
 }
+
+/* ============================================================
+   5.0.19 — «Дела»: снова компактные полоски + содержательный заголовок
+   ============================================================ */
+.matters-list{gap:7px!important;}
+.matter-compact-card.ultra.matter-strip{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 22px!important;
+  align-items:center!important;
+  column-gap:7px!important;
+  min-height:0!important;
+  height:auto!important;
+  padding:9px 10px 9px 14px!important;
+  border-radius:16px!important;
+}
+.matter-compact-card.ultra.matter-strip::before{width:4px!important;}
+.matter-strip .matter-compact-copy{
+  gap:3px!important;
+  min-width:0!important;
+}
+.matter-strip .matter-ultra-kicker{
+  gap:6px!important;
+  min-height:19px!important;
+}
+.matter-strip .matter-compact-type{
+  font-size:8.8px!important;
+  line-height:1!important;
+  letter-spacing:.105em!important;
+}
+.matter-strip .matter-compact-basis{
+  min-height:19px!important;
+  padding:0 7px!important;
+  font-size:8.8px!important;
+}
+.matter-strip .matter-compact-title{
+  display:block!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  max-height:none!important;
+  font-size:14.6px!important;
+  line-height:1.18!important;
+  font-weight:860!important;
+}
+.matter-strip .matter-ultra-meta{
+  gap:5px!important;
+  font-size:10.1px!important;
+  line-height:1.12!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+}
+.matter-strip .matter-ultra-meta>span{
+  flex:0 1 auto!important;
+  max-width:46%!important;
+  min-width:0!important;
+}
+.matter-strip .matter-ultra-meta>span:last-child{max-width:54%!important;}
+.matter-strip .matter-ultra-meta .matter-card-number{flex:none!important;max-width:38%!important;}
+.matter-strip .matter-strip-person b{font-weight:780!important;}
+.matter-strip .matter-compact-chevron{
+  width:22px!important;
+  height:22px!important;
+  align-self:center!important;
+}
+.matter-strip .matter-compact-chevron .ico{width:13px!important;height:13px!important;}
+.matter-strip .matter-ultra-pulse{
+  margin-top:0!important;
+  font-size:9.1px!important;
+  line-height:1.08!important;
+}
+.matter-strip .matter-ultra-pulse i{width:5px!important;height:5px!important;}
+/* Старый отдельный блок судьи/следователя больше не должен раздувать карточку. */
+.matter-strip .matter-ultra-professional,
+.matter-strip>.matter-compact-icon{display:none!important;}
+@media(max-width:390px){
+  .matter-compact-card.ultra.matter-strip{padding:8px 9px 8px 12px!important;border-radius:15px!important;column-gap:5px!important;}
+  .matter-strip .matter-compact-title{font-size:14px!important;}
+  .matter-strip .matter-ultra-meta{font-size:9.7px!important;}
+  .matter-strip .matter-ultra-pulse{font-size:8.8px!important;}
+}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.18';
-var APP_BUILD='5018';
+var APP_VERSION='5.0.19';
+var APP_BUILD='5019';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1411,8 +1411,8 @@ function matterAutoClientLabel(value){
 function matterAutoTitle(o){
   o=o||{};
   var client=matterAutoClientLabel(o.client||'');
-  var article=matterAutoTitlePiece(o.article||'',72);
-  var note=matterAutoTitlePiece(o.notes||'',62);
+  var article=matterAutoTitlePiece(o.article||'',60);
+  var note=matterAutoTitlePiece(o.notes||'',54);
   var execution='';
   if(o.type==='criminal'&&o.stage==='Исполнение приговора'&&o.executionIssue){
     var issue=criminalExecutionIssue(o.executionIssue);
@@ -1420,27 +1420,28 @@ function matterAutoTitle(o){
   }
   var parts=[];
   function add(part){
-    part=String(part||'').trim(); if(!part)return;
-    var low=part.toLowerCase();
-    if(parts.some(function(x){var xl=x.toLowerCase();return xl===low||xl.indexOf(low)>=0||low.indexOf(xl)>=0;}))return;
+    part=String(part||'').replace(/\s+/g,' ').trim();
+    if(!part)return;
+    var low=part.toLowerCase().replace(/ё/g,'е');
+    if(parts.some(function(x){
+      var xl=x.toLowerCase().replace(/ё/g,'е');
+      return xl===low||xl.indexOf(low)>=0||low.indexOf(xl)>=0;
+    }))return;
     parts.push(part);
   }
-  // Основная формула: доверитель + статья/квалификация + краткая суть.
+  // Название создаётся только из содержательных данных карточки:
+  // доверитель + статья/квалификация + краткая суть дела.
+  // Стадия хранится отдельно и больше не подмешивается в название.
   add(client);
-  add(article);
+  if(execution)add(execution);
+  else add(article);
   add(note);
-  // Для исполнения приговора конкретный вопрос полезнее общей стадии,
-  // но добавляем его только когда описание не сформулировано пользователем.
-  if(!note)add(execution);
-  if(parts.length<2){
-    if(o.type==='criminal'&&o.stage==='Материал проверки')add('материал проверки');
-    else if(o.stage)add(String(o.stage).toLowerCase());
-  }
-  if(!parts.length){
-    var fallback={criminal:'Уголовное дело',civil:'Гражданское дело',admin:'Административное дело',koap:'Дело по КоАП РФ',other:'Дело'};
-    return fallback[o.type]||'Дело';
-  }
-  return parts.join(' — ');
+
+  if(parts.length)return parts.join(' — ');
+  // Если пользователь ещё не внёс содержательные данные, показываем только
+  // нейтральное временное название по типу производства.
+  var fallback={criminal:'Уголовное дело',civil:'Гражданское дело',admin:'Административное дело',koap:'Дело по КоАП РФ',other:'Дело'};
+  return fallback[o.type]||'Дело';
 }
 function matterMeta(type,basis){
   var t=type||'other';
@@ -2574,25 +2575,23 @@ function compactMatterCardNumber(value){
 }
 function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
-  // Материал проверки и исполнение приговора визуально отделяем от уголовного дела по существу.
   var caseColor=mt.c;
   if(isCriminalCheckMaterial(m)) caseColor=matterStageMeta('Материал проверки').c;
   else if(isCriminalExecutionMatter(m)) caseColor=matterStageMeta('Исполнение приговора').c;
-  var iconName=matterCardIconName(m);
   var title=matterCardTitle(m);
   var number=compactMatterCardNumber(m.number);
   var professional=matterCardProfessional(m);
   var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
-  var numberHtml=number.empty
-    ? '<span class="matter-card-number empty" aria-label="Номер дела не указан">'+esc(number.text)+'</span>'
-    : '<span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span>';
-  var professionalHtml=professional?'<div class="matter-ultra-professional"><span class="matter-ultra-professional-icon">'+ico('user','s')+'</span><small>'+esc(professional.label)+'</small><b>'+esc(professional.value)+'</b></div>':'';
-  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+caseColor+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
-    '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+ 
+  var meta=[];
+  if(!number.empty) meta.push('<span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'">№ '+esc(number.text)+'</span>');
+  if(m.stage) meta.push('<span>'+esc(m.stage)+'</span>');
+  if(professional) meta.push('<span class="matter-strip-person">'+esc(professional.label)+' <b>'+esc(professional.value)+'</b></span>');
+  return '<article class="matter-compact-card ultra matter-strip'+(m.archived?' archived':'')+'" style="--case:'+caseColor+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
     '<div class="matter-compact-copy">'+
       '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+ 
       '<b class="matter-compact-title">'+esc(title)+'</b>'+ 
-      '<div class="matter-ultra-meta">'+numberHtml+(m.stage?'<i></i><span>'+esc(m.stage)+'</span>':'')+'</div>'+professionalHtml+matterCardPulse(m)+
+      (meta.length?'<div class="matter-ultra-meta">'+meta.join('<i></i>')+'</div>':'')+
+      matterCardPulse(m)+
     '</div>'+ 
     '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+ 
   '</article>';
