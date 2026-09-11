@@ -9042,3 +9042,43 @@ body.light .task-editor-sheet .deadline-premium-status em{color:#8D611B;border-c
 /* Deadline rules in premium picker inherit the procedural code accent. */
 #premium-list-modal .premium-list-row.matter-option.matter-fssp{--matter-color:#9B78C8}
 #premium-list-modal .premium-list-row.matter-option .premium-list-row-copy small{line-height:1.34}
+
+/* ============================================================
+   4.0.66 — Процессуальный срок: ровный блок исходной даты
+   ============================================================ */
+.task-editor-sheet .deadline-source-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:10px!important;
+  align-items:start!important;
+}
+.task-editor-sheet .deadline-source-grid .fld{min-width:0!important;width:100%!important}
+.task-editor-sheet .deadline-source-field{margin-bottom:12px!important}
+.task-editor-sheet .deadline-source-field .premium-date-control,
+.task-editor-sheet .deadline-source-field input{width:100%!important}
+.task-editor-sheet #e-source-time-wrap[hidden]{display:none!important}
+.task-editor-sheet .deadline-source-time{margin:-2px 0 12px!important}
+.task-editor-sheet .deadline-source-time .premium-time-control,
+.task-editor-sheet .deadline-source-time input{width:100%!important}
+.task-editor-sheet .deadline-time-hint{display:block;margin-top:6px;color:#8598AB;font-size:10.5px;line-height:1.4}
+body.light .task-editor-sheet .deadline-time-hint{color:#718599}
+
+
+/* ============================================================
+   4.0.67 — premium page transitions for main-tab swipe
+   Свайп вправо открывает следующую вкладку (она входит слева),
+   свайп влево — предыдущую (она входит справа).
+   ============================================================ */
+.tab-slide-next{animation:tabSlideNext .30s var(--ease)}
+.tab-slide-prev{animation:tabSlidePrev .30s var(--ease)}
+@keyframes tabSlideNext{
+  from{opacity:.62;transform:translate3d(-22px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes tabSlidePrev{
+  from{opacity:.62;transform:translate3d(22px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .tab-slide-next,.tab-slide-prev{animation:none!important}
+}

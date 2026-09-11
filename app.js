@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.65';
-var APP_BUILD='4065';
+var APP_VERSION='4.0.67';
+var APP_BUILD='4067';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -486,7 +486,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4065" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4067" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -805,7 +805,7 @@ function applyDeadlineRuleFromDom(){
   }
   var out=$('#e-deadline-result'); if(out)out.innerHTML=deadlineCalcResultHTML(rule,res);
   var lab=$('#e-source-label'); if(lab&&rule)lab.textContent=rule.dateLabel;
-  var tw=$('#e-source-time-wrap'); if(tw)tw.style.display=rule&&rule.requiresTime?'':'';
+  var tw=$('#e-source-time-wrap'); if(tw)tw.hidden=!(rule&&rule.requiresTime);
   var tl=$('#e-source-time-label'); if(tl&&rule)tl.textContent=rule.timeLabel||'Точное время';
   return {rule:rule,res:res};
 }
@@ -1299,7 +1299,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4065" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4067" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1600,7 +1600,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4065" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4067" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions">'+
         '<button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button>'+
       '</div></div>'+
@@ -1914,7 +1914,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4065" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4067" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div></div>'+
     '<div class="matters-scope">'+
@@ -2037,7 +2037,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4065" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4067" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div></div>'+
     '<div class="calendar-month-card">'+
       '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
@@ -2138,7 +2138,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4065" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4067" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div><div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск">'+ico('search')+'</button></div></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
     '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
     '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
@@ -2187,6 +2187,7 @@ function row(i,t,s,act){
 /* =====================================================================
    RENDER
    ===================================================================== */
+var TAB_TRANSITION='';
 function render(){
   ['today','tasks','matters','cal','more'].forEach(function(k){
     $('#sc-'+k).classList.toggle('hide', S.ui.tab!==k); });
@@ -2195,17 +2196,24 @@ function render(){
   var hideFab=(S.ui.tab==='more');
   $('#fab').classList.toggle('fab-context-hide',hideFab);
   $('#fab').style.display=hideFab?'none':'flex';
-  $('#sc-'+S.ui.tab).classList.add('fadein');
-  setTimeout(function(){ var e=$('#sc-'+S.ui.tab); if(e) e.classList.remove('fadein'); },340);
+  var active=$('#sc-'+S.ui.tab);
+  if(active){
+    active.classList.remove('fadein','tab-slide-next','tab-slide-prev');
+    var motionClass=TAB_TRANSITION==='next'?'tab-slide-next':(TAB_TRANSITION==='prev'?'tab-slide-prev':'fadein');
+    active.classList.add(motionClass);
+    setTimeout(function(){ if(active) active.classList.remove(motionClass); },340);
+  }
+  TAB_TRANSITION='';
   applyTheme();
 }
 var NAV_TABS=[];
-function go(tab,replaceHistory){
+function go(tab,replaceHistory,transition){
   var cur=S.ui.tab;
   if(tab!==cur && !replaceHistory){
     if(!NAV_TABS.length || NAV_TABS[NAV_TABS.length-1]!==cur) NAV_TABS.push(cur);
     if(NAV_TABS.length>12) NAV_TABS.shift();
   }
+  TAB_TRANSITION=transition||'';
   S.ui.tab = tab; S.ui.q=''; S.ui._sq=false; save(); render();
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
@@ -2363,7 +2371,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4065" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4067" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -2384,8 +2392,8 @@ function drawEditor(preserveScroll){
     '<div class="deadline-premium-status"><span class="deadline-premium-shield">'+ico('check','s')+'</span><div><b>'+legalDeadlineCount()+' процессуальных сроков</b><small>Правовая база проверена '+LEGAL_DEADLINE_REVIEWED+'</small></div><em>PRO</em></div>'+
     '<div class="two deadline-calc-grid"><div class="fld"><label>Производство / кодекс</label><select id="e-deadline-code">'+legalDeadlineCodeOptions(t.deadlineCode||'GPK')+'</select></div>'+
     '<div class="fld"><label>Что рассчитываем</label><select id="e-deadline-rule">'+legalDeadlineRuleOptions(t.deadlineCode||'GPK',t.deadlineRuleId)+'</select></div></div>'+
-    '<div class="two deadline-source-grid"><div class="fld deadline-source-field"><label id="e-source-label">'+esc(deadlineRule?deadlineRule.dateLabel:'Исходная дата')+'</label>'+premiumDateControl('e-source',t.sourceDate||today(),'Выберите исходную дату')+'</div>'+
-    '<div id="e-source-time-wrap" class="fld deadline-source-time"'+(deadlineRule&&deadlineRule.requiresTime?'':' style="display:none"')+'><label id="e-source-time-label">'+esc(deadlineRule&&deadlineRule.timeLabel?deadlineRule.timeLabel:'Точное время')+'</label>'+premiumTimeControl('e-source-time',t.sourceTime||'','default','Укажите время')+'</div></div>'+
+    '<div class="deadline-source-grid"><div class="fld deadline-source-field"><label id="e-source-label">'+esc(deadlineRule?deadlineRule.dateLabel:'Исходная дата')+'</label>'+premiumDateControl('e-source',t.sourceDate||today(),'Выберите исходную дату')+'</div>'+
+    '<div id="e-source-time-wrap" class="fld deadline-source-time"'+(deadlineRule&&deadlineRule.requiresTime?'':' hidden')+'><label id="e-source-time-label">'+esc(deadlineRule&&deadlineRule.timeLabel?deadlineRule.timeLabel:'Точное время')+'</label>'+premiumTimeControl('e-source-time',t.sourceTime||'','default','Укажите время')+'<small class="fieldhint deadline-time-hint">Требуется только для специального срока, который исчисляется ровно в часах от момента получения.</small></div></div>'+
     '<div id="e-deadline-result">'+deadlineCalcResultHTML(deadlineRule,deadlineRes)+'</div>'+
     '<div class="deadline-calc-footnote">Расчёт учитывает режим конкретной нормы: рабочие и календарные дни, перенос окончания срока, обратные сроки, точный 24-часовой период и производственный календарь 2026. Для специальных норм всегда сверяйте событие, с которого начинается срок.</div>'+
     '</div>' : '')+
@@ -3531,7 +3539,10 @@ var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
 document.addEventListener('touchstart',function(e){
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0];
-  EDGE_SWIPE.on = t.clientX <= 44;
+  // На основных вкладках горизонтальный жест теперь переключает страницы.
+  // Системный edge-swipe «Назад» оставляем только внутри открытых экранов/панелей.
+  var overlayOpen=$('#page').classList.contains('open')||$('#sheet').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER;
+  EDGE_SWIPE.on = overlayOpen && t.clientX <= 44;
   EDGE_SWIPE.x=t.clientX; EDGE_SWIPE.y=t.clientY; EDGE_SWIPE.dx=0; EDGE_SWIPE.dy=0; EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
@@ -3714,6 +3725,74 @@ document.addEventListener('touchend',function(){
   if(ok){vib(5);closeSheet();}
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passive:true,capture:true});
+
+/* =====================================================================
+   4.0.67 — горизонтальные свайпы между основными вкладками
+   По принятой в приложении логике пользователя:
+   свайп вправо = следующая вкладка, свайп влево = предыдущая.
+   Вертикальная прокрутка, формы, горизонтальные ленты и локальные свайпы
+   карточек всегда имеют приоритет.
+   ===================================================================== */
+var MAIN_TAB_ORDER=['today','tasks','matters','cal','more'];
+var PAGE_SWIPE={on:false,sx:0,sy:0,dx:0,dy:0,horizontal:false};
+function pageSwipeReset(){
+  PAGE_SWIPE.on=false;PAGE_SWIPE.sx=0;PAGE_SWIPE.sy=0;PAGE_SWIPE.dx=0;PAGE_SWIPE.dy=0;PAGE_SWIPE.horizontal=false;
+}
+function hasHorizontalScrollAncestor(target){
+  var n=target;
+  while(n && n!==document.body){
+    if(n.classList && n.classList.contains('screen')) break;
+    if(n.scrollWidth>n.clientWidth+8){
+      var cs=window.getComputedStyle?getComputedStyle(n):null;
+      var ox=cs?cs.overflowX:'';
+      if(ox==='auto'||ox==='scroll') return true;
+    }
+    n=n.parentElement;
+  }
+  return false;
+}
+function pageSwipeTargetAllowed(target){
+  if(!target || !target.closest) return false;
+  if($('#sheet').classList.contains('open')||$('#page').classList.contains('open')||LIST_PICKER||TIME_PICKER||DATE_PICKER) return false;
+  if(target.closest('#lock,.tabbar,#fab,.timerpill,input,textarea,select,[contenteditable="true"]')) return false;
+  // Здесь уже существуют собственные горизонтальные жесты — не перехватываем их.
+  if(target.closest('#tasklist .pt-row,#sc-today .today-hearing-swipe-row')) return false;
+  if(hasHorizontalScrollAncestor(target)) return false;
+  return true;
+}
+function finishPageSwipe(){
+  if(!PAGE_SWIPE.on) return;
+  var dx=PAGE_SWIPE.dx,dy=PAGE_SWIPE.dy;
+  var intentional=PAGE_SWIPE.horizontal && Math.abs(dx)>=72 && Math.abs(dy)<=76 && Math.abs(dx)>Math.abs(dy)*1.28;
+  pageSwipeReset();
+  if(!intentional) return;
+  var idx=MAIN_TAB_ORDER.indexOf(S.ui.tab);
+  if(idx<0) return;
+  // Требуемая логика: вправо — следующая, влево — предыдущая.
+  var nextIdx=dx>0?idx+1:idx-1;
+  if(nextIdx<0 || nextIdx>=MAIN_TAB_ORDER.length){vib(3);return;}
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(6);
+  go(MAIN_TAB_ORDER[nextIdx],false,dx>0?'next':'prev');
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  if(!pageSwipeTargetAllowed(e.target)) return;
+  var t=e.touches[0];
+  PAGE_SWIPE.on=true;PAGE_SWIPE.sx=t.clientX;PAGE_SWIPE.sy=t.clientY;PAGE_SWIPE.dx=0;PAGE_SWIPE.dy=0;PAGE_SWIPE.horizontal=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!PAGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  PAGE_SWIPE.dx=t.clientX-PAGE_SWIPE.sx;PAGE_SWIPE.dy=t.clientY-PAGE_SWIPE.sy;
+  if(!PAGE_SWIPE.horizontal){
+    if(Math.abs(PAGE_SWIPE.dy)>14 && Math.abs(PAGE_SWIPE.dy)>Math.abs(PAGE_SWIPE.dx)*1.12){pageSwipeReset();return;}
+    if(Math.abs(PAGE_SWIPE.dx)>16 && Math.abs(PAGE_SWIPE.dx)>Math.abs(PAGE_SWIPE.dy)*1.22) PAGE_SWIPE.horizontal=true;
+  }
+  if(PAGE_SWIPE.horizontal && e.cancelable) e.preventDefault();
+},{passive:false,capture:true});
+document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true});
+document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
 
 /* =====================================================================
    BOOT
