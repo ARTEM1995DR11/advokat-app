@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.16';
-var APP_BUILD='5016';
+var APP_VERSION='5.0.18';
+var APP_BUILD='5018';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -23,7 +23,7 @@ var DEF = {
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null,
-    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', taskGroupOpen:{}
+    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterSort:'priority', matterQ:'', matterSearchOpen:false, taskGroupOpen:{}
   }
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
@@ -49,6 +49,10 @@ function mergeState(d){
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
+  if(typeof out.ui.matterStage!=='string') out.ui.matterStage='';
+  if(['priority','client','stage'].indexOf(out.ui.matterSort)<0) out.ui.matterSort='priority';
+  if(typeof out.ui.matterQ!=='string') out.ui.matterQ='';
+  out.ui.matterSearchOpen=!!out.ui.matterSearchOpen;
   out.matters = Array.isArray(d.matters)?d.matters:[];
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.participation = Array.isArray(d.participation)?d.participation:[];
@@ -2541,6 +2545,10 @@ function matterCardNextAction(m){
   return '<button class="mp-v3-next '+tone+'" data-act="'+act+'" data-id="'+t.id+'"><span class="mp-v3-next-icon">'+ico(icon,'s')+'</span><span class="mp-v3-next-copy"><small>Следующее действие · <em>'+esc(type)+'</em></small><b>'+esc(title)+'</b>'+(meta.length?'<span>'+esc(meta.join(' · '))+'</span>':'')+'</span><span class="mp-v3-next-chev">'+ico('chev','s')+'</span></button>';
 }
 function matterCardPulse(m){
+  // Архивная карточка должна выглядеть как архивная: связанные незавершённые
+  // записи могут оставаться в общем списке задач, но в архиве не показываем
+  // «следующее действие» и просрочку как будто дело всё ещё в работе.
+  if(m&&m.archived)return '';
   var st=matterStats(m);
   if(st.pendingResult){
     var p=st.pendingResult;
@@ -2558,11 +2566,11 @@ function matterCardPulse(m){
 
 function compactMatterCardNumber(value){
   var n=String(value||'').trim();
-  if(!n) return {text:'без номера',full:'без номера',long:false};
+  if(!n) return {text:'Без номера',full:'',long:false,empty:true};
   // Судебные номера обычно короткие и остаются целиком. Длинные номера
   // материалов/уголовных дел в карточке сокращаем, полный номер хранится в деле.
-  if(n.length<=13) return {text:n,full:n,long:false};
-  return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true};
+  if(n.length<=13) return {text:n,full:n,long:false,empty:false};
+  return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true,empty:false};
 }
 function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
@@ -2573,46 +2581,113 @@ function matterCard(m){
   var iconName=matterCardIconName(m);
   var title=matterCardTitle(m);
   var number=compactMatterCardNumber(m.number);
-  var client=m.client||'доверитель не указан';
+  var professional=matterCardProfessional(m);
   var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
+  var numberHtml=number.empty
+    ? '<span class="matter-card-number empty" aria-label="Номер дела не указан">'+esc(number.text)+'</span>'
+    : '<span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span>';
+  var professionalHtml=professional?'<div class="matter-ultra-professional"><span class="matter-ultra-professional-icon">'+ico('user','s')+'</span><small>'+esc(professional.label)+'</small><b>'+esc(professional.value)+'</b></div>':'';
   return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+caseColor+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
-    '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+
+    '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+ 
     '<div class="matter-compact-copy">'+
-      '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
-      '<b class="matter-compact-title">'+esc(title)+'</b>'+
-      '<div class="matter-ultra-meta"><span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span>'+(m.stage?'<i></i><span>'+esc(m.stage)+'</span>':'')+'</div>'+matterCardPulse(m)+
-    '</div>'+
-    '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+
+      '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+ 
+      '<b class="matter-compact-title">'+esc(title)+'</b>'+ 
+      '<div class="matter-ultra-meta">'+numberHtml+(m.stage?'<i></i><span>'+esc(m.stage)+'</span>':'')+'</div>'+professionalHtml+matterCardPulse(m)+
+    '</div>'+ 
+    '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+ 
   '</article>';
+}
+
+function matterAllStages(){
+  var out=[];
+  Object.keys(MATTER_STAGE_MAP).forEach(function(type){
+    (MATTER_STAGE_MAP[type]||[]).forEach(function(stage){if(stage&&out.indexOf(stage)<0)out.push(stage);});
+  });
+  return out;
+}
+function matterStageOrder(stage){
+  var all=matterAllStages(),i=all.indexOf(stage||'');
+  return i<0?999:i;
+}
+function matterSearchText(m){
+  var type=matterType(m),basis=matterBasisMeta(m.basis);
+  return [m.title,m.client,m.phone,m.number,m.court,m.judge,m.investigator,m.article,m.role,m.notes,m.stage,type&&type.n,basis&&(basis.n||basis.short)]
+    .filter(Boolean).join(' ').toLowerCase().replace(/ё/g,'е');
+}
+function matterCardProfessional(m){
+  if(!m)return null;
+  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  if(ctx.mode==='investigation'&&m.investigator){
+    return {label:matterInvestigatorLabel(m.stage||'')||'Следователь / дознаватель',value:m.investigator};
+  }
+  if((ctx.mode==='judicial'||ctx.mode==='execution')&&m.judge){
+    return {label:(m.type==='koap'?'Судья / должностное лицо':'Судья'),value:m.judge};
+  }
+  return null;
+}
+function matterSortLabel(v){
+  return v==='client'?'По доверителю':(v==='stage'?'По стадии':'По срочности');
 }
 function sheetMatterFilters(){
   var scope=S.ui.matterScope||'active';
   var scopeMatters=S.matters.filter(function(m){return scope==='all'||(scope==='active'?!m.archived:!!m.archived);});
   var typeCounts={all:scopeMatters.length}; Object.keys(MATTER_TYPES).forEach(function(k){ typeCounts[k]=scopeMatters.filter(function(m){return m.type===k;}).length; });
   var basisCounts={all:scopeMatters.length}; Object.keys(MATTER_BASIS).forEach(function(k){ basisCounts[k]=scopeMatters.filter(function(m){return m.basis===k;}).length; });
+  var stageBase=scopeMatters.filter(function(m){
+    if(S.ui.matterType&&m.type!==S.ui.matterType)return false;
+    if(S.ui.matterBasis&&(m.basis||'')!==S.ui.matterBasis)return false;
+    return true;
+  });
+  var stages=matterAllStages().filter(function(stage){return stageBase.some(function(m){return m.stage===stage;});});
+  var stageCounts={all:stageBase.length}; stages.forEach(function(stage){stageCounts[stage]=stageBase.filter(function(m){return m.stage===stage;}).length;});
   function mr(act,v,icon,title,sub,count,tone,on){
-    return '<button class="filter-premium-row'+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+v+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span><span class="filter-premium-count">'+count+'</span><span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
+    return '<button class="filter-premium-row'+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
   }
   var typeRows=mr('m-filter','','folder','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
     Object.keys(MATTER_TYPES).map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
   var basisRows=mr('m-basis-filter','','doc','Все основания','Соглашение и дела по назначению',basisCounts.all,'#B88C2D',S.ui.matterBasis==='')+
     Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return mr('m-basis-filter',k,k==='agreement'?'doc':'user',esc(t.n),esc(t.short),basisCounts[k]||0,t.c,S.ui.matterBasis===k);}).join('');
-  openSheet('<div class="filter-premium-head"><span class="filter-premium-head-icon">'+ico('folder')+'</span><div><h2>Фильтр дел</h2><p>Быстрый отбор по типу и основанию</p></div></div><div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card">'+typeRows+'</div></div><div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card">'+basisRows+'</div></div>');
+  var stageRows=mr('m-stage-filter','','flag','Все стадии','Без ограничения по стадии',stageCounts.all,'#B88C2D',S.ui.matterStage==='')+
+    (stages.length?stages.map(function(stage){var sm=matterStageMeta(stage);return mr('m-stage-filter',stage,sm.icon||'flag',esc(stage),'Стадия производства',stageCounts[stage]||0,sm.c||'#7A8FA6',S.ui.matterStage===stage);}).join(''):'');
+  var sortRows=mr('m-sort','priority','clock','По срочности','Сначала результат заседания, просрочки и ближайшие действия',null,'#C29130',S.ui.matterSort==='priority')+
+    mr('m-sort','client','user','По доверителю','Алфавитная сортировка по доверителю / подзащитному',null,'#4E86C6',S.ui.matterSort==='client')+
+    mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
+  openSheet('<div class="filter-premium-head"><span class="filter-premium-head-icon">'+ico('folder')+'</span><div><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div></div>'+ 
+    '<div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card">'+typeRows+'</div></div>'+ 
+    '<div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card">'+basisRows+'</div></div>'+ 
+    '<div class="filter-premium-section"><div class="filter-premium-label">Стадия</div><div class="filter-premium-card">'+stageRows+'</div></div>'+ 
+    '<div class="filter-premium-section"><div class="filter-premium-label">Сортировка</div><div class="filter-premium-card">'+sortRows+'</div></div>'+ 
+    '<button class="btn ghost matter-filter-reset-btn" data-act="matter-filter-reset">Сбросить фильтры и сортировку</button>');
   $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
 }
+
 function renderMatters(){
   var scope=S.ui.matterScope||'active';
   if(['all','active','archive'].indexOf(scope)<0) scope='active';
   var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
+  var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
   var list=S.matters.filter(function(m){
     if(scope==='active' && m.archived) return false;
     if(scope==='archive' && !m.archived) return false;
     if(S.ui.matterType && m.type!==S.ui.matterType) return false;
     if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
+    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
+    if(q && matterSearchText(m).indexOf(q)<0) return false;
     return true;
   });
+  var sortMode=S.ui.matterSort||'priority';
   list.sort(function(a,b){
     if(a.archived!==b.archived) return a.archived?1:-1;
+    if(sortMode==='client'){
+      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
+      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
+      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
+    }
+    if(sortMode==='stage'){
+      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
+      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
+      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
+    }
     var A=matterStats(a),B=matterStats(b);
     if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
     if(!!A.late!==!!B.late) return A.late?-1:1;
@@ -2622,24 +2697,38 @@ function renderMatters(){
   });
   var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'';
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
-  var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
+  var stageName=S.ui.matterStage||'';
+  var sortName=sortMode!=='priority'?matterSortLabel(sortMode):'';
+  var filterName=[typeName,basisName,stageName,sortName].filter(Boolean).join(' · ')||'Фильтр';
+  var hasMatterFilter=!!(S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
+  var scopeCount=scope==='all'?allCount:(scope==='archive'?archCount:activeCount);
+  var scopeCaption=scope==='all'
+    ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' всего'
+    : (scope==='archive'
+      ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в архиве'
+      : scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в производстве');
+  if(hasMatterFilter||q)scopeCaption=list.length+' '+plural(list.length,'дело','дела','дел')+(q?' найдено':' по фильтру');
   var html='<div class="matters-project">'+
     mainBrandHeader()+
-    '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
-      '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
+    '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+scopeCaption+'</p></div>'+ 
+      '<div class="today-actions"><button class="iconbtn'+((S.ui.matterSearchOpen||q)?' on':'')+'" data-act="matter-search" title="Поиск по делам" aria-label="Поиск по делам">'+ico('search')+'</button></div></div>'+ 
+    ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off"></div>':'')+
     '<div class="matters-scope">'+
-      '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+
-      '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+
-      '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button>'+
-      '<button class="matter-filter-btn'+((S.ui.matterType||S.ui.matterBasis)?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр дел">'+ico('list','s')+'<span>'+filterName+'</span></button></div>'+
+      '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
+      '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+ 
+      '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button>'+ 
+      '<button class="matter-filter-btn'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр дел" aria-label="Фильтр дел">'+ico('list','s')+'<span>'+esc(filterName)+'</span></button></div>'+ 
     '<div class="matters-list">';
-  var hasMatterFilter=!!(S.ui.matterType||S.ui.matterBasis);
   html+=list.length?list.map(matterCard).join(''):
-    (hasMatterFilter
-      ? empty('folder','Нет дел по фильтру','Измените параметры отбора или сбросьте фильтры.',[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
+    ((hasMatterFilter||q)
+      ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
   html+='</div></div>';
   $('#sc-matters').innerHTML=html;
+  if((S.ui.matterSearchOpen||q)&&$('#matter-q')){
+    var mq=$('#matter-q');
+    setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}},0);
+  }
 }
 
 
@@ -3367,10 +3456,12 @@ function sheetMatterMore(id){
   }
   var archiveTitle = m.archived ? 'Вернуть в работу' : 'Отправить в архив';
   var archiveSub = m.archived ? 'Снова показать дело в активном списке' : 'Скрыть дело из активного списка';
-  var rows=''+
-    row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
-    row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок')+
-    row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
+  var rows='';
+  if(!m.archived){
+    rows+=row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
+      row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок');
+  }
+  rows+=row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
     row('m-edit','#728FB0','edit','Изменить карточку','Отредактировать реквизиты дела')+
     row('m-print','#C89A3F','share','Экспорт / печать','Подготовить сводку по делу')+
     row('m-arch','#8197AF','arch',archiveTitle,archiveSub)+
@@ -3415,8 +3506,8 @@ function openMatter(id){
     '</div>'+
     (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
     matterNextHearingCard(nextEvent,m)+
-    (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2><button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button></div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
-    '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2><button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button></div>'+
+    (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2>'+(m.archived?'<span class="matter-section-link static">'+activeDeadlines.length+'</span>':'<button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button>')+'</div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
+    '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2>'+(m.archived?'<span class="matter-section-link static">'+activeFlow.length+'</span>':'<button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button>')+'</div>'+
       (activeFlow.length?'<div class="matter-events-list matter-events-list-compact">'+activeFlow.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card"><div class="hint">Добавьте по делу первую задачу, заседание или встречу.</div></div>')+
     '</div>'+
     '<div class="matter-premium-section" id="matter-sec-journal"><div class="matter-premium-section-head"><h2>Недавние действия</h2><button class="matter-section-link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
@@ -3425,7 +3516,9 @@ function openMatter(id){
     (noteRow&&noteRow[2]?matterNoteCard(noteRow[2]):'')+
     (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list matter-events-list-compact done-list">'+done.slice(0,4).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
     '<div class="matter-bottom-actions">'+
-      '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+' <span>Добавить задачу</span></button>'+
+      (m.archived
+        ? '<button class="matter-bottom-btn primary" data-act="m-arch" data-id="'+id+'">'+ico('arch','s')+' <span>Вернуть в работу</span></button>'
+        : '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+' <span>Добавить задачу</span></button>')+
       '<button class="matter-bottom-btn" data-act="m-moremenu" data-id="'+id+'">'+ico('more','s')+' <span>Ещё действия</span></button>'+
     '</div>'+
     '<div style="height:18px"></div>'+
@@ -4026,7 +4119,7 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 function demo(){
@@ -4111,10 +4204,14 @@ document.addEventListener('click', function(ev){
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
     case 'matter-scope': S.ui.matterScope=v||'active';S.ui.showArch=S.ui.matterScope==='archive';save();renderMatters();break;
+    case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();break;
+    case 'matter-search-clear': S.ui.matterQ='';S.ui.matterSearchOpen=true;save();renderMatters();break;
     case 'matter-filter-sheet': sheetMatterFilters();break;
     case 'm-filter': S.ui.matterType=v||'';save();closeSheet();renderMatters();break;
     case 'm-basis-filter': S.ui.matterBasis=v||'';save();closeSheet();renderMatters();break;
-    case 'matter-filter-reset': S.ui.matterType='';S.ui.matterBasis='';save();closeSheet();renderMatters();toast('Фильтры сброшены');break;
+    case 'm-stage-filter': S.ui.matterStage=v||'';save();closeSheet();renderMatters();break;
+    case 'm-sort': S.ui.matterSort=v||'priority';save();closeSheet();renderMatters();break;
+    case 'matter-filter-reset': S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
 
     /* quick add */
     case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
@@ -4148,14 +4245,19 @@ document.addEventListener('click', function(ev){
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
     case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
     case 'm-save': saveMatter();break;
-    case 'm-add': editTask(null,{mid:id,due:today()});break;
-    case 'm-hearing': editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;
-    case 'm-deadline': sheetDeadline(id);break;
+    case 'm-add': {var ma=matter(id);if(ma&&ma.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,due:today()});break;}
+    case 'm-hearing': {var mh=matter(id);if(mh&&mh.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;}
+    case 'm-deadline': {var md=matter(id);if(md&&md.archived){toast('Сначала верните дело в работу');break;}sheetDeadline(id);break;}
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
     case 'm-journal': sheetJournal(id);break;
     case 'm-print': if(matter($('#page')._mid))printMatter($('#page')._mid);break;
-    case 'm-arch': {var mm=matter(id);if(!mm)break;mm.archived=!mm.archived;addJournal(id,mm.archived?'Дело отправлено в архив':'Дело возвращено в работу',today(),'system',true);save();closeAll();render();toast(mm.archived?'Дело в архиве':'Дело возвращено в работу');break;}
+    case 'm-arch': {var mm=matter(id);if(!mm)break;
+      if(!mm.archived){
+        var activeLinked=tasksOf(id).filter(isActiveRecord);
+        if(activeLinked.length&&!confirm('По делу осталось '+activeLinked.length+' '+plural(activeLinked.length,'активная запись','активные записи','активных записей')+'. Они продолжат отображаться в «Сегодня» и «Задачах». Всё равно отправить дело в архив?'))break;
+      }
+      mm.archived=!mm.archived;addJournal(id,mm.archived?'Дело отправлено в архив':'Дело возвращено в работу',today(),'system',true);save();closeAll();render();toast(mm.archived?'Дело в архиве':'Дело возвращено в работу');break;}
     case 'm-del': if(confirm('Удалить дело, связанные задачи и журнал? Действие необратимо.')){S.tasks=S.tasks.filter(function(t){return t.mid!==id;});S.participation=S.participation.filter(function(e){return e.mid!==id;});S.journal=S.journal.filter(function(j){return j.mid!==id;});S.matters=S.matters.filter(function(m){return m.id!==id;});save();closeAll();render();toast('Дело удалено');}break;
 
     /* journal + participation */
@@ -4328,6 +4430,7 @@ document.addEventListener('change',function(e){
 document.addEventListener('input',function(e){
   if(e.target.id==='premium-list-search'&&LIST_PICKER){LIST_PICKER.query=e.target.value;renderPremiumListPicker();var q=$('#premium-list-search');if(q){q.focus({preventScroll:true});try{q.setSelectionRange(q.value.length,q.value.length);}catch(_){}}return;}
   if(e.target.id==='q'){S.ui.q=e.target.value;renderTaskList();}
+  if(e.target.id==='matter-q'){S.ui.matterQ=e.target.value;renderMatters();return;}
   if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
   if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
     ED.hearingJudge=e.target.value.trim(); applyKnownJudgeCourt(ED.hearingJudge,'hearing');
