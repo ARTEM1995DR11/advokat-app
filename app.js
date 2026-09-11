@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.00';
-var APP_BUILD='5000';
+var APP_VERSION='5.0.02';
+var APP_BUILD='5002';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -499,7 +499,7 @@ function openPremiumListPicker(target,inputId){
   if(target==='m-judge-choice'){
     var courtNow=(($('#m-court')||{}).value||((MED&&MED.court)||'')).trim();
     var judgeNow=(($('#m-judge')||{}).value||((MED&&MED.judge)||'')).trim();
-    sel.innerHTML=matterChoiceOptions(judgeDirectory(courtNow).map(function(x){return x.judge;}),judgeNow,'— выбрать судью —');
+    sel.innerHTML=matterChoiceOptions(judgeDirectory(courtNow,(MED&&MED.type)||'',(MED&&MED.stage)||'').map(function(x){return x.judge;}),judgeNow,'— выбрать судью —');
   }
   if(target==='e-hjudge-choice'&&ED){
     var hearingCourtNow=(($('#e-place')||{}).value||ED.place||'').trim();
@@ -1389,7 +1389,8 @@ function matterDynamicFields(){
     : '<input id="m-court" value="'+esc(MED.court||'')+'" placeholder="'+esc(placeCtx.placeholder)+'">';
   var showJudgeNow=!!(cfg.showJudge&&(placeCtx.mode==='judicial'||(placeCtx.mode==='execution'&&(MED&&MED.type)==='criminal')));
   var showInvestigatorNow=!!(cfg.showInvestigator&&placeCtx.mode==='investigation');
-  var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory((MED&&MED.court)||'').map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
+  if(showJudgeNow&&MED&&MED.judge&&!judgeAllowedForCourt(MED.judge,MED.court||'',MED.type||'',currentStage))MED.judge='';
+  var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory((MED&&MED.court)||'',(MED&&MED.type)||'',currentStage).map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
   var currentRoleList=matterRoleList((MED&&MED.type)||'other',currentStage,(MED&&MED.executionIssue)||'');
   var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'',currentStage,(MED&&MED.executionIssue)||'');
   if(MED)MED.role=currentRole;
@@ -2859,7 +2860,7 @@ var CRIMINAL_JUDGE_SURNAMES = {
 function commonCourtByValue(value){
   return COMMON_KINESHMA_COURTS.filter(function(c){return c.value===value;})[0]||null;
 }
-function judgeDirectory(courtValue){
+function judgeDirectory(courtValue,matterType,stage){
   var cityCourt=(COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0]||{}).value||'Кинешемский городской суд Ивановской области';
   // Premium order without a selected court: criminal (red), civil (blue), magistrates (green).
   var criminal=[], civil=[];
@@ -2872,21 +2873,40 @@ function judgeDirectory(courtValue){
   COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
     magistrates.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
   });
-  var rows=criminal.concat(civil,magistrates);
   var selected=String(courtValue||'').trim();
+  var type=String(matterType||'').trim();
+  var known=selected?commonCourtByValue(selected):null;
+
+  // Для уголовного производства в Кинешемском городском суде показываем
+  // только судей уголовной специализации (красная группа). Гражданские судьи
+  // в уголовном деле не предлагаются. Мировой участок сохраняет своего судью.
+  if(type==='criminal'){
+    if(known&&known.main)return criminal.slice();
+    if(known&&!known.main)return magistrates.filter(function(r){return r.court===known.value;});
+    if(!selected)return criminal.concat(magistrates);
+    return [];
+  }
+
+  // Для гражданского производства зеркально исключаем уголовную специализацию:
+  // в Кинешемском городском суде показываются только гражданские судьи (синяя группа),
+  // а при выборе мирового участка — только судья конкретного участка.
+  if(type==='civil'){
+    if(known&&known.main)return civil.slice();
+    if(known&&!known.main)return magistrates.filter(function(r){return r.court===known.value;});
+    if(!selected)return civil.concat(magistrates);
+    return [];
+  }
+
+  var rows=criminal.concat(civil,magistrates);
   if(!selected)return rows;
-  var known=commonCourtByValue(selected);
   if(known){
-    // If Kineshma City Court is selected, only its judges are shown.
-    // If a magistrate court is selected, only the judge of that court is shown.
     return rows.filter(function(r){return r.court===known.value;});
   }
-  // For an arbitrary manually entered court do not suggest judges from Kineshma directories.
   return [];
 }
-function judgeAllowedForCourt(judgeValue,courtValue){
+function judgeAllowedForCourt(judgeValue,courtValue,matterType,stage){
   if(!judgeValue)return true;
-  var allowed=judgeDirectory(courtValue);
+  var allowed=judgeDirectory(courtValue,matterType||'',stage||'');
   return allowed.some(function(r){return r.judge===judgeValue;});
 }
 function normLookup(v){
@@ -4071,7 +4091,7 @@ document.addEventListener('change',function(e){
       if(mi)mi.value=mv;
       if(MED){
         MED.court=mv;
-        if(MED.judge&&!judgeAllowedForCourt(MED.judge,mv))MED.judge='';
+        if(MED.judge&&!judgeAllowedForCourt(MED.judge,mv,MED.type||'',MED.stage||''))MED.judge='';
       }
       applyKnownCourtJudge(mv,'matter');
       renderMatterDynamic();
@@ -4083,6 +4103,7 @@ document.addEventListener('change',function(e){
     pullMatterDraft();
     MED.type=e.target.value||'other';
     MED=sanitizeMatterByType(MED);
+    if(MED.judge&&!judgeAllowedForCourt(MED.judge,MED.court||'',MED.type||'',MED.stage||''))MED.judge='';
     renderMatterDynamic();
     vib(5);
     return;
