@@ -9428,7 +9428,7 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
 
 
 /* ============================================================
-   4.0.97 — окончательная унификация колокольчика
+   4.0.98 — окончательная унификация колокольчика
    Один компонент, одна геометрия и одна позиция на 5 экранах.
    ============================================================ */
 #sc-today,
@@ -9500,7 +9500,7 @@ body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode] .inli
 }
 
 /* ============================================================
-   4.0.97 — визуально ОДИНАКОВЫЙ колокольчик на всех 5 вкладках
+   4.0.98 — визуально ОДИНАКОВЫЙ колокольчик на всех 5 вкладках
    Никакой прозрачности: фон страницы больше не меняет вид кнопки.
    ============================================================ */
 body.light #sc-today .main-brand-fixed > .today-bell,
@@ -9575,4 +9575,121 @@ body:not(.light) #sc-more .main-brand-fixed > .today-bell{
   color:inherit!important;
   stroke-width:1.9!important;
   transform:none!important;
+}
+
+
+/* ============================================================
+   4.0.98 — ФИНАЛЬНЫЙ ЕДИНЫЙ КОЛОКОЛЬЧИК
+   Один компонент .app-header-bell и одна геометрия .app-main-brand.
+   Никаких page-specific исключений.
+   ============================================================ */
+body.light{
+  --app-bell-bg:#F1F2F2;
+  --app-bell-border:rgba(35,49,61,.14);
+  --app-bell-color:#172A3B;
+  --app-bell-shadow:0 8px 18px rgba(25,34,42,.13);
+}
+body:not(.light){
+  --app-bell-bg:#132433;
+  --app-bell-border:rgba(255,255,255,.13);
+  --app-bell-color:#F2F6F9;
+  --app-bell-shadow:0 8px 18px rgba(0,0,0,.24);
+}
+.app-main-brand{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  margin:0 0 8px!important;
+  padding:0 2px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:12px!important;
+  transform:none!important;
+}
+.app-main-brand > .app-header-bell{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  position:absolute!important;
+  top:1px!important;
+  right:2px!important;
+  left:auto!important;
+  bottom:auto!important;
+  box-sizing:border-box!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid var(--app-bell-border)!important;
+  border-radius:14px!important;
+  background:var(--app-bell-bg)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+  opacity:1!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+  transform:none!important;
+  filter:none!important;
+  z-index:20!important;
+}
+.app-main-brand > .app-header-bell:hover,
+.app-main-brand > .app-header-bell:focus,
+.app-main-brand > .app-header-bell:focus-visible{
+  background:var(--app-bell-bg)!important;
+  border-color:var(--app-bell-border)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+  outline:none!important;
+}
+.app-main-brand > .app-header-bell:active{
+  background:var(--app-bell-bg)!important;
+  border-color:var(--app-bell-border)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+  transform:scale(.97)!important;
+}
+.app-main-brand > .app-header-bell .ico{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  max-width:22px!important;
+  max-height:22px!important;
+  margin:0!important;
+  padding:0!important;
+  color:inherit!important;
+  stroke:currentColor!important;
+  stroke-width:1.9!important;
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+/* Одинаковый верхний отступ вложенных контейнеров на 5 вкладках. */
+#sc-today,
+#sc-tasks,
+#sc-matters,
+#sc-cal,
+#sc-more{
+  padding-left:12px!important;
+  padding-right:12px!important;
+}
+#sc-tasks .tasks-project,
+#sc-matters .matters-project,
+#sc-cal .calendar-project,
+#sc-more .more-project{
+  padding-top:0!important;
+  margin-top:0!important;
 }
