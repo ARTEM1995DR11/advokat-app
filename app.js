@@ -375,6 +375,10 @@ function clearPremiumTimePicker(){
 /* ------------------------- premium list picker ------------------------- */
 var LIST_PICKER=null;
 function listPickerMeta(target){
+  if(target==='m-role'){
+    var rt=(MED&&MED.type)||'other',rs=(MED&&MED.stage)||'';
+    return {title:'Статус доверителя',sub:(rt==='criminal'&&rs)?(rs+' · только статусы этой стадии'):'Процессуальное положение доверителя по делу',search:'Поиск по статусам…',icon:'user'};
+  }
   if(target==='m-court-choice'){
     var pc=matterPlaceContext((MED&&MED.type)||'other',(MED&&MED.stage)||'',(MED&&MED.court)||'');
     return {title:pc.title,sub:pc.sub,search:pc.search,icon:pc.icon};
@@ -387,7 +391,6 @@ function listPickerMeta(target){
     'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
     'm-stage':{title:'Стадия дела',sub:'Текущий этап производства',search:'Поиск по стадиям…',icon:'flag'},
-    'm-role':{title:'Статус доверителя',sub:'Процессуальное положение доверителя по делу',search:'Поиск по статусам…',icon:'user'},
     'm-restraint-choice':{title:'Мера пресечения',sub:'Выберите меру пресечения',search:'Поиск…',icon:'lock'},
     'm-type':{title:'Тип производства',sub:'Выберите категорию дела',search:'Поиск…',icon:'folder'},
     'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
@@ -492,13 +495,17 @@ function closePremiumListPicker(){
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.remove('open');if(scr)scr.classList.remove('open');
   document.body.classList.remove('premium-list-open');LIST_PICKER=null;
 }
+function matterEditorPickerWithoutSearch(target){
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice'].indexOf(target)>=0;
+}
 function renderPremiumListPicker(){
   if(!LIST_PICKER)return;var modal=$('#premium-list-modal');if(!modal)return;
-  var q=(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
+  var noSearch=matterEditorPickerWithoutSearch(LIST_PICKER.target);
+  var q=noSearch?'':(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
   var rows=LIST_PICKER.items.filter(function(it){
     if(!q)return true;return ((it.label||'')+' '+(it.extra||'')).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
   });
-  var search='<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off"></div>';
+  var search=noSearch?'':'<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off"></div>';
   var list=rows.length?rows.map(function(it){
     var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
     var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
@@ -512,7 +519,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4075" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=4080" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -919,9 +926,8 @@ function inferDeadlineRuleParts(t){
   return {code:'GPK',article:(t&&t.rule)||'',ruleId:''};
 }
 var PRI = { high:{n:'Срочно',c:'red'}, mid:{n:'Обычный',c:'yel'}, low:{n:'Низкий',c:''} };
-var STAGE = ['Консультация','Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'];
+var STAGE = ['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'];
 var MATTER_STAGE_META = {
-  'Консультация':{c:'#B78A2F',icon:'user',mode:'other'},
   'Материал проверки':{c:'#D98A2B',icon:'doc',mode:'investigation'},
   'Дознание':{c:'#8A6AD8',icon:'brief',mode:'investigation'},
   'Следствие МВД':{c:'#4E86C6',icon:'brief',mode:'investigation'},
@@ -940,7 +946,7 @@ var MATTER_INVESTIGATION_ORGANS = [
   {short:'ОД МО МВД РФ Кинешемский',value:'ОД МО МВД РФ Кинешемский',kind:'inquiry',c:'#8A6AD8',extra:'Дознание МВД'},
   {short:'СО МО МВД РФ Кинешемский',value:'СО МО МВД РФ Кинешемский',kind:'mvd',c:'#4E86C6',extra:'Следствие МВД'},
   {short:'СО по г. Кинешма СУ СК РФ',value:'СО по г. Кинешма СУ СК РФ',kind:'sk',c:'#D96464',extra:'Следствие СК России'},
-  {short:'Кинешемский РОСП',value:'Кинешемский РОСП',kind:'fssp',c:'#C29130',extra:'Дознание / исполнение ФССП'}
+  {short:'Кинешемский РОСП',value:'Кинешемский РОСП',kind:'fssp',c:'#8A6AD8',extra:'Дознание ФССП'}
 ];
 var MATTER_TYPES = {
   criminal:{n:'Уголовное',short:'УК',c:'#E15B57'}, civil:{n:'Гражданское',short:'ГПК',c:'#4E86C6'},
@@ -954,10 +960,10 @@ var MATTER_BASIS = {
 var PART_KINDS = { hearing:'Судебное заседание',investigation:'Следственное действие',visit:'Выезд / посещение',meeting:'Встреча',other:'Иное участие' };
 
 var MATTER_STAGE_MAP = {
-  criminal:['Консультация','Материал проверки','Дознание','Следствие МВД','Следствие СК','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'],
-  civil:['Консультация','Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'],
-  admin:['Консультация','Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение','Завершено'],
-  koap:['Консультация','Проверка / административное расследование','Первая инстанция','Пересмотр / апелляция','Исполнение','Завершено'],
+  criminal:['Материал проверки','Дознание','Следствие МВД','Следствие СК','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
+  civil:['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
+  admin:['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'],
+  koap:['Проверка / административное расследование','Первая инстанция','Пересмотр / апелляция','Исполнение'],
   other:STAGE.slice()
 };
 function matterStageMeta(stage){ return MATTER_STAGE_META[stage]||{c:'#7A8FA6',icon:'flag',mode:'other'}; }
@@ -1000,7 +1006,7 @@ function matterPlaceEntries(type,stage,currentPlace){
   var ctx=matterPlaceContext(type,stage,currentPlace);
   if(ctx.mode==='judicial') return COMMON_KINESHMA_COURTS.slice();
   if(ctx.mode==='investigation') return matterInvestigationOrgList(stage);
-  if(ctx.mode==='execution') return MATTER_INVESTIGATION_ORGANS.filter(function(o){return o.kind==='fssp';});
+  if(ctx.mode==='execution') return [];
   return [];
 }
 function matterPlaceChoiceOptions(type,stage,current){
@@ -1065,20 +1071,63 @@ var MATTER_ARTICLE_HINTS = {
   koap:'Например: ч. 1 ст. 12.8 КоАП РФ',
   other:'Статья, договор, основание спора — при необходимости'
 };
+// Для уголовного производства статус доверителя зависит не только от категории,
+// но и от фактической стадии. Это исключает невозможные сочетания вроде
+// «обвиняемый» на материале проверки или «подсудимый» на дознании.
+var CRIMINAL_ROLE_STAGE_MAP = {
+  'Материал проверки':[
+    'заявитель',
+    'лицо, в отношении которого проводится проверка',
+    'пострадавший (до признания потерпевшим)',
+    'лицо, дающее объяснение'
+  ],
+  'Дознание':[
+    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
+  ],
+  'Следствие МВД':[
+    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
+  ],
+  'Следствие СК':[
+    'подозреваемый','обвиняемый','потерпевший','свидетель','гражданский истец','гражданский ответчик'
+  ],
+  'Первая инстанция':[
+    'подсудимый','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','свидетель'
+  ],
+  'Апелляция':[
+    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
+  ],
+  'Кассация':[
+    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
+  ],
+  'Надзор':[
+    'осуждённый','оправданный','потерпевший','частный обвинитель','гражданский истец','гражданский ответчик','лицо, в отношении которого уголовное дело прекращено'
+  ],
+  'Исполнение':[
+    'осуждённый','реабилитированный','лицо, в отношении которого решается вопрос исполнения приговора'
+  ]
+};
 function matterStageList(type){ return (MATTER_STAGE_MAP[type]||STAGE).slice(); }
-function matterRoleList(type){ return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice(); }
-function normalizeMatterClientRole(type,role){
+function matterRoleList(type,stage){
+  if(type==='criminal'&&stage&&CRIMINAL_ROLE_STAGE_MAP[stage]) return CRIMINAL_ROLE_STAGE_MAP[stage].slice();
+  return (MATTER_ROLE_MAP[type]||MATTER_ROLE_MAP.other).slice();
+}
+function normalizeMatterClientRole(type,role,stage){
   var r=String(role||'').trim();
   if(!r)return '';
   var legacy={
     'осужденный':'осуждённый',
-    'лицо, привлекаемое к административной ответственности':'лицо, в отношении которого ведётся производство'
+    'лицо, привлекаемое к административной ответственности':'лицо, в отношении которого ведётся производство',
+    'пострадавший':'пострадавший (до признания потерпевшим)'
   };
   r=legacy[r]||r;
+  if(type==='criminal'&&stage==='Материал проверки'){
+    if(r==='потерпевший')r='пострадавший (до признания потерпевшим)';
+    if(r==='свидетель')r='лицо, дающее объяснение';
+  }
   // Старые значения, описывавшие роль адвоката, больше не являются
   // процессуальным статусом доверителя.
   if(r==='представитель'||r==='защитник')return '';
-  return matterRoleList(type).indexOf(r)>=0?r:'';
+  return matterRoleList(type,stage).indexOf(r)>=0?r:'';
 }
 function matterRestraintList(type){ return (MATTER_RESTRAINT_MAP[type]||[]).slice(); }
 function matterChoiceOptions(list,current,emptyLabel){
@@ -1096,7 +1145,7 @@ function matterMeta(type){
     clientLabel:'Доверитель', clientPlaceholder:'ФИО / организация', titlePlaceholder:'Иванов И.И. — взыскание долга',
     roleLabel:'Статус доверителя', opponentLabel:'Оппонент / другая сторона', opponentPlaceholder:'ФИО / организация',
     showJudge:true, showInvestigator:false, showArticle:false, showRestraint:false, showOpponent:true,
-    stageList:matterStageList(t), roleList:matterRoleList(t), restraintList:matterRestraintList(t), articlePlaceholder:MATTER_ARTICLE_HINTS[t]||''
+    stageList:matterStageList(t), roleList:matterRoleList(t,''), restraintList:matterRestraintList(t), articlePlaceholder:MATTER_ARTICLE_HINTS[t]||''
   };
   if(t==='criminal') return Object.assign(base,{
     numberLabel:'Номер дела / материала', courtLabel:'Суд / следственный орган / ведомство', clientLabel:'Подзащитный / доверитель',
@@ -1133,9 +1182,14 @@ function pullMatterDraft(){
 function matterDynamicFields(){
   var cfg=matterMeta((MED&&MED.type)||'other');
   var currentStage=(MED&&MED.stage)||cfg.stageList[0]||'';
-  if(cfg.stageList.indexOf(currentStage)<0) currentStage=cfg.stageList[0]||'';
-  if(MED)MED.stage=currentStage;
-  var stageField='<select id="m-stage">'+cfg.stageList.map(function(x){return '<option value="'+esc(x)+'"'+(currentStage===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
+  var legacyCompleted=currentStage==='Завершено';
+  if(!legacyCompleted&&cfg.stageList.indexOf(currentStage)<0) currentStage=cfg.stageList[0]||'';
+  if(MED&&!legacyCompleted)MED.stage=currentStage;
+  // «Завершено» больше не является выбираемой стадией. Для старых записей
+  // значение сохраняем только как read-only, чтобы редактирование не оживляло дело случайно.
+  var stageField=legacyCompleted
+    ? '<select id="m-stage" disabled aria-label="Завершённое дело"><option value="Завершено" selected>Завершено</option></select>'
+    : '<select id="m-stage">'+cfg.stageList.map(function(x){return '<option value="'+esc(x)+'"'+(currentStage===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
   var placeCtx=matterPlaceContext((MED&&MED.type)||'other',currentStage,(MED&&MED.court)||'');
   var placeEntries=matterPlaceEntries((MED&&MED.type)||'other',currentStage,(MED&&MED.court)||'');
   var placeField=placeEntries.length
@@ -1144,9 +1198,10 @@ function matterDynamicFields(){
   var showJudgeNow=!!(cfg.showJudge&&placeCtx.mode==='judicial');
   var showInvestigatorNow=!!(cfg.showInvestigator&&placeCtx.mode==='investigation');
   var judgeField=showJudgeNow?inlineMatterChoiceField('m-judge','m-judge-choice',MED.judge||'','Фамилия И.О.',judgeDirectory().map(function(x){return x.judge;}),'— выбрать судью —','m-judge-list'):'';
-  var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'');
+  var currentRoleList=matterRoleList((MED&&MED.type)||'other',currentStage);
+  var currentRole=normalizeMatterClientRole((MED&&MED.type)||'other',(MED&&MED.role)||'',currentStage);
   if(MED)MED.role=currentRole;
-  var roleField='<select id="m-role"><option value=""'+(!currentRole?' selected':'')+'>—</option>'+cfg.roleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
+  var roleField='<select id="m-role"><option value=""'+(!currentRole?' selected':'')+'>—</option>'+currentRoleList.map(function(x){return '<option value="'+esc(x)+'"'+(currentRole===x?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select>';
   var restraintField=cfg.showRestraint?inlineMatterChoiceField('m-restraint','m-restraint-choice',MED.restraint||'','Введите или выберите меру',cfg.restraintList,'— выбрать меру —','m-restraint-list'):'';
   var html=''+
     '<div class="fld"><label>Название дела *</label><input id="m-title" placeholder="'+esc(cfg.titlePlaceholder)+'" value="'+esc(MED.title)+'"></div>'+ 
@@ -1179,10 +1234,16 @@ function matterDynamicFields(){
 }
 function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
 function normalizeLegacyMatterStage(o){
-  if(!o||o.type!=='criminal')return o;
-  if(o.stage==='Проверка сообщения')o.stage='Материал проверки';
-  else if(o.stage==='Досудебная работа')o.stage='Материал проверки';
-  else if(o.stage==='Дознание / следствие')o.stage='Следствие МВД';
+  if(!o)return o;
+  if(o.type==='criminal'){
+    if(o.stage==='Проверка сообщения')o.stage='Материал проверки';
+    else if(o.stage==='Досудебная работа')o.stage='Материал проверки';
+    else if(o.stage==='Дознание / следствие')o.stage='Следствие МВД';
+    else if(o.stage==='Консультация')o.stage='Материал проверки';
+  }else if(o.stage==='Консультация'){
+    o.stage=(o.type==='koap')?'Проверка / административное расследование':'Досудебная работа';
+  }
+  if(o.stage==='Исполнение'&&o.court==='Кинешемский РОСП')o.court='';
   return o;
 }
 function sanitizeMatterByType(o){
@@ -1193,8 +1254,8 @@ function sanitizeMatterByType(o){
   if(!cfg.showRestraint) o.restraint='';
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
-  if(!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
-  o.role=normalizeMatterClientRole(o.type||'other',o.role);
+  if(o.stage!=='Завершено'&&!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
+  o.role=normalizeMatterClientRole(o.type||'other',o.role,o.stage||'');
   if(typeof o.basis!=='string') o.basis='';
   return o;
 }
@@ -1550,7 +1611,7 @@ function renderToday(){
   }
 
   var html =
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head"><div><h1>Сегодня</h1><p>'+d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+cap(new Intl.DateTimeFormat('ru-RU',{weekday:'long'}).format(d))+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -1851,7 +1912,7 @@ function renderTasks(){
   if(['','task','hearing','meeting','deadline'].indexOf(u.taskType||'')<0) u.taskType='';
   var c=taskProjectCounts(), tt=taskTypeMeta();
   var html='<div class="tasks-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions"><button class="iconbtn'+(u.q?' on':'')+'" data-act="search" title="Поиск" aria-label="Поиск по задачам">'+ico('search')+'</button></div></div>'+
@@ -2004,7 +2065,7 @@ function matterStageTone(m){
   if(m.stage==='Следствие СК') return 'red';
   if(m.stage==='Следствие МВД' || m.stage==='Апелляция' || m.stage==='Кассация' || m.stage==='Надзор' || m.stage==='Пересмотр / апелляция') return 'blue';
   if(m.stage==='Дознание') return 'violet';
-  if(m.stage==='Консультация' || m.stage==='Досудебная работа' || m.stage==='Материал проверки' || m.stage==='Проверка / административное расследование' || m.stage==='Исполнение') return 'gold';
+  if(m.stage==='Досудебная работа' || m.stage==='Материал проверки' || m.stage==='Проверка / административное расследование' || m.stage==='Исполнение') return 'gold';
   return 'green';
 }
 function matterTypeCardLabel(m){
@@ -2112,11 +2173,19 @@ function matterCardPulse(m){
   return '<div class="matter-ultra-pulse '+tone+'"><i></i><span>След.: '+esc(kind)+' · '+esc(when)+(t.time?' · '+esc(t.time):'')+'</span></div>';
 }
 
+function compactMatterCardNumber(value){
+  var n=String(value||'').trim();
+  if(!n) return {text:'без номера',full:'без номера',long:false};
+  // Судебные номера обычно короткие и остаются целиком. Длинные номера
+  // материалов/уголовных дел в карточке сокращаем, полный номер хранится в деле.
+  if(n.length<=13) return {text:n,full:n,long:false};
+  return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true};
+}
 function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
   var iconName=matterCardIconName(m);
   var title=matterCardTitle(m);
-  var number=m.number||'без номера';
+  var number=compactMatterCardNumber(m.number);
   var client=m.client||'доверитель не указан';
   var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
   return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
@@ -2124,7 +2193,7 @@ function matterCard(m){
     '<div class="matter-compact-copy">'+
       '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
       '<b class="matter-compact-title">'+esc(title)+'</b>'+
-      '<div class="matter-ultra-meta"><span>№ '+esc(number)+'</span><i></i><span>'+esc(client)+'</span></div>'+matterCardPulse(m)+
+      '<div class="matter-ultra-meta"><span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'" aria-label="Номер дела: '+esc(number.full)+'">№ '+esc(number.text)+'</span><i></i><span>'+esc(client)+'</span></div>'+matterCardPulse(m)+
     '</div>'+
     '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+
   '</article>';
@@ -2168,7 +2237,7 @@ function renderMatters(){
   var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
   var filterName=[typeName,basisName].filter(Boolean).join(' · ')||'Фильтр';
   var html='<div class="matters-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+activeCount+' '+plural(activeCount,'дело','дела','дел')+' в производстве</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2292,7 +2361,7 @@ function renderCal(){
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
   var html='<div class="calendar-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2395,7 +2464,7 @@ function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
   var html='<div class="more-project">'+
-    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4075" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="today-brand"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=4080" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
       '<button class="today-bell" data-act="notify-sheet" aria-label="Уведомления">'+ico('bell')+'</button></div>'+
     '<div class="today-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div>'+
       '<div class="today-actions"><button class="iconbtn" data-act="global-search" title="Поиск" aria-label="Глобальный поиск">'+ico('search')+'</button></div></div>'+
@@ -2630,7 +2699,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=4075" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=4080" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3733,6 +3802,9 @@ document.addEventListener('change',function(e){
     var newStage=e.target.value||MED.stage||'',newCtx=matterPlaceContext(MED.type||'other',newStage,MED.court||'');
     MED.stage=newStage;
     if(oldStage!==newStage){
+      // При смене стадии не сохраняем процессуальный статус, который на новой
+      // стадии невозможен. Пользователь выбирает актуальный статус доверителя заново.
+      MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage);
       if(newCtx.mode==='judicial'){
         MED.court=''; MED.judge='';
       }else if(newCtx.mode==='investigation'){
@@ -3740,7 +3812,8 @@ document.addEventListener('change',function(e){
         if(MED.court&&allowed.indexOf(MED.court)<0)MED.court='';
         if(oldMode!=='investigation'||oldStage!==newStage)MED.investigator='';
       }else if(newCtx.mode==='execution'){
-        if(MED.court!=='Кинешемский РОСП')MED.court='';
+        if(matterInvestigationOrgByValue(MED.court))MED.court='';
+        MED.judge=''; MED.investigator='';
       }else if(oldMode==='judicial'||oldMode==='investigation'){
         MED.court='';
       }

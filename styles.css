@@ -9245,3 +9245,15 @@ body:not(.light) .mp-stage.red{background:rgba(217,100,100,.13)!important;color:
   color:var(--muted)!important;
   font-weight:650!important;
 }
+
+
+/* 4.0.76 — компактное отображение длинных номеров дел в списке */
+.matter-ultra-meta .matter-card-number.is-long{
+  max-width:34%!important;
+  letter-spacing:-.015em!important;
+}
+@media(max-width:420px){
+  .matter-ultra-meta .matter-card-number.is-long{max-width:31%!important;}
+}
+
+/* 4.0.78 — compact matter choice sheets: search field intentionally hidden by render logic */
