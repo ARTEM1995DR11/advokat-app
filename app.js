@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.02';
-var APP_BUILD='5002';
+var APP_VERSION='5.0.03';
+var APP_BUILD='5003';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2875,7 +2875,16 @@ function judgeDirectory(courtValue,matterType,stage){
   });
   var selected=String(courtValue||'').trim();
   var type=String(matterType||'').trim();
+  var currentStage=String(stage||'').trim();
+  var isAppealStage=(currentStage==='Апелляция'||currentStage==='Пересмотр / апелляция');
   var known=selected?commonCourtByValue(selected):null;
+
+  // В апелляционной инстанции мировой судья не может выступать судьёй апелляции.
+  // Поэтому мировые судьи исключаются из справочника независимо от типа производства.
+  if(isAppealStage){
+    magistrates=[];
+    if(known&&!known.main)return [];
+  }
 
   // Для уголовного производства в Кинешемском городском суде показываем
   // только судей уголовной специализации (красная группа). Гражданские судьи
