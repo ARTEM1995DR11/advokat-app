@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.10';
-var APP_BUILD='5010';
+var APP_VERSION='5.0.13';
+var APP_BUILD='5013';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1454,10 +1454,10 @@ function matterDynamicFields(){
     '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label><input id="m-number" value="'+esc(MED.number)+'"></div>'+
     '<div class="fld matter-stage-field matter-stage-field-full"><label>Стадия</label>'+stageField+'</div>'+
     executionBlock+
-    '<div class="fld matter-court-field" data-place-mode="'+esc(placeCtx.mode)+'"><label>'+esc(placeCtx.label)+'</label>'+placeField+'</div>';
+    '<div class="fld matter-court-field matter-hybrid-choice-field" data-place-mode="'+esc(placeCtx.mode)+'"><label>'+esc(placeCtx.label)+'</label>'+placeField+'</div>';
 
   if(showJudgeNow){
-    html += '<div class="fld"><label>'+esc(cfg.judgeLabel)+'</label>'+judgeField+'</div>';
+    html += '<div class="fld matter-judge-field matter-hybrid-choice-field"><label>'+esc(cfg.judgeLabel)+'</label>'+judgeField+'</div>';
   }else if(showInvestigatorNow){
     var invLabel=matterInvestigatorLabel(currentStage);
     html += '<div class="fld"><label>'+esc(invLabel)+'</label><input id="m-investigator" value="'+esc(MED.investigator||'')+'" placeholder="Фамилия И.О."></div>';
@@ -1476,7 +1476,7 @@ function matterDynamicFields(){
   }
 
   if(showRestraintNow){
-    html += '<div class="fld matter-restraint-field"><label>Мера пресечения</label>'+restraintField+'</div>';
+    html += '<div class="fld matter-restraint-field matter-hybrid-choice-field"><label>Мера пресечения</label>'+restraintField+'</div>';
   }
   if(cfg.showOpponent){
     var oppLabel=cfg.opponentLabel,oppPlaceholder=cfg.opponentPlaceholder||'';

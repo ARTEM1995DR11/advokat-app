@@ -9747,3 +9747,72 @@ body:not(.light){
   white-space:pre-wrap;
 }
 .sheet .matter-role-field-wide{width:100%;}
+
+
+/* ============================================================
+   5.0.12 — убрать видимые стрелки у отмеченных полей выбора
+   Триггер списка остается кликабельным справа, но визуально поле цельное.
+   ============================================================ */
+.matter-editor-sheet .premium-list-trigger[data-target="m-court-choice"],
+.matter-editor-sheet .premium-list-trigger[data-target="m-judge-choice"],
+.matter-editor-sheet .premium-list-trigger[data-target="m-restraint-choice"]{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  opacity:1!important;
+}
+.matter-editor-sheet .premium-list-trigger[data-target="m-court-choice"] .ico,
+.matter-editor-sheet .premium-list-trigger[data-target="m-judge-choice"] .ico,
+.matter-editor-sheet .premium-list-trigger[data-target="m-restraint-choice"] .ico{
+  display:none!important;
+}
+body:not(.light) .matter-editor-sheet .premium-list-trigger[data-target="m-court-choice"],
+body:not(.light) .matter-editor-sheet .premium-list-trigger[data-target="m-judge-choice"],
+body:not(.light) .matter-editor-sheet .premium-list-trigger[data-target="m-restraint-choice"]{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:transparent!important;
+}
+
+
+/* ============================================================
+   5.0.13 — единая подсветка комбинированных полей
+   «ручной ввод + выбор из справочника».
+   Стрелка скрыта, но само поле визуально показывает, что имеет справочник.
+   ============================================================ */
+.matter-editor-sheet .matter-hybrid-choice-field .inline-choice-wrap>input{
+  background:linear-gradient(180deg,#FFFFFF,#FFFBF2)!important;
+  border-color:rgba(194,145,48,.46)!important;
+  box-shadow:
+    inset 3px 0 0 rgba(194,145,48,.88),
+    0 7px 18px rgba(62,46,18,.055)!important;
+}
+.matter-editor-sheet .matter-hybrid-choice-field>label{
+  color:#8F6A26!important;
+}
+.matter-editor-sheet .matter-hybrid-choice-field .inline-choice-wrap>input:focus{
+  border-color:rgba(194,145,48,.72)!important;
+  box-shadow:
+    inset 3px 0 0 #C29130,
+    0 0 0 2px rgba(194,145,48,.10),
+    0 8px 18px rgba(62,46,18,.07)!important;
+}
+body:not(.light) .matter-editor-sheet .matter-hybrid-choice-field .inline-choice-wrap>input{
+  background:linear-gradient(180deg,#102535,#0B1D2B)!important;
+  border-color:rgba(217,182,94,.36)!important;
+  box-shadow:
+    inset 3px 0 0 rgba(217,182,94,.82),
+    0 8px 20px rgba(0,0,0,.18)!important;
+}
+body:not(.light) .matter-editor-sheet .matter-hybrid-choice-field>label{
+  color:#D2B16A!important;
+}
+body:not(.light) .matter-editor-sheet .matter-hybrid-choice-field .inline-choice-wrap>input:focus{
+  border-color:rgba(217,182,94,.62)!important;
+  box-shadow:
+    inset 3px 0 0 #D9B65E,
+    0 0 0 2px rgba(217,182,94,.08),
+    0 8px 20px rgba(0,0,0,.20)!important;
+}
