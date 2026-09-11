@@ -10655,3 +10655,122 @@ body.light .premium-nav .tab.on::after{
     width:38px!important;
   }
 }
+
+
+/* ============================================================
+   5.0.32 — фиксы FAB в тёмной теме и геометрии лупы на «Ещё»
+   1) У FAB убран лишний светлый фон/ореол, размер немного уменьшен.
+   2) На странице «Ещё» лупа выровнена так же, как на странице «Календарь».
+   ============================================================ */
+#fab.fab{
+  right:10px!important;
+  bottom:calc(var(--bot) + 66px)!important;
+  width:56px!important;
+  height:56px!important;
+  min-width:56px!important;
+  min-height:56px!important;
+  max-width:56px!important;
+  max-height:56px!important;
+  border-radius:16px!important;
+  background:transparent url('fab-plus-square-premium.png') center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+  mix-blend-mode:normal!important;
+  isolation:isolate!important;
+}
+body:not(.light) #fab.fab{
+  background:transparent url('fab-plus-square-premium.png') center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+#fab.fab::before,
+#fab.fab::after{
+  display:none!important;
+  content:none!important;
+}
+#fab.fab .ico{
+  opacity:0!important;
+  width:0!important;
+  height:0!important;
+  min-width:0!important;
+  min-height:0!important;
+}
+#fab.fab:active{
+  transform:translateY(1px) scale(.97)!important;
+}
+@media (max-width:390px){
+  #fab.fab{
+    right:8px!important;
+    bottom:calc(var(--bot) + 62px)!important;
+    width:52px!important;
+    height:52px!important;
+    min-width:52px!important;
+    min-height:52px!important;
+    max-width:52px!important;
+    max-height:52px!important;
+    border-radius:15px!important;
+  }
+}
+
+#sc-more .more-title-head,
+#sc-more .today-head.more-title-head,
+#sc-more .today-head.matters-title-head.more-title-head{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:auto!important;
+  margin:2px 0 12px!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+}
+#sc-more .more-title-head > div:first-child{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+#sc-more .more-title-head > .today-actions{
+  position:static!important;
+  inset:auto!important;
+  flex:0 0 42px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0 2px 0 0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  align-self:flex-start!important;
+  transform:none!important;
+  z-index:3!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search{
+  position:static!important;
+  inset:auto!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+}
