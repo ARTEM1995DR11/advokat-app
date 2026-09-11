@@ -9816,3 +9816,85 @@ body:not(.light) .matter-editor-sheet .matter-hybrid-choice-field .inline-choice
     0 0 0 2px rgba(217,182,94,.08),
     0 8px 20px rgba(0,0,0,.20)!important;
 }
+
+
+/* ============================================================
+   5.0.14 — ЖЁСТКАЯ подсветка комбинированных полей
+   Привязано непосредственно к input ID, чтобы старые правила
+   не могли снять оформление. Видимых стрелок нет.
+   ============================================================ */
+.matter-editor-sheet #m-court,
+.matter-editor-sheet #m-judge,
+.matter-editor-sheet #m-restraint{
+  background:linear-gradient(180deg,#FFFDF8 0%,#FFF7E8 100%)!important;
+  border:2px solid rgba(194,145,48,.58)!important;
+  border-left:5px solid #C29130!important;
+  box-shadow:0 7px 18px rgba(99,73,24,.08),inset 0 1px 0 rgba(255,255,255,.96)!important;
+  color:#17232D!important;
+}
+.matter-editor-sheet #m-court:focus,
+.matter-editor-sheet #m-judge:focus,
+.matter-editor-sheet #m-restraint:focus{
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFF4D9 100%)!important;
+  border-color:#C29130!important;
+  border-left-color:#A86F12!important;
+  box-shadow:0 0 0 3px rgba(194,145,48,.13),0 8px 20px rgba(99,73,24,.10)!important;
+}
+.matter-editor-sheet .matter-court-field>label,
+.matter-editor-sheet .matter-judge-field>label,
+.matter-editor-sheet .matter-restraint-field>label{
+  color:#8B671F!important;
+}
+/* Для суда/органа сохраняем смысловой акцент стадии, но делаем его заметным. */
+.matter-editor-sheet .matter-court-field[data-place-mode="investigation"] #m-court{
+  border-color:rgba(138,106,216,.58)!important;
+  border-left-color:#8A6AD8!important;
+  background:linear-gradient(180deg,#FFFEFF 0%,#F7F3FF 100%)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="investigation"]>label{color:#7153B9!important;}
+.matter-editor-sheet .matter-court-field[data-place-mode="judicial"] #m-court{
+  border-color:rgba(78,134,198,.58)!important;
+  border-left-color:#4E86C6!important;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F1F7FE 100%)!important;
+}
+.matter-editor-sheet .matter-court-field[data-place-mode="judicial"]>label{color:#3C6FA9!important;}
+.matter-editor-sheet .matter-court-field[data-place-mode="execution"] #m-court{
+  border-color:rgba(194,145,48,.58)!important;
+  border-left-color:#C29130!important;
+  background:linear-gradient(180deg,#FFFDF8 0%,#FFF7E8 100%)!important;
+}
+/* Скрытый триггер списка остаётся рабочим, но полностью невидимым. */
+.matter-editor-sheet .premium-list-trigger[data-target="m-court-choice"],
+.matter-editor-sheet .premium-list-trigger[data-target="m-judge-choice"],
+.matter-editor-sheet .premium-list-trigger[data-target="m-restraint-choice"]{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:transparent!important;
+}
+.matter-editor-sheet .premium-list-trigger[data-target="m-court-choice"] .ico,
+.matter-editor-sheet .premium-list-trigger[data-target="m-judge-choice"] .ico,
+.matter-editor-sheet .premium-list-trigger[data-target="m-restraint-choice"] .ico{display:none!important;}
+
+body:not(.light) .matter-editor-sheet #m-court,
+body:not(.light) .matter-editor-sheet #m-judge,
+body:not(.light) .matter-editor-sheet #m-restraint{
+  background:linear-gradient(180deg,#132737 0%,#0E202E 100%)!important;
+  border:2px solid rgba(217,182,94,.48)!important;
+  border-left:5px solid #D9B65E!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.20)!important;
+  color:#F2F6F8!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode="investigation"] #m-court{
+  border-color:rgba(168,139,235,.54)!important;
+  border-left-color:#A88BEB!important;
+  background:linear-gradient(180deg,#1A2539 0%,#121E31 100%)!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field[data-place-mode="judicial"] #m-court{
+  border-color:rgba(105,161,225,.54)!important;
+  border-left-color:#69A1E1!important;
+  background:linear-gradient(180deg,#12283A 0%,#0D2030 100%)!important;
+}
+body:not(.light) .matter-editor-sheet .matter-court-field>label,
+body:not(.light) .matter-editor-sheet .matter-judge-field>label,
+body:not(.light) .matter-editor-sheet .matter-restraint-field>label{color:#D8BB73!important;}
