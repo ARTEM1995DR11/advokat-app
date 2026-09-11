@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.03';
-var APP_BUILD='5003';
+var APP_VERSION='5.0.04';
+var APP_BUILD='5004';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1260,7 +1260,17 @@ var MATTER_ARTICLE_HINTS = {
   koap:'Например: ч. 1 ст. 12.8 КоАП РФ',
   other:'Статья, договор, основание спора — при необходимости'
 };
-function matterStageList(type){ return (MATTER_STAGE_MAP[type]||STAGE).slice(); }
+function matterStageList(type,basis){
+  var list=(MATTER_STAGE_MAP[type]||STAGE).slice();
+  // В рабочей модели приложения уголовные дела по назначению ведём только
+  // на стадиях, где защита по назначению используется в практике пользователя.
+  // Материал проверки, кассация, надзор и исполнение приговора — только по соглашению.
+  if(type==='criminal'&&basis==='assigned'){
+    var allowed={'Дознание':1,'Следствие МВД':1,'Следствие СК':1,'Первая инстанция':1,'Апелляция':1};
+    list=list.filter(function(stage){return !!allowed[stage];});
+  }
+  return list;
+}
 function matterRoleList(type,stage,executionIssue){
   if(type==='criminal'&&stage==='Исполнение приговора')return criminalExecutionRoleList(executionIssue||'');
   var byType=MATTER_ROLE_STAGE_MAP[type]||null;
@@ -1330,14 +1340,14 @@ function inlineMatterChoiceField(inputId,selectId,value,placeholder,list,emptyLa
   listId=listId||('list-'+inputId);
   return inlineChoiceField(inputId,selectId,value,placeholder,matterChoiceOptions(list,value,emptyLabel),listId)+matterChoiceDatalist(listId,list);
 }
-function matterMeta(type){
+function matterMeta(type,basis){
   var t=type||'other';
   var base={
     numberLabel:'Номер дела / материала', courtLabel:'Суд / орган / ведомство', judgeLabel:'Судья', investigatorLabel:'Следователь / дознаватель',
     clientLabel:'Доверитель', clientPlaceholder:'ФИО / организация', titlePlaceholder:'Иванов И.И. — взыскание долга',
     roleLabel:'Статус доверителя', opponentLabel:'Оппонент / другая сторона', opponentPlaceholder:'ФИО / организация',
     showJudge:true, showInvestigator:false, showArticle:false, showRestraint:false, showOpponent:true,
-    stageList:matterStageList(t), roleList:matterRoleList(t,''), restraintList:matterRestraintList(t), articlePlaceholder:MATTER_ARTICLE_HINTS[t]||''
+    stageList:matterStageList(t,basis), roleList:matterRoleList(t,''), restraintList:matterRestraintList(t), articlePlaceholder:MATTER_ARTICLE_HINTS[t]||''
   };
   if(t==='criminal') return Object.assign(base,{
     numberLabel:'Номер дела / материала', courtLabel:'Суд / следственный орган / ведомство', clientLabel:'Подзащитный / доверитель',
@@ -1372,7 +1382,7 @@ function pullMatterDraft(){
   MED.phone=formatRussianPhone(MED.phone||'');
 }
 function matterDynamicFields(){
-  var cfg=matterMeta((MED&&MED.type)||'other');
+  var cfg=matterMeta((MED&&MED.type)||'other',(MED&&MED.basis)||'');
   var currentStage=(MED&&MED.stage)||cfg.stageList[0]||'';
   var legacyCompleted=currentStage==='Завершено';
   if(!legacyCompleted&&cfg.stageList.indexOf(currentStage)<0) currentStage=cfg.stageList[0]||'';
@@ -1457,13 +1467,19 @@ function normalizeLegacyMatterStage(o){
 }
 function sanitizeMatterByType(o){
   o=normalizeLegacyMatterStage(o);
-  var cfg=matterMeta(o.type||'other');
+  var cfg=matterMeta(o.type||'other',o.basis||'');
   if(!cfg.showInvestigator) o.investigator='';
   if(!cfg.showArticle) o.article='';
   if(!cfg.showRestraint || (o.type==='criminal'&&(o.stage==='Материал проверки'||o.stage==='Исполнение приговора'))) o.restraint='';
   if(!cfg.showJudge) o.judge='';
   if(!cfg.showOpponent) o.opponent='';
+  var stageBeforeBasisCheck=o.stage||'';
   if(o.stage!=='Завершено'&&!cfg.stageList.filter(function(x){ return x===o.stage; }).length) o.stage=cfg.stageList[0]||o.stage||'';
+  if(stageBeforeBasisCheck!==o.stage){
+    // Основание или тип производства сделали прежнюю стадию недопустимой.
+    // Не переносим в новую стадию суд/орган, судью, исполнителя и процессуальные поля по инерции.
+    o.court='';o.judge='';o.investigator='';o.role='';o.restraint='';o.executionIssue='';o.executionInstitution='';
+  }
   if(o.type!=='criminal'||o.stage!=='Исполнение приговора'){o.executionIssue='';o.executionInstitution='';}
   else if(o.executionIssue&&!criminalExecutionIssue(o.executionIssue)){o.executionIssue='';o.executionInstitution='';}
   o.role=normalizeMatterClientRole(o.type||'other',o.role,o.stage||'',o.executionIssue||'');
@@ -1471,7 +1487,7 @@ function sanitizeMatterByType(o){
   return o;
 }
 function matterDossierRows(m){
-  var cfg=matterMeta(m&&m.type), rows=[],ctx=matterPlaceContext((m&&m.type)||'other',(m&&m.stage)||'',(m&&m.court)||'');
+  var cfg=matterMeta(m&&m.type,m&&m.basis), rows=[],ctx=matterPlaceContext((m&&m.type)||'other',(m&&m.stage)||'',(m&&m.court)||'');
   function push(icon,label,val){ if(val) rows.push([icon,label,val]); }
   push('user',cfg.clientLabel,m.client);
   push('phone','Телефон',m.phone);
@@ -4107,6 +4123,21 @@ document.addEventListener('change',function(e){
       vib(5);
     }
     e.target.value=''; return;
+  }
+  if(e.target.id==='m-basis'){
+    if(!MED)return;
+    pullMatterDraft();
+    MED.basis=e.target.value||'agreement';
+    var allowedStages=matterStageList(MED.type||'other',MED.basis||'');
+    if(MED.stage!=='Завершено'&&allowedStages.indexOf(MED.stage)<0){
+      MED.stage=allowedStages[0]||'';
+      MED.court='';MED.judge='';MED.investigator='';MED.role='';MED.restraint='';
+      MED.executionIssue='';MED.executionInstitution='';
+    }
+    MED=sanitizeMatterByType(MED);
+    renderMatterDynamic();
+    vib(5);
+    return;
   }
   if(e.target.id==='m-type'){
     pullMatterDraft();
