@@ -10159,3 +10159,109 @@ body:not(.light) .today-head .today-actions .app-header-search.on{
   transform:none!important;
   filter:none!important;
 }
+
+
+/* ============================================================
+   5.0.26 — лупа на странице «Ещё»: геометрия как на остальных вкладках
+   Фиксируем сам title-row и контейнер кнопки, а не только внешний вид иконки.
+   ============================================================ */
+#sc-more .more-title-head{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:58px!important;
+  margin:2px 0 11px!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+}
+#sc-more .more-title-head>div:first-child{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+#sc-more .more-title-head>.today-actions{
+  position:static!important;
+  box-sizing:border-box!important;
+  flex:0 0 42px!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0 2px 0 0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  align-self:flex-end!important;
+  gap:0!important;
+  transform:none!important;
+}
+#sc-more .more-title-head>.today-actions>.app-header-search{
+  position:static!important;
+  inset:auto!important;
+  margin:0!important;
+  transform:none!important;
+}
+
+/* ===== 5.0.27 square premium FAB ===== */
+#fab.fab{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:fixed!important;
+  right:14px!important;
+  bottom:calc(var(--bot) + 72px)!important;
+  width:58px!important;
+  height:58px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(138,98,23,.34)!important;
+  background:linear-gradient(145deg,#E5C15F 0%,#C8922B 100%)!important;
+  color:#231905!important;
+  box-shadow:
+    0 14px 28px rgba(89,64,17,.28),
+    inset 0 1px 0 rgba(255,255,255,.38),
+    inset 0 -4px 8px rgba(126,83,15,.16)!important;
+  overflow:hidden!important;
+}
+#fab.fab::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.22);
+  pointer-events:none;
+}
+#fab.fab .ico{
+  position:relative;
+  z-index:1;
+  width:24px!important;
+  height:24px!important;
+  stroke-width:2.35!important;
+}
+#fab.fab:active{
+  transform:translateY(1px) scale(.97)!important;
+  box-shadow:
+    0 8px 18px rgba(89,64,17,.22),
+    inset 0 1px 0 rgba(255,255,255,.30),
+    inset 0 -3px 6px rgba(126,83,15,.18)!important;
+}
+body.light #fab.fab{
+  box-shadow:
+    0 12px 24px rgba(93,70,15,.18),
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -4px 8px rgba(126,83,15,.15)!important;
+}
+@media (max-width:390px){
+  #fab.fab{
+    right:12px!important;
+    bottom:calc(var(--bot) + 68px)!important;
+    width:56px!important;
+    height:56px!important;
+    border-radius:17px!important;
+  }
+  #fab.fab::before{inset:5px;border-radius:12px;}
+}
