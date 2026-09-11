@@ -10374,3 +10374,112 @@ body.light #fab.fab{
   width:22px!important;
   height:22px!important;
 }
+
+
+/* ============================================================
+   5.0.30 — уменьшение FAB и финальное выравнивание лупы на «Ещё»
+   1) Кнопка «+» уменьшена и стабилизирована в тёмной теме.
+   2) Лупа на странице «Ещё» жёстко приведена к той же геометрии,
+      что и на остальных основных страницах.
+   ============================================================ */
+#fab.fab{
+  right:12px!important;
+  bottom:calc(var(--bot) + 68px)!important;
+  width:62px!important;
+  height:62px!important;
+  min-width:62px!important;
+  min-height:62px!important;
+  max-width:62px!important;
+  max-height:62px!important;
+  border-radius:18px!important;
+  background:transparent url('fab-plus-square-premium.png') center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  isolation:isolate!important;
+}
+body:not(.light) #fab.fab{
+  background:transparent url('fab-plus-square-premium.png') center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  isolation:isolate!important;
+}
+#fab.fab:active{
+  transform:translateY(1px) scale(.97)!important;
+}
+@media (max-width:390px){
+  #fab.fab{
+    right:10px!important;
+    bottom:calc(var(--bot) + 64px)!important;
+    width:58px!important;
+    height:58px!important;
+    min-width:58px!important;
+    min-height:58px!important;
+    max-width:58px!important;
+    max-height:58px!important;
+    border-radius:17px!important;
+  }
+}
+
+#sc-more .more-title-head,
+#sc-more .today-head.more-title-head,
+#sc-more .today-head.matters-title-head.more-title-head{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:52px!important;
+  margin:3px 2px 12px!important;
+  padding:0 50px 0 0!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:0!important;
+}
+#sc-more .more-title-head > div:first-child{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+#sc-more .more-title-head > .today-actions{
+  position:absolute!important;
+  top:1px!important;
+  right:2px!important;
+  left:auto!important;
+  bottom:auto!important;
+  margin:0!important;
+  padding:0!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  transform:none!important;
+  z-index:3!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search{
+  position:static!important;
+  inset:auto!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  min-height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+}
+#sc-more .more-title-head > .today-actions > .app-header-search .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+}
