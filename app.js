@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.99';
-var APP_BUILD='4099';
+var APP_VERSION='5.0.00';
+var APP_BUILD='5000';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2284,14 +2284,46 @@ function isCriminalCheckMaterial(m){
 function isCriminalExecutionMatter(m){
   return !!(m && m.type==='criminal' && m.stage==='Исполнение приговора');
 }
+function criminalExecutionCardLabel(issueId){
+  var labels={
+    'udo':'УДО',
+    'softer':'СТ. 80 УК РФ',
+    'illness':'ПО БОЛЕЗНИ',
+    'institution-type':'ВИД ИУ',
+    'reverse-law':'СТ. 10 УК РФ',
+    'pmh':'ПММХ',
+    'pmh-expert':'ЭКСПЕРТИЗА',
+    'replace-evasion':'ЗА УКЛОНЕНИЕ',
+    'forced-to-prison':'ПРИНУД. РАБОТЫ',
+    'cancel-udo':'ОТМЕНА УДО',
+    'conditional':'УСЛОВНОЕ ОСУЖДЕНИЕ',
+    'conditional-duties':'ОБЯЗАННОСТИ',
+    'restriction':'ОГРАНИЧ. СВОБОДЫ',
+    'limitation':'ДАВНОСТЬ',
+    'multiple-sentences':'НЕСКОЛЬКО ПРИГОВОРОВ',
+    'credit':'ЗАЧЁТ СРОКА',
+    'deductions':'УДЕРЖАНИЯ',
+    'clarify':'РАЗЪЯСНЕНИЕ',
+    'minor':'НЕСОВЕРШЕННОЛЕТНИЙ',
+    'defer':'ОТСРОЧКА',
+    'defer-change':'ОТМЕНА ОТСРОЧКИ',
+    'detention-evasion':'СТРАЖА ЗА УКЛОНЕНИЕ',
+    'military':'ВОЕННОСЛУЖАЩИЙ',
+    'rehabilitation':'РЕАБИЛИТАЦИЯ',
+    'property':'ИМУЩЕСТВО',
+    'foreign-transfer':'ПЕРЕДАЧА ОСУЖДЁННОГО',
+    'foreign-recognition':'ИНОСТР. ПРИГОВОР',
+    'conviction-remove':'СНЯТИЕ СУДИМОСТИ'
+  };
+  return labels[issueId]||'ИСПОЛНЕНИЕ ПРИГОВОРА';
+}
 function matterTypeCardLabel(m){
   // До возбуждения уголовного дела это материал проверки, а не уголовное дело.
   if(isCriminalCheckMaterial(m)) return 'МАТЕРИАЛ ПРОВЕРКИ';
-  // На стадии главы 47 УПК карточка отражает конкретный вопрос исполнения,
-  // а не продолжает называться "уголовным делом".
+  // На стадии главы 47 УПК карточка использует короткий ярлык вопроса,
+  // чтобы подпись всегда помещалась рядом с основанием ведения.
   if(isCriminalExecutionMatter(m)){
-    var ex=criminalExecutionIssue((m&&m.executionIssue)||'');
-    return ex ? String(ex.short||'ИСПОЛНЕНИЕ ПРИГОВОРА').toUpperCase() : 'ИСПОЛНЕНИЕ ПРИГОВОРА';
+    return criminalExecutionCardLabel((m&&m.executionIssue)||'');
   }
   if((m&&m.type)==='criminal') return 'УГОЛОВНОЕ ДЕЛО';
   if((m&&m.type)==='civil') return 'ГРАЖДАНСКОЕ ДЕЛО';
