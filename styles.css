@@ -10057,3 +10057,23 @@ body:not(.light) .matter-ultra-professional b{color:#C8D7E5!important}
   .matter-strip .matter-ultra-meta{font-size:9.7px!important;}
   .matter-strip .matter-ultra-pulse{font-size:8.8px!important;}
 }
+
+
+/* ============================================================
+   5.0.20 — iPhone: только собственный premium picker
+   Скрытые select больше не могут открыть нативное меню Safari/iOS.
+   Datalist не используется для комбинированных полей; ручной ввод сохранён.
+   ============================================================ */
+.inline-choice-wrap select.inline-choice-select.premium-select-native{
+  pointer-events:none!important;
+  touch-action:none!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  visibility:hidden!important;
+}
+/* Наш невидимый trigger остаётся единственной зоной открытия справочника. */
+.inline-choice-wrap .premium-list-trigger{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  visibility:visible!important;
+}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.19';
-var APP_BUILD='5019';
+var APP_VERSION='5.0.22';
+var APP_BUILD='5022';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -533,9 +533,9 @@ function openPremiumListPicker(target,inputId){
     var mm=premiumListMatterMeta(target,o.value);
     return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm};
   });
-  // В редакторе дела пустые служебные варианты («выбрать судью», «выбрать меру» и т.п.)
-  // остаются только техническим состоянием поля и не показываются отдельной строкой.
-  if(matterEditorPickerWithoutSearch(target))items=items.filter(function(it){return !!String(it.value||'').trim();});
+  // Пустые служебные варианты («выбрать судью», «выбрать меру», «выбрать вопрос» и т.п.)
+  // остаются только техническим состоянием поля и не показываются отдельной строкой premium-списка.
+  if(matterEditorPickerWithoutEmptyRow(target))items=items.filter(function(it){return !!String(it.value||'').trim();});
   LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
   renderPremiumListPicker();
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
@@ -545,7 +545,11 @@ function closePremiumListPicker(){
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.remove('open');if(scr)scr.classList.remove('open');
   document.body.classList.remove('premium-list-open');LIST_PICKER=null;
 }
+function matterEditorPickerWithoutEmptyRow(target){
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice','m-execution-issue'].indexOf(target)>=0;
+}
 function matterEditorPickerWithoutSearch(target){
+  // Для вопроса исполнения приговора поиск оставляем: вариантов много.
   return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice'].indexOf(target)>=0;
 }
 function renderPremiumListPicker(){
@@ -590,6 +594,11 @@ function upgradePremiumSelects(root){
     sel.dataset.premiumReady='1';
     if(sel.classList.contains('inline-choice-select')){
       sel.classList.add('premium-select-native');
+      // Скрытый native select служит только источником данных для нашего
+      // premium picker и никогда не должен открывать системный iOS picker.
+      sel.tabIndex=-1;
+      sel.setAttribute('aria-hidden','true');
+      sel.style.pointerEvents='none';
       var wrap=sel.closest('.inline-choice-wrap');if(!wrap)return;
       var inp=wrap.querySelector('input'),old=wrap.querySelector('.inline-choice-arrow');if(old)old.remove();
       var inMatterInline=!!sel.closest('.matter-editor-sheet');
@@ -1410,11 +1419,12 @@ function matterAutoClientLabel(value){
 }
 function matterAutoTitle(o){
   o=o||{};
+  var type=o.type||'other';
   var client=matterAutoClientLabel(o.client||'');
   var article=matterAutoTitlePiece(o.article||'',60);
-  var note=matterAutoTitlePiece(o.notes||'',54);
+  var subject=matterAutoTitlePiece(o.notes||'',58);
   var execution='';
-  if(o.type==='criminal'&&o.stage==='Исполнение приговора'&&o.executionIssue){
+  if(type==='criminal'&&o.stage==='Исполнение приговора'&&o.executionIssue){
     var issue=criminalExecutionIssue(o.executionIssue);
     execution=issue?(issue.short||issue.name||''):'';
   }
@@ -1429,19 +1439,37 @@ function matterAutoTitle(o){
     }))return;
     parts.push(part);
   }
-  // Название создаётся только из содержательных данных карточки:
-  // доверитель + статья/квалификация + краткая суть дела.
-  // Стадия хранится отдельно и больше не подмешивается в название.
+
+  // Автозаголовок зависит от вида производства.
+  // Уголовное: Фамилия — статья (или конкретный вопрос исполнения приговора).
+  // Гражданское: Фамилия — предмет спора из первой фразы описания.
+  // КАС: Фамилия — предмет административного спора.
+  // КоАП: Фамилия — статья КоАП; при её отсутствии — краткая суть.
   add(client);
-  if(execution)add(execution);
-  else add(article);
-  add(note);
+  if(type==='criminal'){
+    if(execution)add(execution);
+    else if(article)add(article);
+    else if(subject)add(subject);
+    else add('уголовное дело');
+  }else if(type==='civil'){
+    if(subject)add(subject);
+    else add('гражданский спор');
+  }else if(type==='admin'){
+    if(subject)add(subject);
+    else add('административный спор');
+  }else if(type==='koap'){
+    if(article)add(article);
+    else if(subject)add(subject);
+    else add('дело по КоАП РФ');
+  }else{
+    if(subject)add(subject);
+    else if(article)add(article);
+    else add('дело');
+  }
 
   if(parts.length)return parts.join(' — ');
-  // Если пользователь ещё не внёс содержательные данные, показываем только
-  // нейтральное временное название по типу производства.
-  var fallback={criminal:'Уголовное дело',civil:'Гражданское дело',admin:'Административное дело',koap:'Дело по КоАП РФ',other:'Дело'};
-  return fallback[o.type]||'Дело';
+  var fallback={criminal:'Уголовное дело',civil:'Гражданский спор',admin:'Административный спор',koap:'Дело по КоАП РФ',other:'Дело'};
+  return fallback[type]||'Дело';
 }
 function matterMeta(type,basis){
   var t=type||'other';
@@ -1558,7 +1586,11 @@ function matterDynamicFields(){
     }
     html += '<div class="fld"><label>'+esc(oppLabel)+'</label><input id="m-opponent" value="'+esc(MED.opponent||'')+'" placeholder="'+esc(oppPlaceholder)+'"></div>';
   }
-  html += '<div class="fld"><label>Суть дела / рабочая заметка</label><textarea id="m-notes" rows="4" placeholder="Кратко: предмет дела, спор или основной вопрос…">'+esc(MED.notes||'')+'</textarea><small class="fieldhint">Первая фраза используется приложением для автоматического названия дела.</small></div>';
+  var notesType=(MED&&MED.type)||'other';
+  var notesLabel=notesType==='civil'?'Предмет спора / суть дела':(notesType==='admin'?'Предмет административного спора / суть дела':'Суть дела / рабочая заметка');
+  var notesPlaceholder=notesType==='civil'?'Например: иск о разделе имущества; определение порядка общения с ребёнком…':(notesType==='admin'?'Например: оспаривание действий пристава; признание решения незаконным…':'Кратко: предмет дела, спор или основной вопрос…');
+  var notesHint=notesType==='civil'?'Первая фраза формирует название гражданского дела вместе с фамилией доверителя.':'Первая фраза используется приложением для автоматического названия дела.';
+  html += '<div class="fld"><label>'+esc(notesLabel)+'</label><textarea id="m-notes" rows="4" placeholder="'+esc(notesPlaceholder)+'">'+esc(MED.notes||'')+'</textarea><small class="fieldhint">'+esc(notesHint)+'</small></div>';
   return html;
 }
 function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
@@ -3163,8 +3195,12 @@ function judgeDatalist(courtValue){
   return '<datalist id="judge-options">'+judgeDirectory(courtValue||'').map(function(x){return '<option value="'+esc(x.judge)+'">'+esc(x.label)+'</option>';}).join('')+'</datalist>';
 }
 function inlineChoiceField(inputId,selectId,value,placeholder,optionsHtml,listId){
-  return '<div class="inline-choice-wrap"><input id="'+inputId+'"'+(listId?' list="'+listId+'"':'')+' value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
-    '<select id="'+selectId+'" class="inline-choice-select premium-select-native" aria-label="Выбрать из списка">'+optionsHtml+'</select></div>';
+  // Не привязываем input к <datalist>. На iPhone/Safari нативный datalist
+  // иногда перехватывает касание и показывает системную чёрную подсказку
+  // вместо нашего premium-списка. Ручной ввод остаётся обычным input,
+  // а справочник всегда открывается только через собственный trigger.
+  return '<div class="inline-choice-wrap"><input id="'+inputId+'" value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
+    '<select id="'+selectId+'" class="inline-choice-select premium-select-native" aria-label="Выбрать из списка" tabindex="-1" aria-hidden="true">'+optionsHtml+'</select></div>';
 }
 function applyKnownJudgeCourt(judgeValue,editorMode){
   var entry=knownJudgeEntry(judgeValue); if(!entry)return false;
