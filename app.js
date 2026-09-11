@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='4.0.98';
-var APP_BUILD='4098';
+var APP_VERSION='4.0.99';
+var APP_BUILD='4099';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2275,15 +2275,24 @@ function matterStageTone(m){
   if(m.stage==='Следствие СК') return 'red';
   if(m.stage==='Следствие МВД' || m.stage==='Апелляция' || m.stage==='Кассация' || m.stage==='Надзор' || m.stage==='Пересмотр / апелляция') return 'blue';
   if(m.stage==='Дознание') return 'violet';
-  if(m.stage==='Досудебная работа' || m.stage==='Материал проверки' || m.stage==='Проверка / административное расследование' || m.stage==='Исполнение') return 'gold';
+  if(m.stage==='Досудебная работа' || m.stage==='Материал проверки' || m.stage==='Проверка / административное расследование' || m.stage==='Исполнение' || m.stage==='Исполнение приговора') return 'gold';
   return 'green';
 }
 function isCriminalCheckMaterial(m){
   return !!(m && m.type==='criminal' && m.stage==='Материал проверки');
 }
+function isCriminalExecutionMatter(m){
+  return !!(m && m.type==='criminal' && m.stage==='Исполнение приговора');
+}
 function matterTypeCardLabel(m){
   // До возбуждения уголовного дела это материал проверки, а не уголовное дело.
   if(isCriminalCheckMaterial(m)) return 'МАТЕРИАЛ ПРОВЕРКИ';
+  // На стадии главы 47 УПК карточка отражает конкретный вопрос исполнения,
+  // а не продолжает называться "уголовным делом".
+  if(isCriminalExecutionMatter(m)){
+    var ex=criminalExecutionIssue((m&&m.executionIssue)||'');
+    return ex ? String(ex.short||'ИСПОЛНЕНИЕ ПРИГОВОРА').toUpperCase() : 'ИСПОЛНЕНИЕ ПРИГОВОРА';
+  }
   if((m&&m.type)==='criminal') return 'УГОЛОВНОЕ ДЕЛО';
   if((m&&m.type)==='civil') return 'ГРАЖДАНСКОЕ ДЕЛО';
   if((m&&m.type)==='admin') return 'ИСК КАС';
@@ -2295,6 +2304,7 @@ function matterTypeCardLabel(m){
 function matterCardIconName(m){
   if(!m) return 'doc';
   if(isCriminalCheckMaterial(m)) return 'doc';
+  if(isCriminalExecutionMatter(m)) return 'gavel';
   if(m.type==='criminal') return 'gavel';
   if(m.type==='civil') return 'brief';
   if(m.type==='admin') return 'flag';
@@ -2399,14 +2409,16 @@ function compactMatterCardNumber(value){
 }
 function matterCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis);
-  // Материал проверки визуально отделяем от уже возбужденного уголовного дела.
-  var caseColor=isCriminalCheckMaterial(m)?matterStageMeta('Материал проверки').c:mt.c;
+  // Материал проверки и исполнение приговора визуально отделяем от уголовного дела по существу.
+  var caseColor=mt.c;
+  if(isCriminalCheckMaterial(m)) caseColor=matterStageMeta('Материал проверки').c;
+  else if(isCriminalExecutionMatter(m)) caseColor=matterStageMeta('Исполнение приговора').c;
   var iconName=matterCardIconName(m);
   var title=matterCardTitle(m);
   var number=compactMatterCardNumber(m.number);
   var client=m.client||'доверитель не указан';
   var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
-  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+mt.c+'" data-act="matter" data-id="'+m.id+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
+  return '<article class="matter-compact-card ultra'+(m.archived?' archived':'')+'" style="--case:'+caseColor+'" data-act="matter" data-id="'+m.id+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
     '<span class="matter-compact-icon">'+ico(iconName)+'</span>'+
     '<div class="matter-compact-copy">'+
       '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+
