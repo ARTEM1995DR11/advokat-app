@@ -12815,3 +12815,108 @@ body.light{
   min-height:22px!important;
   stroke-width:1.92!important;
 }
+
+
+/* ============================================================
+   5.0.65 — колокольчик и лупа в стиле кнопки «+»
+   Один постоянный премиальный квадратный стиль без разделения
+   на визуально разные on/off состояния. Кнопки выглядят как FAB «+».
+   ============================================================ */
+body.light{
+  --fab-mini-bg:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,.72),rgba(255,255,255,0) 34%),
+    linear-gradient(145deg,#FFF9EC 0%,#F5E8CC 56%,#E5CCA0 100%);
+  --fab-mini-border:#C89B3D;
+  --fab-mini-icon:#2A2118;
+  --fab-mini-shadow:
+    0 8px 16px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 0 0 2px rgba(255,247,226,.52),
+    inset 0 -2px 6px rgba(133,88,22,.16);
+}
+.app-main-brand > .app-header-bell,
+.today-head .today-actions .app-header-search,
+#sc-today .today-head .today-actions .app-header-search,
+#sc-tasks .today-head .today-actions .app-header-search,
+#sc-matters .today-head .today-actions .app-header-search,
+#sc-cal .today-head .today-actions .app-header-search,
+#sc-more .today-head .today-actions .app-header-search{
+  position:relative!important;
+  overflow:hidden!important;
+  border:2px solid var(--fab-mini-border)!important;
+  border-radius:14px!important;
+  background:var(--fab-mini-bg)!important;
+  color:var(--fab-mini-icon)!important;
+  box-shadow:var(--fab-mini-shadow)!important;
+}
+.app-main-brand > .app-header-bell::before,
+.today-head .today-actions .app-header-search::before,
+#sc-today .today-head .today-actions .app-header-search::before,
+#sc-tasks .today-head .today-actions .app-header-search::before,
+#sc-matters .today-head .today-actions .app-header-search::before,
+#sc-cal .today-head .today-actions .app-header-search::before,
+#sc-more .today-head .today-actions .app-header-search::before{
+  content:""!important;
+  position:absolute!important;
+  inset:4px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(184,132,38,.48)!important;
+  pointer-events:none!important;
+}
+/* Убираем разные постоянные состояния: поиск всегда одного вида. */
+.today-head .today-actions .app-header-search.on,
+#sc-today .today-head .today-actions .app-header-search.on,
+#sc-tasks .today-head .today-actions .app-header-search.on,
+#sc-matters .today-head .today-actions .app-header-search.on,
+#sc-cal .today-head .today-actions .app-header-search.on,
+#sc-more .today-head .today-actions .app-header-search.on{
+  border:2px solid var(--fab-mini-border)!important;
+  background:var(--fab-mini-bg)!important;
+  color:var(--fab-mini-icon)!important;
+  box-shadow:var(--fab-mini-shadow)!important;
+}
+.app-main-brand > .app-header-bell:hover,
+.app-main-brand > .app-header-bell:focus,
+.app-main-brand > .app-header-bell:focus-visible,
+.today-head .today-actions .app-header-search:hover,
+.today-head .today-actions .app-header-search:focus,
+.today-head .today-actions .app-header-search:focus-visible,
+.today-head .today-actions .app-header-search.on:hover,
+.today-head .today-actions .app-header-search.on:focus,
+.today-head .today-actions .app-header-search.on:focus-visible{
+  border:2px solid var(--fab-mini-border)!important;
+  background:var(--fab-mini-bg)!important;
+  color:var(--fab-mini-icon)!important;
+  box-shadow:var(--fab-mini-shadow)!important;
+  outline:none!important;
+}
+/* Допускаем только лёгкую реакцию касания, без нового отдельного дизайна. */
+.app-main-brand > .app-header-bell:active,
+.today-head .today-actions .app-header-search:active,
+.today-head .today-actions .app-header-search.on:active{
+  transform:translateY(1px) scale(.97)!important;
+  border:2px solid var(--fab-mini-border)!important;
+  background:var(--fab-mini-bg)!important;
+  color:var(--fab-mini-icon)!important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.13),
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 0 0 2px rgba(255,247,226,.52),
+    inset 0 -2px 6px rgba(133,88,22,.16)!important;
+}
+.app-main-brand > .app-header-bell .ico,
+.today-head .today-actions .app-header-search .ico,
+.today-head .today-actions .app-header-search.on .ico{
+  position:relative!important;
+  z-index:2!important;
+  width:24px!important;
+  height:24px!important;
+  min-width:24px!important;
+  min-height:24px!important;
+  max-width:24px!important;
+  max-height:24px!important;
+  color:var(--fab-mini-icon)!important;
+  stroke:currentColor!important;
+  stroke-width:2.15!important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.42))!important;
+}
