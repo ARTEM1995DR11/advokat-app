@@ -13167,7 +13167,7 @@ html body .main-brand-fixed > .today-bell{
   overflow:visible!important;
   border:0!important;
   border-radius:14px!important;
-  background:transparent url('header-bell-premium.png?v=5068') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   color:transparent!important;
   -webkit-backdrop-filter:none!important;
@@ -13184,7 +13184,7 @@ html body .app-header-search.on{
   overflow:visible!important;
   border:0!important;
   border-radius:14px!important;
-  background:transparent url('header-search-premium.png?v=5068') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   color:transparent!important;
   -webkit-backdrop-filter:none!important;
@@ -13209,7 +13209,7 @@ html body .app-header-bell:hover,
 html body .app-header-bell:focus,
 html body .app-header-bell:focus-visible{
   border:0!important;
-  background:transparent url('header-bell-premium.png?v=5068') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   outline:none!important;
 }
@@ -13221,7 +13221,7 @@ html body .app-header-search.on:hover,
 html body .app-header-search.on:focus,
 html body .app-header-search.on:focus-visible{
   border:0!important;
-  background:transparent url('header-search-premium.png?v=5068') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   outline:none!important;
 }
@@ -13271,7 +13271,7 @@ html body .app-header-search.on{
 html body .app-header-bell,
 html body .app-main-brand > .app-header-bell,
 html body .main-brand-fixed > .today-bell{
-  background:transparent url('header-bell-premium.png?v=5069') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
 }
 html body .app-header-search,
 html body .today-head .today-actions .app-header-search,
@@ -13281,7 +13281,7 @@ html body #sc-matters .today-head .today-actions .app-header-search,
 html body #sc-cal .today-head .today-actions .app-header-search,
 html body #sc-more .today-head .today-actions .app-header-search,
 html body .app-header-search.on{
-  background:transparent url('header-search-premium.png?v=5069') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
 }
 html body .app-header-bell::before,
 html body .app-header-bell::after,
@@ -13301,7 +13301,7 @@ html body .app-header-search.on > svg.ico{
 html body .app-header-bell:hover,
 html body .app-header-bell:focus,
 html body .app-header-bell:focus-visible{
-  background:transparent url('header-bell-premium.png?v=5069') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
   outline:none!important;
 }
 html body .app-header-search:hover,
@@ -13311,7 +13311,7 @@ html body .app-header-search.on,
 html body .app-header-search.on:hover,
 html body .app-header-search.on:focus,
 html body .app-header-search.on:focus-visible{
-  background:transparent url('header-search-premium.png?v=5069') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
   outline:none!important;
 }
 html body .app-header-bell:active,
@@ -13461,4 +13461,69 @@ html body #sc-more .more-title-head > .today-actions{
 @media(max-width:390px){
   .premium-sheet-action-icon,
   .notify-premium-head-art{width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important}
+}
+
+
+/* ============================================================
+   5.0.72 — финальная унификация верхних премиальных кнопок
+   Колокольчик и поиск используют один и тот же визуальный корпус
+   и один размер на всех основных страницах приложения.
+   ============================================================ */
+html body .app-main-brand > .app-header-bell.premium-action-image,
+html body .main-brand-fixed > .today-bell.premium-action-image,
+html body #sc-today .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-tasks .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-matters .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-cal .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-more .today-head .today-actions .app-header-search.premium-action-image{
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:15px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+}
+html body .app-main-brand > .app-header-bell.premium-action-image > .premium-action-art,
+html body .main-brand-fixed > .today-bell.premium-action-image > .premium-action-art,
+html body #sc-today .today-head .today-actions .app-header-search.premium-action-image > .premium-action-art,
+html body #sc-tasks .today-head .today-actions .app-header-search.premium-action-image > .premium-action-art,
+html body #sc-matters .today-head .today-actions .app-header-search.premium-action-image > .premium-action-art,
+html body #sc-cal .today-head .today-actions .app-header-search.premium-action-image > .premium-action-art,
+html body #sc-more .today-head .today-actions .app-header-search.premium-action-image > .premium-action-art{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  display:block!important;
+  transform:none!important;
+  filter:none!important;
+  image-rendering:auto!important;
+}
+html body .app-main-brand > .app-header-bell.premium-action-image:hover,
+html body .main-brand-fixed > .today-bell.premium-action-image:hover,
+html body #sc-today .today-head .today-actions .app-header-search.premium-action-image:hover,
+html body #sc-tasks .today-head .today-actions .app-header-search.premium-action-image:hover,
+html body #sc-matters .today-head .today-actions .app-header-search.premium-action-image:hover,
+html body #sc-cal .today-head .today-actions .app-header-search.premium-action-image:hover,
+html body #sc-more .today-head .today-actions .app-header-search.premium-action-image:hover,
+html body .app-main-brand > .app-header-bell.premium-action-image:focus-visible,
+html body .main-brand-fixed > .today-bell.premium-action-image:focus-visible,
+html body #sc-today .today-head .today-actions .app-header-search.premium-action-image:focus-visible,
+html body #sc-tasks .today-head .today-actions .app-header-search.premium-action-image:focus-visible,
+html body #sc-matters .today-head .today-actions .app-header-search.premium-action-image:focus-visible,
+html body #sc-cal .today-head .today-actions .app-header-search.premium-action-image:focus-visible,
+html body #sc-more .today-head .today-actions .app-header-search.premium-action-image:focus-visible{
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:none!important;
 }
