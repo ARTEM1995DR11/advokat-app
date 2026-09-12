@@ -12372,3 +12372,83 @@ body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on::after{
   #tabbar.premium-nav .tab[data-tab="cal"].on::after,
   #tabbar.premium-nav .tab[data-tab="more"].on::after{top:61.5px!important;width:22px!important;height:3px!important}
 }
+
+
+/* ============================================================
+   5.0.45 — кнопки доведены по эталону: та же медальонная кнопка,
+   что и у «Дела», для всех вкладок; меняется только иконка внутри.
+   ============================================================ */
+#tabbar.premium-nav .tab.on .tab-ico,
+body.light #tabbar.premium-nav .tab.on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
+  position:absolute!important;
+  left:50%!important;
+  top:-12px!important;
+  width:62px!important;
+  height:62px!important;
+  min-width:62px!important;
+  min-height:62px!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translateX(-50%)!important;
+  border:0!important;
+  border-radius:50%!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:62px 62px!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  z-index:6!important;
+}
+#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-exact.png')!important}
+#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-exact.png')!important}
+#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-exact.png')!important}
+#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-exact.png')!important}
+#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-exact.png')!important}
+#tabbar.premium-nav .tab.on .ico,
+body.light #tabbar.premium-nav .tab.on .ico,
+body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
+#tabbar.premium-nav .tab.on .tab-label,
+body.light #tabbar.premium-nav .tab.on .tab-label,
+body:not(.light) #tabbar.premium-nav .tab.on .tab-label{
+  top:45px!important;
+  left:-8px!important;
+  right:-8px!important;
+  color:#10263B!important;
+  font-weight:700!important;
+  z-index:7!important;
+}
+#tabbar.premium-nav .tab.on::after,
+body.light #tabbar.premium-nav .tab.on::after,
+body:not(.light) #tabbar.premium-nav .tab.on::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:50%!important;
+  top:63.5px!important;
+  width:23px!important;
+  height:3.5px!important;
+  margin:0!important;
+  transform:translateX(-50%)!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
+  opacity:1!important;
+  z-index:7!important;
+}
+@media(max-width:390px){
+  #tabbar.premium-nav .tab.on .tab-ico,body.light #tabbar.premium-nav .tab.on .tab-ico,body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
+    top:-11px!important;width:60px!important;height:60px!important;min-width:60px!important;min-height:60px!important;background-size:60px 60px!important;
+  }
+  #tabbar.premium-nav .tab.on::after,body.light #tabbar.premium-nav .tab.on::after,body:not(.light) #tabbar.premium-nav .tab.on::after{top:61.5px!important;width:22px!important;height:3px!important}
+}
