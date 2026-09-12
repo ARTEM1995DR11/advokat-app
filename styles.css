@@ -13420,3 +13420,45 @@ html body #sc-more .more-title-head > .today-actions{
   max-width:50px!important;
   max-height:50px!important;
 }
+
+
+/* ============================================================
+   5.0.71 — премиальные кнопки продублированы в открытых листах
+   (Напоминания и Глобальный поиск)
+   ============================================================ */
+.premium-sheet-action-icon,
+.notify-premium-head-art{
+  width:54px!important;
+  height:54px!important;
+  min-width:54px!important;
+  min-height:54px!important;
+  max-width:54px!important;
+  max-height:54px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:none!important;
+  border:none!important;
+  background:none!important;
+  box-shadow:none!important;
+  border-radius:16px!important;
+  overflow:visible!important;
+}
+.premium-sheet-action-icon img,
+.notify-premium-head-art img{
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  object-fit:contain!important;
+  border:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+}
+.notify-premium-head-icon{display:none!important}
+.filter-premium-head>.premium-sheet-action-icon{margin-right:0!important}
+.notify-premium-head>.notify-premium-head-art{margin-right:0!important}
+@media(max-width:390px){
+  .premium-sheet-action-icon,
+  .notify-premium-head-art{width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important}
+}
