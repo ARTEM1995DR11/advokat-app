@@ -1,17 +1,17 @@
-const CACHE = 'advokat-iphone-offline-v40-stable-5067';
+const CACHE = 'advokat-iphone-offline-v40-stable-5068';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=5067',
+  './styles.css?v=5068',
   './nav-panel-light.png',
-  './nav-active-base.png?v=5067',
-  './nav-active-today.png?v=5067',
-  './nav-active-tasks.png?v=5067',
-  './nav-active-cases.png?v=5067',
-  './nav-active-calendar.png?v=5067',
-  './nav-active-more.png?v=5067',
-  './app.js?v=5067',
-  './manifest.webmanifest?v=5067',
+  './nav-active-base.png?v=5068',
+  './nav-active-today.png?v=5068',
+  './nav-active-tasks.png?v=5068',
+  './nav-active-cases.png?v=5068',
+  './nav-active-calendar.png?v=5068',
+  './nav-active-more.png?v=5068',
+  './app.js?v=5068',
+  './manifest.webmanifest?v=5068',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
@@ -23,6 +23,8 @@ const SHELL = [
   './bg-cal-marble-calendar.png',
   './bg-more-marble-office.png',
   './fab-plus-square-premium.png',
+  './header-bell-premium.png?v=5068',
+  './header-search-premium.png?v=5068',
   './VERSION.txt'
 ];
 
