@@ -11759,7 +11759,7 @@ body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
 #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{
-  background-image:url('nav-active-cases-clean.png')!important;
+  background-image:url('nav-active-cases.png?v=5057')!important;
 }
 #tabbar.premium-nav .tab[data-tab="matters"].on .ico{opacity:0!important}
 #tabbar.premium-nav .tab.on .tab-label,
@@ -11904,11 +11904,11 @@ body:not(.light) #tabbar.premium-nav .tab.on:not([data-tab="matters"]) .tab-ico{
    Панель/фон/кант НЕ меняются. У каждой активной вкладки ровно
    один растр медальона с иконкой; исходный SVG полностью скрыт.
    ============================================================ */
-html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-clean.png')!important}
-html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-clean.png')!important}
-html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-clean.png')!important}
-html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-clean.png')!important}
-html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-clean.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab].on .tab-ico{
   position:absolute!important;
   left:50%!important;
@@ -12011,7 +12011,7 @@ html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
   overflow:visible!important;
   border:none!important;
   border-radius:50%!important;
-  background:url('nav-active-base-final.png') center/62px 62px no-repeat!important;
+  background:url('nav-active-base.png?v=5057') center/62px 62px no-repeat!important;
   background-color:transparent!important;
   box-shadow:none!important;
   z-index:9!important;
@@ -12078,7 +12078,7 @@ html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
 html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
 html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-base-final.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-base.png?v=5057')!important}
 /* Плюс — только один активный слой без наслаиваний. */
 html body #fab.fab,
 html body.light #fab.fab,
@@ -12164,19 +12164,19 @@ html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
 }
 html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
 html body #tabbar.premium-nav .tab.on .ico,
 html body.light #tabbar.premium-nav .tab.on .ico,
 html body:not(.light) #tabbar.premium-nav .tab.on .ico{
@@ -12244,16 +12244,16 @@ html body:not(.light) #tabbar.premium-nav .tab.on::after{
    ============================================================ */
 html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-5052.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-5052.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-5052.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-5052.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
 
 
 /* ============================================================
@@ -12262,19 +12262,19 @@ html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{back
    ============================================================ */
 html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-5053.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-5053.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-clean.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-5053.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-5053.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
 html body #tabbar.premium-nav .tab.on .ico,
 html body.light #tabbar.premium-nav .tab.on .ico,
 html body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
@@ -12326,16 +12326,16 @@ html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{
 }
 html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-5054.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-5054.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-5054.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
 html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-5054.png')!important}
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
 /* Старая SVG-иконка внутри активной вкладки не должна отображаться вовсе. */
 html body #tabbar.premium-nav .tab[data-tab="today"].on .ico,
 html body.light #tabbar.premium-nav .tab[data-tab="today"].on .ico,
@@ -12382,5 +12382,86 @@ html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico::after{
     min-width:60px!important;
     min-height:60px!important;
     background-size:60px 60px!important;
+  }
+}
+
+
+/* ============================================================
+   5.0.55 — увеличен размер иконок в 4 активных кнопках,
+   чтобы они были визуально сопоставимы с эталонной папкой.
+   ============================================================ */
+html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png?v=5057')!important}
+html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png?v=5057')!important}
+
+
+/* ============================================================
+   5.0.56 — доводка нижней панели в тёмной теме
+   Не трогаем логику и светлую тему. Подправляем только тёмную тему:
+   - более чистый фон панели из nav-panel-dark.png,
+   - более читаемые неактивные иконки и подписи,
+   - активные медальоны без лишнего внутреннего градиента/рамки,
+   - аккуратная золотая подсветка активной вкладки.
+   ============================================================ */
+body:not(.light) .premium-nav.tabbar{
+  background:#071321 url('nav-panel-dark.png') center/100% 100% no-repeat!important;
+  border:1px solid rgba(214,182,111,.42)!important;
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.42),
+    0 6px 16px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+body:not(.light) .premium-nav.tabbar::before{
+  background:linear-gradient(90deg,transparent,rgba(255,235,185,.20),transparent)!important;
+}
+body:not(.light) .premium-nav .tab{
+  color:#DCE7F2!important;
+}
+body:not(.light) .premium-nav .tab .ico{
+  color:#DCE7F2!important;
+  stroke:currentColor!important;
+}
+body:not(.light) .premium-nav .tab[data-tab="more"] .ico use{
+  fill:currentColor!important;
+  stroke:none!important;
+}
+body:not(.light) .premium-nav .tab[data-tab="matters"]:not(.on) .ico use{
+  fill:none!important;
+  stroke:currentColor!important;
+}
+body:not(.light) .premium-nav .tab:not(.on){
+  background:transparent!important;
+}
+body:not(.light) .premium-nav .tab.on{
+  color:#F1D991!important;
+  background:linear-gradient(180deg,rgba(214,173,66,.08),rgba(214,173,66,.02) 58%,transparent 100%)!important;
+}
+body:not(.light) .premium-nav .tab.on .tab-ico{
+  border:none!important;
+  box-shadow:0 10px 18px rgba(0,0,0,.34)!important;
+  background-color:transparent!important;
+}
+body:not(.light) .premium-nav .tab.on::after{
+  background:linear-gradient(90deg,rgba(225,190,102,0),rgba(245,214,128,.96),rgba(225,190,102,0))!important;
+  box-shadow:0 0 8px rgba(236,201,112,.18)!important;
+}
+body:not(.light) .premium-nav .tab-label{
+  color:inherit!important;
+}
+body:not(.light) #fab.fab{
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.18))!important;
+}
+@media(max-width:390px){
+  body:not(.light) .premium-nav.tabbar{
+    background:#071321 url('nav-panel-dark.png') center/100% 100% no-repeat!important;
   }
 }
