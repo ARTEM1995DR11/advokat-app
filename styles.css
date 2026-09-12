@@ -12254,3 +12254,34 @@ html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{backg
 html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
 html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-5052.png')!important}
+
+
+/* ============================================================
+   5.0.53 — 4 активные кнопки приведены к эталону «Дела»
+   Тот же медальон и визуальная масса, меняется только иконка.
+   ============================================================ */
+html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-5053.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-5053.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-clean.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-5053.png')!important}
+html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+html body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-5053.png')!important}
+html body #tabbar.premium-nav .tab.on .ico,
+html body.light #tabbar.premium-nav .tab.on .ico,
+html body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
+/* Неактивная «Дела» остается исходной контурной папкой. */
+html body #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico,
+html body.light #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico{fill:none!important;stroke:currentColor!important}
+html body #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico use,
+html body.light #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico use,
+html body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"]:not(.on) .ico use{fill:none!important;stroke:currentColor!important}
