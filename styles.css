@@ -11897,3 +11897,45 @@ body:not(.light) #tabbar.premium-nav .tab.on:not([data-tab="matters"]) .tab-ico{
 }
 #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico::before,
 #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico::after{display:none!important;content:none!important}
+
+
+/* ============================================================
+   5.0.41 — все вкладки получают проектное активное состояние
+   При выборе любая вкладка показывает тот же медальон, как и «Дела».
+   ============================================================ */
+#tabbar.premium-nav .tab.on .tab-ico,
+body.light #tabbar.premium-nav .tab.on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:62px 62px!important;
+  background-color:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png')!important}
+#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png')!important}
+#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png')!important}
+#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png')!important}
+#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
+body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png')!important}
+#tabbar.premium-nav .tab.on .ico,
+body.light #tabbar.premium-nav .tab.on .ico,
+body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
+#tabbar.premium-nav .tab.on .tab-label,
+body.light #tabbar.premium-nav .tab.on .tab-label,
+body:not(.light) #tabbar.premium-nav .tab.on .tab-label{font-weight:700!important}
+@media(max-width:390px){
+  #tabbar.premium-nav .tab.on .tab-ico,
+  body.light #tabbar.premium-nav .tab.on .tab-ico,
+  body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{background-size:60px 60px!important}
+}
