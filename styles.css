@@ -13167,7 +13167,7 @@ html body .main-brand-fixed > .today-bell{
   overflow:visible!important;
   border:0!important;
   border-radius:14px!important;
-  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5073') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   color:transparent!important;
   -webkit-backdrop-filter:none!important;
@@ -13184,7 +13184,7 @@ html body .app-header-search.on{
   overflow:visible!important;
   border:0!important;
   border-radius:14px!important;
-  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5073') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   color:transparent!important;
   -webkit-backdrop-filter:none!important;
@@ -13209,7 +13209,7 @@ html body .app-header-bell:hover,
 html body .app-header-bell:focus,
 html body .app-header-bell:focus-visible{
   border:0!important;
-  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5073') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   outline:none!important;
 }
@@ -13221,7 +13221,7 @@ html body .app-header-search.on:hover,
 html body .app-header-search.on:focus,
 html body .app-header-search.on:focus-visible{
   border:0!important;
-  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5073') center/100% 100% no-repeat!important;
   box-shadow:none!important;
   outline:none!important;
 }
@@ -13271,7 +13271,7 @@ html body .app-header-search.on{
 html body .app-header-bell,
 html body .app-main-brand > .app-header-bell,
 html body .main-brand-fixed > .today-bell{
-  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5073') center/100% 100% no-repeat!important;
 }
 html body .app-header-search,
 html body .today-head .today-actions .app-header-search,
@@ -13281,7 +13281,7 @@ html body #sc-matters .today-head .today-actions .app-header-search,
 html body #sc-cal .today-head .today-actions .app-header-search,
 html body #sc-more .today-head .today-actions .app-header-search,
 html body .app-header-search.on{
-  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5073') center/100% 100% no-repeat!important;
 }
 html body .app-header-bell::before,
 html body .app-header-bell::after,
@@ -13301,7 +13301,7 @@ html body .app-header-search.on > svg.ico{
 html body .app-header-bell:hover,
 html body .app-header-bell:focus,
 html body .app-header-bell:focus-visible{
-  background:transparent url('header-bell-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-bell-premium.png?v=5073') center/100% 100% no-repeat!important;
   outline:none!important;
 }
 html body .app-header-search:hover,
@@ -13311,7 +13311,7 @@ html body .app-header-search.on,
 html body .app-header-search.on:hover,
 html body .app-header-search.on:focus,
 html body .app-header-search.on:focus-visible{
-  background:transparent url('header-search-premium.png?v=5072') center/100% 100% no-repeat!important;
+  background:transparent url('header-search-premium.png?v=5073') center/100% 100% no-repeat!important;
   outline:none!important;
 }
 html body .app-header-bell:active,
@@ -13465,7 +13465,7 @@ html body #sc-more .more-title-head > .today-actions{
 
 
 /* ============================================================
-   5.0.72 — финальная унификация верхних премиальных кнопок
+   5.0.73 — финальная унификация верхних премиальных кнопок
    Колокольчик и поиск используют один и тот же визуальный корпус
    и один размер на всех основных страницах приложения.
    ============================================================ */
