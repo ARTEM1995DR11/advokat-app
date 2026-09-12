@@ -12732,3 +12732,86 @@ body.light{
 .today-head .today-actions .app-header-search .ico{
   stroke-width:1.92!important;
 }
+
+
+/* ============================================================
+   5.0.64 — жёсткая унификация верхних action-кнопок на всех страницах
+   Колокольчик и лупа получают один и тот же базовый премиальный стиль
+   независимо от локальных старых правил конкретной страницы.
+   ============================================================ */
+body.light{
+  --app-bell-bg:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,.98),rgba(255,255,255,0) 34%),
+    linear-gradient(180deg,#FFFDF8 0%,#F8F1E5 100%);
+  --app-bell-border:rgba(190,143,46,.82);
+  --app-bell-color:#152A3F;
+  --app-bell-shadow:
+    0 9px 20px rgba(92,65,22,.15),
+    0 2px 5px rgba(92,65,22,.07),
+    inset 0 0 0 1px rgba(255,255,255,.96),
+    inset 0 0 0 2px rgba(224,200,151,.34),
+    inset 0 -2px 4px rgba(171,127,38,.08);
+}
+.app-header-bell,
+.app-header-search{
+  border-width:1.2px!important;
+  border-style:solid!important;
+  border-color:var(--app-bell-border)!important;
+  border-radius:14px!important;
+  background:var(--app-bell-bg)!important;
+  color:var(--app-bell-color)!important;
+  box-shadow:var(--app-bell-shadow)!important;
+}
+.app-header-bell:hover,
+.app-header-bell:focus,
+.app-header-bell:focus-visible,
+.app-header-search:hover,
+.app-header-search:focus,
+.app-header-search:focus-visible{
+  border-color:rgba(181,129,29,.92)!important;
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,1),rgba(255,255,255,0) 34%),
+    linear-gradient(180deg,#FFFDF9 0%,#F5EAD7 100%)!important;
+  color:#12283D!important;
+  box-shadow:
+    0 11px 24px rgba(92,65,22,.18),
+    0 2px 6px rgba(92,65,22,.08),
+    inset 0 0 0 1px rgba(255,255,255,.98),
+    inset 0 0 0 2px rgba(221,190,124,.40),
+    inset 0 -2px 4px rgba(171,127,38,.10)!important;
+  outline:none!important;
+}
+.app-header-bell:active,
+.app-header-search:active{
+  transform:translateY(1px) scale(.965)!important;
+  border-color:rgba(177,123,24,.96)!important;
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,.84),rgba(255,255,255,0) 34%),
+    linear-gradient(180deg,#F8E8BB 0%,#E2BE67 100%)!important;
+  color:#172536!important;
+  box-shadow:
+    0 6px 13px rgba(92,65,22,.15),
+    inset 0 0 0 1px rgba(255,250,231,.92),
+    inset 0 0 0 2px rgba(184,133,33,.28),
+    inset 0 -2px 4px rgba(118,77,12,.11)!important;
+}
+.app-header-search.on{
+  border-color:rgba(174,119,17,.96)!important;
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,248,214,.96),rgba(255,248,214,0) 33%),
+    linear-gradient(180deg,#F2D98C 0%,#D5A73E 100%)!important;
+  color:#14263A!important;
+  box-shadow:
+    0 10px 22px rgba(111,75,16,.20),
+    inset 0 0 0 1px rgba(255,249,222,.78),
+    inset 0 0 0 2px rgba(153,101,15,.18),
+    inset 0 -2px 4px rgba(98,61,6,.12)!important;
+}
+.app-header-bell .ico,
+.app-header-search .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  stroke-width:1.92!important;
+}
