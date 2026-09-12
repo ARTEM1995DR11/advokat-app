@@ -508,7 +508,7 @@ body.light .today-actions .iconbtn{background:rgba(255,255,255,.48)}
   background-color:#081826;
   background-image:
     linear-gradient(90deg,#081826 0%,rgba(8,24,38,.98) 37%,rgba(8,24,38,.72) 56%,rgba(8,24,38,.14) 82%),
-    url('columns-dark.png');
+    url('columns-light.png');
   background-repeat:no-repeat,no-repeat;
   background-position:0 0,right center;
   background-size:100% 100%,53% auto;
@@ -1157,7 +1157,7 @@ body.light .backup-safety{background:linear-gradient(145deg,#FFFDF9,#FFF8ED);box
   background-color:#071522;
   background-image:
     linear-gradient(180deg,rgba(7,21,34,.72),rgba(7,21,34,.92) 52%,#071522 100%),
-    url('columns-dark.png');
+    url('columns-light.png');
   background-repeat:no-repeat;
   background-position:center, right -46px top -12px;
   background-size:100% 100%, min(86vw,520px) auto;
@@ -6011,7 +6011,7 @@ body:not(.light) #sc-more{
   background-image:
     linear-gradient(180deg,rgba(7,21,34,.58) 0%,rgba(7,21,34,.84) 22%,rgba(7,21,34,.96) 54%,#071522 100%),
     radial-gradient(circle at 14% 6%,rgba(214,171,89,.10),transparent 26%),
-    url('columns-dark.png');
+    url('columns-light.png');
   background-repeat:no-repeat,no-repeat,no-repeat;
   background-size:100% 100%,100% 100%,min(96vw,540px) auto;
   background-attachment:local,local,local;
@@ -6789,7 +6789,7 @@ body:not(.light) .screen::before{
     radial-gradient(ellipse at 50% -14%,rgba(255,255,255,.05),transparent 48%);
 }
 body:not(.light) #sc-today{
-  --page-watermark:url('columns-dark.png');
+  --page-watermark:url('columns-light.png');
   --page-watermark-w:330px;
   --page-watermark-h:330px;
   --page-watermark-top:32px;
@@ -6809,7 +6809,7 @@ body:not(.light) #sc-tasks{
   --page-watermark-filter:drop-shadow(0 12px 30px rgba(0,0,0,.34));
 }
 body:not(.light) #sc-matters{
-  --page-watermark:url('columns-dark.png');
+  --page-watermark:url('columns-light.png');
   --page-watermark-w:300px;
   --page-watermark-h:300px;
   --page-watermark-top:112px;
@@ -6827,7 +6827,7 @@ body:not(.light) #sc-cal{
   --page-watermark-rotate:7deg;
 }
 body:not(.light) #sc-more{
-  --page-watermark:url('columns-dark.png');
+  --page-watermark:url('columns-light.png');
   --page-watermark-w:282px;
   --page-watermark-h:282px;
   --page-watermark-top:122px;
