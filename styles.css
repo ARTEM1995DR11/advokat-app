@@ -13007,3 +13007,150 @@ html body .app-header-search .ico{
   stroke-width:1.95!important;
   filter:none!important;
 }
+
+
+/* ============================================================
+   5.0.67 — финальный выбранный стиль для колокольчика и поиска
+   Точное направление по макету: мраморная ivory-кнопка,
+   тонкий золотой кант, внутренний светлый контур, без отдельного
+   второго дизайна для active/on. Один вид на всех страницах.
+   ============================================================ */
+body.light{
+  --action-icon-ivory-1:#FFFDF9;
+  --action-icon-ivory-2:#FCF8F0;
+  --action-icon-ivory-3:#F4EBDD;
+  --action-icon-gold-1:#DBBE81;
+  --action-icon-gold-2:#BE9445;
+  --action-icon-gold-3:#A8782A;
+  --action-icon-navy:#20354D;
+}
+html body .app-header-bell,
+html body .app-header-search,
+html body .today-actions .app-header-search,
+html body .main-brand-fixed > .today-bell,
+html body .app-main-brand > .app-header-bell{
+  position:relative!important;
+  overflow:hidden!important;
+  border:1.5px solid var(--action-icon-gold-2)!important;
+  border-radius:14px!important;
+  background:
+    linear-gradient(135deg,rgba(219,190,129,.12) 0%,rgba(255,255,255,0) 22%,rgba(190,148,69,.10) 62%,rgba(255,255,255,0) 100%),
+    linear-gradient(160deg,var(--action-icon-ivory-1) 0%,var(--action-icon-ivory-2) 58%,var(--action-icon-ivory-3) 100%)!important;
+  box-shadow:
+    0 8px 18px rgba(109,82,34,.16),
+    0 1px 2px rgba(109,82,34,.07),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(225,203,161,.58)!important;
+  color:var(--action-icon-navy)!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html body .app-header-bell::before,
+html body .app-header-search::before,
+html body .today-actions .app-header-search::before,
+html body .main-brand-fixed > .today-bell::before,
+html body .app-main-brand > .app-header-bell::before{
+  content:''!important;
+  position:absolute!important;
+  inset:3px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(214,185,121,.78)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88)!important;
+  pointer-events:none!important;
+}
+/* мягкие мраморные прожилки */
+html body .app-header-bell::after,
+html body .app-header-search::after,
+html body .today-actions .app-header-search::after,
+html body .main-brand-fixed > .today-bell::after,
+html body .app-main-brand > .app-header-bell::after{
+  content:''!important;
+  position:absolute!important;
+  inset:0!important;
+  border-radius:inherit!important;
+  background:
+    radial-gradient(120% 80% at 10% 12%, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 32%),
+    linear-gradient(122deg, transparent 0 16%, rgba(199,168,112,.09) 19%, transparent 23%),
+    linear-gradient(146deg, transparent 0 53%, rgba(204,176,126,.08) 56%, transparent 60%),
+    linear-gradient(128deg, transparent 0 74%, rgba(195,164,108,.07) 77%, transparent 81%)!important;
+  mix-blend-mode:normal!important;
+  opacity:1!important;
+  pointer-events:none!important;
+}
+/* Поиск без второго постоянного состояния */
+html body .app-header-search.on,
+html body .today-actions .app-header-search.on{
+  border:1.5px solid var(--action-icon-gold-2)!important;
+  background:
+    linear-gradient(135deg,rgba(219,190,129,.12) 0%,rgba(255,255,255,0) 22%,rgba(190,148,69,.10) 62%,rgba(255,255,255,0) 100%),
+    linear-gradient(160deg,var(--action-icon-ivory-1) 0%,var(--action-icon-ivory-2) 58%,var(--action-icon-ivory-3) 100%)!important;
+  box-shadow:
+    0 8px 18px rgba(109,82,34,.16),
+    0 1px 2px rgba(109,82,34,.07),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(225,203,161,.58)!important;
+  color:var(--action-icon-navy)!important;
+}
+html body .app-header-bell:hover,
+html body .app-header-bell:focus,
+html body .app-header-bell:focus-visible,
+html body .app-header-search:hover,
+html body .app-header-search:focus,
+html body .app-header-search:focus-visible,
+html body .app-header-search.on:hover,
+html body .app-header-search.on:focus,
+html body .app-header-search.on:focus-visible{
+  border-color:var(--action-icon-gold-3)!important;
+  background:
+    linear-gradient(135deg,rgba(219,190,129,.15) 0%,rgba(255,255,255,0) 22%,rgba(190,148,69,.12) 62%,rgba(255,255,255,0) 100%),
+    linear-gradient(160deg,#FFFDFB 0%,#FBF7F0 56%,#F3E8D9 100%)!important;
+  box-shadow:
+    0 9px 20px rgba(109,82,34,.18),
+    0 1px 2px rgba(109,82,34,.08),
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset 0 -1px 0 rgba(225,203,161,.62)!important;
+  color:var(--action-icon-navy)!important;
+  outline:none!important;
+}
+html body .app-header-bell:active,
+html body .app-header-search:active,
+html body .app-header-search.on:active{
+  transform:translateY(1px) scale(.98)!important;
+  border-color:var(--action-icon-gold-3)!important;
+  background:
+    linear-gradient(135deg,rgba(219,190,129,.14) 0%,rgba(255,255,255,0) 22%,rgba(190,148,69,.12) 62%,rgba(255,255,255,0) 100%),
+    linear-gradient(160deg,#FCF8F1 0%,#F6EEDF 56%,#EEDFC3 100%)!important;
+  box-shadow:
+    0 5px 12px rgba(109,82,34,.14),
+    inset 0 1px 0 rgba(255,255,255,.96),
+    inset 0 -1px 0 rgba(215,188,133,.58)!important;
+}
+html body .app-header-bell .ico,
+html body .app-header-search .ico,
+html body .today-actions .app-header-search .ico,
+html body .main-brand-fixed > .today-bell .ico,
+html body .app-main-brand > .app-header-bell .ico{
+  position:relative!important;
+  z-index:2!important;
+  width:23px!important;
+  height:23px!important;
+  min-width:23px!important;
+  min-height:23px!important;
+  max-width:23px!important;
+  max-height:23px!important;
+  color:var(--action-icon-navy)!important;
+  stroke:currentColor!important;
+  stroke-width:1.95!important;
+  filter:none!important;
+}
+/* Чуть меньший значок колокольчика для оптического баланса как в макете */
+html body .app-header-bell .ico,
+html body .main-brand-fixed > .today-bell .ico,
+html body .app-main-brand > .app-header-bell .ico{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  max-width:22px!important;
+  max-height:22px!important;
+}
