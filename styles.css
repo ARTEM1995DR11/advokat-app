@@ -11759,7 +11759,7 @@ body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
 #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
 body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{
-  background-image:url('nav-active-cases.png')!important;
+  background-image:url('nav-active-cases-clean.png')!important;
 }
 #tabbar.premium-nav .tab[data-tab="matters"].on .ico{opacity:0!important}
 #tabbar.premium-nav .tab.on .tab-label,
@@ -11900,561 +11900,6 @@ body:not(.light) #tabbar.premium-nav .tab.on:not([data-tab="matters"]) .tab-ico{
 
 
 /* ============================================================
-   5.0.41 — все вкладки получают проектное активное состояние
-   При выборе любая вкладка показывает тот же медальон, как и «Дела».
-   ============================================================ */
-#tabbar.premium-nav .tab.on .tab-ico,
-body.light #tabbar.premium-nav .tab.on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:62px 62px!important;
-  background-color:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png')!important}
-#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png')!important}
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png')!important}
-#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png')!important}
-#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png')!important}
-#tabbar.premium-nav .tab.on .ico,
-body.light #tabbar.premium-nav .tab.on .ico,
-body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
-#tabbar.premium-nav .tab.on .tab-label,
-body.light #tabbar.premium-nav .tab.on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-label{font-weight:700!important}
-@media(max-width:390px){
-  #tabbar.premium-nav .tab.on .tab-ico,
-  body.light #tabbar.premium-nav .tab.on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{background-size:60px 60px!important}
-}
-
-
-/* ============================================================
-   5.0.42 — фиксация позиционирования активного медальона для всех вкладок
-   Любая активная вкладка должна вести себя как в проекте: тот же центр,
-   тот же размер медальона, без смещений влево/вправо.
-   ============================================================ */
-#tabbar.premium-nav .tab.on .tab-ico,
-body.light #tabbar.premium-nav .tab.on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico,
-#tabbar.premium-nav .tab:nth-child(1).on .tab-ico,
-#tabbar.premium-nav .tab:nth-child(2).on .tab-ico,
-#tabbar.premium-nav .tab:nth-child(3).on .tab-ico,
-#tabbar.premium-nav .tab:nth-child(4).on .tab-ico,
-#tabbar.premium-nav .tab:nth-child(5).on .tab-ico{
-  position:absolute!important;
-  left:50%!important;
-  top:-12px!important;
-  width:62px!important;
-  height:62px!important;
-  min-width:62px!important;
-  min-height:62px!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translateX(-50%)!important;
-  border:0!important;
-  border-radius:50%!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:62px 62px!important;
-  overflow:visible!important;
-  z-index:5!important;
-}
-#tabbar.premium-nav .tab.on .ico,
-body.light #tabbar.premium-nav .tab.on .ico,
-body:not(.light) #tabbar.premium-nav .tab.on .ico,
-#tabbar.premium-nav .tab:nth-child(1).on .ico,
-#tabbar.premium-nav .tab:nth-child(2).on .ico,
-#tabbar.premium-nav .tab:nth-child(3).on .ico,
-#tabbar.premium-nav .tab:nth-child(4).on .ico,
-#tabbar.premium-nav .tab:nth-child(5).on .ico{
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  min-height:34px!important;
-  opacity:0!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today.png')!important}
-#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks.png')!important}
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases.png')!important}
-#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar.png')!important}
-#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more.png')!important}
-#tabbar.premium-nav .tab.on .tab-label,
-body.light #tabbar.premium-nav .tab.on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-label{
-  top:45px!important;
-  left:-8px!important;
-  right:-8px!important;
-  font-weight:700!important;
-  z-index:6!important;
-}
-#tabbar.premium-nav .tab.on::after,
-body.light #tabbar.premium-nav .tab.on::after,
-body:not(.light) #tabbar.premium-nav .tab.on::after,
-#tabbar.premium-nav .tab:nth-child(1).on::after,
-#tabbar.premium-nav .tab:nth-child(2).on::after,
-#tabbar.premium-nav .tab:nth-child(3).on::after,
-#tabbar.premium-nav .tab:nth-child(4).on::after,
-#tabbar.premium-nav .tab:nth-child(5).on::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:50%!important;
-  top:63.5px!important;
-  width:23px!important;
-  height:3.5px!important;
-  margin:0!important;
-  transform:translateX(-50%)!important;
-  border-radius:999px!important;
-  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
-  opacity:1!important;
-  z-index:6!important;
-}
-@media(max-width:390px){
-  #tabbar.premium-nav .tab.on .tab-ico,
-  body.light #tabbar.premium-nav .tab.on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab.on .tab-ico,
-  #tabbar.premium-nav .tab:nth-child(1).on .tab-ico,
-  #tabbar.premium-nav .tab:nth-child(2).on .tab-ico,
-  #tabbar.premium-nav .tab:nth-child(3).on .tab-ico,
-  #tabbar.premium-nav .tab:nth-child(4).on .tab-ico,
-  #tabbar.premium-nav .tab:nth-child(5).on .tab-ico{
-    top:-11px!important;
-    width:60px!important;
-    height:60px!important;
-    min-width:60px!important;
-    min-height:60px!important;
-    background-size:60px 60px!important;
-  }
-  #tabbar.premium-nav .tab.on::after,
-  body.light #tabbar.premium-nav .tab.on::after,
-  body:not(.light) #tabbar.premium-nav .tab.on::after{
-    top:61.5px!important;
-    width:22px!important;
-    height:3px!important;
-  }
-}
-
-
-/* ============================================================
-   5.0.43 — активные вкладки приведены к единой логике проекта
-   Любая активная кнопка получает один и тот же проектный медальон,
-   а внутри остаётся её собственная иконка, ровно по центру.
-   ============================================================ */
-#tabbar.premium-nav .tab.on,
-body.light #tabbar.premium-nav .tab.on,
-body:not(.light) #tabbar.premium-nav .tab.on{
-  z-index:5!important;
-  color:#10263B!important;
-}
-body:not(.light) #tabbar.premium-nav .tab.on{color:#10263B!important}
-#tabbar.premium-nav .tab.on .tab-ico,
-body.light #tabbar.premium-nav .tab.on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
-  position:absolute!important;
-  left:50%!important;
-  top:-12px!important;
-  width:62px!important;
-  height:62px!important;
-  min-width:62px!important;
-  min-height:62px!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translateX(-50%)!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  border:0!important;
-  border-radius:50%!important;
-  background-image:url('nav-active-base.png')!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:62px 62px!important;
-  background-color:transparent!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-}
-#tabbar.premium-nav .tab.on .tab-ico::before,
-#tabbar.premium-nav .tab.on .tab-ico::after,
-body.light #tabbar.premium-nav .tab.on .tab-ico::before,
-body.light #tabbar.premium-nav .tab.on .tab-ico::after,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico::before,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico::after{
-  display:none!important;
-  content:none!important;
-}
-#tabbar.premium-nav .tab.on .ico,
-body.light #tabbar.premium-nav .tab.on .ico,
-body:not(.light) #tabbar.premium-nav .tab.on .ico{
-  opacity:1!important;
-  color:#10263B!important;
-  stroke-width:1.55!important;
-  filter:none!important;
-  transform:none!important;
-}
-/* активная иконка папки — та же вкладка, только используется заполненный вариант */
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{
-  background-image:url('nav-active-base.png')!important;
-}
-#tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .ico{
-  opacity:1!important;
-  width:28px!important;
-  height:28px!important;
-  min-width:28px!important;
-  min-height:28px!important;
-  color:#10263B!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .ico{
-  width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;stroke-width:1.45!important
-}
-#tabbar.premium-nav .tab[data-tab="tasks"].on .ico{
-  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.55!important
-}
-#tabbar.premium-nav .tab[data-tab="cal"].on .ico{
-  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.5!important
-}
-#tabbar.premium-nav .tab[data-tab="more"].on .ico{
-  width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important
-}
-#tabbar.premium-nav .tab.on .tab-label,
-body.light #tabbar.premium-nav .tab.on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-label{
-  top:45px!important;
-  font-weight:700!important;
-  color:#10263B!important;
-}
-body:not(.light) #tabbar.premium-nav .tab.on .tab-label{color:#F8FAFC!important}
-#tabbar.premium-nav .tab.on::after,
-body.light #tabbar.premium-nav .tab.on::after,
-body:not(.light) #tabbar.premium-nav .tab.on::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:50%!important;
-  top:63.5px!important;
-  width:23px!important;
-  height:3.5px!important;
-  margin:0!important;
-  transform:translateX(-50%)!important;
-  border-radius:999px!important;
-  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
-  opacity:1!important;
-}
-@media(max-width:390px){
-  #tabbar.premium-nav .tab.on .tab-ico,
-  body.light #tabbar.premium-nav .tab.on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
-    top:-11px!important;
-    width:60px!important;
-    height:60px!important;
-    min-width:60px!important;
-    min-height:60px!important;
-    background-size:60px 60px!important;
-  }
-  #tabbar.premium-nav .tab[data-tab="today"].on .ico{width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important}
-  #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-  #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-  #tabbar.premium-nav .tab[data-tab="matters"].on .ico{width:27px!important;height:27px!important;min-width:27px!important;min-height:27px!important}
-  #tabbar.premium-nav .tab[data-tab="more"].on .ico{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}
-  #tabbar.premium-nav .tab.on::after,
-  body.light #tabbar.premium-nav .tab.on::after,
-  body:not(.light) #tabbar.premium-nav .tab.on::after{top:61.5px!important;width:22px!important;height:3px!important}
-}
-
-
-/* ============================================================
-   5.0.44 — все активные кнопки строго как у эталонной «Дела»
-   Снимаем индивидуальные PNG для Today/Tasks/Calendar/More и
-   принудительно используем один и тот же проектный медальон.
-   ============================================================ */
-#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{
-  position:absolute!important;
-  left:50%!important;
-  top:-12px!important;
-  width:62px!important;
-  height:62px!important;
-  min-width:62px!important;
-  min-height:62px!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translateX(-50%)!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  border:0!important;
-  border-radius:50%!important;
-  background-image:url('nav-active-base.png')!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:62px 62px!important;
-  background-color:transparent!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-  z-index:6!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .ico,
-#tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-#tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-#tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-#tabbar.premium-nav .tab[data-tab="more"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .ico{
-  opacity:1!important;
-  color:#10263B!important;
-  filter:none!important;
-  transform:none!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .ico{
-  width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;stroke-width:1.45!important
-}
-#tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .ico{
-  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.55!important
-}
-#tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .ico{
-  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.45!important
-}
-#tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .ico{
-  width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.5!important
-}
-#tabbar.premium-nav .tab[data-tab="more"].on .ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .ico{
-  width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .tab-label,
-#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-label,
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-label,
-#tabbar.premium-nav .tab[data-tab="cal"].on .tab-label,
-#tabbar.premium-nav .tab[data-tab="more"].on .tab-label,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-label,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-label,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-label,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-label,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-label{
-  top:45px!important;
-  left:-8px!important;
-  right:-8px!important;
-  color:#10263B!important;
-  font-weight:700!important;
-  z-index:7!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on::after,
-#tabbar.premium-nav .tab[data-tab="tasks"].on::after,
-#tabbar.premium-nav .tab[data-tab="matters"].on::after,
-#tabbar.premium-nav .tab[data-tab="cal"].on::after,
-#tabbar.premium-nav .tab[data-tab="more"].on::after,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on::after,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on::after,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on::after,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on::after,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on::after,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on::after,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on::after,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on::after,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on::after,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:50%!important;
-  top:63.5px!important;
-  width:23px!important;
-  height:3.5px!important;
-  margin:0!important;
-  transform:translateX(-50%)!important;
-  border-radius:999px!important;
-  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
-  opacity:1!important;
-  z-index:7!important;
-}
-@media(max-width:390px){
-  #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-  #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-  #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-  #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-  #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-  body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-  body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-  body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-  body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-  body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{
-    top:-11px!important;
-    width:60px!important;
-    height:60px!important;
-    min-width:60px!important;
-    min-height:60px!important;
-    background-size:60px 60px!important;
-  }
-  #tabbar.premium-nav .tab[data-tab="today"].on .ico,
-  body.light #tabbar.premium-nav .tab[data-tab="today"].on .ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .ico{width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important}
-  #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-  #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-  #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-  body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-  body.light #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-  body.light #tabbar.premium-nav .tab[data-tab="cal"].on .ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .ico{width:27px!important;height:27px!important;min-width:27px!important;min-height:27px!important}
-  #tabbar.premium-nav .tab[data-tab="more"].on .ico,
-  body.light #tabbar.premium-nav .tab[data-tab="more"].on .ico,
-  body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .ico{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important}
-  #tabbar.premium-nav .tab[data-tab="today"].on::after,
-  #tabbar.premium-nav .tab[data-tab="tasks"].on::after,
-  #tabbar.premium-nav .tab[data-tab="matters"].on::after,
-  #tabbar.premium-nav .tab[data-tab="cal"].on::after,
-  #tabbar.premium-nav .tab[data-tab="more"].on::after{top:61.5px!important;width:22px!important;height:3px!important}
-}
-
-
-/* ============================================================
-   5.0.45 — кнопки доведены по эталону: та же медальонная кнопка,
-   что и у «Дела», для всех вкладок; меняется только иконка внутри.
-   ============================================================ */
-#tabbar.premium-nav .tab.on .tab-ico,
-body.light #tabbar.premium-nav .tab.on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
-  position:absolute!important;
-  left:50%!important;
-  top:-12px!important;
-  width:62px!important;
-  height:62px!important;
-  min-width:62px!important;
-  min-height:62px!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translateX(-50%)!important;
-  border:0!important;
-  border-radius:50%!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:62px 62px!important;
-  background-color:transparent!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-  z-index:6!important;
-}
-#tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico{background-image:url('nav-active-today-exact.png')!important}
-#tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico{background-image:url('nav-active-tasks-exact.png')!important}
-#tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico{background-image:url('nav-active-cases-exact.png')!important}
-#tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico{background-image:url('nav-active-calendar-exact.png')!important}
-#tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body.light #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico,
-body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-more-exact.png')!important}
-#tabbar.premium-nav .tab.on .ico,
-body.light #tabbar.premium-nav .tab.on .ico,
-body:not(.light) #tabbar.premium-nav .tab.on .ico{opacity:0!important}
-#tabbar.premium-nav .tab.on .tab-label,
-body.light #tabbar.premium-nav .tab.on .tab-label,
-body:not(.light) #tabbar.premium-nav .tab.on .tab-label{
-  top:45px!important;
-  left:-8px!important;
-  right:-8px!important;
-  color:#10263B!important;
-  font-weight:700!important;
-  z-index:7!important;
-}
-#tabbar.premium-nav .tab.on::after,
-body.light #tabbar.premium-nav .tab.on::after,
-body:not(.light) #tabbar.premium-nav .tab.on::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:50%!important;
-  top:63.5px!important;
-  width:23px!important;
-  height:3.5px!important;
-  margin:0!important;
-  transform:translateX(-50%)!important;
-  border-radius:999px!important;
-  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
-  opacity:1!important;
-  z-index:7!important;
-}
-@media(max-width:390px){
-  #tabbar.premium-nav .tab.on .tab-ico,body.light #tabbar.premium-nav .tab.on .tab-ico,body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
-    top:-11px!important;width:60px!important;height:60px!important;min-width:60px!important;min-height:60px!important;background-size:60px 60px!important;
-  }
-  #tabbar.premium-nav .tab.on::after,body.light #tabbar.premium-nav .tab.on::after,body:not(.light) #tabbar.premium-nav .tab.on::after{top:61.5px!important;width:22px!important;height:3px!important}
-}
-
-
-/* ============================================================
    5.0.46 — clean active navigation buttons (single layer only)
    Панель/фон/кант НЕ меняются. У каждой активной вкладки ровно
    один растр медальона с иконкой; исходный SVG полностью скрыт.
@@ -12532,4 +11977,141 @@ html body #fab.fab > svg.ico,html body.light #fab.fab > svg.ico,html body:not(.l
   html body #tabbar.premium-nav .tab[data-tab].on .tab-ico{top:-11px!important;width:60px!important;height:60px!important;min-width:60px!important;min-height:60px!important;background-size:60px 60px!important}
   html body #tabbar.premium-nav .tab[data-tab].on::after{top:61.5px!important;width:22px!important;height:3px!important}
   html body #fab.fab,html body.light #fab.fab,html body:not(.light) #fab.fab{right:8px!important;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;max-width:52px!important;max-height:52px!important;border-radius:15px!important}
+}
+
+
+/* ============================================================
+   5.0.48 — финальная логика кнопок нижней панели по эталону
+   Плашка, фон и кант не меняем. Для любой активной вкладки
+   используем один и тот же медальон, как у эталонной кнопки «Дела».
+   Меняется только иконка внутри медальона.
+   ============================================================ */
+html body #tabbar.premium-nav .tab.on,
+html body.light #tabbar.premium-nav .tab.on,
+html body:not(.light) #tabbar.premium-nav .tab.on{
+  color:#10263B!important;
+  z-index:8!important;
+}
+html body #tabbar.premium-nav .tab.on .tab-ico,
+html body.light #tabbar.premium-nav .tab.on .tab-ico,
+html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
+  position:absolute!important;
+  left:50%!important;
+  top:-12px!important;
+  width:62px!important;
+  height:62px!important;
+  min-width:62px!important;
+  min-height:62px!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:visible!important;
+  border:none!important;
+  border-radius:50%!important;
+  background:url('nav-active-base-final.png') center/62px 62px no-repeat!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+  z-index:9!important;
+}
+html body #tabbar.premium-nav .tab.on .tab-ico::before,
+html body #tabbar.premium-nav .tab.on .tab-ico::after,
+html body.light #tabbar.premium-nav .tab.on .tab-ico::before,
+html body.light #tabbar.premium-nav .tab.on .tab-ico::after,
+html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico::before,
+html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico::after{
+  display:none!important;
+  content:none!important;
+}
+html body #tabbar.premium-nav .tab.on .ico,
+html body.light #tabbar.premium-nav .tab.on .ico,
+html body:not(.light) #tabbar.premium-nav .tab.on .ico{
+  opacity:1!important;
+  display:block!important;
+  position:relative!important;
+  z-index:10!important;
+  color:#10263B!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  filter:none!important;
+  transform:none!important;
+  background:none!important;
+}
+html body #tabbar.premium-nav .tab[data-tab="today"].on .ico{width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;stroke-width:1.75!important;transform:translateY(-1px)!important}
+html body #tabbar.premium-nav .tab[data-tab="tasks"].on .ico{width:27px!important;height:27px!important;min-width:27px!important;min-height:27px!important;stroke-width:1.95!important;transform:translateY(-1px)!important}
+html body #tabbar.premium-nav .tab[data-tab="matters"].on .ico{width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;stroke-width:1.55!important;transform:translateY(-1px)!important}
+html body #tabbar.premium-nav .tab[data-tab="cal"].on .ico{width:27px!important;height:27px!important;min-width:27px!important;min-height:27px!important;stroke-width:1.85!important;transform:translateY(-1px)!important}
+html body #tabbar.premium-nav .tab[data-tab="more"].on .ico{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;stroke-width:1.95!important;transform:translateY(-1px)!important}
+html body #tabbar.premium-nav .tab[data-tab="more"] .ico use{stroke:none!important;fill:currentColor!important}
+html body #tabbar.premium-nav .tab[data-tab="matters"] .ico use{fill:currentColor!important}
+html body #tabbar.premium-nav .tab.on .tab-label,
+html body.light #tabbar.premium-nav .tab.on .tab-label,
+html body:not(.light) #tabbar.premium-nav .tab.on .tab-label{
+  top:45px!important;
+  left:-8px!important;
+  right:-8px!important;
+  color:#10263B!important;
+  font-weight:700!important;
+  z-index:10!important;
+}
+html body #tabbar.premium-nav .tab.on::after,
+html body.light #tabbar.premium-nav .tab.on::after,
+html body:not(.light) #tabbar.premium-nav .tab.on::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:50%!important;
+  top:63.5px!important;
+  width:23px!important;
+  height:3.5px!important;
+  margin:0!important;
+  transform:translateX(-50%)!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,#E5C67D 0%,#D9B760 50%,#E8CD88 100%)!important;
+  opacity:1!important;
+  z-index:10!important;
+}
+/* Убираем старые активные растровые варианты, чтобы не было двойных слоёв. */
+html body #tabbar.premium-nav .tab[data-tab="today"].on .tab-ico,
+html body #tabbar.premium-nav .tab[data-tab="tasks"].on .tab-ico,
+html body #tabbar.premium-nav .tab[data-tab="matters"].on .tab-ico,
+html body #tabbar.premium-nav .tab[data-tab="cal"].on .tab-ico,
+html body #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{background-image:url('nav-active-base-final.png')!important}
+/* Плюс — только один активный слой без наслаиваний. */
+html body #fab.fab,
+html body.light #fab.fab,
+html body:not(.light) #fab.fab{
+  background:transparent url('fab-plus-square-premium.png') center/100% 100% no-repeat!important;
+}
+html body #fab.fab::before,
+html body #fab.fab::after,
+html body.light #fab.fab::before,
+html body.light #fab.fab::after,
+html body:not(.light) #fab.fab::before,
+html body:not(.light) #fab.fab::after,
+html body #fab .fab-ico,
+html body.light #fab .fab-ico,
+html body:not(.light) #fab .fab-ico{
+  display:none!important;
+  content:none!important;
+}
+@media(max-width:390px){
+  html body #tabbar.premium-nav .tab.on .tab-ico,
+  html body.light #tabbar.premium-nav .tab.on .tab-ico,
+  html body:not(.light) #tabbar.premium-nav .tab.on .tab-ico{
+    top:-11px!important;
+    width:60px!important;
+    height:60px!important;
+    min-width:60px!important;
+    min-height:60px!important;
+    background-size:60px 60px!important;
+  }
+  html body #tabbar.premium-nav .tab[data-tab="today"].on .ico{width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important}
+  html body #tabbar.premium-nav .tab[data-tab="tasks"].on .ico,
+  html body #tabbar.premium-nav .tab[data-tab="matters"].on .ico,
+  html body #tabbar.premium-nav .tab[data-tab="cal"].on .ico{width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important}
+  html body #tabbar.premium-nav .tab[data-tab="more"].on .ico{width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important}
+  html body #tabbar.premium-nav .tab.on::after{top:61.5px!important;width:22px!important;height:3px!important}
 }
