@@ -13319,3 +13319,104 @@ html body .app-header-search:active,
 html body .app-header-search.on:active{
   transform:translateY(1px) scale(.975)!important;
 }
+
+
+/* ============================================================
+   5.0.70 — реальные графические action-кнопки без CSS-корпуса
+   Колокольчик и поиск используют одинаковые PNG-корпуса, созданные
+   из одного шаблона кнопки «+». Никаких старых SVG/подложек поверх.
+   ============================================================ */
+html body .premium-action-image,
+html body .app-main-brand > .app-header-bell.premium-action-image,
+html body .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-today .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-tasks .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-matters .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-cal .today-head .today-actions .app-header-search.premium-action-image,
+html body #sc-more .today-head .today-actions .app-header-search.premium-action-image,
+html body .app-header-search.premium-action-image.on{
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:15px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  color:transparent!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+html body .premium-action-image::before,
+html body .premium-action-image::after,
+html body .premium-action-image.on::before,
+html body .premium-action-image.on::after{
+  display:none!important;
+  content:none!important;
+}
+html body .premium-action-image > svg.ico{
+  display:none!important;
+  opacity:0!important;
+}
+html body .premium-action-image > .premium-action-art{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  pointer-events:none!important;
+  user-select:none!important;
+  -webkit-user-drag:none!important;
+}
+html body .premium-action-image:hover,
+html body .premium-action-image:focus,
+html body .premium-action-image:focus-visible,
+html body .premium-action-image.on,
+html body .premium-action-image.on:hover,
+html body .premium-action-image.on:focus,
+html body .premium-action-image.on:focus-visible{
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:none!important;
+}
+html body .premium-action-image:active,
+html body .premium-action-image.on:active{
+  transform:translateY(1px) scale(.98)!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+html body #sc-today .today-head > .today-actions,
+html body #sc-tasks .today-head > .today-actions,
+html body #sc-matters .today-head > .today-actions,
+html body #sc-cal .today-head > .today-actions,
+html body #sc-more .today-head > .today-actions{
+  flex:0 0 50px!important;
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+}
+html body #sc-more .more-title-head > .today-actions{
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+}
