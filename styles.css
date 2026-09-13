@@ -13913,3 +13913,46 @@ body.light .matters-scope{
   -webkit-backdrop-filter:blur(4px)!important;
   backdrop-filter:blur(4px)!important;
 }
+
+
+/* ============================================================
+   5.0.94 — БЫСТРАЯ ЗАПИСЬ ПРИПОДНЯТА НАД НИЖНЕЙ ПАНЕЛЬЮ
+
+   Нижнюю панель не меняем.
+   Только окно «Быстрая запись» поднимается чуть выше,
+   чтобы не наезжать визуально на нижнюю навигацию.
+   ============================================================ */
+html body #sheet.quick-sheet,
+html body.light #sheet.quick-sheet,
+html body:not(.light) #sheet.quick-sheet{
+  left:10px!important;
+  right:10px!important;
+  bottom:calc(var(--bot) + 78px)!important;
+  top:auto!important;
+  max-height:min(78vh, 620px)!important;
+  padding:8px 16px 20px!important;
+  border-radius:28px!important;
+  overflow-y:auto!important;
+  box-shadow:0 22px 60px rgba(26,20,12,.18),0 8px 22px rgba(0,0,0,.10)!important;
+}
+html body #sheet.quick-sheet.open,
+html body.light #sheet.quick-sheet.open,
+html body:not(.light) #sheet.quick-sheet.open{
+  transform:translateY(0)!important;
+}
+html body #sheet.quick-sheet .quickgrid,
+html body.light #sheet.quick-sheet .quickgrid{
+  padding-bottom:2px!important;
+}
+@media(max-width:390px){
+  html body #sheet.quick-sheet,
+  html body.light #sheet.quick-sheet,
+  html body:not(.light) #sheet.quick-sheet{
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(var(--bot) + 74px)!important;
+    max-height:min(76vh, 600px)!important;
+    padding:8px 14px 18px!important;
+    border-radius:26px!important;
+  }
+}
