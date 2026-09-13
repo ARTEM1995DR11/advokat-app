@@ -623,9 +623,6 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 .quick-sheet{
   padding-left:18px;
   padding-right:18px;
-  background:
-    radial-gradient(520px 220px at 88% -40px,rgba(214,171,89,.08),transparent 72%),
-    #081722;
 }
 .quick-sheet .grab{width:42px;height:4px;margin-top:8px;margin-bottom:17px;background:rgba(180,198,211,.26)}
 .quickintro h2{margin:0 0 6px;font:600 27px/1.08 Georgia,'Times New Roman',serif;letter-spacing:-.03em}
@@ -677,11 +674,7 @@ body.dark .placeholder-row{background:rgba(255,255,255,.01)}
 .quickitem b{display:block;position:relative;z-index:1;font-size:13.5px;font-weight:700;line-height:1.17;letter-spacing:-.012em}
 .q-blue{--q:#3798E5}.q-red{--q:#EF5655}.q-green{--q:#28A873}.q-gold{--q:#D0A24A}.q-purple{--q:#9C75EA}.q-navy{--q:#8EA7BA}.q-slate{--q:#7E94A6}
 
-body.light .quick-sheet{
-  background:
-    radial-gradient(520px 220px at 88% -40px,rgba(198,151,66,.10),transparent 72%),
-    #FFFDF9;
-}
+body.light .quick-sheet{}
 body.light .quick-sheet .grab{background:rgba(70,75,78,.16)}
 body.light .quickitem{
   background:linear-gradient(155deg,#FFFFFF,#FBF9F5);
@@ -13545,12 +13538,7 @@ html body.light #fab.fab.fab-context-hide{
    5.0.75 — Быстрая запись: вариант C
    Светлая премиальная модальная панель с крупными карточками.
    ============================================================ */
-body .quick-sheet{
-  background:
-    radial-gradient(520px 300px at 10% 0%,rgba(215,192,146,.10),transparent 62%),
-    radial-gradient(420px 260px at 96% 8%,rgba(230,211,177,.12),transparent 58%),
-    linear-gradient(180deg,#FFFEFC 0%,#FAF7F1 100%)!important;
-}
+body .quick-sheet{}
 body .quick-sheet .grab{
   width:72px!important;
   height:8px!important;
@@ -13705,13 +13693,14 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.78 — фон «Быстрой записи» приведён ближе к утверждённому макету
-   Ivory marble + тонкие золотые дуги.
+   5.0.81 — «Быстрая запись»: утверждённый фон шторки
+   Возвращён ранее согласованный marble-фон quick-sheet-marble.png
+   для самой вкладки «Быстрая запись».
    ============================================================ */
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
-  background-color:#FBF8F1!important;
-  background-image:url("quick-sheet-marble.png?v=5078")!important;
+  background-color:#F7F1E6!important;
+  background-image:url('quick-sheet-marble.png?v=5081')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -13719,18 +13708,8 @@ body.light .sheet.quick-sheet{
   box-shadow:0 -18px 48px rgba(56,43,26,.14)!important;
 }
 body .sheet.quick-sheet::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  border-radius:inherit;
-  /* Не выбеливаем мраморный фон: оставляем лишь очень лёгкий мягкий свет. */
-  background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,0) 42%,rgba(255,249,238,.02));
-  z-index:0;
-}
-body .sheet.quick-sheet > *{
-  position:relative;
-  z-index:1;
+  content:none!important;
+  display:none!important;
 }
 
 
