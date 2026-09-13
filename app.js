@@ -1777,9 +1777,18 @@ function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; 
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ var sh=$('#sheet'); sh.classList.remove('open');
+function closeSheet(){ var sh=$('#sheet');
+  sh.style.removeProperty('transform');
+  sh.style.removeProperty('opacity');
+  sh.classList.remove('open');
   if(!$('#page').classList.contains('open')) $('#scrim').classList.remove('open');
-  setTimeout(function(){ if(!sh.classList.contains('open')){ sh.classList.remove('matter-editor-sheet'); } },380); }
+  setTimeout(function(){
+    if(!sh.classList.contains('open')){
+      sh.classList.remove('matter-editor-sheet');
+      sh.style.removeProperty('transform');
+      sh.style.removeProperty('opacity');
+    }
+  },380); }
 
 /* =====================================================================
    TASK CARD
@@ -4795,7 +4804,7 @@ document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true}
 document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
 
 /* =====================================================================
-   iOS 26 PWA BOTTOM CHROME FIX (5.0.94)
+   iOS 26 PWA BOTTOM CHROME FIX (5.0.93)
    Не используем fixed + bottom и не используем screen.height.
    Реальную видимую нижнюю границу берём из visualViewport и
    задаём fixed-элементам координату top. Пользовательские данные

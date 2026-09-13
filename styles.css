@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5091')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5094')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -13916,43 +13916,30 @@ body.light .matters-scope{
 
 
 /* ============================================================
-   5.0.94 — БЫСТРАЯ ЗАПИСЬ ПРИПОДНЯТА НАД НИЖНЕЙ ПАНЕЛЬЮ
+   5.0.94 — ПОЛНОЕ ЗАКРЫТИЕ НИЖНЕЙ ШТОРКИ
 
-   Нижнюю панель не меняем.
-   Только окно «Быстрая запись» поднимается чуть выше,
-   чтобы не наезжать визуально на нижнюю навигацию.
+   iOS PWA иногда оставляет отрисованный фрагмент bottom-sheet после
+   снятия .open, даже когда scrim уже закрыт. Закрытая шторка теперь
+   одновременно уходит ниже собственной высоты с запасом и становится
+   полностью прозрачной. Нижняя навигация этой правкой не затрагивается.
    ============================================================ */
-html body #sheet.quick-sheet,
-html body.light #sheet.quick-sheet,
-html body:not(.light) #sheet.quick-sheet{
-  left:10px!important;
-  right:10px!important;
-  bottom:calc(var(--bot) + 78px)!important;
-  top:auto!important;
-  max-height:min(78vh, 620px)!important;
-  padding:8px 16px 20px!important;
-  border-radius:28px!important;
-  overflow-y:auto!important;
-  box-shadow:0 22px 60px rgba(26,20,12,.18),0 8px 22px rgba(0,0,0,.10)!important;
+html body .sheet{
+  transition:transform .34s var(--ease),opacity .20s ease!important;
 }
-html body #sheet.quick-sheet.open,
-html body.light #sheet.quick-sheet.open,
-html body:not(.light) #sheet.quick-sheet.open{
-  transform:translateY(0)!important;
+html body .sheet:not(.open){
+  transform:translate3d(0,calc(100% + 180px),0)!important;
+  opacity:0!important;
+  pointer-events:none!important;
 }
-html body #sheet.quick-sheet .quickgrid,
-html body.light #sheet.quick-sheet .quickgrid{
-  padding-bottom:2px!important;
+html body .sheet.open{
+  transform:translate3d(0,0,0)!important;
+  opacity:1!important;
+  pointer-events:auto!important;
 }
-@media(max-width:390px){
-  html body #sheet.quick-sheet,
-  html body.light #sheet.quick-sheet,
-  html body:not(.light) #sheet.quick-sheet{
-    left:8px!important;
-    right:8px!important;
-    bottom:calc(var(--bot) + 74px)!important;
-    max-height:min(76vh, 600px)!important;
-    padding:8px 14px 18px!important;
-    border-radius:26px!important;
-  }
+/* У «Быстрой записи» большой графический фон: даём дополнительный запас
+   на случай ошибочного compositing fixed-слоя в standalone WebKit. */
+html body .sheet.quick-sheet:not(.open),
+html body.light .sheet.quick-sheet:not(.open){
+  transform:translate3d(0,calc(100% + 260px),0)!important;
+  opacity:0!important;
 }
