@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5107')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5108')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14736,7 +14736,7 @@ body.light #sc-today .today-quote{
 
 
 /* =====================================================================
-   5.0.107 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
+   5.0.108 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
@@ -14871,11 +14871,11 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.107 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
+   5.0.108 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5107') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5108') center/cover no-repeat !important;
   border-top-left-radius:30px !important;
   border-top-right-radius:30px !important;
   box-shadow:0 -18px 42px rgba(34,28,18,.10) !important;
@@ -14951,8 +14951,8 @@ body.light #sc-today .today-quote{
   pointer-events:none !important;
   z-index:0 !important;
 }
-.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5107') !important;}
-.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5107') !important;}
+.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5108') !important;}
+.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5108') !important;}
 .search-premium-orb::before,
 .notify-sheet-orb::before,
 .search-premium-orb::after,
@@ -15192,10 +15192,10 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.107 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
+   5.0.108 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
    ===================================================================== */
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5107') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5108') center/cover no-repeat !important;
   border-top-left-radius:34px !important;
   border-top-right-radius:34px !important;
   box-shadow:0 -22px 48px rgba(28,27,22,.12) !important;
@@ -15242,7 +15242,7 @@ body.light #sc-today .today-quote{
   right:-14px !important;
   width:128px !important;
   height:126px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5107') right top/156px 172px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5108') right top/156px 172px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15403,9 +15403,9 @@ body.light #sc-today .today-quote{
 }
 
 
-/* === 5.0.107 — утверждённый макет шторки «Напоминания» === */
+/* === 5.0.108 — утверждённый макет шторки «Напоминания» === */
 body.light #sheet.notify-premium-sheet{
-  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5107') center/cover no-repeat !important;
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5108') center/cover no-repeat !important;
   border:1px solid rgba(214,190,150,.78) !important;
   border-bottom:0 !important;
   border-top-left-radius:36px !important;
@@ -15454,7 +15454,7 @@ body.light #sheet.notify-premium-sheet{
   right:-8px !important;
   width:156px !important;
   height:152px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5107') right top/170px 184px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5108') right top/170px 184px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15608,7 +15608,7 @@ body.light #sheet.notify-premium-sheet{
 }
 
 /* =====================================================================
-   5.0.107 — «Напоминания»: чистая реализация по утверждённому макету
+   5.0.108 — «Напоминания»: чистая реализация по утверждённому макету
    Старые notify-* стили намеренно не используются.
    ===================================================================== */
 body.light #sheet.reminders-approved-v107-sheet{
@@ -15616,7 +15616,7 @@ body.light #sheet.reminders-approved-v107-sheet{
   padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px))!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5107') center/cover no-repeat!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5108') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -15852,4 +15852,172 @@ body.light #sheet.reminders-approved-v107-sheet{
   .rem107-toggle{height:58px!important;padding:0 16px!important;grid-template-columns:32px minmax(0,1fr) 22px!important;}
   .rem107-toggle-text{font-size:14.4px!important;}
   .rem107-note{font-size:11.3px!important;}
+}
+
+/* =====================================================================
+   5.0.108 — «Напоминания»: полный колокольчик + без прокрутки
+   ===================================================================== */
+body.light #sheet.reminders-approved-v108-sheet{
+  max-height:78dvh!important;
+  padding:5px 0 calc(6px + env(safe-area-inset-bottom,0px))!important;
+  overflow:hidden!important;
+  overflow-x:hidden!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5108') center/cover no-repeat!important;
+  border:1px solid rgba(213,188,145,.80)!important;
+  border-bottom:0!important;
+  border-radius:36px 36px 0 0!important;
+  box-shadow:0 -22px 52px rgba(28,26,20,.12)!important;
+}
+#sheet.reminders-approved-v108-sheet>.grab{
+  width:88px!important;
+  height:7px!important;
+  margin:9px auto 2px!important;
+  border-radius:999px!important;
+  background:#D5CEC1!important;
+  opacity:1!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107{
+  padding:0 18px 5px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-head{
+  min-height:101px!important;
+  padding:11px 104px 0 10px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-head h2{
+  margin:0 0 7px!important;
+  font-size:29px!important;
+  line-height:1.01!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-head p{
+  max-width:274px!important;
+  font-size:12.7px!important;
+  line-height:1.34!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-head-bell{
+  top:-1px!important;
+  right:2px!important;
+  width:96px!important;
+  height:96px!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  filter:drop-shadow(0 7px 13px rgba(157,116,40,.14))!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-curve-a{
+  width:172px!important;
+  height:172px!important;
+  right:-65px!important;
+  top:-72px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-curve-b{
+  width:195px!important;
+  height:195px!important;
+  right:-74px!important;
+  top:-57px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card{
+  grid-template-columns:60px minmax(0,1fr) 17px!important;
+  gap:11px!important;
+  margin:0 0 9px!important;
+  padding:12px 13px 12px!important;
+  border-radius:22px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card-icon{
+  width:51px!important;
+  height:51px!important;
+  border-radius:16px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card h3{
+  margin:1px 0 4px!important;
+  font-size:15.2px!important;
+  line-height:1.12!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card p{
+  font-size:11.55px!important;
+  line-height:1.34!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-chevron .ico{
+  width:16px!important;
+  height:16px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-status{
+  min-width:146px!important;
+  height:29px!important;
+  padding:0 14px!important;
+  margin-top:7px!important;
+  gap:7px!important;
+  font-size:12.6px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-status .ico{
+  width:14px!important;
+  height:14px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card-calendar{
+  padding-bottom:12px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-card-calendar h3{
+  font-size:14.9px!important;
+  margin-bottom:4px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-toggle{
+  height:52px!important;
+  grid-template-columns:30px minmax(0,1fr) 20px!important;
+  gap:8px!important;
+  margin-top:1px!important;
+  padding:0 16px!important;
+  border-radius:20px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-toggle-bell .ico{
+  width:19px!important;
+  height:19px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-toggle-chevron .ico{
+  width:17px!important;
+  height:17px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-toggle-text{
+  font-size:13.8px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-note{
+  margin:6px 0 3px!important;
+  font-size:10.6px!important;
+  line-height:1.2!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-footer{
+  grid-template-columns:1fr 24px 1fr!important;
+  grid-template-rows:21px 13px!important;
+  column-gap:9px!important;
+  padding:0 36px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-footer img{
+  width:22px!important;
+  height:22px!important;
+}
+#sheet.reminders-approved-v108-sheet .rem107-footer b{
+  font-size:8.8px!important;
+  letter-spacing:.34em!important;
+}
+@media(max-width:390px){
+  body.light #sheet.reminders-approved-v108-sheet{max-height:80dvh!important;}
+  #sheet.reminders-approved-v108-sheet .rem107{padding-left:14px!important;padding-right:14px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-head{min-height:96px!important;padding-right:96px!important;padding-left:8px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-head h2{font-size:27px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-head p{font-size:12px!important;max-width:240px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-head-bell{width:88px!important;height:88px!important;right:0!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card{grid-template-columns:56px minmax(0,1fr) 16px!important;gap:9px!important;padding:11px 12px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card-icon{width:48px!important;height:48px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card h3{font-size:14.6px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card p{font-size:11.1px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-status{height:28px!important;min-width:136px!important;font-size:12px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-toggle{height:50px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-toggle-text{font-size:13.2px!important;}
+}
+@media(max-height:860px){
+  body.light #sheet.reminders-approved-v108-sheet{max-height:82dvh!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-head{min-height:92px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card{margin-bottom:7px!important;padding-top:10px!important;padding-bottom:10px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card p{font-size:11px!important;line-height:1.30!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-card h3{font-size:14.6px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-toggle{height:48px!important;}
+  #sheet.reminders-approved-v108-sheet .rem107-note{margin:4px 0 2px!important;}
 }
