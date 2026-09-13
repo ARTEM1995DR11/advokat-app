@@ -1,17 +1,17 @@
-const CACHE = 'advokat-iphone-offline-v40-stable-5096';
+const CACHE = 'advokat-iphone-offline-v40-stable-5097';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=5096',
+  './styles.css?v=5097',
   './nav-panel-light.png',
-  './nav-active-base.png?v=5096',
-  './nav-active-today.png?v=5096',
-  './nav-active-tasks.png?v=5096',
-  './nav-active-cases.png?v=5096',
-  './nav-active-calendar.png?v=5096',
-  './nav-active-more.png?v=5096',
-  './app.js?v=5096',
-  './manifest.webmanifest?v=5096',
+  './nav-active-base.png?v=5097',
+  './nav-active-today.png?v=5097',
+  './nav-active-tasks.png?v=5097',
+  './nav-active-cases.png?v=5097',
+  './nav-active-calendar.png?v=5097',
+  './nav-active-more.png?v=5097',
+  './app.js?v=5097',
+  './manifest.webmanifest?v=5097',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
@@ -23,9 +23,9 @@ const SHELL = [
   './bg-cal-marble-calendar.png',
   './bg-more-marble-office.png',
   './fab-plus-square-premium.png',
-  './header-bell-premium.png?v=5096',
-  './header-search-premium.png?v=5096',
-  './quick-sheet-marble-approved.png?v=5096',
+  './header-bell-premium.png?v=5097',
+  './header-search-premium.png?v=5097',
+  './quick-sheet-marble-approved.png?v=5097',
   './VERSION.txt'
 ];
 
