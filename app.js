@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.83';
-var APP_BUILD='5083';
+var APP_VERSION='5.0.85';
+var APP_BUILD='5085';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5083" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5085" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5083" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5085" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5083" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5085" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -3753,7 +3753,7 @@ function sheetQuickAdd(){
 function quickItem(i,t,act,tone){return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+ico(i,'l')+'</span><b>'+t+'</b></button>';}
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5083':type==='search'?'header-search-premium.png?v=5083':type==='plus'?'fab-plus-square-premium.png?v=5083':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5085':type==='search'?'header-search-premium.png?v=5085':type==='plus'?'fab-plus-square-premium.png?v=5085':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4795,6 +4795,60 @@ document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true}
 document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
 
 /* =====================================================================
+   iOS PWA BOTTOM VIEWPORT STABILIZER (5.0.85)
+   На первом кадре standalone-PWA iOS иногда сообщает уменьшенную высоту
+   viewport. После первого касания она пересчитывается, из-за чего нижняя
+   панель раньше заметно съезжала вниз. Здесь мы измеряем реальный нижний
+   край и компенсируем только временный положительный зазор.
+   ===================================================================== */
+var BOTTOM_UI_SYNC_TIMERS=[];
+function appIsStandalone(){
+  try{return !!((window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true);}catch(e){return !!navigator.standalone;}
+}
+function syncBottomUIViewport(){
+  var nav=document.getElementById('tabbar');
+  if(!nav)return;
+  var root=document.documentElement;
+  /* Сначала измеряем базовое положение без предыдущей компенсации. */
+  root.style.setProperty('--bottom-ui-correction','0px');
+  void nav.offsetHeight;
+  requestAnimationFrame(function(){
+    var rect=nav.getBoundingClientRect();
+    var target=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
+    var vv=window.visualViewport;
+    if(vv){
+      var vvBottom=(vv.offsetTop||0)+(vv.height||0);
+      if(appIsStandalone()) target=Math.max(target,vvBottom);
+      else target=vvBottom||target;
+    }
+    /* В standalone с black-translucent viewport должен доходить до физического
+       нижнего края. screen.height помогает именно на ошибочном первом кадре. */
+    if(appIsStandalone()&&window.screen&&screen.height){
+      var sh=+screen.height||0;
+      if(sh>=target && sh-target<=64) target=sh;
+    }
+    var gap=Math.round(target-rect.bottom);
+    if(!isFinite(gap)||gap<0)gap=0;
+    if(gap>64)gap=64;
+    root.style.setProperty('--bottom-ui-correction',gap+'px');
+  });
+}
+function stabilizeBottomUIViewport(){
+  BOTTOM_UI_SYNC_TIMERS.forEach(function(t){clearTimeout(t);});
+  BOTTOM_UI_SYNC_TIMERS=[];
+  [0,40,120,260,520,900,1400].forEach(function(ms){
+    BOTTOM_UI_SYNC_TIMERS.push(setTimeout(syncBottomUIViewport,ms));
+  });
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',syncBottomUIViewport,{passive:true});
+  window.visualViewport.addEventListener('scroll',syncBottomUIViewport,{passive:true});
+}
+window.addEventListener('resize',syncBottomUIViewport,{passive:true});
+window.addEventListener('orientationchange',function(){setTimeout(stabilizeBottomUIViewport,80);},{passive:true});
+window.addEventListener('pageshow',function(){stabilizeBottomUIViewport();},{passive:true});
+
+/* =====================================================================
    BOOT
    ===================================================================== */
 var APP_STARTED=false,hiddenAt=0;
@@ -4809,6 +4863,7 @@ function afterUnlock(){
     save();
   }
   render();schedule();
+  stabilizeBottomUIViewport();
   if(!APP_STARTED){
     APP_STARTED=true;setInterval(schedule,15*60*1000);
     var hearingSig=S.tasks.filter(hearingNeedsResult).map(function(t){return t.id;}).sort().join('|');
@@ -4843,6 +4898,7 @@ document.addEventListener('visibilitychange',function(){
       save();
     }
     render();schedule();
+    stabilizeBottomUIViewport();
   }
 });
 if('serviceWorker' in navigator){
