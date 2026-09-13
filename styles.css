@@ -13835,3 +13835,47 @@ html body.light .timerpill{
     bottom:calc(91px - env(safe-area-inset-bottom,0px))!important;
   }
 }
+
+
+/* ============================================================
+   5.0.92 — iOS 26 PWA: обход бага fixed + bottom
+
+   Нижняя панель больше не привязана через bottom/safe-area.
+   JS задаёт --ios-nav-top по visualViewport, а fixed-элемент
+   позиционируется через top. Это обходит неверное bottom-якорение
+   WebKit 26 и не затрагивает IndexedDB/данные приложения.
+   ============================================================ */
+:root{
+  --ios-nav-top:calc(100dvh - 75px);
+  --ios-fab-top:calc(100dvh - 144px);
+  --ios-vv-height:100dvh;
+}
+html,body{
+  min-height:100dvh!important;
+  height:100dvh!important;
+}
+#app{
+  height:var(--ios-vv-height,100dvh)!important;
+}
+html body #tabbar.premium-nav,
+html body.light #tabbar.premium-nav,
+html body:not(.light) #tabbar.premium-nav{
+  position:fixed!important;
+  top:var(--ios-nav-top)!important;
+  bottom:auto!important;
+  transform:none!important;
+  translate:none!important;
+}
+html body #fab.fab,
+html body.light #fab.fab,
+html body:not(.light) #fab.fab{
+  position:fixed!important;
+  top:var(--ios-fab-top)!important;
+  bottom:auto!important;
+}
+@media(max-width:390px){
+  :root{
+    --ios-nav-top:calc(100dvh - 73px);
+    --ios-fab-top:calc(100dvh - 137px);
+  }
+}
