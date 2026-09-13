@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5100')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5101')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14064,7 +14064,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.100 — Быстрая запись: выбран вариант 3 иконок
+   5.0.101 — Быстрая запись: выбран вариант 3 иконок
    Стеклянные светлые плашки с цветным контуром и мягким свечением.
    ============================================================ */
 body .quick-sheet .quickgrid.quickgrid-core .quickitem,
@@ -14160,7 +14160,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.100 — Быстрая запись: точные PNG-иконки из утверждённого макета
+   5.0.101 — Быстрая запись: точные PNG-иконки из утверждённого макета
    Иконки больше не имитируются CSS. Используются отдельные изображения,
    вырезанные непосредственно из согласованного пользователем макета.
    ============================================================ */
@@ -14213,4 +14213,50 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
   body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico{
     flex-basis:76px!important;
   }
+}
+
+
+/* ============================================================
+   5.0.101 — ФИНАЛЬНЫЙ ЭКРАН «СЕГОДНЯ»
+   1) цитата компактнее на ~18%;
+   2) справа у строк зарезервировано место под фиксированную кнопку +;
+   3) геометрию нижней панели не меняем.
+   ============================================================ */
+#sc-today .today-quote{
+  height:auto!important;
+  min-height:92px!important;
+  margin-bottom:11px!important;
+}
+#sc-today .today-quote>div{
+  min-height:92px!important;
+  padding:12px 14px!important;
+  max-width:63%!important;
+  justify-content:center!important;
+}
+#sc-today .today-quote b{
+  font-size:15px!important;
+  line-height:1.16!important;
+}
+#sc-today .today-quote span{
+  margin-top:6px!important;
+  min-height:12px!important;
+  font-size:10.5px!important;
+}
+#sc-today .today-quote,
+body.light #sc-today .today-quote{
+  background-size:100% 100%,auto 110%!important;
+}
+
+/* Кнопка + фиксирована справа: содержимое строк никогда не должно уходить под неё. */
+#sc-today .today-group .today-row,
+#sc-today .today-hearing-swipe-row{
+  padding-right:74px!important;
+}
+@media(max-width:390px){
+  #sc-today .today-quote{min-height:90px!important}
+  #sc-today .today-quote>div{min-height:90px!important;padding:11px 12px!important;max-width:65%!important}
+  #sc-today .today-quote b{font-size:14.4px!important;line-height:1.16!important}
+  #sc-today .today-quote span{font-size:10.2px!important;margin-top:5px!important}
+  #sc-today .today-group .today-row,
+  #sc-today .today-hearing-swipe-row{padding-right:68px!important}
 }
