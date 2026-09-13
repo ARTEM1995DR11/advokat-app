@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5089')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5091')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -13713,7 +13713,7 @@ body .sheet.quick-sheet::before{
 }
 
 /* ============================================================
-   5.0.89 — iOS PWA: нижняя панель фиксируется к видимому viewport
+   5.0.91 — iOS PWA: нижняя панель фиксируется к видимому viewport
 
    Не используем screen.height / 100lvh / вычисляемую высоту root.
    Навигация и FAB закреплены position:fixed относительно viewport.
@@ -13795,4 +13795,43 @@ html body.light .screen{
   html body.light .timerpill{bottom:91px!important}
   html body .screen,
   html body.light .screen{padding-bottom:91px!important}
+}
+
+
+/* ============================================================
+   5.0.91 — iOS PWA: убран нижний safe-area зазор под навигацией
+
+   Панель остаётся position:fixed и стабильной при холодном запуске,
+   но визуально опускается в системную нижнюю safe-area iPhone.
+   Данные, IndexedDB и логика загрузки этой правкой не затрагиваются.
+   ============================================================ */
+html body #tabbar.premium-nav,
+html body.light #tabbar.premium-nav,
+html body:not(.light) #tabbar.premium-nav{
+  bottom:calc(0px - env(safe-area-inset-bottom,0px))!important;
+}
+html body #fab.fab,
+html body.light #fab.fab,
+html body:not(.light) #fab.fab{
+  bottom:calc(88px - env(safe-area-inset-bottom,0px))!important;
+}
+html body .timerpill,
+html body.light .timerpill{
+  bottom:calc(94px - env(safe-area-inset-bottom,0px))!important;
+}
+@media(max-width:390px){
+  html body #tabbar.premium-nav,
+  html body.light #tabbar.premium-nav,
+  html body:not(.light) #tabbar.premium-nav{
+    bottom:calc(0px - env(safe-area-inset-bottom,0px))!important;
+  }
+  html body #fab.fab,
+  html body.light #fab.fab,
+  html body:not(.light) #fab.fab{
+    bottom:calc(85px - env(safe-area-inset-bottom,0px))!important;
+  }
+  html body .timerpill,
+  html body.light .timerpill{
+    bottom:calc(91px - env(safe-area-inset-bottom,0px))!important;
+  }
 }

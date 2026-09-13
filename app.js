@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.89';
-var APP_BUILD='5089';
+var APP_VERSION='5.0.91';
+var APP_BUILD='5091';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5089" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5091" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5089" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5091" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5089" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5091" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -3753,7 +3753,7 @@ function sheetQuickAdd(){
 function quickItem(i,t,act,tone){return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+ico(i,'l')+'</span><b>'+t+'</b></button>';}
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5089':type==='search'?'header-search-premium.png?v=5089':type==='plus'?'fab-plus-square-premium.png?v=5089':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5091':type==='search'?'header-search-premium.png?v=5091':type==='plus'?'fab-plus-square-premium.png?v=5091':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4832,7 +4832,7 @@ function afterUnlock(){
     save();
   }
   render();schedule();
-  stabilizeAppViewport();
+  refreshFixedChrome();
   if(!APP_STARTED){
     APP_STARTED=true;setInterval(schedule,15*60*1000);
     var hearingSig=S.tasks.filter(hearingNeedsResult).map(function(t){return t.id;}).sort().join('|');
@@ -4843,10 +4843,23 @@ function afterUnlock(){
 async function boot(){
   META=getMeta();drawPad();
   if(pinEnabled()){lockShow('Введите PIN для расшифровки базы');return;}
-  try{await bootLoadDevice();afterUnlock();}
+  try{
+    await bootLoadDevice();
+  }catch(e){
+    /* 5.0.91 DATA-SAFETY: никогда не подменяем ошибку чтения пустой базой.
+       При любой ошибке загрузки существующее хранилище остаётся нетронутым. */
+    SESSION_KEY=null;
+    unlocked=false;
+    lockShow('Не удалось открыть локальную базу. Данные не изменены. Перезапустите приложение или восстановите резервную копию.');
+    try{console.error('Storage boot failed',e);}catch(_e){}
+    return;
+  }
+  /* Ошибки интерфейса после успешного чтения базы не должны попадать в
+     обработчик хранилища и тем более приводить к созданию пустого состояния. */
+  try{afterUnlock();}
   catch(e){
-    // If IndexedDB is unavailable, keep an in-memory empty workspace rather than failing to start.
-    S=mergeState(DEF);unlocked=true;afterUnlock();toast('Хранилище браузера недоступно: работает временный режим');
+    try{console.error('UI boot failed',e);}catch(_e){}
+    refreshFixedChrome();
   }
 }
 boot();
@@ -4867,7 +4880,7 @@ document.addEventListener('visibilitychange',function(){
       save();
     }
     render();schedule();
-    stabilizeAppViewport();
+    refreshFixedChrome();
   }
 });
 if('serviceWorker' in navigator){
