@@ -13693,14 +13693,14 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.81 — «Быстрая запись»: утверждённый фон шторки
-   Возвращён ранее согласованный marble-фон quick-sheet-marble.png
-   для самой вкладки «Быстрая запись».
+   5.0.83 — «Быстрая запись»: подтверждённый мраморный фон
+   Во вкладке используется именно утверждённое изображение
+   quick-sheet-marble-approved.png по последнему согласованию.
    ============================================================ */
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble.png?v=5081')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5083')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
