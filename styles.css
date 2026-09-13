@@ -13943,3 +13943,29 @@ html body.light .sheet.quick-sheet:not(.open){
   transform:translate3d(0,calc(100% + 260px),0)!important;
   opacity:0!important;
 }
+
+
+/* ============================================================
+   5.0.95 — ВОЗВРАТ ПРАВИЛЬНОГО ПОРЯДКА СЛОЁВ ДЛЯ НИЖНИХ ОКОН
+
+   Положение и геометрия нижней панели НЕ меняются.
+   В версиях стабилизации панели её z-index был поднят до 1000,
+   из-за чего навигация и FAB «+» рисовались поверх «Глобального поиска»,
+   «Напоминаний» и других bottom-sheet. Возвращаем панели обычный слой:
+   scrim (40) и sheet (41) снова перекрывают навигацию, как задумано.
+   ============================================================ */
+html body #tabbar.premium-nav,
+html body.light #tabbar.premium-nav,
+html body:not(.light) #tabbar.premium-nav{
+  z-index:35!important;
+}
+html body #fab.fab,
+html body.light #fab.fab,
+html body:not(.light) #fab.fab{
+  z-index:36!important;
+}
+html body .timerpill,
+html body.light .timerpill,
+html body:not(.light) .timerpill{
+  z-index:34!important;
+}
