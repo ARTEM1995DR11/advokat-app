@@ -13879,3 +13879,37 @@ html body:not(.light) #fab.fab{
     --ios-fab-top:calc(100dvh - 137px);
   }
 }
+
+
+/* ============================================================
+   5.0.93 — ОСНОВНЫЕ ФОНЫ СВЕТЛОЙ ТЕМЫ СДЕЛАНЫ ЯРЧЕ
+
+   Нижнюю панель больше не трогаем.
+   Убираем лишнюю «пелену» на Сегодня / Дела / Календарь / Ещё,
+   чтобы они выглядели по яркости ближе к удачному экрану «Задачи».
+   ============================================================ */
+body.light #sc-today,
+body.light #sc-matters,
+body.light #sc-more{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,250,243,.05) 0%,rgba(252,247,239,.09) 18%,rgba(248,242,232,.15) 48%,rgba(246,239,227,.32) 100%),
+    var(--page-bg-image)!important;
+}
+body.light #sc-cal{
+  background-color:#F6EFE3!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,250,243,.04) 0%,rgba(252,247,239,.08) 18%,rgba(248,242,232,.14) 48%,rgba(246,239,227,.28) 100%),
+    url('bg-cal-marble-calendar.png')!important;
+}
+body.light #sc-today{--page-bg-image:url('bg-today-desk.png')}
+body.light #sc-matters{--page-bg-image:url('bg-matters-folders.png')}
+body.light #sc-more{--page-bg-image:url('bg-more-marble-office.png')}
+
+/* Фильтры и верхние зоны остаются читаемыми, но без лишнего матового слоя */
+body.light .tasks-project-filters,
+body.light .matters-scope{
+  background:rgba(248,244,236,.58)!important;
+  -webkit-backdrop-filter:blur(4px)!important;
+  backdrop-filter:blur(4px)!important;
+}
