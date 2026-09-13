@@ -13693,14 +13693,14 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.85 — «Быстрая запись»: подтверждённый мраморный фон
+   5.0.86 — «Быстрая запись»: подтверждённый мраморный фон
    Во вкладке используется именно утверждённое изображение
    quick-sheet-marble-approved.png по последнему согласованию.
    ============================================================ */
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5085')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5089')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -13712,56 +13712,87 @@ body .sheet.quick-sheet::before{
   display:none!important;
 }
 
-
 /* ============================================================
-   5.0.79 — нижняя панель вплотную к нижнему краю iPhone
-   Убираем лишний визуальный safe-area зазор под навигацией.
+   5.0.89 — iOS PWA: нижняя панель фиксируется к видимому viewport
+
+   Не используем screen.height / 100lvh / вычисляемую высоту root.
+   Навигация и FAB закреплены position:fixed относительно viewport.
+   Это важно именно для первого кадра холодного запуска ярлыка iOS.
    ============================================================ */
-html,body,#app{
+html,body{
+  width:100%!important;
   min-height:100%!important;
+  height:100%!important;
+  max-height:none!important;
 }
-@supports (height:100dvh){
-  html,body,#app{height:100dvh!important;min-height:100dvh!important}
+html{overflow:hidden!important}
+body{
+  position:relative!important;
+  overflow:hidden!important;
+  background-color:#F7F1E6!important;
 }
-:root{--bottom-ui-correction:0px}
-body.light{background-color:#F7F1E6!important}
+#app{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow:hidden!important;
+}
 
-/*
-   5.0.85 — iOS PWA: при первом запуске visual viewport иногда
-   инициализируется выше фактического нижнего края экрана. JS измеряет
-   расхождение и записывает его в --bottom-ui-correction, поэтому панель
-   сразу занимает то же положение, которое раньше появлялось лишь после
-   первого свайпа/нажатия.
-*/
+/* Критично: панель привязана к реальному viewport, а не к #app/body. */
 html body #tabbar.premium-nav,
-html body.light #tabbar.premium-nav{
-  bottom:calc(0px - var(--bottom-ui-correction,0px))!important;
-  will-change:bottom!important;
+html body.light #tabbar.premium-nav,
+html body:not(.light) #tabbar.premium-nav{
+  position:fixed!important;
+  left:12px!important;
+  right:12px!important;
+  bottom:0!important;
+  top:auto!important;
+  margin:0!important;
+  transform:none!important;
+  translate:none!important;
+  z-index:1000!important;
+  will-change:auto!important;
 }
 
-/* Плавающий плюс двигается вместе с панелью, сохраняя тот же зазор. */
+/* FAB использует тот же viewport. */
 html body #fab.fab,
-html body.light #fab.fab{
-  bottom:calc(88px - var(--bottom-ui-correction,0px))!important;
+html body.light #fab.fab,
+html body:not(.light) #fab.fab{
+  position:fixed!important;
+  bottom:88px!important;
+  top:auto!important;
+  transform:none;
+  z-index:1001!important;
+}
+html body .timerpill,
+html body.light .timerpill{
+  position:fixed!important;
+  bottom:94px!important;
+  top:auto!important;
 }
 
-/* Нижний запас списка нужен только чтобы последние строки не перекрывались панелью. */
+/* Контент не заходит под навигацию. */
 html body .screen,
 html body.light .screen{
   padding-bottom:94px!important;
 }
-html body .timerpill,
-html body.light .timerpill{
-  bottom:calc(94px - var(--bottom-ui-correction,0px))!important;
-}
 
 @media(max-width:390px){
   html body #tabbar.premium-nav,
-  html body.light #tabbar.premium-nav{bottom:calc(0px - var(--bottom-ui-correction,0px))!important}
+  html body.light #tabbar.premium-nav,
+  html body:not(.light) #tabbar.premium-nav{
+    left:10px!important;
+    right:10px!important;
+    bottom:0!important;
+  }
   html body #fab.fab,
-  html body.light #fab.fab{bottom:calc(85px - var(--bottom-ui-correction,0px))!important}
+  html body.light #fab.fab,
+  html body:not(.light) #fab.fab{bottom:85px!important}
+  html body .timerpill,
+  html body.light .timerpill{bottom:91px!important}
   html body .screen,
   html body.light .screen{padding-bottom:91px!important}
-  html body .timerpill,
-  html body.light .timerpill{bottom:calc(91px - var(--bottom-ui-correction,0px))!important}
 }
