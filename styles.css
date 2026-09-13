@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5105')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5106')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14736,7 +14736,7 @@ body.light #sc-today .today-quote{
 
 
 /* =====================================================================
-   5.0.105 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
+   5.0.106 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
@@ -14871,11 +14871,11 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.105 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
+   5.0.106 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5105') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5106') center/cover no-repeat !important;
   border-top-left-radius:30px !important;
   border-top-right-radius:30px !important;
   box-shadow:0 -18px 42px rgba(34,28,18,.10) !important;
@@ -14951,8 +14951,8 @@ body.light #sc-today .today-quote{
   pointer-events:none !important;
   z-index:0 !important;
 }
-.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5105') !important;}
-.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5105') !important;}
+.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5106') !important;}
+.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5106') !important;}
 .search-premium-orb::before,
 .notify-sheet-orb::before,
 .search-premium-orb::after,
@@ -15192,10 +15192,10 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.105 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
+   5.0.106 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
    ===================================================================== */
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5105') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5106') center/cover no-repeat !important;
   border-top-left-radius:34px !important;
   border-top-right-radius:34px !important;
   box-shadow:0 -22px 48px rgba(28,27,22,.12) !important;
@@ -15242,7 +15242,7 @@ body.light #sc-today .today-quote{
   right:-14px !important;
   width:128px !important;
   height:126px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5105') right top/156px 172px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5106') right top/156px 172px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15400,4 +15400,209 @@ body.light #sc-today .today-quote{
   .notify-sheet-card{grid-template-columns:68px minmax(0,1fr) 18px !important;gap:12px !important;padding:16px 14px !important;}
   .notify-sheet-card-icon{width:54px !important;height:54px !important;}
   .notify-sheet-card-copy b{font-size:16px !important;}
+}
+
+
+/* === 5.0.106 — утверждённый макет шторки «Напоминания» === */
+body.light #sheet.notify-premium-sheet{
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5106') center/cover no-repeat !important;
+  border:1px solid rgba(214,190,150,.78) !important;
+  border-bottom:0 !important;
+  border-top-left-radius:36px !important;
+  border-top-right-radius:36px !important;
+  box-shadow:0 -22px 48px rgba(29,28,22,.11) !important;
+}
+#sheet.notify-premium-sheet > .grab{
+  width:96px !important;
+  height:8px !important;
+  margin:12px auto 10px !important;
+  background:#D7D0C4 !important;
+  border-radius:999px !important;
+  opacity:1 !important;
+}
+#sheet.notify-premium-sheet .shbody{
+  padding:0 16px calc(16px + env(safe-area-inset-bottom,0px)) !important;
+}
+.notify-sheet-premium{
+  position:relative !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:18px !important;
+  padding:4px 0 2px !important;
+}
+.notify-sheet-head{
+  position:relative !important;
+  min-height:154px !important;
+  padding:14px 116px 0 2px !important;
+  overflow:visible !important;
+}
+.notify-sheet-head::before{
+  content:"" !important;
+  position:absolute !important;
+  left:-108px !important;
+  top:-56px !important;
+  width:210px !important;
+  height:210px !important;
+  border-radius:50% !important;
+  border:2px solid rgba(214,181,110,.50) !important;
+  opacity:.85 !important;
+  pointer-events:none !important;
+}
+.notify-sheet-head-art{
+  position:absolute !important;
+  top:-4px !important;
+  right:-8px !important;
+  width:156px !important;
+  height:152px !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5106') right top/170px 184px no-repeat !important;
+  pointer-events:none !important;
+}
+.notify-sheet-copy{
+  position:relative !important;
+  z-index:1 !important;
+  max-width:none !important;
+  padding:14px 0 0 !important;
+}
+.notify-sheet-copy h2{
+  margin:0 0 14px !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:36px !important;
+  line-height:1.02 !important;
+  letter-spacing:-.045em !important;
+  font-weight:700 !important;
+  color:#162A46 !important;
+}
+.notify-sheet-copy p{
+  margin:0 !important;
+  max-width:305px !important;
+  font-size:15px !important;
+  line-height:1.42 !important;
+  color:#6D7F93 !important;
+}
+.notify-sheet-card{
+  position:relative !important;
+  overflow:hidden !important;
+  display:grid !important;
+  grid-template-columns:78px minmax(0,1fr) 22px !important;
+  align-items:start !important;
+  gap:14px !important;
+  padding:18px 18px 18px 18px !important;
+  border-radius:26px !important;
+  background:rgba(255,253,249,.94) !important;
+  border:1.5px solid rgba(213,189,145,.9) !important;
+  box-shadow:0 9px 20px rgba(32,46,64,.04) !important;
+}
+.notify-sheet-card::after{
+  content:"" !important;
+  position:absolute !important;
+  left:-40px !important;
+  bottom:-44px !important;
+  width:118px !important;
+  height:118px !important;
+  border-radius:50% !important;
+  border:1.5px solid rgba(214,182,116,.20) !important;
+}
+.notify-sheet-card-icon{
+  width:60px !important;
+  height:60px !important;
+  border-radius:18px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:linear-gradient(180deg,#FCF4E3 0%,#F5E8CA 100%) !important;
+  border:1px solid rgba(205,171,103,.64) !important;
+  color:#A9761C !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+.notify-sheet-card-icon .ico{width:27px !important;height:27px !important;}
+.notify-sheet-card-copy b{
+  display:block !important;
+  margin:2px 0 8px !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:18px !important;
+  line-height:1.12 !important;
+  font-weight:700 !important;
+  color:#20344E !important;
+}
+.notify-sheet-card-copy p{
+  margin:0 !important;
+  font-size:14px !important;
+  line-height:1.44 !important;
+  color:#6D7E91 !important;
+}
+.notify-sheet-card-tail{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  align-self:center !important;
+  color:#B07B1B !important;
+}
+.notify-sheet-card-tail .ico{width:18px !important;height:18px !important;}
+.notify-sheet-status{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  min-height:39px !important;
+  padding:0 22px !important;
+  margin-top:15px !important;
+  border-radius:999px !important;
+  font-size:15px !important;
+  font-weight:700 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.48) !important;
+}
+.notify-sheet-status .ico{width:16px !important;height:16px !important;}
+.notify-sheet-status.ok{background:#DDEEE2 !important;color:#138C47 !important;}
+.notify-sheet-status.off{background:#EFE4CC !important;color:#8E6822 !important;}
+.notify-sheet-status.warn{background:#F6E4BF !important;color:#946820 !important;}
+.notify-sheet-status.muted{background:#E8ECF1 !important;color:#677588 !important;}
+.notify-sheet-toggle{
+  min-height:72px !important;
+  padding:0 22px !important;
+  border:1px solid rgba(171,124,41,.28) !important;
+  border-radius:24px !important;
+  background:linear-gradient(180deg,#C9A156 0%,#A87930 100%) !important;
+  color:#FFF8EE !important;
+  box-shadow:0 12px 24px rgba(170,121,43,.18), inset 0 1px 0 rgba(255,255,255,.20) !important;
+}
+.notify-sheet-toggle .notify-sheet-toggle-text{
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:16px !important;
+  font-weight:700 !important;
+  letter-spacing:-.015em !important;
+}
+.notify-sheet-toggle .notify-sheet-toggle-icon,
+.notify-sheet-toggle .notify-sheet-toggle-tail{display:flex !important;align-items:center !important;justify-content:center !important;color:#FFF8EE !important;}
+.notify-sheet-toggle .notify-sheet-toggle-icon .ico,
+.notify-sheet-toggle .notify-sheet-toggle-tail .ico{width:20px !important;height:20px !important;}
+.notify-sheet-toggle .notify-sheet-toggle-tail{margin-left:auto !important;}
+.notify-sheet-note{
+  margin-top:-2px !important;
+  text-align:center !important;
+  font-size:12.9px !important;
+  line-height:1.36 !important;
+  color:#7E8A9A !important;
+}
+.notify-sheet-motto{
+  margin-top:0 !important;
+  padding:0 0 6px !important;
+  align-items:center !important;
+}
+.notify-sheet-motto span{height:1.5px !important;background:rgba(196,152,74,.52) !important;}
+.notify-sheet-motto i{color:#B17F21 !important;}
+.notify-sheet-motto i .ico{width:18px !important;height:18px !important;}
+.notify-sheet-motto b{font-size:11.5px !important;letter-spacing:.34em !important;font-weight:500 !important;color:#B18A49 !important;}
+@media (max-width:390px){
+  #sheet.notify-premium-sheet .shbody{padding-left:14px !important;padding-right:14px !important;}
+  .notify-sheet-head{min-height:146px !important;padding-right:104px !important;}
+  .notify-sheet-copy h2{font-size:32px !important;}
+  .notify-sheet-copy p{max-width:262px !important;font-size:14px !important;}
+  .notify-sheet-head-art{width:142px !important;height:144px !important;background-size:156px 170px !important;right:-10px !important;}
+  .notify-sheet-card{grid-template-columns:70px minmax(0,1fr) 18px !important;gap:12px !important;padding:16px 14px !important;}
+  .notify-sheet-card-icon{width:54px !important;height:54px !important;}
+  .notify-sheet-card-copy b{font-size:16px !important;}
+  .notify-sheet-card-copy p{font-size:13.4px !important;}
+  .notify-sheet-status{font-size:14px !important;padding:0 18px !important;min-height:36px !important;}
+  .notify-sheet-toggle{min-height:68px !important;padding:0 18px !important;}
+  .notify-sheet-toggle .notify-sheet-toggle-text{font-size:15px !important;}
 }

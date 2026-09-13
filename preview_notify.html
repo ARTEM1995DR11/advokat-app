@@ -123,5 +123,14 @@
 
 <input type="file" id="file" accept=".json" style="display:none">
 <script src="app.js?v=5106"></script>
+<script>
+window.addEventListener('load',function(){
+  document.body.classList.add('light');
+  setTimeout(function(){
+    try{closeSheet();}catch(e){}
+    try{sheetNotify();}catch(e){console.error(e);}
+  },600);
+});
+</script>
 </body>
 </html>
