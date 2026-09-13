@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5098')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5100')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14064,7 +14064,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.99 — Быстрая запись: выбран вариант 3 иконок
+   5.0.100 — Быстрая запись: выбран вариант 3 иконок
    Стеклянные светлые плашки с цветным контуром и мягким свечением.
    ============================================================ */
 body .quick-sheet .quickgrid.quickgrid-core .quickitem,
@@ -14155,5 +14155,62 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
   body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico,
   body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico{
     flex-basis:70px!important;
+  }
+}
+
+
+/* ============================================================
+   5.0.100 — Быстрая запись: точные PNG-иконки из утверждённого макета
+   Иконки больше не имитируются CSS. Используются отдельные изображения,
+   вырезанные непосредственно из согласованного пользователем макета.
+   ============================================================ */
+body .quick-sheet .quickgrid.quickgrid-core .quickitem .qico,
+body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .qico{
+  width:82px!important;
+  height:82px!important;
+  margin-top:0!important;
+  border:0!important;
+  border-radius:22px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+body .quick-sheet .quickgrid.quickgrid-core .quickitem .qico::before,
+body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .qico::before,
+body .quick-sheet .quickgrid.quickgrid-core .quickitem .qico::after,
+body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .qico::after{
+  content:none!important;
+  display:none!important;
+}
+body .quick-sheet .quickgrid.quickgrid-core .quickitem .quickitem-art,
+body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .quickitem-art{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  border-radius:22px!important;
+  filter:none!important;
+  transform:none!important;
+}
+body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico,
+body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico{
+  flex:0 0 82px!important;
+}
+@media (max-width:430px){
+  body .quick-sheet .quickgrid.quickgrid-core .quickitem .qico,
+  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .qico{
+    width:76px!important;
+    height:76px!important;
+    border-radius:20px!important;
+  }
+  body .quick-sheet .quickgrid.quickgrid-core .quickitem .quickitem-art,
+  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .quickitem-art{
+    border-radius:20px!important;
+  }
+  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico,
+  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"] .qico{
+    flex-basis:76px!important;
   }
 }
