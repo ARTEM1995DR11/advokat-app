@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.101';
-var APP_BUILD='5102';
+var APP_VERSION='5.0.103';
+var APP_BUILD='5103';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5102" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5103" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5102" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5103" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5102" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5103" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5102" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5103" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -3269,7 +3269,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=5102" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=5103" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3762,23 +3762,26 @@ function sheetQuickAdd(){
 }
 function quickItem(i,t,act,tone){
   var art={
-    'qa-hearing':'quick-icon-hearing.png?v=5102',
-    'qa-meeting':'quick-icon-meeting.png?v=5102',
-    'qa-deadline':'quick-icon-deadline.png?v=5102',
-    'qa-task':'quick-icon-task.png?v=5102',
-    'qa-journal':'quick-icon-journal.png?v=5102'
+    'qa-hearing':'quick-icon-hearing.png?v=5103',
+    'qa-meeting':'quick-icon-meeting.png?v=5103',
+    'qa-deadline':'quick-icon-deadline.png?v=5103',
+    'qa-task':'quick-icon-task.png?v=5103',
+    'qa-journal':'quick-icon-journal.png?v=5103'
   }[act]||'';
   var icon=art?'<img class="quickitem-art" src="'+art+'" alt="">':ico(i,'l');
   return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+icon+'</span><b>'+t+'</b></button>';
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5102':type==='search'?'header-search-premium.png?v=5102':type==='plus'?'fab-plus-square-premium.png?v=5102':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5103':type==='search'?'header-search-premium.png?v=5103':type==='plus'?'fab-plus-square-premium.png?v=5103':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
 function premiumHead(icon,title,sub){return '<div class="filter-premium-head">'+premiumActionIcon(icon,'premium-sheet-action-icon')+'<div><h2>'+title+'</h2><p>'+sub+'</p></div></div>'; }
-
+function premiumSheetOrb(icon,cls){
+  cls=cls||'sheet-premium-orb';
+  return '<span class="'+cls+'"><span class="sheet-premium-orb-core">'+ico(icon,'s')+'</span></span>';
+}
 
 var GQ='';
 var GSEARCH_TIP_HIDDEN=false;
@@ -3857,7 +3860,7 @@ function sheetGlobalSearch(){
   GSEARCH_TIP_HIDDEN=false;
   openSheet('<div class="search-premium-hero">'+
       '<div class="search-premium-hero-copy"><h2>Глобальный поиск</h2><p>Доверители, номера дел, суды, статьи, задачи и журнал.</p></div>'+
-      premiumActionIcon('search','search-premium-orb')+
+      premiumSheetOrb('search','search-premium-orb')+
     '</div>'+
     '<label class="search-premium-input-wrap" for="gq"><span class="search-premium-input-ico">'+ico('search','s')+'</span><input id="gq" placeholder="Введите запрос..." autocomplete="off"><button class="search-premium-mic" type="button" data-act="global-search-mic" aria-label="Голосовой поиск">'+searchPremiumMicIcon()+'</button></label>'+
     '<div class="search-premium-info" id="gsearch-tip"><span class="search-premium-info-icon">'+ico('info','s')+'</span><div class="search-premium-info-copy">Ищите по фамилии, номеру дела, суду, статье, задаче или части заметки.</div><button type="button" class="search-premium-info-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button></div>'+
@@ -4182,7 +4185,7 @@ function notifyStatusMeta(){
 function sheetNotify(){
   var meta=notifyStatusMeta();
   openSheet('<div class="notify-sheet-premium">'+
-    '<div class="notify-sheet-ornament">'+premiumActionIcon('bell','notify-sheet-orb')+'</div>'+
+    '<div class="notify-sheet-ornament">'+premiumSheetOrb('bell','notify-sheet-orb')+'</div>'+
     '<div class="notify-sheet-copy"><h2>Напоминания</h2><p>Локальное напоминание за 10 минут до задачи и за час до заседания.</p></div>'+
     '<div class="notify-sheet-card primary">'+
       '<span class="notify-sheet-card-icon">'+ico('bell','s')+'</span>'+
