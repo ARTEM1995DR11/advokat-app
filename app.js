@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.95';
-var APP_BUILD='5095';
+var APP_VERSION='5.0.96';
+var APP_BUILD='5096';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5095" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5096" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5095" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5096" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5095" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5096" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -2242,7 +2242,8 @@ function sheetTaskActions(id){
   var cur=t.due||today();
   var kmeta={task:{icon:'check',title:'Задача',tone:'green'},meeting:{icon:'user',title:'Встреча',tone:'purple'},deadline:{icon:'clock',title:'Процессуальный срок',tone:'red'},hearing:{icon:'gavel',title:'Заседание',tone:'blue'}}[t.kind]||{icon:'check',title:'Запись',tone:'gold'};
   var deleteText=t.kind==='hearing'?'Удалить запланированное заседание':(t.kind==='meeting'?'Удалить встречу без возможности восстановления':(t.kind==='deadline'?'Удалить процессуальный срок без возможности восстановления':'Удалить задачу без возможности восстановления'));
-  var rows='<button type="button" class="task-action-premium-row date" data-act="date-open-task" data-id="'+t.id+'" data-date-value="'+esc(cur)+'">'+
+  var editRow=t.kind==='hearing'?'<button type="button" class="task-action-premium-row edit" data-act="task-action-edit" data-id="'+t.id+'"><span class="task-action-premium-icon">'+ico('edit')+'</span><span class="task-action-premium-copy"><b>Изменить заседание</b><small>Дата, время, суд, судья и примечание</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span></button>':'';
+  var rows=editRow+'<button type="button" class="task-action-premium-row date" data-act="date-open-task" data-id="'+t.id+'" data-date-value="'+esc(cur)+'">'+
       '<span class="task-action-premium-icon">'+ico('cal')+'</span><span class="task-action-premium-copy"><b>Изменить дату</b><small>'+(t.due?('Сейчас: '+fmtD(t.due,true)):'Дата не установлена')+'</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span></button>'+ 
       '<button class="task-action-premium-row delete" data-act="task-action-delete" data-id="'+t.id+'"><span class="task-action-premium-icon">'+ico('trash')+'</span><span class="task-action-premium-copy"><b>Удалить</b><small>'+deleteText+'</small></span><span class="task-action-premium-tail">'+ico('chev','s')+'</span></button>';
   openSheet('<div class="task-action-premium-head '+kmeta.tone+'"><span class="task-action-premium-head-icon">'+ico(kmeta.icon)+'</span><div><small>'+esc(kmeta.title)+'</small><h2>Быстрые действия</h2><p>'+esc(t.title)+(sub?' · '+esc(sub):'')+'</p></div></div><div class="task-action-premium-card">'+rows+'</div>');
@@ -2426,7 +2427,7 @@ function taskProjectRow(t){
     : (meetingOccurred(t)
         ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
-  var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline'||(t.kind==='hearing'&&hearingNeedsResult(t)));
+  var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline'||(t.kind==='hearing'&&!hearingHasResult(t)));
   var swipeCaption=(t.kind==='hearing'&&hearingNeedsResult(t))?'Результат':'Действия';
   return '<div class="pt-item" data-id="'+t.id+'">'+
     (swipeAllowed?'<div class="pt-swipe-bg'+((t.kind==='hearing'&&hearingNeedsResult(t))?' result':'')+'"><span></span><span class="pt-swipe-more">'+swipeCaption+ico((t.kind==='hearing'&&hearingNeedsResult(t))?'gavel':'more','s')+'</span></div>':'')+
@@ -3762,7 +3763,7 @@ function sheetQuickAdd(){
 function quickItem(i,t,act,tone){return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+ico(i,'l')+'</span><b>'+t+'</b></button>';}
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5095':type==='search'?'header-search-premium.png?v=5095':type==='plus'?'fab-plus-square-premium.png?v=5095':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5096':type==='search'?'header-search-premium.png?v=5096':type==='plus'?'fab-plus-square-premium.png?v=5096':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4278,6 +4279,7 @@ document.addEventListener('click', function(ev){
     case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
     case 'hearing-result-save': saveHearingResult();break;
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
+    case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
     case 'task-action-delete': closeSheet(); deleteTaskById(id); break;
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
@@ -4571,9 +4573,9 @@ document.addEventListener('touchend',function(){
 document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
 
 /* =====================================================================
-   Swipe по задачам / встречам / срокам / прошедшим заседаниям — 4.0.45
+   Swipe по задачам / встречам / срокам / судебным заседаниям — 5.0.96
    Свайп справа налево открывает «Быстрые действия».
-   Для заседания после наступления времени свайп сразу ведёт к фиксации результата.
+   Будущее заседание открывает быстрые действия; после наступления времени свайп ведёт к фиксации результата.
    Вертикальная прокрутка имеет приоритет; короткий случайный жест ничего не делает.
    ===================================================================== */
 var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
@@ -4601,7 +4603,7 @@ document.addEventListener('touchstart',function(e){
   if(!row || e.target.closest('[data-act="toggle"]')) return;
   var id=row.dataset.id||'';
   var rec=S.tasks.filter(function(x){return x.id===id;})[0];
-  var swipeKindOk=rec && (['task','meeting','deadline'].indexOf(rec.kind)>=0 || (rec.kind==='hearing'&&hearingNeedsResult(rec)));
+  var swipeKindOk=rec && (['task','meeting','deadline'].indexOf(rec.kind)>=0 || (rec.kind==='hearing'&&!hearingHasResult(rec)));
   if(!swipeKindOk) return;
   var t=e.touches[0];
   if(t.clientX<=44) return; // не конфликтуем с системным свайпом «Назад»

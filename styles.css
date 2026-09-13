@@ -13969,3 +13969,12 @@ html body.light .timerpill,
 html body:not(.light) .timerpill{
   z-index:34!important;
 }
+
+
+/* ============================================================
+   5.0.96 — swipe будущих заседаний
+   Геометрия нижней панели не изменяется.
+   ============================================================ */
+.task-actions-premium .task-action-premium-row.edit .task-action-premium-icon{
+  color:#4E86C6!important;
+}
