@@ -6854,8 +6854,8 @@ body:not(.light) #sc-more{
   isolation:isolate!important;
   background-attachment:local!important;
   background-repeat:no-repeat!important;
-  background-size:cover!important;
-  background-position:center top!important;
+  background-size:100% 100%!important;
+  background-position:center center!important;
 }
 #sc-today::after,#sc-tasks::after,#sc-matters::after,#sc-cal::after,#sc-more::after{
   content:none!important;
@@ -13705,13 +13705,13 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 
 
 /* ============================================================
-   5.0.77 — фон «Быстрой записи» по утверждённому макету
+   5.0.78 — фон «Быстрой записи» приведён ближе к утверждённому макету
    Ivory marble + тонкие золотые дуги.
    ============================================================ */
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#FBF8F1!important;
-  background-image:url("quick-sheet-marble.png?v=5077")!important;
+  background-image:url("quick-sheet-marble.png?v=5078")!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -13724,10 +13724,57 @@ body .sheet.quick-sheet::before{
   inset:0;
   pointer-events:none;
   border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0) 38%,rgba(255,249,238,.08));
+  /* Не выбеливаем мраморный фон: оставляем лишь очень лёгкий мягкий свет. */
+  background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,0) 42%,rgba(255,249,238,.02));
   z-index:0;
 }
 body .sheet.quick-sheet > *{
   position:relative;
   z-index:1;
+}
+
+
+/* ============================================================
+   5.0.79 — нижняя панель вплотную к нижнему краю iPhone
+   Убираем лишний визуальный safe-area зазор под навигацией.
+   ============================================================ */
+html,body,#app{
+  min-height:100%!important;
+}
+@supports (height:100dvh){
+  html,body,#app{height:100dvh!important;min-height:100dvh!important}
+}
+body.light{background-color:#F7F1E6!important}
+
+/* Саму премиальную плашку не меняем — только опускаем вниз. */
+html body #tabbar.premium-nav,
+html body.light #tabbar.premium-nav{
+  bottom:0!important;
+}
+
+/* Плавающий плюс сохраняет прежний зазор над плашкой, но тоже едет вниз. */
+html body #fab.fab,
+html body.light #fab.fab{
+  bottom:88px!important;
+}
+
+/* Нижний запас списка нужен только чтобы последние строки не перекрывались панелью. */
+html body .screen,
+html body.light .screen{
+  padding-bottom:94px!important;
+}
+html body .timerpill,
+html body.light .timerpill{
+  bottom:94px!important;
+}
+
+@media(max-width:390px){
+  html body #tabbar.premium-nav,
+  html body.light #tabbar.premium-nav{bottom:0!important}
+  html body #fab.fab,
+  html body.light #fab.fab{bottom:85px!important}
+  html body .screen,
+  html body.light .screen{padding-bottom:91px!important}
+  html body .timerpill,
+  html body.light .timerpill{bottom:91px!important}
 }
