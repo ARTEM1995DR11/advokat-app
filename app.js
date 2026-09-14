@@ -240,14 +240,14 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5112" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5113" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5112" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5113" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
@@ -1758,7 +1758,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v111-sheet');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v111-sheet','reminders-approved-v112-sheet','reminders-approved-v113-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -3773,7 +3773,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5112':type==='search'?'header-search-premium.png?v=5112':type==='plus'?'fab-plus-square-premium.png?v=5112':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5113':type==='search'?'header-search-premium.png?v=5113':type==='plus'?'fab-plus-square-premium.png?v=5112':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4183,21 +4183,40 @@ function notifyStatusMeta(){
   return {title:'Локальные уведомления', text:'Напоминания сейчас выключены. После включения приложение запросит разрешение iPhone на уведомления.', chip:'Выключены', tone:'off'};
 }
 function sheetNotify(){
-  var meta=notifyStatusMeta();
-  var exactOn=!!(S.settings.notify && ('Notification' in window) && Notification.permission==='granted');
-  var statusIco=meta.tone==='ok'?'check':(meta.tone==='off'?'bell':'info');
+  var supported=('Notification' in window);
+  var perm=supported?Notification.permission:'unsupported';
+  var exactOn=!!(S.settings.notify && supported && perm==='granted');
+  var title='Локальные уведомления';
+  var body;
+  var tone;
+  var chip;
+  var statusIco;
+  if(!supported){
+    body='Этот браузер не поддерживает уведомления. На iPhone они доступны после добавления приложения на экран «Домой». ';
+    tone='muted'; chip='Недоступны'; statusIco='info';
+  }else if(perm==='denied'){
+    body='Уведомления запрещены в настройках iPhone. Разрешите их для приложения, чтобы получать локальные напоминания.';
+    tone='warn'; chip='Запрещены'; statusIco='info';
+  }else if(exactOn){
+    body='Напоминания включены. На iPhone они срабатывают, пока веб-приложение активно; iOS может приостанавливать его в фоне.';
+    tone='ok'; chip='Включены'; statusIco='check';
+  }else{
+    body='Напоминания сейчас выключены. После включения приложение запросит разрешение iPhone на уведомления.';
+    tone='off'; chip='Выключены'; statusIco='bell';
+  }
   var toggleText=exactOn?'Выключить напоминания':'Включить напоминания';
-  openSheet('<section class="rem112">'+
-    '<img class="rem112-art" src="reminder-approved-screen-sheet.png?v=5112" alt="Напоминания">'+
-    '<div class="rem112-statecopy">'+
-      '<h3>'+meta.title+'</h3><p>'+meta.text+'</p>'+
-      '<span class="rem112-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span>'+
+  openSheet('<section class="rem113">'+
+    '<img class="rem113-art" src="reminder-approved-screen-base.png?v=5113" alt="Напоминания">'+
+    '<div class="rem113-cardcopy" aria-hidden="true">'+
+      '<h3>'+title+'</h3>'+
+      '<p>'+body+'</p>'+
+      '<span class="rem113-status '+tone+'"><span>'+ico(statusIco,'s')+'</span>'+chip+'</span>'+
     '</div>'+
-    '<div class="rem112-toggle" data-act="notify" role="button" tabindex="0" aria-label="'+toggleText+'">'+
-      '<span>'+ico('bell','s')+'</span><b>'+toggleText+'</b><span>'+ico('chev','s')+'</span>'+
-    '</div>'+
+    '<button class="rem113-hotspot rem113-cardhot" type="button" data-act="notify" aria-label="'+toggleText+'"></button>'+
+    '<button class="rem113-hotspot rem113-calhot" type="button" data-act="notify-calendar-help" aria-label="Критичные события — в системный календарь"></button>'+
+    '<button class="rem113-hotspot rem113-toggle" type="button" data-act="notify" aria-label="'+toggleText+'"><span class="rem113-toggle-text">'+toggleText+'</span></button>'+
   '</section>');
-  $('#sheet').classList.add('reminders-approved-v112-sheet');
+  $('#sheet').classList.add('reminders-approved-v113-sheet');
 }
 
 function sheetReports(){
