@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5112')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5114')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14736,7 +14736,7 @@ body.light #sc-today .today-quote{
 
 
 /* =====================================================================
-   5.0.111 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
+   5.0.110 — SEARCH + REMINDERS SHEETS MATCH APPROVED MOCKUP
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
@@ -14871,11 +14871,11 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.111 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
+   5.0.110 — APPROVED MOCKUP MATCH FOR SEARCH + REMINDERS SHEETS
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat !important;
   border-top-left-radius:30px !important;
   border-top-right-radius:30px !important;
   box-shadow:0 -18px 42px rgba(34,28,18,.10) !important;
@@ -14951,8 +14951,8 @@ body.light #sc-today .today-quote{
   pointer-events:none !important;
   z-index:0 !important;
 }
-.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5112') !important;}
-.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5112') !important;}
+.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5114') !important;}
+.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5114') !important;}
 .search-premium-orb::before,
 .notify-sheet-orb::before,
 .search-premium-orb::after,
@@ -15192,10 +15192,10 @@ body.light #sc-today .today-quote{
 }
 
 /* =====================================================================
-   5.0.111 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
+   5.0.110 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
    ===================================================================== */
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat !important;
   border-top-left-radius:34px !important;
   border-top-right-radius:34px !important;
   box-shadow:0 -22px 48px rgba(28,27,22,.12) !important;
@@ -15242,7 +15242,7 @@ body.light #sc-today .today-quote{
   right:-14px !important;
   width:128px !important;
   height:126px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5112') right top/156px 172px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5114') right top/156px 172px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15403,9 +15403,9 @@ body.light #sc-today .today-quote{
 }
 
 
-/* === 5.0.111 — утверждённый макет шторки «Напоминания» === */
+/* === 5.0.110 — утверждённый макет шторки «Напоминания» === */
 body.light #sheet.notify-premium-sheet{
-  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat !important;
   border:1px solid rgba(214,190,150,.78) !important;
   border-bottom:0 !important;
   border-top-left-radius:36px !important;
@@ -15454,7 +15454,7 @@ body.light #sheet.notify-premium-sheet{
   right:-8px !important;
   width:156px !important;
   height:152px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5112') right top/170px 184px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5114') right top/170px 184px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15608,7 +15608,7 @@ body.light #sheet.notify-premium-sheet{
 }
 
 /* =====================================================================
-   5.0.111 — «Напоминания»: чистая реализация по утверждённому макету
+   5.0.110 — «Напоминания»: чистая реализация по утверждённому макету
    Старые notify-* стили намеренно не используются.
    ===================================================================== */
 body.light #sheet.reminders-approved-v107-sheet{
@@ -15616,7 +15616,7 @@ body.light #sheet.reminders-approved-v107-sheet{
   padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px))!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5112') center/cover no-repeat!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -15855,14 +15855,14 @@ body.light #sheet.reminders-approved-v107-sheet{
 }
 
 /* =====================================================================
-   5.0.111 — «Напоминания»: полный колокольчик + без прокрутки
+   5.0.110 — «Напоминания»: полный колокольчик + без прокрутки
    ===================================================================== */
 body.light #sheet.reminders-approved-v108-sheet{
   max-height:78dvh!important;
   padding:5px 0 calc(6px + env(safe-area-inset-bottom,0px))!important;
   overflow:hidden!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5112') center/cover no-repeat!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -16023,7 +16023,7 @@ body.light #sheet.reminders-approved-v108-sheet{
 }
 
 
-/* 5.0.111 — точечная центровка верхнего медальона «Напоминаний» */
+/* 5.0.110 — точечная центровка верхнего медальона «Напоминаний» */
 #sheet.reminders-approved-v108-sheet .rem107-head-bell{
   top:-5px!important;
   right:-2px!important;
@@ -16037,369 +16037,255 @@ body.light #sheet.reminders-approved-v108-sheet{
 
 
 /* =====================================================================
-   5.0.111 — «Напоминания»: точная визуальная версия по утверждённому макету
-   Основа экрана — утверждённый визуал; интерактивная кнопка остаётся рабочей.
+   5.0.114 — НАПОМИНАНИЯ: нативная сборка по утверждённому макету
    ===================================================================== */
-#sheet.reminders-approved-v111-sheet{
-  width:100vw!important;
-  max-width:none!important;
-  max-height:none!important;
-  height:auto!important;
-  padding:0!important;
+body.light #sheet.reminders-approved-v114-sheet{
+  max-height:70dvh!important;
+  padding:5px 0 calc(5px + env(safe-area-inset-bottom,0px))!important;
   overflow:hidden!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:0 -18px 46px rgba(28,25,18,.13)!important;
+  background:#fbf7ef url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
+  border:1px solid rgba(218,194,151,.78)!important;
+  border-bottom:0!important;
+  border-radius:34px 34px 0 0!important;
+  box-shadow:0 -22px 52px rgba(28,26,20,.12)!important;
 }
-#sheet.reminders-approved-v111-sheet>.grab{display:none!important;}
-#sheet.reminders-approved-v111-sheet.withfoot{display:block!important;overflow:hidden!important;}
-#sheet.reminders-approved-v111-sheet .shbody{padding:0!important;overflow:hidden!important;}
-.rem111{
-  position:relative!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  line-height:1!important;
-  overflow:hidden!important;
-  border-radius:36px 36px 0 0!important;
-}
-.rem111-art{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  pointer-events:none!important;
-}
-.rem111-toggle-hit{
-  position:absolute!important;
-  left:5.1%!important;
-  top:82.45%!important;
-  width:89.6%!important;
-  height:9.55%!important;
-  border-radius:24px!important;
-  background:transparent!important;
-  cursor:pointer!important;
-  z-index:5!important;
-}
-.rem111-statecopy{
-  position:absolute!important;
-  left:26.5%!important;
-  top:27.0%!important;
-  width:55.8%!important;
-  min-height:22.6%!important;
-  padding:1.0% 1.1% 0!important;
-  box-sizing:border-box!important;
-  background:rgba(255,253,249,.985)!important;
-  color:#172C49!important;
-  z-index:6!important;
-}
-.rem111-statecopy h3{
-  margin:0 0 8px!important;
-  font:700 17px/1.13 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.025em!important;
-  color:#172C49!important;
-}
-.rem111-statecopy p{
-  margin:0!important;
-  font:500 12.8px/1.42 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
-  color:#6E7F93!important;
-}
-.rem111-status{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:9px!important;
-  min-width:160px!important;
-  height:34px!important;
-  padding:0 17px!important;
-  margin-top:11px!important;
+#sheet.reminders-approved-v114-sheet>.grab{
+  width:76px!important;
+  height:6px!important;
+  margin:8px auto 0!important;
   border-radius:999px!important;
-  box-sizing:border-box!important;
-  font-size:13.6px!important;
-  line-height:1!important;
-  font-weight:780!important;
+  background:#cfc7ba!important;
+  opacity:1!important;
 }
-.rem111-status span{display:flex!important;align-items:center!important;justify-content:center!important;}
-.rem111-status .ico{width:15px!important;height:15px!important;stroke-width:2.3!important;}
-.rem111-status.ok{background:#DDEFE3!important;color:#168B4A!important;}
-.rem111-status.off{background:#EFE5CE!important;color:#8E6925!important;}
-.rem111-status.warn{background:#F5E5C7!important;color:#95671E!important;}
-.rem111-status.muted{background:#E8EDF1!important;color:#647489!important;}
-.rem111-off-toggle{
-  position:absolute!important;
-  left:5.1%!important;
-  top:82.45%!important;
-  width:89.6%!important;
-  height:9.55%!important;
-  display:grid!important;
-  grid-template-columns:42px minmax(0,1fr) 28px!important;
-  align-items:center!important;
-  gap:8px!important;
-  padding:0 24px!important;
-  box-sizing:border-box!important;
-  border-radius:24px!important;
-  border:1px solid rgba(159,112,35,.34)!important;
-  background:linear-gradient(180deg,#C69A4E 0%,#A87931 100%)!important;
-  color:#FFF8ED!important;
-  box-shadow:0 10px 20px rgba(158,109,34,.17),inset 0 1px 0 rgba(255,255,255,.18)!important;
-  cursor:pointer!important;
-  z-index:7!important;
-}
-.rem111-off-toggle>span{display:flex!important;align-items:center!important;justify-content:center!important;}
-.rem111-off-toggle .ico{width:21px!important;height:21px!important;stroke-width:1.9!important;}
-.rem111-off-toggle b{
-  font:700 17px/1 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.018em!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-}
-@media(max-width:390px){
-  .rem111{border-radius:32px 32px 0 0!important;}
-  .rem111-statecopy h3{font-size:15.5px!important;}
-  .rem111-statecopy p{font-size:11.7px!important;}
-  .rem111-status{min-width:145px!important;height:31px!important;font-size:12.5px!important;}
-  .rem111-off-toggle{padding:0 18px!important;grid-template-columns:34px minmax(0,1fr) 24px!important;}
-  .rem111-off-toggle b{font-size:15px!important;}
-}
-
-
-/* =====================================================================
-   5.0.112 — «Напоминания»: один неизменный утверждённый экран для ON/OFF
-   Меняются только динамический текст, статус и подпись кнопки.
-   ===================================================================== */
-#sheet.reminders-approved-v112-sheet{
-  width:100vw!important;
-  max-width:none!important;
-  max-height:none!important;
-  height:auto!important;
+#sheet.reminders-approved-v114-sheet .shbody{
   padding:0!important;
   overflow:hidden!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:0 -18px 46px rgba(28,25,18,.13)!important;
 }
-#sheet.reminders-approved-v112-sheet>.grab{display:none!important;}
-#sheet.reminders-approved-v112-sheet.withfoot{display:block!important;overflow:hidden!important;}
-#sheet.reminders-approved-v112-sheet .shbody{padding:0!important;overflow:hidden!important;}
-.rem112{
+.rem114{
   position:relative!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  line-height:1!important;
-  overflow:hidden!important;
-  border-radius:36px 36px 0 0!important;
-}
-.rem112-art{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  pointer-events:none!important;
-}
-.rem112-statecopy{
-  position:absolute!important;
-  left:25.4%!important;
-  top:26.3%!important;
-  width:55.8%!important;
-  min-height:22.4%!important;
-  padding:1.1% 1.4% 0!important;
   box-sizing:border-box!important;
-  z-index:6!important;
-  color:#172C49!important;
-  background:linear-gradient(180deg,rgba(251,248,244,.985),rgba(249,246,241,.985))!important;
-  border-radius:18px!important;
-  box-shadow:0 0 16px 10px rgba(250,247,242,.92)!important;
+  width:100%!important;
+  height:calc(70dvh - 19px)!important;
+  max-height:635px!important;
+  min-height:505px!important;
+  padding:0 18px 6px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
 }
-.rem112-statecopy h3{
+.rem114-head{
+  position:relative!important;
+  flex:0 0 102px!important;
+  padding:16px 112px 0 11px!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+.rem114-head-copy{position:relative!important;z-index:3!important;}
+.rem114-head h2{
   margin:0 0 8px!important;
-  font:700 17px/1.13 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.025em!important;
-  color:#172C49!important;
+  font:700 30px/1.01 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.047em!important;
+  color:#152a47!important;
 }
-.rem112-statecopy p{
+.rem114-head p{
   margin:0!important;
-  font:500 12.8px/1.42 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
-  color:#6E7F93!important;
+  font:500 12.55px/1.35 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#718196!important;
 }
-.rem112-status{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:9px!important;
-  min-width:160px!important;
-  height:34px!important;
-  padding:0 17px!important;
-  margin-top:11px!important;
-  border-radius:999px!important;
-  box-sizing:border-box!important;
-  font-size:13.6px!important;
-  line-height:1!important;
-  font-weight:780!important;
-}
-.rem112-status span{display:flex!important;align-items:center!important;justify-content:center!important;}
-.rem112-status .ico{width:15px!important;height:15px!important;stroke-width:2.3!important;}
-.rem112-status.ok{background:#DDEFE3!important;color:#168B4A!important;}
-.rem112-status.off{background:#EFE5CE!important;color:#8E6925!important;}
-.rem112-status.warn{background:#F5E5C7!important;color:#95671E!important;}
-.rem112-status.muted{background:#E8EDF1!important;color:#647489!important;}
-.rem112-toggle{
+.rem114-head-bell{
   position:absolute!important;
-  left:5.1%!important;
-  top:82.45%!important;
-  width:89.6%!important;
-  height:9.55%!important;
-  display:grid!important;
-  grid-template-columns:42px minmax(0,1fr) 28px!important;
-  align-items:center!important;
-  gap:8px!important;
-  padding:0 24px!important;
-  box-sizing:border-box!important;
-  border-radius:24px!important;
-  border:1px solid rgba(159,112,35,.34)!important;
-  background:linear-gradient(180deg,#C69A4E 0%,#A87931 100%)!important;
-  color:#FFF8ED!important;
-  box-shadow:0 10px 20px rgba(158,109,34,.17),inset 0 1px 0 rgba(255,255,255,.18)!important;
-  cursor:pointer!important;
-  z-index:7!important;
-}
-.rem112-toggle>span{display:flex!important;align-items:center!important;justify-content:center!important;}
-.rem112-toggle .ico{width:21px!important;height:21px!important;stroke-width:1.9!important;}
-.rem112-toggle b{
-  font:700 17px/1 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.018em!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-}
-@media(max-width:390px){
-  .rem112{border-radius:32px 32px 0 0!important;}
-  .rem112-statecopy h3{font-size:15.5px!important;}
-  .rem112-statecopy p{font-size:11.7px!important;}
-  .rem112-status{min-width:145px!important;height:31px!important;font-size:12.5px!important;}
-  .rem112-toggle{padding:0 18px!important;grid-template-columns:34px minmax(0,1fr) 24px!important;}
-  .rem112-toggle b{font-size:15px!important;}
-}
-
-
-/* =====================================================================
-   5.0.113 — НАПОМИНАНИЯ: один точный макет, меняются только статусы
-   ===================================================================== */
-body.light #sheet.reminders-approved-v113-sheet{
-  max-height:calc(100dvh - 52px)!important;
-  padding:0!important;
-  overflow:hidden!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:0 -18px 46px rgba(28,25,18,.13)!important;
-}
-#sheet.reminders-approved-v113-sheet>.grab{display:none!important;}
-#sheet.reminders-approved-v113-sheet.withfoot{display:block!important;overflow:hidden!important;}
-#sheet.reminders-approved-v113-sheet .shbody{padding:0!important;overflow:hidden!important;}
-.rem113{
-  position:relative!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  line-height:1!important;
-  overflow:hidden!important;
-  border-radius:36px 36px 0 0!important;
-}
-.rem113-art{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  pointer-events:none!important;
-}
-.rem113-cardcopy{
-  position:absolute!important;
-  left:27.35%!important;
-  top:27.75%!important;
-  width:52.5%!important;
-  height:22.2%!important;
   z-index:4!important;
-  color:#172C49!important;
+  top:-7px!important;
+  right:0!important;
+  width:100px!important;
+  height:100px!important;
+  object-fit:contain!important;
+  pointer-events:none!important;
+  filter:drop-shadow(0 8px 15px rgba(156,113,36,.12))!important;
 }
-.rem113-cardcopy h3{
-  margin:0 0 8px!important;
-  font:700 17px/1.13 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.025em!important;
-  color:#172C49!important;
+.rem114-goldline{
+  position:absolute!important;
+  z-index:1!important;
+  display:block!important;
+  pointer-events:none!important;
+  border:1.35px solid rgba(190,136,43,.68)!important;
+  border-left-color:transparent!important;
+  border-bottom-color:transparent!important;
+  border-radius:50%!important;
+  transform:rotate(28deg)!important;
 }
-.rem113-cardcopy p{
+.rem114-goldline-a{width:174px!important;height:174px!important;right:-63px!important;top:-67px!important;}
+.rem114-goldline-b{width:198px!important;height:198px!important;right:-72px!important;top:-54px!important;opacity:.55!important;}
+.rem114-card{
+  position:relative!important;
+  flex:0 0 auto!important;
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr) 17px!important;
+  gap:11px!important;
+  align-items:start!important;
+  margin:0 0 9px!important;
+  padding:12px 13px!important;
+  box-sizing:border-box!important;
+  border-radius:22px!important;
+  border:1.25px solid rgba(208,173,110,.72)!important;
+  background:rgba(255,253,248,.78)!important;
+  box-shadow:0 4px 12px rgba(29,42,60,.025)!important;
+  overflow:hidden!important;
+}
+.rem114-card::after{
+  content:''!important;
+  position:absolute!important;
+  left:-40px!important;
+  bottom:-43px!important;
+  width:108px!important;
+  height:108px!important;
+  border-radius:50%!important;
+  border:1.1px solid rgba(215,180,111,.17)!important;
+  pointer-events:none!important;
+}
+.rem114-card-local{min-height:128px!important;}
+.rem114-card-calendar{min-height:137px!important;}
+.rem114-card-icon{
+  position:relative!important;
+  z-index:1!important;
+  width:51px!important;
+  height:51px!important;
+  border-radius:16px!important;
+  object-fit:contain!important;
+  filter:drop-shadow(0 5px 10px rgba(158,115,36,.07))!important;
+}
+.rem114-card-copy{
+  position:relative!important;
+  z-index:2!important;
+  min-width:0!important;
+  height:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+.rem114-card h3{
+  margin:0 0 4px!important;
+  font:700 15.3px/1.12 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.026em!important;
+  color:#172c49!important;
+}
+.rem114-card p{
   margin:0!important;
-  max-width:99%!important;
-  font:500 12.65px/1.42 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
-  color:#6E7F93!important;
+  font:500 11.35px/1.34 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#6e7f93!important;
 }
-.rem113-status{
+.rem114-card-local .rem114-card-copy{padding-bottom:33px!important;box-sizing:border-box!important;}
+.rem114-status{
   position:absolute!important;
   left:0!important;
-  top:76.8%!important;
+  bottom:0!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:9px!important;
-  min-width:160px!important;
-  height:34px!important;
-  padding:0 17px!important;
-  border-radius:999px!important;
+  gap:7px!important;
+  min-width:144px!important;
+  height:29px!important;
+  padding:0 14px!important;
   box-sizing:border-box!important;
-  font-size:13.6px!important;
+  border-radius:999px!important;
+  font-size:12.5px!important;
   line-height:1!important;
   font-weight:780!important;
 }
-.rem113-status span{display:flex!important;align-items:center!important;justify-content:center!important;}
-.rem113-status .ico{width:15px!important;height:15px!important;stroke-width:2.3!important;}
-.rem113-status.ok{background:#DDEFE3!important;color:#168B4A!important;}
-.rem113-status.off{background:#EFE5CE!important;color:#8E6925!important;}
-.rem113-status.warn{background:#F5E5C7!important;color:#95671E!important;}
-.rem113-status.muted{background:#E8EDF1!important;color:#647489!important;}
-.rem113-hotspot{
-  position:absolute!important;
-  display:block!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  background:transparent!important;
+.rem114-status span{display:flex!important;align-items:center!important;justify-content:center!important;}
+.rem114-status .ico{width:14px!important;height:14px!important;stroke-width:2.25!important;}
+.rem114-status.ok{background:#dcefe2!important;color:#168b4a!important;}
+.rem114-status.off{background:#efe5ce!important;color:#8e6925!important;}
+.rem114-status.warn{background:#f5e5c7!important;color:#95671e!important;}
+.rem114-status.muted{background:#e8edf1!important;color:#647489!important;}
+.rem114-chevron{
+  position:relative!important;
+  z-index:2!important;
+  align-self:center!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#ad7719!important;
+}
+.rem114-chevron .ico{width:16px!important;height:16px!important;stroke-width:2.25!important;}
+.rem114-toggle{
+  flex:0 0 52px!important;
+  width:100%!important;
+  margin:1px 0 0!important;
+  padding:0 16px!important;
+  display:grid!important;
+  grid-template-columns:31px minmax(0,1fr) 20px!important;
+  gap:8px!important;
+  align-items:center!important;
+  box-sizing:border-box!important;
+  border-radius:20px!important;
+  border:1px solid rgba(159,112,35,.34)!important;
+  background:linear-gradient(180deg,#c69a4e 0%,#a87931 100%)!important;
+  color:#fff8ed!important;
+  box-shadow:0 9px 18px rgba(158,109,34,.16),inset 0 1px 0 rgba(255,255,255,.18)!important;
   appearance:none!important;
   -webkit-appearance:none!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  z-index:6!important;
 }
-.rem113-cardhot{left:3.8%!important;top:24.8%!important;width:90.9%!important;height:26.35%!important;border-radius:30px!important;}
-.rem113-calhot{left:3.8%!important;top:53.85%!important;width:90.9%!important;height:28.55%!important;border-radius:30px!important;}
-.rem113-toggle{left:5.05%!important;top:82.62%!important;width:89.7%!important;height:9.42%!important;border-radius:24px!important;}
-.rem113-toggle-text{
-  position:absolute!important;
-  left:20.6%!important;
-  right:14.2%!important;
-  top:50%!important;
-  transform:translateY(-50%)!important;
-  text-align:center!important;
-  font:700 16.8px/1 Georgia,'Times New Roman',serif!important;
+.rem114-toggle-bell,.rem114-toggle-chevron{display:flex!important;align-items:center!important;justify-content:center!important;}
+.rem114-toggle-bell .ico{width:19px!important;height:19px!important;stroke-width:1.8!important;}
+.rem114-toggle-chevron .ico{width:17px!important;height:17px!important;stroke-width:2.2!important;}
+.rem114-toggle-text{
+  font:700 13.8px/1 Georgia,'Times New Roman',serif!important;
   letter-spacing:-.018em!important;
-  color:#FFF8ED!important;
+  text-align:center!important;
   white-space:nowrap!important;
-  text-shadow:0 1px 0 rgba(80,49,10,.18)!important;
+}
+.rem114-note{
+  flex:0 0 auto!important;
+  margin:6px 0 3px!important;
+  text-align:center!important;
+  font:500 10.65px/1.18 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#75869a!important;
+}
+.rem114-footer{
+  flex:0 0 35px!important;
+  display:grid!important;
+  grid-template-columns:1fr 24px 1fr!important;
+  grid-template-rows:20px 13px!important;
+  column-gap:9px!important;
+  align-items:center!important;
+  padding:0 36px!important;
+  box-sizing:border-box!important;
+}
+.rem114-footer>span{height:1px!important;background:rgba(182,130,46,.58)!important;}
+.rem114-footer img{width:22px!important;height:22px!important;object-fit:contain!important;justify-self:center!important;}
+.rem114-footer b{
+  grid-column:1/-1!important;
+  justify-self:center!important;
+  font:500 8.8px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:.34em!important;
+  color:#a47a3f!important;
+  white-space:nowrap!important;
 }
 @media(max-width:390px){
-  .rem113{border-radius:32px 32px 0 0!important;}
-  .rem113-cardcopy h3{font-size:16px!important;margin-bottom:7px!important;}
-  .rem113-cardcopy p{font-size:11.85px!important;}
-  .rem113-status{min-width:148px!important;height:32px!important;font-size:12.8px!important;padding:0 15px!important;}
-  .rem113-toggle-text{font-size:15.2px!important;}
+  body.light #sheet.reminders-approved-v114-sheet{max-height:72dvh!important;}
+  .rem114{height:calc(72dvh - 19px)!important;min-height:495px!important;padding-left:14px!important;padding-right:14px!important;}
+  .rem114-head{flex-basis:96px!important;padding:13px 100px 0 8px!important;}
+  .rem114-head h2{font-size:27px!important;}
+  .rem114-head p{font-size:11.8px!important;}
+  .rem114-head-bell{width:89px!important;height:89px!important;right:-1px!important;top:-5px!important;}
+  .rem114-card{grid-template-columns:55px minmax(0,1fr) 16px!important;gap:9px!important;padding:11px 12px!important;margin-bottom:8px!important;}
+  .rem114-card-local{min-height:122px!important;}
+  .rem114-card-calendar{min-height:132px!important;}
+  .rem114-card-icon{width:48px!important;height:48px!important;}
+  .rem114-card h3{font-size:14.5px!important;}
+  .rem114-card p{font-size:10.85px!important;line-height:1.31!important;}
+  .rem114-status{height:28px!important;min-width:135px!important;font-size:12px!important;padding:0 12px!important;}
+  .rem114-toggle{flex-basis:49px!important;}
+  .rem114-toggle-text{font-size:13.15px!important;}
+  .rem114-note{font-size:10.2px!important;margin-top:5px!important;}
+  .rem114-footer{flex-basis:32px!important;}
+}
+@media(max-height:760px){
+  body.light #sheet.reminders-approved-v114-sheet{max-height:72dvh!important;}
+  .rem114{height:calc(72dvh - 19px)!important;min-height:492px!important;}
+  .rem114-head{flex-basis:94px!important;padding-top:12px!important;}
+  .rem114-card-local{min-height:119px!important;}
+  .rem114-card-calendar{min-height:128px!important;}
+  .rem114-card p{font-size:10.8px!important;line-height:1.30!important;}
+  .rem114-toggle{flex-basis:48px!important;}
 }
