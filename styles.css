@@ -16289,3 +16289,195 @@ body.light #sheet.reminders-approved-v114-sheet{
   .rem114-card p{font-size:10.8px!important;line-height:1.30!important;}
   .rem114-toggle{flex-basis:48px!important;}
 }
+
+/* =====================================================================
+   5.0.115 — FINAL PIXEL TUNE: REMINDERS APPROVED MOCKUP
+   ===================================================================== */
+body.light #sheet.reminders-approved-v114-sheet{
+  height:min(548px,calc(100dvh - 64px))!important;
+  max-height:min(548px,calc(100dvh - 64px))!important;
+  min-height:510px!important;
+  overflow:hidden!important;
+  background:#fbf7ef url('reminder-approved-marble.png?v=5115') center/cover no-repeat!important;
+  border:1px solid rgba(214,190,150,.78)!important;
+  border-bottom:0!important;
+  border-radius:34px 34px 0 0!important;
+  box-shadow:0 -20px 48px rgba(30,27,19,.12)!important;
+}
+#sheet.reminders-approved-v114-sheet>.grab{
+  width:48px!important;
+  height:5px!important;
+  margin:9px auto 0!important;
+  border-radius:999px!important;
+  background:#bdb3a2!important;
+  opacity:.84!important;
+}
+#sheet.reminders-approved-v114-sheet .shbody{padding:0!important;overflow:hidden!important;}
+.rem114{
+  width:100%!important;
+  height:calc(100% - 14px)!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:0 22px 5px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+.rem114-head{
+  position:relative!important;
+  flex:0 0 114px!important;
+  padding:27px 100px 0 5px!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+.rem114-head h2{
+  margin:0 0 7px!important;
+  font:700 29.5px/1.01 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.045em!important;
+  color:#142b4a!important;
+}
+.rem114-head p{
+  margin:0!important;
+  font:500 13.7px/1.34 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#6e82a0!important;
+}
+.rem114-head-bell{
+  position:absolute!important;
+  z-index:5!important;
+  top:4px!important;
+  right:1px!important;
+  width:82px!important;
+  height:82px!important;
+  object-fit:contain!important;
+  border-radius:50%!important;
+  clip-path:circle(50% at 50% 50%)!important;
+  filter:drop-shadow(0 7px 12px rgba(150,105,32,.14))!important;
+  pointer-events:none!important;
+}
+.rem114-goldline{
+  z-index:2!important;
+  border-width:1.15px!important;
+  border-color:rgba(193,139,43,.72)!important;
+  border-left-color:transparent!important;
+  border-bottom-color:transparent!important;
+}
+.rem114-goldline-a{width:162px!important;height:162px!important;right:-46px!important;top:-58px!important;}
+.rem114-goldline-b{width:185px!important;height:185px!important;right:-55px!important;top:-43px!important;opacity:.50!important;}
+.rem114-card{
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr) 18px!important;
+  gap:13px!important;
+  align-items:start!important;
+  margin:0 0 8px!important;
+  padding:13px 15px!important;
+  border-radius:20px!important;
+  border:1.15px solid rgba(209,169,96,.78)!important;
+  background:rgba(255,253,248,.73)!important;
+  box-shadow:0 4px 11px rgba(30,42,57,.025)!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+.rem114-card-local{flex:0 0 127px!important;min-height:127px!important;}
+.rem114-card-calendar{flex:0 0 151px!important;min-height:151px!important;}
+.rem114-card-icon{
+  width:58px!important;
+  height:58px!important;
+  border-radius:18px!important;
+  object-fit:contain!important;
+  filter:drop-shadow(0 6px 10px rgba(155,112,33,.07))!important;
+}
+.rem114-card h3{
+  margin:0 0 5px!important;
+  font:700 14.5px/1.13 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.022em!important;
+  color:#172d4d!important;
+}
+.rem114-card p{
+  margin:0!important;
+  font:500 11.25px/1.34 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#6a7d99!important;
+}
+.rem114-card-local .rem114-card-copy{padding-bottom:27px!important;}
+.rem114-status{
+  height:27px!important;
+  min-width:154px!important;
+  padding:0 15px!important;
+  gap:8px!important;
+  font-size:12.4px!important;
+  border-radius:999px!important;
+}
+.rem114-status .ico{width:14px!important;height:14px!important;}
+.rem114-chevron{color:#aa7415!important;}
+.rem114-chevron .ico{width:18px!important;height:18px!important;stroke-width:2.3!important;}
+.rem114-toggle{
+  flex:0 0 48px!important;
+  width:100%!important;
+  margin:2px 0 0!important;
+  padding:0 20px!important;
+  display:grid!important;
+  grid-template-columns:32px minmax(0,1fr) 22px!important;
+  gap:8px!important;
+  align-items:center!important;
+  border-radius:19px!important;
+  border:1.3px solid rgba(224,181,99,.84)!important;
+  background:linear-gradient(180deg,#cba457 0%,#b1843b 48%,#9c6d29 100%)!important;
+  color:#fffaf0!important;
+  box-shadow:0 8px 16px rgba(145,95,24,.18),inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(106,66,14,.10)!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+}
+.rem114-toggle-bell .ico{width:23px!important;height:23px!important;stroke-width:1.75!important;color:#fffaf0!important;}
+.rem114-toggle-chevron .ico{width:20px!important;height:20px!important;stroke-width:2.15!important;color:#fffaf0!important;}
+.rem114-toggle-text{
+  font:700 15.8px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.018em!important;
+  color:#fffaf0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-shadow:0 1px 0 rgba(83,48,7,.18)!important;
+}
+.rem114-note{
+  margin:7px 0 2px!important;
+  font:500 10.7px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#70839f!important;
+  text-align:center!important;
+}
+.rem114-footer{
+  flex:0 0 40px!important;
+  grid-template-columns:1fr 24px 1fr!important;
+  grid-template-rows:22px 14px!important;
+  column-gap:10px!important;
+  padding:0 46px!important;
+}
+.rem114-footer>span{height:1px!important;background:rgba(176,122,37,.55)!important;}
+.rem114-footer img{width:24px!important;height:24px!important;}
+.rem114-footer b{
+  font:500 9px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:.36em!important;
+  color:#a87937!important;
+}
+@media(max-width:390px){
+  body.light #sheet.reminders-approved-v114-sheet{
+    height:min(532px,calc(100dvh - 56px))!important;
+    max-height:min(532px,calc(100dvh - 56px))!important;
+    min-height:492px!important;
+  }
+  .rem114{padding-left:18px!important;padding-right:18px!important;}
+  .rem114-head{flex-basis:107px!important;padding-top:24px!important;padding-right:91px!important;}
+  .rem114-head h2{font-size:27px!important;}
+  .rem114-head p{font-size:12.7px!important;}
+  .rem114-head-bell{width:76px!important;height:76px!important;right:0!important;top:5px!important;}
+  .rem114-card{grid-template-columns:54px minmax(0,1fr) 17px!important;gap:11px!important;padding:12px 13px!important;}
+  .rem114-card-local{flex-basis:120px!important;min-height:120px!important;}
+  .rem114-card-calendar{flex-basis:143px!important;min-height:143px!important;}
+  .rem114-card-icon{width:54px!important;height:54px!important;}
+  .rem114-card h3{font-size:13.8px!important;}
+  .rem114-card p{font-size:10.7px!important;line-height:1.31!important;}
+  .rem114-status{min-width:142px!important;height:26px!important;font-size:11.8px!important;}
+  .rem114-toggle{flex-basis:46px!important;padding:0 17px!important;grid-template-columns:29px minmax(0,1fr) 20px!important;}
+  .rem114-toggle-text{font-size:14.4px!important;}
+  .rem114-toggle-bell .ico{width:21px!important;height:21px!important;}
+  .rem114-note{font-size:10.1px!important;}
+  .rem114-footer{flex-basis:37px!important;padding:0 38px!important;}
+}
