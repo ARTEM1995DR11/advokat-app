@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5111')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5112')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -14875,7 +14875,7 @@ body.light #sc-today .today-quote{
    ===================================================================== */
 #sheet.sheet-premium-search,
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5111') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
   border-top-left-radius:30px !important;
   border-top-right-radius:30px !important;
   box-shadow:0 -18px 42px rgba(34,28,18,.10) !important;
@@ -14951,8 +14951,8 @@ body.light #sc-today .today-quote{
   pointer-events:none !important;
   z-index:0 !important;
 }
-.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5111') !important;}
-.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5111') !important;}
+.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5112') !important;}
+.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5112') !important;}
 .search-premium-orb::before,
 .notify-sheet-orb::before,
 .search-premium-orb::after,
@@ -15195,7 +15195,7 @@ body.light #sc-today .today-quote{
    5.0.111 — REMINDERS SHEET REBUILT CLOSER TO APPROVED MOCKUP
    ===================================================================== */
 #sheet.notify-premium-sheet{
-  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5111') center/cover no-repeat !important;
+  background:#FBF6EC url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
   border-top-left-radius:34px !important;
   border-top-right-radius:34px !important;
   box-shadow:0 -22px 48px rgba(28,27,22,.12) !important;
@@ -15242,7 +15242,7 @@ body.light #sc-today .today-quote{
   right:-14px !important;
   width:128px !important;
   height:126px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5111') right top/156px 172px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5112') right top/156px 172px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15405,7 +15405,7 @@ body.light #sc-today .today-quote{
 
 /* === 5.0.111 — утверждённый макет шторки «Напоминания» === */
 body.light #sheet.notify-premium-sheet{
-  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5111') center/cover no-repeat !important;
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5112') center/cover no-repeat !important;
   border:1px solid rgba(214,190,150,.78) !important;
   border-bottom:0 !important;
   border-top-left-radius:36px !important;
@@ -15454,7 +15454,7 @@ body.light #sheet.notify-premium-sheet{
   right:-8px !important;
   width:156px !important;
   height:152px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5111') right top/170px 184px no-repeat !important;
+  background:transparent url('notify-sheet-ornament-approved.png?v=5112') right top/170px 184px no-repeat !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15616,7 +15616,7 @@ body.light #sheet.reminders-approved-v107-sheet{
   padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px))!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5111') center/cover no-repeat!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5112') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -15862,7 +15862,7 @@ body.light #sheet.reminders-approved-v108-sheet{
   padding:5px 0 calc(6px + env(safe-area-inset-bottom,0px))!important;
   overflow:hidden!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5111') center/cover no-repeat!important;
+  background:#FBF7EF url('reminder-approved-marble.png?v=5112') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -16164,4 +16164,126 @@ body.light #sheet.reminders-approved-v108-sheet{
   .rem111-status{min-width:145px!important;height:31px!important;font-size:12.5px!important;}
   .rem111-off-toggle{padding:0 18px!important;grid-template-columns:34px minmax(0,1fr) 24px!important;}
   .rem111-off-toggle b{font-size:15px!important;}
+}
+
+
+/* =====================================================================
+   5.0.112 — «Напоминания»: один неизменный утверждённый экран для ON/OFF
+   Меняются только динамический текст, статус и подпись кнопки.
+   ===================================================================== */
+#sheet.reminders-approved-v112-sheet{
+  width:100vw!important;
+  max-width:none!important;
+  max-height:none!important;
+  height:auto!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:0 -18px 46px rgba(28,25,18,.13)!important;
+}
+#sheet.reminders-approved-v112-sheet>.grab{display:none!important;}
+#sheet.reminders-approved-v112-sheet.withfoot{display:block!important;overflow:hidden!important;}
+#sheet.reminders-approved-v112-sheet .shbody{padding:0!important;overflow:hidden!important;}
+.rem112{
+  position:relative!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:1!important;
+  overflow:hidden!important;
+  border-radius:36px 36px 0 0!important;
+}
+.rem112-art{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  pointer-events:none!important;
+}
+.rem112-statecopy{
+  position:absolute!important;
+  left:25.4%!important;
+  top:26.3%!important;
+  width:55.8%!important;
+  min-height:22.4%!important;
+  padding:1.1% 1.4% 0!important;
+  box-sizing:border-box!important;
+  z-index:6!important;
+  color:#172C49!important;
+  background:linear-gradient(180deg,rgba(251,248,244,.985),rgba(249,246,241,.985))!important;
+  border-radius:18px!important;
+  box-shadow:0 0 16px 10px rgba(250,247,242,.92)!important;
+}
+.rem112-statecopy h3{
+  margin:0 0 8px!important;
+  font:700 17px/1.13 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.025em!important;
+  color:#172C49!important;
+}
+.rem112-statecopy p{
+  margin:0!important;
+  font:500 12.8px/1.42 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Arial,sans-serif!important;
+  color:#6E7F93!important;
+}
+.rem112-status{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px!important;
+  min-width:160px!important;
+  height:34px!important;
+  padding:0 17px!important;
+  margin-top:11px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  font-size:13.6px!important;
+  line-height:1!important;
+  font-weight:780!important;
+}
+.rem112-status span{display:flex!important;align-items:center!important;justify-content:center!important;}
+.rem112-status .ico{width:15px!important;height:15px!important;stroke-width:2.3!important;}
+.rem112-status.ok{background:#DDEFE3!important;color:#168B4A!important;}
+.rem112-status.off{background:#EFE5CE!important;color:#8E6925!important;}
+.rem112-status.warn{background:#F5E5C7!important;color:#95671E!important;}
+.rem112-status.muted{background:#E8EDF1!important;color:#647489!important;}
+.rem112-toggle{
+  position:absolute!important;
+  left:5.1%!important;
+  top:82.45%!important;
+  width:89.6%!important;
+  height:9.55%!important;
+  display:grid!important;
+  grid-template-columns:42px minmax(0,1fr) 28px!important;
+  align-items:center!important;
+  gap:8px!important;
+  padding:0 24px!important;
+  box-sizing:border-box!important;
+  border-radius:24px!important;
+  border:1px solid rgba(159,112,35,.34)!important;
+  background:linear-gradient(180deg,#C69A4E 0%,#A87931 100%)!important;
+  color:#FFF8ED!important;
+  box-shadow:0 10px 20px rgba(158,109,34,.17),inset 0 1px 0 rgba(255,255,255,.18)!important;
+  cursor:pointer!important;
+  z-index:7!important;
+}
+.rem112-toggle>span{display:flex!important;align-items:center!important;justify-content:center!important;}
+.rem112-toggle .ico{width:21px!important;height:21px!important;stroke-width:1.9!important;}
+.rem112-toggle b{
+  font:700 17px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.018em!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  .rem112{border-radius:32px 32px 0 0!important;}
+  .rem112-statecopy h3{font-size:15.5px!important;}
+  .rem112-statecopy p{font-size:11.7px!important;}
+  .rem112-status{min-width:145px!important;height:31px!important;font-size:12.5px!important;}
+  .rem112-toggle{padding:0 18px!important;grid-template-columns:34px minmax(0,1fr) 24px!important;}
+  .rem112-toggle b{font-size:15px!important;}
 }
