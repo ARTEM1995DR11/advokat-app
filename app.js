@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.133';
-var APP_BUILD='5133';
+var APP_VERSION='5.0.134';
+var APP_BUILD='5134';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5133" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5134" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5133" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5134" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5133" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5134" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5133" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5134" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -1758,7 +1758,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-approved-v118-sheet','global-search-approved-v119-sheet','global-search-approved-v120-sheet','global-search-approved-v121-sheet','global-search-approved-v123-sheet','global-search-approved-v124-sheet','global-search-approved-v125-sheet','global-search-approved-v126-sheet','global-search-approved-v128-sheet','global-search-approved-v129-sheet','global-search-approved-v131-sheet','global-search-approved-v133-sheet');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-approved-v118-sheet','global-search-approved-v119-sheet','global-search-approved-v120-sheet','global-search-approved-v121-sheet','global-search-approved-v123-sheet','global-search-approved-v124-sheet','global-search-approved-v125-sheet','global-search-approved-v126-sheet','global-search-approved-v128-sheet','global-search-approved-v129-sheet','global-search-approved-v131-sheet','global-search-approved-v133-sheet','global-search-approved-v134-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -3269,7 +3269,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=5133" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=5134" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3762,18 +3762,18 @@ function sheetQuickAdd(){
 }
 function quickItem(i,t,act,tone){
   var art={
-    'qa-hearing':'quick-icon-hearing.png?v=5133',
-    'qa-meeting':'quick-icon-meeting.png?v=5133',
-    'qa-deadline':'quick-icon-deadline.png?v=5133',
-    'qa-task':'quick-icon-task.png?v=5133',
-    'qa-journal':'quick-icon-journal.png?v=5133'
+    'qa-hearing':'quick-icon-hearing.png?v=5134',
+    'qa-meeting':'quick-icon-meeting.png?v=5134',
+    'qa-deadline':'quick-icon-deadline.png?v=5134',
+    'qa-task':'quick-icon-task.png?v=5134',
+    'qa-journal':'quick-icon-journal.png?v=5134'
   }[act]||'';
   var icon=art?'<img class="quickitem-art" src="'+art+'" alt="">':ico(i,'l');
   return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+icon+'</span><b>'+t+'</b></button>';
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5133':type==='search'?'header-search-premium.png?v=5133':type==='plus'?'fab-plus-square-premium.png?v=5133':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5134':type==='search'?'header-search-premium.png?v=5134':type==='plus'?'fab-plus-square-premium.png?v=5134':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -3869,27 +3869,29 @@ function globalSearchApprovedHelper(){
 function sheetGlobalSearch(){
   GQ='';
   GSEARCH_TIP_HIDDEN=false;
-  openSheet('<section class="g120 g133-search-shell">'+
-    '<img class="g133-approved-art" src="global-search-approved-final-v133.png?v=5133" alt="">'+
-    '<div class="g133-live">'+
-      '<div class="g120-head">'+
-        '<div class="g120-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-        '<div class="g125-head-decor" aria-hidden="true"><svg class="g125-ribbons" viewBox="0 0 180 190" preserveAspectRatio="none"><path d="M18 -8 C44 24 48 56 82 84 C112 109 145 120 174 158"/><path d="M40 -8 C63 25 68 52 96 74 C126 98 153 108 184 141"/></svg><img class="g131-medallion" src="search-medallion-separate-v131.png?v=5133" alt=""></div>'+
+  openSheet('<section class="gs134">'+
+    '<header class="gs134-head">'+
+      '<div class="gs134-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
+      '<div class="gs134-head-decor" aria-hidden="true">'+
+        '<svg class="gs134-ribbons" viewBox="0 0 190 190" preserveAspectRatio="none"><path d="M20 -10 C48 25 50 57 84 87 C116 115 148 124 184 166"/><path d="M44 -10 C68 22 71 52 100 78 C130 102 157 113 194 148"/></svg>'+
+        '<img class="gs134-medallion" src="search-medallion-separate-v131.png?v=5134" alt="">'+
       '</div>'+
-      '<label class="g120-search" for="gq">'+
-        '<span class="g120-search-icon">'+ico('search','s')+'</span>'+
-        '<input id="gq" placeholder="Введите запрос..." autocomplete="off" autocapitalize="off" spellcheck="false">'+
-        '<span class="g120-search-sep"></span>'+
-        '<button class="g120-mic" type="button" data-act="global-search-mic" aria-label="Голосовой поиск">'+searchPremiumMicIcon()+'</button>'+
-      '</label>'+
-      '<div class="g120-info" id="gsearch-tip">'+
-        '<span class="g120-info-icon"><b>i</b></span>'+
-        '<div class="g120-info-copy">Ищите по фамилии, номеру дела, суду,<br>статье, задаче или части заметки.</div>'+
-        '<button type="button" class="g120-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
-      '</div>'+
-      '<div class="g120-examples">'+
-        '<div class="g120-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
-        '<div class="g120-chips">'+
+    '</header>'+
+    '<label class="gs134-search" for="gq">'+
+      '<span class="gs134-search-icon">'+ico('search','s')+'</span>'+
+      '<input id="gq" placeholder="Введите запрос..." autocomplete="off" autocapitalize="off" spellcheck="false">'+
+      '<span class="gs134-search-sep"></span>'+
+      '<button class="gs134-mic" type="button" data-act="global-search-mic" aria-label="Голосовой поиск">'+searchPremiumMicIcon()+'</button>'+
+    '</label>'+
+    '<div class="gs134-info" id="gsearch-tip">'+
+      '<span class="gs134-info-icon"><b>i</b></span>'+
+      '<div class="gs134-info-copy">Ищите по фамилии, номеру дела, суду,<br>статье, задаче или части заметки.</div>'+
+      '<button type="button" class="gs134-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
+    '</div>'+
+    '<div class="gs134-main">'+
+      '<div class="gs134-examples">'+
+        '<div class="gs134-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
+        '<div class="gs134-chips">'+
           searchPremiumChip('Ошарин','Ошарин','user')+
           searchPremiumChip('81 УК','81 УК','page')+
           searchPremiumChip('Ивановский суд','Ивановский суд','court')+
@@ -3899,35 +3901,31 @@ function sheetGlobalSearch(){
           searchPremiumChip('доверенность','доверенность','doc')+
         '</div>'+
       '</div>'+
-      '<div id="gresults" class="g120-results search-premium-results"></div>'+
-      '<div class="g120-helper" id="ghelper">'+
-        '<div class="g120-helper-star">'+ico('sparkles','s')+'</div>'+
-        '<div class="g120-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти<br>нужные дела, документы и задачи.</p></div>'+
-        '<button type="button" class="g120-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
+      '<div id="gresults" class="gs134-results search-premium-results"></div>'+
+      '<div class="gs134-helper" id="ghelper">'+
+        '<div class="gs134-helper-star">'+ico('sparkles','s')+'</div>'+
+        '<div class="gs134-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти<br>нужные дела, документы и задачи.</p></div>'+
+        '<button type="button" class="gs134-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
-      '<div class="g120-footer"><span></span><i class="g124-footer-scale" aria-hidden="true"></i><span></span><b>ПРАВО И ПОРЯДОК</b></div>'+
     '</div>'+
+    '<footer class="gs134-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5134" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
-  $('#sheet').classList.add('global-search-approved-v126-sheet','global-search-approved-v129-sheet','global-search-approved-v131-sheet','global-search-approved-v133-sheet');
+  $('#sheet').classList.add('global-search-approved-v134-sheet');
   renderGlobalSearch();
 }
 function renderGlobalSearch(){
   var box=$('#gresults'); if(!box)return;
+  var shell=document.querySelector('.gs134');
   var helper=$('#ghelper');
-  var wrap=document.querySelector('.g120')||document.querySelector('.g118');
-  var examples=document.querySelector('.g120-examples');
-  var exTitle=document.querySelector('.g120-example-title')||document.querySelector('.g118-example-title');
-  var exChips=document.querySelector('.g120-chips')||document.querySelector('.g118-chips');
+  var examples=document.querySelector('.gs134-examples');
   var q=(GQ||'').trim();
-  if(wrap) wrap.classList.toggle('has-query',!!q);
+  if(shell) shell.classList.toggle('has-query',!!q);
   if(helper) helper.style.display=q?'none':'';
   if(examples) examples.style.display=q?'none':'';
-  if(exTitle) exTitle.style.display=q?'none':'';
-  if(exChips) exChips.style.display=q?'none':'';
   if(!q){ box.innerHTML=''; return; }
   var r=globalSearchData(q), n=r.m.length+r.t.length+r.j.length;
   if(!n){
-    box.innerHTML='<div class="search-premium-empty"><span class="search-premium-empty-ico">'+ico('search')+'</span><b>Ничего не найдено</b><p>Попробуйте другой фрагмент запроса или выберите один из примеров ниже.</p></div>';
+    box.innerHTML='<div class="search-premium-empty"><span class="search-premium-empty-ico">'+ico('search')+'</span><b>Ничего не найдено</b><p>Попробуйте другой фрагмент запроса.</p></div>';
     return;
   }
   var h='';
@@ -4239,7 +4237,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5133" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5134" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -4253,7 +4251,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5133" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5134" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -4400,7 +4398,7 @@ document.addEventListener('click', function(ev){
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
-    case 'global-search-clear-tip': {GSEARCH_TIP_HIDDEN=true; var gst=$('#gsearch-tip'); if(gst)gst.style.display='none'; var gh=$('#ghelper'); if(gh)gh.style.display='none'; var gw=document.querySelector('.g133-search-shell'); if(gw)gw.classList.add('g133-force-live'); break;}
+    case 'global-search-clear-tip': {GSEARCH_TIP_HIDDEN=true; var gst=$('#gsearch-tip'); if(gst)gst.style.display='none'; var gh=$('#ghelper'); if(gh)gh.style.display='none'; break;}
     case 'global-search-mic': {var gi=$('#gq'); if(gi)gi.focus(); toast('Голосовой поиск можно добавить позже'); break;}
     case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
     case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
@@ -5108,7 +5106,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(reloading)return; reloading=true; window.location.reload();
     });
-    navigator.serviceWorker.register('./sw.js?v=5133', {updateViaCache:'none'}).then(function(reg){
+    navigator.serviceWorker.register('./sw.js?v=5134', {updateViaCache:'none'}).then(function(reg){
       try{ reg.update(); }catch(e){}
       reg.update().catch(function(){});
       if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');
