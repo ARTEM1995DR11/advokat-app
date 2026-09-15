@@ -8340,7 +8340,7 @@ body:not(.light) .matter-ultra-pulse.result i{background:#E6B84F!important;box-s
 .matter-next-card.needs-result .matter-next-copy small{color:#B97812!important}
 body:not(.light) .matter-next-card.needs-result{
   border-color:rgba(230,184,79,.34)!important;
-  background:linear-gradient(145deg,rgba(143,102,26,.26),rgba(8,24,36,.94)),linear-gradient(180deg,#071927,#05136F)!important;
+  background:linear-gradient(145deg,rgba(143,102,26,.26),rgba(8,24,36,.94)),linear-gradient(180deg,#071927,#05138F)!important;
 }
 body:not(.light) .matter-next-card.needs-result .matter-next-icon{color:#F1CA75!important;background:rgba(180,132,38,.19)!important;border-color:rgba(230,184,79,.25)!important}
 body:not(.light) .matter-next-card.needs-result .matter-next-copy small{color:#F1CA75!important}
@@ -12400,7 +12400,7 @@ html body:not(.light) #tabbar.premium-nav .tab[data-tab="more"].on .tab-ico{back
 /* ============================================================
    5.0.56 — доводка нижней панели в тёмной теме
    Не трогаем логику и светлую тему. Подправляем только тёмную тему:
-   - более чистый фон панели из nav-panel-dark.png,
+   - более чистый фон панели из dark navigation artwork,
    - более читаемые неактивные иконки и подписи,
    - активные медальоны без лишнего внутреннего градиента/рамки,
    - аккуратная золотая подсветка активной вкладки.
@@ -14951,8 +14951,8 @@ body.light #sc-today .today-quote{
   pointer-events:none !important;
   z-index:0 !important;
 }
-.notify-sheet-orb{background-image:url('sheet-orb-bell4.png?v=5114') !important;}
-.search-premium-orb{background-image:url('sheet-orb-search4.png?v=5114') !important;}
+.notify-sheet-orb{background-image:none !important;}
+.search-premium-orb{background-image:none !important;}
 .search-premium-orb::before,
 .notify-sheet-orb::before,
 .search-premium-orb::after,
@@ -15242,7 +15242,7 @@ body.light #sc-today .today-quote{
   right:-14px !important;
   width:128px !important;
   height:126px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5114') right top/156px 172px no-repeat !important;
+  background:none !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15454,7 +15454,7 @@ body.light #sheet.notify-premium-sheet{
   right:-8px !important;
   width:156px !important;
   height:152px !important;
-  background:transparent url('notify-sheet-ornament-approved.png?v=5114') right top/170px 184px no-repeat !important;
+  background:none !important;
   pointer-events:none !important;
 }
 .notify-sheet-copy{
@@ -15616,7 +15616,7 @@ body.light #sheet.reminders-approved-v107-sheet{
   padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px))!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -15862,7 +15862,7 @@ body.light #sheet.reminders-approved-v108-sheet{
   padding:5px 0 calc(6px + env(safe-area-inset-bottom,0px))!important;
   overflow:hidden!important;
   overflow-x:hidden!important;
-  background:#FBF7EF url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
+  background:#FBF7EF url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat!important;
   border:1px solid rgba(213,188,145,.80)!important;
   border-bottom:0!important;
   border-radius:36px 36px 0 0!important;
@@ -16043,7 +16043,7 @@ body.light #sheet.reminders-approved-v114-sheet{
   max-height:70dvh!important;
   padding:5px 0 calc(5px + env(safe-area-inset-bottom,0px))!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5114') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5114') center/cover no-repeat!important;
   border:1px solid rgba(218,194,151,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16298,7 +16298,7 @@ body.light #sheet.reminders-approved-v114-sheet{
   max-height:min(548px,calc(100dvh - 64px))!important;
   min-height:510px!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16491,7 +16491,7 @@ body.light #sheet.reminders-approved-v116-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16759,7 +16759,7 @@ body.light #sheet.reminders-approved-v117-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16881,7 +16881,7 @@ body.light #sheet.global-search-approved-v118-sheet{
   min-height:600px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17201,7 +17201,7 @@ body.light #sheet.global-search-approved-v119-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17385,7 +17385,7 @@ body.light #sheet.global-search-approved-v120-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17742,7 +17742,7 @@ body.light #sheet.global-search-approved-v121-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17861,7 +17861,7 @@ body.light #sheet.global-search-approved-v121-sheet{
 
 .global-search-approved-v121-sheet #sheet-content{
   background:
-    url("reminder-approved-marble.png") center top / cover no-repeat !important;
+    url("quick-sheet-marble-approved.png") center top / cover no-repeat !important;
 }
 
 .g120{
@@ -17983,7 +17983,7 @@ body.light #sheet.global-search-approved-v123-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -18263,7 +18263,7 @@ body.light #sheet.global-search-approved-v124-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -18440,7 +18440,7 @@ body.light #sheet.global-search-approved-v124-sheet{
   height:27px!important;
   justify-self:center!important;
   align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5136') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5138') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v124-sheet .g120-footer b{
   grid-column:1/-1!important;
@@ -18500,7 +18500,7 @@ body.light #sheet.global-search-approved-v125-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('reminder-approved-marble.png?v=5136')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5138')!important;
   background-position:center 44%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18610,7 +18610,7 @@ body.light #sheet.global-search-approved-v125-sheet{
 #sheet.global-search-approved-v125-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v125-sheet .g124-footer-scale{
   display:block!important;width:32px!important;height:31px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5136') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5138') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v125-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9.2px/1 Georgia,'Times New Roman',serif!important;
@@ -18667,7 +18667,7 @@ body.light #sheet.global-search-approved-v126-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('reminder-approved-marble.png?v=5136')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5138')!important;
   background-position:center 44%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18779,7 +18779,7 @@ body.light #sheet.global-search-approved-v126-sheet{
 #sheet.global-search-approved-v126-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v126-sheet .g124-footer-scale{
   display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5136') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5138') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v126-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;
@@ -18831,7 +18831,7 @@ body.light #sheet.global-search-approved-v126-sheet{
 
 
 /* =====================================================================
-   5.0.136 — GLOBAL SEARCH: pixel pass against approved mockup
+   5.0.138 — GLOBAL SEARCH: pixel pass against approved mockup
    Основная цель этого прохода — вернуть вертикальные пропорции макета:
    шторка выше, заголовок ниже, медальон компактнее, чипы 3/2/2 точнее,
    helper и фирменный footer занимают те же зоны, что и на макете.
@@ -18843,7 +18843,7 @@ body.light #sheet.global-search-approved-v128-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('reminder-approved-marble.png?v=5136')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5138')!important;
   background-position:center 50%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18967,7 +18967,7 @@ body:not(.light) #sheet.global-search-approved-v128-sheet{
 #sheet.global-search-approved-v128-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v128-sheet .g124-footer-scale{
   display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5136') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5138') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v128-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;
@@ -19015,7 +19015,7 @@ body:not(.light) #sheet.global-search-approved-v128-sheet{
 
 
 /* =====================================================================
-   5.0.136 — GLOBAL SEARCH rollback to Reminders height + larger motif
+   5.0.138 — GLOBAL SEARCH rollback to Reminders height + larger motif
    Возвращаем высоту шторки как у «Напоминаний», увеличиваем иконку,
    восстанавливаем плотную композицию и гарантируем ряды чипов 3 / 2 / 2.
    ===================================================================== */
@@ -19025,7 +19025,7 @@ body.light #sheet.global-search-approved-v129-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -19171,7 +19171,7 @@ body:not(.light) #sheet.global-search-approved-v129-sheet{
   column-gap:10px!important;align-items:center!important;padding:0 28px 3px!important;box-sizing:border-box!important;transform:translateY(-1px)!important;
 }
 #sheet.global-search-approved-v129-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
-#sheet.global-search-approved-v129-sheet .g124-footer-scale{display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;background:url('reminder-footer-scales-exact.png?v=5136') center/contain no-repeat!important;}
+#sheet.global-search-approved-v129-sheet .g124-footer-scale{display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;background:url('reminder-footer-scales-exact.png?v=5138') center/contain no-repeat!important;}
 #sheet.global-search-approved-v129-sheet .g120-footer b{grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;letter-spacing:.36em!important;color:#a87937!important;white-space:nowrap!important;}
 #sheet.global-search-approved-v129-sheet .g120.has-query .g120-results{display:flex!important;flex:1 1 auto!important;min-height:0!important;margin:0 0 7px!important;}
 #sheet.global-search-approved-v129-sheet .g120.has-query .g120-footer{margin-top:0!important;}
@@ -19251,7 +19251,7 @@ body:not(.light) #sheet.global-search-approved-v129-sheet{
 }
 
 /* =====================================================================
-   5.0.136 — GLOBAL SEARCH: approved mockup fidelity layer.
+   5.0.138 — GLOBAL SEARCH: approved mockup fidelity layer.
    Idle state uses the exact approved composition supplied by the user;
    the functional DOM remains underneath and becomes visible for results.
    ===================================================================== */
@@ -19443,7 +19443,7 @@ body:not(.light) #sheet.global-search-approved-v133-sheet{
   inset:0!important;
   opacity:1!important;
   pointer-events:auto!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
 }
 #sheet.global-search-approved-v133-sheet .g133-search-shell.has-query .g120-search,
 #sheet.global-search-approved-v133-sheet .g133-search-shell.g133-force-live .g120-search,
@@ -19455,7 +19455,7 @@ body:not(.light) #sheet.global-search-approved-v133-sheet{
 }
 
 /* =====================================================================
-   5.0.136 — GLOBAL SEARCH: SINGLE LIVE IMPLEMENTATION.
+   5.0.138 — GLOBAL SEARCH: SINGLE LIVE IMPLEMENTATION.
    No artwork overlay and no legacy UI swap. The same DOM remains visible
    before, during and after search, matching the approved composition.
    ===================================================================== */
@@ -19470,7 +19470,7 @@ body:not(.light) #sheet.global-search-approved-v135-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('reminder-approved-marble.png?v=5136') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5138') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -19784,259 +19784,4 @@ body:not(.light) #sheet.global-search-approved-v135-sheet{
  .gs135-helper{flex-basis:72px!important;min-height:72px!important;grid-template-columns:40px minmax(0,1fr) 16px!important;gap:9px!important;}
  .gs135-helper-star{width:39px!important;height:39px!important}.gs135-helper-star .ico{width:35px!important;height:35px!important}.gs135-helper-copy b{font-size:12.6px!important}.gs135-helper-copy p{font-size:9.8px!important}
  .gs135-footer{flex-basis:44px!important;min-height:44px!important;padding:0 34px!important;grid-template-columns:1fr 25px 1fr!important;grid-template-rows:27px 14px!important}.gs135-footer img{width:24px!important;height:23px!important}.gs135-footer b{font-size:8.5px!important}
-}
-
-/* =====================================================================
-   5.0.136 — FINAL SEARCH + QUICK ADD POLISH
-   1) Глобальный поиск ещё ближе к утверждённому макету.
-   2) Быстрая запись: возвращена аккуратная геометрия золотых линий.
-   ===================================================================== */
-
-/* ---------- Global Search: closer to approved mockup, one live layer ---------- */
-body.light #sheet.global-search-approved-v135-sheet,
-body:not(.light) #sheet.global-search-approved-v135-sheet{
-  height:min(548px,calc(100dvh - 52px))!important;
-  max-height:min(548px,calc(100dvh - 52px))!important;
-  min-height:508px!important;
-  border-top-left-radius:36px!important;
-  border-top-right-radius:36px!important;
-  box-shadow:0 -22px 48px rgba(29,28,22,.11)!important;
-}
-#sheet.global-search-approved-v135-sheet>.grab{
-  width:76px!important;
-  height:7px!important;
-  margin:12px auto 8px!important;
-  border-radius:999px!important;
-  background:#D7D0C4!important;
-  opacity:1!important;
-}
-#sheet.global-search-approved-v135-sheet .gs135{
-  height:calc(100% - 19px)!important;
-  padding:0 19px 6px!important;
-}
-.gs135-head{
-  flex:0 0 116px!important;
-  min-height:116px!important;
-  padding:24px 0 0 3px!important;
-}
-.gs135-head h2{
-  font-size:30px!important;
-  margin-bottom:8px!important;
-}
-.gs135-head p{
-  width:300px!important;
-  font-size:12.85px!important;
-  line-height:1.38!important;
-}
-.gs135-head-decor{
-  width:194px!important;
-  height:192px!important;
-  top:-23px!important;
-  right:-46px!important;
-}
-.gs135-ribbons path{stroke-width:1.22!important;opacity:.72!important;}
-.gs135-ribbons path+path{opacity:.46!important;}
-.gs135-medallion{
-  width:84px!important;
-  height:84px!important;
-  right:30px!important;
-  top:18px!important;
-}
-.gs135-search{
-  flex:0 0 63px!important;
-  min-height:63px!important;
-  margin:0 0 12px!important;
-  padding:0 16px 0 18px!important;
-  grid-template-columns:35px minmax(0,1fr) 1px 35px!important;
-  gap:11px!important;
-  border-radius:24px!important;
-  border-width:1.45px!important;
-}
-.gs135-search-icon .ico{width:28px!important;height:28px!important;stroke-width:1.65!important;}
-.gs135-search input{
-  height:61px!important;
-  font-size:16.6px!important;
-}
-.gs135-search-sep{height:31px!important;}
-.gs135-mic .search-premium-mic-svg{width:21px!important;height:21px!important;}
-.gs135-info{
-  flex:0 0 62px!important;
-  min-height:62px!important;
-  margin:0 0 10px!important;
-  padding:10px 13px!important;
-  grid-template-columns:38px minmax(0,1fr) 18px!important;
-}
-.gs135-info-icon{width:35px!important;height:35px!important;}
-.gs135-info-icon b{font-size:18px!important;}
-.gs135-info-copy{
-  font-size:11.55px!important;
-  line-height:1.32!important;
-}
-.gs135-main{gap:0!important;}
-.gs135-examples{
-  flex:0 0 131px!important;
-  min-height:131px!important;
-}
-.gs135-example-title{
-  flex-basis:25px!important;
-  height:25px!important;
-  margin:0 7px 7px!important;
-}
-.gs135-example-title b{font-size:9.55px!important;letter-spacing:.30em!important;}
-.gs135-chips{gap:6px 8px!important;}
-.gs135-chips .search-premium-chip{
-  height:35px!important;
-  min-height:35px!important;
-  padding:0 10px!important;
-  font-size:10.9px!important;
-}
-.gs135-chips .search-premium-chip:nth-child(1){width:100px!important;}
-.gs135-chips .search-premium-chip:nth-child(2){width:91px!important;}
-.gs135-chips .search-premium-chip:nth-child(3){width:148px!important;}
-.gs135-chips .search-premium-chip:nth-child(4){width:156px!important;}
-.gs135-chips .search-premium-chip:nth-child(5){width:114px!important;}
-.gs135-chips .search-premium-chip:nth-child(6){width:163px!important;}
-.gs135-chips .search-premium-chip:nth-child(7){width:128px!important;}
-.gs135-helper{
-  flex:0 0 79px!important;
-  min-height:79px!important;
-  margin:7px 0 3px!important;
-  padding:10px 14px!important;
-  border-radius:20px!important;
-  grid-template-columns:46px minmax(0,1fr) 18px!important;
-}
-.gs135-helper-star{width:44px!important;height:44px!important;}
-.gs135-helper-star .ico{width:38px!important;height:38px!important;}
-.gs135-helper-copy b{font-size:13.8px!important;}
-.gs135-helper-copy p{font-size:10.7px!important;line-height:1.26!important;}
-.gs135-footer{
-  flex:0 0 45px!important;
-  min-height:45px!important;
-  padding:0 28px 0!important;
-  grid-template-columns:1fr 29px 1fr!important;
-  grid-template-rows:26px 14px!important;
-}
-.gs135-footer img{width:27px!important;height:26px!important;}
-.gs135-footer b{font-size:8.85px!important;letter-spacing:.34em!important;}
-
-@media(max-width:390px){
-  body.light #sheet.global-search-approved-v135-sheet,
-  body:not(.light) #sheet.global-search-approved-v135-sheet{
-    height:min(532px,calc(100dvh - 52px))!important;
-    max-height:min(532px,calc(100dvh - 52px))!important;
-    min-height:494px!important;
-  }
-  #sheet.global-search-approved-v135-sheet>.grab{width:72px!important;height:6px!important;margin-top:11px!important;}
-  #sheet.global-search-approved-v135-sheet .gs135{padding-left:18px!important;padding-right:18px!important;}
-  .gs135-head{flex-basis:111px!important;min-height:111px!important;padding-top:23px!important;}
-  .gs135-head h2{font-size:29px!important;}
-  .gs135-head p{width:288px!important;font-size:12.2px!important;}
-  .gs135-head-decor{width:184px!important;height:182px!important;right:-44px!important;}
-  .gs135-medallion{width:79px!important;height:79px!important;}
-  .gs135-search{flex-basis:59px!important;min-height:59px!important;margin-bottom:10px!important;}
-  .gs135-search input{height:57px!important;font-size:16px!important;}
-  .gs135-info{flex-basis:58px!important;min-height:58px!important;margin-bottom:8px!important;}
-  .gs135-info-copy{font-size:10.95px!important;}
-  .gs135-examples{flex-basis:126px!important;min-height:126px!important;}
-  .gs135-chips .search-premium-chip{height:32px!important;min-height:32px!important;font-size:10px!important;padding:0 8px!important;gap:6px!important;}
-  .gs135-chips .search-premium-chip:nth-child(1){width:92px!important;}
-  .gs135-chips .search-premium-chip:nth-child(2){width:84px!important;}
-  .gs135-chips .search-premium-chip:nth-child(3){width:134px!important;}
-  .gs135-chips .search-premium-chip:nth-child(4){width:144px!important;}
-  .gs135-chips .search-premium-chip:nth-child(5){width:104px!important;}
-  .gs135-chips .search-premium-chip:nth-child(6){width:149px!important;}
-  .gs135-chips .search-premium-chip:nth-child(7){width:118px!important;}
-  .gs135-helper{flex-basis:73px!important;min-height:73px!important;grid-template-columns:40px minmax(0,1fr) 16px!important;gap:9px!important;}
-  .gs135-helper-star{width:39px!important;height:39px!important;}
-  .gs135-helper-star .ico{width:34px!important;height:34px!important;}
-  .gs135-helper-copy b{font-size:12.8px!important;}
-  .gs135-helper-copy p{font-size:9.9px!important;}
-  .gs135-footer{flex-basis:42px!important;min-height:42px!important;padding:0 34px!important;grid-template-columns:1fr 25px 1fr!important;grid-template-rows:24px 14px!important;}
-  .gs135-footer img{width:24px!important;height:23px!important;}
-}
-
-/* ---------- Quick Add: restore cleaner gold geometry on cards ---------- */
-body .quick-sheet .quickgrid.quickgrid-core .quickitem,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem{
-  position:relative!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem::before{
-  content:''!important;
-  position:absolute!important;
-  border-radius:50%!important;
-  border:2px solid rgba(213,181,111,.74)!important;
-  background:var(--pastel)!important;
-  opacity:.98!important;
-  pointer-events:none!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem::after{
-  content:''!important;
-  position:absolute!important;
-  width:2px!important;
-  border-radius:999px!important;
-  background:rgba(213,181,111,.82)!important;
-  opacity:.98!important;
-  pointer-events:none!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::before{
-  width:162px!important;height:162px!important;right:-102px!important;top:-78px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::after{
-  right:82px!important;top:-1px!important;height:48px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::before{
-  width:170px!important;height:170px!important;right:-95px!important;top:-34px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::after{
-  right:66px!important;top:-8px!important;height:72px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::before{
-  width:174px!important;height:174px!important;right:-82px!important;top:-8px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::after{
-  right:92px!important;top:-10px!important;height:68px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::before{
-  width:166px!important;height:166px!important;right:-86px!important;top:10px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::after{
-  right:58px!important;top:-8px!important;height:78px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::before{
-  width:192px!important;height:192px!important;right:-112px!important;top:-50px!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::after{
-  display:none!important;
-}
-@media (max-width:430px){
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::before,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::before{width:154px!important;height:154px!important;right:-100px!important;top:-74px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::after,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-hearing"]::after{right:72px!important;height:44px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::before,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::before{width:162px!important;height:162px!important;right:-92px!important;top:-32px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::after,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-meeting"]::after{right:60px!important;top:-7px!important;height:68px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::before,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::before{width:166px!important;height:166px!important;right:-80px!important;top:-8px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::after,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-deadline"]::after{right:82px!important;top:-9px!important;height:62px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::before,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::before{width:158px!important;height:158px!important;right:-84px!important;top:12px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::after,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-task"]::after{right:54px!important;top:-8px!important;height:72px!important;}
-  body .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::before,
-  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journal"]::before{width:184px!important;height:184px!important;right:-108px!important;top:-48px!important;}
 }
