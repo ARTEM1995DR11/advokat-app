@@ -17852,3 +17852,123 @@ body.light #sheet.global-search-approved-v121-sheet{
   #sheet.global-search-approved-v121-sheet .g120-ribbons{width:154px!important;height:170px!important;right:-28px!important;top:-28px!important;}
   #sheet.global-search-approved-v121-sheet .g120-footer{flex-basis:47px!important;padding-left:36px!important;padding-right:36px!important;padding-bottom:7px!important;}
 }
+
+
+/* ============================================================
+   5.0.122 — Global Search premium alignment pass
+   Финальная подгонка под макет вкладки "Глобальный поиск"
+   ============================================================ */
+
+.global-search-approved-v121-sheet #sheet-content{
+  background:
+    url("reminder-approved-marble.png") center top / cover no-repeat !important;
+}
+
+.g120{
+  padding:0 22px 8px!important;
+}
+
+.g120-head{
+  flex-basis:118px!important;
+  min-height:118px!important;
+  padding:30px 122px 0 5px!important;
+}
+
+.g120-head h2{
+  font-size:30px!important;
+  letter-spacing:-.035em!important;
+}
+
+.g120-head p{
+  width:310px!important;
+  font-size:12.5px!important;
+  line-height:1.45!important;
+}
+
+.g120-ribbons{
+  right:-12px!important;
+  top:-22px!important;
+  width:205px!important;
+  height:200px!important;
+}
+
+.g120-medallion{
+  right:18px!important;
+  top:14px!important;
+  width:94px!important;
+  height:94px!important;
+}
+
+/* не допускаем наложения лупы на заголовок */
+.g120-head-copy{
+  max-width:330px!important;
+}
+
+/* поле поиска как в утвержденном макете */
+.g120-search{
+  flex-basis:56px!important;
+  min-height:56px!important;
+  border-radius:22px!important;
+  padding-left:17px!important;
+  grid-template-columns:32px minmax(0,1fr) 1px 34px!important;
+}
+
+.g120-search-icon .ico{
+  width:25px!important;
+  height:25px!important;
+}
+
+.g120-search input{
+  font-size:16px!important;
+}
+
+/* карточки ниже */
+.g120-info{
+  min-height:62px!important;
+  flex-basis:62px!important;
+  border-radius:20px!important;
+}
+
+.g120-info-copy{
+  font-size:11.4px!important;
+}
+
+.g120-example-title{
+  margin-top:4px!important;
+}
+
+.g120 .search-premium-chip{
+  height:34px!important;
+  min-height:34px!important;
+  font-size:11px!important;
+  padding:0 12px!important;
+}
+
+.g120 .search-premium-chip .ico{
+  width:15px!important;
+  height:15px!important;
+}
+
+.g120-helper{
+  flex-basis:76px!important;
+  min-height:76px!important;
+  border-radius:20px!important;
+}
+
+.g120-helper-copy b{
+  font-size:14px!important;
+}
+
+.g120-helper-copy p{
+  font-size:11px!important;
+}
+
+.g120-footer{
+  padding-bottom:4px!important;
+}
+
+.g120-footer img{
+  width:34px!important;
+  height:34px!important;
+  object-fit:contain!important;
+}
