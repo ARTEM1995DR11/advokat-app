@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.160';
-var APP_BUILD='5160';
+var APP_VERSION='5.0.161';
+var APP_BUILD='5161';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -240,18 +240,18 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function ico(n,c){ return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24"><use href="#i-'+n+'"/></svg>'; }
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5160" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5161" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5160" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5161" alt=""></button>';
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5160" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.png?v=5161" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5160" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.png?v=5161" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -1758,7 +1758,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-approved-v118-sheet','global-search-approved-v119-sheet','global-search-approved-v120-sheet','global-search-approved-v121-sheet','global-search-approved-v123-sheet','global-search-approved-v124-sheet','global-search-approved-v125-sheet','global-search-approved-v126-sheet','global-search-approved-v128-sheet','global-search-approved-v129-sheet','global-search-approved-v131-sheet','global-search-approved-v133-sheet','global-search-approved-v135-sheet','global-search-approved-v153-sheet','global-search-approved-v154-sheet','global-search-approved-v155-sheet','global-search-approved-v156-sheet','global-search-approved-v157-sheet','global-search-approved-v158-sheet','global-search-approved-v159-sheet','global-search-premium-v160-sheet');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-approved-v118-sheet','global-search-approved-v119-sheet','global-search-approved-v120-sheet','global-search-approved-v121-sheet','global-search-approved-v123-sheet','global-search-approved-v124-sheet','global-search-approved-v125-sheet','global-search-approved-v126-sheet','global-search-approved-v128-sheet','global-search-approved-v129-sheet','global-search-approved-v131-sheet','global-search-approved-v133-sheet','global-search-approved-v135-sheet','global-search-approved-v153-sheet','global-search-approved-v154-sheet','global-search-approved-v155-sheet','global-search-approved-v156-sheet','global-search-approved-v157-sheet','global-search-approved-v158-sheet','global-search-approved-v159-sheet','global-search-premium-v160-sheet','global-search-premium-v161-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -3269,7 +3269,7 @@ function drawEditor(preserveScroll){
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
   openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.png?v=5160" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="task-editor-brand"><img src="scale-gold.png?v=5161" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3765,11 +3765,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5160',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5160',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5160',
-    'qa-task':'quick-card-task-v5100.png?v=5160',
-    'qa-journal':'quick-card-journal-v5100.png?v=5160'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5161',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5161',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5161',
+    'qa-task':'quick-card-task-v5100.png?v=5161',
+    'qa-journal':'quick-card-journal-v5100.png?v=5161'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -3778,7 +3778,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5160':type==='search'?'header-search-premium.png?v=5160':type==='plus'?'fab-plus-square-premium.png?v=5160':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5161':type==='search'?'header-search-premium.png?v=5161':type==='plus'?'fab-plus-square-premium.png?v=5161':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -3802,13 +3802,13 @@ function searchPremiumMicIcon(){
   return '<svg class="search-premium-mic-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.6a2.65 2.65 0 0 1 2.65 2.65v4.9a2.65 2.65 0 1 1-5.3 0v-4.9A2.65 2.65 0 0 1 12 4.6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.8 10.9v.6a4.2 4.2 0 0 0 8.4 0v-.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.7v3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9.5 19.3h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
 }
 function searchExampleIcon(icon){
-  var a='class="search-example-svg search-example-'+icon+'" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.58" stroke-linecap="round" stroke-linejoin="round"';
-  if(icon==='user') return '<svg '+a+'><circle cx="12" cy="7.55" r="3.05"/><path d="M5.95 19.25c.32-2.8 2.8-4.7 6.05-4.7s5.73 1.9 6.05 4.7"/></svg>';
-  if(icon==='page') return '<svg '+a+'><path d="M7.2 3.9h6.55l3.55 3.55v11.95a1 1 0 0 1-1 1H7.2a1 1 0 0 1-1-1V4.9a1 1 0 0 1 1-1Z"/><path d="M13.75 3.95v3.7h3.55"/></svg>';
-  if(icon==='court') return '<svg '+a+'><path d="M3.9 8.7 12 4.1l8.1 4.6H3.9Z"/><path d="M5.35 10.15h13.3M6.35 10.15v6.85M10.05 10.15v6.85M13.95 10.15v6.85M17.65 10.15v6.85M4.55 18.35h14.9M3.6 20.25h16.8"/></svg>';
-  if(icon==='scale-line') return '<svg '+a+'><path d="M12 3.75v15.9M7.55 20.2h8.9M5.05 7.15h13.9M12 5.2 5.3 7.15M12 5.2l6.7 1.95"/><path d="m6.2 7.55-2.4 4.45h4.8L6.2 7.55Zm11.6 0-2.4 4.45h4.8l-2.4-4.45Z"/><path d="M3.85 12.05c.34 1.55 1.28 2.32 2.35 2.32 1.08 0 2-.77 2.35-2.32M15.45 12.05c.34 1.55 1.28 2.32 2.35 2.32 1.08 0 2-.77 2.35-2.32"/></svg>';
-  if(icon==='cal') return '<svg '+a+'><rect x="4.2" y="5.45" width="15.6" height="14.35" rx="2.15"/><path d="M4.2 9.6h15.6M8.1 4v3.05M15.9 4v3.05"/></svg>';
-  if(icon==='doc') return '<svg '+a+'><path d="M7.15 3.95h6.7l3.55 3.55v11.9a1 1 0 0 1-1 1H7.15a1 1 0 0 1-1-1V4.95a1 1 0 0 1 1-1Z"/><path d="M13.85 3.95v3.7h3.55M9.2 11.95h5.7M9.2 15.25h4.35"/></svg>';
+  var a='class="search-example-svg search-example-'+icon+'" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.62" stroke-linecap="round" stroke-linejoin="round"';
+  if(icon==='user') return '<svg '+a+'><circle cx="12" cy="7.1" r="3"/><path d="M6.15 19.05c.34-2.56 2.68-4.22 5.85-4.22s5.51 1.66 5.85 4.22"/></svg>';
+  if(icon==='page') return '<svg '+a+'><path d="M7.35 3.95h6.35l3.35 3.35v11.78a1.12 1.12 0 0 1-1.12 1.12H7.35a1.12 1.12 0 0 1-1.12-1.12V5.07a1.12 1.12 0 0 1 1.12-1.12Z"/><path d="M13.7 4v3.45h3.35"/></svg>';
+  if(icon==='court') return '<svg '+a+'><path d="M3.95 8.65 12 4.3l8.05 4.35H3.95Z"/><path d="M5.2 10.05h13.6M6.6 10.05v6.4M9.95 10.05v6.4M14.05 10.05v6.4M17.4 10.05v6.4M4.55 17.95h14.9M3.7 19.8h16.6"/></svg>';
+  if(icon==='scale-line') return '<svg '+a+'><path d="M12 4v15.3M7.9 19.75h8.2M5 7.3h14M12 5.15 5.6 7.3M12 5.15l6.4 2.15"/><path d="m6.2 7.75-2.15 4.1h4.3L6.2 7.75Zm11.6 0-2.15 4.1h4.3l-2.15-4.1Z"/><path d="M4.05 11.95c.38 1.35 1.18 2 2.15 2 1 0 1.8-.65 2.18-2M15.62 11.95c.38 1.35 1.18 2 2.18 2 .97 0 1.77-.65 2.15-2"/></svg>';
+  if(icon==='cal') return '<svg '+a+'><rect x="4.3" y="5.55" width="15.4" height="14.1" rx="2.2"/><path d="M4.3 9.55h15.4M8.15 4.2v2.95M15.85 4.2v2.95"/></svg>';
+  if(icon==='doc') return '<svg '+a+'><path d="M7.2 3.95h6.45l3.45 3.45v11.82a1.05 1.05 0 0 1-1.05 1.05H7.2a1.05 1.05 0 0 1-1.05-1.05V5a1.05 1.05 0 0 1 1.05-1.05Z"/><path d="M13.65 3.95v3.55h3.45M9.15 11.75h5.55M9.15 14.95h4.2"/></svg>';
   return ico(icon,'s');
 }
 function searchPremiumChip(q,label,icon){
@@ -3884,57 +3884,51 @@ function globalSearchApprovedHelper(){
 function sheetGlobalSearch(){
   GQ='';
   GSEARCH_TIP_HIDDEN=false;
-  openSheet('<section class="gs160 gs153">'+
-    '<header class="gs160-head gs153-head">'+
-      '<div class="gs160-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<div class="gs160-head-decor" aria-hidden="true">'+
-        '<span class="gs160-head-line gs160-head-line-a"></span>'+
-        '<span class="gs160-head-line gs160-head-line-b"></span>'+
-        '<span class="gs160-head-line gs160-head-line-c"></span>'+
-        '<span class="gs160-head-orb"></span>'+
-        '<img class="gs160-head-medallion" src="search-medallion.png?v=5160" alt="">'+
-      '</div>'+
+  openSheet('<section class="gs161 gs153">'+
+    '<header class="gs161-head gs153-head">'+
+      '<div class="gs161-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
+      '<img class="gs161-head-motif" src="global-search-head-motif-v153.png?v=5161" alt="" aria-hidden="true">'+
     '</header>'+
-    '<label class="gs160-search gs153-search" for="gq">'+
+    '<label class="gs161-search gs153-search" for="gq">'+
       '<span class="gs153-search-icon">'+ico('search','s')+'</span>'+
       '<input id="gq" placeholder="Введите запрос..." autocomplete="off" autocapitalize="off" spellcheck="false">'+
       '<span class="gs153-search-sep"></span>'+
       '<button class="gs153-mic" type="button" data-act="global-search-mic" aria-label="Голосовой поиск">'+searchPremiumMicIcon()+'</button>'+
     '</label>'+
-    '<div class="gs160-tip gs153-info" id="gsearch-tip">'+
+    '<div class="gs161-tip gs153-info" id="gsearch-tip">'+
       '<span class="gs153-info-icon"><b>i</b></span>'+
       '<div class="gs153-info-copy">Ищите по фамилии, номеру дела, суду,<br>статье, задаче или части заметки.</div>'+
       '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
     '</div>'+
-    '<div class="gs160-main gs153-main">'+
-      '<div class="gs160-examples gs153-examples">'+
-        '<div class="gs160-section-title gs153-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
-        '<div class="gs160-chiprows gs153-chiprows">'+
-          '<div class="gs160-chiprow gs153-chiprow gs153-chiprow-1">'+
+    '<div class="gs161-main gs153-main">'+
+      '<div class="gs161-examples gs153-examples">'+
+        '<div class="gs161-section-title gs153-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
+        '<div class="gs161-chiprows gs153-chiprows">'+
+          '<div class="gs161-chiprow gs153-chiprow gs153-chiprow-1">'+
             searchPremiumChip('Ошарин','Ошарин','user')+
             searchPremiumChip('81 УК','81 УК','page')+
             searchPremiumChip('Ивановский суд','Ивановский суд','court')+
           '</div>'+
-          '<div class="gs160-chiprow gs153-chiprow gs153-chiprow-2">'+
+          '<div class="gs161-chiprow gs153-chiprow gs153-chiprow-2">'+
             searchPremiumChip('А56-12345/2024','А56-12345/2024','page')+
             searchPremiumChip('ст. 318 УК','ст. 318 УК','scale-line')+
           '</div>'+
-          '<div class="gs160-chiprow gs153-chiprow gs153-chiprow-3">'+
+          '<div class="gs161-chiprow gs153-chiprow gs153-chiprow-3">'+
             searchPremiumChip('заседание завтра','заседание завтра','cal')+
             searchPremiumChip('доверенность','доверенность','doc')+
           '</div>'+
         '</div>'+
       '</div>'+
-      '<div id="gresults" class="gs160-results gs153-results search-premium-results"></div>'+
-      '<div class="gs160-helper gs153-helper" id="ghelper">'+
+      '<div id="gresults" class="gs161-results gs153-results search-premium-results"></div>'+
+      '<div class="gs161-helper gs153-helper" id="ghelper">'+
         '<div class="gs153-helper-star">'+ico('sparkles','s')+'</div>'+
         '<div class="gs153-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти<br>нужные дела, документы и задачи.</p></div>'+
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs160-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5160" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs161-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5161" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
-  $('#sheet').classList.add('global-search-premium-v160-sheet');
+  $('#sheet').classList.add('global-search-premium-v161-sheet');
   renderGlobalSearch();
 }
 function renderGlobalSearch(){
@@ -4261,7 +4255,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5160" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5161" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -4275,7 +4269,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5160" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5161" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -5130,7 +5124,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(reloading)return; reloading=true; window.location.reload();
     });
-    navigator.serviceWorker.register('./sw.js?v=5160', {updateViaCache:'none'}).then(function(reg){
+    navigator.serviceWorker.register('./sw.js?v=5161', {updateViaCache:'none'}).then(function(reg){
       try{ reg.update(); }catch(e){}
       reg.update().catch(function(){});
       if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');
