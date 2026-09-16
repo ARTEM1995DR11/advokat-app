@@ -13700,7 +13700,7 @@ body.light .quick-sheet .quickgrid.quickgrid-core .quickitem[data-act="qa-journa
 body .sheet.quick-sheet,
 body.light .sheet.quick-sheet{
   background-color:#F7F1E6!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5150')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5151')!important;
   background-size:cover!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -16298,7 +16298,7 @@ body.light #sheet.reminders-approved-v114-sheet{
   max-height:min(548px,calc(100dvh - 64px))!important;
   min-height:510px!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16491,7 +16491,7 @@ body.light #sheet.reminders-approved-v116-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16759,7 +16759,7 @@ body.light #sheet.reminders-approved-v117-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -16881,7 +16881,7 @@ body.light #sheet.global-search-approved-v118-sheet{
   min-height:600px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17201,7 +17201,7 @@ body.light #sheet.global-search-approved-v119-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17385,7 +17385,7 @@ body.light #sheet.global-search-approved-v120-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17742,7 +17742,7 @@ body.light #sheet.global-search-approved-v121-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -17983,7 +17983,7 @@ body.light #sheet.global-search-approved-v123-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -18263,7 +18263,7 @@ body.light #sheet.global-search-approved-v124-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -18440,7 +18440,7 @@ body.light #sheet.global-search-approved-v124-sheet{
   height:27px!important;
   justify-self:center!important;
   align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5150') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5151') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v124-sheet .g120-footer b{
   grid-column:1/-1!important;
@@ -18500,7 +18500,7 @@ body.light #sheet.global-search-approved-v125-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5150')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5151')!important;
   background-position:center 44%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18610,7 +18610,7 @@ body.light #sheet.global-search-approved-v125-sheet{
 #sheet.global-search-approved-v125-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v125-sheet .g124-footer-scale{
   display:block!important;width:32px!important;height:31px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5150') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5151') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v125-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9.2px/1 Georgia,'Times New Roman',serif!important;
@@ -18667,7 +18667,7 @@ body.light #sheet.global-search-approved-v126-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5150')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5151')!important;
   background-position:center 44%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18779,7 +18779,7 @@ body.light #sheet.global-search-approved-v126-sheet{
 #sheet.global-search-approved-v126-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v126-sheet .g124-footer-scale{
   display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5150') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5151') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v126-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;
@@ -18843,7 +18843,7 @@ body.light #sheet.global-search-approved-v128-sheet{
   padding:0!important;
   overflow:hidden!important;
   background-color:#fbf7ef!important;
-  background-image:url('quick-sheet-marble-approved.png?v=5150')!important;
+  background-image:url('quick-sheet-marble-approved.png?v=5151')!important;
   background-position:center 50%!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -18967,7 +18967,7 @@ body:not(.light) #sheet.global-search-approved-v128-sheet{
 #sheet.global-search-approved-v128-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
 #sheet.global-search-approved-v128-sheet .g124-footer-scale{
   display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;
-  background:url('reminder-footer-scales-exact.png?v=5150') center/contain no-repeat!important;
+  background:url('reminder-footer-scales-exact.png?v=5151') center/contain no-repeat!important;
 }
 #sheet.global-search-approved-v128-sheet .g120-footer b{
   grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;
@@ -19025,7 +19025,7 @@ body.light #sheet.global-search-approved-v129-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -19171,7 +19171,7 @@ body:not(.light) #sheet.global-search-approved-v129-sheet{
   column-gap:10px!important;align-items:center!important;padding:0 28px 3px!important;box-sizing:border-box!important;transform:translateY(-1px)!important;
 }
 #sheet.global-search-approved-v129-sheet .g120-footer>span{height:1px!important;background:rgba(176,122,37,.58)!important;}
-#sheet.global-search-approved-v129-sheet .g124-footer-scale{display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;background:url('reminder-footer-scales-exact.png?v=5150') center/contain no-repeat!important;}
+#sheet.global-search-approved-v129-sheet .g124-footer-scale{display:block!important;width:31px!important;height:30px!important;justify-self:center!important;align-self:center!important;background:url('reminder-footer-scales-exact.png?v=5151') center/contain no-repeat!important;}
 #sheet.global-search-approved-v129-sheet .g120-footer b{grid-column:1/-1!important;justify-self:center!important;margin:-1px 0 0!important;font:500 9px/1 Georgia,'Times New Roman',serif!important;letter-spacing:.36em!important;color:#a87937!important;white-space:nowrap!important;}
 #sheet.global-search-approved-v129-sheet .g120.has-query .g120-results{display:flex!important;flex:1 1 auto!important;min-height:0!important;margin:0 0 7px!important;}
 #sheet.global-search-approved-v129-sheet .g120.has-query .g120-footer{margin-top:0!important;}
@@ -19443,7 +19443,7 @@ body:not(.light) #sheet.global-search-approved-v133-sheet{
   inset:0!important;
   opacity:1!important;
   pointer-events:auto!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
 }
 #sheet.global-search-approved-v133-sheet .g133-search-shell.has-query .g120-search,
 #sheet.global-search-approved-v133-sheet .g133-search-shell.g133-force-live .g120-search,
@@ -19470,7 +19470,7 @@ body:not(.light) #sheet.global-search-approved-v135-sheet{
   min-height:500px!important;
   padding:0!important;
   overflow:hidden!important;
-  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5150') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.png?v=5151') center/cover no-repeat!important;
   border:1px solid rgba(214,190,150,.78)!important;
   border-bottom:0!important;
   border-radius:34px 34px 0 0!important;
@@ -19787,42 +19787,17 @@ body:not(.light) #sheet.global-search-approved-v135-sheet{
 }
 
 /* ============================================================
-   5.0.150 — «Быстрая запись»: единая непрерывная золотая дуга
-   Старая дуга была разрезана между непрозрачным PNG и CSS карточки.
-   Теперь карточка рисует её целиком одним верхним слоем.
+   5.0.151 — «Быстрая запись»: адаптивная стыковка золотой дуги
+
+   PNG-иконки изготовлены из утверждённого макета и уже содержат
+   центральный фрагмент дуги. На узком iPhone карточка становится уже,
+   а прежняя привязка right:-44px сдвигала наружный фрагмент относительно
+   иконки. Формула сохраняет исходное положение при ширине карточки
+   около 189px и плавно компенсирует сужение карточки.
    ============================================================ */
-body .quick-sheet .quickgrid.quickgrid-core .quickitem,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem{
-  isolation:isolate!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem::before,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem::before{
-  width:152px!important;
-  height:152px!important;
-  right:-76px!important;
-  top:-76px!important;
-  z-index:5!important;
-  background:transparent!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem::after,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem::after{
-  content:''!important;
-  position:absolute!important;
-  width:152px!important;
-  height:152px!important;
-  right:-76px!important;
-  top:-76px!important;
-  z-index:0!important;
-  border-radius:50%!important;
-  background:var(--pastel)!important;
-  pointer-events:none!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem .qico,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem .qico{
-  position:relative!important;
-  z-index:2!important;
-}
-body .quick-sheet .quickgrid.quickgrid-core .quickitem b,
-body.light .quick-sheet .quickgrid.quickgrid-core .quickitem b{
-  z-index:6!important;
+@media (max-width:430px){
+  body .quick-sheet .quickgrid.quickgrid-core .quickitem:not([data-act="qa-journal"])::before,
+  body.light .quick-sheet .quickgrid.quickgrid-core .quickitem:not([data-act="qa-journal"])::before{
+    right:calc(27% - 95px)!important;
+  }
 }
