@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.179';
-var APP_BUILD='5179';
+var APP_VERSION='5.0.182';
+var APP_BUILD='5182';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3317,12 +3317,10 @@ function drawEditor(preserveScroll){
   var t = ED, isNew = !t.id, hearing=t.kind==='hearing', meeting=t.kind==='meeting', timedEvent=(t.kind==='hearing'||t.kind==='meeting');
   var opts = '<option value="">— без дела —</option>' + activeM().map(function(m){
     return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('');
-  var kindIcons={task:'check',hearing:'cal',meeting:'user',deadline:'clock'};
+  var kindIcons={task:'tpl',hearing:'cal',meeting:'user',deadline:'clock'};
   var kindSubs={task:'Личные дела и заметки',hearing:'Судебное заседание',meeting:'Клиенты и переговоры',deadline:'Контроль сроков'};
   var kindSaveLabels={task:'Сохранить задачу',hearing:'Сохранить заседание',meeting:'Сохранить встречу',deadline:'Сохранить срок'};
-  var kinds = EDITOR_KINDS.map(function(k){
-    return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'"><span class="editor-chip-icon">'+ico(kindIcons[k]||KIND[k].i,'s')+'</span><span class="editor-chip-copy"><b>'+KIND[k].n+'</b><small>'+kindSubs[k]+'</small></span></button>';
-  }).join('');
+  var kinds = renderHearingPremiumTypeCards(t.kind);
   var priIcons={high:'flag',mid:'check',low:'chev'};
   var pris = Object.keys(PRI).map(function(k){
     return '<button class="chip pri-'+k+(t.pri===k?' on':'')+'" data-act="e-pri" data-v="'+k+'"><span class="editor-chip-icon">'+ico(priIcons[k]||'flag','s')+'</span><span>'+PRI[k].n+'</span></button>'; }).join('');
@@ -3342,7 +3340,7 @@ function drawEditor(preserveScroll){
   } else openSheet(
   '<div class="task-editor-brand"><img src="scale-gold.webp?v=5181" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
-  '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
+  '<div class="fld task-editor-type task-editor-type-premium"><label>Тип</label><div class="hearing-type-grid hearing-type-grid-editor">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
