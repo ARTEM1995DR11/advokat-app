@@ -3253,11 +3253,10 @@ function drawEditor(preserveScroll){
     return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('');
   var kindIcons={task:'check',hearing:'cal',meeting:'user',deadline:'clock'};
   var kindSubs={task:'Личные дела и заметки',hearing:'Судебное заседание',meeting:'Клиенты и переговоры',deadline:'Контроль сроков'};
+  var kindSaveLabels={task:'Сохранить задачу',hearing:'Сохранить заседание',meeting:'Сохранить встречу',deadline:'Сохранить срок'};
   var kinds = EDITOR_KINDS.map(function(k){
-    if(hearing){
-      return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'"><span class="editor-chip-icon">'+ico(kindIcons[k]||KIND[k].i,'s')+'</span><span class="editor-chip-copy"><b>'+KIND[k].n+'</b><small>'+kindSubs[k]+'</small></span></button>';
-    }
-    return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'"><span class="editor-chip-icon">'+ico(kindIcons[k]||KIND[k].i,'s')+'</span><span>'+KIND[k].n+'</span></button>'; }).join('');
+    return '<button class="chip'+(t.kind===k?' on':'')+'" data-act="e-kind" data-v="'+k+'"><span class="editor-chip-icon">'+ico(kindIcons[k]||KIND[k].i,'s')+'</span><span class="editor-chip-copy"><b>'+KIND[k].n+'</b><small>'+kindSubs[k]+'</small></span></button>';
+  }).join('');
   var priIcons={high:'flag',mid:'check',low:'chev'};
   var pris = Object.keys(PRI).map(function(k){
     return '<button class="chip pri-'+k+(t.pri===k?' on':'')+'" data-act="e-pri" data-v="'+k+'"><span class="editor-chip-icon">'+ico(priIcons[k]||'flag','s')+'</span><span>'+PRI[k].n+'</span></button>'; }).join('');
@@ -3301,7 +3300,7 @@ function drawEditor(preserveScroll){
     '</div>' : '')+
   '<div class="fld task-editor-note-field"><label>'+(hearing?'Примечание (необязательно)':(meeting?'Комментарий':'Примечание'))+'</label>'+
     '<textarea id="e-note" class="task-note-editor" rows="5" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':(meeting?'Например: обсудить позицию, взять документы':'Нормы права, документы, что взять с собой…'))+'">'+esc(t.note||'')+'</textarea></div>'+
-  '<button class="btn task-editor-save" data-act="e-save"><span class="save-icon">'+ico('save','s')+'</span>'+(hearing?'Сохранить заседание':(meeting?'Сохранить встречу':'Сохранить'))+'</button>'+
+  '<button class="btn task-editor-save" data-act="e-save"><span class="save-icon">'+ico('save','s')+'</span>'+(kindSaveLabels[t.kind]||'Сохранить')+'</button>'+
   (isNew?'':((hearing||meeting||t.kind==='deadline')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>'));
   $('#sheet').classList.add('task-editor-sheet');
@@ -3381,7 +3380,7 @@ function saveTask(){
     else label='Добавлена задача: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'');
     addJournal(ED.mid,label,today(),'task',true);
   }
-  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':'Сохранено'));schedule();
+  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':(ED.kind==='deadline'?'Срок сохранён':'Задача сохранена')));schedule();
 }
 
 /* =====================================================================

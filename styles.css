@@ -21220,3 +21220,257 @@ body.light .hearing-editor-sheet.withfoot .shfoot{
   body.light .hearing-editor-sheet #e-hnumber{height:55px!important;min-height:55px!important;font-size:14.2px!important;}
   body.light .hearing-editor-sheet .task-editor-save{min-height:55px!important;font-size:15.7px!important;}
 }
+
+
+/* =====================================================================
+   v5.0.176 — unified premium editor across task / hearing / meeting / deadline
+   ===================================================================== */
+body.light .sheet.task-editor-sheet{
+  background-color:#FBF6ED!important;
+  background-image:
+    linear-gradient(180deg,rgba(251,247,239,.58) 0%,rgba(251,247,239,.70) 34%,rgba(251,247,239,.82) 68%,rgba(251,247,239,.93) 100%),
+    url('columns-light.png')!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:center top,center top!important;
+  background-size:cover,cover!important;
+}
+body.light .task-editor-sheet.withfoot .shfoot{
+  padding:8px 14px max(8px,calc(var(--bot) - 2px))!important;
+  border-top:1px solid rgba(165,116,28,.18)!important;
+  background:linear-gradient(180deg,rgba(247,240,228,.04),rgba(247,240,228,.32) 32%,rgba(247,240,228,.62) 65%,rgba(247,240,228,.82) 100%)!important;
+  backdrop-filter:blur(7px)!important;
+  -webkit-backdrop-filter:blur(7px)!important;
+}
+body.light .task-editor-sheet .task-editor-brand{border-bottom-color:rgba(160,117,37,.12)!important;}
+body.light .task-editor-sheet .task-editor-head h2{color:#14202B!important;}
+body.light .task-editor-sheet .task-editor-back{
+  color:#9F6E17!important;background:rgba(255,255,255,.54)!important;border-color:rgba(156,113,32,.20)!important;
+}
+body.light .task-editor-sheet .fld>label{
+  font-size:13.6px!important;
+  color:#5F7488!important;
+}
+body.light .task-editor-sheet .task-kind-chips{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:10px!important;
+  margin-top:8px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip{
+  position:relative!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:70px!important;
+  padding:9px 34px 9px 9px!important;
+  border-radius:20px!important;
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:7px!important;
+  text-align:left!important;
+  overflow:hidden!important;
+  background:linear-gradient(150deg,rgba(255,254,250,.94),rgba(248,241,229,.87))!important;
+  border:1px solid rgba(190,148,75,.32)!important;
+  color:#29445f!important;
+  box-shadow:0 8px 18px rgba(75,53,22,.055), inset 0 1px 0 rgba(255,255,255,.98), inset 0 -1px 0 rgba(175,127,48,.035)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip::after{
+  content:''!important;
+  position:absolute!important;
+  right:8px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:24px!important;
+  height:24px!important;
+  border-radius:50%!important;
+  border:1.5px solid rgba(175,132,63,.48)!important;
+  background:rgba(255,253,248,.72)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip.on{
+  color:#2a1b03!important;
+  background:linear-gradient(135deg,#f7d977 0%,#e9b843 50%,#c98c25 100%)!important;
+  border-color:#e4b244!important;
+  box-shadow:0 0 0 1px rgba(255,239,179,.70), 0 12px 24px rgba(145,92,16,.20), inset 0 1px 0 rgba(255,255,255,.57), inset 0 -1px 0 rgba(117,72,10,.08)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip.on::after{
+  content:'✓'!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#fff9e8!important;
+  font:800 17px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif!important;
+  border-color:rgba(135,88,18,.48)!important;
+  background:linear-gradient(145deg,#bd8120,#95600e)!important;
+  box-shadow:0 3px 9px rgba(105,66,10,.18), inset 0 1px 0 rgba(255,255,255,.27)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .editor-chip-icon{
+  width:34px!important;height:34px!important;flex:0 0 34px!important;
+  border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  color:#a56e13!important;background:linear-gradient(145deg,rgba(255,251,242,.94),rgba(245,232,207,.74))!important;
+  border:1px solid rgba(184,134,46,.18)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip.on .editor-chip-icon{
+  color:#704707!important;background:rgba(255,247,219,.31)!important;border-color:rgba(126,79,10,.16)!important;
+}
+body.light .task-editor-sheet .task-kind-chips .editor-chip-icon .ico{width:20px!important;height:20px!important;stroke-width:1.75!important;}
+body.light .task-editor-sheet .task-kind-chips .editor-chip-copy{min-width:0!important;display:block!important;}
+body.light .task-editor-sheet .task-kind-chips .editor-chip-copy b{
+  display:block!important;color:#233e59!important;font:700 14px/1.05 Georgia,'Times New Roman',serif!important;letter-spacing:-.01em!important;
+  overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip.on .editor-chip-copy b{color:#251804!important;}
+body.light .task-editor-sheet .task-kind-chips .editor-chip-copy small{
+  display:block!important;margin-top:4px!important;color:#71839a!important;
+  font:520 9.5px/1.12 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif!important;
+  overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip.on .editor-chip-copy small{color:#715017!important;}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="hearing"] .editor-chip-copy b,
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="task"] .editor-chip-copy b,
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="meeting"] .editor-chip-copy b{white-space:nowrap!important;}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b{max-width:88px!important;white-space:normal!important;line-height:1.02!important;}
+
+/* Unified porcelain fields */
+body.light .task-editor-sheet .fld input,
+body.light .task-editor-sheet .fld textarea,
+body.light .task-editor-sheet .premium-select-field,
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field,
+body.light .task-editor-sheet .inline-choice-wrap>input{
+  color:#2d4864!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.93),rgba(251,247,239,.89))!important;
+  border:1px solid rgba(194,154,86,.38)!important;
+  box-shadow:0 8px 18px rgba(76,54,24,.055), inset 0 1px 0 rgba(255,255,255,.98), inset 0 -1px 0 rgba(177,128,48,.045)!important;
+}
+body.light .task-editor-sheet .fld input:focus,
+body.light .task-editor-sheet .fld textarea:focus,
+body.light .task-editor-sheet .inline-choice-wrap>input:focus{
+  border-color:#b98120!important;
+  background:linear-gradient(180deg,#fffdf8,#fff8ef)!important;
+  box-shadow:0 0 0 2px rgba(185,129,32,.095),0 10px 22px rgba(82,55,19,.07),inset 0 1px 0 #fff!important;
+}
+body.light .task-editor-sheet .fld input::placeholder,
+body.light .task-editor-sheet .fld textarea::placeholder,
+body.light .task-editor-sheet .premium-select-field.empty b,
+body.light .task-editor-sheet .premium-date-field.empty b,
+body.light .task-editor-sheet .premium-time-field.empty b{color:#91a0b2!important;opacity:1!important;font-weight:520!important;}
+body.light .task-editor-sheet .premium-select-field,
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field,
+body.light .task-editor-sheet .inline-choice-wrap>input,
+body.light .task-editor-sheet #e-title{
+  min-height:58px!important;
+  height:58px!important;
+  border-radius:19px!important;
+  font-size:15px!important;
+}
+body.light .task-editor-sheet #e-title{padding:14px 16px!important;}
+body.light .task-editor-sheet .task-note-editor{min-height:110px!important;border-radius:19px!important;}
+
+/* folder/select/date/time affordances */
+body.light .task-editor-sheet .editor-select-field .premium-select-field,
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field{position:relative!important;display:flex!important;align-items:center!important;}
+body.light .task-editor-sheet .editor-select-field .premium-select-field{padding-left:48px!important;}
+body.light .task-editor-sheet .editor-select-field .premium-select-field::before{
+  content:''!important;position:absolute!important;left:15px!important;top:50%!important;transform:translateY(-50%)!important;width:21px!important;height:21px!important;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h6l2 2h9v10.5a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z'/%3E%3C/svg%3E") center/contain no-repeat!important;
+}
+body.light .task-editor-sheet .premium-select-field-arrow,
+body.light .task-editor-sheet .inline-choice-arrow.premium-list-trigger{
+  width:40px!important;height:40px!important;border-radius:14px!important;color:#9e6710!important;
+  background:linear-gradient(145deg,#fffaf0,#f2dfbd)!important;border:1px solid rgba(185,132,42,.24)!important;
+  box-shadow:0 5px 12px rgba(106,73,22,.05),inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body.light .task-editor-sheet .premium-select-field-arrow{right:8px!important;}
+body.light .task-editor-sheet .inline-choice-arrow.premium-list-trigger{right:9px!important;top:50%!important;transform:translateY(-50%)!important;}
+body.light .task-editor-sheet .premium-select-field-arrow .ico,
+body.light .task-editor-sheet .inline-choice-arrow.premium-list-trigger .ico{width:16px!important;height:16px!important;stroke-width:2.05!important;}
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field{padding:0 49px 0 46px!important;}
+body.light .task-editor-sheet .premium-date-field::before,
+body.light .task-editor-sheet .premium-time-field::before{
+  content:''!important;position:absolute!important;left:15px!important;top:50%!important;transform:translateY(-50%)!important;
+  width:20px!important;height:20px!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;
+}
+body.light .task-editor-sheet .premium-date-field::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.7' y='5.5' width='16.6' height='14.6' rx='2'/%3E%3Cpath d='M3.7 9.5h16.6M8 3.8v3.4M16 3.8v3.4'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet .premium-time-field::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.4'/%3E%3Cpath d='M12 7.2v5l3.4 2'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet .premium-date-field::after,
+body.light .task-editor-sheet .premium-time-field::after{
+  content:'›'!important;position:absolute!important;right:8px!important;top:50%!important;transform:translateY(-50%)!important;
+  width:39px!important;height:39px!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  color:#9e6710!important;font:400 28px/1 Georgia,'Times New Roman',serif!important;background:linear-gradient(145deg,#fffaf0,#f2dfbd)!important;
+  border:1px solid rgba(185,132,42,.24)!important;box-shadow:0 5px 12px rgba(106,73,22,.05),inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body.light .task-editor-sheet .premium-date-field-copy b,
+body.light .task-editor-sheet .premium-time-field b{font-size:14.5px!important;font-weight:600!important;color:#3c5570!important;}
+body.light .task-editor-sheet .premium-select-field b{font-size:15px!important;font-weight:590!important;color:#3c5570!important;}
+
+/* hearing-specific inline icons remain for all sheets when blocks exist */
+body.light .task-editor-sheet .hearing-party-grid>.fld,
+body.light .task-editor-sheet .hearing-judge-field,
+body.light .task-editor-sheet .hearing-court-field{position:relative!important;}
+body.light .task-editor-sheet .hearing-party-grid>.fld::before,
+body.light .task-editor-sheet .hearing-judge-field .inline-choice-wrap::before,
+body.light .task-editor-sheet .hearing-court-field .inline-choice-wrap::before{
+  content:''!important;position:absolute!important;width:20px!important;height:20px!important;z-index:3!important;pointer-events:none!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;
+}
+body.light .task-editor-sheet .hearing-party-grid>.fld::before{left:15px!important;bottom:19px!important;}
+body.light .task-editor-sheet .hearing-party-grid>.fld:first-child::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='7.2' r='3.1'/%3E%3Cpath d='M5.8 20c.3-3.2 2.8-5.3 6.2-5.3s5.9 2.1 6.2 5.3'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet .hearing-party-grid>.fld:nth-child(2)::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 3.5h7l4 4V20H7z'/%3E%3Cpath d='M14 3.5V8h4M9.5 12h5M9.5 15.5h4'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet .hearing-judge-field .inline-choice-wrap::before,
+body.light .task-editor-sheet .hearing-court-field .inline-choice-wrap::before{left:15px!important;top:50%!important;transform:translateY(-50%)!important;}
+body.light .task-editor-sheet .hearing-judge-field .inline-choice-wrap::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='7' r='3'/%3E%3Cpath d='M6 19.5c.5-3 2.6-4.8 6-4.8s5.5 1.8 6 4.8M7.5 20.5h9'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet .hearing-court-field .inline-choice-wrap::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A56E13' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5 12 4l8.5 4.5H3.5zM5 10h14M6.5 10v7M10.2 10v7M13.8 10v7M17.5 10v7M4.5 18.5h15M3.5 20.5h17'/%3E%3C/svg%3E")!important;
+}
+body.light .task-editor-sheet #e-hclient,
+body.light .task-editor-sheet #e-hnumber,
+body.light .task-editor-sheet .hearing-judge-field .inline-choice-wrap>input,
+body.light .task-editor-sheet .hearing-court-field .inline-choice-wrap>input{padding-left:46px!important;}
+body.light .task-editor-sheet #e-hnumber{padding-right:14px!important;}
+
+body.light .task-editor-sheet .fieldhint{font-size:10.8px!important;line-height:1.4!important;color:#72849a!important;margin-top:7px!important;}
+body.light .task-editor-sheet .task-quick-dates{gap:7px!important;margin-top:-1px!important;}
+body.light .task-editor-sheet .task-quick-dates .chip{
+  min-height:32px!important;padding:0 10px!important;border-radius:999px!important;font-size:11px!important;
+  background:rgba(255,252,246,.76)!important;border-color:rgba(185,132,42,.28)!important;color:#8f6119!important;
+}
+body.light .task-editor-sheet .task-editor-save{
+  min-height:58px!important;border-radius:19px!important;color:#1b1202!important;font:800 16.5px/1 Georgia,'Times New Roman',serif!important;letter-spacing:-.01em!important;
+  background:linear-gradient(135deg,#f8dc82 0%,#edbd50 42%,#d99f31 69%,#c98722 100%)!important;border:1px solid #e0aa3a!important;
+  box-shadow:0 13px 28px rgba(137,88,17,.23), 0 0 0 1px rgba(255,240,181,.72), inset 0 1px 0 rgba(255,255,255,.64), inset 0 -1px 0 rgba(114,70,10,.11)!important;
+}
+body.light .task-editor-sheet .task-editor-save .save-icon{
+  width:31px!important;height:31px!important;border-radius:10px!important;margin-right:7px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  background:rgba(255,247,216,.23)!important;border:1px solid rgba(126,80,12,.08)!important;
+}
+body.light .task-editor-sheet .task-editor-save .save-icon .ico{width:19px!important;height:19px!important;stroke-width:1.9!important;}
+
+@media(max-width:390px){
+  body.light .task-editor-sheet .task-kind-chips{gap:8px!important;}
+  body.light .task-editor-sheet .task-kind-chips .chip{min-height:66px!important;padding:8px 31px 8px 8px!important;grid-template-columns:31px minmax(0,1fr)!important;gap:6px!important;border-radius:18px!important;}
+  body.light .task-editor-sheet .task-kind-chips .editor-chip-icon{width:31px!important;height:31px!important;flex-basis:31px!important;border-radius:11px!important;}
+  body.light .task-editor-sheet .task-kind-chips .editor-chip-icon .ico{width:19px!important;height:19px!important;}
+  body.light .task-editor-sheet .task-kind-chips .chip::after{right:7px!important;width:22px!important;height:22px!important;}
+  body.light .task-editor-sheet .task-kind-chips .editor-chip-copy b{font-size:12.7px!important;}
+  body.light .task-editor-sheet .task-kind-chips .editor-chip-copy small{font-size:8.5px!important;line-height:1.08!important;}
+  body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b{max-width:72px!important;font-size:12.2px!important;}
+  body.light .task-editor-sheet .premium-select-field,
+  body.light .task-editor-sheet .premium-date-field,
+  body.light .task-editor-sheet .premium-time-field,
+  body.light .task-editor-sheet .inline-choice-wrap>input,
+  body.light .task-editor-sheet #e-title{height:55px!important;min-height:55px!important;font-size:14.2px!important;}
+  body.light .task-editor-sheet .task-editor-save{min-height:55px!important;font-size:15.7px!important;}
+}
