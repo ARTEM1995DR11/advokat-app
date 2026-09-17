@@ -22207,3 +22207,73 @@ body.light .hearing-premium-sheet .hearing-type-card.on{
   body.light .task-editor-sheet .hearing-type-copy small,
   body.light .hearing-premium-sheet .hearing-type-copy small{font-size:10px!important;line-height:1.06!important}
 }
+
+
+/* =====================================================================
+   5.0.185 — block “Тип” smaller and unified for all kinds
+   ===================================================================== */
+body.light .task-editor-sheet .hearing-type-grid-editor,
+body.light .hearing-premium-sheet .hearing-type-grid{
+  gap:10px!important;
+  align-items:stretch!important;
+}
+body.light .task-editor-sheet .hearing-type-card,
+body.light .hearing-premium-sheet .hearing-type-card{
+  min-height:78px!important;
+  padding:10px 12px!important;
+  border-radius:16px!important;
+  gap:10px!important;
+  box-shadow:0 6px 14px rgba(87,62,25,.04), inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light .task-editor-sheet .hearing-type-card::before,
+body.light .hearing-premium-sheet .hearing-type-card::before{
+  background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 38%)!important;
+}
+body.light .task-editor-sheet .hearing-type-main,
+body.light .hearing-premium-sheet .hearing-type-main{
+  gap:10px!important;
+}
+body.light .task-editor-sheet .hearing-type-icon,
+body.light .hearing-premium-sheet .hearing-type-icon{
+  width:36px!important;
+  height:36px!important;
+  border-radius:11px!important;
+}
+body.light .task-editor-sheet .hearing-type-icon .ico,
+body.light .hearing-premium-sheet .hearing-type-icon .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:1.7!important;
+}
+body.light .task-editor-sheet .hearing-type-copy b,
+body.light .hearing-premium-sheet .hearing-type-copy b{
+  font-size:13.6px!important;
+  line-height:1.0!important;
+  letter-spacing:-0.01em!important;
+}
+body.light .task-editor-sheet .hearing-type-copy small,
+body.light .hearing-premium-sheet .hearing-type-copy small{
+  margin-top:3px!important;
+  font-size:9.8px!important;
+  line-height:1.06!important;
+}
+body.light .task-editor-sheet .hearing-type-card.on,
+body.light .hearing-premium-sheet .hearing-type-card.on{
+  box-shadow:0 0 0 1px rgba(255,247,220,.84),0 8px 18px rgba(165,112,28,.12), inset 0 1px 0 rgba(255,255,255,.46)!important;
+}
+@media (max-width:420px){
+  body.light .task-editor-sheet .hearing-type-grid-editor,
+  body.light .hearing-premium-sheet .hearing-type-grid{gap:9px!important}
+  body.light .task-editor-sheet .hearing-type-card,
+  body.light .hearing-premium-sheet .hearing-type-card{min-height:74px!important;padding:9px 11px!important;border-radius:15px!important}
+  body.light .task-editor-sheet .hearing-type-main,
+  body.light .hearing-premium-sheet .hearing-type-main{gap:9px!important}
+  body.light .task-editor-sheet .hearing-type-icon,
+  body.light .hearing-premium-sheet .hearing-type-icon{width:34px!important;height:34px!important;border-radius:10px!important}
+  body.light .task-editor-sheet .hearing-type-icon .ico,
+  body.light .hearing-premium-sheet .hearing-type-icon .ico{width:20px!important;height:20px!important}
+  body.light .task-editor-sheet .hearing-type-copy b,
+  body.light .hearing-premium-sheet .hearing-type-copy b{font-size:13px!important;line-height:1.0!important}
+  body.light .task-editor-sheet .hearing-type-copy small,
+  body.light .hearing-premium-sheet .hearing-type-copy small{font-size:9.5px!important;line-height:1.04!important}
+}
