@@ -21477,7 +21477,7 @@ body.light .task-editor-sheet .task-editor-save .save-icon .ico{width:19px!impor
 
 
 /* =====================================================================
-   5.0.178 — background correction
+   5.0.179 — background correction
    1) Quick Add keeps ONLY the approved marble background.
    2) Record editors use the columns background continuously for the full page.
    ===================================================================== */
@@ -21487,7 +21487,7 @@ body #sheet.sheet.quick-sheet,
 body.light #sheet.sheet.quick-sheet,
 body:not(.light) #sheet.sheet.quick-sheet{
   background-color:#FBF6EC!important;
-  background-image:url('quick-sheet-marble-approved.webp?v=5178')!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5179')!important;
   background-repeat:no-repeat!important;
   background-position:center center!important;
   background-size:cover!important;
@@ -21516,7 +21516,7 @@ body.light #sheet.sheet.task-editor-sheet::before{
   z-index:0!important;
   pointer-events:none!important;
   background-color:#F7F0E4!important;
-  background-image:url('columns-light.png?v=5178')!important;
+  background-image:url('columns-light.png?v=5179')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:auto 100%!important;
@@ -21559,7 +21559,7 @@ body.light #sheet.sheet.task-editor-sheet.withfoot>.shfoot{
 
 
 /* =====================================================================
-   5.0.178 — premium editor refinement
+   5.0.179 — premium editor refinement
    - deadline label fits cleanly in the type card
    - remove bulky rounded arrow tiles; keep simple elegant chevrons
    - preserve the full-page columns background from 5.0.177
@@ -21659,4 +21659,33 @@ body.light .task-editor-sheet .task-quick-dates .chip{
   body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy small{
     font-size:8.2px!important;
   }
+}
+
+
+/* =====================================================================
+   5.0.179 — remove circular selection markers from type cards
+   Selected state is now communicated only by the premium gold card itself.
+   ===================================================================== */
+body.light .task-editor-sheet .task-kind-chips .chip,
+body.light .hearing-editor-sheet .task-kind-chips .chip{
+  padding-right:10px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip::after,
+body.light .task-editor-sheet .task-kind-chips .chip.on::after,
+body.light .hearing-editor-sheet .task-kind-chips .chip::after,
+body.light .hearing-editor-sheet .task-kind-chips .chip.on::after{
+  content:none!important;
+  display:none!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"],
+body.light .hearing-editor-sheet .task-kind-chips .chip[data-v="deadline"]{
+  padding-right:10px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b,
+body.light .hearing-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b{
+  max-width:none!important;
+}
+@media(max-width:390px){
+  body.light .task-editor-sheet .task-kind-chips .chip,
+  body.light .hearing-editor-sheet .task-kind-chips .chip{padding-right:9px!important;}
 }
