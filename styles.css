@@ -22277,3 +22277,339 @@ body.light .hearing-premium-sheet .hearing-type-card.on{
   body.light .task-editor-sheet .hearing-type-copy small,
   body.light .hearing-premium-sheet .hearing-type-copy small{font-size:9.5px!important;line-height:1.04!important}
 }
+
+/* =====================================================================
+   5.0.186 — APPROVED MOCKUP / «Новое заседание»
+   Compact premium geometry, no circular type markers.
+   ===================================================================== */
+body.light #sheet.sheet.hearing-premium-sheet{
+  top:0!important;
+  bottom:0!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background-color:#f7efe3!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5186')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
+}
+/* Full-height architecture on the right; no rectangular cutoff. */
+body.light #sheet.sheet.hearing-premium-sheet::before{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background-image:url('columns-light.png?v=5186')!important;
+  background-repeat:no-repeat!important;
+  background-position:right center!important;
+  background-size:auto 100%!important;
+  opacity:.42!important;
+  filter:saturate(.72) sepia(.12) brightness(1.05)!important;
+}
+/* Readability veil: lighter than before so marble/architecture remain visible. */
+body.light #sheet.sheet.hearing-premium-sheet::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background:
+    linear-gradient(90deg,rgba(255,253,249,.70) 0%,rgba(255,253,249,.60) 42%,rgba(255,253,249,.28) 72%,rgba(255,253,249,.12) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.20),rgba(247,239,227,.18) 55%,rgba(244,235,221,.30))!important;
+}
+body.light #sheet.hearing-premium-sheet>.grab{display:none!important}
+body.light #sheet.hearing-premium-sheet>.shbody,
+body.light #sheet.hearing-premium-sheet>.shfoot{position:relative!important;z-index:1!important;background:transparent!important}
+body.light #sheet.hearing-premium-sheet.withfoot>.shbody{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  padding:calc(env(safe-area-inset-top) + 8px) 23px 12px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+body.light #sheet.hearing-premium-sheet.withfoot>.shfoot{
+  flex:none!important;
+  margin:0!important;
+  padding:7px 23px max(12px,env(safe-area-inset-bottom))!important;
+  border:0!important;
+  background:linear-gradient(180deg,rgba(247,240,229,.04),rgba(247,240,229,.52) 52%,rgba(247,240,229,.72) 100%)!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-editor{max-width:760px!important;margin:0 auto!important;padding:0!important}
+
+/* Brand + decorative divider */
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand{
+  min-height:42px!important;margin:0 auto 4px!important;padding:0!important;gap:10px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand img{width:36px!important;height:36px!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand b{font-size:18.5px!important;line-height:1.02!important;color:#17345f!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand small{font-size:10.5px!important;margin-top:2px!important;color:#8c6d3c!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brandline{
+  grid-template-columns:1fr 8px 1fr!important;gap:9px!important;margin:4px 53px 10px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brandline span{width:8px!important;height:8px!important}
+
+/* Header */
+body.light #sheet.hearing-premium-sheet .hearing-premium-head{
+  min-height:72px!important;margin:0 0 5px!important;padding:0 61px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-back{
+  left:0!important;top:2px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+  border-radius:13px!important;border:1px solid rgba(182,132,45,.55)!important;
+  background:linear-gradient(155deg,rgba(255,255,255,.96),rgba(246,234,214,.88))!important;
+  box-shadow:0 6px 16px rgba(93,65,26,.10),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-back .ico{width:21px!important;height:21px!important;stroke-width:1.95!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-head h2{
+  font-size:34px!important;line-height:.98!important;letter-spacing:-.035em!important;color:#12356a!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-motto{
+  margin-top:8px!important;gap:8px!important;grid-template-columns:minmax(18px,38px) auto minmax(18px,38px)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-motto span{font-size:8.2px!important;letter-spacing:.20em!important}
+
+/* Labels */
+body.light #sheet.hearing-premium-sheet .fld{margin-bottom:11px!important}
+body.light #sheet.hearing-premium-sheet .fld label,
+body.light #sheet.hearing-premium-sheet .hearing-premium-type label{
+  margin:0 0 6px!important;font-size:15.5px!important;line-height:1.02!important;color:#17345f!important;
+}
+
+/* TYPE: exact compact 2x2 composition. */
+body.light #sheet.hearing-premium-sheet .hearing-premium-type{margin-bottom:11px!important}
+body.light #sheet.hearing-premium-sheet .hearing-type-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:8px!important;align-items:stretch!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-card{
+  position:relative!important;overflow:hidden!important;
+  min-height:58px!important;height:58px!important;
+  padding:8px 10px!important;border-radius:13px!important;
+  justify-content:flex-start!important;gap:0!important;
+  border:1px solid rgba(190,157,102,.46)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(247,242,234,.90))!important;
+  box-shadow:0 4px 10px rgba(85,60,23,.055),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-card::before{
+  content:''!important;display:block!important;position:absolute!important;inset:0!important;pointer-events:none!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.36),transparent 45%)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-main{width:100%!important;gap:8px!important;align-items:center!important;min-width:0!important}
+body.light #sheet.hearing-premium-sheet .hearing-type-icon{
+  width:32px!important;height:32px!important;flex:0 0 32px!important;border-radius:9px!important;
+  color:#a97015!important;background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(249,243,233,.70))!important;
+  border:1px solid rgba(194,157,93,.22)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-icon .ico{width:19px!important;height:19px!important;stroke-width:1.7!important}
+body.light #sheet.hearing-premium-sheet .hearing-type-copy{min-width:0!important;max-width:none!important;padding-right:0!important;overflow:visible!important}
+body.light #sheet.hearing-premium-sheet .hearing-type-copy b{
+  font-size:12.7px!important;line-height:1.02!important;letter-spacing:-.018em!important;white-space:normal!important;color:#17325e!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-copy small{
+  margin-top:3px!important;font-size:8.4px!important;line-height:1.03!important;font-weight:600!important;color:#7d8394!important;white-space:normal!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-mark{display:none!important}
+body.light #sheet.hearing-premium-sheet .hearing-type-card.on{
+  border-color:#d9a33f!important;
+  background:linear-gradient(135deg,#ffe7a1 0%,#efc766 43%,#d69b35 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,247,216,.92),0 7px 17px rgba(157,101,19,.18),inset 0 1px 0 rgba(255,255,255,.68)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-card.on::after{
+  content:''!important;display:block!important;position:absolute!important;inset:0!important;pointer-events:none!important;
+  background:radial-gradient(circle at 88% 8%,rgba(255,251,226,.78),transparent 25%),linear-gradient(135deg,rgba(255,255,255,.22),transparent 38%)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-card.on .hearing-type-icon{
+  color:#7d4d03!important;background:rgba(255,249,229,.52)!important;border-color:rgba(126,76,2,.12)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-type-card.on .hearing-type-copy b,
+body.light #sheet.hearing-premium-sheet .hearing-type-card.on .hearing-type-copy small{color:#2f1b04!important}
+
+/* Fields — reduced to mockup proportions. */
+body.light #sheet.hearing-premium-sheet .hearing-select-shell .premium-select-field,
+body.light #sheet.hearing-premium-sheet .hearing-text-shell input,
+body.light #sheet.hearing-premium-sheet .hearing-inline-shell input,
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker{
+  min-height:50px!important;height:50px!important;border-radius:15px!important;
+  border:1px solid rgba(190,157,104,.52)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,243,236,.90))!important;
+  box-shadow:0 4px 10px rgba(84,60,25,.045),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-leading-icon,
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker-icon{left:13px!important;width:24px!important;height:24px!important}
+body.light #sheet.hearing-premium-sheet .hearing-leading-icon .ico,
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker-icon .ico{width:21px!important;height:21px!important;stroke-width:1.65!important}
+body.light #sheet.hearing-premium-sheet .hearing-select-shell .premium-select-field{padding:0 54px 0 46px!important}
+body.light #sheet.hearing-premium-sheet .hearing-select-shell .premium-select-field-copy b{font-size:13.3px!important}
+body.light #sheet.hearing-premium-sheet .hearing-text-shell input,
+body.light #sheet.hearing-premium-sheet .hearing-inline-shell input{padding:0 53px 0 45px!important;font-size:13.2px!important}
+body.light #sheet.hearing-premium-sheet .hearing-inline-shell .inline-choice-wrap>input{height:50px!important;min-height:50px!important;padding-right:53px!important}
+body.light #sheet.hearing-premium-sheet .hearing-select-shell .premium-select-field-arrow,
+body.light #sheet.hearing-premium-sheet .hearing-inline-shell .inline-choice-arrow,
+body.light #sheet.hearing-premium-sheet .hearing-sidebtn,
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker-tail{
+  right:8px!important;width:34px!important;height:34px!important;border-radius:50%!important;
+  background:linear-gradient(180deg,#fffdf8,#f3ead9)!important;border:1px solid rgba(201,169,113,.70)!important;
+  color:#ae781d!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 6px rgba(107,76,31,.05)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-select-shell .premium-select-field-arrow .ico,
+body.light #sheet.hearing-premium-sheet .hearing-inline-shell .inline-choice-arrow .ico,
+body.light #sheet.hearing-premium-sheet .hearing-sidebtn .ico,
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker-tail .ico{width:15px!important;height:15px!important;stroke-width:2.1!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker{padding:0 52px 0 44px!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker .hearing-premium-picker-copy b{font-size:13.2px!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-picker-icon{left:12px!important;color:#9f6d18!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-two,
+body.light #sheet.hearing-premium-sheet .hearing-premium-datetime{gap:9px!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-two .fld{margin-bottom:0!important}
+body.light #sheet.hearing-premium-sheet .fieldhint{margin-top:6px!important;padding-left:2px!important;font-size:9.4px!important;line-height:1.28!important;color:#747c91!important}
+
+/* Divider + primary save */
+body.light #sheet.hearing-premium-sheet .hearing-save-divider{gap:8px!important;margin:3px 2px 0!important}
+body.light #sheet.hearing-premium-sheet .hearing-save-divider span{width:8px!important;height:8px!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-save{
+  min-height:52px!important;height:52px!important;border-radius:17px!important;margin:0!important;
+  border:1px solid #b77a17!important;color:#241500!important;
+  background:linear-gradient(180deg,#ffe69a 0%,#edbd55 39%,#d69728 100%)!important;
+  box-shadow:0 9px 20px rgba(135,84,11,.20),inset 0 1px 0 rgba(255,255,255,.70),inset 0 -1px 0 rgba(113,62,0,.10)!important;
+  font:700 16.2px/1 Georgia,'Times New Roman',serif!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-save::before{
+  content:''!important;position:absolute!important;left:3%!important;right:3%!important;top:2px!important;height:42%!important;
+  border-radius:14px 14px 50% 50%!important;background:linear-gradient(180deg,rgba(255,255,255,.44),rgba(255,255,255,0))!important;pointer-events:none!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-save .save-icon .ico{width:21px!important;height:21px!important;stroke-width:1.8!important}
+
+@media(max-width:390px){
+  body.light #sheet.hearing-premium-sheet.withfoot>.shbody{padding-left:17px!important;padding-right:17px!important}
+  body.light #sheet.hearing-premium-sheet.withfoot>.shfoot{padding-left:17px!important;padding-right:17px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-head{padding-left:52px!important;padding-right:52px!important;min-height:66px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-head h2{font-size:30px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-back{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-motto span{font-size:7.7px!important;letter-spacing:.16em!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-grid{gap:7px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-card{min-height:56px!important;height:56px!important;padding:7px 8px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-main{gap:7px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-icon{width:30px!important;height:30px!important;flex-basis:30px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-icon .ico{width:18px!important;height:18px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-copy b{font-size:12px!important}
+  body.light #sheet.hearing-premium-sheet .hearing-type-copy small{font-size:7.9px!important}
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-save{position:relative!important;overflow:hidden!important}
+body.light #sheet.hearing-premium-sheet .hearing-premium-save .save-icon{width:24px!important;height:24px!important;border-radius:0!important;background:transparent!important}
+
+/* =====================================================================
+   5.0.187 — unified premium template for Task / Meeting / Deadline
+   Uses the approved hearing composition as the single visual system.
+   ===================================================================== */
+body.light #sheet.entry-premium-sheet .standard-premium-editor{
+  width:100%!important;max-width:760px!important;margin:0 auto!important;padding:0!important;
+}
+/* Standard text/select controls adopt the same 50px glass card geometry. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-title,
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-place,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator .premium-select-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator input{
+  min-height:50px!important;height:50px!important;border-radius:15px!important;
+  border:1px solid rgba(190,157,104,.52)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,243,236,.90))!important;
+  color:#20345e!important;
+  box-shadow:0 4px 10px rgba(84,60,25,.045),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  font-size:13.2px!important;font-weight:600!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-title,
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-place{padding:0 14px!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-title::placeholder,
+body.light #sheet.entry-premium-sheet .standard-premium-editor #e-place::placeholder{color:#9299ad!important;opacity:1!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field{
+  padding:0 48px 0 14px!important;display:flex!important;align-items:center!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-select-field-copy b{font-size:13.2px!important;font-weight:600!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-select-field-arrow,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .inline-choice-arrow.premium-list-trigger{
+  right:8px!important;width:34px!important;height:34px!important;border-radius:50%!important;
+  border:1px solid rgba(201,169,113,.70)!important;
+  background:linear-gradient(180deg,#fffdf8,#f3ead9)!important;
+  color:#ae781d!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 6px rgba(107,76,31,.05)!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-select-field-arrow .ico,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .inline-choice-arrow.premium-list-trigger .ico{width:15px!important;height:15px!important;stroke-width:2.1!important}
+
+/* Date/time controls: same card size, compact icon and oval arrow. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field{
+  padding:0 48px 0 43px!important;display:flex!important;align-items:center!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field .ico,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field .ico{width:20px!important;height:20px!important;color:#9f6d18!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{
+  right:8px!important;width:34px!important;height:34px!important;border-radius:50%!important;
+  border:1px solid rgba(201,169,113,.70)!important;
+  background:linear-gradient(180deg,#fffdf8,#f3ead9)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 6px rgba(107,76,31,.05)!important;
+  color:#ae781d!important;font:500 22px/1 Georgia,'Times New Roman',serif!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-datetime{gap:9px!important;margin-bottom:6px!important}
+
+/* Optional quick dates and priority stay functional but visually quiet. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-quick-dates,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips{gap:6px!important;margin:0 0 10px!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-quick-dates .chip,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip{
+  min-height:32px!important;border-radius:11px!important;padding:0 9px!important;
+  border:1px solid rgba(190,157,104,.38)!important;
+  background:rgba(255,253,249,.73)!important;color:#4c5c79!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.84)!important;font-size:10.8px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip.on{
+  background:linear-gradient(135deg,#f8dd94,#ddb04b)!important;color:#2f1b04!important;border-color:#d4a144!important;
+}
+
+/* Notes become a restrained glass panel, not a bulky dark editor. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-note-editor{
+  min-height:82px!important;border-radius:15px!important;padding:12px 13px!important;
+  border:1px solid rgba(190,157,104,.48)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.93),rgba(248,243,236,.86))!important;
+  color:#20345e!important;box-shadow:0 4px 10px rgba(84,60,25,.04),inset 0 1px 0 rgba(255,255,255,.96)!important;
+  font-size:12.5px!important;line-height:1.35!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-note-editor::placeholder{color:#969cad!important;opacity:1!important}
+
+/* Deadline calculator is kept intact, but recolored into the same ivory/gold system. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator{
+  margin:3px 0 11px!important;padding:12px!important;border-radius:17px!important;
+  border:1px solid rgba(190,157,104,.44)!important;
+  background:linear-gradient(180deg,rgba(255,253,249,.80),rgba(247,240,230,.72))!important;
+  box-shadow:0 6px 16px rgba(83,58,21,.055),inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator-title b{color:#17345f!important;font-family:Georgia,'Times New Roman',serif!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator-title span,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-premium-shield{color:#a97015!important}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-premium-status{
+  border-color:rgba(190,157,104,.35)!important;background:rgba(255,255,255,.50)!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calc-footnote{color:#6f788c!important;font-size:9.4px!important;line-height:1.28!important}
+
+/* Standard pages use the same decorative divider immediately above save. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .hearing-save-divider{margin-top:5px!important}
+
+@media(max-width:390px){
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .task-datetime{gap:7px!important}
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .deadline-calculator{padding:10px!important}
+}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.185';
-var APP_BUILD='5185';
+var APP_VERSION='5.0.187';
+var APP_BUILD='5187';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -251,7 +251,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5181" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5187" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5181" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5187" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -3278,7 +3278,6 @@ function renderHearingPremiumTypeCards(currentKind){
         '<span class="hearing-type-icon">'+ico(meta.icon,'s')+'</span>'+
         '<span class="hearing-type-copy"><b>'+meta.title+'</b><small>'+meta.sub+'</small></span>'+
       '</span>'+
-      '<span class="hearing-type-mark">'+(on?ico('check','s'):'')+'</span>'+
     '</button>';
   }).join('');
 }
@@ -3289,7 +3288,7 @@ function renderHearingPremiumEditor(t,isNew){
   }).join('');
   return ''+
   '<div class="hearing-premium-editor">'+
-    '<div class="task-editor-brand hearing-premium-brand"><img src="scale-gold.webp?v=5181" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="task-editor-brand hearing-premium-brand"><img src="scale-gold.webp?v=5187" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="hearing-premium-brandline"><i></i><span></span><i></i></div>'+
     '<div class="shhead task-editor-head hearing-premium-head"><button class="task-editor-back hearing-premium-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><div class="hearing-premium-titlewrap"><h2>'+title+'</h2><div class="hearing-premium-motto"><i></i><span>Порядок в делах — сила в праве</span><i></i></div></div><span class="task-editor-head-spacer"></span></div>'+
     '<div class="fld task-editor-type hearing-premium-type"><label>Тип</label><div class="hearing-type-grid">'+renderHearingPremiumTypeCards(t.kind)+'</div></div>'+
@@ -3338,9 +3337,11 @@ function drawEditor(preserveScroll){
   if(hearing){
     openSheet(renderHearingPremiumEditor(t,isNew));
   } else openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.webp?v=5181" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-  '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
-  '<div class="fld task-editor-type task-editor-type-premium"><label>Тип</label><div class="hearing-type-grid hearing-type-grid-editor">'+kinds+'</div></div>'+
+  '<div class="hearing-premium-editor standard-premium-editor">'+
+  '<div class="task-editor-brand hearing-premium-brand"><img src="scale-gold.webp?v=5187" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  '<div class="hearing-premium-brandline"><i></i><span></span><i></i></div>'+
+  '<div class="shhead task-editor-head hearing-premium-head"><button class="task-editor-back hearing-premium-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><div class="hearing-premium-titlewrap"><h2>'+title+'</h2><div class="hearing-premium-motto"><i></i><span>Порядок в делах — сила в праве</span><i></i></div></div><span class="task-editor-head-spacer"></span></div>'+
+  '<div class="fld task-editor-type task-editor-type-premium hearing-premium-type"><label>Тип</label><div class="hearing-type-grid hearing-type-grid-editor">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
@@ -3366,11 +3367,15 @@ function drawEditor(preserveScroll){
     '</div>' : '')+
   '<div class="fld task-editor-note-field"><label>'+(hearing?'Примечание (необязательно)':(meeting?'Комментарий':'Примечание'))+'</label>'+
     '<textarea id="e-note" class="task-note-editor" rows="5" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':(meeting?'Например: обсудить позицию, взять документы':'Нормы права, документы, что взять с собой…'))+'">'+esc(t.note||'')+'</textarea></div>'+
-  '<button class="btn task-editor-save" data-act="e-save"><span class="save-icon">'+ico('save','s')+'</span>'+(kindSaveLabels[t.kind]||'Сохранить')+'</button>'+
+  '<div class="hearing-save-divider"><i></i><span></span><i></i></div>'+
+  '</div>'+
+  '<button class="btn task-editor-save hearing-premium-save" data-act="e-save"><span class="save-icon">'+ico('save','s')+'</span>'+(kindSaveLabels[t.kind]||'Сохранить')+'</button>'+
   (isNew?'':((hearing||meeting||t.kind==='deadline')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>'));
   $('#sheet').classList.add('task-editor-sheet');
-  if(hearing){ $('#sheet').classList.add('hearing-editor-sheet'); $('#sheet').classList.add('hearing-premium-sheet'); }
+  $('#sheet').classList.add('hearing-premium-sheet');
+  $('#sheet').classList.add('entry-premium-sheet');
+  if(hearing){ $('#sheet').classList.add('hearing-editor-sheet'); }
   var editorSheet=$('#sheet'), editorBody=editorSheet&&editorSheet.querySelector('.shbody');
   if(editorSheet) editorSheet.scrollLeft=0;
   if(editorBody){
