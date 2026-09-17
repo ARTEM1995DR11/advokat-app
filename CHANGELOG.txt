@@ -1,3 +1,12 @@
+5.0.188
+- Device-review correction of Quick Entry editors.
+- Fixed clipped “Новый процессуальный срок” heading.
+- Fixed folder icon/text overlap in task, meeting and deadline matter selector.
+- Improved hearing client/case-number placeholder fit in two-column row.
+- Improved task/meeting date/time text fit.
+- Deadline calculator selectors stack on mobile to avoid ugly truncation.
+- Save block now follows the form in the scroll area instead of permanently covering lower content.
+
 5.0.187
 - Единый утверждённый премиальный шаблон распространён с «Нового заседания» на «Новую задачу», «Новую встречу» и «Новый процессуальный срок».
 - Для всех четырёх типов одинаковы: брендовая шапка, декоративные линии, компактный блок «Тип», фон, геометрия полей и золотая кнопка сохранения.

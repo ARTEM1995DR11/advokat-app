@@ -1,24 +1,24 @@
-const CACHE = 'advokat-iphone-offline-v44-premium-5187';
+const CACHE = 'advokat-iphone-offline-v44-premium-5188';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5187',
-  './app.js?v=5187',
-  './manifest.webmanifest?v=5187',
+  './styles.css?v=5188',
+  './app.js?v=5188',
+  './manifest.webmanifest?v=5188',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
   './bg-today-desk.webp',
-  './scale-gold.webp?v=5187',
-  './quick-sheet-marble-approved.webp?v=5187',
-  './columns-light.png?v=5187',
-  './header-bell-premium.png?v=5187',
-  './header-search-premium.png?v=5187',
-  './global-search-head-motif-v173.png?v=5187',
+  './scale-gold.webp?v=5188',
+  './quick-sheet-marble-approved.webp?v=5188',
+  './columns-light.png?v=5188',
+  './header-bell-premium.png?v=5188',
+  './header-search-premium.png?v=5188',
+  './global-search-head-motif-v173.png?v=5188',
   './nav-panel-light.png',
-  './nav-active-base.png?v=5187',
-  './nav-active-today.png?v=5187',
-  './fab-plus-square-premium.png?v=5187',
+  './nav-active-base.png?v=5188',
+  './nav-active-today.png?v=5188',
+  './fab-plus-square-premium.png?v=5188',
   './VERSION.txt'
 ];
 self.addEventListener('install', event => {
