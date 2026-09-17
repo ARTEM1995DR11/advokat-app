@@ -23940,3 +23940,164 @@ body.light #sheet.qe192-hearing-sheet .qe192-save>span:last-child{
   body.light #sheet.qe192-hearing-sheet .qe192-save-icon{width:27px;height:27px}
   body.light #sheet.qe192-hearing-sheet .qe192-save-icon .ico{width:24px;height:24px}
 }
+
+
+/* =====================================================================
+   5.0.193 — DEVICE QUALITY PASS
+   Keeps the current real app background. Refines the visible quick-entry UI
+   after the iPhone screenshot review.
+   ===================================================================== */
+
+/* Type cards: icons sit directly on the card, like the approved mockups. */
+#sheet.qe190-sheet .qe190-type-card{
+  min-height:62px!important;
+  height:62px!important;
+  padding:8px 10px!important;
+  gap:9px!important;
+  border-radius:16px!important;
+}
+#sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon{
+  flex:0 0 34px!important;
+  width:34px!important;
+  height:34px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:27px!important;
+  height:27px!important;
+  stroke-width:1.75!important;
+}
+#sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:15.2px!important;
+  line-height:1.00!important;
+  overflow:visible!important;
+}
+#sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{
+  margin-top:3px!important;
+  font-size:8.8px!important;
+  line-height:1.06!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+#sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  font-size:13.1px!important;
+  line-height:.96!important;
+}
+#sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* The first text field now has the same leading document icon as the mockup. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-title-shell{
+  position:relative!important;
+  display:block!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-title-shell #e-title{
+  width:100%!important;
+  padding-left:46px!important;
+  padding-right:14px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-title-icon{
+  position:absolute!important;
+  z-index:2!important;
+  left:13px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:24px!important;
+  height:24px!important;
+  color:#53678e!important;
+  pointer-events:none!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-title-icon .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.7!important;
+}
+
+/* Priority marks match the approved visual language. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-pri-mark{
+  flex:0 0 20px!important;
+  width:20px!important;
+  height:20px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-pri-alert{
+  color:#b93227!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-pri-alert .ico{
+  width:19px!important;
+  height:19px!important;
+  stroke-width:1.9!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe193-pri-ring{
+  border:2px solid #53678e!important;
+  border-radius:50%!important;
+  box-sizing:border-box!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .pri-mid.on .qe193-pri-ring{
+  border-color:#2c210e!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .pri-high{
+  color:#b93227!important;
+}
+
+/* More usable text width for the narrow date/time pair on iPhone. */
+@media(max-width:390px){
+  #sheet.qe190-sheet .qe190-type-grid{gap:9px!important}
+  #sheet.qe190-sheet .qe190-type-card{min-height:62px!important;height:62px!important;padding:8px 9px!important;gap:8px!important}
+  #sheet.qe190-sheet .qe190-type-icon,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon{width:31px!important;height:31px!important;flex-basis:31px!important}
+  #sheet.qe190-sheet .qe190-type-icon .ico,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{width:25px!important;height:25px!important}
+  #sheet.qe190-sheet .qe190-type-copy b,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{font-size:14.4px!important}
+  #sheet.qe190-sheet .qe190-type-copy small,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{font-size:8.15px!important;letter-spacing:-.01em!important}
+  #sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{font-size:12.4px!important}
+
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field{
+    padding-left:38px!important;
+    padding-right:40px!important;
+  }
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field .premium-date-field-copy b,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field b{
+    font-size:10.6px!important;
+    white-space:nowrap!important;
+  }
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field .ico,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field .ico{
+    width:18px!important;
+    height:18px!important;
+  }
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{
+    right:6px!important;
+    width:31px!important;
+    height:31px!important;
+  }
+}
