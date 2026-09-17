@@ -21055,7 +21055,7 @@ body.light .hearing-editor-sheet .task-kind-chips .editor-chip-copy b{
   word-break:normal!important;
   hyphens:none!important;
 }
-body.light .hearing-editor-sheet .task-kind-chips .chip.on .editor-chip-copy b{color:#251804!important;}
+body.light .hearing-editor-sheet .task-kind-chips .chip.on .editor-chip-copy b{color:#251814!important;}
 body.light .hearing-editor-sheet .task-kind-chips .editor-chip-copy small{
   display:block!important;margin-top:4px!important;
   color:#71839a!important;
@@ -21319,7 +21319,7 @@ body.light .task-editor-sheet .task-kind-chips .editor-chip-copy b{
   display:block!important;color:#233e59!important;font:700 14px/1.05 Georgia,'Times New Roman',serif!important;letter-spacing:-.01em!important;
   overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
 }
-body.light .task-editor-sheet .task-kind-chips .chip.on .editor-chip-copy b{color:#251804!important;}
+body.light .task-editor-sheet .task-kind-chips .chip.on .editor-chip-copy b{color:#251814!important;}
 body.light .task-editor-sheet .task-kind-chips .editor-chip-copy small{
   display:block!important;margin-top:4px!important;color:#71839a!important;
   font:520 9.5px/1.12 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif!important;
@@ -21691,12 +21691,12 @@ body.light .hearing-editor-sheet .task-kind-chips .chip[data-v="deadline"] .edit
 }
 
 
-/* ==== Hearing premium exact mockup v5.0.180 ==== */
+/* ==== Hearing premium exact mockup v5.0.181 ==== */
 body.light .sheet.hearing-premium-sheet{
   background:
     linear-gradient(180deg,rgba(255,253,249,.94) 0%,rgba(249,243,234,.86) 22%,rgba(244,237,227,.92) 100%),
     linear-gradient(90deg,rgba(255,255,255,.62),rgba(255,255,255,0) 28%),
-    url('columns-light.png?v=5180') right top/78% auto no-repeat,
+    url('columns-light.png?v=5181') right top/78% auto no-repeat,
     radial-gradient(circle at 14% 7%,rgba(255,255,255,.96),rgba(255,255,255,0) 32%),
     linear-gradient(180deg,#F8F3EA,#F4ECE0);
 }
@@ -21808,4 +21808,195 @@ body.light .hearing-premium-sheet.withfoot .shfoot{
   .hearing-type-copy small{font-size:10.4px}
   .hearing-select-shell .premium-select-field,.hearing-text-shell input,.hearing-inline-shell input,.hearing-premium-picker{min-height:69px!important;height:69px!important;border-radius:20px!important}
   .hearing-premium-two,.hearing-premium-datetime{gap:12px!important}
+}
+
+
+/* =====================================================================
+   5.0.181 — STEP 1 / approved hearing mockup
+   Overall page geometry, full-height background and top composition.
+   ===================================================================== */
+body.light #sheet.sheet.hearing-premium-sheet{
+  top:0!important;
+  bottom:0!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  min-height:100dvh!important;
+  padding:calc(env(safe-area-inset-top) + 4px) 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background-color:#f7f0e6!important;
+  background-image:
+    linear-gradient(90deg,rgba(255,253,249,.78) 0%,rgba(255,253,249,.66) 32%,rgba(255,253,249,.16) 59%,rgba(255,253,249,.05) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(251,246,237,.10) 42%,rgba(244,236,225,.34) 100%),
+    url('columns-light.png?v=5181'),
+    url('quick-sheet-marble-approved.webp?v=5181')!important;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat!important;
+  background-position:center,center,right top,left top!important;
+  background-size:100% 100%,100% 100%,74% auto,100% 100%!important;
+  overflow:hidden!important;
+}
+body.light #sheet.sheet.hearing-premium-sheet::before{
+  content:''!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(ellipse at 19% 10%,rgba(255,255,255,.52),transparent 43%),
+    linear-gradient(90deg,rgba(188,138,51,.032),transparent 22%,transparent 78%,rgba(188,138,51,.04))!important;
+}
+body.light #sheet.hearing-premium-sheet>.grab{display:none!important;}
+body.light #sheet.hearing-premium-sheet>.shbody,
+body.light #sheet.hearing-premium-sheet>.shfoot{position:relative!important;z-index:1!important;}
+body.light #sheet.hearing-premium-sheet.withfoot>.shbody{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  padding:calc(env(safe-area-inset-top) + 11px) 24px 18px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  background:transparent!important;
+}
+body.light #sheet.hearing-premium-sheet.withfoot>.shfoot{
+  flex:none!important;
+  margin:0!important;
+  padding:8px 24px max(13px,env(safe-area-inset-bottom))!important;
+  border:0!important;
+  background:linear-gradient(180deg,rgba(246,238,227,.03),rgba(246,238,227,.44) 48%,rgba(246,238,227,.72) 100%)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-editor{
+  width:100%!important;
+  max-width:760px!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:12px!important;
+  width:100%!important;
+  margin:0 auto 7px!important;
+  padding:0!important;
+  border:0!important;
+  min-height:48px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand img{
+  width:42px!important;
+  height:42px!important;
+  object-fit:contain!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand b{
+  display:block!important;
+  color:#17345f!important;
+  font:700 20px/1.02 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.018em!important;
+  white-space:nowrap!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brand small{
+  display:block!important;
+  margin-top:3px!important;
+  color:#8e6f3e!important;
+  font-size:11px!important;
+  line-height:1.1!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brandline{
+  display:grid!important;
+  grid-template-columns:1fr 10px 1fr!important;
+  gap:10px!important;
+  align-items:center!important;
+  margin:7px 58px 13px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brandline i{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:1px!important;
+  background:linear-gradient(90deg,rgba(177,124,31,.34),rgba(177,124,31,.88),rgba(177,124,31,.34))!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-brandline span{
+  width:9px!important;
+  height:9px!important;
+  justify-self:center!important;
+  transform:rotate(45deg)!important;
+  background:#c29b58!important;
+  box-shadow:none!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-head{
+  position:relative!important;
+  display:block!important;
+  min-height:88px!important;
+  margin:0 0 8px!important;
+  padding:0 72px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-back{
+  position:absolute!important;
+  left:0!important;
+  top:4px!important;
+  width:54px!important;
+  height:54px!important;
+  min-width:54px!important;
+  min-height:54px!important;
+  margin:0!important;
+  border-radius:17px!important;
+  color:#a36f17!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.92),rgba(246,235,216,.84))!important;
+  border:1px solid rgba(184,137,54,.42)!important;
+  box-shadow:0 8px 20px rgba(96,69,30,.08),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-back .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.85!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-titlewrap{
+  width:100%!important;
+  text-align:center!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-head h2{
+  margin:0!important;
+  color:#153466!important;
+  font:700 36px/.98 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.9)!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-motto{
+  display:grid!important;
+  grid-template-columns:minmax(24px,52px) auto minmax(24px,52px)!important;
+  gap:11px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:11px auto 0!important;
+  max-width:520px!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-motto i{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:1px!important;
+  background:#c5a05d!important;
+}
+body.light #sheet.hearing-premium-sheet .hearing-premium-motto span{
+  color:#8f6d35!important;
+  text-transform:uppercase!important;
+  letter-spacing:.23em!important;
+  font:700 9.2px/1.1 Georgia,'Times New Roman',serif!important;
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  body.light #sheet.hearing-premium-sheet.withfoot>.shbody{padding-left:18px!important;padding-right:18px!important;}
+  body.light #sheet.hearing-premium-sheet.withfoot>.shfoot{padding-left:18px!important;padding-right:18px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-brand img{width:38px!important;height:38px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-brand b{font-size:18.2px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-brand small{font-size:10.3px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-brandline{margin-left:42px!important;margin-right:42px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-head{padding-left:60px!important;padding-right:60px!important;min-height:82px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-back{width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-head h2{font-size:31px!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-motto{gap:8px!important;grid-template-columns:minmax(18px,42px) auto minmax(18px,42px)!important;}
+  body.light #sheet.hearing-premium-sheet .hearing-premium-motto span{font-size:8.3px!important;letter-spacing:.17em!important;}
 }
