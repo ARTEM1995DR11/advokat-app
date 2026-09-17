@@ -22111,3 +22111,31 @@ body.light .hearing-premium-sheet .hearing-type-card.on .hearing-type-mark .ico{
   body.light .task-editor-sheet .hearing-type-mark,
   body.light .hearing-premium-sheet .hearing-type-mark{width:40px!important;height:40px!important}
 }
+
+
+/* =====================================================================
+   5.0.183 — remove right circles in block “Тип” per latest approval
+   ===================================================================== */
+body.light .task-editor-sheet .hearing-type-card,
+body.light .hearing-premium-sheet .hearing-type-card{
+  justify-content:flex-start!important;
+}
+body.light .task-editor-sheet .hearing-type-mark,
+body.light .hearing-premium-sheet .hearing-type-mark{
+  display:none!important;
+}
+body.light .task-editor-sheet .hearing-type-card .hearing-type-copy,
+body.light .hearing-premium-sheet .hearing-type-card .hearing-type-copy{
+  max-width:none!important;
+  padding-right:0!important;
+}
+body.light .task-editor-sheet .hearing-type-card .hearing-type-copy b,
+body.light .hearing-premium-sheet .hearing-type-card .hearing-type-copy b{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+body.light .task-editor-sheet .hearing-type-card .hearing-type-copy small,
+body.light .hearing-premium-sheet .hearing-type-card .hearing-type-copy small{
+  max-width:100%!important;
+}
