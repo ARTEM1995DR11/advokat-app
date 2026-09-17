@@ -23398,3 +23398,545 @@ body.light #sheet.sheet.qe190-sheet::after{
     linear-gradient(90deg,rgba(255,253,249,.70) 0%,rgba(255,253,249,.60) 42%,rgba(255,253,249,.28) 72%,rgba(255,253,249,.12) 100%),
     linear-gradient(180deg,rgba(255,255,255,.20),rgba(247,239,227,.18) 55%,rgba(244,235,221,.30))!important;
 }
+
+/* =====================================================================
+   5.0.192 — APPROVED REBUILD: "НОВОЕ ЗАСЕДАНИЕ"
+   A clean, self-contained hearing form. The current app background from
+   5.0.191 is preserved; only the hearing UI is rebuilt to match the
+   approved reference composition and icon system.
+   ===================================================================== */
+body.light #sheet.qe192-hearing-sheet{
+  color:#153463!important;
+  isolation:isolate!important;
+}
+body.light #sheet.qe192-hearing-sheet>.grab{
+  display:none!important;
+}
+body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{
+  padding:max(18px,calc(env(safe-area-inset-top,0px) + 10px)) 22px max(16px,env(safe-area-inset-bottom))!important;
+  background:transparent!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-hearing{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:0;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-form{
+  width:100%;
+  margin-top:13px;
+}
+
+/* ----- Approved top composition for the hearing page ----- */
+body.light #sheet.qe192-hearing-sheet .qe190-top{
+  max-width:760px;
+  margin:0 auto 0!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand{
+  min-height:48px!important;
+  gap:12px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand img{
+  width:43px!important;
+  height:43px!important;
+  flex-basis:43px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy b{
+  font-size:21px!important;
+  line-height:1.02!important;
+  letter-spacing:-.02em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy small{
+  margin-top:2px!important;
+  font-size:11px!important;
+  color:#8f6d38!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand-rule{
+  width:calc(100% - 92px)!important;
+  margin:7px auto 12px!important;
+  gap:11px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand-rule i{
+  height:1.2px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-brand-rule span{
+  width:9px!important;
+  height:9px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-heading{
+  min-height:76px!important;
+  margin:0 0 13px!important;
+  padding:0 56px!important;
+  align-items:flex-start!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-back{
+  top:3px!important;
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  min-height:48px!important;
+  border-radius:16px!important;
+  border:1px solid rgba(177,126,36,.62)!important;
+  background:linear-gradient(155deg,rgba(255,255,255,.97),rgba(248,238,219,.90))!important;
+  box-shadow:0 7px 18px rgba(91,63,24,.09),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-back .ico{
+  width:23px!important;
+  height:23px!important;
+  stroke-width:2!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-heading h2{
+  color:#123367!important;
+  font-size:38px!important;
+  line-height:.98!important;
+  letter-spacing:-.04em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-motto{
+  width:min(100%,520px)!important;
+  grid-template-columns:minmax(22px,58px) auto minmax(22px,58px)!important;
+  gap:10px!important;
+  margin-top:10px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-motto span{
+  color:#8e692f!important;
+  font-size:8.8px!important;
+  letter-spacing:.23em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-block h3{
+  margin:0 0 9px!important;
+  color:#153463!important;
+  font:700 19px/1 Georgia,'Times New Roman',serif!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-grid{
+  gap:10px 12px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-card{
+  height:76px!important;
+  min-height:76px!important;
+  padding:11px 14px!important;
+  gap:12px!important;
+  border-radius:19px!important;
+  border:1px solid rgba(188,151,91,.43)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,243,235,.91))!important;
+  box-shadow:0 7px 17px rgba(81,57,22,.06),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon{
+  flex:0 0 43px!important;
+  width:43px!important;
+  height:43px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#a66c12!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:31px!important;
+  height:31px!important;
+  stroke-width:1.7!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{
+  color:#17315d!important;
+  font:700 16.5px/1.02 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.018em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{
+  margin-top:4px!important;
+  color:#758096!important;
+  font-size:10.5px!important;
+  line-height:1.08!important;
+  font-weight:500!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  border-color:#d69c31!important;
+  background:linear-gradient(135deg,#ffe49a 0%,#efc25a 48%,#d5962c 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,248,218,.92),0 10px 24px rgba(155,100,18,.20),inset 0 1px 0 rgba(255,255,255,.68)!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#231607!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy b{
+  color:#1f1608!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy small{
+  color:#6b4b1b!important;
+}
+
+/* ----- Form ----- */
+body.light #sheet.qe192-hearing-sheet .qe192-field{
+  min-width:0;
+  margin:0 0 15px;
+  padding:0;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-field>label{
+  display:block;
+  margin:0 0 7px;
+  padding:0;
+  color:#153463;
+  font:700 17px/1.04 Georgia,'Times New Roman',serif;
+  letter-spacing:-.012em;
+  text-shadow:0 1px 0 rgba(255,255,255,.86);
+}
+body.light #sheet.qe192-hearing-sheet .qe192-two{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:11px;
+  width:100%;
+  min-width:0;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-control{
+  position:relative;
+  width:100%;
+  min-width:0;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-leading{
+  position:absolute;
+  z-index:4;
+  left:14px;
+  top:50%;
+  width:27px;
+  height:27px;
+  transform:translateY(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#657092;
+  pointer-events:none;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-leading .ico{
+  width:25px;
+  height:25px;
+  stroke-width:1.7;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  width:100%!important;
+  height:62px!important;
+  min-height:62px!important;
+  margin:0!important;
+  border-radius:18px!important;
+  border:1px solid rgba(190,157,101,.48)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,244,237,.91))!important;
+  color:#20365e!important;
+  box-shadow:0 7px 16px rgba(82,58,24,.05),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  outline:0!important;
+  box-sizing:border-box!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input{
+  padding:0 54px 0 53px!important;
+  font-size:14px!important;
+  font-weight:500!important;
+  letter-spacing:-.01em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control:not(.has-action) input{
+  padding-right:12px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input::placeholder,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control input::placeholder{
+  color:#8b92aa!important;
+  opacity:1!important;
+}
+
+/* Matter premium select generated by the common picker upgrader. */
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-wrap{
+  width:100%!important;
+  min-width:0!important;
+  position:relative!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control select.premium-select-native{
+  position:absolute!important;
+  width:0!important;
+  height:0!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:0 60px 0 53px!important;
+  text-align:left!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy{
+  min-width:0!important;
+  overflow:hidden!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy b{
+  display:block!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:#858da5!important;
+  font-size:14px!important;
+  font-weight:500!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field:not(.empty) .premium-select-field-copy b{
+  color:#20365e!important;
+}
+
+/* Unified premium arrow buttons. */
+body.light #sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  position:absolute!important;
+  z-index:6!important;
+  right:9px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:43px!important;
+  height:43px!important;
+  min-width:43px!important;
+  min-height:43px!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:50%!important;
+  border:1px solid rgba(196,157,91,.55)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(244,235,217,.95))!important;
+  color:#a56d16!important;
+  box-shadow:0 3px 8px rgba(89,61,21,.05),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-sidebtn .ico,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow .ico,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow .ico,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail .ico{
+  width:16px!important;
+  height:16px!important;
+  stroke-width:2.1!important;
+  transform:none!important;
+}
+
+/* Client + number row. */
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{
+  min-height:35px;
+  display:flex;
+  align-items:flex-end;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input{
+  font-size:13.2px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-input-control input{
+  font-size:12.7px!important;
+  padding-left:49px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-leading{
+  left:13px!important;
+}
+
+/* Judge field and custom list trigger generated by inlineChoiceField. */
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap{
+  width:100%!important;
+  min-width:0!important;
+  position:relative!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control select.inline-choice-select{
+  position:absolute!important;
+  width:0!important;
+  height:0!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-hint{
+  display:block;
+  margin:8px 2px 0;
+  color:#757f98;
+  font:500 10.4px/1.28 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+/* Date/time controls. */
+body.light #sheet.qe192-hearing-sheet .qe192-datetime{
+  align-items:start;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .qe192-field>label{
+  font-size:17px;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:0 58px 0 49px!important;
+  text-align:left!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon{
+  position:absolute!important;
+  left:13px!important;
+  top:50%!important;
+  width:25px!important;
+  height:25px!important;
+  transform:translateY(-50%)!important;
+  color:#9e6a16!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon .ico{
+  width:23px!important;
+  height:23px!important;
+  stroke-width:1.75!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy{
+  min-width:0!important;
+  overflow:hidden!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{
+  display:block!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:#8790a8!important;
+  font-size:13px!important;
+  font-weight:500!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker:not(.empty) .hearing-premium-picker-copy b{
+  color:#20365e!important;
+}
+
+/* Decorative line immediately before save. */
+body.light #sheet.qe192-hearing-sheet .qe192-save-divider{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 9px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  width:100%;
+  margin:2px 0 8px;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save-divider i{
+  display:block;
+  width:100%;
+  height:1.2px;
+  background:linear-gradient(90deg,rgba(190,141,53,.25),rgba(190,141,53,.88),rgba(190,141,53,.25));
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save-divider span{
+  width:9px;
+  height:9px;
+  transform:rotate(45deg);
+  background:linear-gradient(135deg,#dfc27b,#ba8430);
+  box-shadow:0 0 0 1px rgba(255,255,255,.68);
+}
+
+/* Inline footer — save is the natural last element, never an overlay. */
+body.light #sheet.qe192-hearing-sheet.editor-inline-foot.withfoot>.shbody{
+  padding-bottom:max(16px,env(safe-area-inset-bottom))!important;
+}
+body.light #sheet.qe192-hearing-sheet.editor-inline-foot .shbody>.shfoot{
+  position:relative!important;
+  z-index:2!important;
+  width:100%!important;
+  max-width:760px!important;
+  margin:0 auto!important;
+  padding:0 0 max(7px,env(safe-area-inset-bottom))!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save{
+  position:relative!important;
+  overflow:hidden!important;
+  width:100%!important;
+  height:70px!important;
+  min-height:70px!important;
+  margin:0!important;
+  padding:0 22px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:16px!important;
+  border-radius:23px!important;
+  border:1px solid #d7a039!important;
+  background:linear-gradient(135deg,#f9db83 0%,#e9b84d 50%,#c98825 100%)!important;
+  color:#1d1305!important;
+  font:700 20px/1 Georgia,'Times New Roman',serif!important;
+  box-shadow:0 0 0 1px rgba(255,246,211,.78),0 11px 24px rgba(151,95,18,.20),inset 0 1px 0 rgba(255,255,255,.62)!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save::before{
+  content:'';
+  position:absolute;
+  left:4%;
+  right:4%;
+  top:3px;
+  height:36%;
+  border-radius:22px 22px 50% 50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.36),rgba(255,255,255,0));
+  pointer-events:none;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save-icon{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:30px;
+  height:30px;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save-icon .ico{
+  width:27px;
+  height:27px;
+  stroke-width:1.8;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-save>span:last-child{
+  position:relative;
+  z-index:1;
+}
+
+@media(max-width:390px){
+  body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{
+    padding-left:18px!important;
+    padding-right:18px!important;
+    padding-top:max(15px,calc(env(safe-area-inset-top,0px) + 7px))!important;
+  }
+  body.light #sheet.qe192-hearing-sheet .qe190-brand img{width:40px!important;height:40px!important;flex-basis:40px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-brand-copy b{font-size:19.2px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-brand-copy small{font-size:10.2px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-heading{min-height:70px!important;padding:0 51px!important;margin-bottom:11px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-heading h2{font-size:34px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-back{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-motto{grid-template-columns:minmax(18px,42px) auto minmax(18px,42px)!important;gap:8px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-motto span{font-size:7.9px!important;letter-spacing:.19em!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-block h3{font-size:18px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-grid{gap:9px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-card{height:72px!important;min-height:72px!important;padding:10px 10px!important;gap:8px!important;border-radius:17px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon{width:37px!important;height:37px!important;flex-basis:37px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{width:28px!important;height:28px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{font-size:15px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{font-size:9.4px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-field{margin-bottom:13px}
+  body.light #sheet.qe192-hearing-sheet .qe192-field>label{font-size:16px;margin-bottom:6px}
+  body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+  body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+  body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{height:58px!important;min-height:58px!important;border-radius:17px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-leading{left:12px;width:24px;height:24px}
+  body.light #sheet.qe192-hearing-sheet .qe192-leading .ico{width:22px;height:22px}
+  body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+  body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input{padding-left:45px!important;font-size:12.7px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field{padding-left:45px!important;padding-right:52px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy b{font-size:13px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-sidebtn,
+  body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+  body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{right:7px!important;width:39px!important;height:39px!important;min-width:39px!important;min-height:39px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid{gap:8px}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{min-height:32px;font-size:15px}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input{font-size:11.7px!important;padding-left:39px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-input-control input{font-size:10.8px!important;padding-left:39px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-leading{left:9px!important;width:22px!important;height:22px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-leading .ico{width:20px!important;height:20px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime{gap:8px}
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{padding-left:40px!important;padding-right:49px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon{left:10px!important;width:22px!important;height:22px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon .ico{width:20px!important;height:20px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{font-size:11.5px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-hint{font-size:9.8px;line-height:1.25;margin-top:7px}
+  body.light #sheet.qe192-hearing-sheet .qe192-save{height:64px!important;min-height:64px!important;border-radius:21px!important;font-size:18px!important;gap:13px!important}
+  body.light #sheet.qe192-hearing-sheet .qe192-save-icon{width:27px;height:27px}
+  body.light #sheet.qe192-hearing-sheet .qe192-save-icon .ico{width:24px;height:24px}
+}
