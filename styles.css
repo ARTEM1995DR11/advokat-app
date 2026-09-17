@@ -23350,3 +23350,51 @@ body.light #sheet.qe190-sheet::before{
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 72%,transparent 100%)!important;
   mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 72%,transparent 100%)!important;
 }
+
+
+/* =====================================================================
+   5.0.191 — BACKGROUND RESTORE ONLY
+   ===================================================================== */
+body.light #sheet.sheet.qe190-sheet{
+  background-color:#f7efe3!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5191')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
+}
+body.light #sheet.sheet.qe190-sheet::before{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  width:auto!important;
+  height:auto!important;
+  top:0!important;
+  right:0!important;
+  bottom:0!important;
+  left:0!important;
+  background-image:url('columns-light.png?v=5191')!important;
+  background-repeat:no-repeat!important;
+  background-position:right center!important;
+  background-size:auto 100%!important;
+  opacity:.42!important;
+  filter:saturate(.72) sepia(.12) brightness(1.05)!important;
+  mix-blend-mode:normal!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+}
+body.light #sheet.sheet.qe190-sheet::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background:
+    linear-gradient(90deg,rgba(255,253,249,.70) 0%,rgba(255,253,249,.60) 42%,rgba(255,253,249,.28) 72%,rgba(255,253,249,.12) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.20),rgba(247,239,227,.18) 55%,rgba(244,235,221,.30))!important;
+}
