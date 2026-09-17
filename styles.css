@@ -21477,7 +21477,7 @@ body.light .task-editor-sheet .task-editor-save .save-icon .ico{width:19px!impor
 
 
 /* =====================================================================
-   5.0.177 — background correction
+   5.0.178 — background correction
    1) Quick Add keeps ONLY the approved marble background.
    2) Record editors use the columns background continuously for the full page.
    ===================================================================== */
@@ -21487,7 +21487,7 @@ body #sheet.sheet.quick-sheet,
 body.light #sheet.sheet.quick-sheet,
 body:not(.light) #sheet.sheet.quick-sheet{
   background-color:#FBF6EC!important;
-  background-image:url('quick-sheet-marble-approved.webp?v=5177')!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5178')!important;
   background-repeat:no-repeat!important;
   background-position:center center!important;
   background-size:cover!important;
@@ -21516,7 +21516,7 @@ body.light #sheet.sheet.task-editor-sheet::before{
   z-index:0!important;
   pointer-events:none!important;
   background-color:#F7F0E4!important;
-  background-image:url('columns-light.png?v=5177')!important;
+  background-image:url('columns-light.png?v=5178')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:auto 100%!important;
@@ -21555,4 +21555,108 @@ body.light #sheet.sheet.task-editor-sheet.withfoot>.shfoot{
     rgba(247,240,228,.58) 100%)!important;
   backdrop-filter:blur(5px)!important;
   -webkit-backdrop-filter:blur(5px)!important;
+}
+
+
+/* =====================================================================
+   5.0.178 — premium editor refinement
+   - deadline label fits cleanly in the type card
+   - remove bulky rounded arrow tiles; keep simple elegant chevrons
+   - preserve the full-page columns background from 5.0.177
+   ===================================================================== */
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"]{
+  padding-right:30px!important;
+  grid-template-columns:32px minmax(0,1fr)!important;
+  gap:6px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-icon{
+  width:32px!important;height:32px!important;flex-basis:32px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b{
+  max-width:none!important;
+  width:100%!important;
+  white-space:normal!important;
+  font-size:12.2px!important;
+  line-height:1.03!important;
+  letter-spacing:-.018em!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy small{
+  font-size:8.7px!important;
+  line-height:1.08!important;
+  white-space:nowrap!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"]::after{
+  width:21px!important;height:21px!important;right:6px!important;
+}
+body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"].on::after{
+  font-size:15px!important;
+}
+
+/* Simple premium chevrons instead of separate rounded arrow buttons. */
+body.light .task-editor-sheet .premium-select-field-arrow,
+body.light .task-editor-sheet .inline-choice-arrow.premium-list-trigger{
+  width:26px!important;
+  height:34px!important;
+  right:10px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#A36D13!important;
+}
+body.light .task-editor-sheet .premium-select-field-arrow .ico,
+body.light .task-editor-sheet .inline-choice-arrow.premium-list-trigger .ico{
+  width:18px!important;height:18px!important;stroke-width:2.15!important;
+}
+body.light .task-editor-sheet .editor-select-field .premium-select-field{
+  padding-right:40px!important;
+}
+body.light .task-editor-sheet .inline-choice-wrap>input{
+  padding-right:42px!important;
+}
+
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field{
+  padding-right:39px!important;
+}
+body.light .task-editor-sheet .premium-date-field::after,
+body.light .task-editor-sheet .premium-time-field::after{
+  right:10px!important;
+  width:22px!important;height:34px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#A36D13!important;
+  font:500 30px/1 Georgia,'Times New Roman',serif!important;
+}
+
+/* Slightly cleaner field geometry to stay closer to the approved mockup. */
+body.light .task-editor-sheet .premium-select-field,
+body.light .task-editor-sheet .premium-date-field,
+body.light .task-editor-sheet .premium-time-field,
+body.light .task-editor-sheet .inline-choice-wrap>input,
+body.light .task-editor-sheet #e-title{
+  border-radius:18px!important;
+}
+body.light .task-editor-sheet .task-quick-dates .chip{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82)!important;
+}
+
+@media(max-width:390px){
+  body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"]{
+    padding-right:27px!important;
+    grid-template-columns:30px minmax(0,1fr)!important;
+    gap:5px!important;
+  }
+  body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-icon{
+    width:30px!important;height:30px!important;flex-basis:30px!important;
+  }
+  body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy b{
+    font-size:11.6px!important;
+    line-height:1.02!important;
+  }
+  body.light .task-editor-sheet .task-kind-chips .chip[data-v="deadline"] .editor-chip-copy small{
+    font-size:8.2px!important;
+  }
 }

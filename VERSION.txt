@@ -1,2 +1,2 @@
-advokat-app 5.0.177
-build 5177
+advokat-app 5.0.178
+build 5178
