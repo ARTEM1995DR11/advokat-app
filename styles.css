@@ -21474,3 +21474,85 @@ body.light .task-editor-sheet .task-editor-save .save-icon .ico{width:19px!impor
   body.light .task-editor-sheet #e-title{height:55px!important;min-height:55px!important;font-size:14.2px!important;}
   body.light .task-editor-sheet .task-editor-save{min-height:55px!important;font-size:15.7px!important;}
 }
+
+
+/* =====================================================================
+   5.0.177 — background correction
+   1) Quick Add keeps ONLY the approved marble background.
+   2) Record editors use the columns background continuously for the full page.
+   ===================================================================== */
+
+/* Быстрая запись: вернуть утверждённый чистый мрамор без колонн. */
+body #sheet.sheet.quick-sheet,
+body.light #sheet.sheet.quick-sheet,
+body:not(.light) #sheet.sheet.quick-sheet{
+  background-color:#FBF6EC!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5177')!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:cover!important;
+}
+body #sheet.sheet.quick-sheet::before,
+body #sheet.sheet.quick-sheet::after,
+body.light #sheet.sheet.quick-sheet::before,
+body.light #sheet.sheet.quick-sheet::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+
+/* Редактор задачи/заседания/встречи/срока: единый непрерывный фон колонн. */
+body.light #sheet.sheet.task-editor-sheet{
+  position:fixed!important;
+  isolation:isolate!important;
+  background:#F7F0E4!important;
+  background-image:none!important;
+}
+body.light #sheet.sheet.task-editor-sheet::before{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background-color:#F7F0E4!important;
+  background-image:url('columns-light.png?v=5177')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:auto 100%!important;
+  opacity:1!important;
+  transform:none!important;
+}
+body.light #sheet.sheet.task-editor-sheet::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(180deg,
+      rgba(251,247,239,.47) 0%,
+      rgba(251,247,239,.54) 30%,
+      rgba(251,247,239,.61) 62%,
+      rgba(251,247,239,.70) 100%)!important;
+}
+body.light #sheet.sheet.task-editor-sheet>.grab,
+body.light #sheet.sheet.task-editor-sheet>.shbody,
+body.light #sheet.sheet.task-editor-sheet>.shfoot{
+  position:relative!important;
+  z-index:1!important;
+  background-color:transparent!important;
+}
+body.light #sheet.sheet.task-editor-sheet.withfoot>.shbody{
+  background:transparent!important;
+}
+body.light #sheet.sheet.task-editor-sheet.withfoot>.shfoot{
+  background:linear-gradient(180deg,
+    rgba(247,240,228,.03) 0%,
+    rgba(247,240,228,.22) 30%,
+    rgba(247,240,228,.42) 65%,
+    rgba(247,240,228,.58) 100%)!important;
+  backdrop-filter:blur(5px)!important;
+  -webkit-backdrop-filter:blur(5px)!important;
+}
