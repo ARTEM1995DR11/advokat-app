@@ -1,22 +1,22 @@
-const CACHE = 'advokat-iphone-offline-v42-lean-5171';
+const CACHE = 'advokat-iphone-offline-v42-lean-5172';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5171',
-  './app.js?v=5171',
-  './manifest.webmanifest?v=5171',
+  './styles.css?v=5172',
+  './app.js?v=5172',
+  './manifest.webmanifest?v=5172',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
   './bg-today-desk.webp',
-  './scale-gold.webp?v=5171',
-  './header-bell-premium.png?v=5171',
-  './header-search-premium.png?v=5171',
-  './global-search-head-motif-v169.png?v=5171',
+  './scale-gold.webp?v=5172',
+  './header-bell-premium.png?v=5172',
+  './header-search-premium.png?v=5172',
+  './global-search-head-motif-v172.png?v=5172',
   './nav-panel-light.png',
-  './nav-active-base.png?v=5171',
-  './nav-active-today.png?v=5171',
-  './fab-plus-square-premium.png?v=5171',
+  './nav-active-base.png?v=5172',
+  './nav-active-today.png?v=5172',
+  './fab-plus-square-premium.png?v=5172',
   './VERSION.txt'
 ];
 self.addEventListener('install', event => {
