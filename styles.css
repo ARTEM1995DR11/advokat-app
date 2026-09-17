@@ -22920,3 +22920,433 @@ body.light #sheet.hearing-premium-sheet .hearing-type-card.on::after{
   body.light #sheet.hearing-premium-sheet .hearing-type-copy b{font-size:13.4px!important}
   body.light #sheet.hearing-premium-sheet .hearing-type-copy small{font-size:9.2px!important}
 }
+
+/* =====================================================================
+   5.0.190 — CLEAN QUICK ENTRY TOP
+   This block is intentionally independent from legacy task-editor /
+   hearing-premium header and type-card styles.
+   ===================================================================== */
+body.light #sheet.qe190-sheet{
+  background-color:#f7efe3!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5190')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+}
+body.light #sheet.qe190-sheet::before{
+  content:''!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background-image:url('columns-light.png?v=5190')!important;
+  background-repeat:no-repeat!important;
+  background-position:right -24px top -4px!important;
+  background-size:auto 100%!important;
+  opacity:.48!important;
+  filter:saturate(.80) sepia(.10) brightness(1.025)!important;
+}
+body.light #sheet.qe190-sheet::after{
+  content:''!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(90deg,rgba(255,253,249,.62) 0%,rgba(255,253,249,.51) 43%,rgba(255,253,249,.22) 73%,rgba(255,253,249,.08) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(250,245,236,.06) 48%,rgba(247,239,227,.20) 100%)!important;
+}
+body.light #sheet.qe190-sheet>.shbody,
+body.light #sheet.qe190-sheet>.shfoot{
+  position:relative!important;
+  z-index:1!important;
+  background:transparent!important;
+}
+body.light #sheet.qe190-sheet.withfoot>.shbody{
+  padding-top:max(8px, calc(env(safe-area-inset-top, 0px) - 7px))!important;
+  padding-left:23px!important;
+  padding-right:23px!important;
+}
+
+/* ----- top composition reset ----- */
+#sheet.qe190-sheet .qe190-top,
+#sheet.qe190-sheet .qe190-top *{
+  box-sizing:border-box;
+}
+#sheet.qe190-sheet .qe190-top{
+  position:relative;
+  width:100%;
+  max-width:760px;
+  margin:0 auto 15px;
+  padding:0;
+  color:#153466;
+  isolation:isolate;
+}
+
+/* Brand */
+#sheet.qe190-sheet .qe190-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  min-height:42px;
+  margin:0;
+  padding:0;
+}
+#sheet.qe190-sheet .qe190-brand img{
+  display:block;
+  width:39px;
+  height:39px;
+  flex:0 0 39px;
+  object-fit:contain;
+  filter:drop-shadow(0 3px 6px rgba(139,94,20,.17));
+}
+#sheet.qe190-sheet .qe190-brand-copy{
+  min-width:0;
+  text-align:left;
+}
+#sheet.qe190-sheet .qe190-brand-copy b{
+  display:block;
+  margin:0;
+  color:#17345f;
+  font:700 20px/1.02 Georgia,'Times New Roman',serif;
+  letter-spacing:-.018em;
+  white-space:nowrap;
+  text-shadow:0 1px 0 rgba(255,255,255,.90);
+}
+#sheet.qe190-sheet .qe190-brand-copy small{
+  display:block;
+  margin-top:2px;
+  color:#91703c;
+  font:500 11px/1.12 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:.008em;
+  white-space:nowrap;
+}
+#sheet.qe190-sheet .qe190-brand-rule{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 9px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  width:calc(100% - 102px);
+  margin:7px auto 13px;
+}
+#sheet.qe190-sheet .qe190-brand-rule i{
+  display:block;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,rgba(181,128,34,.25),rgba(181,128,34,.88),rgba(181,128,34,.25));
+}
+#sheet.qe190-sheet .qe190-brand-rule span{
+  display:block;
+  width:9px;
+  height:9px;
+  justify-self:center;
+  transform:rotate(45deg);
+  background:linear-gradient(135deg,#e0c27c,#b98732);
+  box-shadow:0 0 0 1px rgba(255,255,255,.72);
+}
+
+/* Page heading */
+#sheet.qe190-sheet .qe190-heading{
+  position:relative;
+  min-height:78px;
+  margin:0 0 11px;
+  padding:0 55px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+}
+#sheet.qe190-sheet .qe190-back{
+  appearance:none;
+  -webkit-appearance:none;
+  position:absolute;
+  left:0;
+  top:4px;
+  width:48px;
+  height:48px;
+  min-width:48px;
+  min-height:48px;
+  margin:0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  border:1px solid rgba(181,130,44,.54);
+  background:linear-gradient(155deg,rgba(255,255,255,.95),rgba(246,234,213,.87));
+  color:#9f6810;
+  box-shadow:0 7px 18px rgba(91,63,24,.09),inset 0 1px 0 rgba(255,255,255,.98);
+  z-index:2;
+}
+#sheet.qe190-sheet .qe190-back .ico{
+  width:22px;
+  height:22px;
+  stroke-width:1.95;
+}
+#sheet.qe190-sheet .qe190-heading-center{
+  width:100%;
+  min-width:0;
+  text-align:center;
+}
+#sheet.qe190-sheet .qe190-heading h2{
+  margin:0;
+  padding:0;
+  color:#12356a;
+  font:700 36px/.98 Georgia,'Times New Roman',serif;
+  letter-spacing:-.038em;
+  white-space:nowrap;
+  text-shadow:0 1px 0 rgba(255,255,255,.94),0 5px 14px rgba(73,48,18,.035);
+}
+#sheet.qe190-sheet .qe190-heading h2.qe190-title-long{
+  font-size:28px;
+  line-height:1.02;
+  letter-spacing:-.03em;
+  white-space:normal;
+  max-width:100%;
+}
+#sheet.qe190-sheet .qe190-motto{
+  display:grid;
+  grid-template-columns:minmax(22px,54px) auto minmax(22px,54px);
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:min(100%,520px);
+  margin:10px auto 0;
+}
+#sheet.qe190-sheet .qe190-motto i{
+  display:block;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,rgba(195,149,65,.38),rgba(195,149,65,.93));
+}
+#sheet.qe190-sheet .qe190-motto i:last-child{
+  background:linear-gradient(90deg,rgba(195,149,65,.93),rgba(195,149,65,.38));
+}
+#sheet.qe190-sheet .qe190-motto span{
+  color:#8d6a32;
+  text-transform:uppercase;
+  font:700 8.8px/1.1 Georgia,'Times New Roman',serif;
+  letter-spacing:.22em;
+  white-space:nowrap;
+}
+
+/* Type block — own component, no legacy .fld/.hearing-type-* classes */
+#sheet.qe190-sheet .qe190-type-block{
+  margin:0;
+  padding:0;
+}
+#sheet.qe190-sheet .qe190-type-block h3{
+  margin:0 0 9px;
+  padding:0;
+  color:#17345f;
+  font:700 18px/1.05 Georgia,'Times New Roman',serif;
+  letter-spacing:-.012em;
+  text-shadow:0 1px 0 rgba(255,255,255,.86);
+}
+#sheet.qe190-sheet .qe190-type-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px 11px;
+  width:100%;
+}
+#sheet.qe190-sheet .qe190-type-card{
+  appearance:none;
+  -webkit-appearance:none;
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  min-width:0;
+  height:68px;
+  min-height:68px;
+  margin:0;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:11px;
+  text-align:left;
+  border-radius:17px;
+  border:1px solid rgba(188,151,91,.43);
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(248,243,235,.91));
+  color:#17345f;
+  box-shadow:0 6px 15px rgba(81,57,22,.055),inset 0 1px 0 rgba(255,255,255,.98);
+  cursor:pointer;
+}
+#sheet.qe190-sheet .qe190-type-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.38),transparent 46%);
+}
+#sheet.qe190-sheet .qe190-type-icon{
+  position:relative;
+  z-index:1;
+  flex:0 0 41px;
+  width:41px;
+  height:41px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  color:#a56c13;
+  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(248,241,228,.70));
+  border:1px solid rgba(195,155,88,.24);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98);
+}
+#sheet.qe190-sheet .qe190-type-icon .ico{
+  width:24px;
+  height:24px;
+  stroke-width:1.75;
+}
+#sheet.qe190-sheet .qe190-type-copy{
+  position:relative;
+  z-index:1;
+  display:block;
+  min-width:0;
+  flex:1 1 auto;
+}
+#sheet.qe190-sheet .qe190-type-copy b{
+  display:block;
+  margin:0;
+  color:#17325e;
+  font:700 16.2px/1.00 Georgia,'Times New Roman',serif;
+  letter-spacing:-.02em;
+  white-space:normal;
+}
+#sheet.qe190-sheet .qe190-type-copy small{
+  display:block;
+  margin-top:4px;
+  color:#798297;
+  font:500 10.2px/1.08 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:0;
+  white-space:normal;
+}
+#sheet.qe190-sheet .qe190-type-card.is-active{
+  border-color:#d59d38;
+  background:linear-gradient(135deg,#ffe8a7 0%,#efc765 46%,#d89b32 100%);
+  box-shadow:0 0 0 1px rgba(255,247,215,.92),0 9px 21px rgba(154,99,18,.18),inset 0 1px 0 rgba(255,255,255,.69);
+}
+#sheet.qe190-sheet .qe190-type-card.is-active::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at 85% 8%,rgba(255,251,226,.80),transparent 26%),linear-gradient(135deg,rgba(255,255,255,.20),transparent 40%);
+}
+#sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#744704;
+  background:rgba(255,249,227,.58);
+  border-color:rgba(126,76,2,.13);
+}
+#sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy b,
+#sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy small{
+  color:#2d1b05;
+}
+#sheet.qe190-sheet .qe190-type-card:active{
+  transform:scale(.992);
+}
+
+@media(max-width:390px){
+  body.light #sheet.qe190-sheet.withfoot>.shbody{
+    padding-top:max(7px, calc(env(safe-area-inset-top, 0px) - 8px))!important;
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+  #sheet.qe190-sheet .qe190-brand img{width:37px;height:37px;flex-basis:37px}
+  #sheet.qe190-sheet .qe190-brand-copy b{font-size:18.7px}
+  #sheet.qe190-sheet .qe190-brand-copy small{font-size:10.3px}
+  #sheet.qe190-sheet .qe190-brand-rule{width:calc(100% - 92px);margin-bottom:12px}
+  #sheet.qe190-sheet .qe190-heading{min-height:74px;padding:0 51px;margin-bottom:10px}
+  #sheet.qe190-sheet .qe190-back{width:45px;height:45px;min-width:45px;min-height:45px;border-radius:14px}
+  #sheet.qe190-sheet .qe190-heading h2{font-size:33px}
+  #sheet.qe190-sheet .qe190-heading h2.qe190-title-long{font-size:25px}
+  #sheet.qe190-sheet .qe190-motto{gap:7px;grid-template-columns:minmax(18px,40px) auto minmax(18px,40px)}
+  #sheet.qe190-sheet .qe190-motto span{font-size:8px;letter-spacing:.18em}
+  #sheet.qe190-sheet .qe190-type-block h3{font-size:17px;margin-bottom:8px}
+  #sheet.qe190-sheet .qe190-type-grid{gap:9px}
+  #sheet.qe190-sheet .qe190-type-card{height:65px;min-height:65px;padding:9px 10px;border-radius:16px;gap:9px}
+  #sheet.qe190-sheet .qe190-type-icon{width:38px;height:38px;flex-basis:38px;border-radius:11px}
+  #sheet.qe190-sheet .qe190-type-icon .ico{width:22px;height:22px}
+  #sheet.qe190-sheet .qe190-type-copy b{font-size:14.5px}
+  #sheet.qe190-sheet .qe190-type-copy small{font-size:9.2px;margin-top:3px}
+}
+
+/* 5.0.190 geometry pass after isolated preview: match approved compact top proportions. */
+body.light #sheet.qe190-sheet::before{
+  background-position:right -8px top 2px!important;
+  background-size:min(46vw,220px) auto!important;
+  opacity:.50!important;
+}
+#sheet.qe190-sheet .qe190-brand-rule{margin-top:7px;margin-bottom:10px}
+#sheet.qe190-sheet .qe190-heading{
+  min-height:52px;
+  margin-bottom:4px;
+  padding-left:48px;
+  padding-right:48px;
+}
+#sheet.qe190-sheet .qe190-back{
+  top:0;
+  width:42px;
+  height:42px;
+  min-width:42px;
+  min-height:42px;
+  border-radius:14px;
+}
+#sheet.qe190-sheet .qe190-back .ico{width:20px;height:20px}
+#sheet.qe190-sheet .qe190-motto{margin-top:7px}
+#sheet.qe190-sheet .qe190-type-block h3{
+  margin-bottom:8px;
+  font-size:17px;
+}
+#sheet.qe190-sheet .qe190-type-grid{gap:9px 11px}
+#sheet.qe190-sheet .qe190-type-card{
+  height:56px;
+  min-height:56px;
+  padding:7px 10px;
+  gap:9px;
+  border-radius:15px;
+}
+#sheet.qe190-sheet .qe190-type-icon{
+  flex-basis:34px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+}
+#sheet.qe190-sheet .qe190-type-icon .ico{width:21px;height:21px}
+#sheet.qe190-sheet .qe190-type-copy b{
+  font-size:14.8px;
+  line-height:.98;
+}
+#sheet.qe190-sheet .qe190-type-copy small{
+  margin-top:3px;
+  font-size:9px;
+  line-height:1.02;
+}
+@media(max-width:390px){
+  #sheet.qe190-sheet .qe190-heading{min-height:50px;margin-bottom:4px;padding-left:46px;padding-right:46px}
+  #sheet.qe190-sheet .qe190-back{width:40px;height:40px;min-width:40px;min-height:40px}
+  #sheet.qe190-sheet .qe190-heading h2{font-size:32px}
+  #sheet.qe190-sheet .qe190-type-card{height:55px;min-height:55px;padding:7px 9px;gap:8px}
+  #sheet.qe190-sheet .qe190-type-icon{width:33px;height:33px;flex-basis:33px}
+  #sheet.qe190-sheet .qe190-type-icon .ico{width:20px;height:20px}
+  #sheet.qe190-sheet .qe190-type-copy b{font-size:14px}
+  #sheet.qe190-sheet .qe190-type-copy small{font-size:8.6px}
+}
+/* Architecture is now a separate blended top-right layer with a soft fade,
+   so it cannot end as a visible rectangular picture. */
+body.light #sheet.qe190-sheet::before{
+  inset:auto!important;
+  top:0!important;
+  right:0!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:min(56vw,270px)!important;
+  height:410px!important;
+  background-position:center top!important;
+  background-size:100% 100%!important;
+  opacity:.43!important;
+  mix-blend-mode:multiply!important;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 72%,transparent 100%)!important;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 58%,rgba(0,0,0,.82) 72%,transparent 100%)!important;
+}
