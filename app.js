@@ -251,7 +251,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5175" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5180" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5175" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5180" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -1758,7 +1758,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('quick-sheet','task-editor-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  s.classList.remove('quick-sheet','task-editor-sheet','hearing-premium-sheet','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -3245,6 +3245,72 @@ function editTask(t,preset){
   syncHearingCourt(false);
   drawEditor();
 }
+
+function hearingPremiumDateControl(id,value,emptyLabel,iconName){
+  var v=value||'', label=v?fmtD(v,true):(emptyLabel||'Выберите дату');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="hearing-premium-picker hearing-premium-picker-date'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
+      '<span class="hearing-premium-picker-icon">'+ico(iconName||'cal','s')+'</span>'+
+      '<span class="hearing-premium-picker-copy"><b>'+esc(label)+'</b></span>'+
+      '<span class="hearing-premium-picker-tail">'+ico('chev','s')+'</span>'+
+    '</button>';
+}
+function hearingPremiumTimeControl(id,value,mode,emptyLabel,iconName){
+  var v=value||'', label=v?v:(emptyLabel||'Выберите время');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="hearing-premium-picker hearing-premium-picker-time'+(v?'':' empty')+'" data-act="time-open" data-target="'+esc(id)+'" data-time-mode="'+esc(mode||'default')+'" data-time-for="'+esc(id)+'">'+
+      '<span class="hearing-premium-picker-icon">'+ico(iconName||'clock','s')+'</span>'+
+      '<span class="hearing-premium-picker-copy"><b>'+esc(label)+'</b></span>'+
+      '<span class="hearing-premium-picker-tail">'+ico('chev','s')+'</span>'+
+    '</button>';
+}
+function renderHearingPremiumTypeCards(currentKind){
+  var map={
+    task:{title:'Задача',sub:'Личные дела и заметки',icon:'tpl'},
+    hearing:{title:'Заседание',sub:'Судебное заседание',icon:'cal'},
+    meeting:{title:'Встреча',sub:'Клиенты и переговоры',icon:'user'},
+    deadline:{title:'Процессуальный срок',sub:'Контроль сроков',icon:'clock'}
+  };
+  return EDITOR_KINDS.map(function(k){
+    var meta=map[k], on=currentKind===k;
+    return '<button type="button" class="hearing-type-card'+(on?' on':'')+'" data-act="e-kind" data-v="'+k+'">'+
+      '<span class="hearing-type-main">'+
+        '<span class="hearing-type-icon">'+ico(meta.icon,'s')+'</span>'+
+        '<span class="hearing-type-copy"><b>'+meta.title+'</b><small>'+meta.sub+'</small></span>'+
+      '</span>'+
+      '<span class="hearing-type-mark">'+(on?ico('check','s'):'')+'</span>'+
+    '</button>';
+  }).join('');
+}
+function renderHearingPremiumEditor(t,isNew){
+  var title=isNew?'Новое заседание':'Редактирование заседания';
+  var opts='<option value="">Выберите дело</option>'+activeM().map(function(m){
+    return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>';
+  }).join('');
+  return ''+
+  '<div class="hearing-premium-editor">'+
+    '<div class="task-editor-brand hearing-premium-brand"><img src="scale-gold.webp?v=5180" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="hearing-premium-brandline"><i></i><span></span><i></i></div>'+
+    '<div class="shhead task-editor-head hearing-premium-head"><button class="task-editor-back hearing-premium-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><div class="hearing-premium-titlewrap"><h2>'+title+'</h2><div class="hearing-premium-motto"><i></i><span>Порядок в делах — сила в праве</span><i></i></div></div><span class="task-editor-head-spacer"></span></div>'+
+    '<div class="fld task-editor-type hearing-premium-type"><label>Тип</label><div class="hearing-type-grid">'+renderHearingPremiumTypeCards(t.kind)+'</div></div>'+
+    '<div class="fld hearing-premium-field hearing-matter-field"><label>Дело (необязательно)</label><div class="hearing-select-shell"><span class="hearing-leading-icon">'+ico('folder','s')+'</span><select id="e-mid">'+opts+'</select></div></div>'+
+    '<div id="hearing-standalone" class="hearing-standalone hearing-premium-standalone">'+
+      '<div class="two hearing-party-grid hearing-premium-two">'+
+        '<div class="fld"><label>Доверитель /<br>подзащитный</label><div class="hearing-text-shell has-action"><span class="hearing-leading-icon">'+ico('user','s')+'</span><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"><button type="button" class="hearing-sidebtn" data-act="focus-field" data-target="e-hclient" aria-label="Заполнить поле">'+ico('chev','s')+'</button></div></div>'+
+        '<div class="fld"><label>№ дела / материала</label><div class="hearing-text-shell"><span class="hearing-leading-icon">'+ico('page','s')+'</span><input id="e-hnumber" placeholder="Например: 1-123/2024" value="'+esc(t.hearingNumber||'')+'"></div></div>'+
+      '</div>'+
+      '<div class="fld hearing-judge-field hearing-premium-field"><label>Судья / председательствующий</label><div class="hearing-inline-shell"><span class="hearing-leading-icon">'+ico('user','s')+'</span>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'</div><small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div>'+
+    '</div>'+
+    '<div class="two task-datetime hearing-datetime hearing-premium-datetime">'+
+      '<div class="fld"><label>Дата *</label>'+hearingPremiumDateControl('e-due',t.due||'','Выберите дату','cal')+'</div>'+
+      '<div class="fld"><label>Время *</label>'+hearingPremiumTimeControl('e-time',t.time||'','hearing','Выберите время','clock')+'</div>'+
+    '</div>'+
+    '<div class="hearing-save-divider"><i></i><span></span><i></i></div>'+
+  '</div>'+
+  '<button class="btn task-editor-save hearing-premium-save" data-act="e-save"><span class="save-icon">'+ico('save','s')+'</span>Сохранить заседание</button>'+
+  (isNew?'':'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button><button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>');
+}
+
 function drawEditor(preserveScroll){
   var previousBody=$('#sheet .shbody');
   var previousScroll=(preserveScroll&&previousBody)?previousBody.scrollTop:0;
@@ -3271,8 +3337,10 @@ function drawEditor(preserveScroll){
   var deadlineRule=t.kind==='deadline'?legalDeadlineRule(t.deadlineRuleId):null;
   var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
 
-  openSheet(
-  '<div class="task-editor-brand"><img src="scale-gold.webp?v=5175" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+  if(hearing){
+    openSheet(renderHearingPremiumEditor(t,isNew));
+  } else openSheet(
+  '<div class="task-editor-brand"><img src="scale-gold.webp?v=5180" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
   '<div class="shhead task-editor-head"><button class="task-editor-back" data-act="close" aria-label="Назад">'+ico('left')+'</button><h2>'+title+'</h2><span class="task-editor-head-spacer"></span></div>'+
   '<div class="fld task-editor-type"><label>Тип</label><div class="chips task-kind-chips">'+kinds+'</div></div>'+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div>':'')+
@@ -3304,7 +3372,7 @@ function drawEditor(preserveScroll){
   (isNew?'':((hearing||meeting||t.kind==='deadline')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
    '<button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>'));
   $('#sheet').classList.add('task-editor-sheet');
-  if(hearing) $('#sheet').classList.add('hearing-editor-sheet');
+  if(hearing){ $('#sheet').classList.add('hearing-editor-sheet'); $('#sheet').classList.add('hearing-premium-sheet'); }
   var editorSheet=$('#sheet'), editorBody=editorSheet&&editorSheet.querySelector('.shbody');
   if(editorSheet) editorSheet.scrollLeft=0;
   if(editorBody){
@@ -3351,7 +3419,7 @@ function saveTask(){
     if(!ED.time){ toast('Укажите время заседания'); openPremiumTimePicker('e-time','','hearing'); return; }
     if(!isHearingTime(ED.time)){ toast('Время заседания: с 08:00 до 18:00'); openPremiumTimePicker('e-time',ED.time,'hearing'); return; }
     if(!ED.place) syncHearingCourt(false);
-    if(!ED.place){ toast('Укажите суд / место заседания'); var pe=$('#e-place'); if(pe)pe.focus(); return; }
+    if(!ED.place && ED.mid) ED.place=hearingCourt(ED.mid)||'';
     ED.title='Судебное заседание'; ED.pri='mid'; ED.steps=[];
   }else if(meeting){
     if(!ED.title){ toast('Введите тему встречи'); var me=$('#e-title'); if(me) me.focus(); return; }
@@ -4493,6 +4561,7 @@ document.addEventListener('click', function(ev){
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
     case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
     case 'task-action-delete': closeSheet(); deleteTaskById(id); break;
+    case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
     case 'task-group': setTaskGroupOpen(v,!taskGroupOpen(v)); renderTaskList(); break;
@@ -4680,11 +4749,12 @@ document.addEventListener('change',function(e){
   if(e.target.id&&e.target.id.indexOf('e-')===0){
     pullEditor();
     if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
-      var st=$('#hearing-standalone'); if(st) st.style.display=ED.mid?'none':'';
+      var st=$('#hearing-standalone'); if(st) st.style.display='';
       if(ED.mid){
         ED.place=hearingCourt(ED.mid);
-        var pl=$('#e-place'); if(pl && ED.place) pl.value=ED.place;
         var pm=matter(ED.mid), linkedJudge=(pm&&(pm.judge||pm.investigator))||'';
+        if(pm&&pm.client&&!ED.hearingClient){ ED.hearingClient=pm.client; var hc=$('#e-hclient'); if(hc)hc.value=pm.client; }
+        if(pm&&pm.number&&!ED.hearingNumber){ ED.hearingNumber=pm.number; var hn=$('#e-hnumber'); if(hn)hn.value=pm.number; }
         if(linkedJudge){
           ED.hearingJudge=linkedJudge;
           var hj=$('#e-hjudge'); if(hj)hj.value=linkedJudge;
