@@ -30677,3 +30677,294 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.258 — PIXEL PASS STEP 3: TYPOGRAPHY + VERTICAL RHYTHM
+   Applies equally to CREATE and EDIT modes.
+   LOCKED: background, gold surfaces, icon set, field geometry, arrow geometry.
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
+  --qe-text-navy:#17345f;
+  --qe-text-value:#405674;
+  --qe-text-placeholder:#818a9d;
+  --qe-text-hint:#778298;
+}
+
+/* ---------------------------------------------------------------------
+   1. Main heading typography — same fixed geometry, cleaner optical scale.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2{
+  color:var(--qe-text-navy)!important;
+  font-size:30.5px!important;
+  line-height:.95!important;
+  letter-spacing:-.034em!important;
+  font-weight:700!important;
+}
+
+/* Deadline stays deliberately two-line but never grows the heading box. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit),
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+  font-size:21.4px!important;
+  line-height:.89!important;
+  letter-spacing:-.024em!important;
+  max-width:100%!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+}
+
+/* Edit mode: always exactly two typographic rows inside the same title slot. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit{
+  gap:0!important;
+  justify-content:center!important;
+  transform:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main{
+  font-size:21.5px!important;
+  line-height:.91!important;
+  letter-spacing:-.018em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind{
+  margin-top:1px!important;
+  font-size:20.5px!important;
+  line-height:.91!important;
+  letter-spacing:-.014em!important;
+}
+
+/* Motto: a little clearer but still discreet. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-motto span,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-motto span{
+  font-size:8.15px!important;
+  line-height:1!important;
+  letter-spacing:.165em!important;
+  font-weight:600!important;
+}
+
+/* Section "Тип" */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block h3,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-block h3{
+  color:var(--qe-text-navy)!important;
+  font-size:18px!important;
+  line-height:1.02!important;
+  margin-bottom:7px!important;
+  font-weight:700!important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Form labels — one scale and one rhythm.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld>label,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field>label{
+  color:var(--qe-text-navy)!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15.1px!important;
+  line-height:1.00!important;
+  font-weight:700!important;
+  letter-spacing:-.01em!important;
+  margin:0 0 5px!important;
+}
+
+/* Two-column party labels must fit without shrinking the rest of the form. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{
+  min-height:27px!important;
+  font-size:13.7px!important;
+  line-height:.98!important;
+  margin-bottom:4px!important;
+}
+
+/* Date / time labels get the same optical weight in both layouts. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-datetime .fld>label,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .qe192-field>label{
+  font-size:15.3px!important;
+}
+
+/* ---------------------------------------------------------------------
+   3. Field values and placeholders.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor textarea,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-premium-picker-copy b{
+  color:var(--qe-text-value)!important;
+  font-size:12.7px!important;
+  line-height:1.12!important;
+  font-weight:550!important;
+  letter-spacing:-.006em!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title{
+  font-size:13.2px!important;
+  font-weight:560!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-copy b{
+  color:var(--qe-text-value)!important;
+  font-size:12px!important;
+  line-height:1.10!important;
+  font-weight:550!important;
+  letter-spacing:-.008em!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input{
+  font-size:11.25px!important;
+}
+
+/* Placeholders: softer than entered values, but readable on the marble. */
+body.light #sheet.task-editor-sheet.qe190-sheet input::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet textarea::placeholder,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet input::placeholder{
+  color:var(--qe-text-placeholder)!important;
+  opacity:.94!important;
+  font-weight:500!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-meeting-editor #e-title::placeholder{
+  color:#8790a2!important;
+  opacity:.91!important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Helper text / hints.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fieldhint,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .deadline-calc-footnote{
+  color:var(--qe-text-hint)!important;
+  font-size:8.45px!important;
+  line-height:1.16!important;
+  font-weight:500!important;
+  letter-spacing:-.005em!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint{
+  margin:3px 2px 0!important;
+}
+
+/* ---------------------------------------------------------------------
+   5. Vertical rhythm — enough air, no unnecessary stretching.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.fld{
+  margin-bottom:9px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-judge-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-court-field{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-datetime,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime{
+  gap:8px!important;
+}
+
+/* ---------------------------------------------------------------------
+   6. Quick-date chips.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates{
+  margin-top:1px!important;
+  margin-bottom:8px!important;
+  gap:6px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip{
+  min-height:29px!important;
+  height:29px!important;
+  padding:0 6px!important;
+  font-size:9.75px!important;
+  line-height:1!important;
+  font-weight:650!important;
+  letter-spacing:.005em!important;
+}
+
+/* ---------------------------------------------------------------------
+   7. Priority — same typographic family as quick dates.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-field{
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips{
+  gap:7px!important;
+  margin-bottom:5px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip{
+  min-height:31px!important;
+  height:31px!important;
+  padding:0 9px!important;
+  font-size:10.2px!important;
+  line-height:1!important;
+  font-weight:650!important;
+  letter-spacing:.002em!important;
+}
+
+/* ---------------------------------------------------------------------
+   8. Notes / long text fields.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor{
+  min-height:62px!important;
+  height:62px!important;
+  padding-top:11px!important;
+  padding-bottom:9px!important;
+  line-height:1.18!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-icon{
+  top:12px!important;
+}
+
+/* ---------------------------------------------------------------------
+   9. Deadline calculator typography — same system, no redesign of logic.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title b{
+  color:var(--qe-text-navy)!important;
+  font-size:15.8px!important;
+  line-height:1.02!important;
+  letter-spacing:-.012em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title small{
+  color:var(--qe-text-hint)!important;
+  font-size:9.25px!important;
+  line-height:1.12!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-premium-status b{
+  font-size:11.7px!important;
+  line-height:1.08!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-premium-status small{
+  font-size:9.1px!important;
+  line-height:1.10!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .fld>label{
+  font-size:14.7px!important;
+  line-height:1.00!important;
+  margin-bottom:5px!important;
+}
+
+/* ---------------------------------------------------------------------
+   10. Mobile safety for the long deadline heading.
+   Keep it below the iOS status zone without moving the whole design.
+   --------------------------------------------------------------------- */
+@media(max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit),
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+    font-size:21px!important;
+    line-height:.89!important;
+  }
+}
+
+/* LOCKS — Step 3 must not repaint the approved visual assets. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
