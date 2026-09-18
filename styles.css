@@ -31391,3 +31391,62 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.262 — STEP 4 FINAL MICRO-PASS FROM REAL IPHONE SCREENSHOTS
+   Only geometry / spacing. All visual materials remain LOCKED.
+   ===================================================================== */
+
+/* Task + meeting had slightly more air than the approved mockup between
+   "Дело / доверитель" and the Date / Time row. Tighten only this transition. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-task-editor>.editor-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-meeting-editor>.editor-select-field{
+  margin-bottom:6px!important;
+}
+
+/* Keep the date/time row visually anchored immediately after the matter block. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-task-editor>.editor-select-field + .task-datetime,
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-meeting-editor>.editor-select-field + .task-datetime{
+  margin-top:0!important;
+}
+
+/* Hearing: keep helper text attached to its own field, while preserving a
+   clean separation before the next label. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-judge-field .qe192-hint,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-court-field .qe192-hint{
+  margin-bottom:1px!important;
+}
+
+/* Deadline: keep calculator as a single block aligned to the same vertical rhythm. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor>.editor-select-field{
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor .deadline-calculator{
+  margin-top:0!important;
+}
+
+/* Divider rhythm is fixed and identical across the four types. */
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-save-divider,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-divider{
+  margin-top:7px!important;
+  margin-bottom:7px!important;
+}
+
+/* LOCKS */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
