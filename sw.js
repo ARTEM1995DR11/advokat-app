@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v59-premium-5229';
+const CACHE = 'advokat-iphone-offline-v59-premium-5230';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5229',
-  './app.js?v=5229',
-  './manifest.webmanifest?v=5229',
+  './styles.css?v=5230',
+  './app.js?v=5230',
+  './manifest.webmanifest?v=5230',
   './VERSION.txt',
 
   './premium-icon-180.png',
@@ -18,32 +18,32 @@ const CORE = [
   './bg-cal-marble-calendar.webp',
   './bg-more-marble-office.webp',
 
-  './scale-gold.webp?v=5229',
-  './quick-sheet-mobile-approved-v5211.webp?v=5229',
-  './quick-sheet-marble-approved.webp?v=5229',
-  './columns-light.png?v=5229',
+  './scale-gold.webp?v=5230',
+  './quick-sheet-mobile-approved-v5211.webp?v=5230',
+  './quick-sheet-marble-approved.webp?v=5230',
+  './columns-light.png?v=5230',
 
-  './header-bell-premium.png?v=5229',
-  './header-search-premium.png?v=5229',
-  './global-search-head-motif-v173.png?v=5229',
-  './fab-plus-square-premium.png?v=5229',
+  './header-bell-premium.png?v=5230',
+  './header-search-premium.png?v=5230',
+  './global-search-head-motif-v173.png?v=5230',
+  './fab-plus-square-premium.png?v=5230',
 
   './nav-panel-light.png',
-  './nav-active-base.png?v=5229',
-  './nav-active-today.png?v=5229',
-  './nav-active-tasks.png?v=5229',
-  './nav-active-cases.png?v=5229',
-  './nav-active-calendar.png?v=5229',
-  './nav-active-more.png?v=5229',
+  './nav-active-base.png?v=5230',
+  './nav-active-today.png?v=5230',
+  './nav-active-tasks.png?v=5230',
+  './nav-active-cases.png?v=5230',
+  './nav-active-calendar.png?v=5230',
+  './nav-active-more.png?v=5230',
 
-  './reminder-head-motif-exact.png?v=5229',
-  './reminder-footer-scales-exact.png?v=5229',
+  './reminder-head-motif-exact.png?v=5230',
+  './reminder-footer-scales-exact.png?v=5230',
 
-  './quick-card-task-v5100.png?v=5229',
-  './quick-card-hearing-v5100.png?v=5229',
-  './quick-card-meeting-v5100.png?v=5229',
-  './quick-card-deadline-v5100.png?v=5229',
-  './quick-card-journal-v5100.png?v=5229'
+  './quick-card-task-v5100.png?v=5230',
+  './quick-card-hearing-v5100.png?v=5230',
+  './quick-card-meeting-v5100.png?v=5230',
+  './quick-card-deadline-v5100.png?v=5230',
+  './quick-card-journal-v5100.png?v=5230'
 ];
 
 self.addEventListener('install', event => {

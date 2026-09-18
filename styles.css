@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.229 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.230 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.229 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.229.
+   5.0.230 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.230.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.229 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.230 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.229 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.230 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.229 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.230 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.229 — STARTUP PAINT STABILITY
+   5.0.230 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5229')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5230')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27869,4 +27869,69 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 .qe190-brand img{
   transform:translateZ(0);
   backface-visibility:hidden;
+}
+
+
+/* =====================================================================
+   5.0.230 — TYPE CARD TYPOGRAPHY BALANCE
+   On iPhone the active hearing card title looked optically smaller than
+   the other type buttons. Increase and rebalance the title/subtitle,
+   and give the hearing title a tiny optical bump so all four cards feel
+   equal in visual weight.
+   ===================================================================== */
+#sheet.qe190-sheet .qe190-type-copy b{
+  font-size:15.6px!important;
+  line-height:1.00!important;
+  letter-spacing:-.018em!important;
+}
+#sheet.qe190-sheet .qe190-type-copy small{
+  font-size:9.4px!important;
+  line-height:1.06!important;
+}
+#sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b{
+  font-size:16.2px!important;
+  letter-spacing:-.015em!important;
+}
+#sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small{
+  font-size:9.6px!important;
+}
+#sheet.qe190-sheet .qe190-type-card{
+  align-items:center!important;
+}
+#sheet.qe190-sheet .qe190-type-copy{
+  display:flex!important;
+  min-height:100%!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+}
+
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:17.1px!important;
+  line-height:1.00!important;
+  letter-spacing:-.017em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{
+  font-size:10.8px!important;
+  line-height:1.06!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{
+  font-size:17.8px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small{
+  font-size:10.9px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
+  display:flex!important;
+  min-height:100%!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+}
+
+@media(max-width:390px){
+  #sheet.qe190-sheet .qe190-type-copy b{font-size:15px!important}
+  #sheet.qe190-sheet .qe190-type-copy small{font-size:9.2px!important}
+  #sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b{font-size:15.6px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{font-size:16.2px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{font-size:10.1px!important}
+  body.light #sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{font-size:16.8px!important}
 }
