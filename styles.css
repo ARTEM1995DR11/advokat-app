@@ -31661,3 +31661,121 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.265 — POST-AUDIT PREMIUM REFINEMENT
+   Remaining differences vs approved mockup:
+   - dedicated legal icon family polish;
+   - cream/glass field material;
+   - secondary quick-date/priority controls;
+   - optical balance of the long deadline heading.
+   Geometry/background/gold active surfaces remain locked.
+   ===================================================================== */
+
+/* 1. Dedicated icon family: same optical language across all quick-entry forms. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon .ico{
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+  stroke-width:1.78!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-judge .ico{
+  width:21px!important;height:21px!important;stroke-width:1.72!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court .ico{
+  width:21px!important;height:21px!important;stroke-width:1.68!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-number .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon .ico{
+  stroke-width:1.72!important;
+}
+
+/* 2. White fields: subtle ivory depth / inner highlight like the approved mockup. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor textarea,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor select,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-premium-picker,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-shell,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  background:linear-gradient(180deg,rgba(255,255,255,.975) 0%,rgba(255,253,248,.96) 54%,rgba(249,245,236,.94) 100%)!important;
+  box-shadow:
+    inset 0 1.2px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(196,158,87,.075),
+    0 4px 10px rgba(79,52,18,.045)!important;
+}
+
+/* Select/input wrappers own the material; keep nested raw controls transparent. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-shell input,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-shell textarea,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control select,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control .inline-choice-wrap>input{
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* 3. Circular arrow buttons: tiny pearl centre + restrained gold edge. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-picker-tail,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail{
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(250,244,231,.96))!important;
+  border-color:rgba(181,133,48,.48)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 6px rgba(104,72,25,.07)!important;
+}
+
+/* 4. Quick dates: less flat, but intentionally secondary to the main cards. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip{
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(249,246,239,.94))!important;
+  border:1px solid rgba(184,148,83,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 5px rgba(75,50,17,.035)!important;
+  color:#425674!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip:active{
+  transform:none!important;
+  background:linear-gradient(180deg,rgba(255,252,244,.98),rgba(245,238,224,.96))!important;
+}
+
+/* 5. Priority: premium secondary surface; selected state receives controlled gold. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip{
+  background:linear-gradient(180deg,rgba(255,255,255,.965),rgba(249,246,239,.95))!important;
+  border:1px solid rgba(184,148,83,.28)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 5px rgba(75,50,17,.035)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip.on{
+  background:linear-gradient(180deg,#f9dd79 0%,#efc44e 52%,#e5ae2d 100%)!important;
+  border-color:rgba(166,111,17,.62)!important;
+  box-shadow:inset 0 1px 0 rgba(255,248,202,.88),0 3px 7px rgba(115,78,19,.10)!important;
+}
+
+/* 6. Deadline heading: same optical authority as the other three, still exactly two lines. */
+@media(max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+    font-size:21.6px!important;
+    line-height:.88!important;
+    letter-spacing:-.027em!important;
+  }
+}
+
+/* LOCKS: approved background + gold surfaces + geometry remain untouched. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
