@@ -25117,3 +25117,293 @@ body.light #sheet.qe192-hearing-sheet .qe192-leading .ico{
   #sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
   body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{font-size:12.4px!important}
 }
+
+
+/* =====================================================================
+   5.0.201 — FINAL STATIC TOP + REAL BACKGROUND RESTORE
+   The same top skeleton is used by all four quick-entry states.
+   ===================================================================== */
+
+/* Real app background on the whole sheet. Keep it on the sheet itself so
+   no pseudo-layer or re-render can accidentally hide the columns. */
+body.light #sheet.sheet.qe190-sheet,
+body.light #sheet.sheet.qe192-hearing-sheet{
+  background-color:#f7efe3!important;
+  background-image:
+    linear-gradient(90deg,rgba(255,253,249,.58) 0%,rgba(255,253,249,.46) 45%,rgba(255,253,249,.18) 73%,rgba(255,253,249,.06) 100%),
+    url('columns-light.png?v=5201'),
+    url('quick-sheet-marble-approved.webp?v=5201')!important;
+  background-repeat:no-repeat,no-repeat,no-repeat!important;
+  background-position:center center,right center,center top!important;
+  background-size:100% 100%,auto 100%,cover!important;
+  background-attachment:scroll,scroll,scroll!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
+}
+body.light #sheet.sheet.qe190-sheet::before,
+body.light #sheet.sheet.qe190-sheet::after,
+body.light #sheet.sheet.qe192-hearing-sheet::before,
+body.light #sheet.sheet.qe192-hearing-sheet::after{
+  content:none!important;
+  display:none!important;
+}
+body.light #sheet.qe190-sheet>.shbody,
+body.light #sheet.qe190-sheet>.shfoot,
+body.light #sheet.qe192-hearing-sheet>.shbody,
+body.light #sheet.qe192-hearing-sheet>.shfoot{
+  position:relative!important;
+  z-index:1!important;
+  background:transparent!important;
+}
+
+/* One identical content width/padding for every selected type. */
+body.light #sheet.qe190-sheet.withfoot>.shbody,
+body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{
+  padding-top:max(8px,calc(env(safe-area-inset-top,0px) - 7px))!important;
+  padding-left:22px!important;
+  padding-right:22px!important;
+}
+#sheet.qe190-sheet .qe190-top,
+body.light #sheet.qe192-hearing-sheet .qe190-top{
+  width:100%!important;
+  max-width:760px!important;
+  margin:0 auto 13px!important;
+  padding:0!important;
+}
+
+/* Brand: fixed height and size. */
+#sheet.qe190-sheet .qe190-brand,
+body.light #sheet.qe192-hearing-sheet .qe190-brand{
+  height:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  gap:11px!important;
+}
+#sheet.qe190-sheet .qe190-brand img,
+body.light #sheet.qe192-hearing-sheet .qe190-brand img{
+  width:39px!important;height:39px!important;flex:0 0 39px!important;
+}
+#sheet.qe190-sheet .qe190-brand-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy b{
+  font-size:20px!important;line-height:1.02!important;letter-spacing:-.018em!important;
+}
+#sheet.qe190-sheet .qe190-brand-copy small,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy small{
+  margin-top:2px!important;font-size:11px!important;line-height:1.12!important;
+}
+#sheet.qe190-sheet .qe190-brand-rule,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-rule{
+  width:calc(100% - 102px)!important;
+  height:9px!important;
+  margin:7px auto 9px!important;
+  gap:10px!important;
+}
+
+/* Fixed title area. The type block therefore begins at the same Y for all 4. */
+#sheet.qe190-sheet .qe190-heading,
+body.light #sheet.qe192-hearing-sheet .qe190-heading{
+  position:relative!important;
+  width:100%!important;
+  height:82px!important;
+  min-height:82px!important;
+  max-height:82px!important;
+  margin:0 0 7px!important;
+  padding:0 48px!important;
+  display:block!important;
+  overflow:visible!important;
+}
+#sheet.qe190-sheet .qe190-heading-center,
+body.light #sheet.qe192-hearing-sheet .qe190-heading-center{
+  width:100%!important;
+  height:82px!important;
+  min-height:82px!important;
+  display:grid!important;
+  grid-template-rows:50px 22px!important;
+  align-content:start!important;
+  justify-items:center!important;
+  text-align:center!important;
+}
+#sheet.qe190-sheet .qe190-back,
+body.light #sheet.qe192-hearing-sheet .qe190-back{
+  position:absolute!important;
+  left:0!important;
+  top:3px!important;
+  width:43px!important;height:43px!important;min-width:43px!important;min-height:43px!important;
+  border-radius:14px!important;
+  z-index:3!important;
+}
+#sheet.qe190-sheet .qe190-back .ico,
+body.light #sheet.qe192-hearing-sheet .qe190-back .ico{width:20px!important;height:20px!important}
+#sheet.qe190-sheet .qe190-heading h2,
+body.light #sheet.qe192-hearing-sheet .qe190-heading h2{
+  align-self:center!important;
+  justify-self:center!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  color:#12356a!important;
+  font-size:30px!important;
+  line-height:1!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+/* The long deadline title uses the same 50px title row, only smaller/two-line. */
+#sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+#sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{
+  width:100%!important;
+  max-width:100%!important;
+  font-size:22px!important;
+  line-height:.93!important;
+  letter-spacing:-.025em!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+}
+#sheet.qe190-sheet .qe190-motto,
+body.light #sheet.qe192-hearing-sheet .qe190-motto{
+  align-self:start!important;
+  width:min(100%,520px)!important;
+  height:18px!important;
+  margin:3px auto 0!important;
+  grid-template-columns:minmax(18px,46px) auto minmax(18px,46px)!important;
+  gap:8px!important;
+}
+#sheet.qe190-sheet .qe190-motto span,
+body.light #sheet.qe192-hearing-sheet .qe190-motto span{
+  font-size:7.9px!important;
+  line-height:1.05!important;
+  letter-spacing:.17em!important;
+  white-space:nowrap!important;
+}
+
+/* Identical type block/card geometry in every state. */
+#sheet.qe190-sheet .qe190-type-block,
+body.light #sheet.qe192-hearing-sheet .qe190-type-block{margin:0!important;padding:0!important}
+#sheet.qe190-sheet .qe190-type-block h3,
+body.light #sheet.qe192-hearing-sheet .qe190-type-block h3{
+  margin:0 0 8px!important;
+  font-size:17px!important;
+  line-height:1.05!important;
+}
+#sheet.qe190-sheet .qe190-type-grid,
+body.light #sheet.qe192-hearing-sheet .qe190-type-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:9px 10px!important;
+  width:100%!important;
+}
+#sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.qe192-hearing-sheet .qe190-type-card{
+  width:100%!important;
+  height:62px!important;
+  min-height:62px!important;
+  max-height:62px!important;
+  padding:8px 9px!important;
+  gap:8px!important;
+  border-radius:16px!important;
+  overflow:hidden!important;
+}
+#sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon{
+  width:31px!important;height:31px!important;flex:0 0 31px!important;
+}
+#sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:24px!important;height:24px!important;
+}
+#sheet.qe190-sheet .qe190-type-copy,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+#sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:14px!important;
+  line-height:1!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+}
+#sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{
+  margin-top:3px!important;
+  font-size:8.2px!important;
+  line-height:1.06!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+}
+#sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  font-size:12.1px!important;
+  line-height:.95!important;
+  white-space:normal!important;
+}
+
+/* Hearing form uses the same control scale as standard task/meeting fields. */
+body.light #sheet.qe192-hearing-sheet .qe192-form{margin-top:0!important;width:100%!important}
+body.light #sheet.qe192-hearing-sheet .qe192-field{margin-bottom:10px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-field>label{
+  margin-bottom:5px!important;
+  font-size:15px!important;
+  line-height:1.08!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{
+  min-height:31px!important;
+  font-size:14px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  height:50px!important;
+  min-height:50px!important;
+  border-radius:15px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  right:5px!important;
+  width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+}
+
+@media(max-width:430px){
+  body.light #sheet.qe190-sheet.withfoot>.shbody,
+  body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{
+    padding-top:max(7px,calc(env(safe-area-inset-top,0px) - 8px))!important;
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+  #sheet.qe190-sheet .qe190-brand img,
+  body.light #sheet.qe192-hearing-sheet .qe190-brand img{width:37px!important;height:37px!important;flex-basis:37px!important}
+  #sheet.qe190-sheet .qe190-brand-copy b,
+  body.light #sheet.qe192-hearing-sheet .qe190-brand-copy b{font-size:18.7px!important}
+  #sheet.qe190-sheet .qe190-brand-copy small,
+  body.light #sheet.qe192-hearing-sheet .qe190-brand-copy small{font-size:10.3px!important}
+  #sheet.qe190-sheet .qe190-heading,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading{height:80px!important;min-height:80px!important;max-height:80px!important;padding:0 46px!important}
+  #sheet.qe190-sheet .qe190-heading-center,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading-center{height:80px!important;min-height:80px!important;grid-template-rows:49px 21px!important}
+  #sheet.qe190-sheet .qe190-heading h2,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading h2{font-size:28.5px!important}
+  #sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+  #sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{font-size:20.5px!important;line-height:.93!important}
+  #sheet.qe190-sheet .qe190-back,
+  body.light #sheet.qe192-hearing-sheet .qe190-back{width:41px!important;height:41px!important;min-width:41px!important;min-height:41px!important}
+  #sheet.qe190-sheet .qe190-type-card,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-card{height:60px!important;min-height:60px!important;max-height:60px!important}
+  #sheet.qe190-sheet .qe190-type-icon,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon{width:30px!important;height:30px!important;flex-basis:30px!important}
+  #sheet.qe190-sheet .qe190-type-icon .ico,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{width:23px!important;height:23px!important}
+  #sheet.qe190-sheet .qe190-type-copy b,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{font-size:13.5px!important}
+  #sheet.qe190-sheet .qe190-type-copy small,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{font-size:7.9px!important}
+  #sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{font-size:11.7px!important}
+}
