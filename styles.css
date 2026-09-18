@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.236 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.238 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.236 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.236.
+   5.0.238 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.238.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.236 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.238 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.236 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.238 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.236 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.238 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.236 — STARTUP PAINT STABILITY
+   5.0.238 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5236')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5238')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27873,7 +27873,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 
 
 /* =====================================================================
-   5.0.236 — TYPE CARD TYPOGRAPHY BALANCE
+   5.0.238 — TYPE CARD TYPOGRAPHY BALANCE
    On iPhone the active hearing card title looked optically smaller than
    the other type buttons. Increase and rebalance the title/subtitle,
    and give the hearing title a tiny optical bump so all four cards feel
@@ -27938,7 +27938,7 @@ body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
 
 
 /* =====================================================================
-   5.0.236 — darker gold premium glow + reflective highlight
+   5.0.238 — darker gold premium glow + reflective highlight
    Goal: match the approved mockup more closely: less lemon, more rich gold,
    deeper shadow and visible glossy top reflection on active type cards and
    the bottom save button.
@@ -28029,7 +28029,7 @@ body.light #sheet.entry-premium-sheet .task-editor-save::after{
 
 
 /* =====================================================================
-   5.0.236 — equalize “Заседание” title + remove white square corners
+   5.0.238 — equalize “Заседание” title + remove white square corners
    ===================================================================== */
 
 /* 1) Hearing type card title looked visually smaller than neighbors.
@@ -28110,7 +28110,7 @@ body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap>i
 
 
 /* =====================================================================
-   5.0.236 — FINAL DEVICE OVERRIDE
+   5.0.238 — FINAL DEVICE OVERRIDE
    Visible only after the new shell is really loaded.
    ===================================================================== */
 
@@ -28175,7 +28175,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field{
 
 
 /* =====================================================================
-   5.0.236 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
+   5.0.238 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
    ===================================================================== */
 
 /* 1) EXACT SAME title font on all 4 cards. No special hearing size. */
@@ -28311,7 +28311,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-
 
 
 /* =====================================================================
-   5.0.236 — FOUR TYPE TITLES: SAME FONT SIZE, DEADLINE FITS IN TWO LINES
+   5.0.238 — FOUR TYPE TITLES: SAME FONT SIZE, DEADLINE FITS IN TWO LINES
    ===================================================================== */
 
 /* One factual typographic rule for ALL four buttons. */
@@ -28409,37 +28409,100 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe
 
 
 /* =====================================================================
-   5.0.236 — APPROVED MOCKUP GOLD
-   Darker amber-gold + restrained reflective highlight.
-   Applied to every selected TYPE card and to the SAVE button.
+   5.0.238 — EMPTY TIME ICON FIX + MOCKUP GOLD
    ===================================================================== */
 
-/* Selected type: same gold for Task / Hearing / Meeting / Deadline */
+/* iOS inherited the old generic `.empty .ico { opacity:.35; margin-bottom:14px }`
+   rule. This made the empty time icon pale and optically shifted.
+   Empty date/time icons must keep the same position and gold tone as filled ones. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.hearing-premium-picker.empty .hearing-premium-picker-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.hearing-premium-picker.empty .hearing-premium-picker-icon .ico{
+  opacity:1!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.hearing-premium-picker.empty .hearing-premium-picker-icon .ico{
+  margin:0!important;
+  color:#9a6514!important;
+  stroke:#9a6514!important;
+  width:19px!important;
+  height:19px!important;
+  stroke-width:1.8!important;
+}
+
+/* Same protection for empty premium time/date icons in task/meeting/deadline. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-date-field.empty .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-time-field.empty .ico{
+  opacity:1!important;
+  margin:0!important;
+  color:#9a6514!important;
+  stroke:#9a6514!important;
+}
+
+/* Approved mockup gold:
+   deeper amber body + soft reflective top highlight, less lemon-yellow glow. */
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
   position:relative!important;
   overflow:hidden!important;
-  border:1px solid #b97913!important;
+  border-color:#a96f13!important;
   background:
-    linear-gradient(180deg,
-      #f1cf72 0%,
-      #e6b54a 34%,
-      #d79b2d 68%,
-      #c7831d 100%)!important;
+    radial-gradient(115% 64% at 18% -6%,rgba(255,252,224,.62) 0%,rgba(255,247,197,.22) 38%,transparent 64%),
+    radial-gradient(48% 84% at 96% 5%,rgba(255,239,163,.34) 0%,transparent 62%),
+    linear-gradient(180deg,#f3ce6a 0%,#dfa93a 48%,#c27b17 100%)!important;
   box-shadow:
-    0 0 0 1px rgba(255,241,191,.78),
-    0 5px 12px rgba(116,70,8,.19),
-    0 12px 22px rgba(116,70,8,.09),
-    inset 0 1px 0 rgba(255,255,255,.54),
-    inset 0 -1px 0 rgba(105,60,4,.20)!important;
+    0 0 0 1px rgba(255,230,150,.76),
+    0 7px 16px rgba(109,67,7,.17),
+    inset 0 1px 0 rgba(255,252,229,.88),
+    inset 0 -2px 0 rgba(103,57,2,.16)!important;
 }
-
-/* Broad glossy reflection — like the approved mockup, not a white haze */
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::before,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::before{
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::after{
   content:''!important;
   position:absolute!important;
-  z-index:1!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.24) 0%,rgba(255,255,255,.07) 25%,transparent 47%),
+    radial-gradient(31% 28% at 20% 4%,rgba(255,255,238,.42) 0%,transparent 76%),
+    radial-gradient(20% 26% at 90% 8%,rgba(255,244,191,.34) 0%,transparent 78%)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy b{
+  color:#2d2008!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy small{
+  color:#5c4315!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#704506!important;
+}
+
+/* Save button uses exactly the same darker reflective gold language. */
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  position:relative!important;
+  overflow:hidden!important;
+  border-color:#a96f13!important;
+  background:
+    radial-gradient(118% 65% at 17% -5%,rgba(255,252,225,.58) 0%,rgba(255,247,197,.20) 39%,transparent 65%),
+    radial-gradient(42% 84% at 96% 6%,rgba(255,238,158,.30) 0%,transparent 64%),
+    linear-gradient(180deg,#f4cf6d 0%,#dea637 49%,#bd7515 100%)!important;
+  box-shadow:
+    0 0 0 1px rgba(255,229,145,.78),
+    0 9px 18px rgba(104,63,5,.18),
+    inset 0 1px 0 rgba(255,253,232,.90),
+    inset 0 -2px 0 rgba(96,51,1,.18)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save::before{
+  content:''!important;
+  position:absolute!important;
   left:2.5%!important;
   right:2.5%!important;
   top:2px!important;
@@ -28447,136 +28510,129 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
   border-radius:999px!important;
   pointer-events:none!important;
   background:
-    linear-gradient(180deg,
-      rgba(255,251,224,.43) 0%,
-      rgba(255,246,205,.20) 46%,
-      rgba(255,255,255,0) 100%)!important;
-  opacity:1!important;
+    linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.07) 56%,transparent 100%),
+    radial-gradient(34% 85% at 12% 0%,rgba(255,255,238,.46) 0%,transparent 76%)!important;
 }
-
-/* Small gold glints at the upper edge */
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::after,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::after{
-  content:''!important;
-  position:absolute!important;
-  z-index:1!important;
-  inset:0!important;
-  pointer-events:none!important;
-  background:
-    radial-gradient(ellipse 16% 20% at 13% 3%,
-      rgba(255,250,208,.68) 0%,
-      rgba(255,236,164,.30) 34%,
-      rgba(255,225,118,0) 72%),
-    radial-gradient(ellipse 13% 17% at 90% 4%,
-      rgba(255,252,220,.64) 0%,
-      rgba(255,231,145,.24) 36%,
-      rgba(255,221,104,0) 72%),
-    linear-gradient(105deg,
-      rgba(255,255,255,0) 22%,
-      rgba(255,244,199,.12) 41%,
-      rgba(255,255,255,0) 59%)!important;
-}
-
-/* Keep text/icon above the reflection */
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy{
-  position:relative!important;
-  z-index:2!important;
-}
-
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  background:transparent!important;
-  border-color:transparent!important;
-  box-shadow:none!important;
-  color:#744807!important;
-}
-
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy b,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy b{
-  color:#382407!important;
-  text-shadow:0 1px 0 rgba(255,244,196,.30)!important;
-}
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy small,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy small{
-  color:#634715!important;
-}
-
-/* SAVE button: same approved darker gold family */
-body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
-  position:relative!important;
-  overflow:hidden!important;
-  border:1px solid #b97913!important;
-  background:
-    linear-gradient(180deg,
-      #f1cf72 0%,
-      #e6b54a 34%,
-      #d79b2d 68%,
-      #c7831d 100%)!important;
-  color:#261a08!important;
-  text-shadow:0 1px 0 rgba(255,243,193,.32)!important;
-  box-shadow:
-    0 0 0 1px rgba(255,241,191,.78),
-    0 7px 16px rgba(116,70,8,.19),
-    0 15px 26px rgba(116,70,8,.10),
-    inset 0 1px 0 rgba(255,255,255,.54),
-    inset 0 -1px 0 rgba(105,60,4,.20)!important;
-}
-
-body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save::before,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save::before{
-  content:''!important;
-  position:absolute!important;
-  z-index:1!important;
-  left:2%!important;
-  right:2%!important;
-  top:2px!important;
-  height:42%!important;
-  border-radius:999px!important;
-  pointer-events:none!important;
-  background:
-    linear-gradient(180deg,
-      rgba(255,251,224,.46) 0%,
-      rgba(255,246,205,.20) 48%,
-      rgba(255,255,255,0) 100%)!important;
-}
-
-body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save::after,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save::after{
   content:''!important;
   position:absolute!important;
-  z-index:1!important;
-  inset:0!important;
+  right:5%!important;
+  top:5%!important;
+  width:23%!important;
+  height:30%!important;
   pointer-events:none!important;
-  background:
-    radial-gradient(ellipse 11% 22% at 10% 3%,
-      rgba(255,251,214,.72) 0%,
-      rgba(255,232,146,.24) 42%,
-      rgba(255,221,101,0) 72%),
-    radial-gradient(ellipse 10% 20% at 91% 3%,
-      rgba(255,251,214,.70) 0%,
-      rgba(255,232,146,.24) 42%,
-      rgba(255,221,101,0) 72%),
-    linear-gradient(100deg,
-      rgba(255,255,255,0) 26%,
-      rgba(255,243,194,.10) 47%,
-      rgba(255,255,255,0) 64%)!important;
+  background:radial-gradient(ellipse at center,rgba(255,245,192,.34),transparent 72%)!important;
 }
 
-body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save > *,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save > *{
-  position:relative!important;
-  z-index:2!important;
+
+/* =====================================================================
+   5.0.238 — TYPE SELECTION CHANGES COLOR ONLY, NEVER LAYOUT
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card:active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:active,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card:focus,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:focus,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  transform:none!important;
+  outline:none!important;
+  padding:0!important;
+  height:61px!important;
+  min-height:61px!important;
+  max-height:61px!important;
+  border-radius:16px!important;
 }
 
-/* Pressed state: darker, no extra flash */
-body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:active,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:active,
-body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active,
-body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
-  filter:brightness(.97)!important;
-  transform:translateY(1px)!important;
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  position:absolute!important;
+  left:12px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:29px!important;
+  height:29px!important;
+  min-width:29px!important;
+  min-height:29px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  z-index:3!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card .qe190-type-icon .ico{
+  width:27px!important;
+  height:27px!important;
+  margin:0!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-task .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-meeting .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-task .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-meeting .qe190-type-copy{
+  position:absolute!important;
+  left:46px!important;
+  right:7px!important;
+  top:50%!important;
+  width:auto!important;
+  max-width:none!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translateY(-50%)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  z-index:3!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy{
+  position:absolute!important;
+  left:39px!important;
+  right:1px!important;
+  top:50%!important;
+  width:auto!important;
+  max-width:none!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translateY(-50%)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  z-index:3!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#704506!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-task .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-meeting .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-task .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-meeting .qe190-type-copy{left:44px!important;right:5px!important}
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy{left:37px!important;right:0!important}
 }

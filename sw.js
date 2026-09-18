@@ -1,55 +1,50 @@
-const CACHE = 'advokat-iphone-offline-v63-premium-5236';
+const CACHE = 'advokat-iphone-offline-v65-premium-5238';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5236',
-  './app.js?v=5236',
-  './manifest.webmanifest?v=5236',
+  './styles.css?v=5238',
+  './app.js?v=5238',
+  './manifest.webmanifest?v=5238',
   './VERSION.txt',
-
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
-
   './bg-today-desk.webp',
   './bg-tasks-planner.webp',
   './bg-matters-folders.webp',
   './bg-cal-marble-calendar.webp',
   './bg-more-marble-office.webp',
-
-  './scale-gold.webp?v=5236',
-  './quick-sheet-mobile-approved-v5211.webp?v=5236',
-  './quick-sheet-marble-approved.webp?v=5236',
-  './columns-light.png?v=5236',
-
-  './header-bell-premium.png?v=5236',
-  './header-search-premium.png?v=5236',
-  './global-search-head-motif-v173.png?v=5236',
-  './fab-plus-square-premium.png?v=5236',
-
+  './scale-gold.webp?v=5238',
+  './quick-sheet-mobile-approved-v5211.webp?v=5238',
+  './quick-sheet-marble-approved.webp?v=5238',
+  './columns-light.png?v=5238',
+  './header-bell-premium.png?v=5238',
+  './header-search-premium.png?v=5238',
+  './global-search-head-motif-v173.png?v=5238',
+  './fab-plus-square-premium.png?v=5238',
   './nav-panel-light.png',
-  './nav-active-base.png?v=5236',
-  './nav-active-today.png?v=5236',
-  './nav-active-tasks.png?v=5236',
-  './nav-active-cases.png?v=5236',
-  './nav-active-calendar.png?v=5236',
-  './nav-active-more.png?v=5236',
-
-  './reminder-head-motif-exact.png?v=5236',
-  './reminder-footer-scales-exact.png?v=5236',
-
-  './quick-card-task-v5100.png?v=5236',
-  './quick-card-hearing-v5100.png?v=5236',
-  './quick-card-meeting-v5100.png?v=5236',
-  './quick-card-deadline-v5100.png?v=5236',
-  './quick-card-journal-v5100.png?v=5236'
+  './nav-active-base.png?v=5238',
+  './nav-active-today.png?v=5238',
+  './nav-active-tasks.png?v=5238',
+  './nav-active-cases.png?v=5238',
+  './nav-active-calendar.png?v=5238',
+  './nav-active-more.png?v=5238',
+  './reminder-head-motif-exact.png?v=5238',
+  './reminder-footer-scales-exact.png?v=5238',
+  './quick-card-task-v5100.png?v=5238',
+  './quick-card-hearing-v5100.png?v=5238',
+  './quick-card-meeting-v5100.png?v=5238',
+  './quick-card-deadline-v5100.png?v=5238',
+  './quick-card-journal-v5100.png?v=5238'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache => cache.addAll(CORE))
+      .then(cache => Promise.all(
+        CORE.map(url => cache.add(url).catch(() => null))
+      ))
       .then(() => self.skipWaiting())
   );
 });
@@ -63,20 +58,14 @@ self.addEventListener('activate', event => {
           .map(key => caches.delete(key))
       ))
       .then(() => self.clients.claim())
-      .then(() => self.clients.matchAll({type:'window', includeUncontrolled:true}))
-      .then(clients => Promise.all(clients.map(client => {
-        try {
-          const u = new URL(client.url);
-          if(u.origin === self.location.origin) return client.navigate(client.url);
-        } catch(e) {}
-        return Promise.resolve();
-      })))
   );
 });
 
-function updateInBackground(req, cache) {
+function refreshSilently(req, cache, key){
   fetch(req, {cache:'no-store'}).then(response => {
-    if(response && response.ok) cache.put(req, response.clone());
+    if(response && response.ok){
+      cache.put(key || req, response.clone()).catch(() => {});
+    }
   }).catch(() => {});
 }
 
@@ -87,28 +76,28 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;
 
-  const critical =
-    req.mode === 'navigate' ||
-    /\/(?:app\.js|styles\.css|manifest\.webmanifest)$/.test(url.pathname);
-
-  if(critical){
+  /* Instant PWA launch: never wait for the network before showing the shell. */
+  if(req.mode === 'navigate'){
     event.respondWith(
-      fetch(req, {cache:'no-store'})
-        .then(response => {
-          if(response && response.ok){
-            caches.open(CACHE).then(cache => cache.put(req, response.clone())).catch(() => {});
+      caches.open(CACHE).then(cache =>
+        cache.match('./index.html').then(cached => {
+          if(cached){
+            refreshSilently(req, cache, './index.html');
+            return cached;
           }
-          return response;
+          return fetch(req).then(response => {
+            if(response && response.ok){
+              cache.put('./index.html', response.clone()).catch(() => {});
+            }
+            return response;
+          });
         })
-        .catch(() =>
-          caches.match(req).then(cached =>
-            cached || (req.mode === 'navigate' ? caches.match('./index.html') : Promise.reject())
-          )
-        )
+      )
     );
     return;
   }
 
+  /* Versioned JS/CSS/images load locally first for immediate interaction. */
   event.respondWith(
     caches.match(req).then(cached => {
       if(cached) return cached;
