@@ -27092,3 +27092,235 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
     gap:10px!important;
   }
 }
+
+/* =====================================================================
+   5.0.224 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   Phone-first correction based on real iPhone screenshots.
+   - move the entire top composition upward
+   - remove the extra icon plaques introduced in 5.0.219
+   - use one geometry for all 4 type cards (no hearing-only centering hacks)
+   - stop subtitle truncation on iPhone
+   ===================================================================== */
+
+/* One stable top composition for all create/edit screens. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-top,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-top{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand{
+  height:45px!important;
+  min-height:45px!important;
+  gap:10px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand img,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand img{
+  width:39px!important;
+  height:39px!important;
+  flex:0 0 39px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand-copy b{
+  font-size:19.2px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand-copy small{
+  margin-top:2px!important;
+  font-size:10.1px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-rule,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand-rule{
+  height:10px!important;
+  margin:2px auto 5px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading{
+  height:70px!important;
+  min-height:70px!important;
+  max-height:70px!important;
+  margin:0 0 5px!important;
+  padding-left:50px!important;
+  padding-right:4px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading-center,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading-center{
+  height:70px!important;
+  min-height:70px!important;
+  grid-template-rows:43px 20px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2{
+  font-size:29.5px!important;
+  line-height:.96!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{
+  font-size:19.4px!important;
+  line-height:.94!important;
+  letter-spacing:-.018em!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-motto,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-motto{
+  margin:0 auto!important;
+  height:19px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block h3,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-block h3{
+  margin:0 0 7px!important;
+  font-size:17px!important;
+}
+
+/* TYPE — one exact layout for task/hearing/meeting/deadline. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-grid,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-grid{
+  gap:8px 9px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:61px!important;
+  min-height:61px!important;
+  max-height:61px!important;
+  padding:0!important;
+  border-radius:16px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(198,159,91,.48)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.975) 0%,rgba(252,248,241,.96) 52%,rgba(246,239,228,.95) 100%)!important;
+  box-shadow:0 4px 11px rgba(76,49,17,.065),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(177,128,49,.07)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card::before{
+  height:38%!important;
+  opacity:.65!important;
+}
+
+/* Approved mockup: icon sits directly on the card — NO separate square plaque. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  position:absolute!important;
+  left:12px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:29px!important;
+  height:29px!important;
+  min-width:29px!important;
+  min-height:29px!important;
+  flex:0 0 29px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#9b650f!important;
+  z-index:2!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#754704!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:27px!important;
+  height:27px!important;
+  stroke-width:1.75!important;
+}
+
+/* Copy is centered in the usable text area for EVERY card.
+   This replaces all hearing-only absolute/translate hacks from 5.0.215–5.0.217. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy{
+  position:absolute!important;
+  left:47px!important;
+  right:6px!important;
+  top:50%!important;
+  width:auto!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translateY(-50%)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  z-index:2!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  text-align:center!important;
+  font-size:13.8px!important;
+  line-height:1!important;
+  letter-spacing:-.012em!important;
+  white-space:normal!important;
+  overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small{
+  width:100%!important;
+  margin:3px 0 0!important;
+  padding:0!important;
+  transform:none!important;
+  text-align:center!important;
+  font-size:7.65px!important;
+  line-height:1.05!important;
+  letter-spacing:-.015em!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  font-size:11.7px!important;
+  line-height:.93!important;
+  letter-spacing:-.018em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy small{
+  font-size:7.55px!important;
+}
+
+/* Gold selection closer to the approved reference: rich but not plastic. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  border-color:#d09a31!important;
+  background:linear-gradient(180deg,#fff1b9 0%,#f3d271 44%,#e5ae3a 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,247,216,.82),0 6px 15px rgba(137,84,10,.15),inset 0 1px 0 rgba(255,255,255,.76),inset 0 -1px 0 rgba(111,68,6,.10)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::after{
+  background:radial-gradient(circle at 83% 4%,rgba(255,255,241,.62) 0%,rgba(255,255,241,.20) 18%,transparent 37%)!important;
+}
+
+/* iPhone reference: move the whole composition upward while preserving the safe area. */
+@media(max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet.withfoot>.shbody{
+    padding-top:max(20px,calc(env(safe-area-inset-top,0px) - 14px))!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy b,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand-copy b{
+    font-size:18.9px!important;
+  }
+}
