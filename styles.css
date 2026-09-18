@@ -25701,3 +25701,29 @@ body.light #sheet.qe192-hearing-sheet>.shfoot{
       linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(249,243,234,.10) 46%, rgba(245,237,226,.23) 100%)!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.204 — hard switch to a dedicated approved-style background asset
+   ===================================================================== */
+body.light #sheet.qe190-sheet,
+body.light #sheet.qe192-hearing-sheet{
+  background:#f8f1e6 url('quick-sheet-mockup-bg.png?v=5204') center top / cover no-repeat!important;
+  isolation:isolate!important;
+}
+body.light #sheet.qe190-sheet::before,
+body.light #sheet.qe190-sheet::after,
+body.light #sheet.qe192-hearing-sheet::before,
+body.light #sheet.qe192-hearing-sheet::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body.light #sheet.qe190-sheet>.shbody,
+body.light #sheet.qe190-sheet>.shfoot,
+body.light #sheet.qe192-hearing-sheet>.shbody,
+body.light #sheet.qe192-hearing-sheet>.shfoot{
+  background:transparent!important;
+  position:relative!important;
+  z-index:1!important;
+}
