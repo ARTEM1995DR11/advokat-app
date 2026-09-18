@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.266';
-var APP_BUILD='5266';
+var APP_VERSION='5.0.267';
+var APP_BUILD='5267';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1800,9 +1800,9 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ var sh=$('#sheet');
+function closeSheet(){ document.body.classList.remove('journal-sheet-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -3776,13 +3776,80 @@ function saveMatter(){
 function addJournal(mid,text,date,type,silent){
   if(!mid||!text)return; S.journal.unshift({id:uid(),mid:mid,date:date||today(),text:text,type:type||'note',created:new Date().toISOString()}); if(!silent)save();
 }
+function journalMatterMetaText(mid){
+  var m=mid?matter(mid):null;if(!m)return '';
+  var bits=[];
+  if(m.client)bits.push(m.client);
+  if(m.court)bits.push(m.court);
+  else if(m.number)bits.push('№ '+m.number);
+  return bits.slice(0,2).join(' · ');
+}
+function syncJournalMatterMeta(){
+  var box=$('#j-matter-meta');if(!box)return;
+  var sel=$('#j-mid-select'),mid=sel?sel.value:($('#j-mid')?$('#j-mid').value:'');
+  var meta=journalMatterMetaText(mid);
+  box.textContent=meta;
+  box.classList.toggle('is-visible',!!meta);
+}
+function decorateJournalPremiumControls(){
+  var sh=$('#sheet');if(!sh||!sh.classList.contains('journal-premium-sheet'))return;
+
+  var matterBtn=sh.querySelector('[data-premium-select-for="j-mid-select"]');
+  if(matterBtn&&!matterBtn.querySelector('.journal-field-leading')){
+    var lead=document.createElement('span');
+    lead.className='journal-field-leading';
+    lead.innerHTML=ico('folder','s');
+    matterBtn.insertBefore(lead,matterBtn.firstChild);
+    matterBtn.classList.add('journal-premium-picker');
+  }
+
+  var dateBtn=sh.querySelector('[data-date-for="j-date"]');
+  if(dateBtn&&!dateBtn.querySelector('.journal-field-leading')){
+    var dlead=document.createElement('span');
+    dlead.className='journal-field-leading';
+    dlead.innerHTML=ico('cal','s');
+    dateBtn.insertBefore(dlead,dateBtn.firstChild);
+    var tail=document.createElement('span');
+    tail.className='journal-field-tail';
+    tail.innerHTML=ico('chev','s');
+    dateBtn.appendChild(tail);
+    dateBtn.classList.add('journal-premium-picker');
+  }
+  syncJournalMatterMeta();
+}
 function sheetJournal(mid){
-  openSheet(premiumHead('doc','Запись в журнал дела','Краткая хронология работы и процессуальных событий.')+
-    (!mid?'<div class="fld"><label>Дело</label><select id="j-mid-select"><option value="" selected disabled>Выберите дело</option>'+activeM().map(function(m){return '<option value="'+m.id+'">'+esc(m.title)+'</option>';}).join('')+'</select></div>':'')+
-    '<div class="fld"><label>Дата</label>'+premiumDateControl('j-date',today(),'Выберите дату')+'</div>'+
-    '<div class="fld"><label>Событие / заметка</label><textarea id="j-text" rows="5" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea></div>'+
-    '<input type="hidden" id="j-mid" value="'+esc(mid)+'"><button class="btn" data-act="j-save">Добавить в журнал</button>');
-  $('#sheet').classList.add('sheet-premium-form');
+  var fixed=mid?matter(mid):null;
+  var fixedMeta=mid?journalMatterMetaText(mid):'';
+  openSheet(
+    '<div class="journal-premium-head">'+
+      '<span class="journal-premium-head-icon">'+ico('doc','s')+'</span>'+
+      '<div class="journal-premium-head-copy"><h2>Запись в журнал дела</h2><p>Хронология работы и процессуальных событий</p></div>'+
+    '</div>'+
+    '<div class="journal-premium-ornament"><span></span><i></i><span></span></div>'+
+    (!mid?
+      '<div class="fld journal-premium-fld journal-matter-fld"><label>Дело</label>'+
+        '<select id="j-mid-select" autocomplete="off"><option value="" selected disabled>Выберите дело</option>'+activeM().map(function(m){return '<option value="'+m.id+'">'+esc(m.title)+'</option>';}).join('')+'</select>'+
+        '<div id="j-matter-meta" class="journal-matter-meta" aria-live="polite"></div>'+
+      '</div>'
+      :
+      '<div class="fld journal-premium-fld journal-fixed-matter-fld"><label>Дело</label>'+
+        '<div class="journal-fixed-matter"><span class="journal-field-leading">'+ico('folder','s')+'</span><div><b>'+esc((fixed&&fixed.title)||'Дело')+'</b>'+(fixedMeta?'<small>'+esc(fixedMeta)+'</small>':'')+'</div></div>'+
+      '</div>'
+    )+
+    '<div class="fld journal-premium-fld journal-date-fld"><label>Дата</label><div class="journal-date-wrap">'+premiumDateControl('j-date',today(),'Выберите дату')+'</div></div>'+
+    '<div class="fld journal-premium-fld journal-note-fld"><label>Событие / заметка</label>'+
+      '<div class="journal-note-shell"><span class="journal-note-icon">'+ico('doc','s')+'</span>'+
+        '<textarea id="j-text" name="advokat-journal-note-5267" rows="5" autocomplete="off" spellcheck="true" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea>'+
+        '<button type="button" class="journal-note-clear" data-act="j-clear" aria-label="Очистить запись">'+ico('xmark','s')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="journal-premium-ornament journal-premium-ornament-bottom"><span></span><i></i><span></span></div>'+
+    '<input type="hidden" id="j-mid" value="'+esc(mid)+'">'+
+    '<button class="btn journal-premium-save" data-act="j-save"><span class="journal-premium-save-icon">'+ico('qe-save','s')+'</span><b>Добавить в журнал</b></button>'
+  );
+  $('#sheet').classList.add('sheet-premium-form','journal-premium-sheet');
+  document.body.classList.add('journal-sheet-open');
+  setTimeout(function(){decorateJournalPremiumControls();},0);
 }
 function sheetParticipation(mid){
   var m=mid?matter(mid):null;
@@ -4707,6 +4774,7 @@ document.addEventListener('click', function(ev){
     case 'm-del': if(confirm('Удалить дело, связанные задачи и журнал? Действие необратимо.')){S.tasks=S.tasks.filter(function(t){return t.mid!==id;});S.participation=S.participation.filter(function(e){return e.mid!==id;});S.journal=S.journal.filter(function(j){return j.mid!==id;});S.matters=S.matters.filter(function(m){return m.id!==id;});save();closeAll();render();toast('Дело удалено');}break;
 
     /* journal + participation */
+    case 'j-clear': {var jtxt=$('#j-text');if(jtxt){jtxt.value='';jtxt.dispatchEvent(new Event('input',{bubbles:true}));jtxt.focus();}break;}
     case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var jt=$('#j-text').value.trim();if(!jm){toast('Выберите дело');break;}if(!jt){toast('Введите запись');break;}addJournal(jm,jt,$('#j-date').value||today(),'note',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
     case 'journal-del': {S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
     case 'pt-new': closeSheet();sheetParticipation('');break;
@@ -4756,6 +4824,7 @@ document.addEventListener('click', function(ev){
 });
 document.addEventListener('change',function(e){
   if(e.target&&e.target.tagName==='SELECT'&&e.target.id) syncPremiumSelectButton(e.target.id);
+  if(e.target&&e.target.id==='j-mid-select'){syncJournalMatterMeta();return;}
   if(e.target.id==='e-hjudge-choice'&&ED){
     var jv=e.target.value, ji=$('#e-hjudge');
     if(jv){ED.hearingJudge=jv;if(ji)ji.value=jv;applyKnownJudgeCourt(jv,'hearing');vib(5);}
@@ -4894,6 +4963,7 @@ document.addEventListener('focusin',function(e){
 
 document.addEventListener('input',function(e){
   if(e.target.id==='premium-list-search'&&LIST_PICKER){LIST_PICKER.query=e.target.value;renderPremiumListPicker();var q=$('#premium-list-search');if(q){q.focus({preventScroll:true});try{q.setSelectionRange(q.value.length,q.value.length);}catch(_){}}return;}
+  if(e.target.id==='j-text'){var jc=e.target.closest('.journal-note-shell');var jb=jc&&jc.querySelector('.journal-note-clear');if(jb)jb.classList.toggle('is-visible',!!e.target.value.trim());}
   if(e.target.id==='e-title'){
     if(ED&&!ED.id&&(ED.kind==='task'||ED.kind==='meeting')&&!NEW_TITLE_USER_EDITED){
       e.target.value='';
@@ -5343,7 +5413,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5266',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5267',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
