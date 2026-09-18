@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.225 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.226 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.225 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.225.
+   5.0.226 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.226.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27542,5 +27542,112 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
   }
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{
     font-size:9.75px!important;
+  }
+}
+
+
+/* =====================================================================
+   5.0.226 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   Real iPhone adjustment after 5.0.225 screenshots.
+   ===================================================================== */
+
+/* 1) Slightly larger type-card typography, preserving the same geometry. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:14.8px!important;
+  line-height:1!important;
+  letter-spacing:-.014em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small{
+  margin-top:3px!important;
+  font-size:8.15px!important;
+  line-height:1.04!important;
+  letter-spacing:-.012em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  font-size:12.45px!important;
+  line-height:.94!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy small{
+  font-size:7.9px!important;
+}
+
+/* 2) Active card: darker, calmer gold like the approved reference,
+      with much less white glow. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  border-color:#bf8421!important;
+  background:
+    linear-gradient(180deg,#f4dc92 0%,#e9bd55 48%,#d49624 100%)!important;
+  box-shadow:
+    0 4px 10px rgba(117,72,8,.16),
+    inset 0 1px 0 rgba(255,248,220,.58),
+    inset 0 -1px 0 rgba(105,61,4,.12)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::after{
+  background:
+    radial-gradient(circle at 82% 6%,
+      rgba(255,250,225,.24) 0%,
+      rgba(255,250,225,.10) 17%,
+      transparent 38%)!important;
+  opacity:1!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy b{
+  color:#402b0b!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-copy small{
+  color:#624716!important;
+}
+
+/* 3) Dates: selected date/time values should read at the same optical scale
+      as the rest of the form. Placeholders stay a little smaller. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-date-field:not(.empty) .premium-date-field-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-time-field:not(.empty)>b{
+  font-size:12.6px!important;
+  line-height:1!important;
+  letter-spacing:-.012em!important;
+  font-weight:650!important;
+  color:#344d6b!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-date-field.empty .premium-date-field-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet
+.standard-premium-editor .premium-time-field.empty>b{
+  font-size:10.7px!important;
+  line-height:1!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-datetime .hearing-premium-picker:not(.empty) .hearing-premium-picker-copy b{
+  font-size:11.6px!important;
+  line-height:1!important;
+  letter-spacing:-.018em!important;
+  font-weight:650!important;
+  color:#344d6b!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-datetime .hearing-premium-picker.empty .hearing-premium-picker-copy b{
+  font-size:10.35px!important;
+  line-height:1!important;
+}
+
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet
+  .standard-premium-editor .premium-date-field:not(.empty) .premium-date-field-copy b,
+  body.light #sheet.task-editor-sheet.qe190-sheet
+  .standard-premium-editor .premium-time-field:not(.empty)>b{
+    font-size:12.1px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+  .qe192-datetime .hearing-premium-picker:not(.empty) .hearing-premium-picker-copy b{
+    font-size:11.25px!important;
   }
 }
