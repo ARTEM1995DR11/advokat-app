@@ -25814,3 +25814,198 @@ body.light #sheet.qe192-hearing-sheet>.shfoot{
   z-index:1!important;
   background:transparent!important;
 }
+
+
+/* =====================================================================
+   5.0.207 — MOBILE-FIRST APPROVED QUICK ENTRY SYSTEM
+   Phone is the reference viewport. Desktop is only an adaptive preview.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  top:0!important;
+  bottom:0!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#f8f1e6 url('quick-sheet-mobile-approved-v5207.webp?v=5207') center top / cover no-repeat!important;
+  box-shadow:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet::before,
+body.light #sheet.task-editor-sheet.qe190-sheet::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet::after{
+  content:none!important;
+  display:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet>.grab{display:none!important}
+body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody{
+  padding:calc(env(safe-area-inset-top,0px) + 10px) 20px calc(env(safe-area-inset-bottom,0px) + 12px)!important;
+  width:100%!important;
+  max-width:none!important;
+  background:transparent!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-top{
+  width:100%!important;
+  max-width:760px!important;
+  margin:0 auto 10px!important;
+  padding:0!important;
+}
+/* Brand — fixed shared geometry */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand{
+  height:45px!important;
+  min-height:45px!important;
+  margin:0!important;
+  padding:0!important;
+  gap:11px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand img{
+  width:39px!important;height:39px!important;flex:0 0 39px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy b{
+  font-size:19px!important;line-height:1.02!important;letter-spacing:-.018em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy small{
+  margin-top:2px!important;font-size:10.5px!important;line-height:1.1!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-rule{
+  width:calc(100% - 94px)!important;
+  height:12px!important;
+  margin:4px auto 7px!important;
+  gap:10px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-rule i{height:1px!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-rule span{width:9px!important;height:9px!important}
+/* Title row — one stable box for all 4 modes */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading{
+  position:relative!important;
+  width:100%!important;
+  height:76px!important;
+  min-height:76px!important;
+  max-height:76px!important;
+  margin:0 0 7px!important;
+  padding:0 7px 0 52px!important;
+  display:block!important;
+  overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-back{
+  position:absolute!important;
+  left:0!important;top:3px!important;
+  width:43px!important;height:43px!important;min-width:43px!important;min-height:43px!important;
+  border-radius:14px!important;
+  z-index:3!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-back .ico{width:21px!important;height:21px!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading-center{
+  width:100%!important;height:76px!important;min-height:76px!important;
+  display:grid!important;
+  grid-template-rows:46px 22px!important;
+  justify-items:center!important;
+  align-content:start!important;
+  text-align:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2{
+  width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0!important;
+  align-self:center!important;
+  font-size:30px!important;line-height:.96!important;letter-spacing:-.035em!important;
+  white-space:nowrap!important;overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{
+  font-size:20px!important;line-height:.92!important;letter-spacing:-.02em!important;
+  white-space:normal!important;text-wrap:balance!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-motto{
+  width:min(100%,520px)!important;height:20px!important;
+  margin:2px auto 0!important;
+  grid-template-columns:minmax(18px,44px) auto minmax(18px,44px)!important;
+  gap:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-motto span{
+  font-size:7.9px!important;line-height:1!important;letter-spacing:.17em!important;white-space:nowrap!important;
+}
+/* TYPE block — identical size in all modes */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block{margin:0!important;padding:0!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block h3{
+  margin:0 0 7px!important;font-size:17.5px!important;line-height:1.05!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-grid{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:8px 9px!important;width:100%!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card{
+  width:100%!important;height:60px!important;min-height:60px!important;max-height:60px!important;
+  padding:8px 10px!important;gap:8px!important;border-radius:16px!important;
+  overflow:hidden!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon{
+  width:31px!important;height:31px!important;flex:0 0 31px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico{width:25px!important;height:25px!important;stroke-width:1.75!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy{min-width:0!important;overflow:hidden!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b{font-size:14px!important;line-height:1!important;white-space:normal!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small{margin-top:3px!important;font-size:8.25px!important;line-height:1.05!important;white-space:nowrap!important;overflow:hidden!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b{font-size:12px!important;line-height:.94!important}
+/* Common form scale — prevents visual jump between modes */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.fld,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field{margin-bottom:10px!important}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld>label,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field>label{
+  margin:0 0 5px!important;font-size:15px!important;line-height:1.06!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-place,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .editor-select-field .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  height:50px!important;min-height:50px!important;border-radius:15px!important;
+}
+/* Hearing form — same optical scale as task/meeting */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-form{margin-top:0!important;width:100%!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid{gap:8px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{min-height:30px!important;font-size:14px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading{left:11px!important;width:21px!important;height:21px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading .ico{width:19px!important;height:19px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input{padding:0 46px 0 40px!important;font-size:12px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field{padding:0 46px 0 40px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy b{font-size:12.3px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  right:6px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-input-control input{padding-left:37px!important;font-size:11px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint{margin:5px 2px 0!important;font-size:8.8px!important;line-height:1.22!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime{gap:8px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{padding:0 43px 0 36px!important}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{font-size:10.8px!important}
+/* Same premium gold save scale on phone */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save,
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save{
+  height:58px!important;min-height:58px!important;border-radius:19px!important;font-size:18px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .editor-inline-foot .shbody>.shfoot,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-inline-foot .shbody>.shfoot{
+  padding-bottom:max(4px,env(safe-area-inset-bottom))!important;
+}
+/* Phone-specific reference. */
+@media(max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody{
+    padding-left:20px!important;padding-right:20px!important;
+  }
+}
+/* Desktop: keep app usable, but do not redesign away from phone reference. */
+@media(min-width:700px){
+  body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody{padding-left:max(24px,calc((100vw - 760px)/2))!important;padding-right:max(24px,calc((100vw - 760px)/2))!important}
+}
