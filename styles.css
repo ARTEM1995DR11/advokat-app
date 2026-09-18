@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.231 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.232 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.231 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.231.
+   5.0.232 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.232.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.231 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.232 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.231 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.232 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.231 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.232 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.231 — STARTUP PAINT STABILITY
+   5.0.232 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5231')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5232')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27873,7 +27873,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 
 
 /* =====================================================================
-   5.0.231 — TYPE CARD TYPOGRAPHY BALANCE
+   5.0.232 — TYPE CARD TYPOGRAPHY BALANCE
    On iPhone the active hearing card title looked optically smaller than
    the other type buttons. Increase and rebalance the title/subtitle,
    and give the hearing title a tiny optical bump so all four cards feel
@@ -27938,7 +27938,7 @@ body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
 
 
 /* =====================================================================
-   5.0.231 — darker gold premium glow + reflective highlight
+   5.0.232 — darker gold premium glow + reflective highlight
    Goal: match the approved mockup more closely: less lemon, more rich gold,
    deeper shadow and visible glossy top reflection on active type cards and
    the bottom save button.
@@ -28025,4 +28025,85 @@ body.light #sheet.entry-premium-sheet .task-editor-save::after{
       inset 0 1px 0 rgba(255,255,255,.56),
       inset 0 -1px 0 rgba(121,75,8,.13)!important;
   }
+}
+
+
+/* =====================================================================
+   5.0.232 — equalize “Заседание” title + remove white square corners
+   ===================================================================== */
+
+/* 1) Hearing type card title looked visually smaller than neighbors.
+   Slightly enlarge only the title/subtitle for the hearing card so it matches
+   the optical size of “Задача” / “Встреча”. */
+body.light #sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b{
+  font-size:15.6px!important;
+  line-height:.98!important;
+  letter-spacing:-.01em!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small{
+  font-size:9.2px!important;
+  line-height:1.06!important;
+}
+
+/* 2) All premium form controls should clip inner white layers by the rounded shape. */
+body.light #sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control{
+  border-radius:22px!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  -webkit-mask-image:-webkit-radial-gradient(white, black)!important;
+  background-clip:padding-box!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-wrap,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-wrap,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap{
+  border-radius:inherit!important;
+  overflow:hidden!important;
+  background:transparent!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control select.premium-select-native,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control select.inline-choice-select,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control select.premium-select-native,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control select.inline-choice-select{
+  border-radius:inherit!important;
+  background-clip:padding-box!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow{
+  right:10px!important;
+}
+
+/* 3) Also clip standard premium shells used in task/meeting/deadline forms. */
+body.light #sheet.entry-premium-sheet .qe193-title-shell,
+body.light #sheet.entry-premium-sheet .qe194-note-shell,
+body.light #sheet.entry-premium-sheet .premium-picker,
+body.light #sheet.entry-premium-sheet .premium-select-wrap,
+body.light #sheet.entry-premium-sheet .editor-select-field select,
+body.light #sheet.entry-premium-sheet .hearing-court-field .inline-choice-wrap,
+body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap{
+  overflow:hidden!important;
+  -webkit-mask-image:-webkit-radial-gradient(white, black)!important;
+  background-clip:padding-box!important;
+}
+body.light #sheet.entry-premium-sheet .editor-select-field select,
+body.light #sheet.entry-premium-sheet .hearing-court-field .inline-choice-wrap,
+body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap,
+body.light #sheet.entry-premium-sheet .hearing-court-field .inline-choice-wrap>input,
+body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap>input{
+  border-radius:22px!important;
 }
