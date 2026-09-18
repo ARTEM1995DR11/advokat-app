@@ -24323,3 +24323,30 @@ body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-ch
   body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
   body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{right:3px!important}
 }
+
+
+/* =====================================================================
+   5.0.196 — exact right-edge chevron placement
+   The previous right offset did not move the arrow reliably because the
+   arrow remained a flex item. Anchor it to the field edge explicitly.
+   ===================================================================== */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field{
+  position:relative!important;
+  padding-right:52px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field-arrow{
+  position:absolute!important;
+  top:50%!important;
+  right:7px!important;
+  transform:translateY(-50%)!important;
+  margin:0!important;
+  z-index:2!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field-arrow .ico{
+  top:0!important;
+}
+@media(max-width:390px){
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field-arrow{
+    right:6px!important;
+  }
+}
