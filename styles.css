@@ -29918,3 +29918,95 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.252 — PIXEL PASS STEP 1 / ICONS = FINAL
+   Final optical compensation from real iPhone screenshots.
+   No background, gold surface, field geometry or arrows are changed here.
+   ===================================================================== */
+
+/* Meeting icon: must visually equal clipboard/calendar/clock. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-meeting .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-meeting .qe190-type-icon .ico{
+  width:34px!important;
+  height:34px!important;
+  stroke-width:1.92!important;
+}
+
+/* Slightly stronger active silhouette against the gold surface. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-meeting.is-active .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-meeting.is-active .qe190-type-icon .ico{
+  stroke-width:1.98!important;
+}
+
+/* Client: make it read as a full human figure, not a tiny generic glyph. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-client .ico{
+  width:23px!important;
+  height:23px!important;
+  stroke-width:1.72!important;
+}
+
+/* Judge: intentionally occupies almost the full 24px viewBox;
+   large bust + one clear judicial bench element. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-judge .ico{
+  width:25px!important;
+  height:25px!important;
+  stroke-width:1.58!important;
+}
+
+/* Court: readable classical building at phone scale. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court .ico{
+  width:23px!important;
+  height:23px!important;
+  stroke-width:1.56!important;
+}
+
+/* Save icon: match the visual weight of the approved mockup. */
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save .save-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-icon .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.9!important;
+}
+
+/* Task/hearing/deadline icons: final common optical weight. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-task .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-task .qe190-type-icon .ico{
+  width:31px!important;height:31px!important;stroke-width:1.9!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-icon .ico{
+  width:31px!important;height:31px!important;stroke-width:1.9!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-icon .ico{
+  width:32px!important;height:32px!important;stroke-width:1.88!important;
+}
+
+/* Field icon family final weights. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-case .ico{
+  width:21px!important;height:21px!important;stroke-width:1.72!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-number .ico{
+  width:21px!important;height:21px!important;stroke-width:1.7!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon .ico{
+  width:21px!important;height:21px!important;stroke-width:1.7!important;
+}
+
+/* Date/time icons final warm-gold weight. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon .ico{
+  width:22px!important;height:22px!important;stroke-width:1.82!important;
+}
+
+/* LOCK — approved backgrounds/gold surfaces remain exactly as in 5.0.249+. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
