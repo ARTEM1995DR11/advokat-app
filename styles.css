@@ -30100,3 +30100,280 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.255 — PIXEL PASS STEP 2: FIELDS + ARROWS
+   Background, approved gold surfaces and icon set are LOCKED.
+   Goal: one premium ivory field language across all 4 create/edit forms.
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  --qe-field-radius:18px;
+  --qe-field-border:rgba(183,136,62,.53);
+  --qe-field-bg-top:rgba(255,255,255,.992);
+  --qe-field-bg-mid:rgba(253,250,244,.986);
+  --qe-field-bg-bottom:rgba(247,240,229,.978);
+  --qe-field-shadow:0 5px 12px rgba(73,45,10,.052);
+  --qe-field-inner-top:rgba(255,255,255,1);
+  --qe-field-inner-bottom:rgba(154,101,25,.065);
+
+  --qe-choice-size:36px;
+  --qe-choice-right:6px;
+  --qe-choice-border:rgba(182,130,44,.58);
+  --qe-choice-gold:#9d6817;
+}
+
+/* ---------------------------------------------------------------------
+   1. ONE FIELD SURFACE — task / meeting / deadline / hearing
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap{
+  border:1px solid var(--qe-field-border)!important;
+  border-radius:var(--qe-field-radius)!important;
+  background:
+    linear-gradient(180deg,
+      var(--qe-field-bg-top) 0%,
+      var(--qe-field-bg-mid) 57%,
+      var(--qe-field-bg-bottom) 100%)!important;
+  box-shadow:
+    var(--qe-field-shadow),
+    0 0 0 1px rgba(255,255,255,.35),
+    inset 0 1px 0 var(--qe-field-inner-top),
+    inset 0 -1px 0 var(--qe-field-inner-bottom)!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+
+/* One-line controls use one height system. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap{
+  min-height:48px!important;
+  height:48px!important;
+}
+
+/* Title field is a one-line premium field too. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell{
+  min-height:48px!important;
+  height:48px!important;
+}
+
+/* Note/comment stays taller but uses the exact same surface language. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell{
+  border-radius:18px!important;
+}
+
+/* ---------------------------------------------------------------------
+   2. REMOVE RECTANGULAR INNER PAINT / WHITE CORNERS
+   The outer shell owns all radius/background/shadow.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell textarea,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap>input{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+
+/* Meeting location is itself the field, so retain its own premium surface. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input{
+  outline:0!important;
+}
+
+/* Focus: premium warm edge, no blue browser ring and no geometry change. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input:focus,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control:focus-within,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap:focus-within{
+  border-color:rgba(177,124,34,.72)!important;
+  box-shadow:
+    0 5px 13px rgba(73,45,10,.06),
+    0 0 0 1px rgba(228,196,130,.22),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(154,101,25,.07)!important;
+}
+
+/* ---------------------------------------------------------------------
+   3. ONE ARROW CIRCLE — every selector, every screen
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail{
+  position:absolute!important;
+  top:50%!important;
+  right:var(--qe-choice-right)!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+
+  margin:0!important;
+  padding:0!important;
+  border-radius:50%!important;
+  border:1px solid var(--qe-choice-border)!important;
+  background:
+    radial-gradient(circle at 34% 22%,
+      rgba(255,255,255,.995) 0%,
+      rgba(255,255,255,.74) 24%,
+      rgba(255,255,255,0) 46%),
+    linear-gradient(180deg,#fffdf9 0%,#f8f0e2 52%,#ecdec7 100%)!important;
+  color:var(--qe-choice-gold)!important;
+  box-shadow:
+    0 3px 8px rgba(72,44,9,.07),
+    0 0 0 1px rgba(255,255,255,.48),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(148,96,20,.075)!important;
+
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  z-index:7!important;
+}
+
+/* Exact same chevron size/weight in every real button. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail .ico{
+  position:static!important;
+  width:15px!important;
+  height:15px!important;
+  min-width:15px!important;
+  min-height:15px!important;
+  margin:0!important;
+  transform:none!important;
+  stroke-width:2.05!important;
+  color:inherit!important;
+  opacity:.98!important;
+}
+
+/* ---------------------------------------------------------------------
+   4. DATE/TIME PSEUDO BUTTONS — visually identical to real arrows
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  content:''!important;
+  position:absolute!important;
+  top:50%!important;
+  right:var(--qe-choice-right)!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+
+  margin:0!important;
+  padding:0!important;
+  border-radius:50%!important;
+  border:1px solid var(--qe-choice-border)!important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239D6817' stroke-width='2.05' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5l6.5 6.5L9 18.5'/%3E%3C/svg%3E") center/15px 15px no-repeat,
+    radial-gradient(circle at 34% 22%,rgba(255,255,255,.995) 0%,rgba(255,255,255,.74) 24%,rgba(255,255,255,0) 46%),
+    linear-gradient(180deg,#fffdf9 0%,#f8f0e2 52%,#ecdec7 100%)!important;
+  box-shadow:
+    0 3px 8px rgba(72,44,9,.07),
+    0 0 0 1px rgba(255,255,255,.48),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(148,96,20,.075)!important;
+  box-sizing:border-box!important;
+  z-index:7!important;
+  pointer-events:none!important;
+}
+
+/* ---------------------------------------------------------------------
+   5. TEXT SAFE AREA — no value may collide with right selector
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field{
+  padding-right:48px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control.has-action input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  padding-right:48px!important;
+}
+
+/* Manual client field is never a selector. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .inline-choice-arrow{
+  display:none!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field input{
+  padding-right:13px!important;
+}
+
+/* ---------------------------------------------------------------------
+   6. NO TAP MORPHING
+   A selector may respond functionally, but must not resize/repaint on tap.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow:active,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger:active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn:active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow:active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow:active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail:active{
+  transform:translateY(-50%)!important;
+  filter:none!important;
+}
+
+/* ---------------------------------------------------------------------
+   7. NARROW IPHONE — keep the same edge geometry, do not shrink circles
+   --------------------------------------------------------------------- */
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet{
+    --qe-choice-size:36px;
+    --qe-choice-right:6px;
+    --qe-field-radius:18px;
+  }
+}
+
+/* LOCK — approved gold surfaces are not part of STEP 2. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
