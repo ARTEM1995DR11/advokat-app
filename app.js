@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.227';
-var APP_BUILD='5227';
+var APP_VERSION='5.0.228';
+var APP_BUILD='5228';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -251,7 +251,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5227" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5228" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5227" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5228" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -3242,6 +3242,9 @@ function editTask(t,preset){
     : Object.assign({ id:null,title:'',mid:'',note:'',due:'',time:'',place:'',pri:'mid',kind:'task',sourceDate:'',sourceTime:'',rule:'',ruleCode:'',ruleArticle:'',deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',hearingClient:'',hearingNumber:'',hearingJudge:'',
         done:false,steps:[] }, preset||{});
   if(EDITOR_KINDS.indexOf(ED.kind)<0) ED.kind='task';
+  /* 5.0.228: new meeting topic is always entered manually by the lawyer.
+     Keep the example only as a placeholder; never carry a previous task title into it. */
+  if(!t && ED.kind==='meeting') ED.title='';
   syncHearingCourt(false);
   drawEditor();
 }
@@ -3284,7 +3287,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5227" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5228" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -3372,7 +3375,7 @@ function drawEditor(preserveScroll){
   } else openSheet(
   '<div class="hearing-premium-editor standard-premium-editor kind-'+t.kind+'-editor">'+
   renderQuickEntryTop190(title,t.kind)+
-  (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('page','s')+'</span><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off"></div></div>':'')+
+  (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('page','s')+'</span><input id="e-title" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="'+(meeting&&isNew?'new-password':'off')+'" autocapitalize="sentences"></div></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную. Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
@@ -4611,7 +4614,7 @@ document.addEventListener('click', function(ev){
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
     case 'task-group': setTaskGroupOpen(v,!taskGroupOpen(v)); renderTaskList(); break;
     case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
-    case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);break;}
+    case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();if(!ED.id)ED.title='';}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);break;}
     case 'e-pri': pullEditor();ED.pri=v;drawEditor(true);break;
     case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor(true);break;
     case 'e-save': saveTask();break;

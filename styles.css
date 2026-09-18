@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.227 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.228 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.227 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.227.
+   5.0.228 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.228.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.227 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.228 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.227 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.228 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27698,4 +27698,157 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .qe192-save-
 body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save .ico,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
   stroke:#2f220d!important;
+}
+
+
+/* =====================================================================
+   5.0.228 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   Based on the approved mockup and real iPhone screenshots.
+   ===================================================================== */
+
+/* A) Background experiment requested by the user:
+   remove the milky veil and show the already approved background brighter. */
+body.light #sheet.task-editor-sheet.qe190-sheet::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+
+/* B) TYPE cards: slightly stronger typography and icons, closer to mockup. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:16.1px!important;
+  line-height:1!important;
+  letter-spacing:-.02em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small{
+  font-size:8.55px!important;
+  line-height:1.05!important;
+  color:#6f7890!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  font-size:13.55px!important;
+  line-height:.94!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy small{
+  font-size:8.15px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon{
+  width:31px!important;
+  height:31px!important;
+  min-width:31px!important;
+  min-height:31px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:27px!important;
+  height:27px!important;
+  stroke-width:1.85!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card:not(.is-active),
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:not(.is-active){
+  border-color:rgba(184,136,57,.58)!important;
+  box-shadow:
+    0 4px 10px rgba(83,52,14,.075),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(177,128,49,.08)!important;
+}
+
+/* C) Form fields: a clearer premium edge against the brighter background. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld textarea,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld select,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  border-color:rgba(181,132,50,.54)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.965),rgba(250,246,238,.95))!important;
+  box-shadow:
+    0 4px 10px rgba(74,48,17,.07),
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset 0 -1px 0 rgba(181,132,50,.055)!important;
+}
+
+/* D) Placeholders/icons: a bit more legible, but still softer than entered text. */
+body.light #sheet.task-editor-sheet.qe190-sheet input::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet textarea::placeholder,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet input::placeholder{
+  color:#7d879d!important;
+  opacity:1!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon{
+  color:#8d641f!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon .ico{
+  stroke-width:1.8!important;
+}
+
+/* E) Selector arrows: less glow, slightly stronger border and glyph. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail{
+  border-color:rgba(173,119,31,.58)!important;
+  box-shadow:
+    0 2px 6px rgba(91,58,16,.08),
+    inset 0 1px 0 rgba(255,255,255,.94)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail .ico{
+  width:19px!important;
+  height:19px!important;
+  stroke-width:2!important;
+}
+
+/* F) Main page title: one last optical nudge toward the approved reference. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2{
+  font-size:30.5px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2{
+  font-size:22.4px!important;
+  line-height:.90!important;
+}
+
+/* G) New meeting: the topic field is intentionally blank.
+   Keep only a faint example placeholder. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-meeting-editor #e-title::placeholder{
+  color:#8b94a7!important;
+  opacity:.84!important;
+  font-weight:500!important;
+}
+
+/* H) Save button remains in the same darker gold family as the active TYPE card. */
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  border-color:#b67b1b!important;
+  background:linear-gradient(180deg,#f0d47e 0%,#e3b64b 50%,#cd8d20 100%)!important;
+  box-shadow:
+    0 5px 12px rgba(107,65,9,.17),
+    inset 0 1px 0 rgba(255,247,211,.52),
+    inset 0 -1px 0 rgba(91,52,4,.15)!important;
 }
