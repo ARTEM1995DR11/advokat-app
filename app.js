@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.263';
-var APP_BUILD='5263';
+var APP_VERSION='5.0.264';
+var APP_BUILD='5264';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3334,7 +3334,7 @@ function renderQuickEntryTop190(title,currentKind){
   var editTitle=title.indexOf('qe-edit-title-main')!==-1;
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
-  return '<section class="qe190-top qe190-kind-'+esc(currentKind)+'">'+
+  return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
     '<div class="qe190-brand"><img src="scale-gold.webp?v=5250" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
@@ -3361,11 +3361,11 @@ function renderHearingPremiumEditor(t,isNew){
         '<div class="qe192-two qe192-party-grid">'+
           '<section class="qe192-field qe192-client-field">'+
             '<label>Доверитель /<br>подзащитный</label>'+
-            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-client">'+ico('qe-person','s')+'</span><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div>'+
+            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-client">'+ico('qe-person','s')+'</span><input id="e-hclient" name="advokat-hearing-client-5264" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'" autocomplete="off" autocapitalize="words" spellcheck="false"></div>'+
           '</section>'+
           '<section class="qe192-field">'+
             '<label>№ дела / материала</label>'+
-            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hnumber" placeholder="Например: 1-123/2024" value="'+esc(t.hearingNumber||'')+'"></div>'+
+            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hnumber" name="advokat-hearing-number-5264" placeholder="Например: 1-123/2024" value="'+esc(t.hearingNumber||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>'+
           '</section>'+
         '</div>'+
         '<section class="qe192-field qe192-judge-field">'+
@@ -3423,7 +3423,7 @@ function drawEditor(preserveScroll){
   } else openSheet(
   '<div class="hearing-premium-editor standard-premium-editor kind-'+t.kind+'-editor">'+
   renderQuickEntryTop190(title,t.kind)+
-  (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('qe-document','s')+'</span><input id="e-title" name="advokat-manual-entry-title-5249" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="'+(isNew?'new-password':'off')+'" autocapitalize="sentences" autocorrect="on" spellcheck="true"><button type="button" class="qe193-title-clear'+(t.title?' is-visible':'')+'" data-act="e-title-clear" aria-label="Очистить поле">'+ico('xmark','s')+'</button></div></div>':'')+
+  (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('qe-document','s')+'</span><input id="e-title" name="advokat-manual-entry-title-5264" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off" autocapitalize="sentences" autocorrect="on" spellcheck="true" data-form-type="other" ><button type="button" class="qe193-title-clear'+(t.title?' is-visible':'')+'" data-act="e-title-clear" aria-label="Очистить поле">'+ico('xmark','s')+'</button></div></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Стрелкой справа можно выбрать судью; для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
@@ -3461,6 +3461,7 @@ function drawEditor(preserveScroll){
   }else{
     $('#sheet').classList.add('hearing-premium-sheet');
   }
+  $('#sheet').classList.add(isNew?'editor-create-mode':'editor-edit-mode');
   var editorSheet=$('#sheet'), editorBody=editorSheet&&editorSheet.querySelector('.shbody');
   if(editorSheet) editorSheet.scrollLeft=0;
   if(editorBody){
@@ -5342,7 +5343,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5263',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5264',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

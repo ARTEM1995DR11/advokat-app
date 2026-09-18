@@ -31526,3 +31526,138 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.264 — STEP 5: EDIT MODE PARITY
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-create-mode,
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode{
+  --qe-edit-action-border:rgba(178,132,54,.42);
+  --qe-edit-action-bg:rgba(255,252,246,.90);
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe190-heading,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe190-heading{
+  min-height:62px!important;
+  height:62px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe190-heading-center,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe190-heading-center{
+  min-height:62px!important;
+  height:62px!important;
+  justify-content:flex-start!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe190-heading h2.qe190-title-edit,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe190-heading h2.qe190-title-edit{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-height:39px!important;
+  max-height:39px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  text-align:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe-edit-title-main,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe-edit-title-main,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe-edit-title-kind,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe-edit-title-kind{
+  display:block!important;
+  white-space:nowrap!important;
+  line-height:.91!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-mode-edit .qe-edit-title-kind,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-mode-edit .qe-edit-title-kind{
+  margin-top:1px!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-edit-mode .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+  background-size:100% 100%!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode input:not(:placeholder-shown),
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode textarea:not(:placeholder-shown),
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-edit-mode input:not(:placeholder-shown){
+  color:#405674!important;
+  opacity:1!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode #e-title{
+  color:#405674!important;
+  font-weight:560!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-clear:not(.is-visible){
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-clear.is-visible{
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode .btn.ghost,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-edit-mode .btn.ghost{
+  min-height:42px!important;
+  border-radius:16px!important;
+  border:1px solid var(--qe-edit-action-border)!important;
+  background:var(--qe-edit-action-bg)!important;
+  color:#405674!important;
+  box-shadow:0 3px 9px rgba(70,43,10,.035), inset 0 1px 0 rgba(255,255,255,.85)!important;
+  font-size:12px!important;
+  font-weight:650!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode .task-editor-delete,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-edit-mode .task-editor-delete{
+  min-height:42px!important;
+  margin-top:7px!important;
+  border-radius:16px!important;
+  font-size:12px!important;
+  font-weight:650!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode .qe190-type-grid,
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-create-mode .qe190-type-grid{
+  grid-auto-rows:58px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-create-mode .qe190-type-card{
+  height:58px!important;
+  min-height:58px!important;
+  max-height:58px!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-edit-mode
+.qe190-kind-deadline .qe190-heading h2.qe190-title-edit{
+  width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet input:-webkit-autofill,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet input:-webkit-autofill{
+  -webkit-text-fill-color:#405674!important;
+  box-shadow:0 0 0 1000px rgba(254,251,245,.99) inset!important;
+  transition:background-color 9999s ease-out 0s!important;
+}
+
+/* LOCKS */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
