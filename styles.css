@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.232 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.233 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.232 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.232.
+   5.0.233 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.233.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.232 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.233 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.232 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.233 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.232 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.233 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.232 — STARTUP PAINT STABILITY
+   5.0.233 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5232')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5233')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27873,7 +27873,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 
 
 /* =====================================================================
-   5.0.232 — TYPE CARD TYPOGRAPHY BALANCE
+   5.0.233 — TYPE CARD TYPOGRAPHY BALANCE
    On iPhone the active hearing card title looked optically smaller than
    the other type buttons. Increase and rebalance the title/subtitle,
    and give the hearing title a tiny optical bump so all four cards feel
@@ -27938,7 +27938,7 @@ body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
 
 
 /* =====================================================================
-   5.0.232 — darker gold premium glow + reflective highlight
+   5.0.233 — darker gold premium glow + reflective highlight
    Goal: match the approved mockup more closely: less lemon, more rich gold,
    deeper shadow and visible glossy top reflection on active type cards and
    the bottom save button.
@@ -28029,7 +28029,7 @@ body.light #sheet.entry-premium-sheet .task-editor-save::after{
 
 
 /* =====================================================================
-   5.0.232 — equalize “Заседание” title + remove white square corners
+   5.0.233 — equalize “Заседание” title + remove white square corners
    ===================================================================== */
 
 /* 1) Hearing type card title looked visually smaller than neighbors.
@@ -28106,4 +28106,69 @@ body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap,
 body.light #sheet.entry-premium-sheet .hearing-court-field .inline-choice-wrap>input,
 body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap>input{
   border-radius:22px!important;
+}
+
+
+/* =====================================================================
+   5.0.233 — FINAL DEVICE OVERRIDE
+   Visible only after the new shell is really loaded.
+   ===================================================================== */
+
+/* “Заседание” needs an optical bump versus other Cyrillic words. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{
+  font-size:17px!important;
+  line-height:.98!important;
+  letter-spacing:-.008em!important;
+  font-weight:700!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small{
+  font-size:9.6px!important;
+  line-height:1.05!important;
+}
+
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{
+    font-size:16.4px!important;
+  }
+}
+
+/* No rectangular white backing may escape a rounded premium field. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control{
+  border-radius:22px!important;
+  overflow:hidden!important;
+  background-clip:padding-box!important;
+  clip-path:inset(0 round 22px)!important;
+  -webkit-mask-image:-webkit-radial-gradient(white,black)!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-wrap,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap{
+  border-radius:22px!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  background-clip:padding-box!important;
+  clip-path:inset(0 round 22px)!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control .inline-choice-wrap>input{
+  border-radius:22px!important;
+  background-clip:padding-box!important;
+}
+
+/* Same protection for task / meeting / deadline premium controls. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field{
+  overflow:hidden!important;
+  background-clip:padding-box!important;
+  -webkit-mask-image:-webkit-radial-gradient(white,black)!important;
 }
