@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.265';
-var APP_BUILD='5265';
+var APP_VERSION='5.0.266';
+var APP_BUILD='5266';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5343,7 +5343,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5265',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5266',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

@@ -31779,3 +31779,293 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.266 — LEGAL DEADLINE CALCULATOR / PREMIUM SYSTEM PASS
+   The calculator now speaks the same visual language as the approved
+   quick-entry screens: ivory glass, restrained gold, navy type, soft depth.
+   No business logic or deadline rules are changed.
+   ===================================================================== */
+
+/* 1. Outer calculator card — premium ivory glass, not a generic white slab. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator{
+  position:relative!important;
+  overflow:hidden!important;
+  padding:12px 11px 13px!important;
+  border-radius:22px!important;
+  border:1px solid rgba(177,128,44,.34)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.88) 0%,rgba(255,252,245,.82) 46%,rgba(248,242,231,.76) 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(181,132,49,.08),
+    0 9px 20px rgba(78,52,17,.065)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(1.03)!important;
+  backdrop-filter:blur(7px) saturate(1.03)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator::before{
+  content:""!important;
+  position:absolute!important;
+  left:12px!important;right:12px!important;top:0!important;height:1px!important;
+  background:linear-gradient(90deg,transparent,rgba(226,190,105,.88) 18%,rgba(255,239,182,.98) 50%,rgba(189,132,36,.72) 82%,transparent)!important;
+  pointer-events:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator::after{
+  content:""!important;
+  position:absolute!important;
+  width:150px!important;height:70px!important;right:-42px!important;top:-28px!important;
+  border-radius:50%!important;
+  background:radial-gradient(ellipse,rgba(232,193,91,.13),rgba(232,193,91,0) 72%)!important;
+  pointer-events:none!important;
+}
+
+/* 2. Calculator heading — icon plaque + navy heading + understated subtitle. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:36px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  min-height:42px!important;
+  margin:0 1px 9px!important;
+  padding:0 1px 9px!important;
+  border-bottom:1px solid rgba(171,127,52,.14)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title>span{
+  width:34px!important;height:34px!important;
+  border-radius:11px!important;
+  background:linear-gradient(145deg,rgba(255,252,241,.98),rgba(242,228,193,.94))!important;
+  border:1px solid rgba(174,122,35,.31)!important;
+  color:#9d6814!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 3px 7px rgba(93,62,17,.055)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title>span .ico{
+  width:19px!important;height:19px!important;stroke-width:1.72!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title b{
+  display:block!important;
+  color:#17345f!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:16.2px!important;
+  line-height:1.01!important;
+  font-weight:700!important;
+  letter-spacing:-.012em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title small{
+  display:block!important;
+  margin-top:3px!important;
+  color:#7c8798!important;
+  font-size:9.35px!important;
+  line-height:1.14!important;
+  font-weight:500!important;
+}
+
+/* 3. Status strip — same rounded premium material as the rest of the screen. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-premium-status{
+  min-height:46px!important;
+  margin:0 0 11px!important;
+  padding:7px 9px!important;
+  gap:9px!important;
+  border-radius:15px!important;
+  border:1px solid rgba(179,133,54,.27)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(250,246,237,.90))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 3px 8px rgba(78,51,16,.035)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-premium-shield{
+  width:31px!important;height:31px!important;border-radius:10px!important;
+  color:#9a6513!important;
+  border:1px solid rgba(177,126,38,.26)!important;
+  background:linear-gradient(145deg,#fffdf5,#f5e8c5)!important;
+  box-shadow:inset 0 1px 0 #fff!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-premium-status b{
+  color:#2f435f!important;font-size:11.9px!important;line-height:1.06!important;font-weight:760!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-premium-status small{
+  margin-top:2px!important;color:#838b9a!important;font-size:9.15px!important;line-height:1.08!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-premium-status em{
+  padding:5px 8px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(170,116,27,.31)!important;
+  background:linear-gradient(180deg,rgba(255,252,239,.98),rgba(245,231,195,.94))!important;
+  color:#8f6018!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96)!important;
+  font-size:8.7px!important;letter-spacing:.17em!important;font-weight:850!important;
+}
+
+/* 4. Calculator labels and selector fields — same family as the approved form fields. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .fld{
+  margin-bottom:9px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .fld>label{
+  margin:0 0 5px!important;
+  color:#17345f!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15.05px!important;
+  line-height:1.00!important;
+  font-weight:700!important;
+  letter-spacing:-.015em!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .hearing-premium-picker{
+  min-height:53px!important;height:53px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(181,136,57,.38)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.985),rgba(255,253,248,.965) 54%,rgba(249,245,236,.955))!important;
+  box-shadow:inset 0 1.2px 0 rgba(255,255,255,.99),inset 0 -1px 0 rgba(196,158,87,.07),0 4px 10px rgba(79,52,18,.04)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .premium-select-field-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .hearing-premium-picker-copy b{
+  color:#405674!important;font-size:12.55px!important;line-height:1.10!important;font-weight:650!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator .hearing-premium-picker-tail{
+  width:39px!important;height:39px!important;min-width:39px!important;
+  border-radius:50%!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.99),rgba(248,240,222,.97))!important;
+  border:1px solid rgba(176,127,39,.46)!important;
+  color:#9b6818!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 2px 6px rgba(104,72,25,.06)!important;
+}
+
+/* 5. Keep the calculator as a calm vertical premium flow. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-grid,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-source-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:0!important;
+  width:100%!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-source-field{
+  margin-top:1px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-time-hint{
+  margin:4px 2px 0!important;
+  color:#7b8494!important;
+  font-size:8.9px!important;
+  line-height:1.18!important;
+}
+
+/* 6. Result — premium result plaque, visually related to Save/active gold without becoming a gold button. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result{
+  position:relative!important;
+  margin-top:2px!important;
+  padding:14px 14px 13px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(179,129,43,.32)!important;
+  background:
+    linear-gradient(180deg,rgba(255,253,246,.99),rgba(250,244,230,.965))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 6px 14px rgba(80,52,15,.05)!important;
+  overflow:hidden!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result::before{
+  content:""!important;
+  position:absolute!important;left:0!important;right:0!important;top:0!important;height:3px!important;
+  background:linear-gradient(90deg,#b77a1a 0%,#f1cf75 24%,#fff0b9 50%,#d79d2f 78%,#a96b10 100%)!important;
+  opacity:.78!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result::after{
+  right:-24px!important;top:-24px!important;width:96px!important;height:96px!important;
+  background:radial-gradient(circle,rgba(222,177,67,.12),rgba(222,177,67,0) 70%)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result>small{
+  color:#7c8797!important;
+  font-size:9.35px!important;
+  line-height:1!important;
+  letter-spacing:.16em!important;
+  font-weight:780!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result>b{
+  margin-top:7px!important;
+  color:#9a6512!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:25px!important;
+  line-height:1.03!important;
+  letter-spacing:-.026em!important;
+  font-weight:700!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result>em{
+  margin-left:7px!important;color:#7c8797!important;font-size:10.7px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-law{
+  gap:6px 8px!important;
+  margin-top:11px!important;
+  padding-top:10px!important;
+  border-top:1px solid rgba(164,120,49,.15)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-law strong{
+  color:#243a57!important;font-size:11.5px!important;font-weight:760!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-law span{
+  color:#8e5f16!important;
+  background:linear-gradient(180deg,rgba(255,252,240,.96),rgba(244,230,194,.88))!important;
+  border:1px solid rgba(168,113,25,.20)!important;
+  padding:4px 8px!important;
+  border-radius:999px!important;
+  font-size:10.5px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result p{
+  margin:9px 0 0!important;
+  color:#64758a!important;
+  font-size:11.25px!important;
+  line-height:1.36!important;
+}
+
+/* 7. Empty/result information boxes use the same cream premium palette. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-empty{
+  margin-top:2px!important;
+  padding:12px 13px!important;
+  border-radius:16px!important;
+  border:1px dashed rgba(176,126,38,.30)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(249,244,233,.80))!important;
+  color:#697a8f!important;
+  font-size:11.1px!important;
+  line-height:1.38!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-empty b{
+  color:#314761!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-shift,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-special,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-warn{
+  border-radius:13px!important;
+  padding:8px 9px!important;
+  font-size:10.25px!important;
+  line-height:1.30!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.68)!important;
+}
+
+/* 8. Footnote belongs to the calculator rather than looking like detached legal text. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-footnote{
+  margin:10px 2px 0!important;
+  padding:8px 9px 0!important;
+  border-top:1px solid rgba(165,121,50,.12)!important;
+  color:#788396!important;
+  font-size:8.85px!important;
+  line-height:1.27!important;
+}
+
+/* 9. Mobile optical safety. */
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator{
+    padding-left:10px!important;padding-right:10px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator-title b{
+    font-size:15.7px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-result>b{
+    font-size:23.5px!important;
+  }
+}
+
+/* LOCKS — calculator pass must not repaint approved quick-entry assets. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
