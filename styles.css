@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.234 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.235 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.234 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.234.
+   5.0.235 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.235.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.234 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.235 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.234 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.235 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.234 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.235 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.234 — STARTUP PAINT STABILITY
+   5.0.235 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5234')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5235')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27873,7 +27873,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 
 
 /* =====================================================================
-   5.0.234 — TYPE CARD TYPOGRAPHY BALANCE
+   5.0.235 — TYPE CARD TYPOGRAPHY BALANCE
    On iPhone the active hearing card title looked optically smaller than
    the other type buttons. Increase and rebalance the title/subtitle,
    and give the hearing title a tiny optical bump so all four cards feel
@@ -27938,7 +27938,7 @@ body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
 
 
 /* =====================================================================
-   5.0.234 — darker gold premium glow + reflective highlight
+   5.0.235 — darker gold premium glow + reflective highlight
    Goal: match the approved mockup more closely: less lemon, more rich gold,
    deeper shadow and visible glossy top reflection on active type cards and
    the bottom save button.
@@ -28029,7 +28029,7 @@ body.light #sheet.entry-premium-sheet .task-editor-save::after{
 
 
 /* =====================================================================
-   5.0.234 — equalize “Заседание” title + remove white square corners
+   5.0.235 — equalize “Заседание” title + remove white square corners
    ===================================================================== */
 
 /* 1) Hearing type card title looked visually smaller than neighbors.
@@ -28110,7 +28110,7 @@ body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap>i
 
 
 /* =====================================================================
-   5.0.234 — FINAL DEVICE OVERRIDE
+   5.0.235 — FINAL DEVICE OVERRIDE
    Visible only after the new shell is really loaded.
    ===================================================================== */
 
@@ -28175,7 +28175,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field{
 
 
 /* =====================================================================
-   5.0.234 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
+   5.0.235 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
    ===================================================================== */
 
 /* 1) EXACT SAME title font on all 4 cards. No special hearing size. */
@@ -28306,5 +28306,103 @@ body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-
   body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b{
     font-size:15.4px!important;
+  }
+}
+
+
+/* =====================================================================
+   5.0.235 — FOUR TYPE TITLES: SAME FONT SIZE, DEADLINE FITS IN TWO LINES
+   ===================================================================== */
+
+/* One factual typographic rule for ALL four buttons. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card .qe190-type-copy b{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15.6px!important;
+  font-weight:700!important;
+  line-height:1!important;
+  letter-spacing:-.018em!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+
+/* Subtitles also share one rule. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card .qe190-type-copy small{
+  font-size:9.15px!important;
+  line-height:1.05!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+  margin-top:3px!important;
+  text-align:center!important;
+}
+
+/* Deadline uses the SAME 15.6px font. The only difference is a controlled
+   two-line layout and a tiny horizontal optical compression of the long word,
+   so it never clips on iPhone while keeping the same visual height. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy{
+  left:39px!important;
+  right:1px!important;
+  overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  width:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:normal!important;
+  overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-deadline-word,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-deadline-word{
+  display:block!important;
+  width:max-content!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  line-height:.94!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-deadline-word:first-child,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-deadline-word:first-child{
+  transform:scaleX(.91)!important;
+  transform-origin:center center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-deadline-word-last,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-deadline-word-last{
+  margin-top:-1px!important;
+}
+
+/* Give the deadline icon a few extra pixels of text room without changing
+   the visual scale of the other three buttons. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-icon{
+  left:9px!important;
+  width:27px!important;
+  height:27px!important;
+  min-width:27px!important;
+  min-height:27px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-icon .ico{
+  width:26px!important;
+  height:26px!important;
+}
+
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card .qe190-type-copy b,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card .qe190-type-copy b{
+    font-size:15.2px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy{
+    left:37px!important;
+    right:0!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-deadline-word:first-child,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-deadline-word:first-child{
+    transform:scaleX(.89)!important;
   }
 }
