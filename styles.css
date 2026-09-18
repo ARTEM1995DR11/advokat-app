@@ -24101,3 +24101,176 @@ body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-ch
     height:31px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.194 — FIT & GEOMETRY PASS
+   Target: the real iPhone proportions from the 5.0.193 screenshot.
+   Keeps the current app background unchanged.
+   ===================================================================== */
+
+/* Approved clipboard/task icon: no tile, same family as calendar/user/clock. */
+#sheet.qe190-sheet .qe190-type-task .qe190-type-icon .ico{
+  width:27px!important;
+  height:27px!important;
+  stroke-width:1.75!important;
+}
+
+/* Give text a little more room without growing the cards. */
+#sheet.qe190-sheet .qe190-type-copy{min-width:0!important;overflow:visible!important}
+#sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b{
+  max-width:100%!important;
+  font-size:12.4px!important;
+  line-height:.95!important;
+  letter-spacing:-.025em!important;
+}
+#sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy small{
+  font-size:8.15px!important;
+  white-space:nowrap!important;
+}
+
+/* The standard task/meeting form needs to breathe horizontally, not vertically. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor > .fld{
+  margin-bottom:10px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .fld>label{
+  margin-bottom:5px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-datetime{
+  margin-bottom:5px!important;
+}
+
+/* Five quick-date actions on the task screen must be one row, like the approved mockup. */
+body.light #sheet.entry-premium-sheet .kind-task-editor .task-quick-dates{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:5px!important;
+  margin:0 0 8px!important;
+}
+body.light #sheet.entry-premium-sheet .kind-task-editor .task-quick-dates .chip{
+  grid-column:auto!important;
+  min-width:0!important;
+  width:100%!important;
+  min-height:30px!important;
+  height:30px!important;
+  padding:0 3px!important;
+  border-radius:10px!important;
+  font-size:9.7px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+/* Meeting keeps four equal actions. */
+body.light #sheet.entry-premium-sheet .kind-meeting-editor .task-quick-dates{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  margin:0 0 8px!important;
+  gap:5px!important;
+}
+body.light #sheet.entry-premium-sheet .kind-meeting-editor .task-quick-dates .chip{
+  min-height:30px!important;
+  height:30px!important;
+  padding:0 4px!important;
+  font-size:10px!important;
+}
+
+/* Compact date/time pair: full placeholder stays readable; selected date no longer needs a year. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field{
+  padding-left:36px!important;
+  padding-right:37px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::before,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::before{
+  left:10px!important;
+  width:17px!important;
+  height:17px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{
+  right:5px!important;
+  width:29px!important;
+  height:29px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field-copy b,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field>b{
+  font-size:10px!important;
+  letter-spacing:-.018em!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Priority block: approved circular alert instead of a warning triangle. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-field{
+  margin-bottom:8px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips{
+  margin:0 0 7px!important;
+  gap:6px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip{
+  min-height:31px!important;
+  height:31px!important;
+  border-radius:11px!important;
+  padding:0 7px!important;
+  font-size:10.4px!important;
+  gap:7px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe194-pri-alert-circle{
+  width:19px!important;
+  height:19px!important;
+  flex:0 0 19px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1.8px solid #b93227!important;
+  border-radius:50%!important;
+  color:#b93227!important;
+  font:800 13px/1 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  box-sizing:border-box!important;
+}
+
+/* Notes use the same leading document icon as the approved mockup and become less bulky. */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe194-note-shell{
+  position:relative!important;
+  display:block!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe194-note-icon{
+  position:absolute!important;
+  z-index:2!important;
+  left:13px!important;
+  top:14px!important;
+  width:23px!important;
+  height:23px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#53678e!important;
+  pointer-events:none!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe194-note-icon .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:1.7!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-note-editor{
+  min-height:66px!important;
+  height:66px!important;
+  padding:12px 12px 10px 46px!important;
+  resize:none!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-editor-note-field{
+  margin-bottom:4px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .hearing-save-divider{
+  margin:3px 2px 4px!important;
+}
+
+/* Slightly denser task screen on phone so the save action reaches the viewport naturally. */
+@media(max-width:390px){
+  body.light #sheet.entry-premium-sheet .kind-task-editor .task-quick-dates{gap:4px!important}
+  body.light #sheet.entry-premium-sheet .kind-task-editor .task-quick-dates .chip{font-size:9.15px!important;padding:0 2px!important}
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field-copy b,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field>b{font-size:9.55px!important}
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip{font-size:9.9px!important;padding:0 5px!important}
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .task-note-editor{min-height:62px!important;height:62px!important}
+}
