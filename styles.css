@@ -31094,3 +31094,47 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.260 — PIXEL PASS STEP 3 / FINAL MICRO-CORRECTION
+   Only the three remaining typography points from the 5.0.259 device audit.
+   LOCKED: background, gold surfaces, icons, fields, arrows, common geometry.
+   ===================================================================== */
+
+/* 1) Meeting comment: keep the long example visually compact and on one line
+      at the reference iPhone width without changing textarea geometry/value text. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-meeting-editor .task-editor-note-field .task-note-editor::placeholder{
+  font-size:12.15px!important;
+  line-height:1.16!important;
+  letter-spacing:-.018em!important;
+}
+
+/* 2) Hearing party labels: slightly lighter optical scale so the two-column
+      block does not overpower the rest of the field labels. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-party-grid .qe192-field>label{
+  font-size:13.75px!important;
+  line-height:1.00!important;
+  min-height:27px!important;
+  letter-spacing:-.012em!important;
+}
+
+/* 3) Deadline source-date label: a little more air between its two lines. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor .deadline-source-field>label{
+  font-size:14.7px!important;
+  line-height:1.085!important;
+  margin-bottom:6px!important;
+}
+
+/* LOCKS — approved parts stay exactly as before. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
