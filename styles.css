@@ -30377,3 +30377,177 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.256 — PIXEL PASS STEP 2 / REFINEMENT FROM DEVICE SCREENSHOTS
+   Fix double-layer fields on hearing screen and tune proportions.
+   Background, gold surfaces and icon set remain LOCKED.
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  --qe-field-radius:16px;
+  --qe-choice-size:34px;
+  --qe-choice-right:7px;
+}
+
+/* ---------------------------------------------------------------------
+   HEARING: one premium surface only.
+   The outer .qe192-control owns border/background/shadow.
+   Nested select/inline shells must be transparent to avoid double rings.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-select-control .premium-select-wrap,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-inline-control .inline-choice-wrap{
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:inherit!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  clip-path:none!important;
+  -webkit-mask-image:none!important;
+}
+
+/* Generated button inside “Дело” must not draw a second field. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-select-control .premium-select-field{
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Judge / Court input shell must not draw another rounded rectangle. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-inline-control .inline-choice-wrap{
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-inline-control .inline-choice-wrap>input{
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Outer hearing shell is the single visible field. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control{
+  border-radius:var(--qe-field-radius)!important;
+  overflow:hidden!important;
+  clip-path:inset(0 round var(--qe-field-radius))!important;
+}
+
+/* ---------------------------------------------------------------------
+   STANDARD FORMS: closer to mockup — rounded rectangle, not capsule.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap{
+  border-radius:var(--qe-field-radius)!important;
+}
+
+/* Note/comment remains a touch softer because it is taller. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell{
+  border-radius:17px!important;
+}
+
+/* ---------------------------------------------------------------------
+   ARROWS: slightly smaller and with a little more edge breathing room,
+   matching the approved mockup proportions.
+   --------------------------------------------------------------------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail{
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+  right:var(--qe-choice-right)!important;
+}
+
+/* Chevron also scales down proportionally. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail .ico{
+  width:14px!important;
+  height:14px!important;
+  min-width:14px!important;
+  min-height:14px!important;
+  stroke-width:2.05!important;
+}
+
+/* Date/time pseudo-buttons use the exact same 34px geometry. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+  right:var(--qe-choice-right)!important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239D6817' stroke-width='2.05' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5l6.5 6.5L9 18.5'/%3E%3C/svg%3E") center/14px 14px no-repeat,
+    radial-gradient(circle at 34% 22%,rgba(255,255,255,.995) 0%,rgba(255,255,255,.74) 24%,rgba(255,255,255,0) 46%),
+    linear-gradient(180deg,#fffdf9 0%,#f8f0e2 52%,#ecdec7 100%)!important;
+}
+
+/* Safe zone follows the smaller selector. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control.has-action input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  padding-right:46px!important;
+}
+
+/* Focus must affect only the single outer hearing surface. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-inline-control .inline-choice-wrap:focus-within,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet
+.qe192-select-control .premium-select-wrap:focus-within{
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* LOCK approved image surfaces. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
