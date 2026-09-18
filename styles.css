@@ -26302,7 +26302,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing
 
 
 /* =====================================================================
-   5.0.217 — optical centering for HEARING type label only
+   5.0.219 — optical centering for HEARING type label only
    The other three type cards are already approved. Nudge only the
    hearing text group slightly left so its title/subtitle reads centered.
    ===================================================================== */
@@ -26313,7 +26313,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe1
 
 
 /* =====================================================================
-   5.0.217 — HARD CENTER for "Заседание" type card
+   5.0.219 — HARD CENTER for "Заседание" type card
    Center the hearing title/subtitle against the full card itself,
    completely independently from the left icon.
    ===================================================================== */
@@ -26351,7 +26351,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe1
 
 
 /* =====================================================================
-   5.0.217 — mobile optical correction for "Заседание"
+   5.0.219 — mobile optical correction for "Заседание"
    Desktop centering from 5.0.216 remains unchanged.
    On phone the text block is nudged slightly right to match the visual
    balance of the other three type cards.
@@ -26361,4 +26361,257 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe1
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy{
     left:calc(50% + 4px)!important;
   }
+}
+
+
+/* =====================================================================
+   5.0.219 — hearing form: restore court + manual client field
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .qe192-input-control input{
+  padding-right:14px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-court-field .qe192-inline-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-court-field .inline-choice-wrap{
+  width:100%!important;
+}
+
+/* =====================================================================
+   5.0.219 — PREMIUM POLISH / STEP 1
+   1) icon plaques in all 4 TYPE cards
+   2) richer ivory/gold card surfaces and active state
+   3) richer form fields: depth, light, borders
+   Plus: premium selector arrows and warmer placeholder/hint tones.
+   Applies to create + edit screens of task/meeting/deadline/hearing.
+   ===================================================================== */
+
+/* ----- TYPE CARDS: layered premium ivory surface ----- */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card{
+  position:relative!important;
+  overflow:hidden!important;
+  border:1px solid rgba(201,164,99,.52)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.985) 0%,rgba(252,248,241,.965) 48%,rgba(246,238,226,.955) 100%)!important;
+  box-shadow:
+    0 5px 13px rgba(76,49,17,.075),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(177,128,49,.08)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card::before{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:1px 2px auto 2px!important;
+  height:43%!important;
+  border-radius:15px 15px 48% 48%!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.64),rgba(255,255,255,0))!important;
+  opacity:.92!important;
+}
+
+/* ----- icon plaques: visible on every card, same geometry ----- */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon{
+  left:9px!important;
+  width:38px!important;
+  height:38px!important;
+  min-width:38px!important;
+  min-height:38px!important;
+  flex:0 0 38px!important;
+  border-radius:12px!important;
+  color:#9b650f!important;
+  border:1px solid rgba(202,162,94,.43)!important;
+  background:
+    linear-gradient(155deg,rgba(255,255,255,.99) 0%,rgba(251,246,236,.98) 52%,rgba(241,229,208,.96) 100%)!important;
+  box-shadow:
+    0 3px 7px rgba(80,51,16,.08),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(178,128,48,.08)!important;
+  z-index:2!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.8!important;
+}
+
+/* Active card: richer gold, not flat yellow. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  border-color:#d49a2f!important;
+  background:
+    linear-gradient(135deg,#ffeeb8 0%,#f6d579 35%,#e8b94d 68%,#dba136 100%)!important;
+  box-shadow:
+    0 0 0 1px rgba(255,248,220,.92),
+    0 8px 19px rgba(146,91,13,.18),
+    inset 0 1px 0 rgba(255,255,255,.80),
+    inset 0 -1px 0 rgba(111,68,6,.12)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::before{
+  height:46%!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.52),rgba(255,255,255,0))!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background:
+    radial-gradient(circle at 88% 3%,rgba(255,255,239,.82) 0%,rgba(255,255,239,.34) 18%,transparent 38%),
+    linear-gradient(112deg,rgba(255,255,255,.18) 0%,transparent 37%,rgba(118,68,4,.035) 100%)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
+  color:#704304!important;
+  border-color:rgba(149,92,12,.30)!important;
+  background:linear-gradient(155deg,rgba(255,255,247,.96),rgba(255,239,194,.91))!important;
+  box-shadow:
+    0 3px 8px rgba(93,55,6,.11),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -1px 0 rgba(147,91,9,.09)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy{
+  z-index:2!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card:not(.is-active) .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:not(.is-active) .qe190-type-copy b{
+  color:#16325f!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.90)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card:not(.is-active) .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:not(.is-active) .qe190-type-copy small{
+  color:#737d94!important;
+}
+
+/* ----- PREMIUM FORM SURFACE: ordinary task / meeting / deadline ----- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-place,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .deadline-calculator input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor{
+  border:1px solid rgba(202,168,108,.62)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.985) 0%,rgba(253,249,242,.97) 47%,rgba(247,239,228,.955) 100%)!important;
+  color:#25365d!important;
+  box-shadow:
+    0 5px 13px rgba(72,45,15,.075),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(180,132,53,.075)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title:focus,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-place:focus,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap>input:focus,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .deadline-calculator input:focus,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor:focus{
+  border-color:rgba(187,134,45,.86)!important;
+  box-shadow:
+    0 6px 15px rgba(82,49,12,.09),
+    0 0 0 2px rgba(224,184,108,.13),
+    inset 0 1px 0 rgba(255,255,255,1)!important;
+  outline:0!important;
+}
+
+/* ----- PREMIUM FORM SURFACE: hearing ----- */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  border:1px solid rgba(202,168,108,.62)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.985) 0%,rgba(253,249,242,.97) 48%,rgba(247,239,228,.955) 100%)!important;
+  color:#25365d!important;
+  box-shadow:
+    0 5px 13px rgba(72,45,15,.075),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(180,132,53,.075)!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input:focus,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input:focus{
+  border-color:rgba(187,134,45,.86)!important;
+  box-shadow:
+    0 6px 15px rgba(82,49,12,.09),
+    0 0 0 2px rgba(224,184,108,.13),
+    inset 0 1px 0 rgba(255,255,255,1)!important;
+  outline:0!important;
+}
+
+/* Slightly more luxurious leading icons, without becoming too gold. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-icon{
+  color:#596986!important;
+}
+
+/* ----- warmer, softer placeholder / secondary text ----- */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input::placeholder,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control input::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-place::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor::placeholder{
+  color:#7f879a!important;
+  opacity:.92!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field.empty .premium-select-field-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field.empty b,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field.empty b{
+  color:#7f879a!important;
+  font-weight:500!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fieldhint{
+  color:#747d90!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.60)!important;
+}
+
+/* ----- arrows: same geometry, more premium glass/gold treatment ----- */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  border:1px solid rgba(193,149,75,.68)!important;
+  background:
+    radial-gradient(circle at 35% 24%,rgba(255,255,255,.99) 0%,rgba(255,255,255,.72) 24%,transparent 45%),
+    linear-gradient(180deg,#fffdf9 0%,#f7efe1 52%,#eee0c9 100%)!important;
+  color:#a36b13!important;
+  box-shadow:
+    0 3px 8px rgba(77,47,12,.075),
+    0 0 0 1px rgba(255,255,255,.55),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(159,108,27,.08)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  border:1px solid rgba(193,149,75,.68)!important;
+  background:
+    radial-gradient(circle at 35% 24%,rgba(255,255,255,.99) 0%,rgba(255,255,255,.72) 24%,transparent 45%),
+    linear-gradient(180deg,#fffdf9 0%,#f7efe1 52%,#eee0c9 100%)!important;
+  color:#a36b13!important;
+  box-shadow:
+    0 3px 8px rgba(77,47,12,.075),
+    0 0 0 1px rgba(255,255,255,.55),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(159,108,27,.08)!important;
+}
+
+/* Manual client field is intentionally NOT a selector. Guard against stale styling. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .inline-choice-arrow{
+  display:none!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-client-field .qe192-input-control input{
+  padding-right:13px!important;
 }
