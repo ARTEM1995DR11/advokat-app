@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.224 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.225 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27322,5 +27322,225 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
   body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-copy b,
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-brand-copy b{
     font-size:18.9px!important;
+  }
+}
+
+/* =====================================================================
+   5.0.225 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.225.
+   Goals:
+   - two-line "Новый процессуальный срок"
+   - reduce vertical waste without making controls feel cramped
+   - shorten hearing hints and keep date/time readable in half-width fields
+   - bring save action closer to the visible viewport
+   ===================================================================== */
+
+/* ---------- deadline title: balanced two-line composition ---------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit),
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:23.5px!important;
+  line-height:.88!important;
+  letter-spacing:-.025em!important;
+  white-space:normal!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe-new-deadline-main,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe-new-deadline-kind{
+  display:block!important;
+  width:100%!important;
+  text-align:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe-new-deadline-kind{
+  margin-top:2px!important;
+}
+
+/* ---------- ordinary task / meeting / deadline form ---------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.fld{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld>label{
+  margin:0 0 4px!important;
+  font-size:14.5px!important;
+  line-height:1.04!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-place,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .editor-select-field .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap>input{
+  height:46px!important;
+  min-height:46px!important;
+  border-radius:14px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-icon{
+  left:12px!important;
+  width:21px!important;
+  height:21px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-icon .ico{
+  width:20px!important;
+  height:20px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell #e-title{
+  padding-left:41px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .editor-select-field .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field{
+  font-size:12.2px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-datetime{
+  gap:8px!important;
+  margin-bottom:3px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-datetime .fld{
+  margin-bottom:3px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates{
+  margin-top:0!important;
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip{
+  height:28px!important;
+  min-height:28px!important;
+  border-radius:10px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-field{
+  margin-bottom:6px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips{
+  margin-bottom:5px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip{
+  height:29px!important;
+  min-height:29px!important;
+  border-radius:10px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor{
+  height:58px!important;
+  min-height:58px!important;
+  padding-top:10px!important;
+  padding-bottom:8px!important;
+  border-radius:16px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-icon{
+  top:11px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-editor-note-field{
+  margin-bottom:2px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-save-divider{
+  margin:5px 0 7px!important;
+}
+
+/* ---------- hearing: reduce vertical waste created by extra court field ---------- */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-form{
+  margin-top:0!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field{
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field>label{
+  margin:0 0 3px!important;
+  font-size:14.3px!important;
+  line-height:1.03!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid{
+  gap:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{
+  min-height:25px!important;
+  font-size:13.3px!important;
+  line-height:.98!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  height:46px!important;
+  min-height:46px!important;
+  border-radius:14px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading{
+  left:10px!important;
+  width:19px!important;
+  height:19px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading .ico{
+  width:18px!important;
+  height:18px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input{
+  padding-left:36px!important;
+  font-size:11.6px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-input-control input{
+  padding-left:34px!important;
+  font-size:10.7px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint{
+  display:block!important;
+  margin:3px 2px 0!important;
+  font-size:8.1px!important;
+  line-height:1.14!important;
+  letter-spacing:-.01em!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-judge-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-court-field{
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime{
+  gap:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  padding-left:34px!important;
+  padding-right:45px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon{
+  left:9px!important;
+  width:17px!important;
+  height:17px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon .ico{
+  width:16px!important;
+  height:16px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{
+  font-size:10px!important;
+  letter-spacing:-.022em!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-divider{
+  margin:7px 0!important;
+}
+
+/* ---------- slight deadline external compaction only; the calculator itself
+   gets its dedicated redesign in the next planned deadline stage. ---------- */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor>.editor-select-field{
+  margin-bottom:7px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator{
+  margin-top:2px!important;
+}
+
+/* Narrow iPhone: preserve readability after the compaction. */
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+    font-size:22.5px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field-copy b,
+  body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field>b{
+    font-size:9.7px!important;
+  }
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{
+    font-size:9.75px!important;
   }
 }

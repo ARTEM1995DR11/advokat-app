@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.224';
-var APP_BUILD='5224';
+var APP_VERSION='5.0.225';
+var APP_BUILD='5225';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -251,7 +251,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5224" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5225" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5224" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5225" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -3247,7 +3247,7 @@ function editTask(t,preset){
 }
 
 function hearingPremiumDateControl(id,value,emptyLabel,iconName){
-  var v=value||'', label=v?fmtD(v,true):(emptyLabel||'Выберите дату');
+  var v=value||'', label=v?fmtD(v,false):(emptyLabel||'Выберите дату');
   return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
     '<button type="button" class="hearing-premium-picker hearing-premium-picker-date'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
       '<span class="hearing-premium-picker-icon">'+ico(iconName||'cal','s')+'</span>'+
@@ -3284,7 +3284,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5224" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5225" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -3320,12 +3320,12 @@ function renderHearingPremiumEditor(t,isNew){
         '<section class="qe192-field qe192-judge-field">'+
           '<label>Судья / председательствующий</label>'+
           '<div class="qe192-control qe192-inline-control"><span class="qe192-leading qe192-judge-icon">'+ico('user','s')+'</span>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'</div>'+
-          '<small class="qe192-hint">Можно выбрать судью стрелкой справа или напечатать фамилию вручную.<br>Для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+
+          '<small class="qe192-hint">Судью можно выбрать стрелкой справа или ввести вручную; известный суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+
         '</section>'+
         '<section class="qe192-field qe192-court-field">'+
           '<label>Суд / место заседания *</label>'+
           '<div class="qe192-control qe192-inline-control"><span class="qe192-leading">'+ico('folder','s')+'</span>'+inlineChoiceField('e-place','e-court-choice',t.place||'','Суд или место заседания',courtChoiceOptions(t.place||''),'court-options')+'</div>'+
-          '<small class="qe192-hint">Можно выбрать суд стрелкой справа или ввести название вручную.</small>'+courtDatalist()+
+          '<small class="qe192-hint">Суд можно выбрать стрелкой справа или ввести название вручную.</small>'+courtDatalist()+
         '</section>'+
       '</div>'+
       '<div class="qe192-two qe192-datetime">'+
@@ -3357,7 +3357,7 @@ function drawEditor(preserveScroll){
           : '<span class="qe193-pri-mark qe195-pri-low-mark">'+ico('chev','s')+'</span>');
     return '<button class="chip pri-'+k+(t.pri===k?' on':'')+'" data-act="e-pri" data-v="'+k+'">'+mark+'<span>'+PRI[k].n+'</span></button>'; }).join('');
   var quickDates = timedEvent ? [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя']] : [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя'],['','Без даты']];
-  var title = hearing ? (isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>') : (meeting ? (isNew?'Новая встреча':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">встречи</span>') : (t.kind==='deadline' ? (isNew?'Новый процессуальный срок':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">срока</span>') : (isNew?'Новая задача':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">задачи</span>')));
+  var title = hearing ? (isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>') : (meeting ? (isNew?'Новая встреча':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">встречи</span>') : (t.kind==='deadline' ? (isNew?'<span class="qe-new-deadline-main">Новый процессуальный</span><span class="qe-new-deadline-kind">срок</span>':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">срока</span>') : (isNew?'Новая задача':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">задачи</span>')));
   var oldRuleParts=t.kind==='deadline'?inferDeadlineRuleParts(t):{code:'GPK',ruleId:''};
   if(t.kind==='deadline'){
     if(!t.deadlineCode)t.deadlineCode=oldRuleParts.code||'GPK';
