@@ -26086,7 +26086,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small{
 
 
 /* =====================================================================
-   5.0.212 — unified two-line edit titles
+   5.0.214 — unified two-line edit titles
    Row 1: «Редактирование»; row 2: task/meeting/deadline/hearing name.
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit,
@@ -26127,4 +26127,238 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main{font-size:21px!important}
   body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind,
   body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind{font-size:20px!important}
+}
+
+/* =====================================================================
+   5.0.214 — center labels inside the four TYPE cards
+   Icon remains on the left; title/subtitle are optically centered in card.
+   Applies to create + edit screens for task/hearing/meeting/deadline.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon{
+  position:absolute!important;
+  left:10px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  margin:0!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy{
+  width:100%!important;
+  min-width:0!important;
+  padding:0 34px!important;
+  margin:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:visible!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small{
+  width:100%!important;
+  text-align:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{
+  text-align:center!important;
+}
+
+/* =====================================================================
+   5.0.214 — unified selection chevrons across all 4 create/edit forms
+   One geometry everywhere: circular button, centered chevron, pinned to
+   the right edge of its field. Applies to task/meeting/deadline/hearing.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  --qe-choice-size:36px;
+  --qe-choice-right:6px;
+}
+
+/* Any field that owns a right-side selector must be a positioning context. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  position:relative!important;
+}
+
+/* Real button / SVG chevron controls. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  position:absolute!important;
+  top:50%!important;
+  right:var(--qe-choice-right)!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:50%!important;
+  border:1px solid rgba(197,158,91,.62)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(244,234,215,.94))!important;
+  color:#a87319!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 6px rgba(101,70,25,.06)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+  z-index:5!important;
+  box-sizing:border-box!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail .ico{
+  position:static!important;
+  width:15px!important;
+  height:15px!important;
+  min-width:15px!important;
+  min-height:15px!important;
+  margin:0!important;
+  transform:none!important;
+  stroke-width:2.15!important;
+  display:block!important;
+}
+
+/* Date/time selectors are pseudo-elements in the ordinary task/meeting/deadline forms.
+   Give them the exact same circle and optical centering. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  content:'›'!important;
+  position:absolute!important;
+  top:50%!important;
+  right:var(--qe-choice-right)!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+  width:var(--qe-choice-size)!important;
+  height:var(--qe-choice-size)!important;
+  min-width:var(--qe-choice-size)!important;
+  min-height:var(--qe-choice-size)!important;
+  max-width:var(--qe-choice-size)!important;
+  max-height:var(--qe-choice-size)!important;
+  margin:0!important;
+  padding:0 0 2px 0!important;
+  border-radius:50%!important;
+  border:1px solid rgba(197,158,91,.62)!important;
+  background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(244,234,215,.94))!important;
+  color:#a87319!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 6px rgba(101,70,25,.06)!important;
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:23px!important;
+  font-weight:500!important;
+  line-height:1!important;
+  text-align:center!important;
+  z-index:5!important;
+}
+
+/* Reserve identical space so field text never runs under the right button. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field{
+  padding-right:49px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control.has-action input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  padding-right:49px!important;
+}
+
+/* On narrow iPhones, keep exactly the same right-edge inset. */
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet{
+    --qe-choice-size:36px;
+    --qe-choice-right:6px;
+  }
+}
+
+
+/* =====================================================================
+   5.0.217 — optical centering for HEARING type label only
+   The other three type cards are already approved. Nudge only the
+   hearing text group slightly left so its title/subtitle reads centered.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy{
+  transform:translateX(-3px)!important;
+}
+
+
+/* =====================================================================
+   5.0.217 — HARD CENTER for "Заседание" type card
+   Center the hearing title/subtitle against the full card itself,
+   completely independently from the left icon.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing{
+  position:relative!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:calc(100% - 70px)!important;
+  max-width:calc(100% - 70px)!important;
+  padding:0!important;
+  margin:0!important;
+  transform:translate(-50%,-50%)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  pointer-events:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy small{
+  width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  text-align:center!important;
+  transform:none!important;
+}
+
+
+/* =====================================================================
+   5.0.217 — mobile optical correction for "Заседание"
+   Desktop centering from 5.0.216 remains unchanged.
+   On phone the text block is nudged slightly right to match the visual
+   balance of the other three type cards.
+   ===================================================================== */
+@media (max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-hearing .qe190-type-copy,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-hearing .qe190-type-copy{
+    left:calc(50% + 4px)!important;
+  }
 }
