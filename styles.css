@@ -1626,7 +1626,7 @@ body.light .task-editor-sheet .fld textarea::placeholder{
   color:#8D9AA7!important;
   opacity:.92!important;
 }
-body.light .task-editor-sheet .fld select option{background:#FFFDF8!important;color:#152472!important}
+body.light .task-editor-sheet .fld select option{background:#FFFDF8!important;color:#152482!important}
 body.light .task-editor-sheet .task-kind-chips .chip,
 body.light .task-editor-sheet .task-priority-chips .chip{
   background:linear-gradient(160deg,rgba(255,253,248,.92),rgba(243,235,220,.80))!important;
@@ -3210,7 +3210,7 @@ body.light .matter-premium-hero-bg{background:radial-gradient(140px 120px at 100
 body.light .matter-summary-card{background:linear-gradient(180deg,#FFFFFF,#F7F9FC);box-shadow:0 10px 24px rgba(35,31,24,.05)}
 body.light .matter-focuscard{background:linear-gradient(145deg,rgba(200,155,67,.08),transparent 72%),#FFFFFF;box-shadow:0 10px 24px rgba(35,31,24,.05)}
 body.light .matter-focusicon,body.light .matter-field-icon{background:rgba(184,140,45,.10);color:#A56E17;border-color:rgba(184,140,45,.15)}
-body.light .matter-focuscopy b{color:#152472}
+body.light .matter-focuscopy b{color:#152482}
 body.light .matter-focuscopy span{color:#6E8194}
 body.light .matter-field-card{background:linear-gradient(180deg,#FFFFFF,#F8FAFC);box-shadow:0 10px 24px rgba(35,31,24,.045)}
 body.light .matter-field-copy b{color:#142431}
@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.247 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.248 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.247 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.247.
+   5.0.248 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.248.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.247 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.248 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.247 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.248 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.247 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.248 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27855,11 +27855,11 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.247 — STARTUP PAINT STABILITY
+   5.0.248 — STARTUP PAINT STABILITY
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
-  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5247')!important;
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5248')!important;
 }
 .ico{
   shape-rendering:geometricPrecision;
@@ -27873,7 +27873,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
 
 
 /* =====================================================================
-   5.0.247 — TYPE CARD TYPOGRAPHY BALANCE
+   5.0.248 — TYPE CARD TYPOGRAPHY BALANCE
    On iPhone the active hearing card title looked optically smaller than
    the other type buttons. Increase and rebalance the title/subtitle,
    and give the hearing title a tiny optical bump so all four cards feel
@@ -27938,7 +27938,7 @@ body.light #sheet.qe192-hearing-sheet .qe190-type-copy{
 
 
 /* =====================================================================
-   5.0.247 — darker gold premium glow + reflective highlight
+   5.0.248 — darker gold premium glow + reflective highlight
    Goal: match the approved mockup more closely: less lemon, more rich gold,
    deeper shadow and visible glossy top reflection on active type cards and
    the bottom save button.
@@ -28029,7 +28029,7 @@ body.light #sheet.entry-premium-sheet .task-editor-save::after{
 
 
 /* =====================================================================
-   5.0.247 — equalize “Заседание” title + remove white square corners
+   5.0.248 — equalize “Заседание” title + remove white square corners
    ===================================================================== */
 
 /* 1) Hearing type card title looked visually smaller than neighbors.
@@ -28110,7 +28110,7 @@ body.light #sheet.entry-premium-sheet .hearing-judge-field .inline-choice-wrap>i
 
 
 /* =====================================================================
-   5.0.247 — FINAL DEVICE OVERRIDE
+   5.0.248 — FINAL DEVICE OVERRIDE
    Visible only after the new shell is really loaded.
    ===================================================================== */
 
@@ -28175,7 +28175,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .premium-time-field{
 
 
 /* =====================================================================
-   5.0.247 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
+   5.0.248 — EXACT TYPE TYPOGRAPHY + TITLE FIELD CLIPPING + CLEAR BUTTON
    ===================================================================== */
 
 /* 1) EXACT SAME title font on all 4 cards. No special hearing size. */
@@ -28311,7 +28311,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-
 
 
 /* =====================================================================
-   5.0.247 — FOUR TYPE TITLES: SAME FONT SIZE, DEADLINE FITS IN TWO LINES
+   5.0.248 — FOUR TYPE TITLES: SAME FONT SIZE, DEADLINE FITS IN TWO LINES
    ===================================================================== */
 
 /* One factual typographic rule for ALL four buttons. */
@@ -28409,7 +28409,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-deadline .qe
 
 
 /* =====================================================================
-   5.0.247 — EMPTY TIME ICON FIX + MOCKUP GOLD
+   5.0.248 — EMPTY TIME ICON FIX + MOCKUP GOLD
    ===================================================================== */
 
 /* iOS inherited the old generic `.empty .ico { opacity:.35; margin-bottom:14px }`
@@ -28527,7 +28527,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save::after{
 
 
 /* =====================================================================
-   5.0.247 — TYPE SELECTION CHANGES COLOR ONLY, NEVER LAYOUT
+   5.0.248 — TYPE SELECTION CHANGES COLOR ONLY, NEVER LAYOUT
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card,
@@ -28639,7 +28639,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 
 
 /* =====================================================================
-   5.0.247 — APPROVED PREMIUM GOLD / GLOW
+   5.0.248 — APPROVED PREMIUM GOLD / GLOW
    Matches the approved mockup: luminous polished gold, darker lower body,
    bright reflective top edge and soft golden halo. Geometry is unchanged.
    ===================================================================== */
@@ -28896,7 +28896,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 
 
 /* =====================================================================
-   5.0.247 — GOLD ASSET (APPROVED MOCKUP LOOK)
+   5.0.248 — GOLD ASSET (APPROVED MOCKUP LOOK)
    The gold is no longer approximated with layered CSS gradients.
    Active TYPE cards and SAVE use one scalable vector surface asset.
    Text/icons stay live HTML/SVG above it.
@@ -28911,7 +28911,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 
   border-color:transparent!important;
   background-color:transparent!important;
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -28962,7 +28962,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:activ
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:active,
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:focus,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:focus{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
   transform:none!important;
   filter:none!important;
@@ -28980,7 +28980,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
   border-color:transparent!important;
   background-color:transparent!important;
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -29017,7 +29017,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save:active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
   transform:none!important;
   filter:none!important;
@@ -29025,7 +29025,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
 
 
 /* =====================================================================
-   5.0.247 — GOLD ASSET GEOMETRY LOCK
+   5.0.248 — GOLD ASSET GEOMETRY LOCK
    The vector gold surface must NEVER change the placement of icon/text.
    This block intentionally comes last and restores the exact approved
    geometry for active and inactive TYPE cards alike.
@@ -29157,7 +29157,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:focus .
 
 
 /* =====================================================================
-   5.0.247 — restore visible gold asset
+   5.0.248 — restore visible gold asset
    Root cause in 5.0.241: CSS pointed to a non-existent file name, so
    the active TYPE cards and SAVE button lost the gold surface.
    These final overrides lock the background to the real SVG asset.
@@ -29165,7 +29165,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card:focus .
 
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -29174,7 +29174,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -29183,7 +29183,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 
 
 /* =====================================================================
-   5.0.247 — APPROVED IMAGE GOLD SURFACES
+   5.0.248 — APPROVED IMAGE GOLD SURFACES
    Real image assets are now used instead of recreated SVG/CSS gold.
    Type card and SAVE have separate aspect-appropriate surfaces.
    ===================================================================== */
@@ -29192,7 +29192,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
   background-color:transparent!important;
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -29238,7 +29238,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-color:transparent!important;
-  background-image:url('premium-gold-save-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-save-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -29270,14 +29270,14 @@ body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:activ
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:active,
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:focus,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:focus{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
   transform:none!important;
   filter:none!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save:active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
-  background-image:url('premium-gold-save-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-save-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
   transform:none!important;
   filter:none!important;
@@ -29285,7 +29285,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
 
 
 /* =====================================================================
-   5.0.247 — TIGHT GOLD ASSET FIT
+   5.0.248 — TIGHT GOLD ASSET FIT
    The approved gold images were correct stylistically, but their source
    files contained large transparent glow margins. The assets are now
    tightly cropped and must fill the entire actual button bounds.
@@ -29293,7 +29293,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
 
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:50% 50%!important;
   background-size:100% 100%!important;
@@ -29305,7 +29305,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
-  background-image:url('premium-gold-save-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-save-v5248.webp?v=5248')!important;
   background-repeat:no-repeat!important;
   background-position:50% 50%!important;
   background-size:100% 100%!important;
@@ -29320,19 +29320,19 @@ body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:activ
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:active,
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active:focus,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active:focus{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
 }
 
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save:active,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
-  background-image:url('premium-gold-save-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-save-v5248.webp?v=5248')!important;
   background-size:100% 100%!important;
 }
 
 
 /* =====================================================================
-   5.0.247 — MOCKUP POLISH: NON-GOLD DETAILS
+   5.0.248 — MOCKUP POLISH: NON-GOLD DETAILS
    Gold surfaces from 5.0.245 are LOCKED and not altered.
    This stage brings the remaining controls closer to the approved mockup.
    ===================================================================== */
@@ -29556,18 +29556,18 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-divider span
 
 /* The approved gold image assets stay exactly as 5.0.245. */
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
 }
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
-  background-image:url('premium-gold-type-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-type-v5248.webp?v=5248')!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
-  background-image:url('premium-gold-save-v5247.webp?v=5247')!important;
+  background-image:url('premium-gold-save-v5248.webp?v=5248')!important;
 }
 
 
-/* 5.0.247 — pixel-pass for hearing mockup icons and fine details */
+/* 5.0.248 — pixel-pass for hearing mockup icons and fine details */
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-leading,
 body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon,
 body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon,
@@ -29611,4 +29611,35 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-
 body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
 body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow{
   top:50%!important; transform:translateY(-50%)!important;
+}
+
+
+/* 5.0.248 — restore chevrons inside date/time circle buttons */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  content:''!important;
+  position:absolute!important;
+  top:50%!important;
+  right:var(--qe-choice-right,8px)!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+  width:var(--qe-choice-size,36px)!important;
+  height:var(--qe-choice-size,36px)!important;
+  min-width:var(--qe-choice-size,36px)!important;
+  min-height:var(--qe-choice-size,36px)!important;
+  border-radius:50%!important;
+  border:1px solid rgba(173,119,31,.58)!important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A77A32' stroke-width='2.15' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5l6.5 6.5L9 18.5'/%3E%3C/svg%3E") center/15px 15px no-repeat,
+    radial-gradient(circle at 33% 22%,rgba(255,255,255,.98) 0%,rgba(255,255,255,.68) 24%,transparent 45%),
+    linear-gradient(180deg,#fffdf9 0%,#f8f1e6 50%,#eee1cd 100%)!important;
+  box-shadow:
+    0 4px 10px rgba(83,53,15,.085),
+    0 0 0 1px rgba(255,255,255,.52),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(151,101,27,.08)!important;
+  box-sizing:border-box!important;
+  z-index:6!important;
+  pointer-events:none!important;
 }
