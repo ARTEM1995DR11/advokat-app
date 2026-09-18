@@ -30551,3 +30551,129 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.257 — PIXEL PASS STEP 2 / FINAL MATERIAL POLISH
+   Geometry from 5.0.256 retained.
+   This pass only makes the ivory fields and arrow circles closer to the
+   approved mockup: warmer edge, softer depth, cleaner inner highlight.
+   Background, gold active surfaces and icon set are LOCKED.
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  --qe-field-border:rgba(180,132,53,.61);
+  --qe-field-bg-top:rgba(255,255,255,.996);
+  --qe-field-bg-mid:rgba(254,251,245,.993);
+  --qe-field-bg-bottom:rgba(248,241,230,.988);
+  --qe-field-shadow:
+    0 4px 10px rgba(70,43,10,.055),
+    0 8px 18px rgba(82,50,11,.026);
+  --qe-field-inner-top:rgba(255,255,255,1);
+  --qe-field-inner-bottom:rgba(154,101,25,.075);
+
+  --qe-choice-border:rgba(178,124,34,.64);
+  --qe-choice-gold:#9b6718;
+}
+
+/* One material recipe across all create/edit forms. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker{
+  border-color:var(--qe-field-border)!important;
+  background:
+    linear-gradient(180deg,
+      var(--qe-field-bg-top) 0%,
+      var(--qe-field-bg-mid) 58%,
+      var(--qe-field-bg-bottom) 100%)!important;
+  box-shadow:
+    var(--qe-field-shadow),
+    0 0 0 1px rgba(255,255,255,.34),
+    inset 0 1px 0 var(--qe-field-inner-top),
+    inset 0 -1px 0 var(--qe-field-inner-bottom)!important;
+}
+
+/* A subtle premium light line on focus without changing dimensions. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe193-title-shell:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .qe194-note-shell:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .inline-choice-wrap:focus-within,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-court-field>input:focus,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-control:focus-within{
+  border-color:rgba(174,119,28,.76)!important;
+  box-shadow:
+    0 4px 10px rgba(70,43,10,.06),
+    0 8px 18px rgba(82,50,11,.028),
+    0 0 0 1px rgba(232,202,141,.22),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(154,101,25,.08)!important;
+}
+
+/* Arrow circles: same dimensions as 5.0.256, richer ivory/gold material. */
+body.light #sheet.task-editor-sheet.qe190-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe190-sheet .inline-choice-arrow.premium-list-trigger,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .premium-select-field-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .inline-choice-arrow,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-tail{
+  border-color:var(--qe-choice-border)!important;
+  color:var(--qe-choice-gold)!important;
+  background:
+    radial-gradient(circle at 33% 20%,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,.80) 23%,
+      rgba(255,255,255,0) 47%),
+    linear-gradient(180deg,#fffefa 0%,#f8f0e2 54%,#ebdcc3 100%)!important;
+  box-shadow:
+    0 3px 8px rgba(72,44,9,.075),
+    0 0 0 1px rgba(255,255,255,.50),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(145,92,16,.09)!important;
+}
+
+/* Date/time pseudo circles get the exact same final material. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-time-field::after{
+  border-color:var(--qe-choice-border)!important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239B6718' stroke-width='2.05' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5l6.5 6.5L9 18.5'/%3E%3C/svg%3E") center/14px 14px no-repeat,
+    radial-gradient(circle at 33% 20%,rgba(255,255,255,1) 0%,rgba(255,255,255,.80) 23%,rgba(255,255,255,0) 47%),
+    linear-gradient(180deg,#fffefa 0%,#f8f0e2 54%,#ebdcc3 100%)!important;
+  box-shadow:
+    0 3px 8px rgba(72,44,9,.075),
+    0 0 0 1px rgba(255,255,255,.50),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(145,92,16,.09)!important;
+}
+
+/* Deadline calculator selectors should inherit the same finished field material. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .premium-date-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .premium-time-field{
+  border-color:var(--qe-field-border)!important;
+  background:
+    linear-gradient(180deg,
+      var(--qe-field-bg-top) 0%,
+      var(--qe-field-bg-mid) 58%,
+      var(--qe-field-bg-bottom) 100%)!important;
+  box-shadow:
+    var(--qe-field-shadow),
+    0 0 0 1px rgba(255,255,255,.34),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(154,101,25,.075)!important;
+}
+
+/* LOCK — do not alter approved gold surfaces / background / icons. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
