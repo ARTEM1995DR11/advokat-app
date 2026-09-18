@@ -31450,3 +31450,79 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.263 — STEP 4 REGRESSION FIX
+   Real iPhone audit of 5.0.262 found two deadline-only regressions caused
+   by the generic geometry rules. Restore the approved deadline composition.
+   ===================================================================== */
+
+/* 1) "Новый процессуальный срок" must always be exactly TWO lines:
+      "Новый процессуальный" / "срок". */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  font-size:19px!important;
+  line-height:.90!important;
+  letter-spacing:-.024em!important;
+  white-space:normal!important;
+  text-wrap:initial!important;
+  max-width:none!important;
+  width:calc(100% + 24px)!important;
+  margin-left:-12px!important;
+  margin-right:-12px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.qe190-kind-deadline .qe-new-deadline-main{
+  display:block!important;
+  width:auto!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.qe190-kind-deadline .qe-new-deadline-kind{
+  display:block!important;
+  width:100%!important;
+  margin-top:1px!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+}
+
+/* 2) Deadline calculator selectors were accidentally forced into a 50/50 row
+      by the generic ".two" rule in Step 4. The approved layout is vertical. */
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor .deadline-calc-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:9px!important;
+  width:100%!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor .deadline-calc-grid>.fld{
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet
+.kind-deadline-editor .deadline-source-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  width:100%!important;
+}
+
+/* Keep normal task/meeting/hearing geometry from 5.0.262 unchanged. */
+
+/* LOCKS */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
