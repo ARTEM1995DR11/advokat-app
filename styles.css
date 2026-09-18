@@ -30010,3 +30010,54 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.253 — PIXEL PASS STEP 1 / FINAL MICRO-CORRECTION
+   Only icon geometry/optical size. Background + gold surfaces remain LOCKED.
+   ===================================================================== */
+
+/* Meeting icon — same perceived size as calendar / clipboard. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-meeting .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-meeting .qe190-type-icon .ico{
+  width:33px!important;
+  height:33px!important;
+  stroke-width:1.94!important;
+}
+
+/* Case folder, client and document — stronger like mockup, but not oversized. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-case .ico{
+  width:22px!important;height:22px!important;stroke-width:1.75!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-client .ico{
+  width:24px!important;height:24px!important;stroke-width:1.70!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-number .ico{
+  width:22px!important;height:22px!important;stroke-width:1.68!important;
+}
+
+/* Judge — integrated mark, large enough to read on iPhone. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-judge .ico{
+  width:25px!important;height:25px!important;stroke-width:1.62!important;
+}
+
+/* Court — clean classical mark, readable without looking like a mini illustration. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court .ico{
+  width:23px!important;height:23px!important;stroke-width:1.56!important;
+}
+
+/* Standard task/meeting title + note document icons follow the same document weight. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon .ico{
+  width:22px!important;height:22px!important;stroke-width:1.68!important;
+}
+
+/* LOCK approved gold surfaces exactly as before. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
