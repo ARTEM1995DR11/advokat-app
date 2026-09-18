@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1000 300"
+     preserveAspectRatio="none">
+  <defs>
+    <!-- Main polished gold body -->
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FBE8A8"/>
+      <stop offset="16%"  stop-color="#F4D47B"/>
+      <stop offset="42%"  stop-color="#E8B84E"/>
+      <stop offset="70%"  stop-color="#D69A2B"/>
+      <stop offset="100%" stop-color="#B96D0D"/>
+    </linearGradient>
+
+    <!-- Broad top reflection -->
+    <linearGradient id="topGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FFFFFF" stop-opacity=".62"/>
+      <stop offset="38%"  stop-color="#FFFFFF" stop-opacity=".25"/>
+      <stop offset="78%"  stop-color="#FFF5C9" stop-opacity=".07"/>
+      <stop offset="100%" stop-color="#FFF5C9" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Left warm flash -->
+    <radialGradient id="leftFlash" cx="18%" cy="0%" r="72%">
+      <stop offset="0%"   stop-color="#FFFDEB" stop-opacity=".92"/>
+      <stop offset="25%"  stop-color="#FFF1A6" stop-opacity=".48"/>
+      <stop offset="56%"  stop-color="#FFD96B" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#FFD96B" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Right reflected flare -->
+    <radialGradient id="rightFlash" cx="92%" cy="3%" r="48%">
+      <stop offset="0%"   stop-color="#FFF9D8" stop-opacity=".78"/>
+      <stop offset="34%"  stop-color="#FFE38A" stop-opacity=".33"/>
+      <stop offset="100%" stop-color="#FFE38A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Lower depth -->
+    <linearGradient id="lowerDepth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#925000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#6C3700" stop-opacity=".18"/>
+    </linearGradient>
+
+    <!-- Thin reflective border -->
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#FFF2AE"/>
+      <stop offset="34%"  stop-color="#D99B25"/>
+      <stop offset="66%"  stop-color="#B36C0E"/>
+      <stop offset="100%" stop-color="#FFE69A"/>
+    </linearGradient>
+
+    <!-- Tiny bottom reflection -->
+    <linearGradient id="bottomShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#FFD86B" stop-opacity="0"/>
+      <stop offset="15%"  stop-color="#FFE89C" stop-opacity=".42"/>
+      <stop offset="48%"  stop-color="#FFF2BC" stop-opacity=".18"/>
+      <stop offset="84%"  stop-color="#FFE082" stop-opacity=".40"/>
+      <stop offset="100%" stop-color="#FFD86B" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Transparent outer margin is intentional -->
+  <rect x="7" y="8" width="986" height="284" rx="68" ry="68"
+        fill="url(#body)" stroke="#A86208" stroke-width="7"/>
+
+  <!-- Fine luminous second border -->
+  <rect x="13" y="14" width="974" height="272" rx="62" ry="62"
+        fill="none" stroke="url(#edge)" stroke-width="4"/>
+
+  <!-- Warm depth under the gold -->
+  <rect x="14" y="14" width="972" height="272" rx="61" ry="61"
+        fill="url(#lowerDepth)"/>
+
+  <!-- broad polished glass reflection -->
+  <path d="M72 20 H928
+           C958 20 977 36 979 63
+           V103
+           C895 79 781 69 651 70
+           C493 71 350 92 217 111
+           C153 120 94 113 22 90
+           V63
+           C24 37 44 20 72 20Z"
+        fill="url(#topGloss)"/>
+
+  <!-- left + right reflective gold flashes -->
+  <rect x="14" y="14" width="972" height="272" rx="61" ry="61"
+        fill="url(#leftFlash)"/>
+  <rect x="14" y="14" width="972" height="272" rx="61" ry="61"
+        fill="url(#rightFlash)"/>
+
+  <!-- narrow polished top line -->
+  <path d="M76 18 H924"
+        fill="none" stroke="#FFF7CF" stroke-opacity=".78"
+        stroke-width="4" stroke-linecap="round"/>
+
+  <!-- tiny bright glints -->
+  <ellipse cx="88" cy="27" rx="48" ry="15" fill="#FFF9D4" fill-opacity=".42"/>
+  <ellipse cx="913" cy="27" rx="40" ry="13" fill="#FFF6C5" fill-opacity=".34"/>
+
+  <!-- lower reflected rim -->
+  <path d="M68 276 H932"
+        fill="none" stroke="url(#bottomShine)"
+        stroke-width="4" stroke-linecap="round"/>
+
+  <!-- inner warm contour -->
+  <rect x="18" y="18" width="964" height="264" rx="59" ry="59"
+        fill="none" stroke="#FFF0A9" stroke-opacity=".36" stroke-width="2"/>
+</svg>
