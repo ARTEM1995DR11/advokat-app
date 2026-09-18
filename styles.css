@@ -30968,3 +30968,129 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.259 — PIXEL PASS STEP 3 / FINAL
+   Fine-tuning from real iPhone screenshots of 5.0.258.
+   LOCKED: background, gold surfaces, icon set, field geometry, arrows.
+   ===================================================================== */
+
+/* Labels: a touch stronger and more mockup-like. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fld>label,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field>label{
+  font-size:15.45px!important;
+  line-height:1.00!important;
+  margin-bottom:5px!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{
+  font-size:14.05px!important;
+  line-height:.99!important;
+  min-height:28px!important;
+}
+
+/* Entered values / placeholders: slightly larger and clearer on iPhone. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor input,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor textarea,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .premium-select-field,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .hearing-premium-picker-copy b{
+  font-size:13.15px!important;
+  line-height:1.12!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor #e-title{
+  font-size:13.55px!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-copy b{
+  font-size:12.55px!important;
+  line-height:1.11!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input{
+  font-size:11.75px!important;
+}
+
+/* Placeholder hierarchy: softer than values, but no longer visually too small. */
+body.light #sheet.task-editor-sheet.qe190-sheet input::placeholder,
+body.light #sheet.task-editor-sheet.qe190-sheet textarea::placeholder,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet input::placeholder{
+  color:#838b9c!important;
+  opacity:.95!important;
+  font-weight:500!important;
+}
+
+/* Hearing helper text was too tiny on the real device. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .fieldhint,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .deadline-calc-footnote{
+  font-size:9.1px!important;
+  line-height:1.19!important;
+  color:#747f94!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hint{
+  margin:4px 2px 0!important;
+}
+
+/* Quick date buttons: slightly larger text/height to match the mockup weight. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip{
+  min-height:30px!important;
+  height:30px!important;
+  font-size:10.15px!important;
+  font-weight:650!important;
+}
+
+/* Priority chips: same optical weight as quick-date buttons. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip{
+  min-height:32px!important;
+  height:32px!important;
+  font-size:10.55px!important;
+  font-weight:650!important;
+}
+
+/* Notes: slightly more readable body copy without changing field geometry. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-note-editor{
+  font-size:13.1px!important;
+  line-height:1.2!important;
+}
+
+/* Deadline calculator heading: stronger, closer to approved mockup. */
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title b{
+  font-size:16.6px!important;
+  line-height:1.01!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title small{
+  font-size:9.6px!important;
+  line-height:1.12!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-premium-status b{
+  font-size:12px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-premium-status small{
+  font-size:9.35px!important;
+}
+
+/* Keep long deadline heading safely balanced in two lines. */
+@media(max-width:480px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit),
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2:not(.qe190-title-edit){
+    font-size:21.2px!important;
+    line-height:.89!important;
+    letter-spacing:-.022em!important;
+  }
+}
+
+/* LOCKS — no repaint of already approved parts. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
