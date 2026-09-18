@@ -25407,3 +25407,223 @@ body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-ta
   #sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
   body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{font-size:11.7px!important}
 }
+
+
+/* =====================================================================
+   5.0.202 — unify top geometry + restore soft veil over background
+   ===================================================================== */
+/* Same background system for all 4 quick-entry screens with softer veil */
+body.light #sheet.qe190-sheet,
+body.light #sheet.qe192-hearing-sheet{
+  background-color:#f7efe3!important;
+  background-image:url('quick-sheet-marble-approved.webp?v=5202')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:cover!important;
+  isolation:isolate!important;
+}
+body.light #sheet.qe190-sheet::before,
+body.light #sheet.qe192-hearing-sheet::before{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background-image:url('columns-light.png?v=5202')!important;
+  background-repeat:no-repeat!important;
+  background-position:right center!important;
+  background-size:auto 100%!important;
+  opacity:.32!important;
+  filter:saturate(.68) sepia(.08) brightness(1.02)!important;
+}
+body.light #sheet.qe190-sheet::after,
+body.light #sheet.qe192-hearing-sheet::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  inset:0!important;
+  background:
+    linear-gradient(90deg,rgba(255,252,247,.82) 0%,rgba(255,252,247,.74) 44%,rgba(255,252,247,.52) 74%,rgba(255,252,247,.38) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.28) 0%,rgba(250,244,235,.22) 54%,rgba(246,238,226,.30) 100%)!important;
+}
+body.light #sheet.qe190-sheet>.shbody,
+body.light #sheet.qe190-sheet>.shfoot,
+body.light #sheet.qe192-hearing-sheet>.shbody,
+body.light #sheet.qe192-hearing-sheet>.shfoot{
+  position:relative!important;
+  z-index:1!important;
+  background:transparent!important;
+}
+/* Common static top geometry for all 4 types */
+body.light #sheet.qe190-sheet.withfoot>.shbody,
+body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{
+  padding-top:max(10px,calc(env(safe-area-inset-top,0px) - 2px))!important;
+  padding-left:20px!important;
+  padding-right:20px!important;
+}
+#sheet.qe190-sheet .qe190-top,
+body.light #sheet.qe192-hearing-sheet .qe190-top{
+  margin:0 auto 12px!important;
+}
+#sheet.qe190-sheet .qe190-brand,
+body.light #sheet.qe192-hearing-sheet .qe190-brand{
+  min-height:40px!important;
+}
+#sheet.qe190-sheet .qe190-brand img,
+body.light #sheet.qe192-hearing-sheet .qe190-brand img{
+  width:38px!important;height:38px!important;flex-basis:38px!important;
+}
+#sheet.qe190-sheet .qe190-brand-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy b{
+  font-size:18.8px!important;line-height:1.03!important;
+}
+#sheet.qe190-sheet .qe190-brand-copy small,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-copy small{
+  font-size:10.35px!important;line-height:1.1!important;
+}
+#sheet.qe190-sheet .qe190-brand-rule,
+body.light #sheet.qe192-hearing-sheet .qe190-brand-rule{
+  width:calc(100% - 96px)!important;
+  margin:7px auto 10px!important;
+}
+#sheet.qe190-sheet .qe190-heading,
+body.light #sheet.qe192-hearing-sheet .qe190-heading{
+  position:relative!important;
+  min-height:79px!important;
+  height:79px!important;
+  max-height:79px!important;
+  margin:0 0 8px!important;
+  padding:0 8px 0 56px!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  overflow:visible!important;
+}
+#sheet.qe190-sheet .qe190-back,
+body.light #sheet.qe192-hearing-sheet .qe190-back{
+  left:0!important; top:3px!important;
+  width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+  border-radius:14px!important;
+}
+#sheet.qe190-sheet .qe190-back .ico,
+body.light #sheet.qe192-hearing-sheet .qe190-back .ico{width:20px!important;height:20px!important}
+#sheet.qe190-sheet .qe190-heading-center,
+body.light #sheet.qe192-hearing-sheet .qe190-heading-center{
+  width:100%!important;
+  height:79px!important;
+  min-height:79px!important;
+  display:grid!important;
+  grid-template-rows:48px 22px!important;
+  align-content:start!important;
+  justify-items:center!important;
+  text-align:center!important;
+}
+#sheet.qe190-sheet .qe190-heading h2,
+body.light #sheet.qe192-hearing-sheet .qe190-heading h2{
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  font-size:28px!important;
+  line-height:1!important;
+  letter-spacing:-.03em!important;
+  white-space:nowrap!important;
+}
+#sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+#sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long,
+body.light #sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{
+  font-size:20px!important;
+  line-height:.92!important;
+  letter-spacing:-.022em!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+}
+#sheet.qe190-sheet .qe190-motto,
+body.light #sheet.qe192-hearing-sheet .qe190-motto{
+  width:min(100%,520px)!important;
+  height:19px!important;
+  margin:4px auto 0!important;
+  grid-template-columns:minmax(18px,46px) auto minmax(18px,46px)!important;
+  gap:8px!important;
+}
+#sheet.qe190-sheet .qe190-motto span,
+body.light #sheet.qe192-hearing-sheet .qe190-motto span{
+  font-size:7.8px!important;
+  letter-spacing:.17em!important;
+  white-space:nowrap!important;
+}
+#sheet.qe190-sheet .qe190-type-block h3,
+body.light #sheet.qe192-hearing-sheet .qe190-type-block h3{
+  margin:0 0 8px!important;font-size:17px!important;line-height:1.05!important;
+}
+#sheet.qe190-sheet .qe190-type-grid,
+body.light #sheet.qe192-hearing-sheet .qe190-type-grid{
+  gap:9px 10px!important;
+}
+#sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.qe192-hearing-sheet .qe190-type-card{
+  height:62px!important;min-height:62px!important;max-height:62px!important;
+  padding:8px 9px!important;gap:8px!important;border-radius:16px!important;
+}
+#sheet.qe190-sheet .qe190-type-icon,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon{width:31px!important;height:31px!important;flex:0 0 31px!important}
+#sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.qe192-hearing-sheet .qe190-type-icon .ico{width:23px!important;height:23px!important}
+#sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy b{font-size:13.9px!important;line-height:1!important}
+#sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.qe192-hearing-sheet .qe190-type-copy small{font-size:8.15px!important;line-height:1.08!important;white-space:nowrap!important}
+#sheet.qe190-sheet .qe190-type-deadline .qe190-type-copy b,
+body.light #sheet.qe192-hearing-sheet .qe190-type-deadline .qe190-type-copy b{font-size:12px!important;line-height:.95!important;white-space:normal!important}
+/* Hearing controls: same visual scale, but not miniaturized */
+body.light #sheet.qe192-hearing-sheet .qe192-field{margin-bottom:10px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-field>label{margin-bottom:4px!important;font-size:15px!important;line-height:1.08!important}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field>label{min-height:30px!important;font-size:14px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{
+  height:50px!important;min-height:50px!important;border-radius:15px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-leading{left:10px!important;width:20px!important;height:20px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-leading .ico{width:18px!important;height:18px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-wrap>input{padding:0 45px 0 38px!important;font-size:12px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field{padding:0 45px 0 38px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-copy b{font-size:12.3px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-sidebtn,
+body.light #sheet.qe192-hearing-sheet .qe192-select-control .premium-select-field-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-inline-control .inline-choice-arrow,
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-tail{
+  right:6px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-input-control input,
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field:nth-child(2) .qe192-input-control input{padding-left:37px!important;font-size:11px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-leading{left:8px!important;width:19px!important;height:19px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-party-grid .qe192-leading .ico{width:17px!important;height:17px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-hint{font-size:8.9px!important;line-height:1.23!important;margin-top:6px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime{gap:8px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker{padding:0 43px 0 36px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon{left:10px!important;width:18px!important;height:18px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-icon .ico{width:17px!important;height:17px!important}
+body.light #sheet.qe192-hearing-sheet .qe192-datetime .hearing-premium-picker-copy b{font-size:10.8px!important}
+@media(max-width:430px){
+  body.light #sheet.qe190-sheet.withfoot>.shbody,
+  body.light #sheet.qe192-hearing-sheet.withfoot>.shbody{padding-top:max(8px,calc(env(safe-area-inset-top,0px) - 4px))!important;padding-left:20px!important;padding-right:20px!important}
+  #sheet.qe190-sheet .qe190-heading,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading{min-height:77px!important;height:77px!important;max-height:77px!important;padding:0 8px 0 54px!important}
+  #sheet.qe190-sheet .qe190-back,
+  body.light #sheet.qe192-hearing-sheet .qe190-back{width:41px!important;height:41px!important;min-width:41px!important;min-height:41px!important}
+  #sheet.qe190-sheet .qe190-heading-center,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading-center{height:77px!important;min-height:77px!important;grid-template-rows:46px 22px!important}
+  #sheet.qe190-sheet .qe190-heading h2,
+  body.light #sheet.qe192-hearing-sheet .qe190-heading h2{font-size:27.5px!important}
+  #sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+  #sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long,
+  body.light #sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2,
+  body.light #sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{font-size:19.4px!important}
+  #sheet.qe190-sheet .qe190-type-card,
+  body.light #sheet.qe192-hearing-sheet .qe190-type-card{height:60px!important;min-height:60px!important;max-height:60px!important}
+}
