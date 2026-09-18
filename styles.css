@@ -31138,3 +31138,256 @@ body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premiu
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
 }
+
+
+/* =====================================================================
+   5.0.261 — PIXEL PASS STEP 4: FINAL PAGE GEOMETRY / COMPOSITION
+   Applies to create + edit for task / meeting / hearing / deadline.
+   LOCKED: background, gold surfaces, icons, field material, arrows, typography.
+   This pass only normalizes widths, grids, spacing and vertical rhythm.
+   ===================================================================== */
+
+body.light #sheet.task-editor-sheet.qe190-sheet{
+  --qe-page-pad:20px;
+  --qe-grid-gap:9px;
+  --qe-section-gap:9px;
+  --qe-column-gap:9px;
+  --qe-content-max:760px;
+}
+
+/* One content rail from brand to Save button. */
+body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody{
+  padding-left:var(--qe-page-pad)!important;
+  padding-right:var(--qe-page-pad)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-top,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-hearing,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-form{
+  width:100%!important;
+  max-width:var(--qe-content-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+
+/* Header / title slot: fixed geometry independent of selected type. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-top{
+  margin-bottom:12px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-brand-rule{
+  margin-bottom:9px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading{
+  min-height:62px!important;
+  height:62px!important;
+  margin-bottom:8px!important;
+  padding-left:49px!important;
+  padding-right:49px!important;
+  align-items:flex-start!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading-center{
+  min-height:62px!important;
+  height:62px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2{
+  flex:0 0 auto!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-motto{
+  margin-top:7px!important;
+  flex:0 0 auto!important;
+}
+
+/* Deadline/edit headings stay inside the same fixed title slot. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit{
+  max-height:43px!important;
+  overflow:visible!important;
+}
+
+/* Type block: exact 2×2 geometry shared by all modes. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block{
+  margin:0!important;
+  padding:0!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-block h3{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-auto-rows:58px!important;
+  gap:var(--qe-grid-gap)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card{
+  width:100%!important;
+  height:58px!important;
+  min-height:58px!important;
+  max-height:58px!important;
+  margin:0!important;
+}
+
+/* Same controlled gap between Type and the first form section everywhere. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor{
+  margin-top:0!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.fld:first-of-type,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-form>.qe192-field:first-child{
+  margin-top:0!important;
+}
+
+/* Generic section rhythm for task / meeting / deadline. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.fld{
+  margin-top:0!important;
+  margin-bottom:var(--qe-section-gap)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor>.editor-select-field{
+  margin-bottom:var(--qe-section-gap)!important;
+}
+
+/* Two-column rows: exact 50/50 rails. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .two,
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-datetime,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-two,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:var(--qe-column-gap)!important;
+  align-items:start!important;
+  width:100%!important;
+}
+
+/* Hearing vertical composition. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-form{
+  margin-top:0!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-field{
+  margin-top:0!important;
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid{
+  margin:0 0 8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-party-grid .qe192-field{
+  margin-bottom:0!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-judge-field,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-court-field{
+  margin-bottom:8px!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-datetime{
+  margin-top:0!important;
+  margin-bottom:0!important;
+}
+
+/* Quick dates: equal widths, same horizontal rail as date/time. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates{
+  display:grid!important;
+  width:100%!important;
+  gap:6px!important;
+  margin:0 0 8px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-task-editor .task-quick-dates{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-meeting-editor .task-quick-dates{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-quick-dates .chip{
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+
+/* Priority: exact 3-column geometry. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:7px!important;
+  width:100%!important;
+  margin:0 0 6px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-priority-chips .chip{
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+
+/* Notes / comments: end of form should sit on the same rail. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor .task-editor-note-field{
+  margin-bottom:0!important;
+}
+
+/* Divider: same width and spacing on all four types. */
+body.light #sheet.task-editor-sheet.qe190-sheet .hearing-save-divider,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-divider{
+  width:100%!important;
+  margin:8px 0 8px!important;
+  gap:9px!important;
+  box-sizing:border-box!important;
+}
+
+/* Save button: same width as form rail; no horizontal drift. */
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  display:flex!important;
+  width:100%!important;
+  max-width:var(--qe-content-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save{
+  margin-top:0!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  margin-top:0!important;
+}
+
+/* Deadline card: outer card aligns to page rail, internals use a consistent inset. */
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calculator{
+  width:100%!important;
+  margin:0 0 9px!important;
+  box-sizing:border-box!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-calc-grid,
+body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-source-grid{
+  width:100%!important;
+  gap:9px!important;
+}
+
+/* Edit-only buttons follow the same content rail. */
+body.light #sheet.task-editor-sheet.qe190-sheet.editor-inline-foot .shbody>.shfoot,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-inline-foot .shbody>.shfoot{
+  width:100%!important;
+  max-width:var(--qe-content-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+
+/* Reference iPhone widths: keep the same composition, only page padding contracts. */
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet{
+    --qe-page-pad:18px;
+    --qe-grid-gap:8px;
+    --qe-column-gap:8px;
+  }
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading{
+    padding-left:47px!important;
+    padding-right:47px!important;
+  }
+}
+
+/* LOCKS — Step 4 must not repaint already approved pieces. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
