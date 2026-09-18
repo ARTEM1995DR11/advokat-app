@@ -4,7 +4,7 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.207';
+var APP_VERSION='5.0.210';
 var APP_BUILD='5207';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
@@ -251,7 +251,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5207" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5212" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -578,7 +578,7 @@ function renderPremiumListPicker(){
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5207" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5212" alt="Весы правосудия"></span><i></i></div>';
 }
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
@@ -3280,9 +3280,11 @@ function renderHearingPremiumTypeCards(currentKind){
   }).join('');
 }
 function renderQuickEntryTop190(title,currentKind){
+  var editTitle=title.indexOf('qe-edit-title-main')!==-1;
   var longTitle=title.length>20?' qe190-title-long':'';
+  if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5207" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5212" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -3292,7 +3294,7 @@ function renderQuickEntryTop190(title,currentKind){
   '</section>';
 }
 function renderHearingPremiumEditor(t,isNew){
-  var title=isNew?'Новое заседание':'Редактирование заседания';
+  var title=isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>';
   var opts='<option value="">Выберите дело</option>'+activeM().map(function(m){
     return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>';
   }).join('');
@@ -3350,7 +3352,7 @@ function drawEditor(preserveScroll){
           : '<span class="qe193-pri-mark qe195-pri-low-mark">'+ico('chev','s')+'</span>');
     return '<button class="chip pri-'+k+(t.pri===k?' on':'')+'" data-act="e-pri" data-v="'+k+'">'+mark+'<span>'+PRI[k].n+'</span></button>'; }).join('');
   var quickDates = timedEvent ? [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя']] : [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя'],['','Без даты']];
-  var title = hearing ? (isNew?'Новое заседание':'Редактирование заседания') : (meeting ? (isNew?'Новая встреча':'Редактирование встречи') : (t.kind==='deadline' ? (isNew?'Новый процессуальный срок':'Редактирование срока') : (isNew?'Новая задача':'Редактирование задачи')));
+  var title = hearing ? (isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>') : (meeting ? (isNew?'Новая встреча':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">встречи</span>') : (t.kind==='deadline' ? (isNew?'Новый процессуальный срок':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">срока</span>') : (isNew?'Новая задача':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">задачи</span>')));
   var oldRuleParts=t.kind==='deadline'?inferDeadlineRuleParts(t):{code:'GPK',ruleId:''};
   if(t.kind==='deadline'){
     if(!t.deadlineCode)t.deadlineCode=oldRuleParts.code||'GPK';

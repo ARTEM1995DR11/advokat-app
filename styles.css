@@ -25817,7 +25817,7 @@ body.light #sheet.qe192-hearing-sheet>.shfoot{
 
 
 /* =====================================================================
-   5.0.207 — MOBILE-FIRST APPROVED QUICK ENTRY SYSTEM
+   5.0.210 — MOBILE-FIRST APPROVED QUICK ENTRY SYSTEM
    Phone is the reference viewport. Desktop is only an adaptive preview.
    ===================================================================== */
 body.light #sheet.task-editor-sheet.qe190-sheet{
@@ -25828,7 +25828,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet{
   padding:0!important;
   border:0!important;
   border-radius:0!important;
-  background:#f8f1e6 url('quick-sheet-mobile-approved-v5207.webp?v=5207') center top / cover no-repeat!important;
+  background:#f8f1e6 url('quick-sheet-mobile-approved-v5210.webp?v=5210') center top / cover no-repeat!important;
   box-shadow:none!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet::before,
@@ -26008,4 +26008,123 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet.editor-inline-foot .shbo
 /* Desktop: keep app usable, but do not redesign away from phone reference. */
 @media(min-width:700px){
   body.light #sheet.task-editor-sheet.qe190-sheet.withfoot>.shbody{padding-left:max(24px,calc((100vw - 760px)/2))!important;padding-right:max(24px,calc((100vw - 760px)/2))!important}
+}
+
+/* =====================================================================
+   5.0.211 — approved quick-entry background + create/edit consistency
+   The user approved the phone mockup with the new sunlit marble gallery.
+   Apply the same background and top composition to all 4 create screens
+   and to all 4 edit screens. Phone viewport remains the reference.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
+  background:#f8f1e6 url('quick-sheet-mobile-approved-v5211.webp?v=5211') center top / cover no-repeat!important;
+  box-shadow:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet::before,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet::before{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet::after,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet::after{
+  content:''!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(180deg,rgba(255,252,247,.16) 0%,rgba(250,244,236,.08) 36%,rgba(247,239,227,.10) 100%),
+    linear-gradient(90deg,rgba(255,252,247,.10) 0%,rgba(255,252,247,.04) 44%,rgba(255,252,247,.10) 100%)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet>.shbody,
+body.light #sheet.task-editor-sheet.qe190-sheet>.shfoot,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet>.shbody,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet>.shfoot{
+  position:relative!important;
+  z-index:1!important;
+  background:transparent!important;
+}
+/* Long edit titles ("Редактирование …") must stay within the same static title area
+   instead of visually enlarging the page or pushing the grid. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-long,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-long{
+  font-size:24px!important;
+  line-height:.93!important;
+  letter-spacing:-.02em!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-long{
+  font-size:19px!important;
+  line-height:.90!important;
+}
+/* Same stable geometry for the type cards and heading in create/edit modes. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading{
+  height:76px!important;
+  min-height:76px!important;
+  max-height:76px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card{
+  height:60px!important;
+  min-height:60px!important;
+  max-height:60px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy b,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy b{
+  font-size:14px!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-copy small,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-copy small{
+  font-size:8.25px!important;
+}
+
+
+/* =====================================================================
+   5.0.212 — unified two-line edit titles
+   Row 1: «Редактирование»; row 2: task/meeting/deadline/hearing name.
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:1px!important;
+  white-space:normal!important;
+  line-height:.91!important;
+  font-size:22px!important;
+  letter-spacing:-.018em!important;
+  transform:translateY(-1px)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main{
+  display:block!important;
+  font-size:22px!important;
+  line-height:.92!important;
+  font-weight:700!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind{
+  display:block!important;
+  margin-top:1px!important;
+  font-size:21px!important;
+  line-height:.92!important;
+  font-weight:700!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-edit,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-kind-deadline .qe190-heading h2.qe190-title-edit{
+  font-size:22px!important;
+  line-height:.91!important;
+}
+@media(max-width:390px){
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-main{font-size:21px!important}
+  body.light #sheet.task-editor-sheet.qe190-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind,
+  body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-heading h2.qe190-title-edit .qe-edit-title-kind{font-size:20px!important}
 }
