@@ -2,13 +2,19 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Ежедневник адвоката</title>
-<link rel="manifest" href="manifest.webmanifest?v=5228">
-<link rel="stylesheet" href="styles.css?v=5228">
+<link rel="manifest" href="manifest.webmanifest?v=5229">
+<link rel="stylesheet" href="styles.css?v=5229">
+<link rel="preload" href="app.js?v=5229" as="script">
+<link rel="preload" href="scale-gold.webp?v=5229" as="image" fetchpriority="high">
+<link rel="preload" href="bg-today-desk.webp" as="image">
+<link rel="preload" href="nav-panel-light.png" as="image">
+<link rel="preload" href="nav-active-today.png?v=5229" as="image">
+<link rel="preload" href="header-bell-premium.png?v=5229" as="image">
+<link rel="preload" href="header-search-premium.png?v=5229" as="image">
+<link rel="preload" href="fab-plus-square-premium.png?v=5229" as="image">
+<link rel="preload" href="quick-sheet-mobile-approved-v5211.webp?v=5229" as="image">
 <meta name="theme-color" content="#F4F6F9">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,9 +23,9 @@
 <meta name="apple-mobile-web-app-title" content="Адвокат">
 <meta name="format-detection" content="telephone=no">
 <meta name="color-scheme" content="light">
-<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=5228">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=5228">
-<link rel="icon" href="premium-icon-192.png?v=5228">
+<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=5229">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=5229">
+<link rel="icon" href="premium-icon-192.png?v=5229">
 <style id="ios-pwa-nav-critical">
 :root{--ios-nav-top:calc(100dvh - 75px);--ios-fab-top:calc(100dvh - 144px)}
 #tabbar.premium-nav{position:fixed!important;left:12px!important;right:12px!important;top:var(--ios-nav-top)!important;bottom:auto!important;z-index:1000!important}
@@ -29,7 +35,7 @@
 </head>
 <body class="light">
 
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <g id="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>
   <g id="i-list"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></g>
@@ -131,6 +137,6 @@
 </div>
 
 <input type="file" id="file" accept=".json" style="display:none">
-<script src="app.js?v=5228"></script>
+<script src="app.js?v=5229"></script>
 </body>
 </html>

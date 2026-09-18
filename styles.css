@@ -27094,7 +27094,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .hearing-premium-save:active{
 }
 
 /* =====================================================================
-   5.0.228 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
+   5.0.229 — STAGE 1: TOP GEOMETRY + TYPE BLOCK BACK TO APPROVED MOCKUP
    Phone-first correction based on real iPhone screenshots.
    - move the entire top composition upward
    - remove the extra icon plaques introduced in 5.0.219
@@ -27326,8 +27326,8 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 
 /* =====================================================================
-   5.0.228 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
-   Based on real iPhone screenshots of 5.0.228.
+   5.0.229 — STAGE 2: VERTICAL GEOMETRY / PHONE COMPACTION
+   Based on real iPhone screenshots of 5.0.229.
    Goals:
    - two-line "Новый процессуальный срок"
    - reduce vertical waste without making controls feel cramped
@@ -27547,7 +27547,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet .kind-deadline-editor .deadline-
 
 
 /* =====================================================================
-   5.0.228 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
+   5.0.229 — TYPE TEXT / ACTIVE GOLD / DATE LEGIBILITY
    Real iPhone adjustment after 5.0.225 screenshots.
    ===================================================================== */
 
@@ -27654,7 +27654,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet
 
 
 /* =====================================================================
-   5.0.228 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
+   5.0.229 — SAVE BUTTON MATCHES ACTIVE TYPE + LARGER TYPE LABELS
    ===================================================================== */
 
 /* Slightly larger titles in all four type cards. */
@@ -27702,7 +27702,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save .ico{
 
 
 /* =====================================================================
-   5.0.228 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
+   5.0.229 — FINAL COMMON POLISH + BRIGHTER APPROVED BACKGROUND
    Based on the approved mockup and real iPhone screenshots.
    ===================================================================== */
 
@@ -27851,4 +27851,22 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
     0 5px 12px rgba(107,65,9,.17),
     inset 0 1px 0 rgba(255,247,211,.52),
     inset 0 -1px 0 rgba(91,52,4,.15)!important;
+}
+
+
+/* =====================================================================
+   5.0.229 — STARTUP PAINT STABILITY
+   ===================================================================== */
+body.light #sheet.task-editor-sheet.qe190-sheet,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet{
+  background-image:url('quick-sheet-mobile-approved-v5211.webp?v=5229')!important;
+}
+.ico{
+  shape-rendering:geometricPrecision;
+}
+.premium-action-art,
+.today-logo img,
+.qe190-brand img{
+  transform:translateZ(0);
+  backface-visibility:hidden;
 }
