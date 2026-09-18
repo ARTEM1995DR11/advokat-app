@@ -24274,3 +24274,52 @@ body.light #sheet.entry-premium-sheet .standard-premium-editor .hearing-save-div
   body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .chip{font-size:9.9px!important;padding:0 5px!important}
   body.light #sheet.entry-premium-sheet .standard-premium-editor .task-note-editor{min-height:62px!important;height:62px!important}
 }
+
+
+/* =====================================================================
+   5.0.195 — point fixes after device review
+   - move right-side chevrons closer to the edge
+   - differentiate ordinary vs low priority icons
+   ===================================================================== */
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-select-field-arrow,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .inline-choice-arrow.premium-list-trigger{
+  right:4px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{
+  right:4px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .editor-select-field .premium-select-field{
+  padding-right:45px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field,
+body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field{
+  padding-right:40px!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe195-pri-low-mark{
+  width:20px!important;
+  height:20px!important;
+  flex:0 0 20px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#6c7da6!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .qe195-pri-low-mark .ico{
+  width:18px!important;
+  height:18px!important;
+  stroke-width:2.1!important;
+  transform:rotate(90deg)!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .pri-low{
+  color:#5e719b!important;
+}
+body.light #sheet.entry-premium-sheet .standard-premium-editor .task-priority-chips .pri-low.on .qe195-pri-low-mark{
+  color:#2f1b04!important;
+}
+@media(max-width:390px){
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-select-field-arrow,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .inline-choice-arrow.premium-list-trigger,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-date-field::after,
+  body.light #sheet.entry-premium-sheet .standard-premium-editor .premium-time-field::after{right:3px!important}
+}
