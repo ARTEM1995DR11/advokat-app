@@ -29689,3 +29689,132 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save:active{
   background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
   background-size:100% 100%!important;
 }
+
+
+/* =====================================================================
+   5.0.250 — PIXEL PASS STEP 1: dedicated quick-form icon family
+   Background and approved gold image surfaces are LOCKED.
+   ===================================================================== */
+
+:root{
+  --qe-icon-cool:#6f788f;
+  --qe-icon-cool-soft:#788198;
+  --qe-icon-gold:#94600b;
+  --qe-icon-gold-active:#704305;
+}
+
+/* All dedicated icons use the same rendering language. */
+body.light #sheet.task-editor-sheet.qe190-sheet .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .ico{
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+
+/* TYPE cards — same optical mass across all four. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
+  width:29px!important;
+  height:29px!important;
+  stroke-width:1.82!important;
+  color:var(--qe-icon-gold)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon .ico{
+  color:var(--qe-icon-gold-active)!important;
+  stroke-width:1.88!important;
+}
+
+/* Content fields in the mockup use cool blue-grey line icons. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-case,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-client,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-number,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-judge,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon{
+  color:var(--qe-icon-cool)!important;
+  opacity:1!important;
+}
+
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-case .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-client .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-number .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe193-title-icon .ico,
+body.light #sheet.task-editor-sheet.qe190-sheet .qe194-note-icon .ico{
+  width:19px!important;
+  height:19px!important;
+  stroke-width:1.72!important;
+}
+
+/* Judge gets slightly more room because its symbol is intentionally richer. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-judge .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.62!important;
+}
+
+/* Date/time are warm gold in the approved mockup. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon{
+  color:var(--qe-icon-gold)!important;
+  opacity:1!important;
+}
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .hearing-premium-picker-icon .ico{
+  width:20px!important;
+  height:20px!important;
+  stroke-width:1.82!important;
+}
+
+/* Standard task/meeting/deadline controls draw their leading icons through
+   pseudo-elements. Redraw those with the same dedicated geometry/colors. */
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor
+.editor-select-field .premium-select-field::before{
+  opacity:1!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236F788F' stroke-width='1.72' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.8 8.1A2.05 2.05 0 0 1 5.85 6.05h3.45c.48 0 .94.19 1.28.53l1.08 1.08h6.48a2.05 2.05 0 0 1 2.05 2.05v7.15a2.05 2.05 0 0 1-2.05 2.05H5.85a2.05 2.05 0 0 1-2.05-2.05z'/%3E%3Cpath d='M4.15 9.65h15.55'/%3E%3C/svg%3E")!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor
+.premium-date-field::before{
+  opacity:1!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394600B' stroke-width='1.82' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4.15' y='5.35' width='15.7' height='14.45' rx='2.35'/%3E%3Cpath d='M4.15 9.4h15.7M8.15 3.8v3.45M15.85 3.8v3.45'/%3E%3C/svg%3E")!important;
+}
+
+body.light #sheet.task-editor-sheet.qe190-sheet .standard-premium-editor
+.premium-time-field::before{
+  opacity:1!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394600B' stroke-width='1.82' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.55'/%3E%3Cpath d='M12 6.9v5.2l3.4 2'/%3E%3C/svg%3E")!important;
+}
+
+/* Deadline calculator icon is intentionally warm gold. */
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title>span{
+  color:var(--qe-icon-gold)!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .deadline-calculator-title>span .ico{
+  width:19px!important;
+  height:19px!important;
+  stroke-width:1.82!important;
+}
+
+/* Save floppy: dark ink, strong enough to match the mockup. */
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save .save-icon .ico,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save-icon .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.92!important;
+  color:#241908!important;
+}
+
+/* Dedicated court icon gets a touch less stroke density. */
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe-icon-court .ico{
+  stroke-width:1.52!important;
+}
+
+/* LOCK: do not change the approved gold image surfaces. */
+body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active{
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+}
+body.light #sheet.task-editor-sheet.qe190-sheet .task-editor-save.hearing-premium-save,
+body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe192-save{
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
+}
