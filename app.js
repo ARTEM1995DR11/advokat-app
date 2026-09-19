@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.274';
-var APP_BUILD='5274';
+var APP_VERSION='5.0.275';
+var APP_BUILD='5275';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -671,7 +671,7 @@ function syncPremiumSelectButton(id){
   if(id==='m-role'&&sel.value)label=matterRoleDisplayLabel((MED&&MED.type)||'other',(MED&&MED.stage)||'',sel.value);
   if(inMatterEditor&&!sel.value)label='';
   var b=btn.querySelector('b');if(b)b.textContent=label||(inMatterEditor?'':'— выбрать —');btn.classList.toggle('empty',!sel.value);
-  var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role')?premiumListMatterMeta(id,sel.value):null;
+  var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role'||id==='m-execution-issue')?premiumListMatterMeta(id,sel.value):null;
   btn.classList.toggle('matter-choice-tone',!!tone);
   if(tone){btn.style.setProperty('--matter-choice-color',tone.color||'#7A8FA6');btn.dataset.matterTone=tone.type||'other';}
   else{btn.style.removeProperty('--matter-choice-color');delete btn.dataset.matterTone;}
@@ -5480,7 +5480,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5274',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5275',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
