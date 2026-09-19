@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.296';
-var APP_BUILD='5296';
+var APP_VERSION='5.0.298';
+var APP_BUILD='5298';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2029,6 +2029,17 @@ function hearingSubcaption(t,m){
 }
 function hearingClientName(t,m){ return (m&&m.client)||t.hearingClient||''; }
 function hearingJudgeName(t,m){ return (m&&(m.judge||m.investigator))||t.hearingJudge||''; }
+
+/* 5.0.298:
+   Единый безопасный источник места судебного заседания.
+   Ранее карточка дела вызывала несуществующую hearingPlace(), поэтому
+   дела с активным заседанием падали при открытии, а дела без заседаний
+   открывались нормально. */
+function hearingPlace(t,m){
+  if(!t) return '';
+  var mm=m || (t.mid?matter(t.mid):null);
+  return String(t.place || (mm&&mm.court) || '');
+}
 function hearingMetaLine(t,m){
   var client=hearingClientName(t,m), judge=hearingJudgeName(t,m), bits=[];
   if(client) bits.push('<span class="hearing-client">'+esc(client)+'</span>');
@@ -2252,7 +2263,8 @@ function kpi(n,l,c,act){ return '<button class="kpi '+c+'" data-act="'+act+'"><b
 
 function taskGroupDefaultOpen(key){
   if((S.ui.q||'').trim()) return true;
-  return key==='done' ? false : true;
+  /* Архивные блоки не должны занимать рабочее пространство по умолчанию. */
+  return ['past-meetings','hearing-history','done'].indexOf(key)<0;
 }
 function taskGroupOpen(key){
   var st=S.ui.taskGroupOpen||{};
@@ -3786,7 +3798,7 @@ function matterPremiumBadge(kind,label){
 function matterPremiumTaskRow(t,m){
   var title=t.kind==='hearing'?(t.title||'Судебное заседание'):(t.title||'Без названия');
   var subtitle='';
-  if(t.kind==='hearing') subtitle=[hearingPlace(t).replace(/<br>/g,' · '), hearingJudgeName(t,m), hearingClientName(t,m)].filter(Boolean).join(' · ');
+  if(t.kind==='hearing') subtitle=[hearingPlace(t,m).replace(/<br>/g,' · '), hearingJudgeName(t,m), hearingClientName(t,m)].filter(Boolean).join(' · ');
   else if(t.kind==='meeting') subtitle=t.place||'Встреча';
   else if(t.kind==='deadline') subtitle=t.ruleCode||t.rule||'Процессуальный срок';
   else subtitle=(m&&m.number)?('По делу № '+m.number):(m&&m.client?m.client:'');
@@ -3845,7 +3857,7 @@ function matterNextHearingCard(t,m){
   if(!t) return '';
   var needs=t.kind==='hearing'&&hearingNeedsResult(t);
   var title=needs?'Требуется результат заседания':(t.kind==='meeting'?'Ближайшая встреча':'Следующее заседание');
-  var place=t.kind==='hearing' ? hearingPlace(t).replace(/<br>/g,' · ') : (t.place||'');
+  var place=t.kind==='hearing' ? hearingPlace(t,m).replace(/<br>/g,' · ') : (t.place||'');
   var judge=t.kind==='hearing' ? hearingJudgeName(t,m) : '';
   var subtitle=[place,judge].filter(Boolean).join(' · ');
   return '<button class="matter-next-card'+(needs?' needs-result':'')+'" data-act="'+(needs?'hearing-result':'task')+'" data-id="'+t.id+'">'+
@@ -5564,6 +5576,7 @@ function afterUnlock(){
        должны начинаться свернутыми. Пользователь по-прежнему может
        раскрыть их вручную на время текущего сеанса. */
     if(!S.ui.taskGroupOpen || typeof S.ui.taskGroupOpen!=='object') S.ui.taskGroupOpen={};
+    S.ui.taskGroupOpen['past-meetings']=false;
     S.ui.taskGroupOpen['hearing-history']=false;
     S.ui.taskGroupOpen['done']=false;
 
@@ -5629,7 +5642,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5296',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5298',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
