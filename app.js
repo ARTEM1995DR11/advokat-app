@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.298';
-var APP_BUILD='5298';
+var APP_VERSION='5.0.300';
+var APP_BUILD='5300';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1093,7 +1093,7 @@ function inferDeadlineRuleParts(t){
   var r=deadlineRuleFromTask(t); if(r)return {code:r.code,article:r.article,ruleId:r.id};
   return {code:'GPK',article:(t&&t.rule)||'',ruleId:''};
 }
-var PRI = { high:{n:'Срочно',c:'red'}, mid:{n:'Обычный',c:'yel'}, low:{n:'Низкий',c:''} };
+var PRI = { high:{n:'Срочно',c:'red'}, mid:{n:'Средний',c:'yel'}, low:{n:'Низкий',c:''} };
 var STAGE = ['Досудебная работа','Первая инстанция','Апелляция','Кассация','Надзор','Исполнение'];
 var MATTER_STAGE_META = {
   'Материал проверки':{c:'#D98A2B',icon:'doc',mode:'investigation'},
@@ -1972,7 +1972,7 @@ function taskCard(t,opts){
 }
 function groupList(list,opts){
   if(!list.length) return '';
-  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Состоявшиеся встречи',[],'slate'],['Выполнено',[]]];
+  var buckets = [['Просрочено',[],'red'],['Сегодня',[]],['Завтра',[]],['Ближайшая неделя',[]],['Позже',[]],['Без срока',[]],['Прошедшие заседания',[]],['Прошедшие встречи',[],'slate'],['Выполнено',[]]];
   list.forEach(function(t){
     var i = t.done ? 8 : (t.kind==='hearing' && t.due && dd(t.due)<0) ? 6 : meetingOccurred(t) ? 7 : !t.due ? 5 : dd(t.due)<0 ? 0 : dd(t.due)===0 ? 1 : dd(t.due)===1 ? 2 : dd(t.due)<=7 ? 3 : 4;
     buckets[i][1].push(t);
@@ -2267,6 +2267,9 @@ function taskGroupDefaultOpen(key){
   return ['past-meetings','hearing-history','done'].indexOf(key)<0;
 }
 function taskGroupOpen(key){
+  /* Поиск должен показывать найденную карточку сразу, даже если архивная
+     группа была сохранена как свернутая при запуске. */
+  if((S.ui.q||'').trim()) return true;
   var st=S.ui.taskGroupOpen||{};
   return Object.prototype.hasOwnProperty.call(st,key) ? !!st[key] : taskGroupDefaultOpen(key);
 }
@@ -2533,7 +2536,7 @@ function renderTasks(){
         '<button class="week '+(u.taskChip==='week'?'on':'')+'" data-act="chip" data-v="week"><span>На этой неделе</span><em>'+c.week+'</em></button>'+
         '<button class="later '+(u.taskChip==='later'?'on':'')+'" data-act="chip" data-v="later"><span>Позже</span><em>'+c.later+'</em></button>'+
         '<button class="nodue '+(u.taskChip==='nodue'?'on':'')+'" data-act="chip" data-v="nodue"><span>Без срока</span><em>'+c.nodue+'</em></button>'+
-        '<button class="done '+(u.taskChip==='done'?'on':'')+'" data-act="chip" data-v="done"><span>Выполнено</span><em>'+c.done+'</em></button>'+
+        '<button class="done '+(u.taskChip==='done'?'on':'')+'" data-act="chip" data-v="done"><span>Архив</span><em>'+c.done+'</em></button>'+
       '</div>'+
       '<button class="task-type-trigger'+(u.taskType?' on':'')+'" data-act="task-type-sheet" title="Фильтр по типу">'+ico('list','s')+'<span>'+esc(tt.short)+'</span></button>'+
     '</div><div id="tasklist"></div></div>';
@@ -2555,7 +2558,7 @@ function taskProjectGroups(list){
     {key:'week',title:'На этой неделе',tone:'gold',items:[]},
     {key:'later',title:'Позже',tone:'slate',items:[]},
     {key:'nodue',title:'Без срока',tone:'slate',items:[]},
-    {key:'past-meetings',title:'Состоявшиеся встречи',tone:'green',items:[]},
+    {key:'past-meetings',title:'Прошедшие встречи',tone:'slate',items:[]},
     {key:'hearing-history',title:'История заседаний',tone:'blue',items:[]},
     {key:'done',title:'Выполнено',tone:'green',items:[]}
   ];
@@ -2586,11 +2589,11 @@ function taskProjectBadge(t){
   if(ri) return '<span class="pt-badge hearing-result '+ri.tone+'">'+esc(ri.label)+'</span>';
   if(hearingNeedsResult(t)) return '<span class="pt-badge hearing-result pending">Результат</span>';
   if(t.done) return '<span class="pt-badge done">Готово</span>';
-  if(meetingOccurred(t)) return '<span class="pt-badge meeting held">Состоялась</span>';
+  if(meetingOccurred(t)) return '<span class="pt-badge meeting past">Прошло</span>';
   if(t.kind==='hearing') return '<span class="pt-badge hearing">Заседание</span>';
   if(t.kind==='meeting') return '<span class="pt-badge meeting">Встреча</span>';
   if(t.kind==='deadline') return '<span class="pt-badge deadline">Срок</span>';
-  if(t.pri==='high') return '<span class="pt-badge high">Высокий</span>';
+  if(t.pri==='high') return '<span class="pt-badge high">Срочно</span>';
   if(t.pri==='mid') return '<span class="pt-badge mid">Средний</span>';
   if(t.pri==='low') return '<span class="pt-badge low">Низкий</span>';
   return '';
@@ -2608,7 +2611,7 @@ function taskDueText(t){
   var d=dd(t.due);
   if(hearingNeedsResult(t)) return '<small class="pt-result-due">Требуется результат · '+fmtD(t.due)+'</small>';
   if(t.done) return '<small>'+fmtD(t.due)+'</small>';
-  if(meetingOccurred(t)) return '<small class="pt-past-meeting">Состоялась'+(t.time?' · '+esc(t.time):'')+' · '+fmtD(t.due)+'</small>';
+  if(meetingOccurred(t)) return '<small class="pt-past-meeting">Прошло'+(t.time?' · '+esc(t.time):'')+' · '+fmtD(t.due)+'</small>';
   if(d<0) return '<small class="pt-overdue">'+(t.kind==='deadline'?'Срок просрочен':'Просрочено')+' на '+Math.abs(d)+' '+plural(Math.abs(d),'день','дня','дней')+'</small>';
   if(d===0) return '<small>Сегодня</small>';
   if(d===1) return '<small>Завтра</small>';
@@ -2626,7 +2629,7 @@ function taskProjectRow(t){
         ? '<button class="pt-hearing-state pending" data-act="hearing-result" data-id="'+t.id+'">'+ico('clock','s')+'</button>'
         : '<span class="pt-hearing-state '+(hearingHasResult(t)?'completed':'scheduled')+'">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>')
     : (meetingOccurred(t)
-        ? '<span class="pt-hearing-state completed meeting-held">'+ico('check','s')+'</span>'
+        ? '<span class="pt-hearing-state past meeting-past">'+ico('clock','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline'||(t.kind==='hearing'&&!hearingHasResult(t)));
   var swipeCaption=(t.kind==='hearing'&&hearingNeedsResult(t))?'Результат':'Действия';
@@ -3030,7 +3033,7 @@ function calAgendaLabel(t){
   if(t.kind==='meeting') return 'Встреча';
   if(t.kind==='deadline') return 'Срок';
   if(t.done) return 'Готово';
-  if(t.pri==='high') return 'Высокий';
+  if(t.pri==='high') return 'Срочно';
   if(t.pri==='mid') return 'Средний';
   if(t.pri==='low') return 'Низкий';
   return 'Задача';
@@ -3804,18 +3807,18 @@ function matterPremiumTaskRow(t,m){
   else subtitle=(m&&m.number)?('По делу № '+m.number):(m&&m.client?m.client:'');
   var dateBadge='';
   if(t.due){
-    var d=dd(t.due), held=meetingOccurred(t), dateLabel=held?'состоялась':(d<0?'просрочено':(d===0?'сегодня':(d===1?'завтра':fmtShort(t.due))));
+    var d=dd(t.due), held=meetingOccurred(t), dateLabel=held?'прошло':(d<0?'просрочено':(d===0?'сегодня':(d===1?'завтра':fmtShort(t.due))));
     dateBadge=matterPremiumBadge('date '+(held?'held':(d<0?'overdue':(d===0?'today':''))),dateLabel);
   }
   var kindLabel='';
   if(t.kind==='hearing') kindLabel=matterPremiumBadge('hearing','Заседание');
-  else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting'+(meetingOccurred(t)?' held':''),meetingOccurred(t)?'Состоялась':'Встреча');
+  else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting'+(meetingOccurred(t)?' past':''),meetingOccurred(t)?'Прошло':'Встреча');
   else if(t.kind==='deadline') kindLabel=matterPremiumBadge('deadline','Срок');
   else kindLabel=matterPremiumBadge('task','Задача');
   var lead=t.kind==='hearing'
     ? '<span class="matter-event-check icon">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>'
     : (meetingOccurred(t)
-        ? '<span class="matter-event-check done meeting-held">'+ico('check','s')+'</span>'
+        ? '<span class="matter-event-check past meeting-past">'+ico('clock','s')+'</span>'
         : '<button class="matter-event-check'+(t.done?' done':'')+'" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   return '<div class="matter-event-card'+(t.done?' done':'')+(t.kind==='hearing'?' hearing':'')+(t.kind==='meeting'?' meeting':'')+(t.kind==='deadline'?' deadline':'')+'">'+
     lead+
@@ -5619,22 +5622,21 @@ boot();
 
 document.addEventListener('visibilitychange',function(){
   if(document.hidden){hiddenAt=Date.now();flushSave();return;}
-  var wasAway=hiddenAt&&Date.now()-hiddenAt>1200;
-  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&Date.now()-hiddenAt>60000){
+  var awayMs=hiddenAt?Date.now()-hiddenAt:0;
+  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&awayMs>60000){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    if(wasAway){
-      closeAll();
-      NAV_TABS=[];
-      S.ui.tab='today';
-      S.ui.q='';
-      S.ui._sq=false;
-      save();
-    }
-    render();schedule();
-    refreshFixedChrome();
+    /* 5.0.300 — рабочий контекст сохраняется при кратком уходе в другое приложение.
+       Не закрываем редакторы/шторки, не сбрасываем текущую вкладку и поиск.
+       Если поверх страницы ничего не открыто — обновляем текущий экран, чтобы
+       время, сроки и состояния событий были актуальны. */
+    var overlayOpen=$('#sheet').classList.contains('open')||$('#page').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER;
+    if(!overlayOpen) render();
+    schedule();
+    settleFixedChrome();
   }
+  hiddenAt=0;
 });
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
@@ -5642,7 +5644,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5298',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5300',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

@@ -34345,3 +34345,39 @@ body.light #sc-today .today-row.task-row .today-kind-badge.task{
     line-height:19px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.300 — TODAY/TASKS STABILIZATION
+   Past meeting means only that its planned time has passed; it does not
+   assert that the meeting actually took place. Use a neutral archive state.
+   ================================================================ */
+.pt-badge.meeting.past,
+.matter-pill.meeting.past,
+.matter-pill.date.past{
+  background:rgba(112,132,151,.11)!important;
+  color:#5F7588!important;
+  border-color:rgba(112,132,151,.18)!important;
+}
+.pt-hearing-state.past.meeting-past,
+.matter-event-check.past.meeting-past{
+  background:rgba(112,132,151,.10)!important;
+  border-color:rgba(112,132,151,.22)!important;
+  color:#607A90!important;
+}
+.pt-past-meeting{
+  color:#5F7588!important;
+  font-weight:700!important;
+}
+body:not(.light) .pt-badge.meeting.past,
+body:not(.light) .matter-pill.meeting.past,
+body:not(.light) .matter-pill.date.past{
+  background:rgba(150,170,188,.10)!important;
+  color:#A8BBCB!important;
+  border-color:rgba(150,170,188,.16)!important;
+}
+body:not(.light) .pt-hearing-state.past.meeting-past,
+body:not(.light) .matter-event-check.past.meeting-past,
+body:not(.light) .pt-past-meeting{
+  color:#A8BBCB!important;
+}
