@@ -35783,3 +35783,118 @@ body:not(.light) .sheet.matter-filter-premium{
     max-height:min(90dvh,820px)!important;
   }
 }
+
+
+/* ================================================================
+   5.0.313 — MATTERS FILTER SHEET STRETCHED TO USE MORE SCREEN HEIGHT
+   Убираем пустой нижний участок и растягиваем шторку «Дела», чтобы влезало больше фильтров.
+   ================================================================ */
+.sheet.matter-filter-premium.withfoot,
+body.light .sheet.matter-filter-premium.withfoot,
+body:not(.light) .sheet.matter-filter-premium.withfoot{
+  display:flex!important;
+  flex-direction:column!important;
+  height:min(91dvh,860px)!important;
+  max-height:min(91dvh,860px)!important;
+  padding-bottom:0!important;
+}
+@supports not (height:100dvh){
+  .sheet.matter-filter-premium.withfoot,
+  body.light .sheet.matter-filter-premium.withfoot,
+  body:not(.light) .sheet.matter-filter-premium.withfoot{
+    height:min(91vh,860px)!important;
+    max-height:min(91vh,860px)!important;
+  }
+}
+.sheet.matter-filter-premium.withfoot .shbody{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:10px!important;
+}
+.sheet.matter-filter-premium.withfoot .shfoot{
+  flex:none!important;
+  margin:8px -14px 0!important;
+  padding:12px 14px calc(12px + env(safe-area-inset-bottom))!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium.withfoot,
+  body.light .sheet.matter-filter-premium.withfoot,
+  body:not(.light) .sheet.matter-filter-premium.withfoot{
+    height:min(90dvh,820px)!important;
+    max-height:min(90dvh,820px)!important;
+  }
+  .sheet.matter-filter-premium.withfoot .shfoot{
+    margin-left:-11px!important;
+    margin-right:-11px!important;
+    padding-left:11px!important;
+    padding-right:11px!important;
+  }
+}
+
+
+/* ================================================================
+   5.0.314 — MATTERS FILTER: RESTORE TOP, USE THE EMPTY SPACE BELOW
+   Верхнюю границу возвращаем на прежнее место. Пустую нижнюю область
+   используем под контент: footer уходит к низу, body получает больше места.
+   ================================================================ */
+.sheet.matter-filter-premium,
+body.light .sheet.matter-filter-premium,
+body:not(.light) .sheet.matter-filter-premium,
+.sheet.matter-filter-premium.withfoot,
+body.light .sheet.matter-filter-premium.withfoot,
+body:not(.light) .sheet.matter-filter-premium.withfoot{
+  height:min(82dvh,730px)!important;
+  max-height:min(82dvh,730px)!important;
+  min-height:0!important;
+  padding-bottom:0!important;
+}
+@supports not (height:100dvh){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium,
+  body:not(.light) .sheet.matter-filter-premium,
+  .sheet.matter-filter-premium.withfoot,
+  body.light .sheet.matter-filter-premium.withfoot,
+  body:not(.light) .sheet.matter-filter-premium.withfoot{
+    height:min(82vh,730px)!important;
+    max-height:min(82vh,730px)!important;
+  }
+}
+.sheet.matter-filter-premium.withfoot{
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+.sheet.matter-filter-premium.withfoot .shbody{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:12px!important;
+}
+.sheet.matter-filter-premium.withfoot .shfoot{
+  position:relative!important;
+  bottom:auto!important;
+  flex:0 0 auto!important;
+  margin:0 -14px!important;
+  padding:11px 14px calc(10px + env(safe-area-inset-bottom))!important;
+  border-top:1px solid rgba(66,73,80,.08)!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium,
+  body:not(.light) .sheet.matter-filter-premium,
+  .sheet.matter-filter-premium.withfoot,
+  body.light .sheet.matter-filter-premium.withfoot,
+  body:not(.light) .sheet.matter-filter-premium.withfoot{
+    height:min(81dvh,700px)!important;
+    max-height:min(81dvh,700px)!important;
+  }
+  .sheet.matter-filter-premium.withfoot .shfoot{
+    margin-left:-11px!important;
+    margin-right:-11px!important;
+    padding-left:11px!important;
+    padding-right:11px!important;
+  }
+}
