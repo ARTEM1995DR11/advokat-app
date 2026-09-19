@@ -37185,3 +37185,54 @@ body.light .premium-list-modal.premium-matter-picker > *{
   position:relative!important;
   z-index:1!important;
 }
+
+
+/* ================================================================
+   5.0.331 — today chevrons + matter picker selection badge spacing
+   - На странице «Сегодня» правые стрелки прижимаем к правому краю, как на странице задач.
+   - Во вкладке «Выбор дела» убираем наезд бейджа «Выбрано» на текст.
+   ================================================================ */
+#sc-today .today-row > .ico:last-child{
+  margin-left:auto!important;
+  flex:none!important;
+  width:18px!important;
+  height:18px!important;
+  min-width:18px!important;
+  color:#586D84!important;
+  opacity:.95!important;
+  align-self:center!important;
+}
+#sc-today .today-row > .ico:last-child path,
+#sc-today .today-row > .ico:last-child polyline,
+#sc-today .today-row > .ico:last-child line{
+  stroke-width:2.2!important;
+}
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row{
+  grid-template-columns:40px minmax(0,1fr) auto!important;
+}
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row-copy{
+  min-width:0!important;
+  padding-right:6px!important;
+}
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row-end{
+  min-width:max-content!important;
+  width:auto!important;
+  justify-self:end!important;
+  align-self:center!important;
+  margin-left:4px!important;
+}
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row.selected .premium-list-row-end em,
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row.matter-option.selected .premium-list-row-end em{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row{
+    grid-template-columns:38px minmax(0,1fr) auto!important;
+  }
+  body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row-copy{
+    padding-right:5px!important;
+  }
+}
