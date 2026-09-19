@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.302';
-var APP_BUILD='5302';
+var APP_VERSION='5.0.303';
+var APP_BUILD='5303';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2540,7 +2540,7 @@ function renderTasks(){
     mainBrandHeader()+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions">'+headerSearch('search',!!u.q,'Поиск по задачам')+'</div></div>'+
-    (u.q!==''||u._sq?'<div class="fld tasks-project-search"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off"></div>':'')+
+    (u.q!==''||u._sq?'<div class="fld tasks-project-search"><div class="tasks-project-search-field"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="tasks-project-search-clear" data-act="task-search-clear" aria-label="Очистить поиск">'+ico('xmark','s')+'</button></div></div>':'')+
     '<div class="tasks-filterbar">'+
       '<div class="tasks-project-filters">'+
         '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
@@ -4928,6 +4928,7 @@ document.addEventListener('click', function(ev){
     case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
     case 'chip': S.ui.taskChip=v;save();renderTasks();break;
     case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
+    case 'task-search-clear': S.ui.q='';S.ui._sq=true;save();renderTasks();setTimeout(function(){var tq=$('#q');if(tq)tq.focus({preventScroll:true});},0);break;
     case 'reset-task-filters': S.ui.q='';S.ui._sq=false;S.ui.taskChip='';S.ui.taskType='';save();renderTasks();toast('Фильтры сброшены');break;
     case 'task-type-sheet': sheetTaskTypeFilters();break;
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
@@ -5657,7 +5658,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5302',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5303',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
