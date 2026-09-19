@@ -36618,3 +36618,21 @@ body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-row.mat
   background:linear-gradient(180deg,rgba(40,51,62,.96),rgba(30,42,54,.97))!important;
   border-color:rgba(192,151,71,.34)!important;
 }
+
+body.light .premium-list-modal.premium-matter-picker .premium-matter-group-count{
+  min-width:40px!important;
+  height:30px!important;
+  padding:0 10px!important;
+  border-radius:999px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:12.5px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  color:#8A5E11!important;
+  background:linear-gradient(180deg,#FFF2C8,#EFD99E)!important;
+  border:1px solid rgba(176,122,27,.24)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-matter-group-head{position:relative!important}
