@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.319';
-var APP_BUILD='5319';
+var APP_VERSION='5.0.320';
+var APP_BUILD='5320';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2949,7 +2949,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5319" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5320" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3262,7 +3262,7 @@ function render(){
   document.querySelectorAll('.tab[data-tab="matters"] use').forEach(function(u){
     u.setAttribute('href', S.ui.tab==='matters' ? '#i-nav-cases-fill' : '#i-nav-cases');
   });
-  var hideFab=(S.ui.tab==='more'||S.ui.tab==='matters');
+  var hideFab=(S.ui.tab==='more');
   $('#fab').classList.toggle('fab-context-hide',hideFab);
   $('#fab').style.setProperty('display',hideFab?'none':'flex','important');
   var active=$('#sc-'+S.ui.tab);
@@ -5679,7 +5679,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5319',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5320',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -5848,7 +5848,7 @@ function renderMatters(){
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
-  html+='</div><button class="matters-approved-fab" data-act="new-matter" aria-label="Новое дело"><img src="fab-plus-square-premium.png?v=5319" alt=""></button></div>';
+  html+='</div></div>';
   $('#sc-matters').innerHTML=html;
   if($('#matter-q')){
     var mq=$('#matter-q');
