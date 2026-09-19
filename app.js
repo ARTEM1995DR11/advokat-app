@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.288';
-var APP_BUILD='5288';
+var APP_VERSION='5.0.289';
+var APP_BUILD='5289';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1852,6 +1852,12 @@ function isPastHearing(t){ return !!(t&&t.kind==='hearing'&&t.due&&dd(t.due)<0&&
 function isActiveRecord(t){ return !!(t && !t.done && !meetingOccurred(t)); }
 function overdue(){ return S.tasks.filter(function(t){ return !t.done && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0; }); }
 function dueToday(){ return S.tasks.filter(function(t){ return !t.done && !meetingOccurred(t) && t.due===today(); }); }
+function urgentTaskNeedsToday(t){
+  /* Высокий приоритет означает, что обычная задача требует внимания сегодня.
+     Реальная дата задачи сохраняется и не переписывается: приоритет влияет только
+     на рабочую группировку «Сегодня», а просроченные задачи остаются просроченными. */
+  return !!(t && !t.done && !meetingOccurred(t) && t.kind==='task' && t.pri==='high' && (!t.due || dd(t.due)>=0));
+}
 function sortT(a,b){
   if(a.done!==b.done) return a.done?1:-1;
   if(!!a.due!==!!b.due) return a.due?-1:1;
@@ -2149,7 +2155,7 @@ function renderToday(){
   var overdueTasks=allOpen.filter(function(t){return t.kind==='task'&&t.due&&dd(t.due)<0;}).sort(sortT);
   var hearingsToday=allOpen.filter(function(t){return t.kind==='hearing'&&t.due===today()&&!hearingNeedsResult(t);}).sort(sortT);
   var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today()&&!meetingOccurred(t);}).sort(sortT);
-  var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&t.due===today();}).sort(sortT);
+  var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&(t.due===today()||urgentTaskNeedsToday(t));}).sort(function(a,b){var ua=urgentTaskNeedsToday(a)?0:1,ub=urgentTaskNeedsToday(b)?0:1;return ua!==ub?ua-ub:sortT(a,b);});
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
   var next7=allOpen.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7&&(t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');}).sort(sortT).slice(0,5);
   var quote=todayQuoteOfDay();
@@ -2431,11 +2437,12 @@ function taskProjectBase(){
   }).sort(sortT);
 }
 function taskProjectMatch(t,chip){
-  if(chip==='late') return !t.done && !meetingOccurred(t) && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0;
-  if(chip==='today') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)===0;
-  if(chip==='week') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)>0 && dd(t.due)<=7;
-  if(chip==='later') return !t.done && !meetingOccurred(t) && t.due && dd(t.due)>7;
-  if(chip==='nodue') return !t.done && !meetingOccurred(t) && !t.due;
+  var active=!t.done && !meetingOccurred(t), urgent=urgentTaskNeedsToday(t);
+  if(chip==='late') return active && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0;
+  if(chip==='today') return active && ((t.due && dd(t.due)===0) || urgent);
+  if(chip==='week') return active && !urgent && t.due && dd(t.due)>0 && dd(t.due)<=7;
+  if(chip==='later') return active && !urgent && t.due && dd(t.due)>7;
+  if(chip==='nodue') return active && !urgent && !t.due;
   if(chip==='done') return !!t.done || meetingOccurred(t);
   return true;
 }
@@ -2446,10 +2453,10 @@ function taskProjectCounts(){
     all:all.length,
     work:active.length,
     late:active.filter(function(t){return (t.kind==='task'||t.kind==='deadline')&&t.due&&dd(t.due)<0;}).length,
-    today:active.filter(function(t){return t.due&&dd(t.due)===0;}).length,
-    week:active.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7;}).length,
-    later:active.filter(function(t){return t.due&&dd(t.due)>7;}).length,
-    nodue:active.filter(function(t){return !t.due;}).length,
+    today:active.filter(function(t){return (t.due&&dd(t.due)===0)||urgentTaskNeedsToday(t);}).length,
+    week:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).length,
+    later:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>7;}).length,
+    nodue:active.filter(function(t){return !urgentTaskNeedsToday(t)&&!t.due;}).length,
     done:all.filter(function(t){return !!t.done || meetingOccurred(t);}).length
   };
 }
@@ -2515,6 +2522,7 @@ function taskProjectGroups(list){
       if(t.due && dd(t.due)<0){out[1].items.push(t);return;}
       out[2].items.push(t);return;
     }
+    if(urgentTaskNeedsToday(t)){out[4].items.push(t);return;}
     if(!t.due){out[7].items.push(t);return;}
     var d=dd(t.due);
     if(meetingOccurred(t)){out[8].items.push(t);return;}
@@ -5527,7 +5535,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5288',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5289',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
