@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.276';
-var APP_BUILD='5276';
+var APP_VERSION='5.0.277';
+var APP_BUILD='5277';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1398,12 +1398,24 @@ var MATTER_ARTICLE_HINTS = {
   other:'Статья, договор, основание спора — при необходимости'
 };
 function matterStageList(type,basis){
-  // Основание ведения («по соглашению» / «по назначению») не ограничивает
-  // перечень процессуальных стадий. Оно описывает формат участия адвоката,
-  // а стадия — фактическое положение материала/дела.
-  // Поэтому, в частности, «Исполнение приговора» доступно и по соглашению,
-  // и по назначению, как и остальные уголовные стадии.
-  return (MATTER_STAGE_MAP[type]||STAGE).slice();
+  var list=(MATTER_STAGE_MAP[type]||STAGE).slice();
+
+  // Рабочая модель уголовных дел «по назначению»:
+  // не предлагаем стадии, которые в учёте по назначению не используются:
+  // «Материал проверки», «Кассация», «Надзор».
+  // При этом «Исполнение приговора» ОБЯЗАТЕЛЬНО остаётся доступным:
+  // представления УФСИН/УФИЦ, УДО, ст. 80, ст. 81 УК РФ и другие
+  // вопросы главы 47 УПК РФ могут вестись как отдельные материалы.
+  if(type==='criminal'&&basis==='assigned'){
+    var hidden={
+      'Материал проверки':1,
+      'Кассация':1,
+      'Надзор':1
+    };
+    list=list.filter(function(stage){return !hidden[stage];});
+  }
+
+  return list;
 }
 function matterRoleList(type,stage,executionIssue){
   if(type==='criminal'&&stage==='Исполнение приговора')return criminalExecutionRoleList(executionIssue||'');
@@ -5486,7 +5498,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5276',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5277',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
