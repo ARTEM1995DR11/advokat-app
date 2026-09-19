@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.340';
-var APP_BUILD='5340';
+var APP_VERSION='5.0.341';
+var APP_BUILD='5341';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5340" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5341" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -298,7 +298,7 @@ var DATE_PICKER=null;
 function premiumDateControl(id,value,emptyLabel,compact){
   var v=value||'', label=v?(compact?fmtD(v,false):fmtD(v,true)):(emptyLabel||'Выберите дату');
   return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
-    '<button type="button" class="premium-date-field'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
+    '<button type="button" class="premium-date-field'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'"'+(compact?' data-date-compact="1"':'')+'>'+
       '<span class="premium-date-field-copy"><b>'+esc(label)+'</b></span>'+
     '</button>';
 }
@@ -350,13 +350,31 @@ function applyPremiumDatePicker(){
     if(!dp.selected){toast('Выберите дату');return;}
     closePremiumDatePicker();closeSheet();moveTaskToDate(dp.taskId,dp.selected,'Дата изменена');return;
   }
-  var inp=dp.target?$('#'+dp.target):null;if(inp)inp.value=dp.selected||'';
+  var value=dp.selected||'';
+  var inp=dp.target?$('#'+dp.target):null;
+  if(inp)inp.value=value;
+
+  // Все кнопки выбора даты, включая специальную форму «Заседание»,
+  // синхронизируются одинаково. Раньше hearing-кнопка не обновлялась,
+  // потому что код искал только .premium-date-field-copy.
   var btn=dp.target?document.querySelector('[data-date-for="'+dp.target+'"]'):null;
   if(btn){
-    btn.classList.toggle('empty',!dp.selected);
-    var b=btn.querySelector('.premium-date-field-copy b');if(b)b.textContent=dp.selected?fmtD(dp.selected,true):'Выберите дату';
+    btn.classList.toggle('empty',!value);
+    var b=btn.querySelector('.premium-date-field-copy b, .hearing-premium-picker-copy b');
+    if(!b)b=btn.querySelector('b');
+    if(b){
+      var compact=btn.dataset.dateCompact==='1'||btn.classList.contains('hearing-premium-picker-date');
+      b.textContent=value?fmtD(value,!compact):'Выберите дату';
+    }
   }
-  if(dp.target==='hr-next-date'&&HR)HR.nextDate=dp.selected||'';
+
+  // Фиксируем дату и в текущих моделях до закрытия календаря.
+  if(ED){
+    if(dp.target==='e-due')ED.due=value;
+    if(dp.target==='e-source')ED.sourceDate=value;
+  }
+  if(dp.target==='hr-next-date'&&HR)HR.nextDate=value;
+
   closePremiumDatePicker();
   if(inp)inp.dispatchEvent(new Event('change',{bubbles:true}));
 }
@@ -687,7 +705,7 @@ function renderPremiumListPicker(){
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5340" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5341" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2969,7 +2987,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5340" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5341" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3544,7 +3562,7 @@ function editTask(t,preset){
 function hearingPremiumDateControl(id,value,emptyLabel,iconName){
   var v=value||'', label=v?fmtD(v,false):(emptyLabel||'Выберите дату');
   return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
-    '<button type="button" class="hearing-premium-picker hearing-premium-picker-date'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'">'+
+    '<button type="button" class="hearing-premium-picker hearing-premium-picker-date'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'" data-date-compact="1">'+
       '<span class="hearing-premium-picker-icon">'+ico(iconName||'qe-calendar','s')+'</span>'+
       '<span class="hearing-premium-picker-copy"><b>'+esc(label)+'</b></span>'+
       '<span class="hearing-premium-picker-tail">'+ico('chev','s')+'</span>'+
@@ -3579,7 +3597,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5340" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5341" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5707,7 +5725,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5340',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5341',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
