@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.303';
-var APP_BUILD='5303';
+var APP_VERSION='5.0.304';
+var APP_BUILD='5304';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2481,7 +2481,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5301" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5304" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -5658,7 +5658,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5303',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5304',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

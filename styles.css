@@ -34409,7 +34409,7 @@ body.light .sheet.task-filter-premium{
   border-top:1px solid rgba(185,132,38,.30)!important;
   background:
     linear-gradient(180deg,rgba(255,253,248,.93),rgba(250,246,237,.96)),
-    url('quick-sheet-marble-approved.webp?v=5303') center/cover no-repeat!important;
+    url('quick-sheet-marble-approved.webp?v=5304') center/cover no-repeat!important;
   box-shadow:
     0 -1px 0 rgba(255,255,255,.92) inset,
     0 -20px 52px rgba(45,35,19,.18)!important;
@@ -34835,4 +34835,133 @@ body:not(.light) #sc-tasks .tasks-project-search-clear{
     width:15px!important;
     height:15px!important;
   }
+}
+
+
+/* ================================================================
+   5.0.304 — TASK FILTER SHEET: marble background + safe close button
+   ================================================================ */
+
+/* Делаем мрамор подложки заметнее и не даем шапке конфликтовать с крестиком. */
+.sheet.task-filter-premium,
+body.light .sheet.task-filter-premium{
+  position:relative!important;
+  overflow:hidden!important;
+  background:
+    linear-gradient(180deg,rgba(255,252,246,.72),rgba(249,244,234,.82))!important;
+}
+.sheet.task-filter-premium::before,
+body.light .sheet.task-filter-premium::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:
+    radial-gradient(130% 78% at 50% 0%,rgba(214,171,84,.18),transparent 56%),
+    radial-gradient(90% 56% at 10% 100%,rgba(205,185,150,.12),transparent 58%),
+    url('quick-sheet-marble-approved.webp?v=5304') center top / cover no-repeat!important;
+  opacity:.78!important;
+  pointer-events:none!important;
+}
+.sheet.task-filter-premium > *,
+body.light .sheet.task-filter-premium > *{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* Шапка: резервируем место справа под кнопку закрытия. */
+.sheet.task-filter-premium .task-filter-premium-head{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:14px!important;
+  margin:0 2px 18px!important;
+  padding-right:66px!important;
+}
+.sheet.task-filter-premium .task-filter-head-copy{
+  min-width:0!important;
+  padding-right:2px!important;
+}
+.sheet.task-filter-premium .task-filter-head-copy h2{
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  word-break:break-word!important;
+  font-size:31px!important;
+  line-height:1.0!important;
+  max-width:100%!important;
+}
+.sheet.task-filter-premium .task-filter-head-copy p{
+  max-width:100%!important;
+}
+.sheet.task-filter-premium .task-filter-close{
+  position:absolute!important;
+  right:0!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  z-index:2!important;
+}
+
+/* Карточки чуть более “стеклянные”, чтобы мрамор читался сквозь подложку. */
+.sheet.task-filter-premium .task-filter-premium-card{
+  background:transparent!important;
+}
+.sheet.task-filter-premium .filter-premium-row{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.90),rgba(255,252,246,.87))!important;
+  backdrop-filter:blur(3px) saturate(1.02)!important;
+}
+.sheet.task-filter-premium .filter-premium-row.selected{
+  background:
+    radial-gradient(180px 85px at 5% 20%,rgba(221,174,74,.11),transparent 78%),
+    linear-gradient(180deg,rgba(255,252,244,.95),rgba(255,248,231,.90))!important;
+}
+
+/* Узкие iPhone: еще немного уменьшаем заголовок и фиксируем кнопку. */
+@media(max-width:430px){
+  .sheet.task-filter-premium .task-filter-premium-head{
+    padding-right:60px!important;
+    gap:12px!important;
+  }
+  .sheet.task-filter-premium .task-filter-head-copy h2{
+    font-size:29px!important;
+    line-height:1.0!important;
+  }
+}
+
+@media(max-width:390px){
+  .sheet.task-filter-premium .task-filter-premium-head{
+    grid-template-columns:52px minmax(0,1fr)!important;
+    padding-right:55px!important;
+    gap:11px!important;
+  }
+  .sheet.task-filter-premium .task-filter-head-copy h2{
+    font-size:25px!important;
+    line-height:1.02!important;
+  }
+  .sheet.task-filter-premium .task-filter-head-copy p{
+    font-size:12.5px!important;
+  }
+  .sheet.task-filter-premium .task-filter-close{
+    width:41px!important;
+    height:41px!important;
+    min-width:41px!important;
+  }
+}
+
+/* Темная тема — без светлого мрамора, но с сохранением новой геометрии. */
+body:not(.light) .sheet.task-filter-premium{
+  background:
+    linear-gradient(180deg,#0F1E2D,#081623)!important;
+}
+body:not(.light) .sheet.task-filter-premium::before{
+  background:
+    radial-gradient(120% 70% at 50% 0%,rgba(200,155,72,.14),transparent 58%),
+    radial-gradient(90% 60% at 8% 100%,rgba(141,108,49,.08),transparent 60%)!important;
+  opacity:1!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row{
+  background:linear-gradient(180deg,rgba(17,34,49,.95),rgba(10,26,39,.94))!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row.selected{
+  background:linear-gradient(180deg,rgba(40,38,28,.96),rgba(28,29,25,.95))!important;
 }
