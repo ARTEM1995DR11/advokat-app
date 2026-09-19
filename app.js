@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.295';
-var APP_BUILD='5295';
+var APP_VERSION='5.0.296';
+var APP_BUILD='5296';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2172,7 +2172,27 @@ function renderToday(){
   var meetingsToday=allOpen.filter(function(t){return t.kind==='meeting'&&t.due===today()&&!meetingOccurred(t);}).sort(sortT);
   var tasksToday=allOpen.filter(function(t){return t.kind==='task'&&(t.due===today()||urgentTaskNeedsToday(t));}).sort(sortTodayTasks);
   var deadlinesToday=allOpen.filter(function(t){return t.kind==='deadline'&&t.due===today();}).sort(sortT);
-  var next7=allOpen.filter(function(t){return t.due&&dd(t.due)>0&&dd(t.due)<=7&&(t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');}).sort(sortT).slice(0,5);
+
+  /* 5.0.296:
+     Блок «Ближайшие 7 дней» остаётся компактным: сначала показываем
+     пять ближайших событий. Но процессуальный срок — критичная запись,
+     поэтому срок, истекающий в следующие 7 дней, нельзя скрывать только
+     из-за лимита карточек. Все такие сроки гарантированно добавляются
+     в блок и сохраняют хронологическую сортировку. */
+  var next7Pool=allOpen.filter(function(t){
+    return t.due&&dd(t.due)>0&&dd(t.due)<=7&&
+      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
+  }).sort(sortT);
+  var next7=next7Pool.slice(0,5);
+  var next7Ids={};
+  next7.forEach(function(t){next7Ids[t.id]=1;});
+  next7Pool.forEach(function(t){
+    if(t.kind==='deadline'&&!next7Ids[t.id]){
+      next7.push(t);
+      next7Ids[t.id]=1;
+    }
+  });
+  next7.sort(sortT);
   var quote=todayQuoteOfDay();
 
   function block(kind, icon, title, items, renderer, extra){
@@ -5609,7 +5629,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5295',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5296',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
