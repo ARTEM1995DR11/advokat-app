@@ -34272,3 +34272,14 @@ body:not(.light) .tasks-project .pt-row.done .pt-done-kind.deadline{
 @media(max-width:390px){
   .tasks-project .pt-row.done .pt-done-kind{min-height:19px!important;padding:0 8px!important;font-size:9.5px!important;margin-top:4px!important;}
 }
+
+
+/* 5.0.293 — standalone / duty hearing */
+.qe192-hearing .qe193-hearing-matter-hint{margin-top:7px!important;color:rgba(28,50,75,.64)!important;}
+.qe192-hearing .qe193-hearing-topic-field{margin-top:15px!important;}
+.qe192-hearing .qe193-hearing-topic-field .qe192-control{border-color:rgba(187,143,61,.32)!important;background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,251,243,.90))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 5px 14px rgba(72,53,22,.055)!important;}
+.qe192-hearing .qe193-hearing-topic-field input{font-weight:650!important;color:#173553!important;}
+.qe192-hearing .qe193-hearing-topic-field input::placeholder{color:rgba(60,77,96,.50)!important;font-weight:500!important;}
+body:not(.light) .qe192-hearing .qe193-hearing-matter-hint{color:#97AABD!important;}
+body:not(.light) .qe192-hearing .qe193-hearing-topic-field input{color:#EDF3F8!important;}
+@media(max-width:390px){.qe192-hearing .qe193-hearing-topic-field{margin-top:13px!important;}}

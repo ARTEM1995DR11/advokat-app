@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.292';
-var APP_BUILD='5292';
+var APP_VERSION='5.0.293';
+var APP_BUILD='5293';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -444,7 +444,7 @@ function listPickerMeta(target){
     return {title:pc.title,sub:pc.sub,search:pc.search,icon:pc.icon};
   }
   var map={
-    'e-mid':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
+    'e-mid':{title:'Выбор дела',sub:(ED&&ED.kind==='hearing'?'Выберите дело или оставьте заседание без привязки':'Выберите дело из списка'),search:'Поиск по делам…',icon:'folder'},
     'j-mid-select':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
     'pt-mid':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
     'e-hjudge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
@@ -1950,7 +1950,7 @@ function taskCard(t,opts){
   opts = opts||{};
   var m = t.mid ? matter(t.mid) : null;
   var hearing=t.kind==='hearing', rinfo=hearingResultInfo(t), needResult=hearingNeedsResult(t);
-  var title = hearing ? (m?(m.number||'Судебное заседание'):(t.hearingNumber||t.hearingClient||'Судебное заседание')) : t.title;
+  var title = hearing ? hearingCaption(t,m) : t.title;
   return '<div class="task p-'+t.pri+' k-'+t.kind+(t.done?' done':'')+(needResult?' hearing-needs-result':'')+'" data-act="task" data-id="'+t.id+'">'+
     (hearing?'<div class="eventmark '+(needResult?'needs-result':'')+'">'+ico(needResult?'clock':'gavel')+'</div>':(meetingOccurred(t)?'<div class="eventmark meeting-held">'+ico('check')+'</div>':'<button class="chk" data-act="toggle" data-id="'+t.id+'">'+ico('check')+'</button>'))+
     '<div class="tbody">'+
@@ -2020,7 +2020,7 @@ function todayDeadlineRow(t){
 }
 function hearingCaption(t,m){
   if(m) return m.number||m.title;
-  return t.hearingNumber||t.hearingClient||'Судебное заседание';
+  return t.hearingTopic||t.hearingNumber||t.hearingClient||'Судебное заседание';
 }
 function hearingSubcaption(t,m){
   if(m) return '';
@@ -2299,7 +2299,7 @@ function hearingResultIcon(k){
 function hearingContextText(t){
   var m=t.mid?matter(t.mid):null, bits=[];
   if(m) bits.push(m.number||m.title);
-  else { if(t.hearingNumber)bits.push(t.hearingNumber); if(t.hearingClient)bits.push(t.hearingClient); }
+  else { if(t.hearingTopic)bits.push(t.hearingTopic); if(t.hearingNumber)bits.push(t.hearingNumber); if(t.hearingClient)bits.push(t.hearingClient); }
   if(t.hearingJudge)bits.push('судья '+t.hearingJudge);
   if(t.place)bits.push(t.place);
   return bits.join(' · ');
@@ -2584,7 +2584,7 @@ function taskDueText(t){
 }
 function taskProjectRow(t){
   var m=t.mid?matter(t.mid):null;
-  var title=esc(t.kind==='hearing'?(t.title||'Судебное заседание'):t.title);
+  var title=esc(t.kind==='hearing'?hearingCaption(t,m):t.title);
   var due=taskDueText(t);
   var context=m?([m.number,m.title].filter(Boolean).join(' · ')):'';
   var hclient=t.kind==='hearing'?hearingClientName(t,m):'', hjudge=t.kind==='hearing'?hearingJudgeName(t,m):'';
@@ -3013,7 +3013,7 @@ function calAgendaIcon(t){
 function calAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
   var tone=calAgendaTone(t), label=calAgendaLabel(t);
-  var title=t.kind==='hearing'?(t.title||'Судебное заседание'):(t.title||'Без названия');
+  var title=t.kind==='hearing'?hearingCaption(t,m):(t.title||'Без названия');
   var sub='';
   if(t.kind==='hearing') sub=hearingContextText(t)||t.place||'';
   else if(t.kind==='meeting') sub=t.place||((m&&m.client)?m.client:'Встреча');
@@ -3524,6 +3524,12 @@ function renderHearingPremiumEditor(t,isNew){
       '<section class="qe192-field qe192-matter-field">'+
         '<label>Дело (необязательно)</label>'+
         '<div class="qe192-control qe192-select-control"><span class="qe192-leading qe-icon-case">'+ico('qe-folder','s')+'</span><select id="e-mid">'+opts+'</select></div>'+
+        '<small class="qe192-hint qe193-hearing-matter-hint">Для разового или дежурного заседания дело можно не выбирать.</small>'+
+      '</section>'+
+      '<section id="hearing-topic-field" class="qe192-field qe193-hearing-topic-field"'+(t.mid?' style="display:none"':'')+'>'+
+        '<label>Что за заседание *</label>'+
+        '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hearing-topic" name="advokat-hearing-topic-5293" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'" autocomplete="off" autocapitalize="sentences" spellcheck="true"></div>'+
+        '<small class="qe192-hint">Обязательно только для заседания без привязки к делу. Эта формулировка будет показана в списках и календаре.</small>'+
       '</section>'+
       '<div id="hearing-standalone" class="qe192-standalone">'+
         '<div class="qe192-two qe192-party-grid">'+
@@ -3593,6 +3599,7 @@ function drawEditor(preserveScroll){
   renderQuickEntryTop190(title,t.kind)+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('qe-document','s')+'</span><input id="e-title" name="advokat-manual-entry-title-5264" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off" autocapitalize="sentences" autocorrect="on" spellcheck="true" data-form-type="other" ><button type="button" class="qe193-title-clear'+(t.title?' is-visible':'')+'" data-act="e-title-clear" aria-label="Очистить поле">'+ico('xmark','s')+'</button></div></div>':'')+
   '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
+  (hearing?'<div id="hearing-topic-field" class="fld hearing-topic-field"'+(t.mid?' style="display:none"':'')+'><label>Что за заседание *</label><input id="e-hearing-topic" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'"><small class="fieldhint">Для разового заседания без дела укажите краткое пояснение.</small></div>':'')+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',judgeChoiceOptions(t.hearingJudge||'',t.place||''),'judge-options')+'<small class="fieldhint">Стрелкой справа можно выбрать судью; для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
     '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label>'+premiumDateControl('e-due',t.due||'','Выберите дату',true)+'</div>'+
@@ -3665,6 +3672,7 @@ function pullEditor(){
   if(g('#e-due')!==undefined) ED.due = $('#e-due').value;
   if(g('#e-time')!==undefined) ED.time = $('#e-time').value;
   if(g('#e-place')!==undefined) ED.place = $('#e-place').value.trim();
+  if(g('#e-hearing-topic')!==undefined) ED.hearingTopic = $('#e-hearing-topic').value.trim();
   if(g('#e-hclient')!==undefined) ED.hearingClient = $('#e-hclient').value.trim();
   if(g('#e-hnumber')!==undefined) ED.hearingNumber = $('#e-hnumber').value.trim();
   if(g('#e-hjudge')!==undefined) ED.hearingJudge = $('#e-hjudge').value.trim();
@@ -3683,12 +3691,16 @@ function saveTask(){
   pullEditor();
   var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
   if(hearing){
+    if(!ED.mid && !String(ED.hearingTopic||'').trim()){
+      toast('Укажите, что за заседание');
+      var ht=$('#e-hearing-topic'); if(ht){ht.focus();try{ht.scrollIntoView({behavior:'smooth',block:'center'});}catch(_){}} return;
+    }
     if(!ED.due){ toast('Укажите дату заседания'); openPremiumDatePicker('e-due',''); return; }
     if(!ED.time){ toast('Укажите время заседания'); openPremiumTimePicker('e-time','','hearing'); return; }
     if(!isHearingTime(ED.time)){ toast('Время заседания: с 08:00 до 18:00'); openPremiumTimePicker('e-time',ED.time,'hearing'); return; }
     if(!ED.place) syncHearingCourt(false);
     if(!ED.place && ED.mid) ED.place=hearingCourt(ED.mid)||'';
-    ED.title='Судебное заседание'; ED.pri='mid'; ED.steps=[];
+    ED.title=ED.mid?'Судебное заседание':String(ED.hearingTopic||'').trim(); ED.pri='mid'; ED.steps=[];
   }else if(meeting){
     if(!ED.title){ toast('Введите тему встречи'); var me=$('#e-title'); if(me) me.focus(); return; }
     if(!ED.due){ toast('Укажите дату встречи'); openPremiumDatePicker('e-due',''); return; }
@@ -4369,7 +4381,7 @@ function icsEsc(s){return String(s||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,'
 function icsDT(date,time){return date.replace(/-/g,'')+(time?'T'+time.replace(':','')+'00':'');}
 function taskICS(t){
   if(!t||!t.due)return '';
-  var m=t.mid?matter(t.mid):null, hctx=t.kind==='hearing'&&!m?[t.hearingNumber,t.hearingClient].filter(Boolean).join(' · '):'', title=(t.kind==='hearing'?'Судебное заседание':t.title)+(m?' — '+m.title:(hctx?' — '+hctx:'')), desc=[t.note,t.rule].filter(Boolean).join('\n');
+  var m=t.mid?matter(t.mid):null, hctx=t.kind==='hearing'&&!m?[t.hearingNumber,t.hearingClient].filter(Boolean).join(' · '):'', title=(t.kind==='hearing'?hearingCaption(t,m):t.title)+(m?' — '+m.title:(hctx?' — '+hctx:'')), desc=[t.note,t.rule].filter(Boolean).join('\n');
   var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Advokat Offline//RU','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+t.id+'@advokat-offline','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')];
   if(t.time){
     lines.push('DTSTART:'+icsDT(t.due,t.time));
@@ -5101,6 +5113,7 @@ document.addEventListener('change',function(e){
     pullEditor();
     if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
       var st=$('#hearing-standalone'); if(st) st.style.display='';
+      var topicField=$('#hearing-topic-field'); if(topicField) topicField.style.display=ED.mid?'none':'';
       if(ED.mid){
         var pm=matter(ED.mid), linkedJudge=(pm&&(pm.judge||pm.investigator))||'';
         applyLinkedMatterCourtToHearing(ED.mid);
@@ -5587,7 +5600,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5292',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5293',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
