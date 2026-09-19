@@ -36291,3 +36291,45 @@ body:not(.light) .task-action-premium-tail{color:#B9C9D7!important}
   .task-action-premium-copy b{font-size:15.4px!important}
   .task-action-premium-copy small{font-size:11.4px!important}
 }
+
+
+/* ================================================================
+   5.0.321 — PREMIUM MARBLE STYLE FOR ALL APPROVED LIST PICKERS
+   Распространяем утверждённый мраморный стиль на окна выбора дела/суда/судьи/кодекса/срока.
+   ================================================================ */
+body.light.premium-matter-picker-open .premium-list-scrim.open{
+  background:rgba(29,31,30,.24)!important;
+  backdrop-filter:blur(5px) saturate(.88)!important;
+  -webkit-backdrop-filter:blur(5px) saturate(.88)!important;
+}
+body.light .premium-list-modal.premium-matter-picker{
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.84),rgba(250,245,235,.90)),
+    url('quick-sheet-marble-approved.webp?v=5321') center/cover no-repeat!important;
+}
+body:not(.light).premium-matter-picker-open .premium-list-scrim.open{
+  background:rgba(4,10,16,.58)!important;
+  backdrop-filter:blur(7px) saturate(.9)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(.9)!important;
+}
+body:not(.light) .premium-list-modal.premium-matter-picker{
+  border-color:rgba(194,154,66,.20)!important;
+  background:
+    linear-gradient(180deg,rgba(14,28,41,.88),rgba(8,20,32,.94)),
+    url('quick-sheet-marble-approved.webp?v=5321') center/cover no-repeat!important;
+  box-shadow:0 26px 78px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+body:not(.light) .premium-list-modal.premium-matter-picker::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:linear-gradient(180deg,rgba(8,18,28,.55),rgba(8,18,28,.72))!important;
+}
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-grab,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-head,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-ornament,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-search,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-body,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-matter-clear,
+body:not(.light) .premium-list-modal.premium-matter-picker .premium-list-sign{position:relative!important;z-index:1!important}
