@@ -33633,3 +33633,146 @@ body:not(.light) #sc-today .today-next7-group .next7-row::before{
   }
   #sc-today{padding-bottom:calc(var(--bot) + 118px)!important;}
 }
+
+
+/* ================================================================
+   5.0.285 — TODAY / NEXT 7 DAYS: FINAL MOCKUP LOCK
+   Approved visual pass against the reference mockup.
+   ================================================================ */
+/* Cards in the mockup are calm cream surfaces: the real desk background
+   remains around them, but no longer competes with text inside the cards. */
+body.light #sc-today .today-next7-group .next7-row{
+  background:
+    radial-gradient(240px 150px at 96% -18%,rgba(214,174,87,.045),transparent 70%),
+    linear-gradient(180deg,rgba(255,254,251,.972),rgba(255,252,247,.955))!important;
+  border-color:rgba(185,151,90,.17)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 5px 14px rgba(57,44,25,.055)!important;
+  -webkit-backdrop-filter:blur(6px) saturate(1.02)!important;
+  backdrop-filter:blur(6px) saturate(1.02)!important;
+}
+
+/* Left date column — closer to the restrained serif used in the approved mockup. */
+#sc-today .today-next7-group .today-date b{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:26.5px!important;
+  line-height:.96!important;
+  font-weight:700!important;
+  letter-spacing:-.42px!important;
+  color:#163653!important;
+}
+#sc-today .today-next7-group .today-date small{
+  margin-top:5px!important;
+  font-size:10.5px!important;
+  font-weight:650!important;
+  color:#526A80!important;
+}
+#sc-today .today-next7-group .today-date em{
+  margin-top:5px!important;
+  font-size:9.2px!important;
+  font-weight:780!important;
+  color:#9A6816!important;
+}
+
+/* Time / title / descriptive hierarchy. */
+#sc-today .today-next7-group .today-time{
+  color:#173A5C!important;
+  font-weight:820!important;
+}
+body.light #sc-today .today-next7-group .today-row-main>b{
+  color:#17344F!important;
+  font-weight:780!important;
+}
+body.light #sc-today .today-next7-group .today-kind-context{
+  color:#355572!important;
+  font-weight:610!important;
+}
+body.light #sc-today .today-next7-group .today-note{
+  color:#405F78!important;
+  font-weight:600!important;
+}
+body.light #sc-today .today-next7-group .next7-place-row{
+  color:#405F79!important;
+  font-weight:640!important;
+}
+body.light #sc-today .today-next7-group .next7-court-row{
+  color:#466680!important;
+  font-weight:620!important;
+}
+
+/* Approved sky-blue hearing accent. */
+body.light #sc-today .today-next7-group .today-kind-badge.hearing{
+  color:#1089F6!important;
+  background:linear-gradient(180deg,rgba(237,248,255,.98),rgba(220,241,255,.96))!important;
+  border:1px solid rgba(67,157,238,.14)!important;
+}
+body.light #sc-today .today-next7-group .next7-judge-row .next7-meta-ico,
+body.light #sc-today .today-next7-group .next7-judge-row .hearing-judge{
+  color:#0D8EF7!important;
+}
+
+/* Metadata symbols have one optical weight, like in the mockup. */
+#sc-today .today-next7-group .next7-meta-ico,
+#sc-today .today-next7-group .next7-meta-ico .ico{
+  width:14px!important;
+  min-width:14px!important;
+  height:14px!important;
+}
+#sc-today .today-next7-group .next7-meta-ico .ico{stroke-width:2.05!important;}
+#sc-today .today-next7-group .next7-client-row .next7-meta-ico .ico{stroke-width:2.0!important;}
+#sc-today .today-next7-group .next7-judge-row .next7-meta-ico .ico{stroke-width:2.05!important;}
+#sc-today .today-next7-group .next7-court-row .next7-meta-ico .ico{stroke-width:1.95!important;}
+
+/* The reference uses a small elegant map pin, not a round timeline dot. */
+#sc-today .today-next7-group .next7-row::before{
+  left:59px!important;
+  top:14px!important;
+  width:17px!important;
+  height:24px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='24' viewBox='0 0 17 24'%3E%3Cpath d='M8.5 1.35c-3.82 0-6.55 2.98-6.55 6.66 0 5.1 6.55 14.58 6.55 14.58s6.55-9.48 6.55-14.58c0-3.68-2.73-6.66-6.55-6.66Z' fill='%23FFFBF1' stroke='%23B77A16' stroke-width='1.15' stroke-linejoin='round'/%3E%3Ccircle cx='8.5' cy='7.84' r='2.55' fill='%23BF861C'/%3E%3Ccircle cx='7.92' cy='7.28' r='.78' fill='%23F7E3AD' opacity='.9'/%3E%3C/svg%3E")!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:17px 24px!important;
+  filter:drop-shadow(0 1.2px 1.3px rgba(111,73,9,.12))!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-row::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='24' viewBox='0 0 17 24'%3E%3Cpath d='M8.5 1.35c-3.82 0-6.55 2.98-6.55 6.66 0 5.1 6.55 14.58 6.55 14.58s6.55-9.48 6.55-14.58c0-3.68-2.73-6.66-6.55-6.66Z' fill='%232B2A26' stroke='%23D9AB4D' stroke-width='1.15' stroke-linejoin='round'/%3E%3Ccircle cx='8.5' cy='7.84' r='2.55' fill='%23D9AB4D'/%3E%3Ccircle cx='7.92' cy='7.28' r='.78' fill='%23F4DA95' opacity='.8'/%3E%3C/svg%3E")!important;
+}
+
+/* Lighter, smaller right-hand chevron control, matching the reference. */
+#sc-today .today-next7-group .next7-row>.ico{
+  width:29px!important;
+  height:29px!important;
+  min-width:29px!important;
+  padding:8px!important;
+  color:#274B6D!important;
+  background:rgba(255,252,246,.82)!important;
+  border:1px solid rgba(195,151,73,.25)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 7px rgba(79,55,18,.055)!important;
+}
+
+/* Slightly tighter vertical rhythm, without sacrificing legibility. */
+#sc-today .today-next7-group .next7-person-row{margin-top:3px!important;}
+#sc-today .today-next7-group .next7-person-row + .next7-person-row{margin-top:2px!important;}
+#sc-today .today-next7-group .next7-court-row{margin-top:3px!important;}
+#sc-today .today-next7-group .next7-place-row,
+#sc-today .today-next7-group .next7-soon-row{margin-top:4px!important;}
+
+/* Last card must always be able to clear the fixed nav and floating plus. */
+#sc-today{padding-bottom:calc(var(--bot) + 132px)!important;}
+
+@media(max-width:390px){
+  #sc-today .today-next7-group .today-date b{font-size:25px!important;}
+  #sc-today .today-next7-group .next7-row::before{
+    left:52.5px!important;
+    width:16px!important;
+    height:23px!important;
+    background-size:16px 23px!important;
+  }
+  #sc-today .today-next7-group .next7-row>.ico{
+    width:28px!important;
+    height:28px!important;
+    min-width:28px!important;
+    padding:7.5px!important;
+  }
+  #sc-today{padding-bottom:calc(var(--bot) + 128px)!important;}
+}
