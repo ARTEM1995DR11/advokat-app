@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.277';
-var APP_BUILD='5277';
+var APP_VERSION='5.0.278';
+var APP_BUILD='5278';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2066,29 +2066,32 @@ function todayUpcomingRow(t){
 function todayNext7Row(t){
   var m=todayMatter(t), d=parseD(t.due), context=m?(m.title+(m.number?' · '+m.number:'')):'';
   var cls='kind-'+(t.kind||'task'), badge='', title='', line2='', line3='';
+  var wd=new Intl.DateTimeFormat('ru-RU',{weekday:'short'}).format(d).replace('.','');
   if(t.kind==='hearing'){
     var place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
-    badge='<span class="today-kind-badge hearing">Заседание</span>';
+    badge='<span class="today-kind-badge hearing"><span class="next7-kind-ico">'+ico('gavel','s')+'</span>Заседание</span>';
     title=hearingCaption(t,m);
     if(meta) line2='<small class="hearing-meta">'+meta+'</small>';
     if(place) line3='<small class="hearing-court">'+esc(place)+'</small>';
   }else if(t.kind==='meeting'){
-    badge='<span class="today-kind-badge meeting">Встреча</span>';
+    badge='<span class="today-kind-badge meeting"><span class="next7-kind-ico">'+ico('user','s')+'</span>Встреча</span>';
     title=t.title||'Встреча';
     if(t.place) line2='<small class="meeting-place">'+esc(t.place)+'</small>';
     else if(t.note) line2='<small class="today-note">'+esc(t.note)+'</small>';
     line3='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
   }else{
-    badge='<span class="today-kind-badge deadline">Срок</span>';
+    badge='<span class="today-kind-badge deadline"><span class="next7-kind-ico">'+ico('clock','s')+'</span>Срок</span>';
     title=t.title||'Процессуальный срок';
     line2='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
     if(t.note) line3='<small class="today-note">'+esc(t.note)+'</small>';
   }
   return '<button class="today-row upcoming-row next7-row '+cls+'" data-act="task" data-id="'+t.id+'">'+
-    '<span class="today-date"><b>'+d.getDate()+'</b><small>'+MON[d.getMonth()].slice(0,3)+'</small></span>'+
-    '<span class="today-time mono">'+esc(t.time||'')+'</span>'+
-    '<span class="today-row-main"><b>'+esc(title)+'</b>'+
-      '<small class="today-kindline">'+badge+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
+    '<span class="today-date"><b>'+d.getDate()+'</b><small>'+MON[d.getMonth()].slice(0,3)+'</small><em>'+esc(wd)+'</em></span>'+ 
+    '<span class="today-time mono">'+esc(t.time||'')+'</span>'+ 
+    '<span class="today-row-main">'+
+      '<small class="today-kindline">'+badge+'</small>'+ 
+      '<b>'+esc(title)+'</b>'+ 
+      (context?'<small class="today-kind-context">'+esc(context)+'</small>':'')+
       line2+line3+
     '</span>'+ico('chev','s')+'</button>';
 }
@@ -2153,8 +2156,13 @@ function renderToday(){
       '<button class="today-sec-link" data-act="reschedule">Перенести</button>');
   }
   html += block('green','check','Задачи на сегодня',tasksToday,todayTaskRow);
-  html += block('slate','cal','Ближайшие 7 дней',next7,todayNext7Row,
-    '<button class="today-sec-link" data-act="go-cal">Все →</button>');
+  if(next7.length){
+    html += '<section class="today-next7-premium">'+
+      todaySectionHead('slate','cal','Ближайшие 7 дней',next7.length,
+        '<button class="today-sec-link" data-act="go-cal">Все →</button>')+
+      '<div class="today-group slate-group today-next7-group">'+next7.map(todayNext7Row).join('')+'</div>'+
+    '</section>';
+  }
 
   $('#sc-today').innerHTML=html;
   setTimeout(resetAllTodayHearingSwipes,0);
@@ -5498,7 +5506,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5277',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5278',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
