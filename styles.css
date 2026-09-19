@@ -33776,3 +33776,143 @@ body:not(.light) #sc-today .today-next7-group .next7-row::before{
   }
   #sc-today{padding-bottom:calc(var(--bot) + 128px)!important;}
 }
+
+
+/* ================================================================
+   5.0.286 — TODAY / NEXT 7 DAYS: FINAL REFERENCE MATCH
+   Final optical lock against the approved mockup on the real Today background.
+   ================================================================ */
+/* The approved reference is compact: preserve the information hierarchy,
+   but remove excess vertical air around the content. */
+#sc-today .today-next7-group .next7-row{
+  min-height:90px!important;
+  margin-bottom:7px!important;
+  padding:11px 12px 10px 10px!important;
+  gap:8px!important;
+}
+body.light #sc-today .today-next7-group .next7-row{
+  background:
+    radial-gradient(230px 145px at 98% -16%,rgba(213,173,86,.04),transparent 70%),
+    linear-gradient(180deg,rgba(255,254,251,.978),rgba(255,252,247,.965))!important;
+  border-color:rgba(184,150,89,.16)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 4px 12px rgba(58,45,26,.05)!important;
+}
+
+/* Reference typography: strong navy primary text and genuinely readable
+   secondary information instead of pale grey. */
+body.light #sc-today .today-next7-group .today-row-main>b{
+  color:#163752!important;
+  font-weight:780!important;
+}
+body.light #sc-today .today-next7-group .today-kind-context{
+  color:#38556D!important;
+  font-size:11.7px!important;
+  line-height:1.29!important;
+  font-weight:575!important;
+  -webkit-line-clamp:3!important;
+}
+body.light #sc-today .today-next7-group .today-note{
+  color:#405C73!important;
+  font-weight:575!important;
+  -webkit-line-clamp:2!important;
+}
+body.light #sc-today .today-next7-group .next7-court-row{
+  color:#47647B!important;
+  font-weight:600!important;
+}
+body.light #sc-today .today-next7-group .next7-place-row{
+  color:#46647C!important;
+  font-weight:620!important;
+}
+
+/* Approved bright blue for hearing / judge: vivid text, very calm pill fill. */
+body.light #sc-today .today-next7-group .today-kind-badge.hearing{
+  color:#168FF7!important;
+  background:linear-gradient(180deg,rgba(239,249,255,.985),rgba(222,242,255,.965))!important;
+  border-color:rgba(60,155,238,.12)!important;
+}
+body.light #sc-today .today-next7-group .next7-judge-row .next7-meta-ico,
+body.light #sc-today .today-next7-group .next7-judge-row .hearing-judge{
+  color:#0C91F8!important;
+}
+
+/* In the mockup the metadata glyphs are small but optically clear and equal. */
+#sc-today .today-next7-group .next7-meta-ico,
+#sc-today .today-next7-group .next7-meta-ico .ico{
+  width:15px!important;
+  min-width:15px!important;
+  height:15px!important;
+}
+#sc-today .today-next7-group .next7-meta-ico .ico{stroke-width:2.08!important;}
+#sc-today .today-next7-group .next7-person-row{
+  font-size:11.7px!important;
+  line-height:1.22!important;
+}
+#sc-today .today-next7-group .next7-court-row,
+#sc-today .today-next7-group .next7-place-row,
+#sc-today .today-next7-group .next7-soon-row{
+  font-size:11.55px!important;
+  line-height:1.27!important;
+}
+
+/* Approved chronology marker: a round cream/gold medallion with a short
+   location-tail — not an elongated outline pin. The line passes behind it. */
+#sc-today .today-next7-group .next7-row::before{
+  left:58px!important;
+  top:14px!important;
+  width:20px!important;
+  height:23px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='23' viewBox='0 0 20 23'%3E%3Cpath d='M10 1.35C5.47 1.35 2.15 4.55 2.15 8.6c0 3.72 2.57 6.47 6.18 7.18L10 21.25l1.67-5.47c3.61-.71 6.18-3.46 6.18-7.18C17.85 4.55 14.53 1.35 10 1.35Z' fill='%23FFFBF0' stroke='%23B77A16' stroke-width='1.25' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='8.55' r='3.25' fill='%23B9811B'/%3E%3Ccircle cx='9.15' cy='7.68' r='1.0' fill='%23F9E7B8' opacity='.92'/%3E%3C/svg%3E")!important;
+  background-size:20px 23px!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  filter:drop-shadow(0 1.2px 1.4px rgba(111,73,9,.12))!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-row::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='23' viewBox='0 0 20 23'%3E%3Cpath d='M10 1.35C5.47 1.35 2.15 4.55 2.15 8.6c0 3.72 2.57 6.47 6.18 7.18L10 21.25l1.67-5.47c3.61-.71 6.18-3.46 6.18-7.18C17.85 4.55 14.53 1.35 10 1.35Z' fill='%232B2A26' stroke='%23D9AB4D' stroke-width='1.25' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='8.55' r='3.25' fill='%23D9AB4D'/%3E%3Ccircle cx='9.15' cy='7.68' r='1.0' fill='%23F4DA95' opacity='.82'/%3E%3C/svg%3E")!important;
+}
+
+/* The reference arrow is deliberately quiet. */
+#sc-today .today-next7-group .next7-row>.ico{
+  width:28px!important;
+  min-width:28px!important;
+  height:28px!important;
+  padding:7.5px!important;
+  color:#2C4B65!important;
+  background:rgba(255,253,248,.72)!important;
+  border-color:rgba(191,148,72,.21)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 6px rgba(79,55,18,.045)!important;
+}
+
+/* Keep the reference's compact metadata rhythm. */
+#sc-today .today-next7-group .next7-person-row{margin-top:3px!important;}
+#sc-today .today-next7-group .next7-person-row + .next7-person-row{margin-top:2px!important;}
+#sc-today .today-next7-group .next7-court-row{margin-top:3px!important;}
+#sc-today .today-next7-group .next7-place-row,
+#sc-today .today-next7-group .next7-soon-row{margin-top:4px!important;}
+
+/* Enough real scroll space for the last card to rise fully above nav + FAB. */
+#sc-today{padding-bottom:calc(var(--bot) + 150px)!important;}
+
+@media(max-width:390px){
+  #sc-today .today-next7-group .next7-row{
+    padding:10px 10px 9px 9px!important;
+    gap:7px!important;
+  }
+  #sc-today .today-next7-group .today-kind-context{font-size:11px!important;}
+  #sc-today .today-next7-group .next7-meta-ico,
+  #sc-today .today-next7-group .next7-meta-ico .ico{
+    width:14px!important;min-width:14px!important;height:14px!important;
+  }
+  #sc-today .today-next7-group .next7-row::before{
+    left:51.5px!important;
+    top:14px!important;
+    width:19px!important;
+    height:22px!important;
+    background-size:19px 22px!important;
+  }
+  #sc-today .today-next7-group .next7-row>.ico{
+    width:27px!important;min-width:27px!important;height:27px!important;padding:7px!important;
+  }
+  #sc-today{padding-bottom:calc(var(--bot) + 146px)!important;}
+}
