@@ -37337,3 +37337,147 @@ body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-c
   position:relative!important;
   z-index:1!important;
 }
+
+
+/* ================================================================
+   5.0.337 — restore preferred premium calendar design
+   По запросу пользователя возвращаем именно тот вариант календаря,
+   который был ранее утверждён по скриншоту: крупный заголовок месяца,
+   более крупная сетка и мраморный премиальный фон. Время не трогаем.
+   ================================================================ */
+body.light .premium-date-modal{
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.92),rgba(251,247,240,.95)),
+    url('picker-choice-marble-v5333.png') center center / cover no-repeat!important;
+  border:1px solid rgba(210,177,111,.28)!important;
+  box-shadow:0 28px 90px rgba(42,31,15,.22), inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+body.light .premium-date-modal::before,
+body.light .premium-date-modal::after{
+  content:""!important;
+  position:absolute!important;
+  width:180px!important;
+  height:180px!important;
+  border:2px solid rgba(205,158,69,.52)!important;
+  border-left-color:transparent!important;
+  border-bottom-color:transparent!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  opacity:.9!important;
+}
+body.light .premium-date-modal::before{
+  top:-88px!important;
+  right:-60px!important;
+  transform:rotate(8deg)!important;
+}
+body.light .premium-date-modal::after{
+  width:220px!important;
+  height:220px!important;
+  left:-118px!important;
+  bottom:-124px!important;
+  transform:rotate(188deg)!important;
+  opacity:.72!important;
+}
+body.light .premium-date-modal > *{position:relative!important;z-index:1!important}
+body.light .premium-date-grab{
+  width:92px!important;
+  height:8px!important;
+  margin:5px auto 16px!important;
+  background:rgba(117,117,117,.24)!important;
+}
+body.light .premium-date-head{margin-bottom:18px!important;gap:14px!important}
+body.light .premium-date-head small{
+  margin-bottom:6px!important;
+  font-size:10.5px!important;
+  letter-spacing:.20em!important;
+  color:#B78729!important;
+}
+body.light .premium-date-head h3{
+  font-size:37px!important;
+  line-height:.98!important;
+  letter-spacing:-.045em!important;
+  color:#16283B!important;
+}
+body.light .premium-date-nav{gap:12px!important}
+body.light .premium-date-nav button{
+  width:48px!important;
+  height:48px!important;
+  border-radius:16px!important;
+  background:rgba(248,244,236,.86)!important;
+  border:1px solid rgba(56,64,73,.13)!important;
+  color:#3E5870!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.88) inset!important;
+}
+body.light .premium-date-nav .ico{width:22px!important;height:22px!important}
+body.light .premium-date-week{margin:4px 0 8px!important;padding:0 4px!important}
+body.light .premium-date-week span{
+  font-size:10px!important;
+  letter-spacing:.10em!important;
+  color:#8A99A8!important;
+}
+body.light .premium-date-grid{gap:8px!important}
+body.light .premium-date-day{
+  border-radius:18px!important;
+  font-size:18px!important;
+  font-weight:700!important;
+  color:#22364A!important;
+}
+body.light .premium-date-day.outside{color:#C1CBD5!important;font-weight:600!important}
+body.light .premium-date-day.today{border-color:rgba(206,162,68,.42)!important;color:#A8761A!important}
+body.light .premium-date-day.selected{
+  border-radius:22px!important;
+  background:linear-gradient(145deg,#E7BD4A,#D6A22A)!important;
+  border-color:#BC8B1C!important;
+  box-shadow:0 10px 22px rgba(181,126,24,.20), inset 0 1px 0 rgba(255,255,255,.42)!important;
+  color:#161004!important;
+}
+body.light .premium-date-selected{
+  gap:14px!important;
+  margin:18px 0 14px!important;
+  padding:14px 16px!important;
+  border-radius:20px!important;
+  background:rgba(255,253,248,.82)!important;
+  border:1px solid rgba(210,177,111,.22)!important;
+  box-shadow:0 6px 18px rgba(45,35,15,.045)!important;
+}
+body.light .premium-date-selected>span{
+  width:48px!important;
+  height:48px!important;
+  border-radius:15px!important;
+  background:rgba(210,177,111,.14)!important;
+  border:1px solid rgba(210,177,111,.12)!important;
+  color:#B07C17!important;
+}
+body.light .premium-date-selected .ico{width:22px!important;height:22px!important}
+body.light .premium-date-selected small{font-size:10px!important;letter-spacing:.16em!important;color:#94A1AE!important}
+body.light .premium-date-selected b{font-size:15px!important;color:#203245!important}
+body.light .premium-date-actions{gap:12px!important;grid-template-columns:auto auto 1fr!important}
+body.light .premium-date-actions button{
+  min-height:58px!important;
+  border-radius:18px!important;
+  padding:0 22px!important;
+  font-size:17px!important;
+  font-weight:780!important;
+}
+body.light .premium-date-secondary{
+  background:rgba(247,244,238,.92)!important;
+  border:1px solid rgba(70,76,82,.13)!important;
+  color:#627688!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82)!important;
+}
+body.light .premium-date-secondary.reset{color:#9A732A!important}
+body.light .premium-date-primary{
+  gap:10px!important;
+  background:linear-gradient(145deg,#ECC75B,#D4A02A)!important;
+  color:#161004!important;
+  border:1px solid rgba(182,128,22,.34)!important;
+  box-shadow:0 11px 24px rgba(175,122,22,.20), inset 0 1px 0 rgba(255,247,211,.42)!important;
+}
+body.light .premium-date-primary .ico{width:19px!important;height:19px!important}
+@media (max-width:430px){
+  body.light .premium-date-head h3{font-size:34px!important}
+  body.light .premium-date-grid{gap:6px!important}
+  body.light .premium-date-day{font-size:17px!important;border-radius:17px!important}
+  body.light .premium-date-actions button{min-height:54px!important;padding:0 16px!important;font-size:15px!important}
+}
