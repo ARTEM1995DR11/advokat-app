@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.278';
-var APP_BUILD='5278';
+var APP_VERSION='5.0.280';
+var APP_BUILD='5280';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2014,6 +2014,16 @@ function hearingMetaLine(t,m){
   if(judge) bits.push('<span class="hearing-judge">'+esc(judge)+'</span>');
   return bits.join('<span class="hearing-dot"> · </span>');
 }
+function next7HearingPeople(t,m){
+  var client=hearingClientName(t,m), judge=hearingJudgeName(t,m), out='';
+  if(client) out+='<small class="next7-person-row next7-client-row"><span class="next7-meta-ico">'+ico('user','s')+'</span><span class="hearing-client">'+esc(client)+'</span></small>';
+  if(judge) out+='<small class="next7-person-row next7-judge-row"><span class="next7-meta-ico">'+ico('gavel','s')+'</span><span class="hearing-judge">'+esc(judge)+'</span></small>';
+  return out;
+}
+function next7CourtLine(place){
+  if(!place) return '';
+  return '<small class="hearing-court next7-court-row"><span class="next7-meta-ico">'+ico('court','s')+'</span><span>'+esc(place)+'</span></small>';
+}
 function todayHearingRow(t){
   var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), context=m?(m.title+(m.number?' · '+m.number:'')):'';
   return '<button class="today-row hearing-row kind-hearing" data-act="task" data-id="'+t.id+'">'+
@@ -2068,19 +2078,19 @@ function todayNext7Row(t){
   var cls='kind-'+(t.kind||'task'), badge='', title='', line2='', line3='';
   var wd=new Intl.DateTimeFormat('ru-RU',{weekday:'short'}).format(d).replace('.','');
   if(t.kind==='hearing'){
-    var place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m);
-    badge='<span class="today-kind-badge hearing"><span class="next7-kind-ico">'+ico('gavel','s')+'</span>Заседание</span>';
+    var place=t.place||(m&&m.court)||'', people=next7HearingPeople(t,m);
+    badge='<span class="today-kind-badge hearing">Заседание</span>';
     title=hearingCaption(t,m);
-    if(meta) line2='<small class="hearing-meta">'+meta+'</small>';
-    if(place) line3='<small class="hearing-court">'+esc(place)+'</small>';
+    if(people) line2=people;
+    if(place) line3=next7CourtLine(place);
   }else if(t.kind==='meeting'){
-    badge='<span class="today-kind-badge meeting"><span class="next7-kind-ico">'+ico('user','s')+'</span>Встреча</span>';
+    badge='<span class="today-kind-badge meeting">Встреча</span>';
     title=t.title||'Встреча';
     if(t.place) line2='<small class="meeting-place">'+esc(t.place)+'</small>';
     else if(t.note) line2='<small class="today-note">'+esc(t.note)+'</small>';
     line3='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
   }else{
-    badge='<span class="today-kind-badge deadline"><span class="next7-kind-ico">'+ico('clock','s')+'</span>Срок</span>';
+    badge='<span class="today-kind-badge deadline">Срок</span>';
     title=t.title||'Процессуальный срок';
     line2='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
     if(t.note) line3='<small class="today-note">'+esc(t.note)+'</small>';
@@ -5506,7 +5516,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5278',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5280',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

@@ -33162,3 +33162,164 @@ body:not(.light) #sc-today .today-next7-group .next7-row>.ico{background:rgba(25
   #sc-today .today-next7-group .today-kind-context{font-size:10.9px!important;}
   #sc-today .today-next7-group .next7-row>.ico{width:28px!important;height:28px!important;min-width:28px!important;padding:7px!important;}
 }
+
+
+/* ================================================================
+   5.0.279 — TODAY / «БЛИЖАЙШИЕ 7 ДНЕЙ» FINAL POLISH
+   - доверитель и судья всегда отдельными строками
+   - смысловые иконки у доверителя / судьи / суда
+   - чуть более плотная кремовая поверхность на реальном фоне Today
+   ================================================================ */
+body.light #sc-today .today-next7-group .next7-row{
+  background:
+    radial-gradient(220px 120px at 100% -24%,rgba(218,177,91,.055),transparent 72%),
+    linear-gradient(180deg,rgba(255,255,255,.935),rgba(255,252,246,.895))!important;
+  border-color:rgba(180,145,87,.16)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 6px 17px rgba(54,43,25,.065)!important;
+  -webkit-backdrop-filter:blur(9px) saturate(1.04)!important;
+  backdrop-filter:blur(9px) saturate(1.04)!important;
+}
+#sc-today .today-next7-group .next7-person-row,
+#sc-today .today-next7-group .next7-court-row{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:5px!important;
+  min-width:0!important;
+  width:100%!important;
+}
+#sc-today .today-next7-group .next7-person-row{
+  margin-top:4px!important;
+  font-size:11.65px!important;
+  line-height:1.24!important;
+  font-weight:700!important;
+}
+#sc-today .today-next7-group .next7-person-row + .next7-person-row{
+  margin-top:3px!important;
+}
+#sc-today .today-next7-group .next7-meta-ico{
+  width:14px!important;
+  min-width:14px!important;
+  height:14px!important;
+  margin-top:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:none!important;
+}
+#sc-today .today-next7-group .next7-meta-ico .ico{
+  width:14px!important;
+  height:14px!important;
+  stroke-width:2!important;
+}
+body.light #sc-today .today-next7-group .next7-client-row .next7-meta-ico,
+body.light #sc-today .today-next7-group .next7-client-row .hearing-client{
+  color:#A86D0D!important;
+}
+body.light #sc-today .today-next7-group .next7-judge-row .next7-meta-ico,
+body.light #sc-today .today-next7-group .next7-judge-row .hearing-judge{
+  color:#11749B!important;
+}
+#sc-today .today-next7-group .next7-court-row{
+  margin-top:4px!important;
+  font-size:11.4px!important;
+  line-height:1.28!important;
+  font-weight:560!important;
+  color:#587288!important;
+}
+#sc-today .today-next7-group .next7-court-row>span:last-child{
+  min-width:0!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+}
+#sc-today .today-next7-group .next7-court-row .next7-meta-ico{
+  color:#456983!important;
+  margin-top:1px!important;
+}
+#sc-today .today-next7-group .next7-row::before{
+  width:10px!important;
+  height:10px!important;
+  left:62.5px!important;
+  top:23.5px!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-client-row .next7-meta-ico,
+body:not(.light) #sc-today .today-next7-group .next7-client-row .hearing-client{
+  color:#E3B657!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-judge-row .next7-meta-ico,
+body:not(.light) #sc-today .today-next7-group .next7-judge-row .hearing-judge{
+  color:#61B7D9!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-court-row,
+body:not(.light) #sc-today .today-next7-group .next7-court-row .next7-meta-ico{
+  color:#A9BBCB!important;
+}
+@media(max-width:390px){
+  #sc-today .today-next7-group .next7-row::before{left:55.5px!important;}
+  #sc-today .today-next7-group .next7-person-row{font-size:11px!important;gap:4px!important;}
+  #sc-today .today-next7-group .next7-court-row{font-size:10.9px!important;gap:4px!important;}
+  #sc-today .today-next7-group .next7-meta-ico,
+  #sc-today .today-next7-group .next7-meta-ico .ico{width:13px!important;min-width:13px!important;height:13px!important;}
+}
+
+
+/* ================================================================
+   5.0.280 — TODAY / NEXT 7 DAYS: APPROVED TIMELINE DETAILS
+   - type pills are text-only (no icons)
+   - timeline marker is a map-pin / balloon shape, not a plain dot
+   ================================================================ */
+#sc-today .today-next7-group .next7-kind-ico{
+  display:none!important;
+}
+#sc-today .today-next7-group .today-kind-badge{
+  padding-left:9px!important;
+  padding-right:9px!important;
+  gap:0!important;
+}
+
+/* Vertical chronology stays exactly where it is; only its marker changes. */
+#sc-today .today-next7-group .next7-row::before{
+  content:""!important;
+  position:absolute!important;
+  left:59px!important;
+  top:18px!important;
+  width:16px!important;
+  height:16px!important;
+  border-radius:50% 50% 50% 0!important;
+  transform:rotate(-45deg)!important;
+  transform-origin:50% 50%!important;
+  z-index:4!important;
+  pointer-events:none!important;
+  box-sizing:border-box!important;
+  background:
+    radial-gradient(circle at 50% 50%,#B77A16 0 3.4px,#F9E8BD 3.6px 5.1px,transparent 5.3px),
+    linear-gradient(145deg,#FFFDF8,#F4E1B5)!important;
+  border:1.4px solid #B77A16!important;
+  box-shadow:
+    0 0 0 1.5px rgba(255,248,231,.95),
+    0 2px 5px rgba(105,67,10,.16)!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-row::before{
+  background:
+    radial-gradient(circle at 50% 50%,#E0B653 0 3.4px,#5B461E 3.6px 5.1px,transparent 5.3px),
+    linear-gradient(145deg,#3B3528,#201F1D)!important;
+  border-color:#D8AB4C!important;
+  box-shadow:0 0 0 1.5px rgba(29,31,32,.92),0 2px 5px rgba(0,0,0,.22)!important;
+}
+@media(max-width:390px){
+  #sc-today .today-next7-group .next7-row::before{
+    left:52px!important;
+    top:18px!important;
+    width:15px!important;
+    height:15px!important;
+    background:
+      radial-gradient(circle at 50% 50%,#B77A16 0 3.1px,#F9E8BD 3.3px 4.7px,transparent 4.9px),
+      linear-gradient(145deg,#FFFDF8,#F4E1B5)!important;
+  }
+  body:not(.light) #sc-today .today-next7-group .next7-row::before{
+    background:
+      radial-gradient(circle at 50% 50%,#E0B653 0 3.1px,#5B461E 3.3px 4.7px,transparent 4.9px),
+      linear-gradient(145deg,#3B3528,#201F1D)!important;
+  }
+}
