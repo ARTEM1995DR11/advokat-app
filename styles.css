@@ -37157,3 +37157,31 @@ body:not(.light) .premium-list-modal.premium-matter-choice-v1 .premium-list-row-
 
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-matter-group.open .premium-matter-group-arrow .ico{transform:rotate(90deg)!important;}
 body:not(.light) .premium-list-modal.premium-matter-choice-v1 .premium-matter-group.open .premium-matter-group-arrow .ico{transform:rotate(90deg)!important;}
+
+
+/* ================================================================
+   5.0.330 — stronger marble background for premium pickers
+   По просьбе пользователя фон вкладки «Выбор дела» делаем как у фильтров:
+   более заметный мрамор, мягкий тёплый тон и характерные премиальные дуги.
+   ================================================================ */
+body.light .premium-list-modal.premium-matter-picker{
+  background:
+    linear-gradient(180deg,rgba(255,251,242,.70),rgba(248,242,232,.78)),
+    url('quick-sheet-marble-approved.webp?v=5330') center top/cover no-repeat!important;
+}
+body.light .premium-list-modal.premium-matter-picker::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  border-radius:inherit!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(520px 250px at -8% 6%,rgba(220,184,106,.16),transparent 43%),
+    radial-gradient(420px 180px at 112% 10%,rgba(213,179,110,.11),transparent 42%),
+    linear-gradient(136deg,transparent 70%,rgba(204,164,89,.11) 70.4%,rgba(204,164,89,.06) 71.1%,transparent 72.2%);
+  opacity:1!important;
+}
+body.light .premium-list-modal.premium-matter-picker > *{
+  position:relative!important;
+  z-index:1!important;
+}
