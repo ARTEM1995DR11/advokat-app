@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.310';
-var APP_BUILD='5310';
+var APP_VERSION='5.0.311';
+var APP_BUILD='5311';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2949,7 +2949,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark">'+ico('folder')+'</span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5311" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -5679,7 +5679,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5310',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5311',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

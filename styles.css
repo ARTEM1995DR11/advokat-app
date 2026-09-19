@@ -35688,3 +35688,44 @@ body:not(.light) .sheet.matter-filter-premium .matter-filter-reset-btn{
   color:#F1F5F8!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 16px rgba(0,0,0,.18)!important;
 }
+
+
+/* ================================================================
+   5.0.311 — MATTERS FILTER: LOWER SHEET + TASK-FILTER BRAND ICON
+   ================================================================ */
+.sheet.matter-filter-premium,
+body.light .sheet.matter-filter-premium{
+  max-height:min(82dvh,730px)!important;
+}
+@supports not (height:100dvh){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium{max-height:min(82vh,730px)!important;}
+}
+.sheet.matter-filter-premium .matter-filter-premium-head{
+  margin:2px 2px 16px!important;
+}
+.sheet.matter-filter-premium .matter-filter-brand-mark{
+  background:radial-gradient(circle at 38% 28%,rgba(255,255,255,.98),rgba(255,249,232,.78) 54%,rgba(238,216,168,.32) 100%)!important;
+  border:1px solid rgba(190,136,34,.42)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 6px 16px rgba(119,83,20,.09)!important;
+}
+.sheet.matter-filter-premium .matter-filter-brand-mark img{
+  width:43px!important;
+  height:43px!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium{max-height:min(81dvh,700px)!important;}
+  .sheet.matter-filter-premium .matter-filter-brand-mark img{
+    width:38px!important;
+    height:38px!important;
+  }
+}
+body:not(.light) .sheet.matter-filter-premium{
+  max-height:min(82dvh,730px)!important;
+}
+@supports not (height:100dvh){
+  body:not(.light) .sheet.matter-filter-premium{max-height:min(82vh,730px)!important;}
+}
