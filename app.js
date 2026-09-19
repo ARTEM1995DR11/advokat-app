@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.304';
-var APP_BUILD='5304';
+var APP_VERSION='5.0.305';
+var APP_BUILD='5305';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2540,7 +2540,7 @@ function renderTasks(){
     mainBrandHeader()+
     '<div class="today-head tasks-title-head"><div><h1>Задачи</h1><p>'+c.work+' '+plural(c.work,'запись','записи','записей')+' в работе</p></div>'+
       '<div class="today-actions">'+headerSearch('search',!!u.q,'Поиск по задачам')+'</div></div>'+
-    (u.q!==''||u._sq?'<div class="fld tasks-project-search"><div class="tasks-project-search-field"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="tasks-project-search-clear" data-act="task-search-clear" aria-label="Очистить поиск">'+ico('xmark','s')+'</button></div></div>':'')+
+    (u.q!==''||u._sq?'<div class="fld tasks-project-search"><div class="tasks-project-search-field"><input id="q" placeholder="Поиск по задачам и делам" value="'+esc(u.q)+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="tasks-project-search-clear'+(u.q?' is-visible':'')+'" data-act="task-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div>':'')+
     '<div class="tasks-filterbar">'+
       '<div class="tasks-project-filters">'+
         '<button class="'+(u.taskChip===''?'on':'')+'" data-act="chip" data-v=""><span>Все</span><em>'+c.all+'</em></button>'+
@@ -5211,7 +5211,13 @@ document.addEventListener('input',function(e){
     var clr=sh&&sh.querySelector('.qe193-title-clear');
     if(clr)clr.classList.toggle('is-visible',!!e.target.value);
   }
-  if(e.target.id==='q'){S.ui.q=e.target.value;renderTaskList();}
+  if(e.target.id==='q'){
+    S.ui.q=e.target.value;
+    var qWrap=e.target.closest('.tasks-project-search-field');
+    var qClear=qWrap&&qWrap.querySelector('.tasks-project-search-clear');
+    if(qClear)qClear.classList.toggle('is-visible',!!e.target.value);
+    renderTaskList();
+  }
   if(e.target.id==='matter-q'){S.ui.matterQ=e.target.value;renderMatters();return;}
   if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
   if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
@@ -5658,7 +5664,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5304',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5305',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

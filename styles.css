@@ -34409,7 +34409,7 @@ body.light .sheet.task-filter-premium{
   border-top:1px solid rgba(185,132,38,.30)!important;
   background:
     linear-gradient(180deg,rgba(255,253,248,.93),rgba(250,246,237,.96)),
-    url('quick-sheet-marble-approved.webp?v=5304') center/cover no-repeat!important;
+    url('quick-sheet-marble-approved.webp?v=5305') center/cover no-repeat!important;
   box-shadow:
     0 -1px 0 rgba(255,255,255,.92) inset,
     0 -20px 52px rgba(45,35,19,.18)!important;
@@ -34858,7 +34858,7 @@ body.light .sheet.task-filter-premium::before{
   background:
     radial-gradient(130% 78% at 50% 0%,rgba(214,171,84,.18),transparent 56%),
     radial-gradient(90% 56% at 10% 100%,rgba(205,185,150,.12),transparent 58%),
-    url('quick-sheet-marble-approved.webp?v=5304') center top / cover no-repeat!important;
+    url('quick-sheet-marble-approved.webp?v=5305') center top / cover no-repeat!important;
   opacity:.78!important;
   pointer-events:none!important;
 }
@@ -34964,4 +34964,82 @@ body:not(.light) .sheet.task-filter-premium .filter-premium-row{
 }
 body:not(.light) .sheet.task-filter-premium .filter-premium-row.selected{
   background:linear-gradient(180deg,rgba(40,38,28,.96),rgba(28,29,25,.95))!important;
+}
+
+
+/* ================================================================
+   5.0.305 — TASKS SEARCH CLEAR BUTTON / iOS FIX
+   ================================================================ */
+#sc-tasks .tasks-project-search-field{
+  position:relative!important;
+  isolation:isolate!important;
+}
+#sc-tasks .tasks-project-search-field #q{
+  position:relative!important;
+  z-index:1!important;
+  padding-right:58px!important;
+}
+#sc-tasks .tasks-project-search-clear{
+  position:absolute!important;
+  z-index:8!important;
+  right:10px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:50%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid rgba(183,132,39,.30)!important;
+  background:rgba(255,251,242,.96)!important;
+  color:#8A641D!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.96),
+    0 3px 10px rgba(69,50,20,.09)!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  -webkit-appearance:none!important;
+  appearance:none!important;
+}
+#sc-tasks .tasks-project-search-clear.is-visible{
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+#sc-tasks .tasks-project-search-clear span{
+  display:block!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif!important;
+  font-size:26px!important;
+  line-height:1!important;
+  font-weight:300!important;
+  transform:translateY(-1px)!important;
+}
+#sc-tasks .tasks-project-search-clear:active{
+  transform:translateY(-50%) scale(.94)!important;
+}
+body:not(.light) #sc-tasks .tasks-project-search-clear{
+  background:rgba(16,31,45,.96)!important;
+  border-color:rgba(213,171,87,.28)!important;
+  color:#E1BB65!important;
+}
+@media(max-width:390px){
+  #sc-tasks .tasks-project-search-field #q{
+    padding-right:53px!important;
+  }
+  #sc-tasks .tasks-project-search-clear{
+    right:8px!important;
+    width:36px!important;
+    height:36px!important;
+    min-width:36px!important;
+    min-height:36px!important;
+  }
+  #sc-tasks .tasks-project-search-clear span{
+    font-size:24px!important;
+  }
 }
