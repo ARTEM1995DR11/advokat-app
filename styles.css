@@ -34131,3 +34131,32 @@ body.light #sc-today .today-next7-group .next7-row{
   #sc-today .today-next7-group .next7-row{padding-right:6px!important;}
   #sc-today{padding-bottom:calc(var(--bot) + 150px)!important;}
 }
+
+
+/* ================================================================
+   5.0.288 — TODAY / NEXT 7 DAYS: FINAL READABILITY PASS
+   User-approved structure is locked. Only small neutral text is darkened
+   from grey to near-black for maximum readability on the real Today background.
+   Semantic accents remain unchanged: client = gold, judge/hearing = blue,
+   meeting = purple, relative time = gold.
+   ================================================================ */
+body.light #sc-today .today-next7-group .today-date small{
+  color:#1E2B36!important;
+}
+body.light #sc-today .today-next7-group .today-kind-context,
+body.light #sc-today .today-next7-group .today-note,
+body.light #sc-today .today-next7-group .next7-place-row,
+body.light #sc-today .today-next7-group .next7-court-row,
+body.light #sc-today .today-next7-group .hearing-court,
+body.light #sc-today .today-next7-group .meeting-place{
+  color:#1E2B36!important;
+}
+body.light #sc-today .today-next7-group .next7-place-row,
+body.light #sc-today .today-next7-group .next7-court-row{
+  font-weight:540!important;
+}
+/* Keep supporting metadata icons calm, but no longer washed out. */
+body.light #sc-today .today-next7-group .next7-place-row .next7-meta-ico,
+body.light #sc-today .today-next7-group .next7-court-row .next7-meta-ico{
+  color:#40566A!important;
+}
