@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.269';
-var APP_BUILD='5269';
+var APP_VERSION='5.0.270';
+var APP_BUILD='5270';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -465,7 +465,7 @@ function premiumListItemExtra(target,value,label){
   if((target==='e-mid'||target==='j-mid-select'||target==='pt-mid')&&value){
     var m=matter(value); if(m){
       var bits=[]; if(m.client)bits.push(m.client); if(m.number)bits.push('№ '+m.number); if(m.court)bits.push(m.court);
-      if(!bits.length){var mt=MATTER_TYPES[m.type]||MATTER_TYPES.other;if(mt&&mt.n)bits.push(mt.n);}
+      if(!bits.length){var mt=MATTER_TYPES[m.type]||MATTER_TYPES.other;if(mt&&mt.t)bits.push(mt.t);}
       return bits.join(' · ');
     }
   }
@@ -596,46 +596,24 @@ function renderPremiumListPicker(){
     if(!q)return true;return ((it.label||'')+' '+(it.extra||'')).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
   });
   var isMatterPicker=premiumListIsMatterPicker(LIST_PICKER.target);
-  var hasQuery=!!String(LIST_PICKER.query||'').trim();
-  var hasRealMatterItems=isMatterPicker&&LIST_PICKER.items.some(function(it){return !!String(it.value||'').trim()&&!it.disabled;});
-  var isTrueMatterEmpty=isMatterPicker&&!hasQuery&&!hasRealMatterItems;
   modal.classList.toggle('premium-matter-picker',isMatterPicker);
-  modal.classList.toggle('matter-picker-empty-state',!!isTrueMatterEmpty);
-  modal.classList.toggle('matter-picker-search-state',!!(isMatterPicker&&hasQuery));
-  modal.classList.toggle('matter-picker-has-selection',!!(isMatterPicker&&LIST_PICKER.selected));
-
+  var hasQuery=!!String(LIST_PICKER.query||'').trim();
   var search=noSearch?'':'<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="premium-list-search-clear'+(hasQuery?' is-visible':'')+'" data-act="list-search-clear" aria-label="Очистить поиск">'+ico('xmark','s')+'</button></div>';
-
-  var list='';
-  if(rows.length){
-    list=rows.map(function(it){
-      var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
-      var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
-      var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
-      var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
-      var endContent=(isMatterPicker?ico('chev','s'):(selected?'<em>Выбрано</em>':ico('chev','s')));
-      return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
-        '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(markIcon,'s'))+'</span>'+ 
-        '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
-        '<span class="premium-list-row-end">'+endContent+'</span></button>';
-    }).join('');
-  }else if(isTrueMatterEmpty){
-    list='<div class="premium-list-empty matter-list-empty">'+
-      '<span class="matter-list-empty-icon">'+ico('folder','s')+'</span>'+ 
-      '<b>Дела не найдены</b>'+ 
-      '<small>Добавьте дело, чтобы вести журнал по конкретному делу.</small>'+ 
-      '<button type="button" class="matter-list-create" data-act="list-new-matter"><span>＋</span>Создать новое дело</button>'+ 
-    '</div>';
-  }else{
-    list='<div class="premium-list-empty">'+ico('search')+'<b>Ничего не найдено</b><small>Измените поисковый запрос.</small></div>';
-  }
-
+  var list=rows.length?rows.map(function(it){
+    var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
+    var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
+    var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
+    var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
+    return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
+      '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(markIcon,'s'))+'</span>'+ 
+      '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
+      '<span class="premium-list-row-end">'+(selected?'<em>Выбрано</em>':ico('chev','s'))+'</span></button>';
+  }).join(''):'<div class="premium-list-empty">'+ico('search')+'<b>Ничего не найдено</b><small>Измените поисковый запрос.</small></div>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+ 
     '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5250" alt="Весы правосудия"></span><i></i></div>';
 }
-
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
   var inMatterEditor=!!sel.closest('.matter-editor-sheet');
@@ -4716,7 +4694,6 @@ document.addEventListener('click', function(ev){
       if(ls)openPremiumListPicker(lt,li);else toast('Список временно недоступен');
       break;
     }
-    case 'list-new-matter': closePremiumListPicker();closeSheet();editMatter(null);break;
     case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
     case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
     case 'list-close': closePremiumListPicker();break;
@@ -5446,7 +5423,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5269',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5270',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
