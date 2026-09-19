@@ -2020,9 +2020,20 @@ function next7HearingPeople(t,m){
   if(judge) out+='<small class="next7-person-row next7-judge-row"><span class="next7-meta-ico">'+ico('gavel','s')+'</span><span class="hearing-judge">'+esc(judge)+'</span></small>';
   return out;
 }
+function next7GeoIco(){
+  return '<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4c-4.1 0-7.2 3.15-7.2 7.05 0 5.15 7.2 11.85 7.2 11.85s7.2-6.7 7.2-11.85C19.2 5.55 16.1 2.4 12 2.4Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="12" cy="9.4" r="2.55" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>';
+}
 function next7CourtLine(place){
   if(!place) return '';
   return '<small class="hearing-court next7-court-row"><span class="next7-meta-ico">'+ico('court','s')+'</span><span>'+esc(place)+'</span></small>';
+}
+function next7PlaceLine(place){
+  if(!place) return '';
+  return '<small class="meeting-place next7-place-row"><span class="next7-meta-ico">'+next7GeoIco()+'</span><span>'+esc(place)+'</span></small>';
+}
+function next7SoonLine(text){
+  if(!text) return '';
+  return '<small class="soon-rel next7-soon-row"><span class="next7-meta-ico">'+ico('clock','s')+'</span><span>'+esc(text)+'</span></small>';
 }
 function todayHearingRow(t){
   var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), context=m?(m.title+(m.number?' · '+m.number:'')):'';
@@ -2086,13 +2097,13 @@ function todayNext7Row(t){
   }else if(t.kind==='meeting'){
     badge='<span class="today-kind-badge meeting">Встреча</span>';
     title=t.title||'Встреча';
-    if(t.place) line2='<small class="meeting-place">'+esc(t.place)+'</small>';
+    if(t.place) line2=next7PlaceLine(t.place);
     else if(t.note) line2='<small class="today-note">'+esc(t.note)+'</small>';
-    line3='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
+    line3=next7SoonLine(relD(t.due));
   }else{
     badge='<span class="today-kind-badge deadline">Срок</span>';
     title=t.title||'Процессуальный срок';
-    line2='<small class="soon-rel">'+esc(relD(t.due))+'</small>';
+    line2=next7SoonLine(relD(t.due));
     if(t.note) line3='<small class="today-note">'+esc(t.note)+'</small>';
   }
   return '<button class="today-row upcoming-row next7-row '+cls+'" data-act="task" data-id="'+t.id+'">'+
