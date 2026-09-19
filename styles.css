@@ -34283,3 +34283,65 @@ body:not(.light) .tasks-project .pt-row.done .pt-done-kind.deadline{
 body:not(.light) .qe192-hearing .qe193-hearing-matter-hint{color:#97AABD!important;}
 body:not(.light) .qe192-hearing .qe193-hearing-topic-field input{color:#EDF3F8!important;}
 @media(max-width:390px){.qe192-hearing .qe193-hearing-topic-field{margin-top:13px!important;}}
+
+
+/* ================================================================
+   5.0.294 — TODAY TASK PILLS ALIGNMENT
+   ================================================================ */
+#sc-today .today-row.task-row .today-kindline{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:22px!important;
+  margin-top:4px!important;
+  line-height:1!important;
+}
+
+#sc-today .today-row.task-row .today-kind-badge.task,
+#sc-today .today-row.task-row .today-task-priority{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  height:22px!important;
+  min-height:22px!important;
+  margin:0!important;
+  padding:0 10px!important;
+  border-radius:999px!important;
+  font-size:10.8px!important;
+  line-height:20px!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+  vertical-align:middle!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
+}
+
+body.light #sc-today .today-row.task-row .today-kind-badge.task{
+  color:#23865B!important;
+  background:rgba(49,163,107,.10)!important;
+  border:1px solid rgba(49,163,107,.10)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+
+#sc-today .today-row.task-row .today-task-priority{
+  gap:0!important;
+}
+#sc-today .today-row.task-row .today-task-priority .ico{
+  display:none!important;
+}
+
+@media(max-width:390px){
+  #sc-today .today-row.task-row .today-kindline{
+    gap:7px!important;
+    min-height:21px!important;
+  }
+  #sc-today .today-row.task-row .today-kind-badge.task,
+  #sc-today .today-row.task-row .today-task-priority{
+    height:21px!important;
+    min-height:21px!important;
+    padding:0 9px!important;
+    font-size:10.2px!important;
+    line-height:19px!important;
+  }
+}

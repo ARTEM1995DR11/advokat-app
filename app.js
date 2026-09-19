@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.293';
-var APP_BUILD='5293';
+var APP_VERSION='5.0.294';
+var APP_BUILD='5294';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1869,7 +1869,7 @@ function sortTodayTasks(a,b){
 }
 function todayTaskPriorityBadge(t){
   if(!t||t.kind!=='task')return '';
-  if(t.pri==='high')return '<span class="today-task-priority high">'+ico('flag','s')+'Срочно</span>';
+  if(t.pri==='high')return '<span class="today-task-priority high">Срочно</span>';
   if(t.pri==='low')return '<span class="today-task-priority low">Низкий</span>';
   return '<span class="today-task-priority mid">Средний</span>';
 }
@@ -5600,7 +5600,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5293',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5294',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
