@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.314';
-var APP_BUILD='5314';
+var APP_VERSION='5.0.316';
+var APP_BUILD='5316';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2949,7 +2949,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5314" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5316" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -5679,7 +5679,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5314',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5316',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -5688,3 +5688,172 @@ if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().cat
 window.addEventListener('pagehide',function(){ if(unlocked) flushSave(); });
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
+
+
+/* ================================================================
+   5.0.316 — MATTERS SCREEN STARTED ACCORDING TO APPROVED LAYOUT 3
+   Первый этап переноса страницы «Дела» на утверждённый макет 3.
+   ================================================================ */
+function matterApprovedHero(scope, listLen, allCount, activeCount, archCount){
+  var total = scope==='all' ? allCount : (scope==='archive' ? archCount : activeCount);
+  var line = scope==='archive'
+    ? total+' '+plural(total,'дело','дела','дел')+' в архиве'
+    : (scope==='all' ? total+' '+plural(total,'дело','дела','дел')+' всего' : total+' '+plural(total,'дело','дела','дел')+' в работе');
+  if(S.ui.matterType || S.ui.matterBasis || S.ui.matterStage || (S.ui.matterSort||'priority')!=='priority' || String(S.ui.matterQ||'').trim()){
+    line = listLen+' '+plural(listLen,'дело','дела','дел')+' по текущему отбору';
+  }
+  return line;
+}
+function matterApprovedNearestHearing(){
+  var hearings=S.tasks.filter(function(t){
+    if(t.kind!=='hearing') return false;
+    if(!isActiveRecord(t)) return false;
+    if(hearingNeedsResult(t)) return false;
+    if(!t.due) return false;
+    return dd(t.due)>=0;
+  }).sort(sortT);
+  return hearings[0]||null;
+}
+function matterApprovedQuickTypeLabel(){
+  if(!S.ui.matterType) return 'По типу';
+  var meta=MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other;
+  return meta.short||meta.n||'По типу';
+}
+function matterApprovedLeadName(m){
+  return matterAutoClientLabel(m.client||'') || matterCardTitle(m);
+}
+function matterApprovedSubject(m){
+  var lead=matterApprovedLeadName(m);
+  var subject='';
+  if(m.title && m.title!==lead) subject=m.title;
+  if(!subject && (m.type==='criminal'||m.type==='koap') && m.article) subject=m.article;
+  if(!subject && m.notes) subject=matterAutoTitlePiece(m.notes,82);
+  return matterAutoTitlePiece(subject,86);
+}
+function matterApprovedBadge(m){
+  var st=matterStats(m);
+  if(m.archived) return {tone:'archive', text:'Архив'};
+  if(st.pendingResult) return {tone:'result', text:'Результат'};
+  if(st.late) return {tone:'urgent', text:'Срочно'};
+  if(st.next && st.next.due){
+    var diff=dd(st.next.due);
+    if(diff===0) return {tone:'today', text:'Сегодня'};
+  }
+  return null;
+}
+function matterApprovedNumberStage(m){
+  var parts=[];
+  if(m.number) parts.push('№ '+m.number);
+  if(m.stage) parts.push(m.stage);
+  return parts.join('  ·  ');
+}
+function matterApprovedProfessionalLine(m){
+  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  var parts=[];
+  if(ctx.mode==='investigation' && m.investigator) parts.push((matterInvestigatorLabel(m.stage)||'Следователь')+' '+m.investigator);
+  else if((ctx.mode==='judicial'||ctx.mode==='execution') && m.judge) parts.push('Судья '+m.judge);
+  else if(m.judge) parts.push('Судья '+m.judge);
+  if(m.court) parts.push(m.court);
+  return parts.join('  ·  ');
+}
+function matterApprovedAction(m){
+  if(m.archived) return {text:'Дело находится в архиве', tone:'archive'};
+  var st=matterStats(m), t=st.pendingResult || st.lateItems[0] || st.next;
+  if(!t) return {text:'Без ближайших записей', tone:'muted'};
+  var kind=t.kind==='hearing'?'Заседание':(t.kind==='meeting'?'Встреча':(t.kind==='deadline'?'Срок':'Задача'));
+  var parts=[kind];
+  if(t.due) parts.push(fmtShort(t.due));
+  if(t.time) parts.push(t.time);
+  return {text:parts.join(' · '), tone:st.pendingResult?'result':(st.late?'urgent':'next')};
+}
+function matterCard(m){
+  var mt=matterType(m), basis=matterBasisMeta(m.basis), badge=matterApprovedBadge(m), next=matterApprovedAction(m);
+  var color=mt.c;
+  if(isCriminalCheckMaterial(m)) color=matterStageMeta('Материал проверки').c;
+  else if(isCriminalExecutionMatter(m)) color=matterStageMeta('Исполнение приговора').c;
+  var subject=matterApprovedSubject(m), line1=matterApprovedNumberStage(m), line2=matterApprovedProfessionalLine(m);
+  return '<article class="matter-approved-card'+(m.archived?' archived':'')+'" style="--case:'+color+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(matterApprovedLeadName(m))+'">'+
+    '<span class="matter-approved-side">'+ico(matterCardIconName(m),'l')+'</span>'+
+    '<div class="matter-approved-main">'+
+      '<div class="matter-approved-top"><span class="matter-approved-type">'+esc(matterTypeCardLabel(m))+'</span>'+
+      (basis?'<span class="matter-approved-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'')+
+      (badge?'<span class="matter-approved-badge '+badge.tone+'">'+esc(badge.text)+'</span>':'')+
+      '</div>'+
+      '<b class="matter-approved-name">'+esc(matterApprovedLeadName(m))+'</b>'+
+      (subject?'<div class="matter-approved-subject">'+esc(subject)+'</div>':'')+
+      (line1?'<div class="matter-approved-meta">'+esc(line1)+'</div>':'')+
+      (line2?'<div class="matter-approved-meta second">'+esc(line2)+'</div>':'')+
+      '<div class="matter-approved-next '+next.tone+'"><i></i><span>'+esc(next.text)+'</span></div>'+
+    '</div>'+
+    '<span class="matter-approved-tail">'+ico('chev','s')+'</span>'+
+  '</article>';
+}
+function renderMatters(){
+  if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
+  var scope=S.ui.matterScope||'active';
+  if(['all','active','archive'].indexOf(scope)<0) scope='active';
+  var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
+  var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
+  var list=S.matters.filter(function(m){
+    if(scope==='active' && m.archived) return false;
+    if(scope==='archive' && !m.archived) return false;
+    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
+    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
+    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
+    if(q && matterSearchText(m).indexOf(q)<0) return false;
+    return true;
+  });
+  var sortMode=S.ui.matterSort||'priority';
+  list.sort(function(a,b){
+    if(a.archived!==b.archived) return a.archived?1:-1;
+    if(sortMode==='client'){
+      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
+      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
+      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
+    }
+    if(sortMode==='stage'){
+      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
+      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
+      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
+    }
+    var A=matterStats(a),B=matterStats(b);
+    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
+    if(!!A.late!==!!B.late) return A.late?-1:1;
+    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
+    if(an!==bn) return an<bn?-1:1;
+    return B.open-A.open;
+  });
+  var nearestHearing=matterApprovedNearestHearing();
+  var heroMain=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
+  var heroSub=nearestHearing?('Ближайшее заседание: '+fmtShort(nearestHearing.due)+(nearestHearing.time?' · '+nearestHearing.time:'')):'Ближайших заседаний пока нет';
+  var quickTypeLabel=matterApprovedQuickTypeLabel();
+  var html='<div class="matters-project matters-approved-v3">'+
+    mainBrandHeader()+
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div></div>'+
+    '<div class="matters-approved-toolbar">'+
+      '<div class="matters-approved-searchrow"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div><button class="matters-approved-iconbtn" data-act="matter-filter-sheet" aria-label="Фильтры и сортировка">'+ico('list','s')+'</button></div>'+
+      '<div class="matters-scope matters-approved-scope">'+
+        '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
+        '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+ 
+        '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button></div>'+
+      '<div class="matters-approved-sort">'+
+        '<button class="'+(sortMode==='priority'?'on':'')+'" data-act="m-sort" data-v="priority">По дате</button>'+
+        '<button class="'+(S.ui.matterType?'on':'')+'" data-act="matter-filter-sheet">'+esc(quickTypeLabel)+'</button>'+
+        '<button class="'+(sortMode==='client'?'on':'')+'" data-act="m-sort" data-v="client">По доверителю</button>'+
+        '<button class="matters-approved-sort-icon'+((S.ui.matterBasis||S.ui.matterStage||sortMode==='stage')?' on':'')+'" data-act="matter-filter-sheet" aria-label="Все фильтры">'+ico('list','s')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="matters-list matters-approved-list">';
+  html+=list.length?list.map(matterCard).join(''):
+    ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
+      ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
+      : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
+  html+='</div><button class="matters-approved-fab" data-act="new-matter" aria-label="Новое дело"><img src="fab-plus-square-premium.png?v=5316" alt=""></button></div>';
+  $('#sc-matters').innerHTML=html;
+  if($('#matter-q')){
+    var mq=$('#matter-q');
+    if(document.activeElement&&document.activeElement.id==='matter-q'){
+      setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}},0);
+    }
+  }
+}
