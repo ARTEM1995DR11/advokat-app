@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.327';
-var APP_BUILD='5327';
+var APP_VERSION='5.0.328';
+var APP_BUILD='5328';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5327" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5328" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -590,7 +590,16 @@ function openPremiumListPicker(target,inputId){
   // Пустые служебные варианты («выбрать судью», «выбрать меру», «выбрать вопрос» и т.п.)
   // остаются только техническим состоянием поля и не показываются отдельной строкой premium-списка.
   if(matterEditorPickerWithoutEmptyRow(target))items=items.filter(function(it){return !!String(it.value||'').trim();});
-  LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
+  var selectedValue=premiumListSelectedValue(sel,inputId||'');
+  var selectedBasis=isMatterPicker?premiumMatterPickerBasis(selectedValue):null;
+  LIST_PICKER={target:target,inputId:inputId||'',selected:selectedValue,query:'',items:items,meta:meta};
+  if(isMatterPicker){
+    LIST_PICKER.groupOpen={agreement:true,assigned:false,other:false};
+    if(selectedBasis&&selectedBasis.key==='assigned'){
+      LIST_PICKER.groupOpen.agreement=false;
+      LIST_PICKER.groupOpen.assigned=true;
+    }
+  }
   renderPremiumListPicker();
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
   document.body.classList.add('premium-list-open');
@@ -598,7 +607,7 @@ function openPremiumListPicker(target,inputId){
   vib(5);
 }
 function closePremiumListPicker(){
-  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker');}if(scr)scr.classList.remove('open');
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker','premium-matter-choice-v1');}if(scr)scr.classList.remove('open');
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
@@ -621,25 +630,30 @@ function premiumMatterPickerRow(it){
 }
 function premiumMatterPickerGroups(rows){
   var defs=[
-    {key:'agreement',label:'По соглашению',short:'Соглашение',color:(MATTER_BASIS.agreement||{}).c||'#2FA08E',icon:'brief'},
-    {key:'assigned',label:'По назначению',short:'Назначение',color:(MATTER_BASIS.assigned||{}).c||'#8A6AD8',icon:'user'}
+    {key:'agreement',label:'По соглашению',color:(MATTER_BASIS.agreement||{}).c||'#2FA08E',icon:'brief'},
+    {key:'assigned',label:'По назначению',color:(MATTER_BASIS.assigned||{}).c||'#8A6AD8',icon:'user'}
   ];
   var known={agreement:[],assigned:[]},other=[];
   rows.forEach(function(it){
     var key=it.basisMeta&&it.basisMeta.key;
     if(key&&known[key])known[key].push(it);else other.push(it);
   });
-  var html=defs.map(function(g){
-    var arr=known[g.key];if(!arr.length)return '';
-    var count=arr.length;
-    return '<section class="premium-matter-group premium-matter-group-'+g.key+'" style="--basis-color:'+esc(g.color)+'">'+
-      '<div class="premium-matter-group-head"><span class="premium-matter-group-symbol">'+ico(g.icon,'s')+'</span><div class="premium-matter-group-copy"><b>'+esc(g.label)+'</b><small>'+count+' '+plural(count,'дело','дела','дел')+'</small></div><span class="premium-matter-group-count">'+count+'</span></div>'+
-      '<div class="premium-matter-group-list">'+arr.map(premiumMatterPickerRow).join('')+'</div>'+ 
+  var searching=!!String((LIST_PICKER&&LIST_PICKER.query)||'').trim();
+  var openState=(LIST_PICKER&&LIST_PICKER.groupOpen)||{agreement:true,assigned:false,other:false};
+  function groupHtml(g,arr){
+    if(!arr.length)return '';
+    var open=searching?true:openState[g.key]!==false;
+    return '<section class="premium-matter-group premium-matter-group-'+g.key+(open?' open':' collapsed')+'" style="--basis-color:'+esc(g.color)+'">'+
+      '<button type="button" class="premium-matter-group-head" data-act="matter-group-toggle" data-v="'+esc(g.key)+'" aria-expanded="'+(open?'true':'false')+'">'+
+        '<span class="premium-matter-group-symbol">'+ico(g.icon,'s')+'</span>'+
+        '<span class="premium-matter-group-copy"><b>'+esc(g.label)+'</b><small>'+arr.length+' '+plural(arr.length,'дело','дела','дел')+'</small></span>'+
+        '<span class="premium-matter-group-arrow">'+ico('chev','s')+'</span>'+
+      '</button>'+
+      (open?'<div class="premium-matter-group-list">'+arr.map(premiumMatterPickerRow).join('')+'</div>':'')+
     '</section>';
-  }).join('');
-  if(other.length){
-    html+='<section class="premium-matter-group premium-matter-group-other" style="--basis-color:#9A8A70"><div class="premium-matter-group-head"><span class="premium-matter-group-symbol">'+ico('folder','s')+'</span><div class="premium-matter-group-copy"><b>Другие дела</b><small>'+other.length+' '+plural(other.length,'дело','дела','дел')+'</small></div><span class="premium-matter-group-count">'+other.length+'</span></div><div class="premium-matter-group-list">'+other.map(premiumMatterPickerRow).join('')+'</div></section>';
   }
+  var html=defs.map(function(g){return groupHtml(g,known[g.key]);}).join('');
+  if(other.length) html+=groupHtml({key:'other',label:'Другие дела',color:'#9A8A70',icon:'folder'},other);
   return html;
 }
 function renderPremiumListPicker(){
@@ -654,6 +668,7 @@ function renderPremiumListPicker(){
   var isMatterPicker=premiumListIsMatterPicker(LIST_PICKER.target);
   var useApprovedMarble=premiumListUsesApprovedMarble(LIST_PICKER.target);
   modal.classList.toggle('premium-matter-picker',useApprovedMarble);
+  modal.classList.toggle('premium-matter-choice-v1',isMatterPicker);
   modal.classList.toggle('premium-matter-single',isMatterPicker&&rows.length===1);
   modal.setAttribute('data-list-target',LIST_PICKER.target||'');
   var hasQuery=!!String(LIST_PICKER.query||'').trim();
@@ -673,7 +688,7 @@ function renderPremiumListPicker(){
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5327" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5328" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2955,7 +2970,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5327" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5328" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3565,7 +3580,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5327" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5328" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4928,6 +4943,13 @@ document.addEventListener('click', function(ev){
       break;
     }
     case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
+    case 'matter-group-toggle':
+      if(LIST_PICKER&&premiumListIsMatterPicker(LIST_PICKER.target)){
+        LIST_PICKER.groupOpen=LIST_PICKER.groupOpen||{agreement:true,assigned:false,other:false};
+        LIST_PICKER.groupOpen[v]=!LIST_PICKER.groupOpen[v];
+        renderPremiumListPicker();vib(4);
+      }
+      break;
     case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
     case 'list-matter-clear': clearPremiumMatterChoice();break;
     case 'list-close': closePremiumListPicker();break;
@@ -5685,7 +5707,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5327',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5328',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
