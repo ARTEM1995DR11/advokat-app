@@ -34381,3 +34381,386 @@ body:not(.light) .matter-event-check.past.meeting-past,
 body:not(.light) .pt-past-meeting{
   color:#A8BBCB!important;
 }
+
+
+/* =====================================================================
+   5.0.301 — TASK TYPE FILTER / APPROVED PREMIUM MOCKUP
+   Scope is intentionally limited to .task-filter-premium.
+   ===================================================================== */
+
+/* Stronger, elegant focus on the sheet while preserving the Tasks screen behind it. */
+body.light.task-filter-open #scrim.open{
+  background:rgba(25,29,31,.34)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(.88)!important;
+  backdrop-filter:blur(7px) saturate(.88)!important;
+}
+body:not(.light).task-filter-open #scrim.open{
+  background:rgba(0,0,0,.56)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(.82)!important;
+  backdrop-filter:blur(7px) saturate(.82)!important;
+}
+
+/* Marble / ivory sheet from the approved concept. */
+.sheet.task-filter-premium,
+body.light .sheet.task-filter-premium{
+  max-height:min(88dvh,760px)!important;
+  padding:7px 14px calc(var(--bot) + 22px)!important;
+  border-radius:32px 32px 0 0!important;
+  border-top:1px solid rgba(185,132,38,.30)!important;
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.93),rgba(250,246,237,.96)),
+    url('quick-sheet-marble-approved.webp?v=5301') center/cover no-repeat!important;
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,.92) inset,
+    0 -20px 52px rgba(45,35,19,.18)!important;
+}
+@supports not (height:100dvh){
+  .sheet.task-filter-premium,
+  body.light .sheet.task-filter-premium{max-height:min(88vh,760px)!important;}
+}
+
+.sheet.task-filter-premium>.grab{
+  width:42px!important;
+  height:4px!important;
+  margin:7px auto 16px!important;
+  border-radius:999px!important;
+  background:rgba(115,105,88,.40)!important;
+}
+
+/* Header: gold scales, serif title, circular close. */
+.sheet.task-filter-premium .task-filter-premium-head{
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr) 48px!important;
+  align-items:center!important;
+  gap:14px!important;
+  margin:0 2px 18px!important;
+}
+
+.sheet.task-filter-premium .task-filter-brand-mark{
+  width:58px!important;
+  height:58px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:18px!important;
+  background:
+    radial-gradient(circle at 38% 28%,rgba(255,255,255,.98),rgba(255,249,232,.78) 54%,rgba(238,216,168,.32) 100%)!important;
+  border:1px solid rgba(190,136,34,.42)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 6px 16px rgba(119,83,20,.09)!important;
+}
+.sheet.task-filter-premium .task-filter-brand-mark img{
+  width:43px!important;
+  height:43px!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+
+.sheet.task-filter-premium .task-filter-head-copy{
+  min-width:0!important;
+  align-self:center!important;
+}
+.sheet.task-filter-premium .task-filter-head-copy h2{
+  margin:0!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:32px!important;
+  line-height:.98!important;
+  font-weight:600!important;
+  letter-spacing:-.045em!important;
+  color:#112E4E!important;
+  white-space:nowrap!important;
+}
+.sheet.task-filter-premium .task-filter-head-copy p{
+  margin:6px 0 0!important;
+  font-size:14px!important;
+  line-height:1.2!important;
+  font-weight:520!important;
+  letter-spacing:.005em!important;
+  color:#51677D!important;
+}
+
+.sheet.task-filter-premium .task-filter-close{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  padding:0!important;
+  border-radius:50%!important;
+  border:1px solid rgba(190,136,34,.34)!important;
+  background:rgba(255,251,241,.74)!important;
+  color:#9A6712!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    0 5px 14px rgba(70,48,15,.07)!important;
+}
+.sheet.task-filter-premium .task-filter-close .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:2!important;
+}
+
+/* Independent premium cards instead of a single utilitarian table. */
+.sheet.task-filter-premium .task-filter-premium-card{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:10px!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+.sheet.task-filter-premium .filter-premium-row{
+  width:100%!important;
+  min-height:78px!important;
+  margin:0!important;
+  padding:11px 13px!important;
+  gap:13px!important;
+  border:1px solid rgba(49,58,67,.115)!important;
+  border-radius:20px!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,253,249,.91))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    0 5px 14px rgba(52,43,28,.055)!important;
+  color:#142D47!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+.sheet.task-filter-premium .filter-premium-row:first-child{
+  border-top:1px solid rgba(49,58,67,.115)!important;
+}
+.sheet.task-filter-premium .filter-premium-row:active{
+  transform:scale(.993)!important;
+}
+
+/* Selected row: warm gold outline + discreet gold rail exactly like approved mockup. */
+.sheet.task-filter-premium .filter-premium-row.selected{
+  border-color:rgba(187,128,24,.72)!important;
+  background:
+    radial-gradient(180px 85px at 5% 20%,rgba(221,174,74,.10),transparent 78%),
+    linear-gradient(180deg,rgba(255,253,246,.98),rgba(255,249,235,.94))!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.68),
+    0 7px 19px rgba(115,76,14,.075)!important;
+}
+.sheet.task-filter-premium .filter-premium-row.selected::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:9px!important;
+  bottom:9px!important;
+  width:5px!important;
+  border-radius:0 5px 5px 0!important;
+  background:linear-gradient(180deg,#D8A337,#A96A08)!important;
+  box-shadow:0 0 9px rgba(181,117,14,.22)!important;
+}
+
+/* Category icon tiles. */
+.sheet.task-filter-premium .filter-premium-icon{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  border-radius:16px!important;
+  background:color-mix(in srgb,var(--tone) 8%,#FFFFFF)!important;
+  border:1px solid color-mix(in srgb,var(--tone) 34%,rgba(40,50,61,.08))!important;
+  color:var(--tone)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.90)!important;
+}
+.sheet.task-filter-premium .filter-premium-icon .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.9!important;
+}
+.sheet.task-filter-premium .filter-premium-row.all .filter-premium-icon{
+  background:linear-gradient(145deg,#FFF9EB,#FFF4D5)!important;
+  border-color:rgba(184,132,34,.37)!important;
+  color:#AA7418!important;
+}
+
+/* Editorial serif headings + readable navy secondary copy. */
+.sheet.task-filter-premium .filter-premium-copy{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.sheet.task-filter-premium .filter-premium-copy b{
+  display:block!important;
+  margin:0!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:19px!important;
+  line-height:1.08!important;
+  font-weight:600!important;
+  letter-spacing:-.02em!important;
+  color:#132F4E!important;
+}
+.sheet.task-filter-premium .filter-premium-copy small{
+  display:block!important;
+  margin-top:5px!important;
+  font-size:12.2px!important;
+  line-height:1.26!important;
+  font-weight:520!important;
+  color:#455F78!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* Small pearl counters from the mockup. */
+.sheet.task-filter-premium .filter-premium-count{
+  min-width:43px!important;
+  height:32px!important;
+  padding:0 11px!important;
+  border-radius:999px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:none!important;
+  background:linear-gradient(180deg,#FAFAF9,#F0EFEC)!important;
+  border:1px solid rgba(65,73,82,.18)!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:14px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  color:#172C43!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+.sheet.task-filter-premium .filter-premium-row.selected .filter-premium-count{
+  background:linear-gradient(180deg,#FFF9E9,#F7E9BE)!important;
+  border-color:rgba(184,132,34,.42)!important;
+  color:#725018!important;
+}
+
+/* Thin chevrons; selected state is a clean gold check, no extra circle. */
+.sheet.task-filter-premium .filter-premium-tail{
+  width:25px!important;
+  min-width:25px!important;
+  height:32px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#233F5D!important;
+}
+.sheet.task-filter-premium .filter-premium-tail .ico{
+  width:18px!important;
+  height:18px!important;
+  stroke-width:2!important;
+}
+.sheet.task-filter-premium .filter-premium-row.selected .filter-premium-tail{
+  color:#A46C0C!important;
+}
+.sheet.task-filter-premium .filter-premium-row.selected .filter-premium-tail .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:2.35!important;
+}
+
+/* Narrow iPhones: preserve hierarchy without crowding. */
+@media(max-width:390px){
+  .sheet.task-filter-premium,
+  body.light .sheet.task-filter-premium{
+    padding-left:11px!important;
+    padding-right:11px!important;
+    border-radius:29px 29px 0 0!important;
+  }
+  .sheet.task-filter-premium .task-filter-premium-head{
+    grid-template-columns:52px minmax(0,1fr) 43px!important;
+    gap:11px!important;
+    margin-left:1px!important;
+    margin-right:1px!important;
+    margin-bottom:15px!important;
+  }
+  .sheet.task-filter-premium .task-filter-brand-mark{
+    width:52px!important;height:52px!important;border-radius:16px!important;
+  }
+  .sheet.task-filter-premium .task-filter-brand-mark img{
+    width:38px!important;height:38px!important;
+  }
+  .sheet.task-filter-premium .task-filter-head-copy h2{
+    font-size:27px!important;
+  }
+  .sheet.task-filter-premium .task-filter-head-copy p{
+    margin-top:5px!important;font-size:12.5px!important;
+  }
+  .sheet.task-filter-premium .task-filter-close{
+    width:43px!important;height:43px!important;min-width:43px!important;
+  }
+  .sheet.task-filter-premium .task-filter-premium-card{gap:8px!important;}
+  .sheet.task-filter-premium .filter-premium-row{
+    min-height:70px!important;
+    padding:9px 10px!important;
+    gap:10px!important;
+    border-radius:18px!important;
+  }
+  .sheet.task-filter-premium .filter-premium-icon{
+    width:43px!important;height:43px!important;min-width:43px!important;border-radius:14px!important;
+  }
+  .sheet.task-filter-premium .filter-premium-icon .ico{
+    width:21px!important;height:21px!important;
+  }
+  .sheet.task-filter-premium .filter-premium-copy b{
+    font-size:17px!important;
+  }
+  .sheet.task-filter-premium .filter-premium-copy small{
+    margin-top:4px!important;font-size:10.9px!important;line-height:1.22!important;
+  }
+  .sheet.task-filter-premium .filter-premium-count{
+    min-width:38px!important;height:29px!important;padding:0 9px!important;font-size:12.5px!important;
+  }
+  .sheet.task-filter-premium .filter-premium-tail{
+    width:20px!important;min-width:20px!important;
+  }
+}
+
+/* Dark theme keeps the same premium hierarchy without the light marble wash. */
+body:not(.light) .sheet.task-filter-premium{
+  background:
+    radial-gradient(390px 170px at 50% 0%,rgba(190,142,52,.12),transparent 72%),
+    linear-gradient(180deg,#102031,#081724)!important;
+  border-top-color:rgba(211,171,91,.28)!important;
+}
+body:not(.light) .sheet.task-filter-premium .task-filter-head-copy h2,
+body:not(.light) .sheet.task-filter-premium .filter-premium-copy b{
+  color:#F1F5F8!important;
+}
+body:not(.light) .sheet.task-filter-premium .task-filter-head-copy p,
+body:not(.light) .sheet.task-filter-premium .filter-premium-copy small{
+  color:#9FB1C2!important;
+}
+body:not(.light) .sheet.task-filter-premium .task-filter-close{
+  background:rgba(255,255,255,.045)!important;
+  border-color:rgba(213,171,87,.30)!important;
+  color:#E2BB67!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row{
+  background:linear-gradient(180deg,rgba(17,34,49,.95),rgba(10,26,39,.94))!important;
+  border-color:rgba(148,171,191,.15)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 6px 16px rgba(0,0,0,.15)!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row.selected{
+  border-color:rgba(213,171,87,.50)!important;
+  background:linear-gradient(180deg,rgba(40,38,28,.96),rgba(28,29,25,.95))!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-icon{
+  background:color-mix(in srgb,var(--tone) 14%,#102131)!important;
+  border-color:color-mix(in srgb,var(--tone) 30%,rgba(149,171,191,.13))!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-count{
+  background:#142536!important;
+  border-color:rgba(148,171,191,.18)!important;
+  color:#DCE5ED!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row.selected .filter-premium-count{
+  background:rgba(180,130,35,.14)!important;
+  border-color:rgba(210,166,77,.34)!important;
+  color:#F0D18A!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-tail{
+  color:#B7C6D3!important;
+}
+body:not(.light) .sheet.task-filter-premium .filter-premium-row.selected .filter-premium-tail{
+  color:#E1B95F!important;
+}

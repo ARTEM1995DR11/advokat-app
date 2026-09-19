@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.300';
-var APP_BUILD='5300';
+var APP_VERSION='5.0.301';
+var APP_BUILD='5301';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1904,9 +1904,9 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ document.body.classList.remove('journal-sheet-open'); var sh=$('#sheet');
+function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -2465,8 +2465,12 @@ function sheetTaskTypeFilters(){
   };
   function fr(v,icon,title,sub,count,tone){
     var on=S.ui.taskType===v;
-    return '<button class="filter-premium-row '+tone+(on?' selected':'')+'" style="--tone:'+(tone==='task'?'#3FA970':tone==='hearing'?'#4E86C6':tone==='meeting'?'#8B7BD8':tone==='deadline'?'#D95A57':'#B88C2D')+'" data-act="task-type-filter" data-v="'+v+'">'+
-      '<span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span><span class="filter-premium-count">'+count+'</span><span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
+    return '<button class="filter-premium-row '+tone+(on?' selected':'')+'" style="--tone:'+(tone==='task'?'#3FA970':tone==='hearing'?'#3C8FE8':tone==='meeting'?'#7D5CE4':tone==='deadline'?'#D94B53':'#B68622')+'" data-act="task-type-filter" data-v="'+v+'" aria-pressed="'+(on?'true':'false')+'">'+
+      '<span class="filter-premium-icon">'+ico(icon)+'</span>'+
+      '<span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+
+      '<span class="filter-premium-count">'+count+'</span>'+
+      '<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span>'+
+    '</button>';
   }
   var rows=''+
     fr('','list','Все типы','Задачи, заседания, встречи и сроки',counts.all,'all')+
@@ -2474,8 +2478,17 @@ function sheetTaskTypeFilters(){
     fr('hearing','gavel','Заседания','Судебные заседания и их история',counts.hearing,'hearing')+
     fr('meeting','user','Встречи','Встречи с доверителями и иные встречи',counts.meeting,'meeting')+
     fr('deadline','clock','Сроки','Процессуальные сроки',counts.deadline,'deadline');
-  openSheet('<div class="filter-premium-head"><span class="filter-premium-head-icon">'+ico('list')+'</span><div><h2>Фильтр записей</h2><p>Выберите тип записи</p></div></div><div class="filter-premium-card">'+rows+'</div>');
+
+  openSheet(
+    '<div class="filter-premium-head task-filter-premium-head">'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5301" alt=""></span>'+
+      '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
+      '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
+    '</div>'+
+    '<div class="filter-premium-card task-filter-premium-card">'+rows+'</div>'
+  );
   $('#sheet').classList.add('filter-premium-sheet','task-filter-premium');
+  document.body.classList.add('task-filter-open');
 }
 function taskProjectBase(){
   var q=(S.ui.q||'').toLowerCase().trim();
@@ -5644,7 +5657,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5300',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5301',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
