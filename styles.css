@@ -37261,3 +37261,79 @@ body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-row.matter
     padding-right:10px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.333 — exact marble background for specific choice tabs
+   По просьбе пользователя во вкладках «Выбор дела», «Выбор суда» и
+   «Выбор судьи» ставим отдельный мраморный фон по присланному образцу.
+   ================================================================ */
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"],
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"]{
+  background:
+    linear-gradient(180deg,rgba(255,252,247,.74),rgba(248,242,233,.82)),
+    url('picker-choice-marble-v5333.png') center top / cover no-repeat!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"]::before,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"]::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  border-radius:inherit!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(720px 260px at -8% -6%,rgba(255,255,255,.16),transparent 34%),
+    radial-gradient(360px 180px at 105% 102%,rgba(224,188,111,.11),transparent 45%);
+  z-index:0!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-mid"] > .premium-matter-clear,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="j-mid-select"] > .premium-matter-clear,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="pt-mid"] > .premium-matter-clear,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] > .premium-list-body,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] > .premium-list-grab,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] > .premium-list-head,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] > .premium-list-ornament,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] > .premium-list-search,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] > .premium-list-body{
+  position:relative!important;
+  z-index:1!important;
+}
