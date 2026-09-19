@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.270';
-var APP_BUILD='5270';
+var APP_VERSION='5.0.272';
+var APP_BUILD='5272';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -445,8 +445,8 @@ function listPickerMeta(target){
   }
   var map={
     'e-mid':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
-    'j-mid-select':{title:'Выбор дела',sub:'Выберите дело для записи в журнал',search:'Поиск по делам…',icon:'folder'},
-    'pt-mid':{title:'Выбор дела',sub:'Выберите дело для учёта участия',search:'Поиск по делам…',icon:'folder'},
+    'j-mid-select':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
+    'pt-mid':{title:'Выбор дела',sub:'Выберите дело из списка',search:'Поиск по делам…',icon:'folder'},
     'e-hjudge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
@@ -547,6 +547,16 @@ function premiumListMatterMeta(target,value){
 function premiumListIsMatterPicker(target){
   return ['e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
 }
+function premiumMatterPickerBasis(value){
+  if(!value)return null;
+  var m=matter(value);if(!m)return null;
+  // Для старых сохранённых дел без basis сохраняем ожидаемое поведение:
+  // считаем их делами по соглашению, поскольку именно это основание является
+  // базовым значением при создании нового дела.
+  var key=m.basis==='assigned'?'assigned':'agreement';
+  var meta=MATTER_BASIS[key]||MATTER_BASIS.agreement;
+  return {key:key,label:meta.n,short:meta.short,color:meta.c};
+}
 function premiumListSelectedValue(sel,inputId){
   if(inputId){var inp=$('#'+inputId);if(inp&&inp.value)return inp.value;}
   return sel?sel.value:'';
@@ -563,9 +573,10 @@ function openPremiumListPicker(target,inputId){
     var hearingJudgeNow=(($('#e-hjudge')||{}).value||ED.hearingJudge||'').trim();
     sel.innerHTML=judgeChoiceOptions(hearingJudgeNow,hearingCourtNow);
   }
-  var meta=listPickerMeta(target),items=Array.prototype.slice.call(sel.options).map(function(o){
+  var meta=listPickerMeta(target),isMatterPicker=premiumListIsMatterPicker(target),items=Array.prototype.slice.call(sel.options).map(function(o){
     var mm=premiumListMatterMeta(target,o.value);
-    return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm};
+    var basis=isMatterPicker?premiumMatterPickerBasis(o.value):null;
+    return {value:o.value,label:(o.textContent||o.label||o.value||'').trim(),disabled:!!o.disabled,extra:premiumListItemExtra(target,o.value,(o.textContent||'').trim()),matterMeta:mm,basisMeta:basis};
   });
   // Пустые служебные варианты («выбрать судью», «выбрать меру», «выбрать вопрос» и т.п.)
   // остаются только техническим состоянием поля и не показываются отдельной строкой premium-списка.
@@ -582,38 +593,77 @@ function closePremiumListPicker(){
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice','m-execution-issue','j-mid-select'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
 }
 function matterEditorPickerWithoutSearch(target){
   // Для вопроса исполнения приговора поиск оставляем: вариантов много.
   return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice'].indexOf(target)>=0;
+}
+function premiumMatterPickerRow(it){
+  var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
+  var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
+  var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
+  var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
+  var end=selected?'<em>Выбрано</em>':'<span class="premium-list-row-chevron">'+ico('chev','s')+'</span>';
+  return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
+    '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(markIcon,'s'))+'</span>'+ 
+    '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
+    '<span class="premium-list-row-end">'+end+'</span></button>';
+}
+function premiumMatterPickerGroups(rows){
+  var defs=[
+    {key:'agreement',label:'По соглашению',short:'Соглашение',color:(MATTER_BASIS.agreement||{}).c||'#2FA08E',icon:'brief'},
+    {key:'assigned',label:'По назначению',short:'Назначение',color:(MATTER_BASIS.assigned||{}).c||'#8A6AD8',icon:'user'}
+  ];
+  var known={agreement:[],assigned:[]},other=[];
+  rows.forEach(function(it){
+    var key=it.basisMeta&&it.basisMeta.key;
+    if(key&&known[key])known[key].push(it);else other.push(it);
+  });
+  var html=defs.map(function(g){
+    var arr=known[g.key];if(!arr.length)return '';
+    var count=arr.length;
+    return '<section class="premium-matter-group premium-matter-group-'+g.key+'" style="--basis-color:'+esc(g.color)+'">'+
+      '<div class="premium-matter-group-head"><span class="premium-matter-group-symbol">'+ico(g.icon,'s')+'</span><div class="premium-matter-group-copy"><b>'+esc(g.label)+'</b><small>'+count+' '+plural(count,'дело','дела','дел')+'</small></div></div>'+
+      '<div class="premium-matter-group-list">'+arr.map(premiumMatterPickerRow).join('')+'</div>'+ 
+    '</section>';
+  }).join('');
+  if(other.length){
+    html+='<section class="premium-matter-group premium-matter-group-other" style="--basis-color:#9A8A70"><div class="premium-matter-group-head"><span class="premium-matter-group-symbol">'+ico('folder','s')+'</span><div class="premium-matter-group-copy"><b>Другие дела</b><small>'+other.length+' '+plural(other.length,'дело','дела','дел')+'</small></div></div><div class="premium-matter-group-list">'+other.map(premiumMatterPickerRow).join('')+'</div></section>';
+  }
+  return html;
 }
 function renderPremiumListPicker(){
   if(!LIST_PICKER)return;var modal=$('#premium-list-modal');if(!modal)return;
   var noSearch=matterEditorPickerWithoutSearch(LIST_PICKER.target);
   var q=noSearch?'':(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
   var rows=LIST_PICKER.items.filter(function(it){
-    if(!q)return true;return ((it.label||'')+' '+(it.extra||'')).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
+    if(!q)return true;
+    var basis=it.basisMeta?((it.basisMeta.label||'')+' '+(it.basisMeta.short||'')):'';
+    return ((it.label||'')+' '+(it.extra||'')+' '+basis).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
   });
   var isMatterPicker=premiumListIsMatterPicker(LIST_PICKER.target);
   modal.classList.toggle('premium-matter-picker',isMatterPicker);
+  modal.classList.toggle('premium-matter-single',isMatterPicker&&rows.length===1);
   var hasQuery=!!String(LIST_PICKER.query||'').trim();
   var search=noSearch?'':'<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="premium-list-search-clear'+(hasQuery?' is-visible':'')+'" data-act="list-search-clear" aria-label="Очистить поиск">'+ico('xmark','s')+'</button></div>';
-  var list=rows.length?rows.map(function(it){
-    var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
-    var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
-    var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
-    var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
-    return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
-      '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(markIcon,'s'))+'</span>'+ 
-      '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
-      '<span class="premium-list-row-end">'+(selected?'<em>Выбрано</em>':ico('chev','s'))+'</span></button>';
-  }).join(''):'<div class="premium-list-empty">'+ico('search')+'<b>Ничего не найдено</b><small>Измените поисковый запрос.</small></div>';
+  var list='';
+  if(rows.length){
+    list=isMatterPicker?premiumMatterPickerGroups(rows):rows.map(premiumMatterPickerRow).join('');
+  }else{
+    list='<div class="premium-list-empty">'+ico('search')+'<b>Ничего не найдено</b><small>Измените поисковый запрос.</small></div>';
+  }
+  // Для необязательной привязки дела действие «без дела» остаётся отдельной
+  // спокойной командой и не смешивается с реальными делами и их категориями.
+  var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
+  var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head"><span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span><div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
-    search+'<div class="premium-list-body">'+list+'</div>'+ 
+    '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
+    search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
     '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5250" alt="Весы правосудия"></span><i></i></div>';
 }
+
 function syncPremiumSelectButton(id){
   var sel=id?$('#'+id):null;if(!sel)return;var btn=document.querySelector('[data-premium-select-for="'+id+'"]');if(!btn)return;
   var inMatterEditor=!!sel.closest('.matter-editor-sheet');
@@ -672,6 +722,15 @@ function applyPremiumListChoice(value){
   LIST_PICKER.selected=item.value;
   sel.value=item.value;
   if(lp.inputId&&!item.value){var inp=$('#'+lp.inputId);if(inp){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}));}}
+  syncPremiumSelectButton(sel.id);
+  sel.dispatchEvent(new Event('change',{bubbles:true}));
+  closePremiumListPicker();vib(5);
+}
+function clearPremiumMatterChoice(){
+  if(!LIST_PICKER||LIST_PICKER.target!=='e-mid')return;
+  var lp=LIST_PICKER,sel=$('#'+lp.target);if(!sel)return;
+  sel.value='';
+  if(lp.inputId){var inp=$('#'+lp.inputId);if(inp){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}));}}
   syncPremiumSelectButton(sel.id);
   sel.dispatchEvent(new Event('change',{bubbles:true}));
   closePremiumListPicker();vib(5);
@@ -4696,6 +4755,7 @@ document.addEventListener('click', function(ev){
     }
     case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
     case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
+    case 'list-matter-clear': clearPremiumMatterChoice();break;
     case 'list-close': closePremiumListPicker();break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
@@ -5423,7 +5483,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5270',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5272',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

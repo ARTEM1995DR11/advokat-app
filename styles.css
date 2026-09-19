@@ -32758,3 +32758,330 @@ body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:last-c
   body.light .premium-list-modal.premium-matter-picker .premium-list-head h3{font-size:24px!important}
   body.light .premium-list-modal.premium-matter-picker .premium-list-row{min-height:64px!important;padding:9px 10px!important}
 }
+
+
+/* =====================================================================
+   5.0.271 — UNIFIED PREMIUM MATTER PICKER
+   One visual component for Journal / Quick Entry / Hearing / Participation.
+   No technical empty option is rendered as a fake case card.
+   ===================================================================== */
+
+body.light.premium-matter-picker-open .premium-list-scrim.open{
+  background:rgba(35,32,27,.28)!important;
+  -webkit-backdrop-filter:blur(6px) saturate(.82)!important;
+  backdrop-filter:blur(6px) saturate(.82)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker{
+  width:min(calc(100vw - 22px),430px)!important;
+  max-height:min(78dvh,710px)!important;
+  padding:8px 14px 13px!important;
+  border-radius:32px!important;
+  border:1px solid rgba(181,128,35,.38)!important;
+  background:
+    radial-gradient(125% 70% at 50% -12%,rgba(255,255,255,.72),transparent 58%),
+    linear-gradient(180deg,rgba(255,253,247,.84),rgba(249,243,232,.91)),
+    url('quick-sheet-marble-approved.webp?v=5272') center/cover no-repeat!important;
+  box-shadow:
+    0 30px 78px rgba(40,31,19,.30),
+    0 7px 22px rgba(101,70,22,.08),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 0 0 1px rgba(255,255,255,.28)!important;
+  overflow:hidden!important;
+}
+body.light .premium-list-modal.premium-matter-picker::before{
+  content:""!important;
+  position:absolute!important;
+  left:18px!important;
+  right:18px!important;
+  top:0!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent,rgba(255,244,201,.88),transparent)!important;
+  pointer-events:none!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-grab{
+  width:38px!important;height:4px!important;margin:1px auto 10px!important;
+  border-radius:999px!important;background:rgba(143,119,79,.25)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-head{
+  grid-template-columns:52px minmax(0,1fr) 44px!important;
+  align-items:center!important;gap:12px!important;margin:0 1px 7px!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon{
+  width:52px!important;height:52px!important;border-radius:17px!important;
+  color:#A66F12!important;
+  background:
+    radial-gradient(100% 72% at 35% 5%,rgba(255,255,255,.82),transparent 54%),
+    linear-gradient(145deg,#FFF9E9 0%,#F2DEAE 100%)!important;
+  border:1px solid rgba(181,127,31,.40)!important;
+  box-shadow:0 7px 17px rgba(107,73,18,.07),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon .ico{
+  width:25px!important;height:25px!important;stroke-width:1.9!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head h3{
+  margin:0 0 4px!important;
+  font:700 27px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;color:#173652!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head p{
+  margin:0!important;font-size:12.5px!important;line-height:1.24!important;font-weight:560!important;color:#687E91!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-close{
+  width:44px!important;height:44px!important;border-radius:50%!important;
+  color:#9B6812!important;background:linear-gradient(180deg,#FFFDF8 0%,#F6EDDD 100%)!important;
+  border:1px solid rgba(181,127,31,.32)!important;
+  box-shadow:0 5px 12px rgba(77,53,19,.045),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-close .ico{width:17px!important;height:17px!important;stroke-width:1.85!important}
+
+.premium-list-ornament{
+  display:grid!important;grid-template-columns:1fr 8px 1fr!important;align-items:center!important;gap:8px!important;
+  height:11px!important;margin:0 8px 9px!important;
+}
+.premium-list-ornament i{height:1px!important;background:linear-gradient(90deg,transparent,rgba(183,132,40,.50))!important}
+.premium-list-ornament i:last-child{background:linear-gradient(90deg,rgba(183,132,40,.50),transparent)!important}
+.premium-list-ornament span{width:7px!important;height:7px!important;justify-self:center!important;background:#D1A13C!important;transform:rotate(45deg)!important;border-radius:1px!important;box-shadow:0 2px 5px rgba(127,87,19,.12)!important}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-search{
+  height:53px!important;margin:0 1px 13px!important;padding:0 10px 0 15px!important;gap:10px!important;
+  border-radius:19px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(249,245,237,.97))!important;
+  border:1px solid rgba(181,127,31,.28)!important;
+  box-shadow:0 7px 17px rgba(64,47,23,.04),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search>.ico{width:20px!important;height:20px!important;color:#7D8FA4!important;stroke-width:1.8!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search input{font-size:14.5px!important;font-weight:520!important;color:#3D5570!important;caret-color:#AD7618!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search input::placeholder{color:#95A3B2!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search-clear{background:#FBF7EF!important;border-color:rgba(181,127,31,.25)!important;color:#9C6A18!important}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-body{
+  padding:1px!important;
+  max-height:min(43dvh,390px)!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-width:none!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-body::-webkit-scrollbar{display:none!important}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-row{
+  position:relative!important;
+  min-height:74px!important;
+  margin:0 0 10px!important;
+  padding:10px 11px 10px 12px!important;
+  grid-template-columns:44px minmax(0,1fr) auto!important;
+  gap:11px!important;
+  border-radius:21px!important;
+  border:1px solid rgba(181,127,31,.27)!important;
+  background:
+    radial-gradient(120% 90% at 20% 0%,rgba(255,255,255,.88),transparent 58%),
+    linear-gradient(180deg,rgba(255,255,255,.94),rgba(248,243,234,.96))!important;
+  box-shadow:0 7px 17px rgba(58,43,23,.045),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row:last-child{margin-bottom:3px!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row:active{transform:scale(.994)!important;filter:brightness(.99)!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row::before{
+  content:""!important;position:absolute!important;left:0!important;top:16px!important;bottom:16px!important;width:3px!important;
+  border-radius:0 999px 999px 0!important;background:var(--matter-color,#B78A2F)!important;opacity:.52!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-mark{
+  width:42px!important;height:42px!important;border-radius:14px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  color:color-mix(in srgb,var(--matter-color,#B78A2F) 67%,#856022)!important;
+  background:linear-gradient(145deg,#FFFDF8,#F5EDE0)!important;
+  border:1px solid color-mix(in srgb,var(--matter-color,#B78A2F) 25%,#D8C7A7)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-mark .ico{width:21px!important;height:21px!important;stroke-width:1.8!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy{align-self:center!important;min-width:0!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy b{
+  display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  font-size:16px!important;line-height:1.15!important;font-weight:720!important;letter-spacing:-.01em!important;color:#244662!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy small{
+  display:block!important;margin-top:4px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  font-size:11.2px!important;line-height:1.22!important;font-weight:520!important;color:#748799!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-end{min-width:40px!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;color:#9B711F!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-chevron{
+  width:38px!important;height:38px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  color:#A06E17!important;border:1px solid rgba(181,127,31,.29)!important;
+  background:linear-gradient(180deg,#FFFDF8,#F6EEE1)!important;
+  box-shadow:0 4px 9px rgba(75,51,17,.035),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-chevron .ico{width:15px!important;height:15px!important;stroke-width:1.95!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-end em{
+  padding:6px 10px!important;border-radius:999px!important;
+  color:#80550C!important;background:linear-gradient(180deg,#FFF2C7,#EED799)!important;
+  border:1px solid rgba(166,111,17,.28)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.68)!important;
+  font-size:10.4px!important;font-weight:720!important;letter-spacing:.01em!important;
+}
+
+/* The selected REAL matter gets the same polished gold language as approved Quick Entry cards. */
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected{
+  border-color:rgba(168,108,10,.72)!important;
+  background-color:#E1AE32!important;
+  background-image:url('premium-gold-type-v5249.webp?v=5249')!important;
+  background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
+  box-shadow:0 10px 22px rgba(139,88,8,.16),inset 0 1px 0 rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,244,197,.36)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected::before{background:#8F5B0A!important;opacity:.68!important;width:4px!important;top:12px!important;bottom:12px!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected .premium-list-row-mark{
+  color:#8F5D0A!important;background:rgba(255,249,229,.72)!important;border-color:rgba(139,89,9,.24)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 3px 9px rgba(101,61,4,.05)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected .premium-list-row-copy b{color:#273746!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected .premium-list-row-copy small{color:rgba(65,61,50,.72)!important}
+
+/* Optional clear-linkage action: functional, but deliberately not a fake case row. */
+.premium-matter-clear{
+  width:max-content!important;max-width:100%!important;margin:4px auto 1px!important;padding:7px 11px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+  border:0!important;background:transparent!important;color:#718395!important;
+  font-size:11.2px!important;font-weight:600!important;line-height:1!important;
+}
+.premium-matter-clear .ico{width:13px!important;height:13px!important;stroke-width:1.8!important;color:#A27527!important}
+.premium-matter-clear:active{opacity:.68!important}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign{
+  width:min(280px,75%)!important;
+  grid-template-columns:minmax(22px,1fr) 42px minmax(22px,1fr)!important;
+  gap:8px!important;min-height:43px!important;margin:6px auto 0!important;opacity:.70!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>span{width:42px!important;height:42px!important}
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign-logo{width:22px!important;height:22px!important}
+
+@media(max-width:390px){
+  body.light .premium-list-modal.premium-matter-picker{width:calc(100vw - 16px)!important;padding-left:12px!important;padding-right:12px!important;border-radius:29px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head{grid-template-columns:48px minmax(0,1fr) 40px!important;gap:10px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon{width:48px!important;height:48px!important;border-radius:16px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head h3{font-size:24px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-search{height:50px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-row{min-height:69px!important;padding:9px 10px!important;grid-template-columns:40px minmax(0,1fr) auto!important;gap:9px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-row-mark{width:39px!important;height:39px!important;border-radius:13px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy b{font-size:15.2px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-row-chevron{width:36px!important;height:36px!important}
+}
+
+/* =====================================================================
+   5.0.272 — MATTER PICKER: AGREEMENT / ASSIGNMENT GROUPING
+   The lawyer must immediately see on what basis each case is conducted.
+   Agreement cases are shown first; assigned cases form a separate group.
+   ===================================================================== */
+body.light .premium-list-modal.premium-matter-picker .premium-list-body{
+  padding:0 1px 2px!important;
+}
+.premium-matter-group{
+  position:relative!important;
+  margin:0 0 12px!important;
+  padding:0!important;
+}
+.premium-matter-group:last-child{margin-bottom:2px!important}
+.premium-matter-group-head{
+  position:sticky!important;
+  top:0!important;
+  z-index:3!important;
+  min-height:34px!important;
+  display:grid!important;
+  grid-template-columns:27px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0 2px 7px!important;
+  padding:4px 7px 5px!important;
+  border-radius:12px!important;
+  background:linear-gradient(180deg,rgba(254,250,242,.96),rgba(249,243,232,.94))!important;
+  border:1px solid color-mix(in srgb,var(--basis-color,#B78A2F) 20%,rgba(182,134,51,.16))!important;
+  box-shadow:0 3px 10px rgba(70,49,22,.035),inset 0 1px 0 rgba(255,255,255,.94)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.premium-matter-group-head::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:8px!important;
+  bottom:8px!important;
+  width:3px!important;
+  border-radius:0 999px 999px 0!important;
+  background:var(--basis-color,#B78A2F)!important;
+  opacity:.72!important;
+}
+.premium-matter-group-symbol{
+  width:25px!important;
+  height:25px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:9px!important;
+  color:color-mix(in srgb,var(--basis-color,#B78A2F) 72%,#76571E)!important;
+  background:color-mix(in srgb,var(--basis-color,#B78A2F) 8%,#FFFDF8)!important;
+  border:1px solid color-mix(in srgb,var(--basis-color,#B78A2F) 24%,#E8DDCB)!important;
+}
+.premium-matter-group-symbol .ico{
+  width:15px!important;
+  height:15px!important;
+  stroke-width:1.75!important;
+}
+.premium-matter-group-copy{
+  min-width:0!important;
+  display:flex!important;
+  align-items:baseline!important;
+  gap:7px!important;
+  white-space:nowrap!important;
+}
+.premium-matter-group-copy b{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:13.4px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  color:#2C465F!important;
+}
+.premium-matter-group-copy small{
+  flex:none!important;
+  font-size:9.8px!important;
+  line-height:1!important;
+  font-weight:650!important;
+  color:#83909C!important;
+}
+.premium-matter-group-list{
+  display:block!important;
+}
+/* Keep semantic case-type accent on each card, while the group header tells
+   the work basis (agreement / appointment). */
+body.light .premium-list-modal.premium-matter-picker .premium-matter-group .premium-list-row{
+  margin-bottom:8px!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-matter-group .premium-list-row:last-child{
+  margin-bottom:0!important;
+}
+/* A little extra separation before the second legal basis. */
+.premium-matter-group-assigned{
+  margin-top:5px!important;
+  padding-top:2px!important;
+}
+.premium-matter-group-assigned::before{
+  content:""!important;
+  display:block!important;
+  height:1px!important;
+  margin:0 12px 8px!important;
+  background:linear-gradient(90deg,transparent,rgba(180,138,68,.22),transparent)!important;
+}
+@media(max-width:390px){
+  .premium-matter-group-head{
+    min-height:32px!important;
+    grid-template-columns:25px minmax(0,1fr)!important;
+    gap:7px!important;
+    margin-bottom:6px!important;
+    padding:4px 6px!important;
+  }
+  .premium-matter-group-symbol{width:23px!important;height:23px!important;border-radius:8px!important}
+  .premium-matter-group-symbol .ico{width:14px!important;height:14px!important}
+  .premium-matter-group-copy b{font-size:12.8px!important}
+  .premium-matter-group-copy small{font-size:9.3px!important}
+}
