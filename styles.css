@@ -35729,3 +35729,57 @@ body:not(.light) .sheet.matter-filter-premium{
 @supports not (height:100dvh){
   body:not(.light) .sheet.matter-filter-premium{max-height:min(82vh,730px)!important;}
 }
+
+
+/* ================================================================
+   5.0.312 — SEPARATE SHEET BEHAVIOR FOR TASKS AND MATTERS FILTERS
+   Задачи: шторка ниже. Дела: шторка выше и длиннее, так как фильтров больше.
+   ================================================================ */
+
+/* Фильтр страницы «Задачи» — чуть ниже, как на согласованном экране. */
+.sheet.task-filter-premium,
+body.light .sheet.task-filter-premium,
+body:not(.light) .sheet.task-filter-premium{
+  max-height:min(82dvh,700px)!important;
+}
+@supports not (height:100dvh){
+  .sheet.task-filter-premium,
+  body.light .sheet.task-filter-premium,
+  body:not(.light) .sheet.task-filter-premium{
+    max-height:min(82vh,700px)!important;
+  }
+}
+@media(max-width:390px){
+  .sheet.task-filter-premium,
+  body.light .sheet.task-filter-premium,
+  body:not(.light) .sheet.task-filter-premium{
+    max-height:min(80dvh,680px)!important;
+  }
+}
+
+/* Фильтр страницы «Дела» — наоборот, выше и почти на всю доступную высоту,
+   чтобы помещалось больше секций и была удобная прокрутка. */
+.sheet.matter-filter-premium,
+body.light .sheet.matter-filter-premium,
+body:not(.light) .sheet.matter-filter-premium{
+  max-height:min(91dvh,860px)!important;
+}
+@supports not (height:100dvh){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium,
+  body:not(.light) .sheet.matter-filter-premium{
+    max-height:min(91vh,860px)!important;
+  }
+}
+.sheet.matter-filter-premium .shbody{
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:14px!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium,
+  body:not(.light) .sheet.matter-filter-premium{
+    max-height:min(90dvh,820px)!important;
+  }
+}
