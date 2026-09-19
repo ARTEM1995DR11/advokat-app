@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.267';
-var APP_BUILD='5267';
+var APP_VERSION='5.0.268';
+var APP_BUILD='5268';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -465,6 +465,7 @@ function premiumListItemExtra(target,value,label){
   if((target==='e-mid'||target==='j-mid-select'||target==='pt-mid')&&value){
     var m=matter(value); if(m){
       var bits=[]; if(m.client)bits.push(m.client); if(m.number)bits.push('№ '+m.number); if(m.court)bits.push(m.court);
+      if(!bits.length){var mt=MATTER_TYPES[m.type]||MATTER_TYPES.other;if(mt&&mt.t)bits.push(mt.t);}
       return bits.join(' · ');
     }
   }
@@ -543,6 +544,9 @@ function premiumListMatterMeta(target,value){
   var mt=MATTER_TYPES[m.type]||MATTER_TYPES.other;
   return {type:m.type||'other',color:mt.c||MATTER_TYPES.other.c,icon:matterCardIconName(m)||'folder'};
 }
+function premiumListIsMatterPicker(target){
+  return ['e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
+}
 function premiumListSelectedValue(sel,inputId){
   if(inputId){var inp=$('#'+inputId);if(inp&&inp.value)return inp.value;}
   return sel?sel.value:'';
@@ -569,11 +573,13 @@ function openPremiumListPicker(target,inputId){
   LIST_PICKER={target:target,inputId:inputId||'',selected:premiumListSelectedValue(sel,inputId||''),query:'',items:items,meta:meta};
   renderPremiumListPicker();
   var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.add('open');if(scr)scr.classList.add('open');
-  document.body.classList.add('premium-list-open');vib(5);
+  document.body.classList.add('premium-list-open');
+  document.body.classList.toggle('premium-matter-picker-open',premiumListIsMatterPicker(target));
+  vib(5);
 }
 function closePremiumListPicker(){
-  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal)modal.classList.remove('open');if(scr)scr.classList.remove('open');
-  document.body.classList.remove('premium-list-open');LIST_PICKER=null;
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker');}if(scr)scr.classList.remove('open');
+  document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
   return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-judge-choice','m-restraint-choice','m-execution-issue','j-mid-select'].indexOf(target)>=0;
@@ -589,7 +595,10 @@ function renderPremiumListPicker(){
   var rows=LIST_PICKER.items.filter(function(it){
     if(!q)return true;return ((it.label||'')+' '+(it.extra||'')).toLowerCase().replace(/ё/g,'е').indexOf(q)>=0;
   });
-  var search=noSearch?'':'<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off"></div>';
+  var isMatterPicker=premiumListIsMatterPicker(LIST_PICKER.target);
+  modal.classList.toggle('premium-matter-picker',isMatterPicker);
+  var hasQuery=!!String(LIST_PICKER.query||'').trim();
+  var search=noSearch?'':'<div class="premium-list-search">'+ico('search','s')+'<input id="premium-list-search" value="'+esc(LIST_PICKER.query||'')+'" placeholder="'+esc(LIST_PICKER.meta.search||'Поиск…')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="premium-list-search-clear'+(hasQuery?' is-visible':'')+'" data-act="list-search-clear" aria-label="Очистить поиск">'+ico('xmark','s')+'</button></div>';
   var list=rows.length?rows.map(function(it){
     var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
     var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
@@ -1800,7 +1809,7 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ document.body.classList.remove('journal-sheet-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
@@ -4686,6 +4695,7 @@ document.addEventListener('click', function(ev){
       break;
     }
     case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
+    case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
     case 'list-close': closePremiumListPicker();break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
@@ -5413,7 +5423,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5267',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5268',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

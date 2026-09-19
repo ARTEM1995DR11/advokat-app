@@ -32469,3 +32469,292 @@ body:not(.light) .sheet.journal-premium-sheet{
     font-size:16px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.268 — PREMIUM MATTER PICKER
+   "Выбор дела" brought into the approved Quick Entry / Journal premium system.
+   ===================================================================== */
+
+body.light.premium-matter-picker-open .premium-list-scrim.open{
+  background:rgba(29,31,30,.24)!important;
+  backdrop-filter:blur(5px) saturate(.88)!important;
+  -webkit-backdrop-filter:blur(5px) saturate(.88)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker{
+  width:min(calc(100vw - 16px),440px)!important;
+  max-height:min(76dvh,700px)!important;
+  padding:8px 14px 13px!important;
+  border-radius:31px!important;
+  border:1px solid rgba(185,134,43,.30)!important;
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.84),rgba(250,245,235,.90)),
+    url('quick-sheet-marble-approved.webp?v=5268') center/cover no-repeat!important;
+  box-shadow:
+    0 30px 82px rgba(38,31,23,.27),
+    inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-grab{
+  width:40px!important;
+  height:4px!important;
+  margin:1px auto 12px!important;
+  background:rgba(151,127,88,.24)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-head{
+  grid-template-columns:50px minmax(0,1fr) 42px!important;
+  gap:12px!important;
+  margin:0 1px 12px!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon{
+  width:50px!important;
+  height:50px!important;
+  border-radius:16px!important;
+  color:#A87418!important;
+  background:linear-gradient(145deg,rgba(255,250,235,.98),rgba(245,227,184,.90))!important;
+  border:1px solid rgba(190,139,43,.34)!important;
+  box-shadow:
+    0 7px 16px rgba(112,79,23,.06),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.85!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head h3{
+  margin:0 0 3px!important;
+  font:700 26px/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  color:#173451!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-head p{
+  font-size:12.2px!important;
+  line-height:1.28!important;
+  font-weight:540!important;
+  color:#6F8193!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-close{
+  width:42px!important;
+  height:42px!important;
+  border-radius:50%!important;
+  color:#A2721E!important;
+  background:linear-gradient(180deg,#FFFDF8,#F7F0E4)!important;
+  border:1px solid rgba(184,134,44,.28)!important;
+  box-shadow:0 5px 12px rgba(75,53,20,.045),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-search{
+  height:52px!important;
+  margin:0 1px 13px!important;
+  padding:0 10px 0 14px!important;
+  gap:10px!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.91),rgba(249,245,238,.94))!important;
+  border:1px solid rgba(184,134,44,.24)!important;
+  box-shadow:0 7px 17px rgba(65,47,23,.045),inset 0 1px 0 rgba(255,255,255,.94)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search>.ico{
+  color:#7C8DA1!important;
+  width:19px!important;
+  height:19px!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search input{
+  font-size:14.2px!important;
+  color:#405674!important;
+  caret-color:#B47F1C!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-search input::placeholder{
+  color:#95A2B0!important;
+}
+.premium-list-search-clear{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  border-radius:50%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#A37422!important;
+  border:1px solid rgba(184,134,44,.22)!important;
+  background:linear-gradient(180deg,#FFFDF8,#F7F0E4)!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:scale(.90)!important;
+  transition:opacity .14s ease,transform .14s ease!important;
+}
+.premium-list-search-clear.is-visible{
+  opacity:1!important;
+  pointer-events:auto!important;
+  transform:scale(1)!important;
+}
+.premium-list-search-clear .ico{width:14px!important;height:14px!important;stroke-width:1.9!important}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-body{
+  padding:1px 1px 3px!important;
+}
+
+body.light .premium-list-modal.premium-matter-picker .premium-list-row{
+  position:relative!important;
+  min-height:68px!important;
+  margin-bottom:9px!important;
+  padding:10px 11px!important;
+  grid-template-columns:42px minmax(0,1fr) auto!important;
+  gap:11px!important;
+  border-radius:19px!important;
+  border:1px solid rgba(184,134,44,.22)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.93),rgba(250,246,239,.95))!important;
+  box-shadow:0 7px 18px rgba(58,43,23,.045),inset 0 1px 0 rgba(255,255,255,.94)!important;
+  overflow:hidden!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:15px!important;
+  bottom:15px!important;
+  width:3px!important;
+  border-radius:0 999px 999px 0!important;
+  background:var(--matter-color,#B78A2F)!important;
+  opacity:.44!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-mark{
+  width:40px!important;
+  height:40px!important;
+  border-radius:13px!important;
+  color:color-mix(in srgb,var(--matter-color,#B78A2F) 70%,#8D6C31)!important;
+  background:linear-gradient(145deg,#FFFDF8,#F6EFE2)!important;
+  border:1px solid color-mix(in srgb,var(--matter-color,#B78A2F) 23%,rgba(184,134,44,.22))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-mark .ico{
+  width:20px!important;
+  height:20px!important;
+  stroke-width:1.8!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy b{
+  font-size:15.3px!important;
+  line-height:1.16!important;
+  font-weight:700!important;
+  color:#274866!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-copy small{
+  margin-top:1px!important;
+  font-size:11.1px!important;
+  line-height:1.28!important;
+  color:#75889A!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-end{
+  min-width:31px!important;
+  color:#A98854!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-end .ico{
+  width:16px!important;
+  height:16px!important;
+  stroke-width:1.8!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row-end em{
+  padding:6px 9px!important;
+  border-radius:999px!important;
+  color:#906315!important;
+  background:linear-gradient(180deg,#F8ECCB,#F1DFAE)!important;
+  border:1px solid rgba(184,134,44,.25)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.70)!important;
+  font-size:10.2px!important;
+  letter-spacing:.01em!important;
+}
+
+/* Matter type color is now only a restrained semantic accent, not a large blue/red block. */
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option{
+  border-left:1px solid rgba(184,134,44,.22)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option .premium-list-row-mark{
+  color:color-mix(in srgb,var(--matter-color) 68%,#8B681F)!important;
+  background:linear-gradient(145deg,#FFFDF8,#F6EFE2)!important;
+  border-color:color-mix(in srgb,var(--matter-color) 24%,rgba(184,134,44,.20))!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option .premium-list-row-copy b{
+  color:#274866!important;
+}
+
+/* Selected matter: soft premium gold, still readable in a list. */
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.selected,
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected{
+  border-color:rgba(181,127,30,.62)!important;
+  background:
+    radial-gradient(120% 90% at 18% 0%,rgba(255,247,207,.76),transparent 54%),
+    linear-gradient(180deg,#FFF7DA 0%,#F8E5AD 100%)!important;
+  box-shadow:
+    0 9px 21px rgba(146,98,20,.10),
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 0 0 1px rgba(255,255,255,.28)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.selected::before,
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected::before{
+  width:4px!important;
+  top:11px!important;
+  bottom:11px!important;
+  opacity:.78!important;
+  background:#B77E18!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.selected .premium-list-row-mark,
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.matter-option.selected .premium-list-row-mark{
+  color:#A67419!important;
+  background:linear-gradient(145deg,#FFF8E5,#F2DFB1)!important;
+  border-color:rgba(184,134,44,.32)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.selected .premium-list-row-copy b{
+  color:#263B50!important;
+}
+
+/* "Без дела" stays elegant instead of looking like a technical empty option. */
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.empty .premium-list-row-copy b{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15.8px!important;
+  color:#2C3C4E!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-row.empty .premium-list-row-copy small{
+  color:#7A8998!important;
+}
+
+/* Footer signature is intentionally quieter: decoration, not a second focal point. */
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign{
+  width:min(300px,78%)!important;
+  grid-template-columns:minmax(24px,1fr) 44px minmax(24px,1fr)!important;
+  gap:8px!important;
+  min-height:46px!important;
+  margin:6px auto 0!important;
+  opacity:.72!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>span{
+  width:44px!important;
+  height:44px!important;
+  box-shadow:0 5px 13px rgba(144,100,25,.08),inset 0 0 0 3px rgba(255,255,255,.48),inset 0 0 0 4px rgba(194,149,65,.12)!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign-logo{
+  width:23px!important;
+  height:23px!important;
+}
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:first-child::after,
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:last-child::before{
+  width:6px!important;
+  height:6px!important;
+}
+
+@media(max-width:390px){
+  body.light .premium-list-modal.premium-matter-picker{
+    width:calc(100vw - 12px)!important;
+    padding-left:11px!important;
+    padding-right:11px!important;
+    border-radius:28px!important;
+  }
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head{
+    grid-template-columns:47px minmax(0,1fr) 40px!important;
+    gap:10px!important;
+  }
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head-icon{width:47px!important;height:47px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-head h3{font-size:24px!important}
+  body.light .premium-list-modal.premium-matter-picker .premium-list-row{min-height:64px!important;padding:9px 10px!important}
+}
