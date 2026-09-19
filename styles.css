@@ -34215,3 +34215,60 @@ body:not(.light) #sc-today .today-task-priority.low{color:#72D19F!important;back
   #sc-today .today-task-priority{height:19px!important;padding:0 7px!important;font-size:9.9px!important;}
   #sc-today .today-task-priority .ico{width:10px!important;height:10px!important;}
 }
+
+
+/* ================================================================
+   5.0.292 — TASKS / COMPLETED: keep record type visible
+   ================================================================ */
+.tasks-project .pt-row.done .pt-done-kind{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:max-content!important;
+  min-height:20px!important;
+  margin-top:5px!important;
+  padding:0 9px!important;
+  border-radius:999px!important;
+  font-size:10px!important;
+  line-height:1!important;
+  font-weight:780!important;
+  letter-spacing:.005em!important;
+  white-space:nowrap!important;
+  border:1px solid transparent!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62)!important;
+}
+body.light .tasks-project .pt-row.done .pt-done-kind.task{
+  color:#2B8762!important;
+  background:rgba(65,151,112,.10)!important;
+  border-color:rgba(65,151,112,.16)!important;
+}
+body.light .tasks-project .pt-row.done .pt-done-kind.meeting{
+  color:#7658C5!important;
+  background:rgba(130,97,204,.12)!important;
+  border-color:rgba(130,97,204,.16)!important;
+}
+body.light .tasks-project .pt-row.done .pt-done-kind.hearing{
+  color:#218FE0!important;
+  background:rgba(55,152,229,.11)!important;
+  border-color:rgba(55,152,229,.15)!important;
+}
+body.light .tasks-project .pt-row.done .pt-done-kind.deadline{
+  color:#9A6A16!important;
+  background:rgba(194,139,38,.11)!important;
+  border-color:rgba(194,139,38,.16)!important;
+}
+body:not(.light) .tasks-project .pt-row.done .pt-done-kind.task{
+  color:#79CBA9!important;background:rgba(65,151,112,.16)!important;border-color:rgba(92,183,139,.20)!important;
+}
+body:not(.light) .tasks-project .pt-row.done .pt-done-kind.meeting{
+  color:#BBA4F3!important;background:rgba(130,97,204,.18)!important;border-color:rgba(160,126,225,.20)!important;
+}
+body:not(.light) .tasks-project .pt-row.done .pt-done-kind.hearing{
+  color:#78BFF2!important;background:rgba(55,152,229,.17)!important;border-color:rgba(90,177,238,.20)!important;
+}
+body:not(.light) .tasks-project .pt-row.done .pt-done-kind.deadline{
+  color:#E1BC6A!important;background:rgba(194,139,38,.17)!important;border-color:rgba(221,173,77,.20)!important;
+}
+@media(max-width:390px){
+  .tasks-project .pt-row.done .pt-done-kind{min-height:19px!important;padding:0 8px!important;font-size:9.5px!important;margin-top:4px!important;}
+}

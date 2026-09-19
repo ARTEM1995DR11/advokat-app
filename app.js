@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.291';
-var APP_BUILD='5291';
+var APP_VERSION='5.0.292';
+var APP_BUILD='5292';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2563,6 +2563,14 @@ function taskProjectBadge(t){
   if(t.pri==='low') return '<span class="pt-badge low">Низкий</span>';
   return '';
 }
+function taskDoneKindBadge(t){
+  if(!t || !t.done) return '';
+  var kind=t.kind||'task', label='Задача';
+  if(kind==='meeting') label='Встреча';
+  else if(kind==='hearing') label='Заседание';
+  else if(kind==='deadline') label='Срок';
+  return '<span class="pt-done-kind '+esc(kind)+'">'+esc(label)+'</span>';
+}
 function taskDueText(t){
   if(!t.due) return '';
   var d=dd(t.due);
@@ -2596,6 +2604,7 @@ function taskProjectRow(t){
       leadIcon+
       '<div class="pt-main">'+
         '<button class="pt-open" data-act="task" data-id="'+t.id+'"><b>'+title+'</b></button>'+ 
+        taskDoneKindBadge(t)+
         (m?'<button class="pt-link" data-act="task-matter" data-id="'+m.id+'">'+esc(context)+'</button>':'')+
         (t.kind==='hearing'&&(hclient||hjudge)?'<div class="pt-hearing-meta">'+(hclient?'<span class="hearing-client">'+esc(hclient)+'</span>':'')+(hclient&&hjudge?'<span class="hearing-dot"> · </span>':'')+(hjudge?'<span class="hearing-judge">'+esc(hjudge)+'</span>':'')+'</div>':'')+
         (t.kind==='hearing'&&t.place?'<small class="pt-hearing-court">'+esc(t.place)+'</small>':'')+
@@ -5578,7 +5587,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5291',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5292',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
