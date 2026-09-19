@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.318';
-var APP_BUILD='5318';
+var APP_VERSION='5.0.319';
+var APP_BUILD='5319';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2938,7 +2938,7 @@ function sheetMatterFilters(){
     var extra=!v?' all':'';
     return '<button class="filter-premium-row'+extra+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'" aria-pressed="'+(on?'true':'false')+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
   }
-  var typeRows=mr('m-filter','','folder','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
+  var typeRows=mr('m-filter','','list','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
     MATTER_TYPE_KEYS.map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
   var basisRows=mr('m-basis-filter','','doc','Все основания','Соглашение и дела по назначению',basisCounts.all,'#B88C2D',S.ui.matterBasis==='')+
     Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return mr('m-basis-filter',k,k==='agreement'?'doc':'user',esc(t.n),esc(t.short),basisCounts[k]||0,t.c,S.ui.matterBasis===k);}).join('');
@@ -2949,7 +2949,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5318" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5319" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3262,7 +3262,7 @@ function render(){
   document.querySelectorAll('.tab[data-tab="matters"] use').forEach(function(u){
     u.setAttribute('href', S.ui.tab==='matters' ? '#i-nav-cases-fill' : '#i-nav-cases');
   });
-  var hideFab=(S.ui.tab==='more');
+  var hideFab=(S.ui.tab==='more'||S.ui.tab==='matters');
   $('#fab').classList.toggle('fab-context-hide',hideFab);
   $('#fab').style.setProperty('display',hideFab?'none':'flex','important');
   var active=$('#sc-'+S.ui.tab);
@@ -5679,7 +5679,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5318',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5319',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -5848,7 +5848,7 @@ function renderMatters(){
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
-  html+='</div><button class="matters-approved-fab" data-act="new-matter" aria-label="Новое дело"><img src="fab-plus-square-premium.png?v=5318" alt=""></button></div>';
+  html+='</div><button class="matters-approved-fab" data-act="new-matter" aria-label="Новое дело"><img src="fab-plus-square-premium.png?v=5319" alt=""></button></div>';
   $('#sc-matters').innerHTML=html;
   if($('#matter-q')){
     var mq=$('#matter-q');
