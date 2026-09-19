@@ -33527,3 +33527,109 @@ body:not(.light) #sc-today .today-next7-group .next7-row::before{
     background-size:20px 24px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.284 — TODAY / NEXT 7 DAYS: FINAL APPROVED POLISH
+   - slimmer map-pin markers with longer tip
+   - stronger secondary-text contrast on the real Today background
+   - unified metadata icon weight and alignment
+   - slightly calmer hearing-pill surface with bright blue text
+   - tighter internal rhythm and safe bottom scrolling above nav/FAB
+   ================================================================ */
+body.light #sc-today .today-next7-group .today-kind-badge.hearing{
+  color:#168DFF!important;
+  background:linear-gradient(180deg,rgba(239,249,255,.98),rgba(226,243,255,.95))!important;
+  border-color:rgba(71,160,239,.15)!important;
+}
+
+/* Secondary information must stay readable over the photographic marble/desk backdrop. */
+body.light #sc-today .today-next7-group .today-kind-context{
+  color:#3F5C75!important;
+  font-weight:600!important;
+}
+body.light #sc-today .today-next7-group .today-note{
+  color:#48647B!important;
+  font-weight:590!important;
+}
+body.light #sc-today .today-next7-group .next7-place-row{
+  color:#46647C!important;
+  font-weight:630!important;
+}
+body.light #sc-today .today-next7-group .next7-court-row{
+  color:#49677F!important;
+  font-weight:610!important;
+}
+body.light #sc-today .today-next7-group .next7-soon-row{
+  color:#986611!important;
+}
+
+/* Client → judge → court remains a clear three-line hierarchy. */
+#sc-today .today-next7-group .next7-person-row{
+  margin-top:3px!important;
+  line-height:1.22!important;
+}
+#sc-today .today-next7-group .next7-person-row + .next7-person-row{
+  margin-top:2px!important;
+}
+#sc-today .today-next7-group .next7-court-row{
+  margin-top:3px!important;
+}
+#sc-today .today-next7-group .next7-place-row,
+#sc-today .today-next7-group .next7-soon-row{
+  margin-top:4px!important;
+}
+
+/* One visual weight for all metadata symbols. */
+#sc-today .today-next7-group .next7-meta-ico{
+  width:14px!important;
+  min-width:14px!important;
+  height:14px!important;
+  margin-top:1px!important;
+}
+#sc-today .today-next7-group .next7-meta-ico .ico{
+  width:14px!important;
+  height:14px!important;
+  stroke-width:2.15!important;
+}
+#sc-today .today-next7-group .next7-client-row .next7-meta-ico .ico{stroke-width:2.1!important;}
+#sc-today .today-next7-group .next7-judge-row .next7-meta-ico .ico{stroke-width:2.25!important;}
+#sc-today .today-next7-group .next7-court-row .next7-meta-ico .ico{stroke-width:2.05!important;}
+#sc-today .today-next7-group .next7-place-row .next7-meta-ico .ico{stroke-width:2.0!important;}
+#sc-today .today-next7-group .next7-soon-row .next7-meta-ico .ico{stroke-width:2.1!important;}
+
+/* Approved timeline marker: smaller head, thinner contour, longer lower point. */
+#sc-today .today-next7-group .next7-row::before{
+  left:58.5px!important;
+  top:14px!important;
+  width:19px!important;
+  height:25px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='25' viewBox='0 0 19 25'%3E%3Cpath d='M9.5 1.35c-4.38 0-7.48 3.35-7.48 7.42 0 5.8 7.48 14.87 7.48 14.87s7.48-9.07 7.48-14.87c0-4.07-3.1-7.42-7.48-7.42Z' fill='%23FFF9EA' stroke='%23B77A16' stroke-width='1.25' stroke-linejoin='round'/%3E%3Ccircle cx='9.5' cy='8.58' r='2.85' fill='%23C4871A'/%3E%3Ccircle cx='8.82' cy='7.92' r='.92' fill='%23F7E3AD' opacity='.92'/%3E%3C/svg%3E")!important;
+  background-size:19px 25px!important;
+  filter:drop-shadow(0 1.5px 1.7px rgba(111,73,9,.13))!important;
+}
+body:not(.light) #sc-today .today-next7-group .next7-row::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='19' height='25' viewBox='0 0 19 25'%3E%3Cpath d='M9.5 1.35c-4.38 0-7.48 3.35-7.48 7.42 0 5.8 7.48 14.87 7.48 14.87s7.48-9.07 7.48-14.87c0-4.07-3.1-7.42-7.48-7.42Z' fill='%232B2A26' stroke='%23D9AB4D' stroke-width='1.25' stroke-linejoin='round'/%3E%3Ccircle cx='9.5' cy='8.58' r='2.85' fill='%23D9AB4D'/%3E%3Ccircle cx='8.82' cy='7.92' r='.92' fill='%23F4DA95' opacity='.82'/%3E%3C/svg%3E")!important;
+}
+
+/* Last event must be scrollable fully above the fixed bottom bar and floating +. */
+#sc-today{
+  padding-bottom:calc(var(--bot) + 122px)!important;
+}
+
+@media(max-width:390px){
+  #sc-today .today-next7-group .next7-meta-ico,
+  #sc-today .today-next7-group .next7-meta-ico .ico{
+    width:13px!important;
+    min-width:13px!important;
+    height:13px!important;
+  }
+  #sc-today .today-next7-group .next7-row::before{
+    left:52px!important;
+    top:14px!important;
+    width:18px!important;
+    height:24px!important;
+    background-size:18px 24px!important;
+  }
+  #sc-today{padding-bottom:calc(var(--bot) + 118px)!important;}
+}
