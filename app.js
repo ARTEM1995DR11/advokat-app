@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.308';
-var APP_BUILD='5308';
+var APP_VERSION='5.0.309';
+var APP_BUILD='5309';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2935,7 +2935,8 @@ function sheetMatterFilters(){
   var stages=matterAllStages().filter(function(stage){return stageBase.some(function(m){return m.stage===stage;});});
   var stageCounts={all:stageBase.length}; stages.forEach(function(stage){stageCounts[stage]=stageBase.filter(function(m){return m.stage===stage;}).length;});
   function mr(act,v,icon,title,sub,count,tone,on){
-    return '<button class="filter-premium-row'+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
+    var extra=!v?' all':'';
+    return '<button class="filter-premium-row'+extra+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'" aria-pressed="'+(on?'true':'false')+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
   }
   var typeRows=mr('m-filter','','folder','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
     MATTER_TYPE_KEYS.map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
@@ -2946,12 +2947,18 @@ function sheetMatterFilters(){
   var sortRows=mr('m-sort','priority','clock','По срочности','Сначала результат заседания, просрочки и ближайшие действия',null,'#C29130',S.ui.matterSort==='priority')+
     mr('m-sort','client','user','По доверителю','Алфавитная сортировка по доверителю / подзащитному',null,'#4E86C6',S.ui.matterSort==='client')+
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
-  openSheet('<div class="filter-premium-head"><span class="filter-premium-head-icon">'+ico('folder')+'</span><div><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div></div>'+ 
-    '<div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card">'+typeRows+'</div></div>'+ 
-    '<div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card">'+basisRows+'</div></div>'+ 
-    '<div class="filter-premium-section"><div class="filter-premium-label">Стадия</div><div class="filter-premium-card">'+stageRows+'</div></div>'+ 
-    '<div class="filter-premium-section"><div class="filter-premium-label">Сортировка</div><div class="filter-premium-card">'+sortRows+'</div></div>'+ 
-    '<button class="btn ghost matter-filter-reset-btn" data-act="matter-filter-reset">Сбросить фильтры и сортировку</button>');
+  openSheet(
+    '<div class="matter-filter-premium-head">'+
+      '<span class="matter-filter-brand-mark">'+ico('folder')+'</span>'+
+      '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
+      '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
+    '</div>'+
+    '<div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card matter-filter-premium-card">'+typeRows+'</div></div>'+
+    '<div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card matter-filter-premium-card">'+basisRows+'</div></div>'+
+    '<div class="filter-premium-section"><div class="filter-premium-label">Стадия</div><div class="filter-premium-card matter-filter-premium-card">'+stageRows+'</div></div>'+
+    '<div class="filter-premium-section"><div class="filter-premium-label">Сортировка</div><div class="filter-premium-card matter-filter-premium-card">'+sortRows+'</div></div>'+
+    '<button class="btn ghost matter-filter-reset-btn" data-act="matter-filter-reset">Сбросить фильтры и сортировку</button>'
+  );
   $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
 }
 
@@ -5671,7 +5678,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5308',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5309',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
