@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.289';
-var APP_BUILD='5289';
+var APP_VERSION='5.0.290';
+var APP_BUILD='5290';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3247,11 +3247,34 @@ function armNewTitleManualGuard(){
   [60,220,520,1100].forEach(function(ms){setTimeout(clearUnsolicitedNewTitle,ms);});
 }
 
-function hearingCourt(mid){ var m=mid?matter(mid):null; return (m&&m.court)||''; }
+function hearingCourt(mid){
+  var m=mid?matter(mid):null;
+  if(!m)return '';
+  if(String(m.court||'').trim())return String(m.court||'').trim();
+  var linkedJudge=String((m.judge||m.investigator)||'').trim();
+  if(linkedJudge){
+    var entry=knownJudgeEntry(linkedJudge);
+    if(entry&&entry.court)return entry.court;
+  }
+  return '';
+}
 function syncHearingCourt(force){
   if(!ED||ED.kind!=='hearing'||!ED.mid)return;
   var c=hearingCourt(ED.mid);
   if(force || !ED.place) ED.place=c;
+}
+function applyLinkedMatterCourtToHearing(mid){
+  if(!ED||ED.kind!=='hearing'||!mid)return '';
+  var court=hearingCourt(mid);
+  ED.place=court||'';
+  var placeInput=$('#e-place');
+  if(placeInput)placeInput.value=ED.place;
+  var courtSelect=$('#e-court-choice');
+  if(courtSelect){
+    var hasOption=Array.prototype.some.call(courtSelect.options||[],function(o){return o.value===ED.place;});
+    courtSelect.value=hasOption?ED.place:'';
+  }
+  return ED.place;
 }
 var COMMON_KINESHMA_COURTS = [
   {short:'Кинешемский городской суд', value:'Кинешемский городской суд Ивановской области', main:true, judge:''},
@@ -5054,14 +5077,18 @@ document.addEventListener('change',function(e){
     if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
       var st=$('#hearing-standalone'); if(st) st.style.display='';
       if(ED.mid){
-        ED.place=hearingCourt(ED.mid);
         var pm=matter(ED.mid), linkedJudge=(pm&&(pm.judge||pm.investigator))||'';
+        applyLinkedMatterCourtToHearing(ED.mid);
         if(pm&&pm.client&&!ED.hearingClient){ ED.hearingClient=pm.client; var hc=$('#e-hclient'); if(hc)hc.value=pm.client; }
         if(pm&&pm.number&&!ED.hearingNumber){ ED.hearingNumber=pm.number; var hn=$('#e-hnumber'); if(hn)hn.value=pm.number; }
         if(linkedJudge){
           ED.hearingJudge=linkedJudge;
           var hj=$('#e-hjudge'); if(hj)hj.value=linkedJudge;
-          var hp=$('#e-hjudge-choice'); if(hp)hp.value='';
+          var hp=$('#e-hjudge-choice');
+          if(hp){
+            var hasJudge=Array.prototype.some.call(hp.options||[],function(o){return o.value===linkedJudge;});
+            hp.value=hasJudge?linkedJudge:'';
+          }
         }
       }
     }
@@ -5535,7 +5562,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5289',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5290',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
