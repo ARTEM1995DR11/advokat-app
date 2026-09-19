@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.309';
-var APP_BUILD='5309';
+var APP_VERSION='5.0.310';
+var APP_BUILD='5310';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1904,7 +1904,7 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
@@ -2960,6 +2960,7 @@ function sheetMatterFilters(){
     '<button class="btn ghost matter-filter-reset-btn" data-act="matter-filter-reset">Сбросить фильтры и сортировку</button>'
   );
   $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
+  document.body.classList.add('matter-filter-open');
 }
 
 function renderMatters(){
@@ -5678,7 +5679,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5309',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5310',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

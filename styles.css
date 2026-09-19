@@ -35513,3 +35513,178 @@ body:not(.light) .sheet.matter-filter-premium .matter-filter-reset-btn{
   color:#F1F5F8!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 16px rgba(0,0,0,.18)!important;
 }
+
+
+/* ================================================================
+   5.0.310 — MATTERS FILTER FINISHING + MARBLE PREMIUM BACKGROUND
+   Доводка шторки фильтров «Дела» до общего премиального стиля приложения.
+   ================================================================ */
+body.light.matter-filter-open #scrim.open{
+  background:rgba(25,29,31,.34)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(.88)!important;
+  backdrop-filter:blur(7px) saturate(.88)!important;
+}
+body:not(.light).matter-filter-open #scrim.open{
+  background:rgba(0,0,0,.56)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(.82)!important;
+  backdrop-filter:blur(7px) saturate(.82)!important;
+}
+.sheet.matter-filter-premium,
+body.light .sheet.matter-filter-premium{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  top:auto!important;
+  overflow:hidden!important;
+  max-height:min(88dvh,780px)!important;
+  padding:7px 14px calc(var(--bot) + 22px)!important;
+  border-radius:32px 32px 0 0!important;
+  border-top:1px solid rgba(185,132,38,.30)!important;
+  background:linear-gradient(180deg,rgba(255,252,246,.72),rgba(249,244,234,.82))!important;
+  box-shadow:0 -1px 0 rgba(255,255,255,.92) inset,0 -20px 52px rgba(45,35,19,.18)!important;
+}
+@supports not (height:100dvh){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium{max-height:min(88vh,780px)!important;}
+}
+.sheet.matter-filter-premium::before,
+body.light .sheet.matter-filter-premium::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:
+    radial-gradient(130% 78% at 50% 0%,rgba(214,171,84,.18),transparent 56%),
+    radial-gradient(90% 56% at 10% 100%,rgba(205,185,150,.12),transparent 58%),
+    url('quick-sheet-marble-approved.webp?v=5310') center top / cover no-repeat!important;
+  opacity:.82!important;
+  pointer-events:none!important;
+}
+.sheet.matter-filter-premium > *,
+body.light .sheet.matter-filter-premium > *{
+  position:relative!important;
+  z-index:1!important;
+}
+.sheet.matter-filter-premium>.grab{
+  margin:7px auto 14px!important;
+}
+.sheet.matter-filter-premium .matter-filter-premium-head{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr) 48px!important;
+  gap:14px!important;
+  margin:0 2px 16px!important;
+}
+.sheet.matter-filter-premium .matter-filter-brand-mark{
+  background:
+    radial-gradient(circle at 34% 26%,rgba(255,255,255,.98),rgba(255,250,236,.84) 52%,rgba(238,216,168,.34) 100%)!important;
+}
+.sheet.matter-filter-premium .matter-filter-head-copy h2{
+  font-size:31px!important;
+  color:#123253!important;
+}
+.sheet.matter-filter-premium .matter-filter-head-copy p{
+  color:#4F667D!important;
+}
+.sheet.matter-filter-premium .matter-filter-close{
+  background:rgba(255,252,245,.78)!important;
+}
+.sheet.matter-filter-premium .filter-premium-label{
+  margin-bottom:9px!important;
+}
+.sheet.matter-filter-premium .matter-filter-premium-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,252,246,.86))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 8px 18px rgba(52,43,28,.045)!important;
+}
+.sheet.matter-filter-premium .filter-premium-row{
+  min-height:74px!important;
+  padding:10px 13px!important;
+}
+.sheet.matter-filter-premium .filter-premium-copy b{
+  font-size:18px!important;
+}
+.sheet.matter-filter-premium .filter-premium-copy small{
+  margin-top:4px!important;
+  font-size:11.8px!important;
+}
+.sheet.matter-filter-premium .shbody{
+  padding-bottom:12px!important;
+}
+.sheet.matter-filter-premium .shfoot{
+  position:sticky!important;
+  bottom:0!important;
+  margin:10px -14px 0!important;
+  padding:12px 14px calc(10px + env(safe-area-inset-bottom))!important;
+  background:linear-gradient(180deg,rgba(249,244,234,0),rgba(249,244,234,.90) 24%,rgba(249,244,234,.98) 100%)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+  backdrop-filter:blur(14px)!important;
+}
+.sheet.matter-filter-premium .matter-filter-reset-btn{
+  min-height:54px!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(248,249,252,.96),rgba(236,240,245,.98))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 6px 14px rgba(61,68,77,.07)!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium,
+  body.light .sheet.matter-filter-premium{
+    padding-left:11px!important;
+    padding-right:11px!important;
+    border-radius:29px 29px 0 0!important;
+  }
+  .sheet.matter-filter-premium::before,
+  body.light .sheet.matter-filter-premium::before{
+    background-position:center top!important;
+    background-size:cover!important;
+  }
+  .sheet.matter-filter-premium .matter-filter-premium-head{
+    grid-template-columns:52px minmax(0,1fr) 43px!important;
+    gap:11px!important;
+    margin-bottom:14px!important;
+  }
+  .sheet.matter-filter-premium .matter-filter-head-copy h2{font-size:28px!important;}
+  .sheet.matter-filter-premium .matter-filter-head-copy p{font-size:12.5px!important;line-height:1.18!important;}
+  .sheet.matter-filter-premium .filter-premium-row{min-height:69px!important;padding:9px 10px!important;gap:10px!important;}
+  .sheet.matter-filter-premium .filter-premium-copy b{font-size:16.6px!important;}
+  .sheet.matter-filter-premium .filter-premium-copy small{font-size:10.7px!important;line-height:1.2!important;}
+  .sheet.matter-filter-premium .shfoot{
+    margin-left:-11px!important;
+    margin-right:-11px!important;
+    padding-left:11px!important;
+    padding-right:11px!important;
+  }
+}
+body:not(.light) .sheet.matter-filter-premium{
+  background:linear-gradient(180deg,rgba(16,32,49,.82),rgba(8,23,36,.92))!important;
+  border-top-color:rgba(211,171,91,.28)!important;
+  box-shadow:0 -18px 42px rgba(0,0,0,.26)!important;
+}
+body:not(.light) .sheet.matter-filter-premium::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:
+    radial-gradient(120% 70% at 50% 0%,rgba(190,142,52,.15),transparent 58%),
+    linear-gradient(180deg,rgba(9,22,34,.20),rgba(9,22,34,.38)),
+    url('quick-sheet-marble-approved.webp?v=5310') center top / cover no-repeat!important;
+  opacity:.34!important;
+  pointer-events:none!important;
+}
+body:not(.light) .sheet.matter-filter-premium>.grab{background:rgba(220,204,169,.28)!important;}
+body:not(.light) .sheet.matter-filter-premium .matter-filter-head-copy h2,
+body:not(.light) .sheet.matter-filter-premium .filter-premium-copy b{color:#F1F5F8!important;}
+body:not(.light) .sheet.matter-filter-premium .matter-filter-head-copy p,
+body:not(.light) .sheet.matter-filter-premium .filter-premium-copy small,
+body:not(.light) .sheet.matter-filter-premium .filter-premium-label{color:#9FB1C2!important;}
+body:not(.light) .sheet.matter-filter-premium .shfoot{
+  background:linear-gradient(180deg,rgba(8,23,36,0),rgba(8,23,36,.90) 24%,rgba(8,23,36,.98) 100%)!important;
+}
+body:not(.light) .sheet.matter-filter-premium .matter-filter-premium-card{
+  background:linear-gradient(180deg,rgba(17,34,49,.90),rgba(10,26,39,.92))!important;
+}
+body:not(.light) .sheet.matter-filter-premium .matter-filter-reset-btn{
+  background:linear-gradient(180deg,#18293A,#102131)!important;
+  border-color:rgba(148,171,191,.18)!important;
+  color:#F1F5F8!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 6px 16px rgba(0,0,0,.18)!important;
+}
