@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.307';
-var APP_BUILD='5307';
+var APP_VERSION='5.0.308';
+var APP_BUILD='5308';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3007,7 +3007,7 @@ function renderMatters(){
     mainBrandHeader()+
     '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+scopeCaption+'</p></div>'+ 
       '<div class="today-actions">'+headerSearch('matter-search',!!(S.ui.matterSearchOpen||q),'Поиск по делам')+'</div></div>'+ 
-    ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off"></div>':'')+
+    ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div>':'')+
     '<div class="matters-scope">'+
       '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
       '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+ 
@@ -5218,7 +5218,14 @@ document.addEventListener('input',function(e){
     if(qClear)qClear.classList.toggle('is-visible',!!e.target.value);
     renderTaskList();
   }
-  if(e.target.id==='matter-q'){S.ui.matterQ=e.target.value;renderMatters();return;}
+  if(e.target.id==='matter-q'){
+    S.ui.matterQ=e.target.value;
+    var matterQWrap=e.target.closest('.matters-local-search-field');
+    var matterQClear=matterQWrap&&matterQWrap.querySelector('.matters-local-search-clear');
+    if(matterQClear)matterQClear.classList.toggle('is-visible',!!e.target.value);
+    renderMatters();
+    return;
+  }
   if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
   if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
     ED.hearingJudge=e.target.value.trim(); applyKnownJudgeCourt(ED.hearingJudge,'hearing');
@@ -5664,7 +5671,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5307',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5308',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
