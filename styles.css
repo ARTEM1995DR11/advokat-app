@@ -34160,3 +34160,58 @@ body.light #sc-today .today-next7-group .next7-place-row .next7-meta-ico,
 body.light #sc-today .today-next7-group .next7-court-row .next7-meta-ico{
   color:#40566A!important;
 }
+
+
+/* ================================================================
+   5.0.291 — TODAY TASK PRIORITY
+   Priority is visible directly on «Сегодня». Urgent tasks are first.
+   ================================================================ */
+#sc-today .today-row.task-row .today-kindline{
+  align-items:center!important;
+  gap:6px!important;
+}
+#sc-today .today-task-priority{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  height:20px!important;
+  padding:0 8px!important;
+  border-radius:999px!important;
+  font-size:10.4px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:.005em!important;
+  white-space:nowrap!important;
+  flex:none!important;
+}
+#sc-today .today-task-priority .ico{
+  width:11px!important;
+  height:11px!important;
+  stroke-width:2.2!important;
+}
+body.light #sc-today .today-task-priority.high{
+  color:#C5383D!important;
+  background:rgba(225,65,70,.10)!important;
+  border:1px solid rgba(225,65,70,.10)!important;
+}
+body.light #sc-today .today-task-priority.mid{
+  color:#B78019!important;
+  background:rgba(216,164,60,.13)!important;
+  border:1px solid rgba(216,164,60,.10)!important;
+}
+body.light #sc-today .today-task-priority.low{
+  color:#27865C!important;
+  background:rgba(49,163,107,.10)!important;
+  border:1px solid rgba(49,163,107,.08)!important;
+}
+body.light #sc-today .today-row.task-row.today-task-urgent{
+  background:linear-gradient(90deg,rgba(225,65,70,.035),rgba(255,255,255,0) 34%)!important;
+}
+body:not(.light) #sc-today .today-task-priority.high{color:#FF8D91!important;background:rgba(225,65,70,.16)!important;border:1px solid rgba(255,141,145,.12)!important;}
+body:not(.light) #sc-today .today-task-priority.mid{color:#E5BE68!important;background:rgba(216,164,60,.14)!important;border:1px solid rgba(229,190,104,.10)!important;}
+body:not(.light) #sc-today .today-task-priority.low{color:#72D19F!important;background:rgba(49,163,107,.14)!important;border:1px solid rgba(114,209,159,.10)!important;}
+@media(max-width:390px){
+  #sc-today .today-task-priority{height:19px!important;padding:0 7px!important;font-size:9.9px!important;}
+  #sc-today .today-task-priority .ico{width:10px!important;height:10px!important;}
+}
