@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.294';
-var APP_BUILD='5294';
+var APP_VERSION='5.0.295';
+var APP_BUILD='5295';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5538,6 +5538,15 @@ function afterUnlock(){
     S.ui.tab='today';
     S.ui.q='';
     S.ui._sq=false;
+
+    /* 5.0.295:
+       Архивные разделы страницы «Задачи» при каждом новом запуске
+       должны начинаться свернутыми. Пользователь по-прежнему может
+       раскрыть их вручную на время текущего сеанса. */
+    if(!S.ui.taskGroupOpen || typeof S.ui.taskGroupOpen!=='object') S.ui.taskGroupOpen={};
+    S.ui.taskGroupOpen['hearing-history']=false;
+    S.ui.taskGroupOpen['done']=false;
+
     NAV_TABS=[];
     closeAll();
     save();
@@ -5600,7 +5609,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5294',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5295',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
