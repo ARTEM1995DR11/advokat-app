@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.273';
-var APP_BUILD='5273';
+var APP_VERSION='5.0.274';
+var APP_BUILD='5274';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -451,7 +451,7 @@ function listPickerMeta(target){
     'm-judge-choice':{title:'Выбор судьи',sub:'Выберите судью из справочника',search:'Поиск по ФИО судьи…',icon:'user'},
     'e-court-choice':{title:'Выбор суда',sub:'Выберите суд или участок',search:'Поиск по судам…',icon:'gavel'},
     'm-stage':{title:'Стадия дела',sub:'Текущий этап производства',search:'Поиск по стадиям…',icon:'flag'},
-    'm-execution-issue':{title:'Вопрос исполнения приговора',sub:'Глава 47 УПК РФ · выберите предмет судебного рассмотрения',search:'Поиск по УДО, статье или вопросу…',icon:'gavel'},
+    'm-execution-issue':{title:'Исполнение приговора',sub:'Материалы суда по главе 47 УПК РФ',search:'УДО, ст. 80, ст. 81, замена наказания…',icon:'gavel'},
     'm-restraint-choice':{title:'Мера пресечения',sub:'Выберите меру пресечения',search:'Поиск…',icon:'lock'},
     'm-type':{title:'Тип производства',sub:'Выберите категорию дела',search:'Поиск…',icon:'folder'},
     'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
@@ -1118,14 +1118,14 @@ var MATTER_INVESTIGATION_ORGANS = [
 // crimeResidence — по подсудности преступления и последнему месту жительства; conviction — ст. 400 УПК РФ.
 var CRIMINAL_EXECUTION_ISSUES = [
   {id:'udo',name:'Условно-досрочное освобождение',short:'УДО',article:'п. 4 ст. 397 УПК РФ · ст. 79 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
-  {id:'softer',name:'Замена неотбытой части наказания более мягким видом',short:'Замена наказания · ст. 80 УК РФ',article:'п. 5 ст. 397 УПК РФ · ст. 80 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
-  {id:'illness',name:'Освобождение от наказания в связи с болезнью',short:'Освобождение по болезни',article:'п. 6 ст. 397 УПК РФ · ст. 81 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'softer',name:'Замена неотбытой части наказания более мягким видом',short:'Ст. 80 УК РФ · более мягкое наказание',article:'п. 5 ст. 397 УПК РФ · ст. 80 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
+  {id:'illness',name:'Освобождение от наказания в связи с болезнью',short:'Ст. 81 УК РФ · освобождение по болезни',article:'п. 6 ст. 397 УПК РФ · ст. 81 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
   {id:'institution-type',name:'Изменение вида исправительного учреждения',short:'Изменение вида ИУ',article:'п. 3 ст. 397 УПК РФ · ст. 78, 140 УИК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
   {id:'reverse-law',name:'Освобождение или смягчение наказания вследствие нового уголовного закона',short:'Обратная сила уголовного закона',article:'п. 13 ст. 397 УПК РФ · ст. 10 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения, исполняющего наказание'},
   {id:'pmh',name:'Назначение, продление, изменение или прекращение ПММХ',short:'ПММХ',article:'п. 12 ст. 397 УПК РФ · ст. 102, 104 УК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту применения ПММХ'},
   {id:'pmh-expert',name:'Назначение судебно-психиатрической экспертизы при исполнении приговора',short:'Экспертиза при исполнении',article:'п. 4.2 ст. 397 УПК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения / применения ПММХ'},
-  {id:'replace-evasion',name:'Замена наказания при злостном уклонении от его отбывания',short:'Замена за уклонение',article:'п. 2 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
-  {id:'forced-to-prison',name:'Замена принудительных работ лишением свободы',short:'Принудительные работы → лишение свободы',article:'п. 2.1 ст. 397 УПК РФ · ст. 53.1 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'replace-evasion',name:'Замена наказания при злостном уклонении от его отбывания',short:'Замена наказания за уклонение / нарушения',article:'п. 2 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
+  {id:'forced-to-prison',name:'Замена принудительных работ лишением свободы при уклонении или злостных нарушениях',short:'Принудительные работы → лишение свободы',article:'п. 2.1 ст. 397 УПК РФ · ч. 4 ст. 53.1 УК РФ · ст. 60.15, 60.17 УИК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
   {id:'cancel-udo',name:'Отмена условно-досрочного освобождения',short:'Отмена УДО',article:'п. 4.1 ст. 397 УПК РФ · ст. 79 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
   {id:'conditional',name:'Отмена условного осуждения или продление испытательного срока',short:'Условное осуждение',article:'п. 7 ст. 397 УПК РФ · ст. 74 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
   {id:'conditional-duties',name:'Отмена или дополнение обязанностей условно осуждённого',short:'Обязанности условно осуждённого',article:'п. 8 ст. 397 УПК РФ · ст. 73 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
@@ -1138,7 +1138,7 @@ var CRIMINAL_EXECUTION_ISSUES = [
   {id:'minor',name:'Освобождение несовершеннолетнего от наказания с применением мер воспитательного воздействия',short:'Несовершеннолетний · освобождение',article:'п. 16 ст. 397 УПК РФ · ст. 92 УК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
   {id:'defer',name:'Отсрочка исполнения приговора / отсрочка или рассрочка штрафа',short:'Отсрочка исполнения приговора',article:'ст. 398 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
   {id:'defer-change',name:'Отмена или сокращение отсрочки отбывания наказания',short:'Изменение / отмена отсрочки',article:'п. 17, 17.1, 17.2 ст. 397 УПК РФ · ст. 82, 82.1 УК РФ',jurisdiction:'residence',jurisdictionLabel:'суд по месту жительства осуждённого'},
-  {id:'detention-evasion',name:'Заключение под стражу осуждённого, уклоняющегося от отбывания наказания',short:'Заключение под стражу за уклонение',article:'п. 18, 18.1 ст. 397 УПК РФ',jurisdiction:'detention',jurisdictionLabel:'суд по месту задержания осуждённого'},
+  {id:'detention-evasion',name:'Заключение под стражу осуждённого при уклонении от отбывания наказания',short:'Стража при уклонении от наказания',article:'п. 18, 18.1 ст. 397 УПК РФ',jurisdiction:'detention',jurisdictionLabel:'суд по месту задержания осуждённого'},
   {id:'military',name:'Замена наказания / освобождение военнослужащего, уволенного с военной службы',short:'Ограничение по военной службе',article:'п. 19 ст. 397 УПК РФ · ст. 148 УИК РФ',jurisdiction:'institution',jurisdictionLabel:'суд по месту учреждения / органа, исполняющего наказание'},
   {id:'rehabilitation',name:'Возмещение вреда и восстановление прав реабилитированного',short:'Реабилитация',article:'п. 1 ст. 397 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
   {id:'property',name:'Меры по обеспечению сохранности имущества или жилого помещения',short:'Сохранность имущества',article:'п. 22 ст. 397 УПК РФ · ст. 313.1 УПК РФ',jurisdiction:'sentence',jurisdictionLabel:'суд, постановивший приговор'},
@@ -1392,15 +1392,12 @@ var MATTER_ARTICLE_HINTS = {
   other:'Статья, договор, основание спора — при необходимости'
 };
 function matterStageList(type,basis){
-  var list=(MATTER_STAGE_MAP[type]||STAGE).slice();
-  // В рабочей модели приложения уголовные дела по назначению ведём только
-  // на стадиях, где защита по назначению используется в практике пользователя.
-  // Материал проверки, кассация, надзор и исполнение приговора — только по соглашению.
-  if(type==='criminal'&&basis==='assigned'){
-    var allowed={'Дознание':1,'Следствие МВД':1,'Следствие СК':1,'Первая инстанция':1,'Апелляция':1};
-    list=list.filter(function(stage){return !!allowed[stage];});
-  }
-  return list;
+  // Основание ведения («по соглашению» / «по назначению») не ограничивает
+  // перечень процессуальных стадий. Оно описывает формат участия адвоката,
+  // а стадия — фактическое положение материала/дела.
+  // Поэтому, в частности, «Исполнение приговора» доступно и по соглашению,
+  // и по назначению, как и остальные уголовные стадии.
+  return (MATTER_STAGE_MAP[type]||STAGE).slice();
 }
 function matterRoleList(type,stage,executionIssue){
   if(type==='criminal'&&stage==='Исполнение приговора')return criminalExecutionRoleList(executionIssue||'');
@@ -1646,7 +1643,7 @@ function matterDynamicFields(){
   var executionBlock='';
   if((MED&&MED.type)==='criminal'&&currentStage==='Исполнение приговора'){
     var exIssue=criminalExecutionIssue((MED&&MED.executionIssue)||'');
-    executionBlock='<div class="fld matter-execution-issue"><label>Вопрос исполнения приговора *</label><select id="m-execution-issue">'+criminalExecutionIssueOptions((MED&&MED.executionIssue)||'')+'</select></div>';
+    executionBlock='<div class="fld matter-execution-issue"><label>Материал / вопрос исполнения приговора *</label><select id="m-execution-issue">'+criminalExecutionIssueOptions((MED&&MED.executionIssue)||'')+'</select></div>';
     if(exIssue){
       executionBlock+='<div class="hint matter-execution-jurisdiction"><b>Подсудность:</b> '+esc(exIssue.jurisdictionLabel)+' · '+esc(exIssue.article)+'</div>';
       if(exIssue.jurisdiction==='institution')executionBlock+='<div class="fld"><label>Учреждение / место отбывания наказания</label><input id="m-execution-institution" value="'+esc(MED.executionInstitution||'')+'" placeholder="Например: ИК-4, УФИЦ, медицинская организация"></div>';
@@ -5483,7 +5480,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5273',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5274',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
