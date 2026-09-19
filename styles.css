@@ -36086,3 +36086,208 @@ body:not(.light) #sc-matters .matter-approved-next{color:#71A5F2}
 body:not(.light) .sheet.matter-filter-premium.withfoot .shfoot{
   border-top-color:rgba(148,171,191,.10)!important;
 }
+
+
+/* ================================================================
+   5.0.317 — MATTERS FILTER FOOTER PRESSED EVEN LOWER
+   Ещё сильнее прижимаем нижний блок фильтра дел к нижнему краю.
+   ================================================================ */
+.sheet.matter-filter-premium.withfoot .shbody{
+  padding-bottom:4px!important;
+}
+.sheet.matter-filter-premium.withfoot .shfoot{
+  margin:0 -14px -10px!important;
+  padding:6px 14px max(0px,calc(env(safe-area-inset-bottom) - 8px))!important;
+  gap:4px!important;
+}
+.sheet.matter-filter-premium.withfoot .matter-filter-reset-btn{
+  min-height:54px!important;
+  margin-bottom:0!important;
+}
+@media(max-width:390px){
+  .sheet.matter-filter-premium.withfoot .shbody{
+    padding-bottom:3px!important;
+  }
+  .sheet.matter-filter-premium.withfoot .shfoot{
+    margin-left:-11px!important;
+    margin-right:-11px!important;
+    margin-bottom:-10px!important;
+    padding:6px 11px max(0px,calc(env(safe-area-inset-bottom) - 9px))!important;
+    gap:4px!important;
+  }
+}
+body:not(.light) .sheet.matter-filter-premium.withfoot .shfoot{
+  border-top-color:rgba(148,171,191,.08)!important;
+}
+
+
+/* ================================================================
+   5.0.318 — UNIFIED PREMIUM QUICK ACTION SHEETS WITH MARBLE
+   Унификация вкладок «Быстрые действия» для задачи / заседания / встречи / срока.
+   ================================================================ */
+.sheet.task-actions-premium,
+body.light .sheet.task-actions-premium,
+body:not(.light) .sheet.task-actions-premium{
+  position:fixed!important;
+  overflow:hidden!important;
+  padding-left:16px!important;
+  padding-right:16px!important;
+  padding-top:7px!important;
+  padding-bottom:max(16px,calc(var(--bot) + 8px))!important;
+  border-top:1px solid rgba(195,154,66,.24)!important;
+}
+.sheet.task-actions-premium::before,
+body.light .sheet.task-actions-premium::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(140% 74% at 50% 0%,rgba(214,171,84,.15),transparent 56%),
+    radial-gradient(70% 40% at 0% 12%,rgba(215,182,122,.18),transparent 55%),
+    url('quick-sheet-marble-approved.webp?v=5318') center top / cover no-repeat!important;
+  opacity:.98!important;
+}
+body:not(.light) .sheet.task-actions-premium::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(140% 74% at 50% 0%,rgba(214,171,84,.10),transparent 56%),
+    linear-gradient(180deg,rgba(8,21,34,.58),rgba(8,21,34,.80)),
+    url('quick-sheet-marble-approved.webp?v=5318') center top / cover no-repeat!important;
+  opacity:.42!important;
+}
+.sheet.task-actions-premium>.grab,
+.sheet.task-actions-premium>*{
+  position:relative!important;
+  z-index:1!important;
+}
+.sheet.task-actions-premium>.grab{
+  width:42px!important;
+  height:4px!important;
+  margin:4px auto 15px!important;
+  background:rgba(141,128,107,.34)!important;
+}
+.task-action-premium-head{
+  display:grid!important;
+  grid-template-columns:54px minmax(0,1fr)!important;
+  gap:14px!important;
+  align-items:flex-start!important;
+  margin:0 0 18px!important;
+}
+.task-action-premium-head-icon{
+  width:54px!important;
+  height:54px!important;
+  border-radius:18px!important;
+  background:rgba(255,253,248,.72)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 18px rgba(76,58,24,.08)!important;
+}
+.task-action-premium-head>div>small{
+  margin:3px 0 3px!important;
+  font-size:10px!important;
+  letter-spacing:.16em!important;
+}
+.sheet.task-actions-premium .task-action-premium-head h2{
+  margin:0!important;
+  font:600 30px/1.00 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.04em!important;
+  color:#122F4E!important;
+}
+.task-action-premium-head p{
+  margin:8px 0 0!important;
+  font-size:13.2px!important;
+  line-height:1.32!important;
+  color:#1B2734!important;
+}
+.task-action-premium-card{
+  position:relative!important;
+  overflow:hidden!important;
+  border-radius:24px!important;
+  border:1px solid rgba(48,56,66,.12)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(252,251,248,.92))!important;
+  box-shadow:0 12px 26px rgba(55,42,22,.06), inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+.task-action-premium-row{
+  min-height:80px!important;
+  gap:14px!important;
+  padding:15px 15px!important;
+  border-top:1px solid rgba(48,56,66,.09)!important;
+}
+.task-action-premium-row:first-child{border-top:0!important}
+.task-action-premium-row:active{background:rgba(189,153,87,.05)!important}
+.task-action-premium-icon{
+  width:46px!important;
+  height:46px!important;
+  border-radius:15px!important;
+  background:#F2F6F8!important;
+  border:1px solid #D8E2E9!important;
+}
+.task-action-premium-icon .ico{width:22px!important;height:22px!important;stroke-width:1.95!important}
+.task-action-premium-copy b{
+  font-size:16px!important;
+  line-height:1.16!important;
+  font-weight:800!important;
+}
+.task-action-premium-copy small{
+  margin-top:5px!important;
+  font-size:11.9px!important;
+  line-height:1.28!important;
+  color:#223041!important;
+}
+.task-action-premium-tail{
+  width:22px!important;
+  color:#5F7387!important;
+}
+.task-action-premium-tail .ico{width:17px!important;height:17px!important;stroke-width:2.1!important}
+.task-action-premium-row.edit .task-action-premium-icon{color:#4E86C6!important}
+.task-action-premium-row.delete .task-action-premium-copy b{color:#DF4040!important}
+.task-action-premium-row.delete .task-action-premium-tail{color:#DF4040!important}
+body.light .sheet.task-actions-premium{
+  background:linear-gradient(180deg,rgba(255,252,246,.74),rgba(249,244,234,.82))!important;
+}
+body.light .task-action-premium-head p,
+body.light .task-action-premium-copy small{color:#1C2A36!important}
+body:not(.light) .sheet.task-actions-premium{
+  background:linear-gradient(180deg,rgba(14,28,41,.84),rgba(8,21,34,.94))!important;
+  border-top-color:rgba(213,171,87,.22)!important;
+}
+body:not(.light) .sheet.task-actions-premium>.grab{background:rgba(216,201,171,.24)!important}
+body:not(.light) .task-action-premium-head h2{color:#F1F5F8!important}
+body:not(.light) .task-action-premium-head p,
+body:not(.light) .task-action-premium-copy small{color:#D9E2EB!important}
+body:not(.light) .task-action-premium-head-icon{
+  background:rgba(255,255,255,.04)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 10px 24px rgba(0,0,0,.16)!important;
+}
+body:not(.light) .task-action-premium-card{
+  background:linear-gradient(180deg,rgba(12,29,43,.93),rgba(8,24,36,.94))!important;
+  border-color:rgba(151,178,200,.18)!important;
+  box-shadow:0 16px 34px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+body:not(.light) .task-action-premium-row{border-top-color:rgba(151,178,200,.12)!important}
+body:not(.light) .task-action-premium-icon{
+  color:#C7D4DF!important;
+  background:#102433!important;
+  border-color:rgba(160,187,207,.15)!important;
+}
+body:not(.light) .task-action-premium-copy b{color:#F0F4F7!important}
+body:not(.light) .task-action-premium-tail{color:#B9C9D7!important}
+@media(max-width:390px){
+  .sheet.task-actions-premium,
+  body.light .sheet.task-actions-premium,
+  body:not(.light) .sheet.task-actions-premium{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+  .task-action-premium-head{grid-template-columns:50px minmax(0,1fr)!important;gap:12px!important;margin-bottom:16px!important}
+  .task-action-premium-head-icon{width:50px!important;height:50px!important;border-radius:17px!important}
+  .sheet.task-actions-premium .task-action-premium-head h2{font-size:28px!important}
+  .task-action-premium-head p{font-size:12.7px!important}
+  .task-action-premium-card{border-radius:21px!important}
+  .task-action-premium-row{min-height:74px!important;padding:13px 13px!important;gap:12px!important}
+  .task-action-premium-icon{width:43px!important;height:43px!important;border-radius:14px!important}
+  .task-action-premium-copy b{font-size:15.4px!important}
+  .task-action-premium-copy small{font-size:11.4px!important}
+}
