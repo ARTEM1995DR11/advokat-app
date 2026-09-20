@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v121-premium-5355';
+const CACHE = 'advokat-iphone-offline-v121-premium-5356';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5355',
-  './app.js?v=5355',
-  './manifest.webmanifest?v=5355',
+  './styles.css?v=5356',
+  './app.js?v=5356',
+  './manifest.webmanifest?v=5356',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
