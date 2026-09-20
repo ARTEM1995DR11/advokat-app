@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.367';
-var APP_BUILD='5367';
+var APP_VERSION='5.0.368';
+var APP_BUILD='5368';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -49,7 +49,11 @@ function mergeState(d){
   if(typeof out.ui.matterStage!=='string') out.ui.matterStage='';
   if(['priority','client','stage'].indexOf(out.ui.matterSort)<0) out.ui.matterSort='priority';
   if(typeof out.ui.matterQ!=='string') out.ui.matterQ='';
-  out.ui.matterSearchOpen=!!out.ui.matterSearchOpen;
+  /* 5.0.368: локальный поиск по делам не должен занимать место по умолчанию.
+     Поле поиска открывается только по нажатию на иконку лупы и не сохраняется
+     в открытом состоянии между рендерами/запусками. */
+  out.ui.matterQ='';
+  out.ui.matterSearchOpen=false;
   out.matters = Array.isArray(d.matters)?d.matters:[];
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.participation = Array.isArray(d.participation)?d.participation:[];
@@ -3420,6 +3424,11 @@ function render(){
 var NAV_TABS=[];
 function go(tab,replaceHistory,transition){
   var cur=S.ui.tab;
+  if(tab!==cur){
+    /* Сворачиваем локальный поиск по делам при любом переходе между вкладками. */
+    S.ui.matterSearchOpen=false;
+    S.ui.matterQ='';
+  }
   if(tab!==cur && !replaceHistory){
     if(!NAV_TABS.length || NAV_TABS[NAV_TABS.length-1]!==cur) NAV_TABS.push(cur);
     if(NAV_TABS.length>12) NAV_TABS.shift();
