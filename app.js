@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.360';
-var APP_BUILD='5360';
+var APP_VERSION='5.0.361';
+var APP_BUILD='5361';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5360" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5361" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -704,12 +704,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5360" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5361" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5360" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5361" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2464,7 +2464,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5360" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5361" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -3047,7 +3047,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5360" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5361" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Статус, тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3664,7 +3664,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5360" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5361" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5474,24 +5474,26 @@ document.addEventListener('touchmove',function(e){
   var t=e.touches[0];
   TASK_TOUCH.dx=t.clientX-TASK_TOUCH.sx;TASK_TOUCH.dy=t.clientY-TASK_TOUCH.sy;
   if(!TASK_TOUCH.horizontal){
-    if(Math.abs(TASK_TOUCH.dy)>14 && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*1.15){taskTouchReset(true);return;}
-    if(TASK_TOUCH.dx<-14 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.20) TASK_TOUCH.horizontal=true;
+    // 5.0.361: карточка задачи начинает чувствовать горизонтальный жест раньше,
+    // но вертикальная прокрутка по-прежнему имеет приоритет.
+    if(Math.abs(TASK_TOUCH.dy)>18 && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*1.12){taskTouchReset(true);return;}
+    if(TASK_TOUCH.dx<-8 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.10) TASK_TOUCH.horizontal=true;
   }
   if(!TASK_TOUCH.horizontal) return;
   if(e.cancelable)e.preventDefault();
   var x=Math.max(-108,Math.min(0,TASK_TOUCH.dx));
   TASK_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
-  TASK_TOUCH.row.classList.toggle('swipe-left',x<=-30);
-  TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-78);
+  TASK_TOUCH.row.classList.toggle('swipe-left',x<=-18);
+  TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-58);
 },{passive:false,capture:true});
 document.addEventListener('touchend',function(){
   if(!TASK_TOUCH.on) return;
-  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-78 && Math.abs(TASK_TOUCH.dy)<=70 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.25;
+  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-58 && Math.abs(TASK_TOUCH.dy)<=72 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.15;
   finishTaskSwipe(intentional);
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){
   if(!TASK_TOUCH.on) return;
-  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-88 && Math.abs(TASK_TOUCH.dy)<=70;
+  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-68 && Math.abs(TASK_TOUCH.dy)<=72;
   finishTaskSwipe(intentional);
 },{passive:true,capture:true});
 
@@ -5794,7 +5796,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5360',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5361',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
