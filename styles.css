@@ -39086,3 +39086,39 @@ html body #sc-matters .today-head > .today-actions > .matter-header-search{
   width:50px!important;
   height:50px!important;
 }
+
+
+/* =====================================================================
+   5.0.375 — MATTERS: keep original search artwork unchanged;
+   filter gets its own artwork built from the same premium shell.
+   ===================================================================== */
+html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:inherit!important;
+  overflow:visible!important;
+}
+html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image::before,
+html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image::after{
+  display:none!important;
+  content:none!important;
+}
+html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image > .premium-action-art{
+  display:block!important;
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+  object-fit:contain!important;
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image.on{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:0 0 0 2px rgba(208,170,82,.15)!important;
+}

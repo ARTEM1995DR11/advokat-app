@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v121-premium-5374';
+const CACHE = 'advokat-iphone-offline-v121-premium-5375';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5374',
-  './app.js?v=5374',
-  './manifest.webmanifest?v=5374',
+  './styles.css?v=5375',
+  './app.js?v=5375',
+  './manifest.webmanifest?v=5375',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
@@ -23,6 +23,7 @@ const CORE = [
   './columns-light.png?v=5249',
   './header-bell-premium.png?v=5249',
   './header-search-premium.png?v=5249',
+  './header-filter-premium.png?v=5375',
   './global-search-head-motif-v173.png?v=5249',
   './fab-plus-square-premium.png?v=5249',
   './nav-panel-light.png',
@@ -78,7 +79,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;
 
-  /* 5.0.374 — on an online launch prefer the freshly deployed shell.
+  /* 5.0.375 — on an online launch prefer the freshly deployed shell.
      If the network is unavailable, fall back to the cached offline shell. */
   if(req.mode === 'navigate'){
     event.respondWith(
