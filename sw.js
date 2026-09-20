@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v121-premium-5371';
+const CACHE = 'advokat-iphone-offline-v121-premium-5373';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5371',
-  './app.js?v=5371',
-  './manifest.webmanifest?v=5371',
+  './styles.css?v=5373',
+  './app.js?v=5373',
+  './manifest.webmanifest?v=5373',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
@@ -78,22 +78,17 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;
 
-  /* Instant PWA launch: never wait for the network before showing the shell. */
+  /* 5.0.373 — on an online launch prefer the freshly deployed shell.
+     If the network is unavailable, fall back to the cached offline shell. */
   if(req.mode === 'navigate'){
     event.respondWith(
       caches.open(CACHE).then(cache =>
-        cache.match('./index.html').then(cached => {
-          if(cached){
-            refreshSilently(req, cache, './index.html');
-            return cached;
+        fetch(req, {cache:'no-store'}).then(response => {
+          if(response && response.ok){
+            cache.put('./index.html', response.clone()).catch(() => {});
           }
-          return fetch(req).then(response => {
-            if(response && response.ok){
-              cache.put('./index.html', response.clone()).catch(() => {});
-            }
-            return response;
-          });
-        })
+          return response;
+        }).catch(() => cache.match('./index.html').then(cached => cached || cache.match('./')))
       )
     );
     return;
