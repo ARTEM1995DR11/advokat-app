@@ -9044,15 +9044,29 @@ body:not(.light) .matter-ultra-professional b{color:#C8D7E5!important}
   min-width:0!important;
 }
 .matter-strip .matter-ultra-kicker{
-  gap:6px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  column-gap:8px!important;
+  row-gap:0!important;
   min-height:19px!important;
+  width:100%!important;
 }
 .matter-strip .matter-compact-type{
+  display:block!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
   font-size:8.8px!important;
   line-height:1!important;
   letter-spacing:.105em!important;
 }
 .matter-strip .matter-compact-basis{
+  justify-self:end!important;
+  align-self:center!important;
+  margin-left:0!important;
   min-height:19px!important;
   padding:0 7px!important;
   font-size:8.8px!important;
@@ -35945,6 +35959,12 @@ body:not(.light) .sheet.matter-filter-premium.withfoot{
   margin-bottom:10px;
   align-items:center;
 }
+#sc-matters .matters-approved-actionsrow{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-bottom:0;
+}
 #sc-matters .matters-approved-search{margin:0!important;}
 #sc-matters .matters-approved-search .matters-local-search-field{min-height:46px;border-radius:14px;background:rgba(255,255,255,.96)!important;}
 #sc-matters .matters-approved-search .matters-local-search-field #matter-q{min-height:46px!important;padding-right:36px!important;font-size:14px!important;}
@@ -38804,6 +38824,7 @@ body:not(.light) .premium-delete-confirm-mark span{background:rgba(142,34,40,.18
 /* 5.0.360 — compact matters toolbar: search + one filter button only */
 #sc-matters .matters-approved-toolbar-compact{padding:6px 0 6px!important;}
 #sc-matters .matters-approved-toolbar-compact .matters-approved-searchrow{margin-bottom:0!important;}
+#sc-matters .matters-approved-toolbar-compact .matters-approved-actionsrow{min-height:44px!important;}
 #sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.38)!important;color:#A36F12!important;}
 #sc-matters .matters-approved-toolbar-compact + .matters-approved-list{margin-top:0!important;}
 body:not(.light) #sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.34)!important;color:#E4BD66!important;}
