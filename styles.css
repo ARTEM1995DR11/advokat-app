@@ -38799,3 +38799,11 @@ body:not(.light) .premium-delete-confirm-mark span{background:rgba(142,34,40,.18
   .premium-delete-confirm-actions{gap:10px}
   .premium-delete-confirm-actions button{min-height:54px;font-size:17px;border-radius:17px}
 }
+
+
+/* 5.0.360 — compact matters toolbar: search + one filter button only */
+#sc-matters .matters-approved-toolbar-compact{padding:6px 0 6px!important;}
+#sc-matters .matters-approved-toolbar-compact .matters-approved-searchrow{margin-bottom:0!important;}
+#sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.38)!important;color:#A36F12!important;}
+#sc-matters .matters-approved-toolbar-compact + .matters-approved-list{margin-top:0!important;}
+body:not(.light) #sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.34)!important;color:#E4BD66!important;}
