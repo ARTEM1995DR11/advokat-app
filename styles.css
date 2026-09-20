@@ -38364,7 +38364,7 @@ body.light .hearing-result-v355 .hearing-result-note-field textarea{
 
 
 /* ================================================================
-   5.0.356 — hearing result screen refinement to match approved mockup
+   5.0.357 — hearing result screen refinement to match approved mockup
    Keep the gold save button unchanged; refine all other blocks.
    ================================================================ */
 body.light .sheet.hearing-result-sheet.hearing-result-v355{
@@ -38480,4 +38480,120 @@ body.light .hearing-result-v355 .hearing-result-note-field textarea::placeholder
   body.light .hearing-result-v355 .hearing-result-note-field textarea{min-height:148px!important;height:148px!important;padding:16px!important}
   .hearing-result-v355 .hearing-result-hint{padding:15px 14px!important;gap:12px!important}
   .hearing-result-v355 .hearing-result-hint p{font-size:11.5px!important}
+}
+
+
+/* ================================================================
+   5.0.357 — hearing result final middle alignment + approved marble
+   Save button intentionally untouched.
+   ================================================================ */
+body.light .sheet.hearing-result-sheet.hearing-result-v355{
+  background:#fbf7ef url('quick-sheet-marble-approved.webp?v=5357') center/cover no-repeat!important;
+}
+
+/* All three result rows use exactly the same geometry. */
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-options{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+}
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd){
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:88px!important;
+  margin:0!important;
+  padding:14px 16px!important;
+  display:grid!important;
+  grid-template-columns:58px minmax(0,1fr)!important;
+  grid-template-rows:auto!important;
+  column-gap:16px!important;
+  align-items:center!important;
+  justify-items:stretch!important;
+  justify-content:stretch!important;
+  text-align:left!important;
+  border-radius:21px!important;
+}
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-copy,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice-copy{
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  text-align:left!important;
+  gap:4px!important;
+}
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice-title,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice-sub,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-title,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-sub{
+  width:100%!important;
+  margin:0!important;
+  text-align:left!important;
+}
+
+/* Identical icon footprint for every row. */
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice-icon,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-icon{
+  box-sizing:border-box!important;
+  width:58px!important;
+  height:58px!important;
+  margin:0!important;
+  justify-self:start!important;
+  align-self:center!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+/* "Состоялось": the tick always lives in a complete solid green circle. */
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held .hearing-result-choice-icon,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held.on .hearing-result-choice-icon{
+  width:58px!important;
+  height:58px!important;
+  border-radius:50%!important;
+  background:linear-gradient(180deg,#42B267 0%,#23884A 100%)!important;
+  border:1px solid rgba(27,116,59,.42)!important;
+  color:#fff!important;
+  box-shadow:0 7px 15px rgba(35,136,74,.18),inset 0 1px 0 rgba(255,255,255,.24)!important;
+}
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held .hearing-result-choice-icon .ico,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held.on .hearing-result-choice-icon .ico{
+  width:29px!important;
+  height:29px!important;
+  color:#fff!important;
+  stroke:#fff!important;
+  stroke-width:2.15!important;
+}
+
+/* The other two keep the same footprint, differing only by tone. */
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.postponed .hearing-result-choice-icon,
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.cancelled .hearing-result-choice-icon{
+  border-radius:18px!important;
+}
+
+/* Explicitly neutralize old special "odd last item" centering rules. */
+body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd){
+  flex:none!important;
+}
+
+@media(max-width:390px){
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice,
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd){
+    min-height:84px!important;
+    padding:12px 14px!important;
+    grid-template-columns:54px minmax(0,1fr)!important;
+    column-gap:14px!important;
+  }
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice-icon,
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice:last-child:nth-child(odd) .hearing-result-choice-icon,
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held .hearing-result-choice-icon,
+  body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held.on .hearing-result-choice-icon{
+    width:54px!important;
+    height:54px!important;
+  }
 }
