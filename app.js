@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.368';
-var APP_BUILD='5368';
+var APP_VERSION='5.0.369';
+var APP_BUILD='5369';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -49,7 +49,7 @@ function mergeState(d){
   if(typeof out.ui.matterStage!=='string') out.ui.matterStage='';
   if(['priority','client','stage'].indexOf(out.ui.matterSort)<0) out.ui.matterSort='priority';
   if(typeof out.ui.matterQ!=='string') out.ui.matterQ='';
-  /* 5.0.368: локальный поиск по делам не должен занимать место по умолчанию.
+  /* 5.0.369: локальный поиск по делам не должен занимать место по умолчанию.
      Поле поиска открывается только по нажатию на иконку лупы и не сохраняется
      в открытом состоянии между рендерами/запусками. */
   out.ui.matterQ='';

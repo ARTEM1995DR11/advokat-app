@@ -38828,3 +38828,34 @@ body:not(.light) .premium-delete-confirm-mark span{background:rgba(142,34,40,.18
 #sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.38)!important;color:#A36F12!important;}
 #sc-matters .matters-approved-toolbar-compact + .matters-approved-list{margin-top:0!important;}
 body:not(.light) #sc-matters .matters-approved-iconbtn.on{background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.34)!important;color:#E4BD66!important;}
+
+/* =====================================================================
+   5.0.369 — единая позиция кнопки поиска в заголовках основных экранов
+   Лупа больше не зависит от высоты подзаголовка/количества строк.
+   ===================================================================== */
+html body #sc-today .today-head,
+html body #sc-tasks .today-head.tasks-title-head,
+html body #sc-matters .today-head.matters-title-head,
+html body #sc-cal .today-head.calendar-title-head{
+  position:relative!important;
+  align-items:flex-start!important;
+  margin-top:2px!important;
+}
+html body #sc-today .today-head > div:first-child,
+html body #sc-tasks .today-head.tasks-title-head > div:first-child,
+html body #sc-matters .today-head.matters-title-head > div:first-child,
+html body #sc-cal .today-head.calendar-title-head > div:first-child{
+  min-width:0!important;
+  padding-right:62px!important;
+}
+html body #sc-today .today-head > .today-actions,
+html body #sc-tasks .today-head.tasks-title-head > .today-actions,
+html body #sc-matters .today-head.matters-title-head > .today-actions,
+html body #sc-cal .today-head.calendar-title-head > .today-actions{
+  position:absolute!important;
+  top:0!important;
+  right:0!important;
+  margin:0!important;
+  transform:none!important;
+  align-self:flex-start!important;
+}
