@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.373';
-var APP_BUILD='5373';
+var APP_VERSION='5.0.374';
+var APP_BUILD='5374';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -278,12 +278,16 @@ function headerSearch(action,active,label){
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
   return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5250" alt=""></button>';
 }
+function matterHeaderAction(action,icon,active,label,extraClass){
+  label=label||'';
+  return '<button class="matter-header-action '+(extraClass||'')+(active?' on':'')+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button">'+ico(icon||'list','s')+'</button>';
+}
 function headerMatterFilter(active){
-  return '<button class="today-bell app-header-filter'+(active?' on':'')+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button">'+ico('list','s')+'</button>';
+  return matterHeaderAction('matter-filter-sheet','list',active,'Фильтры и сортировка','matter-header-filter ');
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5373" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5374" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -5876,7 +5880,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5373',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5374',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6028,7 +6032,7 @@ function renderMatters(){
   var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
   var html='<div class="matters-project matters-approved-v3">'+
     mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
-    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+matterHeaderAction('matter-search','search',searchOpen,'Поиск по делам','matter-header-search ')+'</div></div>'+ 
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
