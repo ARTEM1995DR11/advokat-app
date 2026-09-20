@@ -39307,3 +39307,141 @@ body.light .sheet.matter-editor-sheet::after{
     padding-right:6px!important;
   }
 }
+
+/* =====================================================================
+   5.0.380 — TASKS: clean, unified hierarchy for hearing rows
+   Same semantic order as the approved Today hearing cards.
+   ===================================================================== */
+#sc-tasks .pt-row[data-kind="hearing"]{
+  min-height:106px!important;
+  align-items:flex-start!important;
+  padding-top:13px!important;
+  padding-bottom:13px!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-main{
+  min-width:0!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-hearing-open{
+  width:100%!important;
+  overflow:visible!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-title-basis-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:7px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-title{
+  display:-webkit-box!important;
+  min-width:0!important;
+  margin:0!important;
+  color:#15283c!important;
+  font-size:15.2px!important;
+  line-height:1.17!important;
+  font-weight:800!important;
+  white-space:normal!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-basis-badge{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  justify-self:end!important;
+  align-self:start!important;
+  flex:none!important;
+  min-height:19px!important;
+  margin:0!important;
+  padding:2px 7px!important;
+  border-radius:999px!important;
+  font-size:9.2px!important;
+  line-height:1!important;
+  font-weight:780!important;
+  letter-spacing:.01em!important;
+  white-space:nowrap!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-basis-badge.agreement{
+  color:#218773!important;
+  background:rgba(47,160,142,.10)!important;
+  border:1px solid rgba(47,160,142,.22)!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-basis-badge.assigned{
+  color:#7656C9!important;
+  background:rgba(138,106,216,.10)!important;
+  border:1px solid rgba(138,106,216,.22)!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-case{
+  display:block!important;
+  margin-top:5px!important;
+  color:#66798d!important;
+  font-size:11.4px!important;
+  line-height:1.22!important;
+  font-weight:650!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-judge{
+  display:block!important;
+  margin-top:5px!important;
+  color:#20809a!important;
+  font-size:11.7px!important;
+  line-height:1.22!important;
+  font-weight:760!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-court{
+  display:-webkit-box!important;
+  margin-top:3px!important;
+  color:#53697c!important;
+  font-size:11.3px!important;
+  line-height:1.24!important;
+  font-weight:540!important;
+  white-space:normal!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-main>small:last-child{
+  display:block!important;
+  margin-top:5px!important;
+  color:#718295!important;
+  font-size:10.8px!important;
+  line-height:1.2!important;
+  font-weight:600!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-side{
+  min-width:48px!important;
+  padding-top:1px!important;
+  gap:4px!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-time{
+  color:#15283c!important;
+  font-size:12.3px!important;
+  line-height:1!important;
+  font-weight:800!important;
+}
+#sc-tasks .pt-row[data-kind="hearing"] .pt-badge.hearing{
+  display:none!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-title{font-size:14.4px!important;}
+  #sc-tasks .pt-row[data-kind="hearing"] .hearing-basis-badge{font-size:8.8px!important;padding-left:6px!important;padding-right:6px!important;}
+  #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-case{font-size:10.9px!important;}
+  #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-judge{font-size:11.1px!important;}
+  #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-court{font-size:10.8px!important;}
+}
