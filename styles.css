@@ -37856,3 +37856,54 @@ body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-
     font-size:9.6px!important;
   }
 }
+
+
+/* 5.0.347 — judge picker readability for magistrates
+   Reduce the title size only inside judge pickers and allow two lines,
+   so long magistrate entries remain readable instead of cutting off too early. */
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row{
+  min-height:82px!important;
+  padding:10px 11px 10px 12px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row-copy b,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row-copy b{
+  font-size:13.6px!important;
+  line-height:1.12!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row-copy small,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row-copy small{
+  margin-top:3px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+  font-size:10.8px!important;
+  line-height:1.18!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row-end,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row-end{
+  min-width:36px!important;
+}
+@media (max-width: 420px){
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row,
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row{
+    min-height:80px!important;
+  }
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row-copy b,
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row-copy b{
+    font-size:13.1px!important;
+  }
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="e-hjudge-choice"] .premium-list-row-copy small,
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-choice"] .premium-list-row-copy small{
+    font-size:10.5px!important;
+  }
+}
