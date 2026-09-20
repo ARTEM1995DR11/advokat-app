@@ -38157,3 +38157,106 @@ body.light .premium-list-modal.premium-matter-picker[data-list-target="e-deadlin
     font-size:14.2px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.354 — approved hearing result Variant 1
+   Classic premium layout: marble sheet, metadata card, vertical result
+   choices, note counter, info card, gold action and branded footer.
+   ================================================================ */
+body.light .sheet.hearing-result-sheet.hearing-result-v354{
+  padding-left:18px!important;
+  padding-right:18px!important;
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.90),rgba(251,247,239,.96)),
+    url('picker-choice-marble-v5333.png') center top/cover no-repeat!important;
+  border-top:1px solid rgba(203,163,80,.28)!important;
+}
+body.light .sheet.hearing-result-sheet.hearing-result-v354::before,
+body.light .sheet.hearing-result-sheet.hearing-result-v354::after{display:none!important;content:none!important}
+.sheet.hearing-result-sheet.hearing-result-v354>.grab{
+  width:74px!important;height:6px!important;margin:3px auto 15px!important;background:rgba(91,102,112,.20)!important;border-radius:999px!important;
+}
+.hearing-result-v354 .shbody{padding:0 1px 10px!important}
+.hearing-result-v354-head{
+  display:grid!important;grid-template-columns:56px minmax(0,1fr) 50px!important;gap:14px!important;align-items:start!important;margin:0 0 13px!important;
+}
+.hearing-result-v354-head .hearing-result-head-icon{
+  width:56px!important;height:56px!important;border-radius:18px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  color:#B27B16!important;background:linear-gradient(145deg,#FFF9EB,#F5E8CA)!important;border:1px solid rgba(190,139,43,.28)!important;
+  box-shadow:0 8px 20px rgba(95,67,18,.06),inset 0 1px 0 rgba(255,255,255,.86)!important;
+}
+.hearing-result-v354-head .hearing-result-head-icon .ico{width:27px!important;height:27px!important;stroke-width:1.9!important}
+.hearing-result-v354-head-copy{min-width:0!important;padding-top:2px!important}
+.hearing-result-v354-head h2{
+  margin:0!important;font:700 31px/.98 Georgia,'Times New Roman',serif!important;letter-spacing:-.035em!important;color:#17345F!important;
+}
+.hearing-result-v354-close{
+  width:50px!important;height:50px!important;border-radius:18px!important;border:1px solid rgba(190,139,43,.22)!important;background:rgba(255,252,245,.76)!important;
+  color:#9A6714!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+.hearing-result-v354-close .ico{width:23px!important;height:23px!important;stroke-width:2!important}
+.hearing-result-v354-ornament{display:grid!important;grid-template-columns:1fr 10px 1fr!important;align-items:center!important;gap:10px!important;margin:0 4px 15px!important}
+.hearing-result-v354-ornament i{height:1px!important;background:linear-gradient(90deg,transparent,rgba(190,145,54,.76))!important}
+.hearing-result-v354-ornament i:last-child{background:linear-gradient(90deg,rgba(190,145,54,.76),transparent)!important}
+.hearing-result-v354-ornament span{width:8px!important;height:8px!important;transform:rotate(45deg)!important;background:#D2A43E!important;border-radius:1px!important;box-shadow:0 0 0 2px rgba(210,164,62,.10)!important}
+.hearing-result-v354-meta{
+  margin:0 0 18px!important;padding:15px 16px!important;border-radius:20px!important;border:1px solid rgba(190,145,54,.20)!important;
+  background:rgba(255,253,248,.76)!important;box-shadow:0 8px 22px rgba(62,46,21,.045),inset 0 1px 0 rgba(255,255,255,.90)!important;
+}
+.hearing-result-v354-meta-row{display:grid!important;grid-template-columns:24px minmax(0,1fr)!important;gap:10px!important;align-items:start!important;margin:0 0 10px!important}
+.hearing-result-v354-meta-row:last-child{margin-bottom:0!important}
+.hearing-result-v354-meta-icon{display:flex!important;align-items:center!important;justify-content:center!important;color:#B27B16!important;padding-top:1px!important}
+.hearing-result-v354-meta-icon .ico{width:19px!important;height:19px!important;stroke-width:1.9!important}
+.hearing-result-v354-meta-row b{font-size:13.4px!important;line-height:1.3!important;font-weight:580!important;color:#213B5B!important;white-space:normal!important;overflow-wrap:anywhere!important}
+.hearing-result-v354-section-title{margin:0 3px 10px!important;font:700 18px/1.05 Georgia,'Times New Roman',serif!important;color:#17345F!important;letter-spacing:-.02em!important}
+.hearing-result-v354 .hearing-result-options{display:flex!important;flex-direction:column!important;gap:10px!important;margin:0 0 18px!important}
+.hearing-result-v354 .hearing-result-choice,
+.hearing-result-v354 .hearing-result-choice:last-child:nth-child(odd){
+  grid-column:auto!important;width:100%!important;min-height:76px!important;padding:11px 46px 11px 14px!important;border-radius:19px!important;
+  grid-template-columns:44px minmax(0,1fr)!important;gap:12px!important;background:rgba(255,255,255,.84)!important;
+  border:1px solid rgba(48,64,78,.11)!important;box-shadow:0 7px 18px rgba(41,47,55,.045),inset 0 1px 0 rgba(255,255,255,.86)!important;
+}
+.hearing-result-v354 .hearing-result-choice::before{top:11px!important;bottom:11px!important;width:4px!important}
+.hearing-result-v354 .hearing-result-choice-icon{width:44px!important;height:44px!important;border-radius:14px!important}
+.hearing-result-v354 .hearing-result-choice-icon .ico{width:22px!important;height:22px!important}
+.hearing-result-v354 .hearing-result-choice-title{font-size:16.2px!important;color:#17345F!important}
+.hearing-result-v354 .hearing-result-choice-sub{font-size:11.8px!important;line-height:1.24!important;color:#6D8195!important}
+.hearing-result-v354 .hearing-result-choice.on{background:linear-gradient(180deg,#FFFDF9,#F8F1E5)!important;border-color:rgba(198,151,66,.62)!important}
+.hearing-result-v354 .hearing-result-choice-selected{right:12px!important;top:50%!important;transform:translateY(-50%)!important;width:28px!important;height:28px!important}
+.hearing-result-v354 .hearing-result-note-field{margin:0 0 14px!important}
+.hearing-result-v354 .hearing-result-note-field label{margin:0 0 8px 3px!important;font:700 17px/1.05 Georgia,'Times New Roman',serif!important;color:#17345F!important}
+.hearing-result-note-shell{position:relative!important}
+body.light .hearing-result-v354 .hearing-result-note-field textarea{
+  min-height:138px!important;padding:15px 16px 28px!important;border-radius:19px!important;background:rgba(255,255,255,.82)!important;
+  border:1px solid rgba(54,68,82,.13)!important;color:#23394E!important;font-size:13.5px!important;line-height:1.45!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.84)!important;
+}
+.hearing-result-v354 .hearing-result-hint{
+  margin:0 0 15px!important;padding:13px 14px!important;border-radius:18px!important;background:rgba(248,242,230,.76)!important;border:1px solid rgba(181,127,31,.15)!important;
+}
+.hearing-result-v354 .hearing-result-hint-icon{width:34px!important;height:34px!important;background:rgba(198,151,66,.08)!important}
+.hearing-result-v354 .hearing-result-hint p{font-size:11.2px!important;line-height:1.42!important;color:#62778B!important}
+.hearing-result-v354.withfoot .shfoot{
+  padding:10px 0 max(8px,env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,rgba(255,252,246,.70),rgba(255,252,246,.98))!important;
+  border-top:1px solid rgba(181,127,31,.09)!important;
+}
+.hearing-result-v354 .hearing-result-save{width:100%!important;min-height:58px!important;height:58px!important;margin:0!important;padding:0 18px!important;border:0!important;border-radius:21px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;background:#D9A326 url('premium-gold-save-v5249.webp?v=5354') center/100% 100% no-repeat!important;color:#17191C!important;box-shadow:0 10px 24px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.56)!important;font-family:Georgia,'Times New Roman',serif!important;font-size:20px!important;line-height:1!important;font-weight:700!important;overflow:hidden!important;transform:none!important;filter:none!important}
+.hearing-result-v354 .hearing-result-save .ico{width:22px!important;height:22px!important;stroke-width:1.95!important}
+body.light .hearing-result-v354 .hearing-result-save:active{transform:scale(.994)!important;filter:brightness(.98)!important}
+.hearing-result-v354-sign{display:grid!important;grid-template-columns:1fr 46px 1fr!important;gap:9px!important;align-items:center!important;width:82%!important;margin:9px auto 0!important;opacity:.76!important}
+.hearing-result-v354-sign>i{height:1px!important;background:linear-gradient(90deg,transparent,rgba(190,145,54,.66))!important}
+.hearing-result-v354-sign>i:last-child{background:linear-gradient(90deg,rgba(190,145,54,.66),transparent)!important}
+.hearing-result-v354-sign>span{width:46px!important;height:46px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;border:1px solid rgba(190,145,54,.28)!important;background:rgba(255,250,238,.86)!important;box-shadow:inset 0 0 0 4px rgba(255,255,255,.48),0 4px 12px rgba(99,70,20,.05)!important}
+.hearing-result-v354-sign img{width:25px!important;height:25px!important;object-fit:contain!important}
+@media(max-width:390px){
+  .hearing-result-v354-head{grid-template-columns:50px minmax(0,1fr) 46px!important;gap:11px!important}
+  .hearing-result-v354-head .hearing-result-head-icon{width:50px!important;height:50px!important;border-radius:16px!important}
+  .hearing-result-v354-head h2{font-size:27px!important}
+  .hearing-result-v354-close{width:46px!important;height:46px!important;border-radius:16px!important}
+  .hearing-result-v354-meta{padding:13px 14px!important}
+  .hearing-result-v354-meta-row b{font-size:12.5px!important}
+  .hearing-result-v354 .hearing-result-choice{min-height:72px!important;padding-left:12px!important;grid-template-columns:40px minmax(0,1fr)!important;gap:10px!important}
+  .hearing-result-v354 .hearing-result-choice-icon{width:40px!important;height:40px!important;border-radius:13px!important}
+  .hearing-result-v354 .hearing-result-choice-title{font-size:15px!important}
+  .hearing-result-v354 .hearing-result-choice-sub{font-size:11px!important}
+}
