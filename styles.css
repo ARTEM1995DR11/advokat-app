@@ -37346,13 +37346,17 @@ body.light .premium-list-modal.premium-matter-picker[data-list-target="m-judge-c
    ================================================================ */
 body.light .premium-list-modal.premium-matter-picker .premium-list-sign,
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign{
-  display:flex!important;
+  display:grid!important;
   position:relative!important;
   z-index:1!important;
   flex:none!important;
-  margin:10px 10px 2px!important;
-  min-height:52px!important;
-  opacity:1!important;
+  width:min(300px,78%)!important;
+  grid-template-columns:minmax(24px,1fr) 44px minmax(24px,1fr)!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:46px!important;
+  margin:14px auto 10px!important;
+  opacity:.72!important;
 }
 body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i,
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign>i{
@@ -37363,15 +37367,23 @@ body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:last-c
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign>i:last-child{
   background:linear-gradient(90deg,rgba(197,154,62,.68),transparent)!important;
 }
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:first-child::after,
+body.light .premium-list-modal.premium-matter-picker .premium-list-sign>i:last-child::before,
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign>i:first-child::after,
+body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign>i:last-child::before{
+  border-color:rgba(197,154,62,.68)!important;
+  background:#FFF9EE!important;
+}
 body.light .premium-list-modal.premium-matter-picker .premium-list-sign>span,
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign>span{
-  width:48px!important;
-  height:48px!important;
+  width:44px!important;
+  height:44px!important;
+  box-shadow:0 5px 13px rgba(144,100,25,.08),inset 0 0 0 3px rgba(255,255,255,.48),inset 0 0 0 4px rgba(194,149,65,.12)!important;
 }
 body.light .premium-list-modal.premium-matter-picker .premium-list-sign-logo,
 body.light .premium-list-modal.premium-matter-choice-v1 .premium-list-sign-logo{
-  width:24px!important;
-  height:24px!important;
+  width:23px!important;
+  height:23px!important;
 }
 
 
