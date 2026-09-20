@@ -39141,3 +39141,91 @@ body.light .sheet.matter-editor-sheet::after{
   display:none!important;
   content:none!important;
 }
+
+/* =====================================================================
+   5.0.377 — TODAY: единая иерархия судебных заседаний
+   ===================================================================== */
+#sc-today .hearing-unified .today-row-main,
+#sc-today .today-next7-group .kind-hearing .today-row-main{
+  min-width:0!important;
+}
+#sc-today .hearing-unified-title{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+  white-space:normal!important;
+  text-overflow:ellipsis!important;
+  color:#15283c!important;
+  font-weight:800!important;
+  line-height:1.16!important;
+}
+#sc-today .hearing-unified .hearing-unified-title{
+  font-size:15.5px!important;
+}
+#sc-today .today-next7-group .kind-hearing .hearing-unified-title{
+  font-size:14.5px!important;
+}
+#sc-today .hearing-unified-case{
+  display:block!important;
+  margin-top:4px!important;
+  color:#66798d!important;
+  font-size:11.6px!important;
+  line-height:1.22!important;
+  font-weight:650!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-today .hearing-unified-judge{
+  display:block!important;
+  margin-top:5px!important;
+  color:#20809a!important;
+  font-size:11.8px!important;
+  line-height:1.22!important;
+  font-weight:760!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-today .hearing-unified-court{
+  display:-webkit-box!important;
+  margin-top:3px!important;
+  color:#53697c!important;
+  font-size:11.5px!important;
+  line-height:1.24!important;
+  font-weight:540!important;
+  white-space:normal!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+}
+#sc-today .hearing-unified .today-time{
+  padding-top:2px!important;
+  font-weight:800!important;
+}
+#sc-today .hearing-unified .hearing-result-call{
+  margin-top:6px!important;
+}
+#sc-today .today-next7-group .kind-hearing .today-kindline{
+  margin-bottom:3px!important;
+}
+#sc-today .today-next7-group .kind-hearing .hearing-unified-case{
+  margin-top:4px!important;
+  font-size:11.2px!important;
+}
+#sc-today .today-next7-group .kind-hearing .hearing-unified-judge{
+  margin-top:4px!important;
+  font-size:11.25px!important;
+}
+#sc-today .today-next7-group .kind-hearing .hearing-unified-court{
+  margin-top:2px!important;
+  font-size:10.95px!important;
+}
+@media(max-width:390px){
+  #sc-today .hearing-unified .hearing-unified-title{font-size:14.8px!important;}
+  #sc-today .hearing-unified-case{font-size:11.1px!important;}
+  #sc-today .hearing-unified-judge{font-size:11.3px!important;}
+  #sc-today .hearing-unified-court{font-size:11px!important;}
+  #sc-today .today-next7-group .kind-hearing .hearing-unified-title{font-size:13.8px!important;}
+}

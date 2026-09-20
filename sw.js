@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v121-premium-5376';
+const CACHE = 'advokat-iphone-offline-v121-premium-5377';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5376',
-  './app.js?v=5376',
-  './manifest.webmanifest?v=5376',
+  './styles.css?v=5377',
+  './app.js?v=5377',
+  './manifest.webmanifest?v=5377',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
@@ -23,8 +23,8 @@ const CORE = [
   './columns-light.png?v=5249',
   './header-bell-premium.png?v=5249',
   './header-search-premium.png?v=5249',
-  './header-filter-premium.png?v=5376',
-  './bg-new-matter-approved-v5376.webp?v=5376',
+  './header-filter-premium.png?v=5377',
+  './bg-new-matter-approved-v5377.webp?v=5377',
   './global-search-head-motif-v173.png?v=5249',
   './fab-plus-square-premium.png?v=5249',
   './nav-panel-light.png',
@@ -80,7 +80,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;
 
-  /* 5.0.376 — on an online launch prefer the freshly deployed shell.
+  /* 5.0.377 — on an online launch prefer the freshly deployed shell.
      If the network is unavailable, fall back to the cached offline shell. */
   if(req.mode === 'navigate'){
     event.respondWith(

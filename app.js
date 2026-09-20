@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.376';
-var APP_BUILD='5376';
+var APP_VERSION='5.0.377';
+var APP_BUILD='5377';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -285,11 +285,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5376" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5377" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5376" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5377" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -2074,8 +2074,34 @@ function todayDeadlineRow(t){
     '<em>'+esc(state)+'</em></span>'+ico('chev','s')+'</button>';
 }
 function hearingCaption(t,m){
-  if(m) return m.number||m.title;
-  return t.hearingTopic||t.hearingNumber||t.hearingClient||'Судебное заседание';
+  /* 5.0.377: главным заголовком заседания является название/суть дела,
+     а номер дела показывается отдельной строкой ниже. */
+  if(m){
+    var title=String(m.title||'').replace(/\s+/g,' ').trim();
+    if(title) return matterAutoTitlePiece(title,86);
+    var auto=matterAutoTitle({
+      type:m.type||'other', client:m.client||'', article:m.article||'', notes:m.notes||'',
+      stage:m.stage||'', executionIssue:m.executionIssue||''
+    });
+    if(auto) return matterAutoTitlePiece(auto,86);
+    if(m.client) return matterAutoClientLabel(m.client);
+  }
+  return t.hearingTopic||t.hearingClient||t.hearingNumber||'Судебное заседание';
+}
+function hearingCaseStageLine(t,m){
+  var parts=[];
+  if(m&&m.number) parts.push('№ '+m.number);
+  else if(!m&&t.hearingNumber) parts.push('№ '+t.hearingNumber);
+  if(m&&m.stage) parts.push(m.stage);
+  return parts.join(' · ');
+}
+function hearingUnifiedJudgeLine(t,m){
+  var judge=hearingJudgeName(t,m);
+  return judge?'<small class="hearing-unified-judge">'+esc(judge)+'</small>':'';
+}
+function hearingUnifiedCourtLine(t,m){
+  var place=hearingPlace(t,m)||'Суд не указан';
+  return '<small class="hearing-unified-court">'+esc(place)+'</small>';
 }
 function hearingSubcaption(t,m){
   if(m) return '';
@@ -2123,23 +2149,24 @@ function next7SoonLine(text){
   return '<small class="soon-rel next7-soon-row"><span class="next7-meta-ico">'+ico('clock','s')+'</span><span>'+esc(text)+'</span></small>';
 }
 function todayHearingRow(t){
-  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), context=m?(m.title+(m.number?' · '+m.number:'')):'';
-  return '<button class="today-row hearing-row kind-hearing" data-act="task" data-id="'+t.id+'">'+
-    '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
-    '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
-    (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
-    '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+(t.note?'<small class="hearing-note">'+esc(t.note)+'</small>':'')+'</span>'+ico('chev','s')+'</button>';
+  var m=todayMatter(t), caseLine=hearingCaseStageLine(t,m);
+  return '<button class="today-row hearing-row kind-hearing hearing-unified" data-act="task" data-id="'+t.id+'">'+
+    '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main">'+
+    '<b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b>'+ 
+    (caseLine?'<small class="hearing-unified-case">'+esc(caseLine)+'</small>':'')+
+    hearingUnifiedJudgeLine(t,m)+hearingUnifiedCourtLine(t,m)+
+    '</span>'+ico('chev','s')+'</button>';
 }
 function todayPendingHearingRow(t){
-  var m=todayMatter(t), place=t.place||(m&&m.court)||'', meta=hearingMetaLine(t,m), when=t.due===today()?'сегодня':fmtD(t.due,true), context=m?(m.title+(m.number?' · '+m.number:'')):'';
+  var m=todayMatter(t), when=t.due===today()?'сегодня':fmtD(t.due,true), caseLine=hearingCaseStageLine(t,m);
   return '<div class="today-hearing-swipe" data-id="'+t.id+'">'+
-    '<div class="today-hearing-swipe-bg"><span class="today-hearing-swipe-more">Результат'+ico('gavel','s')+'</span></div>'+
-    '<button class="today-row hearing-row hearing-result-row kind-hearing today-hearing-swipe-row" data-act="hearing-result" data-id="'+t.id+'">'+
-      '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main"><b>'+esc(hearingCaption(t,m))+'</b>'+
-      '<small class="today-kindline"><span class="today-kind-badge hearing">Заседание</span>'+(context?'<span class="today-kind-context">'+esc(context)+'</span>':'')+'</small>'+
-      (meta?'<small class="hearing-meta">'+meta+'</small>':'')+
-      '<small class="hearing-court">'+esc(place||'Суд не указан')+'</small>'+
-      '<em class="hearing-result-call">Указать результат · '+esc(when)+' →</em></span>'+ico('chev','s')+'</button>'+
+    '<div class="today-hearing-swipe-bg"><span class="today-hearing-swipe-more">Результат'+ico('gavel','s')+'</span></div>'+ 
+    '<button class="today-row hearing-row hearing-result-row kind-hearing today-hearing-swipe-row hearing-unified" data-act="hearing-result" data-id="'+t.id+'">'+
+      '<span class="today-time mono">'+esc(t.time||'—:—')+'</span><span class="today-row-main">'+
+      '<b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b>'+ 
+      (caseLine?'<small class="hearing-unified-case">'+esc(caseLine)+'</small>':'')+
+      hearingUnifiedJudgeLine(t,m)+hearingUnifiedCourtLine(t,m)+
+      '<em class="hearing-result-call">Указать результат · '+esc(when)+' →</em></span>'+ico('chev','s')+'</button>'+ 
   '</div>';
 }
 function todayTaskRow(t){
@@ -2176,11 +2203,12 @@ function todayNext7Row(t){
   var cls='kind-'+(t.kind||'task'), badge='', title='', line2='', line3='';
   var wd=new Intl.DateTimeFormat('ru-RU',{weekday:'short'}).format(d).replace('.','');
   if(t.kind==='hearing'){
-    var place=t.place||(m&&m.court)||'', people=next7HearingPeople(t,m);
+    var caseLine=hearingCaseStageLine(t,m), judge=hearingJudgeName(t,m), court=hearingPlace(t,m)||'Суд не указан';
     badge='<span class="today-kind-badge hearing">Заседание</span>';
     title=hearingCaption(t,m);
-    if(people) line2=people;
-    if(place) line3=next7CourtLine(place);
+    line2=(caseLine?'<small class="hearing-unified-case">'+esc(caseLine)+'</small>':'')+
+      (judge?'<small class="hearing-unified-judge">'+esc(judge)+'</small>':'');
+    line3='<small class="hearing-unified-court">'+esc(court)+'</small>';
   }else if(t.kind==='meeting'){
     badge='<span class="today-kind-badge meeting">Встреча</span>';
     title=t.title||'Встреча';
@@ -2198,8 +2226,8 @@ function todayNext7Row(t){
     '<span class="today-time mono">'+esc(t.time||'')+'</span>'+ 
     '<span class="today-row-main">'+
       '<small class="today-kindline">'+badge+'</small>'+ 
-      '<b>'+esc(title)+'</b>'+ 
-      (context?'<small class="today-kind-context">'+esc(context)+'</small>':'')+
+      '<b class="'+(t.kind==='hearing'?'hearing-unified-title':'')+'">'+esc(title)+'</b>'+ 
+      (t.kind!=='hearing'&&context?'<small class="today-kind-context">'+esc(context)+'</small>':'')+
       line2+line3+
     '</span>'+ico('chev','s')+'</button>';
 }
@@ -5882,7 +5910,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5376',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5377',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
