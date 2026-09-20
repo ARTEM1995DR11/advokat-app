@@ -38719,3 +38719,83 @@ body:not(.light) .sheet.task-actions-premium .task-action-premium-row.delete .ta
     border-radius:15px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.359 — premium destructive confirmation (replaces native confirm)
+   ================================================================ */
+.premium-delete-confirm-root{
+  position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;
+  padding:24px;opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+.premium-delete-confirm-root.open{opacity:1;pointer-events:auto}
+.premium-delete-confirm-backdrop{
+  position:absolute;inset:0;border:0;margin:0;padding:0;background:rgba(19,24,31,.44);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+.premium-delete-confirm{
+  position:relative;z-index:1;width:min(100%,430px);padding:34px 30px 28px;border-radius:26px;
+  border:1px solid rgba(203,150,44,.78);
+  background:
+    linear-gradient(180deg,rgba(255,253,248,.78),rgba(252,248,240,.88)),
+    url('quick-sheet-marble-approved.webp') center/cover no-repeat;
+  box-shadow:0 26px 72px rgba(26,24,20,.30),0 2px 0 rgba(255,255,255,.75) inset;
+  transform:translateY(8px) scale(.985);transition:transform .18s ease;
+  text-align:center;overflow:hidden;
+}
+.premium-delete-confirm-root.open .premium-delete-confirm{transform:translateY(0) scale(1)}
+.premium-delete-confirm-mark{
+  display:grid;grid-template-columns:minmax(36px,1fr) 76px minmax(36px,1fr);align-items:center;gap:14px;
+  margin:0 0 21px;
+}
+.premium-delete-confirm-mark i{height:1px;background:linear-gradient(90deg,transparent,rgba(185,132,29,.82))}
+.premium-delete-confirm-mark i:last-child{background:linear-gradient(90deg,rgba(185,132,29,.82),transparent)}
+.premium-delete-confirm-mark span{
+  width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#C8262E;background:linear-gradient(145deg,#FFF5F4,#F8E7E5);
+  border:2px solid rgba(182,124,23,.88);
+  box-shadow:0 9px 18px rgba(92,56,12,.12),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.premium-delete-confirm-mark .ico{width:34px;height:34px;stroke-width:2.15}
+.premium-delete-confirm h2{
+  margin:0;font:700 31px/1.04 Georgia,'Times New Roman',serif;color:#14345F;letter-spacing:-.035em;
+}
+.premium-delete-confirm p{
+  margin:12px 0 27px;font-size:15px;line-height:1.35;color:#4C5662;font-weight:500;
+}
+.premium-delete-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.premium-delete-confirm-actions button{
+  min-height:58px;border-radius:18px;font:700 18px/1 Georgia,'Times New Roman',serif;
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s ease,filter .12s ease;
+}
+.premium-delete-confirm-actions button:active{transform:scale(.985)}
+.premium-delete-cancel{
+  color:#17345F;background:rgba(255,255,255,.62);border:1.5px solid rgba(190,137,35,.82);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92);
+}
+.premium-delete-accept{
+  color:#fff;border:1px solid rgba(152,17,21,.95);
+  background:linear-gradient(180deg,#DF1E24 0%,#B70E15 100%);
+  box-shadow:0 9px 20px rgba(166,21,27,.22),inset 0 1px 0 rgba(255,255,255,.22);
+}
+.premium-delete-accept .ico{width:22px;height:22px;stroke-width:2.1}
+body:not(.light) .premium-delete-confirm{
+  border-color:rgba(220,181,93,.58);
+  background:linear-gradient(180deg,rgba(12,25,36,.95),rgba(8,20,30,.98));
+  box-shadow:0 28px 78px rgba(0,0,0,.50),0 1px 0 rgba(255,255,255,.04) inset;
+}
+body:not(.light) .premium-delete-confirm h2{color:#F3E9D5}
+body:not(.light) .premium-delete-confirm p{color:#AFC0CF}
+body:not(.light) .premium-delete-cancel{color:#F0E5CF;background:rgba(255,255,255,.035);border-color:rgba(220,181,93,.55)}
+body:not(.light) .premium-delete-confirm-mark span{background:rgba(142,34,40,.18);border-color:rgba(220,181,93,.52)}
+@media(max-width:390px){
+  .premium-delete-confirm-root{padding:18px}
+  .premium-delete-confirm{padding:29px 20px 22px;border-radius:24px}
+  .premium-delete-confirm-mark{grid-template-columns:minmax(24px,1fr) 68px minmax(24px,1fr);gap:11px;margin-bottom:18px}
+  .premium-delete-confirm-mark span{width:68px;height:68px}
+  .premium-delete-confirm-mark .ico{width:30px;height:30px}
+  .premium-delete-confirm h2{font-size:28px}
+  .premium-delete-confirm p{font-size:14px;margin:10px 0 22px}
+  .premium-delete-confirm-actions{gap:10px}
+  .premium-delete-confirm-actions button{min-height:54px;font-size:17px;border-radius:17px}
+}

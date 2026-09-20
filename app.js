@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.358';
-var APP_BUILD='5358';
+var APP_VERSION='5.0.359';
+var APP_BUILD='5359';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5358" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5359" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -704,12 +704,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5358" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5359" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5358" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5359" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2340,18 +2340,56 @@ function moveTaskToDate(id,date,label){
   if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
   toast((label||'Перенесено')+' · '+t.title.slice(0,28));
 }
-function deleteTaskById(id){
-  var t=S.tasks.filter(function(x){return x.id===id;})[0];
-  if(!t) return;
-  if(t.kind==='hearing'&&(hearingNeedsResult(t)||hearingHasResult(t))){toast('Прошедшее заседание сохраняется в истории');return;}
-  var deleteQuestion=t.kind==='hearing'?'Удалить заседание?':(t.kind==='meeting'?'Удалить встречу?':(t.kind==='deadline'?'Удалить процессуальный срок?':'Удалить задачу?'));
-  if(confirm(deleteQuestion)){
-    S.tasks=S.tasks.filter(function(x){return x.id!==id;});
-    save(); render();
-    if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
-    toast('Удалено');
-  }
+function premiumDeleteCopy(t){
+  var m={
+    task:{title:'Удалить задачу?',text:'Это действие нельзя отменить.'},
+    meeting:{title:'Удалить встречу?',text:'Это действие нельзя отменить.'},
+    deadline:{title:'Удалить процессуальный срок?',text:'Это действие нельзя отменить.'},
+    hearing:{title:'Удалить заседание?',text:'Это действие нельзя отменить.'}
+  };
+  return m[(t&&t.kind)||'task']||m.task;
 }
+function closePremiumDeleteConfirm(){
+  var root=document.getElementById('premium-delete-confirm-root');
+  if(!root)return;
+  root.classList.remove('open');
+  setTimeout(function(){if(root.parentNode)root.parentNode.removeChild(root);},180);
+}
+function openPremiumDeleteConfirm(id){
+  var t=S.tasks.filter(function(x){return x.id===id;})[0];
+  if(!t)return;
+  if(t.kind==='hearing'&&(hearingNeedsResult(t)||hearingHasResult(t))){toast('Прошедшее заседание сохраняется в истории');return;}
+  closePremiumDeleteConfirm();
+  var copy=premiumDeleteCopy(t);
+  var root=document.createElement('div');
+  root.id='premium-delete-confirm-root';
+  root.className='premium-delete-confirm-root';
+  root.innerHTML='<button type="button" class="premium-delete-confirm-backdrop" data-act="premium-delete-cancel" aria-label="Отмена"></button>'+ 
+    '<section class="premium-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="premium-delete-confirm-title">'+
+      '<div class="premium-delete-confirm-mark"><i></i><span>'+ico('trash')+'</span><i></i></div>'+ 
+      '<h2 id="premium-delete-confirm-title">'+esc(copy.title)+'</h2>'+ 
+      '<p>'+esc(copy.text)+'</p>'+ 
+      '<div class="premium-delete-confirm-actions">'+
+        '<button type="button" class="premium-delete-cancel" data-act="premium-delete-cancel">Отмена</button>'+ 
+        '<button type="button" class="premium-delete-accept" data-act="premium-delete-confirm" data-id="'+esc(id)+'">'+ico('trash','s')+'<span>Удалить</span></button>'+ 
+      '</div>'+ 
+    '</section>';
+  document.body.appendChild(root);
+  requestAnimationFrame(function(){root.classList.add('open');});
+  vib(8);
+}
+function performDeleteTaskById(id){
+  var t=S.tasks.filter(function(x){return x.id===id;})[0];
+  if(!t)return;
+  S.tasks=S.tasks.filter(function(x){return x.id!==id;});
+  save();
+  closePremiumDeleteConfirm();
+  closeSheet();
+  render();
+  if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
+  toast('Удалено');
+}
+function deleteTaskById(id){ openPremiumDeleteConfirm(id); }
 function toggleTaskDone(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0];
   if(!t) return;
@@ -2426,7 +2464,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5358" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5359" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -3005,7 +3043,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5358" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5359" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3621,7 +3659,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5358" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5359" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5036,7 +5074,9 @@ document.addEventListener('click', function(ev){
     case 'hearing-result-save': saveHearingResult();break;
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
     case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
-    case 'task-action-delete': closeSheet(); deleteTaskById(id); break;
+    case 'task-action-delete': deleteTaskById(id); break;
+    case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
+    case 'premium-delete-confirm': performDeleteTaskById(id); break;
     case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
@@ -5058,7 +5098,7 @@ document.addEventListener('click', function(ev){
     case 'e-pri': pullEditor();ED.pri=v;drawEditor(true);break;
     case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor(true);break;
     case 'e-save': saveTask();break;
-    case 'e-del': {var edt=ED&&ED.id?S.tasks.filter(function(x){return x.id===ED.id;})[0]:null;if(edt&&edt.kind==='hearing'&&(hearingNeedsResult(edt)||hearingHasResult(edt))){toast('Прошедшее заседание сохраняется в истории');break;}if(confirm(ED&&ED.kind==='hearing'?'Удалить заседание?':(ED&&ED.kind==='meeting'?'Удалить встречу?':(ED&&ED.kind==='deadline'?'Удалить процессуальный срок?':'Удалить задачу?')))){S.tasks=S.tasks.filter(function(x){return x.id!==ED.id;});save();closeSheet();render();if($('#page').classList.contains('open'))openMatter($('#page')._mid);toast('Удалено');}break;}
+    case 'e-del': {var edt=ED&&ED.id?S.tasks.filter(function(x){return x.id===ED.id;})[0]:null;if(edt&&edt.kind==='hearing'&&(hearingNeedsResult(edt)||hearingHasResult(edt))){toast('Прошедшее заседание сохраняется в истории');break;}if(ED&&ED.id)openPremiumDeleteConfirm(ED.id);break;}
 
     /* matters */
     case 'new-matter': closeSheet();editMatter(null);break;
@@ -5749,7 +5789,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5358',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5359',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
