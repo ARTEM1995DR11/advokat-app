@@ -39505,3 +39505,121 @@ body.light .sheet.matter-editor-sheet::after{
   #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-time{font-size:12.3px!important;}
   #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-badge{font-size:9.8px!important;padding:0 7px!important;}
 }
+
+/* =====================================================================
+   5.0.383 — TODAY / TASKS: one shared record typography system.
+   The same semantic text role now has exactly the same size on both screens.
+   ===================================================================== */
+#sc-today,
+#sc-tasks{
+  --record-title-size:14.5px;
+  --record-note-size:11.8px;
+  --record-meta-size:10.9px;
+  --record-time-size:12.2px;
+  --record-badge-size:9.8px;
+  --record-hearing-title-size:14.5px;
+  --record-hearing-case-size:10.9px;
+  --record-hearing-judge-size:11.1px;
+  --record-hearing-court-size:10.8px;
+  --record-hearing-basis-size:8.8px;
+}
+
+/* Ordinary task / meeting / deadline titles */
+#sc-today .today-row.task-row .today-row-main>b,
+#sc-today .today-row.deadline-row .today-row-main>b,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-open>b,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>b{
+  font-size:var(--record-title-size)!important;
+  line-height:1.24!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+}
+
+/* Notes */
+#sc-today .today-row.task-row .today-note,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small.pt-note{
+  font-size:var(--record-note-size)!important;
+  line-height:1.32!important;
+  font-weight:500!important;
+}
+
+/* Matter/context/date/service text */
+#sc-today .today-row.task-row .today-kind-context,
+#sc-today .today-row.task-row .meeting-place,
+#sc-today .today-row.deadline-row .today-kind-context,
+#sc-today .today-row.deadline-row .today-row-main>em,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-link,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small:not(.pt-note){
+  font-size:var(--record-meta-size)!important;
+  line-height:1.26!important;
+}
+
+/* Clock text */
+#sc-today .today-row.task-row .today-row-time,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-time{
+  font-size:var(--record-time-size)!important;
+  line-height:1!important;
+  font-weight:750!important;
+}
+
+/* Small type / priority pills */
+#sc-today .today-row.task-row .today-kind-badge,
+#sc-today .today-row.task-row .today-task-priority,
+#sc-today .today-row.deadline-row .today-kind-badge,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-badge,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-done-kind{
+  font-size:var(--record-badge-size)!important;
+  line-height:1!important;
+}
+
+/* Hearings: Today / Upcoming 7 days / Tasks use one scale. */
+#sc-today .hearing-unified .hearing-unified-title,
+#sc-today .today-next7-group .kind-hearing .hearing-unified-title,
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-title{
+  font-size:var(--record-hearing-title-size)!important;
+  line-height:1.16!important;
+}
+#sc-today .hearing-unified-case,
+#sc-today .today-next7-group .kind-hearing .hearing-unified-case,
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-case{
+  font-size:var(--record-hearing-case-size)!important;
+  line-height:1.22!important;
+}
+#sc-today .hearing-unified-judge,
+#sc-today .today-next7-group .kind-hearing .hearing-unified-judge,
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-judge{
+  font-size:var(--record-hearing-judge-size)!important;
+  line-height:1.22!important;
+}
+#sc-today .hearing-unified-court,
+#sc-today .today-next7-group .kind-hearing .hearing-unified-court,
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-court{
+  font-size:var(--record-hearing-court-size)!important;
+  line-height:1.24!important;
+}
+#sc-today .hearing-basis-badge,
+#sc-tasks .pt-row[data-kind="hearing"] .hearing-basis-badge{
+  font-size:var(--record-hearing-basis-size)!important;
+  line-height:1!important;
+}
+#sc-today .hearing-unified .today-time,
+#sc-tasks .pt-row[data-kind="hearing"] .pt-time{
+  font-size:var(--record-time-size)!important;
+  line-height:1!important;
+}
+
+@media(max-width:390px){
+  #sc-today,
+  #sc-tasks{
+    --record-title-size:14.2px;
+    --record-note-size:11.5px;
+    --record-meta-size:10.7px;
+    --record-time-size:12px;
+    --record-badge-size:9.6px;
+    --record-hearing-title-size:14.2px;
+    --record-hearing-case-size:10.7px;
+    --record-hearing-judge-size:10.9px;
+    --record-hearing-court-size:10.7px;
+    --record-hearing-basis-size:8.6px;
+  }
+}
