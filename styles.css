@@ -39445,3 +39445,63 @@ body.light .sheet.matter-editor-sheet::after{
   #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-judge{font-size:11.1px!important;}
   #sc-tasks .pt-row[data-kind="hearing"] .hearing-unified-court{font-size:10.8px!important;}
 }
+
+/* =====================================================================
+   5.0.382 — TASKS: typography aligned with the approved Today screen.
+   Scope: non-hearing rows only; hearing hierarchy from 5.0.380 is preserved.
+   ===================================================================== */
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-open>b,
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>b{
+  font-size:15.2px!important;
+  line-height:1.24!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+}
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small.pt-note{
+  margin-top:4px!important;
+  font-size:12.2px!important;
+  line-height:1.32!important;
+  font-weight:500!important;
+}
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-link{
+  margin-top:3px!important;
+  font-size:11.4px!important;
+  line-height:1.25!important;
+  font-weight:600!important;
+}
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small:not(.pt-note){
+  margin-top:3px!important;
+  font-size:11.2px!important;
+  line-height:1.24!important;
+  font-weight:550!important;
+}
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-time{
+  font-size:12.8px!important;
+  line-height:1!important;
+  font-weight:750!important;
+}
+#sc-tasks .pt-row:not([data-kind="hearing"]) .pt-badge{
+  min-height:21px!important;
+  padding:0 8px!important;
+  font-size:10.2px!important;
+  line-height:1!important;
+  font-weight:760!important;
+}
+#sc-tasks .pt-group-head h2{
+  font-size:13.5px!important;
+  line-height:1.05!important;
+  font-weight:700!important;
+}
+#sc-tasks .pt-group-head span{
+  font-size:11px!important;
+  font-weight:800!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-open>b,
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>b{font-size:14.7px!important;}
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small.pt-note{font-size:11.8px!important;}
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-link{font-size:11px!important;}
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-main>small:not(.pt-note){font-size:10.8px!important;}
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-time{font-size:12.3px!important;}
+  #sc-tasks .pt-row:not([data-kind="hearing"]) .pt-badge{font-size:9.8px!important;padding:0 7px!important;}
+}
