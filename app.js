@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.369';
-var APP_BUILD='5369';
+var APP_VERSION='5.0.370';
+var APP_BUILD='5370';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3172,7 +3172,9 @@ function renderMatters(){
     ((hasMatterFilter||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
-  html+='</div></div>';
+  html+='</div>'+
+    '<button type="button" class="matters-floating-filter'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" aria-label="Фильтры и сортировка" title="Фильтры и сортировка">'+ico('list','s')+'</button>'+
+    '</div>';
   $('#sc-matters').innerHTML=html;
   if((S.ui.matterSearchOpen||q)&&$('#matter-q')){
     var mq=$('#matter-q');
@@ -6025,12 +6027,10 @@ function renderMatters(){
   var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
   var html='<div class="matters-project matters-approved-v3">'+
     mainBrandHeader()+
-    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+
-    '<div class="matters-approved-toolbar matters-approved-toolbar-compact">'+
-      (searchOpen
-        ? '<div class="matters-approved-searchrow"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div><button class="matters-approved-iconbtn'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" aria-label="Фильтры и сортировка">'+ico('list','s')+'</button></div>'
-        : '<div class="matters-approved-actionsrow"><button class="matters-approved-iconbtn'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" aria-label="Фильтры и сортировка">'+ico('list','s')+'</button></div>')+
-    '</div>'+
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
+    (searchOpen
+      ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
+      : '')+
     '<div class="matters-list matters-approved-list">';
   html+=list.length?list.map(matterCard).join(''):
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)

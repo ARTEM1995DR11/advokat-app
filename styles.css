@@ -38859,3 +38859,97 @@ html body #sc-cal .today-head.calendar-title-head > .today-actions{
   transform:none!important;
   align-self:flex-start!important;
 }
+
+/* =====================================================================
+   5.0.370 — MATTERS: no permanent search/filter strip.
+   Search appears only on demand; filter is a separate floating control.
+   ===================================================================== */
+#sc-matters .matters-approved-v3 .matters-approved-head{
+  margin-bottom:7px!important;
+}
+#sc-matters .matters-approved-search-open{
+  position:relative!important;
+  z-index:8!important;
+  margin:0 0 8px!important;
+  padding:0!important;
+  background:transparent!important;
+}
+#sc-matters .matters-approved-search-open .matters-approved-search{
+  margin:0!important;
+}
+#sc-matters .matters-approved-search-open .matters-local-search-field{
+  min-height:48px!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(88,109,132,.18)!important;
+  box-shadow:0 6px 16px rgba(63,48,24,.05),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+#sc-matters .matters-approved-search-open #matter-q{
+  min-height:48px!important;
+  font-size:14px!important;
+  padding-right:38px!important;
+}
+#sc-matters .matters-approved-v3>.matters-approved-list{
+  margin-top:0!important;
+}
+#sc-matters .matters-floating-filter{
+  position:fixed!important;
+  right:14px!important;
+  bottom:calc(var(--bot) + 146px)!important;
+  z-index:29!important;
+  width:56px!important;
+  height:56px!important;
+  min-width:56px!important;
+  min-height:56px!important;
+  max-width:56px!important;
+  max-height:56px!important;
+  padding:0!important;
+  border-radius:17px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#A87316!important;
+  background:linear-gradient(180deg,rgba(255,253,247,.98),rgba(247,238,220,.98))!important;
+  border:1px solid rgba(188,139,45,.38)!important;
+  box-shadow:0 7px 17px rgba(68,49,18,.15),inset 0 1px 0 rgba(255,255,255,.98),inset 0 0 0 1px rgba(255,255,255,.32)!important;
+  -webkit-backdrop-filter:blur(9px)!important;
+  backdrop-filter:blur(9px)!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+#sc-matters .matters-floating-filter .ico{
+  width:23px!important;
+  height:23px!important;
+  stroke-width:2.05!important;
+}
+#sc-matters .matters-floating-filter.on{
+  color:#8E5F0B!important;
+  border-color:rgba(190,138,35,.62)!important;
+  background:linear-gradient(180deg,#FFF6D8,#EDD28D)!important;
+  box-shadow:0 8px 19px rgba(102,72,18,.20),inset 0 1px 0 rgba(255,255,255,.88)!important;
+}
+#sc-matters .matters-floating-filter:active{
+  transform:scale(.96)!important;
+}
+body:not(.light) #sc-matters .matters-approved-search-open .matters-local-search-field{
+  background:#102131!important;
+  border-color:rgba(148,171,191,.18)!important;
+}
+body:not(.light) #sc-matters .matters-floating-filter{
+  color:#E3BA62!important;
+  background:linear-gradient(180deg,rgba(30,42,51,.97),rgba(17,30,41,.97))!important;
+  border-color:rgba(201,159,73,.36)!important;
+  box-shadow:0 8px 19px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+@media(max-width:390px){
+  #sc-matters .matters-floating-filter{
+    right:12px!important;
+    bottom:calc(var(--bot) + 142px)!important;
+    width:52px!important;
+    height:52px!important;
+    min-width:52px!important;
+    min-height:52px!important;
+    max-width:52px!important;
+    max-height:52px!important;
+    border-radius:16px!important;
+  }
+}
