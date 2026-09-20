@@ -38061,3 +38061,62 @@ body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-c
   body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-court-selected-badge,
   body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-court-selected-badge{height:32px!important;padding:0 9px!important;font-size:10.5px!important}
 }
+
+
+/* ================================================================
+   5.0.349 — COURT PICKER COMPACT TYPOGRAPHY
+   ================================================================ */
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row{
+  min-height:72px!important;
+  grid-template-columns:46px minmax(0,1fr) auto!important;
+  gap:10px!important;
+  padding:9px 10px 9px 11px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-mark,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-mark{
+  width:46px!important;height:46px!important;min-width:46px!important;border-radius:15px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-mark .ico,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-mark .ico{
+  width:23px!important;height:23px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-copy b,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-copy b{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15px!important;
+  line-height:1.12!important;
+  font-weight:700!important;
+  letter-spacing:-.012em!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-copy small,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-copy small{
+  font-size:10.5px!important;line-height:1.18!important;margin-top:3px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-end,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-end{
+  min-width:26px!important;max-width:108px!important;margin-left:2px!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-court-selected-badge,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-court-selected-badge{
+  height:32px!important;padding:0 10px!important;gap:5px!important;font-size:10.5px!important;white-space:nowrap!important;
+}
+body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-court-selected-badge .ico,
+body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-court-selected-badge .ico{
+  width:14px!important;height:14px!important;
+}
+@media(max-width:390px){
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-list-row-copy b,
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-list-row-copy b{font-size:14.4px!important}
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="e-court-choice"] .premium-court-selected-badge,
+  body.light .premium-list-modal.premium-matter-picker[data-list-target="m-court-choice"] .premium-court-selected-badge{padding:0 8px!important;font-size:10px!important}
+}
