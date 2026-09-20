@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.363';
-var APP_BUILD='5363';
+var APP_VERSION='5.0.364';
+var APP_BUILD='5364';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5363" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5364" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -704,12 +704,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5363" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5364" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5363" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5364" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2464,7 +2464,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5363" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5364" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -3047,7 +3047,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5363" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5364" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Статус, тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3707,7 +3707,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5363" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5364" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5480,6 +5480,27 @@ document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passiv
    Будущее заседание открывает быстрые действия; после наступления времени свайп ведёт к фиксации результата.
    Вертикальная прокрутка имеет приоритет; короткий случайный жест ничего не делает.
    ===================================================================== */
+/* 5.0.364 — единая чувствительность карточечных свайпов на «Задачи» и «Сегодня».
+   Важно: визуальная геометрия раскрытия карточек не меняется, меняется только распознавание жеста. */
+var CARD_SWIPE_SENS={
+  lockX:6, verticalCancelY:24, verticalCancelRatio:1.15, lockRatio:1.03,
+  fastMs:360, fastX:20, fastMaxY:56, fastRatio:.92,
+  normalX:30, normalMaxY:70, normalRatio:1.0
+};
+function refreshSwipeEndPoint(st,e){
+  if(!st || !e || !e.changedTouches || !e.changedTouches.length) return;
+  var t=e.changedTouches[0];
+  st.dx=t.clientX-st.sx; st.dy=t.clientY-st.sy;
+}
+function cardSwipeShouldOpen(st,e){
+  refreshSwipeEndPoint(st,e);
+  var ax=Math.abs(st.dx), ay=Math.abs(st.dy);
+  var elapsed=Math.max(1,Date.now()-(st.started||Date.now()));
+  var looksHorizontal=st.horizontal || (st.dx<=-CARD_SWIPE_SENS.fastX && ax>ay*CARD_SWIPE_SENS.fastRatio);
+  var fast=elapsed<=CARD_SWIPE_SENS.fastMs && st.dx<=-CARD_SWIPE_SENS.fastX && ay<=CARD_SWIPE_SENS.fastMaxY && ax>ay*CARD_SWIPE_SENS.fastRatio;
+  var normal=st.dx<=-CARD_SWIPE_SENS.normalX && ay<=CARD_SWIPE_SENS.normalMaxY && ax>ay*CARD_SWIPE_SENS.normalRatio;
+  return !!(looksHorizontal && (fast||normal));
+}
 var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false,started:0,fired:false};
 function taskTouchReset(animate){
   var row=TASK_TOUCH.row;
@@ -5518,10 +5539,10 @@ document.addEventListener('touchmove',function(e){
   var t=e.touches[0];
   TASK_TOUCH.dx=t.clientX-TASK_TOUCH.sx;TASK_TOUCH.dy=t.clientY-TASK_TOUCH.sy;
   if(!TASK_TOUCH.horizontal){
-    // 5.0.363: повышенная чувствительность сохраняется только на этапе фиксации жеста.
-    // Визуальное раскрытие карточки возвращено к прежней геометрии 5.0.361.
-    if(Math.abs(TASK_TOUCH.dy)>18 && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*1.12){taskTouchReset(true);return;}
-    if(TASK_TOUCH.dx<-8 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.10) TASK_TOUCH.horizontal=true;
+    // Единая чувствительность 5.0.364. Вертикальный скролл остаётся приоритетным,
+    // но горизонтальный жест фиксируется раньше и не требует сильного натяжения.
+    if(Math.abs(TASK_TOUCH.dy)>CARD_SWIPE_SENS.verticalCancelY && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*CARD_SWIPE_SENS.verticalCancelRatio){taskTouchReset(true);return;}
+    if(TASK_TOUCH.dx<-CARD_SWIPE_SENS.lockX && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*CARD_SWIPE_SENS.lockRatio) TASK_TOUCH.horizontal=true;
   }
   if(!TASK_TOUCH.horizontal) return;
   if(e.cancelable)e.preventDefault();
@@ -5530,25 +5551,23 @@ document.addEventListener('touchmove',function(e){
   TASK_TOUCH.row.classList.toggle('swipe-left',x<=-18);
   TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-58);
 },{passive:false,capture:true});
-document.addEventListener('touchend',function(){
+document.addEventListener('touchend',function(e){
   if(!TASK_TOUCH.on) return;
-  var elapsed=Math.max(1,Date.now()-(TASK_TOUCH.started||Date.now()));
-  var fastFlick=elapsed<=340 && TASK_TOUCH.dx<=-22 && Math.abs(TASK_TOUCH.dy)<=54 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*0.92;
-  var normalSwipe=TASK_TOUCH.dx<=-32 && Math.abs(TASK_TOUCH.dy)<=68 && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*1.02;
-  var intentional=TASK_TOUCH.horizontal && (fastFlick||normalSwipe);
+  // Берём конечную координату из changedTouches: на быстром flick iOS может не прислать
+  // последнюю точку через touchmove, из-за чего раньше одинаковый жест срабатывал по-разному.
+  var intentional=cardSwipeShouldOpen(TASK_TOUCH,e);
   finishTaskSwipe(intentional);
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){
   if(!TASK_TOUCH.on) return;
-  var intentional=TASK_TOUCH.horizontal && TASK_TOUCH.dx<=-36 && Math.abs(TASK_TOUCH.dy)<=68;
-  finishTaskSwipe(intentional);
+  taskTouchReset(true);
 },{passive:true,capture:true});
 
 /* =====================================================================
    Swipe прошедшего заседания на экране «Сегодня» — 4.0.48
    Свайп справа налево сразу открывает фиксацию результата.
    ===================================================================== */
-var TODAY_HEARING_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false};
+var TODAY_HEARING_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false,started:0};
 function todayHearingTouchReset(animate){
   var row=TODAY_HEARING_TOUCH.row;
   if(row){
@@ -5557,7 +5576,7 @@ function todayHearingTouchReset(animate){
     row.classList.remove('swipe-left','swipe-ready');
     if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
   }
-  TODAY_HEARING_TOUCH.on=false;TODAY_HEARING_TOUCH.row=null;TODAY_HEARING_TOUCH.id='';TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;
+  TODAY_HEARING_TOUCH.on=false;TODAY_HEARING_TOUCH.row=null;TODAY_HEARING_TOUCH.id='';TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;TODAY_HEARING_TOUCH.started=0;
 }
 function resetAllTodayHearingSwipes(){
   $$('#sc-today .today-hearing-swipe-row').forEach(function(row){
@@ -5584,7 +5603,7 @@ document.addEventListener('touchstart',function(e){
   var t=e.touches[0];
   if(t.clientX<=44) return;
   TODAY_HEARING_TOUCH.on=true;TODAY_HEARING_TOUCH.row=row;TODAY_HEARING_TOUCH.id=id;
-  TODAY_HEARING_TOUCH.sx=t.clientX;TODAY_HEARING_TOUCH.sy=t.clientY;TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;
+  TODAY_HEARING_TOUCH.sx=t.clientX;TODAY_HEARING_TOUCH.sy=t.clientY;TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;TODAY_HEARING_TOUCH.started=Date.now();
   row.classList.remove('swipe-snap');
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
@@ -5592,8 +5611,8 @@ document.addEventListener('touchmove',function(e){
   var t=e.touches[0];
   TODAY_HEARING_TOUCH.dx=t.clientX-TODAY_HEARING_TOUCH.sx;TODAY_HEARING_TOUCH.dy=t.clientY-TODAY_HEARING_TOUCH.sy;
   if(!TODAY_HEARING_TOUCH.horizontal){
-    if(Math.abs(TODAY_HEARING_TOUCH.dy)>14 && Math.abs(TODAY_HEARING_TOUCH.dy)>Math.abs(TODAY_HEARING_TOUCH.dx)*1.15){todayHearingTouchReset(true);return;}
-    if(TODAY_HEARING_TOUCH.dx<-14 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.20) TODAY_HEARING_TOUCH.horizontal=true;
+    if(Math.abs(TODAY_HEARING_TOUCH.dy)>CARD_SWIPE_SENS.verticalCancelY && Math.abs(TODAY_HEARING_TOUCH.dy)>Math.abs(TODAY_HEARING_TOUCH.dx)*CARD_SWIPE_SENS.verticalCancelRatio){todayHearingTouchReset(true);return;}
+    if(TODAY_HEARING_TOUCH.dx<-CARD_SWIPE_SENS.lockX && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*CARD_SWIPE_SENS.lockRatio) TODAY_HEARING_TOUCH.horizontal=true;
   }
   if(!TODAY_HEARING_TOUCH.horizontal) return;
   if(e.cancelable)e.preventDefault();
@@ -5602,15 +5621,16 @@ document.addEventListener('touchmove',function(e){
   TODAY_HEARING_TOUCH.row.classList.toggle('swipe-left',x<=-30);
   TODAY_HEARING_TOUCH.row.classList.toggle('swipe-ready',x<=-72);
 },{passive:false,capture:true});
-document.addEventListener('touchend',function(){
+document.addEventListener('touchend',function(e){
   if(!TODAY_HEARING_TOUCH.on) return;
-  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-72 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70 && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*1.25;
+  // Та же чувствительность, что у карточек на странице «Задачи».
+  // Внешняя ширина визуального раскрытия остаётся прежней.
+  var intentional=cardSwipeShouldOpen(TODAY_HEARING_TOUCH,e);
   finishTodayHearingSwipe(intentional);
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){
   if(!TODAY_HEARING_TOUCH.on) return;
-  var intentional=TODAY_HEARING_TOUCH.horizontal && TODAY_HEARING_TOUCH.dx<=-92 && Math.abs(TODAY_HEARING_TOUCH.dy)<=70;
-  finishTodayHearingSwipe(intentional);
+  todayHearingTouchReset(true);
 },{passive:true,capture:true});
 
 /* =====================================================================
@@ -5843,7 +5863,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5363',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5364',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
