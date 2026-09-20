@@ -38364,7 +38364,7 @@ body.light .hearing-result-v355 .hearing-result-note-field textarea{
 
 
 /* ================================================================
-   5.0.357 — hearing result screen refinement to match approved mockup
+   5.0.358 — hearing result screen refinement to match approved mockup
    Keep the gold save button unchanged; refine all other blocks.
    ================================================================ */
 body.light .sheet.hearing-result-sheet.hearing-result-v355{
@@ -38484,11 +38484,11 @@ body.light .hearing-result-v355 .hearing-result-note-field textarea::placeholder
 
 
 /* ================================================================
-   5.0.357 — hearing result final middle alignment + approved marble
+   5.0.358 — hearing result final middle alignment + approved marble
    Save button intentionally untouched.
    ================================================================ */
 body.light .sheet.hearing-result-sheet.hearing-result-v355{
-  background:#fbf7ef url('quick-sheet-marble-approved.webp?v=5357') center/cover no-repeat!important;
+  background:#fbf7ef url('quick-sheet-marble-approved.webp?v=5358') center/cover no-repeat!important;
 }
 
 /* All three result rows use exactly the same geometry. */
@@ -38595,5 +38595,127 @@ body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choic
   body.light .sheet.hearing-result-sheet.hearing-result-v355 .hearing-result-choice.held.on .hearing-result-choice-icon{
     width:54px!important;
     height:54px!important;
+  }
+}
+
+
+/* ================================================================
+   5.0.358 — Quick Actions: button-only premium refinement
+   Scope: action rows only. Sheet/header/marble geometry remains unchanged.
+   ================================================================ */
+body.light .sheet.task-actions-premium .task-action-premium-card{
+  border-color:rgba(39,50,61,.105)!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row{
+  min-height:82px!important;
+  padding:14px 16px!important;
+  gap:14px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(253,252,249,.94))!important;
+  border-top-color:rgba(61,73,84,.065)!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row:first-child{
+  border-top:0!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row:active{
+  background:linear-gradient(180deg,#FBF8F1,#F8F3E9)!important;
+}
+/* Same premium geometry for both action icons */
+body.light .sheet.task-actions-premium .task-action-premium-icon{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  border-radius:16px!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.94),
+    0 4px 10px rgba(40,54,66,.045)!important;
+}
+/* Change date — cool neutral icon with a very soft warm outline */
+body.light .sheet.task-actions-premium .task-action-premium-row.date .task-action-premium-icon{
+  color:#4E6579!important;
+  background:linear-gradient(145deg,#F8FAFB,#EEF3F6)!important;
+  border-color:rgba(184,140,45,.20)!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row.date .task-action-premium-icon .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.9!important;
+}
+/* Delete — same geometry, danger tone only */
+body.light .sheet.task-actions-premium .task-action-premium-row.delete .task-action-premium-icon{
+  color:#DE4040!important;
+  background:linear-gradient(145deg,#FFF7F7,#FDEEEE)!important;
+  border-color:rgba(222,64,64,.22)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.94),
+    0 4px 10px rgba(185,57,57,.04)!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row.delete .task-action-premium-icon .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.9!important;
+}
+/* Copy alignment and typography */
+body.light .sheet.task-actions-premium .task-action-premium-copy b{
+  font-size:16px!important;
+  line-height:1.16!important;
+  font-weight:780!important;
+  letter-spacing:-.008em!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-copy small{
+  margin-top:5px!important;
+  font-size:11.8px!important;
+  line-height:1.3!important;
+  color:#263746!important;
+}
+/* Tails aligned identically and visually lighter */
+body.light .sheet.task-actions-premium .task-action-premium-tail{
+  width:24px!important;
+  min-width:24px!important;
+  color:#687C8E!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-tail .ico{
+  width:16px!important;
+  height:16px!important;
+  stroke-width:1.9!important;
+}
+body.light .sheet.task-actions-premium .task-action-premium-row.delete .task-action-premium-copy b,
+body.light .sheet.task-actions-premium .task-action-premium-row.delete .task-action-premium-tail{
+  color:#DF4040!important;
+}
+/* Preserve the same geometry in dark mode without changing the sheet itself */
+body:not(.light) .sheet.task-actions-premium .task-action-premium-row{
+  min-height:82px!important;
+  padding:14px 16px!important;
+  gap:14px!important;
+}
+body:not(.light) .sheet.task-actions-premium .task-action-premium-icon{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  border-radius:16px!important;
+}
+body:not(.light) .sheet.task-actions-premium .task-action-premium-row.date .task-action-premium-icon{
+  color:#BDD0DF!important;
+  background:linear-gradient(145deg,#122837,#0E2130)!important;
+  border-color:rgba(213,171,87,.18)!important;
+}
+body:not(.light) .sheet.task-actions-premium .task-action-premium-row.delete .task-action-premium-icon{
+  color:#FF7777!important;
+  background:linear-gradient(145deg,rgba(112,31,31,.30),rgba(61,22,28,.32))!important;
+  border-color:rgba(255,119,119,.18)!important;
+}
+@media(max-width:390px){
+  body.light .sheet.task-actions-premium .task-action-premium-row,
+  body:not(.light) .sheet.task-actions-premium .task-action-premium-row{
+    min-height:78px!important;
+    padding:13px 14px!important;
+    gap:13px!important;
+  }
+  body.light .sheet.task-actions-premium .task-action-premium-icon,
+  body:not(.light) .sheet.task-actions-premium .task-action-premium-icon{
+    width:46px!important;
+    height:46px!important;
+    min-width:46px!important;
+    border-radius:15px!important;
   }
 }
