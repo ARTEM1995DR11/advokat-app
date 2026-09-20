@@ -39273,3 +39273,37 @@ body.light .sheet.matter-editor-sheet::after{
     font-size:9.2px!important;
   }
 }
+
+/* =====================================================================
+   5.0.379 — TODAY: «Соглашение / Назначение» справа напротив названия
+   ===================================================================== */
+#sc-today .hearing-title-basis-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:8px!important;
+  width:100%!important;
+  min-width:0!important;
+}
+#sc-today .hearing-title-basis-row .hearing-unified-title{
+  min-width:0!important;
+  margin:0!important;
+}
+#sc-today .hearing-title-basis-row .hearing-basis-badge{
+  justify-self:end!important;
+  align-self:start!important;
+  margin:0!important;
+}
+#sc-today .hearing-case-basis-line{
+  display:block!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+@media(max-width:390px){
+  #sc-today .hearing-title-basis-row{gap:6px!important;}
+  #sc-today .hearing-title-basis-row .hearing-basis-badge{
+    padding-left:6px!important;
+    padding-right:6px!important;
+  }
+}
