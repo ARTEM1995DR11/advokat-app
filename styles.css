@@ -39122,3 +39122,22 @@ html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image.
   border:0!important;
   box-shadow:0 0 0 2px rgba(208,170,82,.15)!important;
 }
+
+/* =====================================================================
+   5.0.376 — NEW MATTER: approved marble/Themis background only.
+   Layout, fields and controls intentionally unchanged at this step.
+   ===================================================================== */
+body.light .sheet.matter-editor-sheet{
+  background-color:#F8F0E4!important;
+  background-image:url('bg-new-matter-approved-v5376.webp')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% auto!important;
+}
+body.light .sheet.matter-editor-sheet::before{
+  background:transparent!important;
+}
+body.light .sheet.matter-editor-sheet::after{
+  display:none!important;
+  content:none!important;
+}
