@@ -38953,3 +38953,49 @@ body:not(.light) #sc-matters .matters-floating-filter{
     border-radius:16px!important;
   }
 }
+
+/* =====================================================================
+   5.0.371 — MATTERS: filter button replaces bell in brand header.
+   ===================================================================== */
+#sc-matters .app-main-brand > .app-header-filter{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  position:absolute!important;
+  top:0!important;
+  right:2px!important;
+  left:auto!important;
+  bottom:auto!important;
+  box-sizing:border-box!important;
+  width:50px!important;
+  height:50px!important;
+  min-width:50px!important;
+  min-height:50px!important;
+  max-width:50px!important;
+  max-height:50px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:15px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#9B6A13!important;
+  background:linear-gradient(180deg,rgba(255,254,250,.98),rgba(248,241,226,.98))!important;
+  border:1px solid rgba(188,139,45,.34)!important;
+  box-shadow:0 5px 12px rgba(65,45,14,.12),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  z-index:20!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+#sc-matters .app-main-brand > .app-header-filter .ico{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:2.05!important;
+}
+#sc-matters .app-main-brand > .app-header-filter.on{
+  color:#875A09!important;
+  background:linear-gradient(180deg,#FFF5D6,#EED38C)!important;
+  border-color:rgba(183,129,24,.58)!important;
+}
+#sc-matters .app-main-brand > .app-header-filter:active{
+  transform:scale(.96)!important;
+}
+#sc-matters .matters-floating-filter{display:none!important;}
