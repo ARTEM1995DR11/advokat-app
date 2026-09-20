@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.354';
-var APP_BUILD='5354';
+var APP_VERSION='5.0.355';
+var APP_BUILD='5355';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -276,7 +276,7 @@ function headerSearch(action,active,label){
 }
 function mainBrandHeader(withBell){
   var bell = withBell===false ? '' : headerBell();
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5354" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5355" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -704,12 +704,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5354" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5355" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5354" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5355" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2400,7 +2400,6 @@ function drawHearingResultSheet(){
         '<span class="hearing-result-choice-title">'+esc(r.sheetTitle||r.label)+'</span>'+
         '<span class="hearing-result-choice-sub">'+esc(r.sheetSub||'')+'</span>'+
       '</span>'+
-      (selected?'<span class="hearing-result-choice-selected">'+ico('check','s')+'</span>':'')+
     '</button>';
   }).join('');
   var follow=(HR.status==='postponed')
@@ -2410,35 +2409,27 @@ function drawHearingResultSheet(){
   var hrJudge=hearingJudgeName(t,m)||t.hearingJudge||'Судья не указан';
   var hrCourt=hearingPlace(t,m)||'Суд не указан';
   var noteValue=HR.note||'';
-  var meta='<div class="hearing-result-v354-meta">'+
-      '<div class="hearing-result-v354-meta-row"><span class="hearing-result-v354-meta-icon">'+ico('cal','s')+'</span><b>'+esc(hrDate)+'</b></div>'+
-      '<div class="hearing-result-v354-meta-row"><span class="hearing-result-v354-meta-icon">'+ico('user','s')+'</span><b>'+esc(hrJudge)+'</b></div>'+
-      '<div class="hearing-result-v354-meta-row"><span class="hearing-result-v354-meta-icon">'+ico('court','s')+'</span><b>'+esc(hrCourt)+'</b></div>'+
+  var meta='<div class="hearing-result-v355-meta">'+
+      '<div class="hearing-result-v355-meta-row"><span class="hearing-result-v355-meta-icon">'+ico('cal','s')+'</span><b>'+esc(hrDate)+'</b></div>'+
+      '<div class="hearing-result-v355-meta-row"><span class="hearing-result-v355-meta-icon">'+ico('user','s')+'</span><b>'+esc(hrJudge)+'</b></div>'+
+      '<div class="hearing-result-v355-meta-row"><span class="hearing-result-v355-meta-icon">'+ico('court','s')+'</span><b>'+esc(hrCourt)+'</b></div>'+
     '</div>';
-  openSheet('<div class="hearing-result-v354-head">'+
+  openSheet('<div class="hearing-result-v355-head">'+
       '<span class="hearing-result-head-icon">'+ico('gavel')+'</span>'+
-      '<div class="hearing-result-v354-head-copy"><h2>Результат<br>заседания</h2></div>'+
-      '<button type="button" class="hearing-result-v354-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
+      '<div class="hearing-result-v355-head-copy"><h2>Результат<br>заседания</h2></div>'+
+      '<button type="button" class="hearing-result-v355-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
-    '<div class="hearing-result-v354-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+meta+
-    '<h3 class="hearing-result-v354-section-title">Результат</h3>'+ 
+    '<div class="hearing-result-v355-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+meta+
+    '<h3 class="hearing-result-v355-section-title">Результат</h3>'+ 
     '<div class="hearing-result-options">'+choices+'</div>'+follow+
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
-    '<button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button>');
+    '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5355" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
-  sheet.classList.add('hearing-result-sheet','hearing-result-v354');
-  var foot=sheet.querySelector('.shfoot');
-  if(foot && !foot.querySelector('.hearing-result-v354-sign')){
-    var sign=document.createElement('div');
-    sign.className='hearing-result-v354-sign';
-    sign.innerHTML='<i></i><span><img src="scale-gold.webp?v=5354" alt="Весы правосудия"></span><i></i>';
-    foot.appendChild(sign);
-  }
-  requestAnimationFrame(function(){
-    var body=$('#sheet .shbody');
-    if(body) body.scrollTop=oldScroll;
-  });
+  sheet.classList.add('hearing-result-sheet','hearing-result-v355');
+  sheet.scrollTop=oldScroll;
+  requestAnimationFrame(function(){ sheet.scrollTop=oldScroll; });
 }
 function sheetHearingResult(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0]; if(!t||t.kind!=='hearing')return;
@@ -3013,7 +3004,7 @@ function sheetMatterFilters(){
     mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5354" alt=""></span>'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5355" alt=""></span>'+
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Тип, основание, стадия и порядок списка</p></div>'+
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -3629,7 +3620,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5354" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5355" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5757,7 +5748,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5354',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5355',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
