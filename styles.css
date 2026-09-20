@@ -39229,3 +39229,47 @@ body.light .sheet.matter-editor-sheet::after{
   #sc-today .hearing-unified-court{font-size:11px!important;}
   #sc-today .today-next7-group .kind-hearing .hearing-unified-title{font-size:13.8px!important;}
 }
+
+/* =====================================================================
+   5.0.378 — TODAY: основание ведения рядом с номером дела / стадией
+   ===================================================================== */
+#sc-today .hearing-case-basis-line{
+  display:flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:5px 7px!important;
+}
+#sc-today .hearing-case-basis-line .hearing-case-text{
+  min-width:0!important;
+}
+#sc-today .hearing-basis-badge{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:none!important;
+  min-height:20px!important;
+  padding:2px 8px!important;
+  border-radius:999px!important;
+  font-size:9.8px!important;
+  line-height:1!important;
+  font-weight:780!important;
+  white-space:nowrap!important;
+  letter-spacing:.01em!important;
+}
+#sc-today .hearing-basis-badge.agreement{
+  color:#218773!important;
+  background:rgba(47,160,142,.10)!important;
+  border:1px solid rgba(47,160,142,.22)!important;
+}
+#sc-today .hearing-basis-badge.assigned{
+  color:#7656C9!important;
+  background:rgba(138,106,216,.10)!important;
+  border:1px solid rgba(138,106,216,.22)!important;
+}
+@media(max-width:390px){
+  #sc-today .hearing-basis-badge{
+    min-height:18px!important;
+    padding:2px 7px!important;
+    font-size:9.2px!important;
+  }
+}
