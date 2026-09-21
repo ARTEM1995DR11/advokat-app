@@ -43115,3 +43115,15 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   height:24px!important;
   stroke-width:1.65!important;
 }
+
+
+/* 5.0.415 — exact-match icon pass for New Matter block 01. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon .ico{
+  width:24px!important;height:24px!important;stroke-width:1.55!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"] .matter-editor-field-leading .ico{
+  width:26px!important;height:26px!important;stroke-width:1.55!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading .ico{
+  width:25px!important;height:25px!important;stroke-width:1.65!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+}
