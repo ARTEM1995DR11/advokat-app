@@ -41163,3 +41163,167 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
     font-size:9.6px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.398 — actual source-background repair + pending result layout.
+   ===================================================================== */
+/* NEW MATTER: the asset is now cleaned. Do not offset the bitmap itself.
+   Marble must continue behind the iPhone status bar; only the form content
+   receives a safe top inset. */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5398') center top / cover no-repeat!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding:max(72px, calc(env(safe-area-inset-top, 0px) + 18px)) 20px 0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:150px!important;
+  margin:0 0 12px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:8px!important;
+  left:2px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:34px 0 0 60px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  max-width:72%!important;
+  margin:0 0 9px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:75%!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding:max(72px, calc(env(safe-area-inset-top, 0px) + 18px)) 18px 0!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:36px 0 0 58px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:33px!important;
+    max-width:74%!important;
+  }
+}
+
+/* TASKS / Требуют результата:
+   right rail floats only over the title area; the lower metadata now uses the
+   whole card width instead of leaving an empty vertical strip. */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr) 18px!important;
+  align-items:start!important;
+  column-gap:10px!important;
+  min-height:120px!important;
+  padding:13px 12px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-hearing-state{
+  grid-column:1!important;
+  margin-top:1px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-main{
+  grid-column:2!important;
+  width:100%!important;
+  min-width:0!important;
+  padding-right:0!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+  position:absolute!important;
+  z-index:3!important;
+  top:13px!important;
+  right:38px!important;
+  width:70px!important;
+  min-width:70px!important;
+  padding:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  gap:7px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-time{
+  width:100%!important;
+  text-align:right!important;
+  font-size:13px!important;
+  line-height:1!important;
+  font-weight:800!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+  min-width:66px!important;
+  min-height:23px!important;
+  margin:0!important;
+  padding:0 8px!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9.8px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-chev{
+  position:absolute!important;
+  z-index:3!important;
+  right:9px!important;
+  top:50%!important;
+  margin:0!important;
+  transform:translateY(-50%)!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  flex-wrap:wrap!important;
+  gap:6px 8px!important;
+  width:100%!important;
+  padding-right:82px!important;
+  box-sizing:border-box!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-title{
+  flex:0 1 auto!important;
+  width:auto!important;
+  max-width:100%!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-basis-badge{
+  flex:none!important;
+  justify-self:auto!important;
+  margin-top:1px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-case,
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-judge,
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-court,
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due{
+  padding-right:8px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-case{margin-top:4px!important;}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-judge{margin-top:4px!important;}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-court{margin-top:2px!important;}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due{margin-top:4px!important;}
+@media(max-width:390px){
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+    grid-template-columns:32px minmax(0,1fr) 16px!important;
+    column-gap:8px!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+    right:34px!important;
+    width:66px!important;
+    min-width:66px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+    padding-right:76px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+    min-width:62px!important;
+    font-size:9.4px!important;
+  }
+}
