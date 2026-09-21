@@ -42220,3 +42220,91 @@ body.light #sheet.matter-editor-sheet.full.open{
     background-position:right top!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.408 — NEW MATTER: move the back button + hero title lower
+   so the page starts lower, closer to the approved mockup.
+   Scope intentionally limited to the top hero/header zone.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background-color:#F8F0E4!important;
+  background-image:url('bg-new-matter-approved.webp?v=5408')!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:right top!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding-top:max(66px, calc(env(safe-area-inset-top, 0px) + 16px))!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:136px!important;
+  margin:0 0 8px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:14px!important;
+  left:0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:76px 0 0 6px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  max-width:76%!important;
+  margin:0 0 6px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:84%!important;
+  line-height:1.15!important;
+}
+@media(max-width:430px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding-top:max(68px, calc(env(safe-area-inset-top, 0px) + 18px))!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:140px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:80px 0 0 6px!important;
+  }
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding-top:max(70px, calc(env(safe-area-inset-top, 0px) + 20px))!important;
+    padding-left:17px!important;
+    padding-right:17px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:142px!important;
+    margin-bottom:8px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:16px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:82px 0 0 6px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:34px!important;
+    max-width:77%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    font-size:12.2px!important;
+    max-width:86%!important;
+  }
+}
