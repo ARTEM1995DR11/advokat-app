@@ -25722,7 +25722,7 @@ body.light #sheet.qe192-hearing-sheet>.shfoot{
    ===================================================================== */
 body.light #sheet.qe190-sheet,
 body.light #sheet.qe192-hearing-sheet{
-  background:#f8f1e6 url('quick-sheet-mockup-bg.png?v=5204') center top / cover no-repeat!important;
+  background:#f8f1e6 url('quick-sheet-marble-approved.webp?v=5388') center top / cover no-repeat!important;
   isolation:isolate!important;
 }
 body.light #sheet.qe190-sheet::before,
@@ -25809,7 +25809,7 @@ body.light #sheet.qe192-hearing-sheet>.shfoot{
    ===================================================================== */
 body.light #sheet.qe190-sheet,
 body.light #sheet.qe192-hearing-sheet{
-  background:#f7efe3 url('quick-sheet-approved-v5206.png?v=5206') center top / cover no-repeat!important;
+  background:#f7efe3 url('quick-sheet-marble-approved.webp?v=5388') center top / cover no-repeat!important;
   isolation:isolate!important;
 }
 body.light #sheet.qe190-sheet::before,
@@ -25842,7 +25842,7 @@ body.light #sheet.task-editor-sheet.qe190-sheet{
   padding:0!important;
   border:0!important;
   border-radius:0!important;
-  background:#f8f1e6 url('quick-sheet-mobile-approved-v5210.webp?v=5210') center top / cover no-repeat!important;
+  background:#f8f1e6 url('quick-sheet-mobile-approved-v5211.webp?v=5388') center top / cover no-repeat!important;
   box-shadow:none!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet::before,
@@ -39129,7 +39129,7 @@ html body #sc-matters .app-main-brand > .app-header-filter.premium-action-image.
    ===================================================================== */
 body.light .sheet.matter-editor-sheet{
   background-color:#F8F0E4!important;
-  background-image:url('bg-new-matter-approved-v5385.webp')!important;
+  background-image:url('bg-new-matter-approved.webp?v=5388')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:100% auto!important;
@@ -39898,7 +39898,7 @@ body:not(.light) .sheet.matter-editor-sheet .matter-editor-back{
 }
 body.light #sheet.matter-editor-sheet.full{
   background-color:#F7F0E4!important;
-  background-image:url('bg-new-matter-approved-v5385.webp')!important;
+  background-image:url('bg-new-matter-approved.webp?v=5388')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:100% auto!important;
@@ -40226,5 +40226,160 @@ body:has(#sheet.matter-editor-sheet.full.open) #scrim{
   #sheet.matter-editor-sheet .matter-editor-card .premium-select-field-copy b,
   body.light #sheet.matter-editor-sheet .matter-editor-card .matter-editor-input-shell>input{
     font-size:13.8px!important;
+  }
+}
+
+/* =====================================================================
+   5.0.386 — NEW MATTER: neutral field states, no colored effects.
+   The approved mockup uses one calm visual language for every legal field.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card .premium-select-field,
+body.light #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode]>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-judge-field .inline-choice-wrap>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-restraint-field .inline-choice-wrap>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-court,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-judge,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-restraint{
+  border:1px solid rgba(181,135,61,.34)!important;
+  border-left:1px solid rgba(181,135,61,.34)!important;
+  background:rgba(255,255,255,.80)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 4px 12px rgba(93,62,20,.03)!important;
+  color:#18314C!important;
+  outline:none!important;
+}
+
+/* Remove the historical per-stage/per-role tinting completely. */
+body.light #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone .premium-select-field-copy b,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode] label,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-judge-field label,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-restraint-field label{
+  color:#29435E!important;
+}
+
+/* Chevron is a plain affordance: no cyan/pink/purple/gold tile behind it. */
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field .premium-select-field-arrow,
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone .premium-select-field-arrow,
+#sheet.matter-editor-sheet .matter-editor-card .inline-choice-wrap .inline-choice-arrow.premium-list-trigger,
+#sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode] .inline-choice-wrap .inline-choice-arrow.premium-list-trigger,
+#sheet.matter-editor-sheet .matter-editor-card .matter-restraint-field .inline-choice-wrap .inline-choice-arrow.premium-list-trigger{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#24415D!important;
+  opacity:1!important;
+}
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field .premium-select-field-arrow{
+  width:24px!important;
+  height:100%!important;
+  min-width:24px!important;
+  border-radius:0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-card .inline-choice-wrap .inline-choice-arrow.premium-list-trigger{
+  width:38px!important;
+  min-width:38px!important;
+  height:100%!important;
+  right:1px!important;
+  top:0!important;
+  border-radius:0!important;
+  transform:none!important;
+}
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field .premium-select-field-arrow .ico,
+#sheet.matter-editor-sheet .matter-editor-card .inline-choice-wrap .inline-choice-arrow.premium-list-trigger .ico{
+  width:16px!important;
+  height:16px!important;
+  color:#24415D!important;
+  stroke-width:2!important;
+}
+
+/* Focus stays visually stable instead of turning blue/gold or adding glow. */
+body.light #sheet.matter-editor-sheet .matter-editor-card input:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-card textarea:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-court:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-judge:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-card #m-restraint:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-card .matter-hybrid-choice-field .inline-choice-wrap>input:focus{
+  outline:none!important;
+  border:1px solid rgba(181,135,61,.44)!important;
+  border-left:1px solid rgba(181,135,61,.44)!important;
+  background:rgba(255,255,255,.86)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 4px 12px rgba(93,62,20,.04)!important;
+}
+
+/* Keep tap/active states neutral as well. */
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field:active,
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone:active,
+#sheet.matter-editor-sheet .matter-editor-card .inline-choice-arrow.premium-list-trigger:active{
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#sheet.matter-editor-sheet .matter-editor-card .premium-select-field:active{
+  background:rgba(255,255,255,.80)!important;
+  border-color:rgba(181,135,61,.34)!important;
+}
+
+/* Dark theme uses the same principle: one neutral field style without type colors. */
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .premium-select-field,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode] .inline-choice-wrap>input,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .matter-court-field[data-place-mode]>input,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .matter-judge-field .inline-choice-wrap>input,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .matter-restraint-field .inline-choice-wrap>input,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card #m-court,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card #m-judge,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card #m-restraint{
+  border:1px solid rgba(217,182,94,.30)!important;
+  border-left:1px solid rgba(217,182,94,.30)!important;
+  background:rgba(14,34,49,.88)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 5px 14px rgba(0,0,0,.12)!important;
+  color:#F1F5F7!important;
+}
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone .premium-select-field-copy b{
+  color:#F1F5F7!important;
+}
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .premium-select-field .premium-select-field-arrow,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.matter-choice-tone .premium-select-field-arrow,
+body:not(.light) #sheet.matter-editor-sheet .matter-editor-card .inline-choice-wrap .inline-choice-arrow.premium-list-trigger{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#D9B65E!important;
+}
+
+
+/* =====================================================================
+   5.0.387 — NEW MATTER: extend approved background to full screen and
+   increase top safe offset so content does not slide under iPhone island.
+   ===================================================================== */
+.sheet.matter-editor-sheet,
+body.light .sheet.matter-editor-sheet{
+  top:0!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+}
+body.light .sheet.matter-editor-sheet{
+  background-position:center top!important;
+  background-size:100% 100%!important;
+}
+.sheet.matter-editor-sheet.withfoot .shbody,
+body.light .sheet.matter-editor-sheet.withfoot .shbody{
+  padding-top:calc(var(--top) + 24px)!important;
+  padding-bottom:18px!important;
+  scroll-padding-top:calc(var(--top) + 72px)!important;
+}
+@media (max-width:390px){
+  .sheet.matter-editor-sheet,
+  body.light .sheet.matter-editor-sheet{
+    max-height:100dvh!important;
+  }
+  .sheet.matter-editor-sheet.withfoot .shbody,
+  body.light .sheet.matter-editor-sheet.withfoot .shbody{
+    padding-top:calc(var(--top) + 26px)!important;
+    padding-bottom:16px!important;
   }
 }
