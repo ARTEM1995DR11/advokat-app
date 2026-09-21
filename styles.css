@@ -41327,3 +41327,130 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
     font-size:9.4px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.399 — align New Matter to approved mockup + tighten pending hearing.
+   ===================================================================== */
+/* NEW MATTER — reduce the excessive empty gap under the subtitle while
+   preserving a safe status-bar / Dynamic Island area. */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5399') center top / cover no-repeat!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding:max(54px, calc(env(safe-area-inset-top, 0px) + 10px)) 20px 0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:105px!important;
+  margin:0 0 4px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:2px!important;
+  left:2px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:18px 0 0 58px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  margin:0 0 6px!important;
+  max-width:73%!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:79%!important;
+  line-height:1.18!important;
+}
+#sheet.matter-editor-sheet .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:0!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding:max(52px, calc(env(safe-area-inset-top, 0px) + 8px)) 18px 0!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:102px!important;
+    margin-bottom:3px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:17px 0 0 56px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:34px!important;
+    max-width:74%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    max-width:80%!important;
+  }
+}
+
+/* TASKS / pending hearing — match the approved compact hierarchy.
+   Keep title + basis on one row where possible and remove the visual gap
+   between stage, judge and institution. */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+  min-height:116px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:6px!important;
+  padding-right:78px!important;
+  width:100%!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-title{
+  width:auto!important;
+  max-width:none!important;
+  margin:0!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-basis-badge{
+  justify-self:end!important;
+  align-self:start!important;
+  margin:0!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-case{
+  margin-top:2px!important;
+  line-height:1.16!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-judge{
+  margin-top:1px!important;
+  line-height:1.16!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-court{
+  margin-top:1px!important;
+  line-height:1.18!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due{
+  margin-top:3px!important;
+  line-height:1.16!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+  top:12px!important;
+  right:38px!important;
+  gap:5px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-chev{
+  right:9px!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+    padding-right:72px!important;
+    gap:5px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-basis-badge{
+    font-size:8.8px!important;
+    padding-left:6px!important;
+    padding-right:6px!important;
+  }
+}
