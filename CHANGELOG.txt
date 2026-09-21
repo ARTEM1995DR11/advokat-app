@@ -1125,3 +1125,8 @@
 - Удалены старые неиспользуемые фоны быстрой записи из архива: quick-sheet-mobile-approved-v5207.webp, quick-sheet-approved-v5206.png, quick-sheet-mockup-bg.png и предыдущий quick-sheet-mobile-approved-v5208.webp.
 - Создан новый актуальный фон quick-sheet-mobile-approved-v5209.webp: мягкий светлый мрамор + архитектурные колонны справа, без латинских надписей.
 - Обновлены ссылки на ресурсы и сервис-воркер, чтобы приложение подхватывало только новый фон.
+
+5.0.395
+- New Matter: removed duplicated background overlays and footer pseudo-layers.
+- New Matter: shifted hero artwork down for Dynamic Island safety.
+- New Matter: restored one continuous approved background from top to bottom.

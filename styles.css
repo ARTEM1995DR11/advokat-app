@@ -40914,3 +40914,115 @@ body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot::before{
     linear-gradient(180deg,rgba(248,240,228,.03) 0%,rgba(248,240,228,.08) 22%,rgba(248,240,228,.14) 100%),
     url('bg-new-matter-approved.webp?v=5394') center bottom / cover no-repeat!important;
 }
+
+/* =====================================================================
+   5.0.395 — NEW MATTER final background cleanup.
+   1) Remove duplicated decorative layers/pseudos.
+   2) Use one continuous approved background for the whole editor.
+   3) Keep the top artwork lower for Dynamic Island safety.
+   ===================================================================== */
+#sheet.matter-editor-sheet.full{
+  display:block!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  background-clip:border-box!important;
+}
+#sheet.matter-editor-sheet.full::before,
+#sheet.matter-editor-sheet.full::after,
+body.light #sheet.matter-editor-sheet.full::before,
+body.light #sheet.matter-editor-sheet.full::after{
+  content:none!important;
+  display:none!important;
+}
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5395') center 18px / cover no-repeat!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  display:block!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow:visible!important;
+  padding:calc(env(safe-area-inset-top, 0px) + 14px) 20px 0!important;
+  margin:0!important;
+  background:transparent!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shfoot,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot{
+  display:block!important;
+  position:static!important;
+  width:auto!important;
+  margin:10px 20px 0!important;
+  padding:0 0 max(18px, calc(var(--bot) + 14px))!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shfoot::before,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot::before{
+  content:none!important;
+  display:none!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:128px!important;
+  margin:0 0 10px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:4px!important;
+  left:2px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:24px 0 0 60px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  max-width:76%!important;
+  margin:0 0 8px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:78%!important;
+}
+#sheet.matter-editor-sheet.full .matter-editor-motto,
+body.light #sheet.matter-editor-sheet.full .matter-editor-motto{
+  margin:14px 0 0!important;
+}
+@media (max-width:390px){
+  body.light #sheet.matter-editor-sheet.full,
+  body.light #sheet.matter-editor-sheet.full.open{
+    background-position:center 22px!important;
+  }
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding:calc(env(safe-area-inset-top, 0px) + 12px) 18px 0!important;
+  }
+  #sheet.matter-editor-sheet.full.withfoot>.shfoot,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot{
+    margin-left:18px!important;
+    margin-right:18px!important;
+    padding-bottom:max(16px, calc(var(--bot) + 12px))!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:124px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:22px 0 0 58px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:34px!important;
+    max-width:78%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    max-width:80%!important;
+  }
+}
