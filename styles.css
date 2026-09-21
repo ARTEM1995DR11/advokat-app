@@ -42165,3 +42165,30 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     font-size:12px!important;
   }
 }
+
+/* =====================================================================
+   5.0.406 — NEW MATTER: rollback background only to 5.0.404.
+   Keep 5.0.405 title and block-01 geometry intact.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background-color:#F8F0E4!important;
+  background-image:url('bg-new-matter-approved.webp?v=5406')!important;
+  background-repeat:no-repeat!important;
+  background-position:calc(50% - 12px) 18px!important;
+  background-size:96% auto!important;
+}
+@media(max-width:430px){
+  body.light #sheet.matter-editor-sheet.full,
+  body.light #sheet.matter-editor-sheet.full.open{
+    background-position:calc(50% - 14px) 16px!important;
+    background-size:97% auto!important;
+  }
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet.full,
+  body.light #sheet.matter-editor-sheet.full.open{
+    background-position:calc(50% - 16px) 18px!important;
+    background-size:99% auto!important;
+  }
+}
