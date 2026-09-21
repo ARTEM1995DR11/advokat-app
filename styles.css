@@ -42636,3 +42636,110 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
     max-width:84%!important;
   }
 }
+
+/* =====================================================================
+   5.0.411 — NEW MATTER: header geometry matched to approved mockup.
+   Header only. Background and block 01 are intentionally untouched.
+   ===================================================================== */
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding-top:max(18px, env(safe-area-inset-top, 0px))!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:108px!important;
+  margin:0 0 6px!important;
+  padding:0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:2px!important;
+  left:4px!important;
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.84)!important;
+  border:1px solid rgba(190,154,96,.16)!important;
+  box-shadow:0 5px 14px rgba(82,58,18,.055),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-back .ico{
+  width:17px!important;
+  height:17px!important;
+  color:#9D7435!important;
+  stroke-width:2.05!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:42px 0 0 8px!important;
+  margin:0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  margin:0 0 5px!important;
+  max-width:76%!important;
+  color:#10263F!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:35px!important;
+  line-height:.96!important;
+  font-weight:700!important;
+  letter-spacing:-.045em!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  margin:0!important;
+  max-width:84%!important;
+  color:#6E8096!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:13px!important;
+  line-height:1.15!important;
+  font-weight:400!important;
+  letter-spacing:0!important;
+}
+@media(max-width:430px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding-top:max(18px, env(safe-area-inset-top, 0px))!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:108px!important;
+    margin-bottom:6px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:42px 0 0 8px!important;
+  }
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:106px!important;
+    margin-bottom:5px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:2px!important;
+    left:3px!important;
+    width:35px!important;
+    height:35px!important;
+    min-width:35px!important;
+    min-height:35px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:41px 0 0 7px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:34px!important;
+    max-width:77%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    font-size:12.8px!important;
+    max-width:85%!important;
+  }
+}
