@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.401';
-var APP_BUILD='5401';
+var APP_VERSION='5.0.403';
+var APP_BUILD='5403';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -285,11 +285,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5401" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5403" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5401" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5403" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -2120,6 +2120,7 @@ function hearingBasisBadge(m){
   return '<span class="hearing-basis-badge '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>';
 }
 function hearingTitleBasisRow(t,m){
+  if(!hearingMatterIsJudicial(m)) return '<span class="hearing-title-basis-row"><b class="hearing-unified-title">'+esc(t.title||m.stage||'Досудебное действие')+'</b></span>';
   var badge=hearingBasisBadge(m);
   return '<span class="hearing-title-basis-row">'+
     '<b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b>'+badge+
@@ -2146,6 +2147,31 @@ function hearingSubcaption(t,m){
   return '';
 }
 function hearingClientName(t,m){ return (m&&m.client)||t.hearingClient||''; }
+
+function hearingStageIsJudicial(stage){
+  var s=String(stage||'').toLowerCase();
+  if(!s) return true;
+  /* A hearing is a court event. Pre-trial stages must never be saved/rendered as a hearing. */
+  if(s.indexOf('дозн')>=0) return false;
+  if(s.indexOf('следств')>=0) return false;
+  if(s.indexOf('дослед')>=0) return false;
+  if(s.indexOf('провер')>=0) return false;
+  if(s.indexOf('возбужден')>=0 && s.indexOf('суд')<0) return false;
+  return true;
+}
+function hearingMatterIsJudicial(m){
+  return !m || hearingStageIsJudicial(m.stage);
+}
+function normalizeHearingKindByMatter(t,m){
+  if(!t || t.kind!=='hearing' || hearingMatterIsJudicial(m)) return t;
+  /* Legacy/edited incompatible record: convert it to a normal task instead of
+     displaying "Дознание/Следствие" as a judicial hearing. */
+  t.kind='task';
+  if(!t.title || /^судебное заседание$/i.test(String(t.title).trim())){
+    t.title=(m&&m.stage?m.stage:'Досудебное действие');
+  }
+  return t;
+}
 function hearingJudgeName(t,m){ return (m&&(m.judge||m.investigator))||t.hearingJudge||''; }
 
 /* 5.0.298:
@@ -2748,6 +2774,8 @@ function taskProjectGroups(list){
     {key:'done',title:'Выполнено',tone:'green',items:[]}
   ];
   list.forEach(function(t){
+    var gm=t.mid?matter(t.mid):null;
+    t=normalizeHearingKindByMatter(t,gm);
     if(t.done){
       if(t.kind==='hearing' && hearingHasResult(t)){out[9].items.push(t);return;}
       out[10].items.push(t);return;
@@ -2804,8 +2832,10 @@ function taskDueText(t){
 }
 function taskProjectRow(t){
   var m=t.mid?matter(t.mid):null;
+  t=normalizeHearingKindByMatter(t,m);
   var title=esc(t.kind==='hearing'?hearingCaption(t,m):t.title);
   var due=taskDueText(t);
+  var pendingInvestigation=!!(t.kind==='hearing'&&hearingNeedsResult(t)&&m&&matterStageMode(m.type,m.stage,m.court)==='investigation');
   var context=m?([m.number,m.title].filter(Boolean).join(' · ')):'';
   /* 5.0.380: scheduled hearings no longer repeat the generic "Заседание" badge.
      Result / pending-result states are still shown when they carry real meaning. */
@@ -2813,24 +2843,36 @@ function taskProjectRow(t){
   var right=(t.time?'<b class="pt-time mono">'+esc(t.time)+'</b>':'')+rowBadge;
   var leadIcon=t.kind==='hearing'
     ? (hearingNeedsResult(t)
-        ? '<button class="pt-hearing-state pending" data-act="hearing-result" data-id="'+t.id+'">'+ico('clock','s')+'</button>'
+        ? '<button class="pt-hearing-state pending'+(pendingInvestigation?' investigation':'')+'" data-act="hearing-result" data-id="'+t.id+'">'+ico(pendingInvestigation?'brief':'clock','s')+'</button>'
         : '<span class="pt-hearing-state '+(hearingHasResult(t)?'completed':'scheduled')+'">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>')
     : (meetingOccurred(t)
         ? '<span class="pt-hearing-state past meeting-past">'+ico('clock','s')+'</span>'
         : '<button class="pt-check" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
   var swipeAllowed=(t.kind==='task'||t.kind==='meeting'||t.kind==='deadline'||(t.kind==='hearing'&&!hearingHasResult(t)));
   var swipeCaption=(t.kind==='hearing'&&hearingNeedsResult(t))?'Результат':'Действия';
-  var mainHtml='';
+  var mainHtml='',wideDue='';
   if(t.kind==='hearing'){
     if(hearingNeedsResult(t)){
       var pendingBasis=hearingBasisBadge(m);
       var pendingStage=hearingCaseStageLine(t,m);
-      mainHtml=
-        '<button class="pt-open pt-hearing-open pt-pending-hearing-open" data-act="task" data-id="'+t.id+'"><b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b></button>'+ 
-        '<div class="pending-hearing-meta">'+pendingBasis+(pendingStage?'<small class="pending-hearing-stage">'+esc(pendingStage)+'</small>':'')+'</div>'+ 
-        hearingUnifiedJudgeLine(t,m)+
-        hearingUnifiedCourtLine(t,m)+
-        due;
+      if(pendingInvestigation){
+        var invStage=(m&&m.stage)||pendingStage||'Досудебное производство';
+        var invPerson=(m&&m.investigator)||hearingJudgeName(t,m)||'';
+        var invLabel=matterInvestigatorLabel(invStage);
+        var invPlace=hearingPlace(t,m)||'';
+        mainHtml=
+          '<button class="pt-open pt-hearing-open pt-pending-hearing-open" data-act="task" data-id="'+t.id+'"><b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b></button>'+
+          '<div class="pending-investigation-tags"><span class="pending-investigation-stage">'+esc(invStage)+'</span>'+pendingBasis+'</div>'+
+          (invPerson?'<small class="pending-investigator-line"><span>'+esc(invLabel)+'</span><b>'+esc(invPerson)+'</b></small>':'')+
+          (invPlace?'<small class="pending-investigation-organ">'+esc(invPlace)+'</small>':'');
+      }else{
+        mainHtml=
+          '<button class="pt-open pt-hearing-open pt-pending-hearing-open" data-act="task" data-id="'+t.id+'"><b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b></button>'+ 
+          '<div class="pending-hearing-meta">'+pendingBasis+(pendingStage?'<small class="pending-hearing-stage">'+esc(pendingStage)+'</small>':'')+'</div>'+ 
+          hearingUnifiedJudgeLine(t,m)+
+          hearingUnifiedCourtLine(t,m);
+      }
+      wideDue=due;
     }else{
       mainHtml=
         '<button class="pt-open pt-hearing-open" data-act="task" data-id="'+t.id+'">'+hearingTitleBasisRow(t,m)+'</button>'+ 
@@ -2854,7 +2896,9 @@ function taskProjectRow(t){
     '<div class="pt-row'+(t.done?' done':'')+(hearingHasResult(t)?' hearing-result-done':'')+(hearingNeedsResult(t)?' needs-result':'')+(t.kind==='deadline'?' deadline-record':'')+'" data-id="'+t.id+'" data-kind="'+esc(t.kind||'task')+'">'+
       leadIcon+
       '<div class="pt-main">'+mainHtml+'</div>'+ 
-      '<div class="pt-side">'+right+'</div><button class="pt-chev" data-act="task" data-id="'+t.id+'" aria-label="Открыть запись">'+ico('chev','s')+'</button></div></div>';
+      '<div class="pt-side">'+right+'</div><button class="pt-chev" data-act="task" data-id="'+t.id+'" aria-label="Открыть запись">'+ico('chev','s')+'</button>'+
+      wideDue+
+    '</div></div>';
 }
 function renderTaskList(){
   var box=$('#tasklist');if(!box)return;
@@ -3997,7 +4041,38 @@ function pullEditor(){
   }
   if(g('#e-note')!==undefined) ED.note = $('#e-note').value.trim();
 }
+
+function enforceHearingStageCompatibilityInEditor(){
+  var kindEl=$('#e-kind'), midEl=$('#e-mid');
+  if(!kindEl) return;
+  var m=midEl&&midEl.value?matter(midEl.value):null;
+  var opt=kindEl.querySelector('option[value="hearing"]');
+  var blocked=!!(m&&!hearingMatterIsJudicial(m));
+  if(opt){
+    opt.disabled=blocked;
+    opt.hidden=blocked;
+  }
+  if(blocked && kindEl.value==='hearing'){
+    kindEl.value='task';
+    try{kindEl.dispatchEvent(new Event('change',{bubbles:true}));}catch(_e){}
+    toast('На досудебной стадии запись изменена с «Заседание» на «Задача»');
+  }
+}
+
 function saveTask(){
+  /* 5.0.403: "Заседание" is strictly a judicial event. */
+  try{
+    var kindEl=$('#e-kind');
+    var midEl=$('#e-mid');
+    var selectedKind=kindEl?kindEl.value:'';
+    var selectedMid=midEl?midEl.value:'';
+    var selectedMatter=selectedMid?matter(selectedMid):null;
+    if(selectedKind==='hearing' && selectedMatter && !hearingMatterIsJudicial(selectedMatter)){
+      toast('Для стадии «'+(selectedMatter.stage||'Досудебное производство')+'» нельзя выбрать тип «Заседание»');
+      return;
+    }
+  }catch(_hearingStageValidationErr){}
+
   pullEditor();
   var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
   if(hearing){
@@ -4275,6 +4350,14 @@ function saveMatter(){
   var wasNew=!MED.id;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
   addJournal(MED.id,wasNew?'Досье создано':'Досье обновлено',today(),'system',true);
+  /* If a case is moved back to a pre-trial stage, linked "hearing" records
+     cannot remain judicial hearings. Convert them to ordinary tasks. */
+  var savedMatter=matter(MED.id);
+  if(savedMatter && !hearingMatterIsJudicial(savedMatter)){
+    (S.tasks||[]).forEach(function(tt){
+      if(tt&&tt.mid===MED.id&&tt.kind==='hearing') normalizeHearingKindByMatter(tt,savedMatter);
+    });
+  }
   save(); closeSheet(); if($('#page').classList.contains('open'))openMatter(MED.id); render(); toast('Дело сохранено');
 }
 
@@ -5341,6 +5424,8 @@ document.addEventListener('click', function(ev){
   }
 });
 document.addEventListener('change',function(e){
+  setTimeout(enforceHearingStageCompatibilityInEditor,0);
+
   if(e.target&&e.target.tagName==='SELECT'&&e.target.id) syncPremiumSelectButton(e.target.id);
   if(e.target&&e.target.id==='j-mid-select'){syncJournalMatterMeta();return;}
   if(e.target.id==='e-hjudge-choice'&&ED){
@@ -5985,7 +6070,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5401',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5403',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

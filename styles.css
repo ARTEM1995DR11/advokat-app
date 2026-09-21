@@ -41816,3 +41816,129 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     font-size:10.8px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.402 — TASKS: pending result distinguishes investigation from court.
+   ===================================================================== */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+  grid-template-rows:auto auto!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due-wide{
+  grid-column:2 / 5!important;
+  grid-row:2!important;
+  display:block!important;
+  width:100%!important;
+  margin:7px 0 0!important;
+  padding:0!important;
+  color:#718295!important;
+  font-size:10.8px!important;
+  line-height:1.22!important;
+  font-weight:600!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"].investigation-result,
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]:has(.pending-investigation-tags){
+  min-height:126px!important;
+}
+#sc-tasks .pt-hearing-state.pending.investigation{
+  color:#92702f!important;
+  border-color:rgba(183,138,47,.34)!important;
+  background:rgba(193,151,67,.10)!important;
+}
+#sc-tasks .pending-investigation-tags{
+  display:flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:6px!important;
+  margin-top:6px!important;
+  min-width:0!important;
+}
+#sc-tasks .pending-investigation-stage{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:20px!important;
+  padding:2px 8px!important;
+  border-radius:999px!important;
+  color:#556d85!important;
+  background:rgba(88,111,137,.09)!important;
+  border:1px solid rgba(88,111,137,.18)!important;
+  font-size:9.6px!important;
+  line-height:1!important;
+  font-weight:780!important;
+  white-space:nowrap!important;
+}
+#sc-tasks .pending-investigation-tags .hearing-basis-badge{
+  position:static!important;
+  display:inline-flex!important;
+  margin:0!important;
+  min-height:20px!important;
+  padding:2px 8px!important;
+  font-size:9.4px!important;
+  line-height:1!important;
+}
+#sc-tasks .pending-investigator-line{
+  display:flex!important;
+  align-items:baseline!important;
+  gap:5px!important;
+  min-width:0!important;
+  margin-top:6px!important;
+  color:#6b7c8f!important;
+  font-size:10.7px!important;
+  line-height:1.2!important;
+  font-weight:600!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pending-investigator-line span{
+  flex:none!important;
+  color:#76879a!important;
+}
+#sc-tasks .pending-investigator-line b{
+  min-width:0!important;
+  color:#20809a!important;
+  font-size:11.7px!important;
+  font-weight:780!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-tasks .pending-investigation-organ{
+  display:block!important;
+  margin-top:3px!important;
+  color:#53697c!important;
+  font-size:11.2px!important;
+  line-height:1.22!important;
+  font-weight:540!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due-wide{
+    font-size:10.5px!important;
+    margin-top:6px!important;
+  }
+  #sc-tasks .pending-investigation-stage{
+    font-size:9.2px!important;
+    padding-left:7px!important;
+    padding-right:7px!important;
+  }
+  #sc-tasks .pending-investigator-line{
+    font-size:10.4px!important;
+  }
+  #sc-tasks .pending-investigator-line b{
+    font-size:11.2px!important;
+  }
+  #sc-tasks .pending-investigation-organ{
+    font-size:10.8px!important;
+  }
+}
+
+
+/* 5.0.403 — incompatible pre-trial records are no longer styled as hearings. */
+#sc-tasks .pt-row[data-kind="task"] .pending-investigation-tags{
+  margin-top:5px!important;
+}
