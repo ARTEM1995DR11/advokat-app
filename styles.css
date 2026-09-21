@@ -40799,3 +40799,118 @@ body.light #sheet.matter-editor-sheet .matter-editor-motto{
     max-width:80%!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.394 — TASKS pending-hearing layout + NEW MATTER decorative safe area.
+   ===================================================================== */
+/* Tasks / Требуют результата: compact, predictable right rail. */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr) 78px 18px!important;
+  align-items:start!important;
+  column-gap:10px!important;
+  row-gap:0!important;
+  min-height:132px!important;
+  padding:13px 12px 13px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-hearing-state{
+  grid-column:1!important;
+  align-self:start!important;
+  margin-top:1px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-main{
+  grid-column:2!important;
+  min-width:0!important;
+  width:100%!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+  grid-column:3!important;
+  width:78px!important;
+  min-width:78px!important;
+  padding-top:1px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-time{
+  width:100%!important;
+  text-align:center!important;
+  font-size:13px!important;
+  line-height:1!important;
+  font-weight:800!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+  min-width:70px!important;
+  min-height:23px!important;
+  padding:0 9px!important;
+  margin:0!important;
+  font-size:10px!important;
+  line-height:1!important;
+  font-weight:780!important;
+  white-space:nowrap!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-chev{
+  grid-column:4!important;
+  align-self:center!important;
+  justify-self:center!important;
+  margin:0!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+  width:100%!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-title{
+  flex:0 1 auto!important;
+  min-width:0!important;
+  max-width:calc(100% - 76px)!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-basis-badge{
+  flex:none!important;
+  justify-self:auto!important;
+  align-self:flex-start!important;
+  margin-top:1px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due{
+  margin-top:6px!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+    grid-template-columns:32px minmax(0,1fr) 72px 16px!important;
+    column-gap:8px!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+    width:72px!important;
+    min-width:72px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+    min-width:66px!important;
+    font-size:9.6px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-title{
+    max-width:calc(100% - 70px)!important;
+  }
+}
+
+/* New Matter: the asset itself is shifted down for Dynamic Island safety.
+   Keep the UI geometry and the already-fixed bottom intact. */
+body.light #sheet.matter-editor-sheet.full,
+body.light .sheet.matter-editor-sheet{
+  background-image:url('bg-new-matter-approved.webp?v=5394')!important;
+  background-position:center top!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shfoot::before,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot::before{
+  background:
+    linear-gradient(180deg,rgba(248,240,228,.03) 0%,rgba(248,240,228,.08) 22%,rgba(248,240,228,.14) 100%),
+    url('bg-new-matter-approved.webp?v=5394') center bottom / cover no-repeat!important;
+}
