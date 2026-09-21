@@ -43086,3 +43086,32 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     height:16px!important;
   }
 }
+
+
+/* 5.0.414 — New Matter block 01: icons matched to approved mockup. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  color:#B58B45!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.7!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading{
+  color:#B58B45!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.7!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"] .matter-editor-field-leading .ico{
+  width:25px!important;
+  height:25px!important;
+  stroke-width:1.55!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.65!important;
+}

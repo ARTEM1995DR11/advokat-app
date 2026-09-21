@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.413';
-var APP_BUILD='5413';
+var APP_VERSION='5.0.414';
+var APP_BUILD='5414';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -285,11 +285,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5413" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5414" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5413" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5414" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -739,7 +739,7 @@ function syncPremiumSelectButton(id){
 }
 function matterEditorControlIconName(id){
   var map={
-    'm-type':'scale','m-basis':'doc','m-client':'user','m-phone':'phone','m-number':'brief',
+    'm-type':'scale-line','m-basis':'page','m-client':'user','m-phone':'phone','m-number':'brief',
     'm-stage':'flag','m-role':'user','m-execution-issue':'gavel','m-court-choice':'court',
     'm-judge-choice':'judge','m-restraint-choice':'lock'
   };
@@ -4060,7 +4060,7 @@ function enforceHearingStageCompatibilityInEditor(){
 }
 
 function saveTask(){
-  /* 5.0.413: "Заседание" is strictly a judicial event. */
+  /* 5.0.414: "Заседание" is strictly a judicial event. */
   try{
     var kindEl=$('#e-kind');
     var midEl=$('#e-mid');
@@ -4326,7 +4326,7 @@ function editMatter(m){
     '<button type="button" class="matter-editor-back" data-act="close" aria-label="Назад">'+ico('left','s')+'</button>'+
     '<div class="matter-editor-titlecopy"><h2>'+(m?'Изменить дело':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p></div>'+
   '</div>'+ 
-  '<section class="matter-editor-card matter-editor-card-params">'+matterEditorSectionHead('folder','Параметры дела','01')+
+  '<section class="matter-editor-card matter-editor-card-params">'+matterEditorSectionHead('nm-folder','Параметры дела','01')+
     '<div class="fld"><label>Тип производства</label><select id="m-type">'+((MED.type==='other')?'<option value="other" selected disabled>Иное (старое дело — выберите новый тип)</option>':'')+MATTER_TYPE_KEYS.map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+ 
     '<div class="fld"><label>Основание ведения *</label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+ 
   '</section>'+ 
@@ -6070,7 +6070,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5413',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5414',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
