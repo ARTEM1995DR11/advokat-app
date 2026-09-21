@@ -43636,3 +43636,118 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     font-size:15.2px!important;
   }
 }
+
+/* =====================================================================
+   5.0.420 — NEW MATTER / BLOCK 01 — precision pass against approved mockup.
+   Only block 01 is touched. Full-screen iPhone proportions are preserved.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  padding:12px 14px 13px!important;
+  border-radius:22px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head{
+  grid-template-columns:31px auto minmax(18px,1fr) auto!important;
+  gap:9px!important;
+  min-height:25px!important;
+  margin:0 0 9px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  width:30px!important;
+  height:26px!important;
+  background-size:30px auto!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+  font-size:13.35px!important;
+  letter-spacing:.158em!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head>i{
+  min-width:20px!important;
+  background:linear-gradient(90deg,rgba(191,154,94,.60),rgba(191,154,94,.12))!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head>em{
+  font-size:12.2px!important;
+  transform:translateY(-1px)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld{
+  margin:0 0 10px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld:last-child{
+  margin-bottom:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+  margin:0 0 5px!important;
+  font-size:12.9px!important;
+  line-height:1.1!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+  min-height:38px!important;
+  height:38px!important;
+  border-radius:12.5px!important;
+  padding:0 6px 0 0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading{
+  width:44px!important;
+  min-width:44px!important;
+  flex:0 0 44px!important;
+  margin-right:9px!important;
+  border-right:1px solid rgba(219,205,184,.76)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
+  background-size:31px 33px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-size:30px 36px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+  font-size:14.9px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  transform:translateY(-1px)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone .premium-select-field-arrow{
+  width:31px!important;
+  min-width:31px!important;
+  margin-left:1px!important;
+  transform:translateX(-2px)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow .ico{
+  width:14.5px!important;
+  height:14.5px!important;
+  stroke-width:2.3!important;
+  transform:rotate(90deg)!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    padding:11px 13px 12px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+    font-size:13px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+    font-size:12.7px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+    min-height:37px!important;
+    height:37px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading{
+    width:42px!important;
+    min-width:42px!important;
+    flex-basis:42px!important;
+    margin-right:8px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
+    background-size:30px 32px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:29px 35px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+    font-size:14.6px!important;
+  }
+}
