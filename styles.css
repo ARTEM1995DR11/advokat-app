@@ -43127,3 +43127,43 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading .ico{
   width:25px!important;height:25px!important;stroke-width:1.65!important;stroke-linecap:round!important;stroke-linejoin:round!important;
 }
+
+
+/* =====================================================================
+   5.0.416 — NEW MATTER block 01: use icon artwork extracted directly
+   from the approved mockup so the three key glyphs match its silhouette.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"] .matter-editor-field-leading .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading .ico{
+  display:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  background-image:url('nm-folder-mockup.png?v=5416')!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:28px auto!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"] .matter-editor-field-leading{
+  background-image:url('nm-scale-mockup.png?v=5416')!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:27px 27px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5416')!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:24px 24px!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+    background-size:26px auto!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"] .matter-editor-field-leading{
+    background-size:25px 25px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"] .matter-editor-field-leading{
+    background-size:23px 23px!important;
+  }
+}
