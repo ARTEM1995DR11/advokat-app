@@ -41026,3 +41026,140 @@ body.light #sheet.matter-editor-sheet.full .matter-editor-motto{
     max-width:80%!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.397 — NEW MATTER top safe area + TASKS pending-result card polish.
+   ===================================================================== */
+/* New Matter: move the whole hero zone lower so the Dynamic Island
+   does not overlap the motto or the title block. Keep the fixed bottom
+   solution from 5.0.396 intact. */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5397') center 48px / cover no-repeat!important;
+}
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding:calc(env(safe-area-inset-top, 0px) + 32px) 20px 0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:150px!important;
+  margin:0 0 12px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:14px!important;
+  left:2px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:42px 0 0 60px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  max-width:72%!important;
+  margin:0 0 10px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:74%!important;
+}
+@media (max-width:390px){
+  body.light #sheet.matter-editor-sheet.full,
+  body.light #sheet.matter-editor-sheet.full.open{
+    background-position:center 54px!important;
+  }
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding:calc(env(safe-area-inset-top, 0px) + 34px) 18px 0!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:154px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:16px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:46px 0 0 58px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:33px!important;
+    max-width:74%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    max-width:76%!important;
+  }
+}
+
+/* Tasks: make the "Требуют результата" hearing card denser and more orderly.
+   Title + basis badge stay on one logical row, while the time/result rail stays
+   compact on the right without leaving a visually empty middle strip. */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+  grid-template-columns:34px minmax(0,1fr) 74px 18px!important;
+  column-gap:10px!important;
+  min-height:124px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+  width:74px!important;
+  min-width:74px!important;
+  align-items:flex-end!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-time{
+  text-align:right!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+  min-width:68px!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-title-basis-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:7px!important;
+  width:100%!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-title{
+  flex:none!important;
+  max-width:none!important;
+  width:auto!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-basis-badge{
+  justify-self:end!important;
+  align-self:start!important;
+  margin-top:0!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-case{
+  margin-top:4px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-judge{
+  margin-top:4px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .hearing-unified-court{
+  margin-top:2px!important;
+}
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-result-due{
+  margin-top:5px!important;
+}
+@media(max-width:390px){
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"]{
+    grid-template-columns:32px minmax(0,1fr) 70px 16px!important;
+    column-gap:8px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-side{
+    width:70px!important;
+    min-width:70px!important;
+  }
+  #sc-tasks .pt-row.needs-result[data-kind="hearing"] .pt-badge.hearing-result.pending{
+    min-width:64px!important;
+    font-size:9.6px!important;
+  }
+}
