@@ -42542,3 +42542,97 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     font-size:17px!important;
   }
 }
+
+/* =====================================================================
+   5.0.410 — NEW MATTER: header-only pixel pass.
+   Scope: back button + title + subtitle only. Block 01 and background untouched.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  min-height:158px!important;
+  margin:0 0 14px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:14px!important;
+  left:2px!important;
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.88)!important;
+  border:1px solid rgba(185,151,93,.18)!important;
+  box-shadow:0 5px 14px rgba(84,58,18,.055),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-back .ico{
+  width:18px!important;
+  height:18px!important;
+  color:#9A7132!important;
+  stroke-width:2.05!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:72px 0 0 8px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  margin:0 0 7px!important;
+  max-width:77%!important;
+  color:#102741!important;
+  font-family:"Iowan Old Style",Baskerville,Georgia,"Times New Roman",serif!important;
+  font-size:36px!important;
+  line-height:.97!important;
+  font-weight:700!important;
+  letter-spacing:-.034em!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  margin:0!important;
+  max-width:82%!important;
+  color:#6C7E94!important;
+  font-family:"Iowan Old Style",Baskerville,Georgia,"Times New Roman",serif!important;
+  font-size:13.4px!important;
+  line-height:1.18!important;
+  font-weight:400!important;
+  letter-spacing:0!important;
+}
+@media(max-width:430px){
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:160px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:74px 0 0 8px!important;
+  }
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:162px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:14px!important;
+    width:39px!important;
+    height:39px!important;
+    min-width:39px!important;
+    min-height:39px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:76px 0 0 7px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:35px!important;
+    max-width:78%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    font-size:13.1px!important;
+    max-width:84%!important;
+  }
+}
