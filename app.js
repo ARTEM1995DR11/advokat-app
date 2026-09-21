@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.400';
-var APP_BUILD='5400';
+var APP_VERSION='5.0.401';
+var APP_BUILD='5401';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -285,11 +285,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5400" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5401" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5400" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5401" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -2822,14 +2822,25 @@ function taskProjectRow(t){
   var swipeCaption=(t.kind==='hearing'&&hearingNeedsResult(t))?'Результат':'Действия';
   var mainHtml='';
   if(t.kind==='hearing'){
-    mainHtml=
-      '<button class="pt-open pt-hearing-open" data-act="task" data-id="'+t.id+'">'+hearingTitleBasisRow(t,m)+'</button>'+ 
-      taskDoneKindBadge(t)+
-      hearingCaseBasisLine(t,m)+
-      hearingUnifiedJudgeLine(t,m)+
-      hearingUnifiedCourtLine(t,m)+
-      (hearingHasResult(t)&&t.hearingResultText?'<small class="pt-hearing-result-text">'+esc(t.hearingResultText)+'</small>':'')+
-      due;
+    if(hearingNeedsResult(t)){
+      var pendingBasis=hearingBasisBadge(m);
+      var pendingStage=hearingCaseStageLine(t,m);
+      mainHtml=
+        '<button class="pt-open pt-hearing-open pt-pending-hearing-open" data-act="task" data-id="'+t.id+'"><b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b></button>'+ 
+        '<div class="pending-hearing-meta">'+pendingBasis+(pendingStage?'<small class="pending-hearing-stage">'+esc(pendingStage)+'</small>':'')+'</div>'+ 
+        hearingUnifiedJudgeLine(t,m)+
+        hearingUnifiedCourtLine(t,m)+
+        due;
+    }else{
+      mainHtml=
+        '<button class="pt-open pt-hearing-open" data-act="task" data-id="'+t.id+'">'+hearingTitleBasisRow(t,m)+'</button>'+ 
+        taskDoneKindBadge(t)+
+        hearingCaseBasisLine(t,m)+
+        hearingUnifiedJudgeLine(t,m)+
+        hearingUnifiedCourtLine(t,m)+
+        (hearingHasResult(t)&&t.hearingResultText?'<small class="pt-hearing-result-text">'+esc(t.hearingResultText)+'</small>':'')+
+        due;
+    }
   }else{
     mainHtml=
       '<button class="pt-open" data-act="task" data-id="'+t.id+'"><b>'+title+'</b></button>'+ 
@@ -5974,7 +5985,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5400',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5401',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
