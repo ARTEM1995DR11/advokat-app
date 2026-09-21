@@ -40802,7 +40802,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-motto{
 
 
 /* =====================================================================
-   5.0.394 — TASKS pending-hearing layout + NEW MATTER decorative safe area.
+   5.0.396 — TASKS pending-hearing layout + NEW MATTER decorative safe area.
    ===================================================================== */
 /* Tasks / Требуют результата: compact, predictable right rail. */
 #sc-tasks .pt-row.needs-result[data-kind="hearing"]{
@@ -40903,7 +40903,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-motto{
    Keep the UI geometry and the already-fixed bottom intact. */
 body.light #sheet.matter-editor-sheet.full,
 body.light .sheet.matter-editor-sheet{
-  background-image:url('bg-new-matter-approved.webp?v=5394')!important;
+  background-image:url('bg-new-matter-approved.webp?v=5396')!important;
   background-position:center top!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -40912,11 +40912,11 @@ body.light .sheet.matter-editor-sheet{
 body.light #sheet.matter-editor-sheet.full.withfoot>.shfoot::before{
   background:
     linear-gradient(180deg,rgba(248,240,228,.03) 0%,rgba(248,240,228,.08) 22%,rgba(248,240,228,.14) 100%),
-    url('bg-new-matter-approved.webp?v=5394') center bottom / cover no-repeat!important;
+    url('bg-new-matter-approved.webp?v=5396') center bottom / cover no-repeat!important;
 }
 
 /* =====================================================================
-   5.0.395 — NEW MATTER final background cleanup.
+   5.0.396 — NEW MATTER final background cleanup.
    1) Remove duplicated decorative layers/pseudos.
    2) Use one continuous approved background for the whole editor.
    3) Keep the top artwork lower for Dynamic Island safety.
@@ -40936,7 +40936,7 @@ body.light #sheet.matter-editor-sheet.full::after{
 }
 body.light #sheet.matter-editor-sheet.full,
 body.light #sheet.matter-editor-sheet.full.open{
-  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5395') center 18px / cover no-repeat!important;
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5396') center 18px / cover no-repeat!important;
 }
 #sheet.matter-editor-sheet.full.withfoot>.shbody,
 body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
