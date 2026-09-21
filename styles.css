@@ -41336,7 +41336,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
    preserving a safe status-bar / Dynamic Island area. */
 body.light #sheet.matter-editor-sheet.full,
 body.light #sheet.matter-editor-sheet.full.open{
-  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5399') center top / cover no-repeat!important;
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5400') center top / cover no-repeat!important;
 }
 #sheet.matter-editor-sheet.full.withfoot>.shbody,
 body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
@@ -41452,5 +41452,201 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
     font-size:8.8px!important;
     padding-left:6px!important;
     padding-right:6px!important;
+  }
+}
+
+
+/* =====================================================================
+   5.0.400 — NEW MATTER: approved header + block 01 geometry.
+   Scope intentionally limited to hero/header and "Параметры дела" only.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background:#F8F0E4 url('bg-new-matter-approved.webp?v=5400') center top / cover no-repeat!important;
+}
+
+/* Header: back button on its own upper row, title below it, left aligned
+   like the approved mockup instead of being pushed right by the button. */
+#sheet.matter-editor-sheet.full.withfoot>.shbody,
+body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+  padding:max(46px, env(safe-area-inset-top, 0px)) 18px 0!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  position:relative!important;
+  min-height:116px!important;
+  margin:0 0 9px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  width:44px!important;
+  height:44px!important;
+  left:0!important;
+  top:0!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.86)!important;
+  border:1px solid rgba(183,148,89,.18)!important;
+  box-shadow:0 5px 15px rgba(76,51,15,.055)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-back .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-back .ico{
+  width:18px!important;
+  height:18px!important;
+  color:#9D7434!important;
+  stroke-width:1.9!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  padding:52px 0 0 6px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+  max-width:74%!important;
+  margin:0 0 5px!important;
+  color:#132A45!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:35px!important;
+  font-weight:600!important;
+  line-height:.98!important;
+  letter-spacing:-.045em!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:78%!important;
+  margin:0!important;
+  color:#71839A!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:13px!important;
+  line-height:1.18!important;
+  font-weight:400!important;
+}
+
+/* Block 01 — same proportions as the approved card. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin:0!important;
+  padding:14px 13px 13px!important;
+  border-radius:21px!important;
+  background:rgba(255,252,247,.94)!important;
+  border:1px solid rgba(183,141,72,.18)!important;
+  box-shadow:0 8px 20px rgba(92,60,19,.07),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head{
+  grid-template-columns:24px auto minmax(20px,1fr) auto!important;
+  gap:8px!important;
+  min-height:24px!important;
+  margin:0 0 12px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  width:24px!important;
+  height:24px!important;
+  color:#B8904D!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:1.8!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+  color:#8B6838!important;
+  font-size:11.5px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:.17em!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head>i{
+  height:1px!important;
+  background:linear-gradient(90deg,rgba(183,139,68,.48),rgba(183,139,68,.08))!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head>em{
+  color:#A37C45!important;
+  font-size:10.8px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld{
+  margin:0 0 11px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld:last-child{
+  margin-bottom:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+  margin:0 0 6px!important;
+  color:#29435E!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:13.1px!important;
+  line-height:1.14!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+  grid-template-columns:52px minmax(0,1fr) 26px!important;
+  min-height:52px!important;
+  height:52px!important;
+  padding:0 11px 0 0!important;
+  border-radius:17px!important;
+  background:rgba(255,255,255,.90)!important;
+  border:1px solid rgba(185,143,74,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 4px 12px rgba(94,63,21,.025)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading{
+  width:52px!important;
+  height:100%!important;
+  color:#B58B48!important;
+  border-right:1px solid rgba(183,139,68,.14)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading .ico{
+  width:21px!important;
+  height:21px!important;
+  stroke-width:1.8!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy{
+  padding:0 12px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+  color:#17314C!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15px!important;
+  line-height:1.1!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow{
+  display:flex!important;
+  width:26px!important;
+  min-width:26px!important;
+  height:100%!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#29455F!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow .ico{
+  width:16px!important;
+  height:16px!important;
+  stroke-width:2!important;
+}
+
+@media(max-width:390px){
+  #sheet.matter-editor-sheet.full.withfoot>.shbody,
+  body.light #sheet.matter-editor-sheet.full.withfoot>.shbody{
+    padding:max(44px, env(safe-area-inset-top, 0px)) 18px 0!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    min-height:112px!important;
+    margin-bottom:8px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    padding:50px 0 0 5px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy h2,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy h2{
+    font-size:34px!important;
+    max-width:76%!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    font-size:12.6px!important;
+    max-width:82%!important;
   }
 }
