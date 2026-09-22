@@ -44722,7 +44722,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.438 — NEW MATTER required marker.
+   5.0.439 — NEW MATTER required marker.
    Match approved mockup: the asterisk in “Основание ведения” is red.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .required-star{
@@ -44732,7 +44732,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .req
 
 
 /* =====================================================================
-   5.0.438 — NEW MATTER final micro-adjustments after visual review.
+   5.0.439 — NEW MATTER final micro-adjustments after visual review.
    - bring title/subtitle slightly closer to block 01;
    - nudge the document icon slightly upward for visual centering;
    - remove sharp inner corners on the tinted left icon cells.
@@ -44752,7 +44752,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   overflow:hidden!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5438'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  background-image:url('nm-doc-mockup.png?v=5439'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
   background-repeat:no-repeat,no-repeat!important;
   background-size:20px 26px,100% 100%!important;
   background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
@@ -44779,7 +44779,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.438 — NEW MATTER final alignment polish.
+   5.0.439 — NEW MATTER final alignment polish.
    Remaining differences vs approved mockup:
    1) subtitle under the title was slightly too large/long;
    2) back button sat too far from the title block.
@@ -44805,5 +44805,37 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
     max-width:76%!important;
     font-size:12.1px!important;
     line-height:1.11!important;
+  }
+}
+
+
+/* =====================================================================
+   5.0.439 — NEW MATTER final header polish.
+   Requested fixes:
+   - drop the back button lower, closer to the “Новое дело” title;
+   - keep the subtitle on a single line like in the approved mockup.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:28px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:89%!important;
+  font-size:11.85px!important;
+  line-height:1.08!important;
+  white-space:nowrap!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:26px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    max-width:90%!important;
+    font-size:11.55px!important;
+    line-height:1.06!important;
+    white-space:nowrap!important;
   }
 }
