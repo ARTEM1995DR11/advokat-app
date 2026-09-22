@@ -44329,3 +44329,32 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     background-size:18px 23px!important;
   }
 }
+
+/* =====================================================================
+   5.0.428 — NEW MATTER / BLOCK 01
+   Latest review: move the whole first card lower without moving hero text;
+   center the document icon inside the left cell.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:18px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  background-image:url('nm-folder-mockup.png?v=5428')!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
+  background-image:url('nm-scale-mockup.png?v=5428')!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5428')!important;
+  background-size:19px 24px!important;
+  background-position:calc(50% + 3px) 50%!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:17px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:18px 23px!important;
+    background-position:calc(50% + 3px) 50%!important;
+  }
+}
