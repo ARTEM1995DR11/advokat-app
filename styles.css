@@ -44417,3 +44417,38 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     background-position:calc(50% - 5px) 51%!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.431 — NEW MATTER hero/block 01 final correction.
+   User-approved intent:
+   - do NOT push the page title under block 01;
+   - keep block 01 immediately after the statue scales on the background;
+   - shift the document icon a bit left while keeping it vertically centered.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  transform:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:30px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5431')!important;
+  background-size:22px 28px!important;
+  background-position:calc(50% - 7px) 50%!important;
+  background-repeat:no-repeat!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    transform:none!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:28px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:21px 27px!important;
+    background-position:calc(50% - 7px) 50%!important;
+  }
+}
