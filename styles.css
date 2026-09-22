@@ -44719,3 +44719,13 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     background-position:calc(50% - 1px) calc(50% - 1px),0 0!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.436 — NEW MATTER required marker.
+   Match approved mockup: the asterisk in “Основание ведения” is red.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .required-star{
+  color:#D85B46!important;
+  font-weight:700!important;
+}
