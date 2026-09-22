@@ -46739,3 +46739,114 @@ body.light #sheet.matter-editor-sheet #m-dayrate {
   font-variant-numeric: lining-nums tabular-nums!important;
   font-feature-settings: "lnum" 1, "tnum" 1!important;
 }
+
+
+/* =====================================================================
+   5.0.477 — NEW MATTER / FINAL APPROVED GOLD SAVE BUTTON.
+   Make “Сохранить дело” visually match the approved “Сохранить заседание”
+   button: same glossy gold capsule, same icon/text balance, same premium
+   depth and rounded geometry.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save,
+body.light #sheet.matter-editor-sheet .matter-editor-save{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:14px!important;
+  width:100%!important;
+  min-height:64px!important;
+  height:64px!important;
+  margin:0!important;
+  padding:0 22px!important;
+  border:0!important;
+  border-radius:30px!important;
+  background:#D9A326 url('premium-gold-save-v5249.webp?v=5477') center/100% 100% no-repeat!important;
+  color:#17191C!important;
+  box-shadow:
+    0 12px 26px rgba(141,91,13,.17),
+    inset 0 1px 0 rgba(255,255,255,.56)!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:21px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  text-shadow:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  transform:none!important;
+  filter:none!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save::before,
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save::after,
+body.light #sheet.matter-editor-sheet .matter-editor-save::before,
+body.light #sheet.matter-editor-sheet .matter-editor-save::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save > *,
+body.light #sheet.matter-editor-sheet .matter-editor-save > *{
+  position:relative!important;
+  z-index:3!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save .save-icon,
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
+  width:28px!important;
+  height:28px!important;
+  flex:0 0 28px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save .save-icon .ico,
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+  width:25px!important;
+  height:25px!important;
+  color:#17191C!important;
+  stroke:#17191C!important;
+  stroke-width:1.8!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save .save-label,
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
+  color:#17191C!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:21px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+}
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save:active,
+body.light #sheet.matter-editor-sheet .matter-editor-save:active,
+body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save:focus,
+body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
+  background:#D9A326 url('premium-gold-save-v5249.webp?v=5477') center/100% 100% no-repeat!important;
+  transform:translateY(1px)!important;
+  filter:brightness(.985)!important;
+  outline:none!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save,
+  body.light #sheet.matter-editor-sheet .matter-editor-save{
+    min-height:60px!important;
+    height:60px!important;
+    border-radius:28px!important;
+    gap:12px!important;
+    padding:0 20px!important;
+  }
+  body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save .save-label,
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
+    font-size:19.5px!important;
+  }
+  body.light #sheet.matter-editor-sheet .shfoot .matter-editor-save .save-icon .ico,
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+    width:23px!important;
+    height:23px!important;
+  }
+}
