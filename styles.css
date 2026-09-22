@@ -44722,7 +44722,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER required marker.
+   5.0.446 — NEW MATTER required marker.
    Match approved mockup: the asterisk in “Основание ведения” is red.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .required-star{
@@ -44732,7 +44732,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .req
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER final micro-adjustments after visual review.
+   5.0.446 — NEW MATTER final micro-adjustments after visual review.
    - bring title/subtitle slightly closer to block 01;
    - nudge the document icon slightly upward for visual centering;
    - remove sharp inner corners on the tinted left icon cells.
@@ -44752,7 +44752,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   overflow:hidden!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5445'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  background-image:url('nm-doc-mockup.png?v=5446'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
   background-repeat:no-repeat,no-repeat!important;
   background-size:20px 26px,100% 100%!important;
   background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
@@ -44779,7 +44779,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER final alignment polish.
+   5.0.446 — NEW MATTER final alignment polish.
    Remaining differences vs approved mockup:
    1) subtitle under the title was slightly too large/long;
    2) back button sat too far from the title block.
@@ -44810,7 +44810,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER final header polish.
+   5.0.446 — NEW MATTER final header polish.
    Requested fixes:
    - drop the back button lower, closer to the “Новое дело” title;
    - keep the subtitle on a single line like in the approved mockup.
@@ -44842,7 +44842,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER final title drop.
+   5.0.446 — NEW MATTER final title drop.
    Final requested tweak: lower the title/subtitle closer to block 01.
    ===================================================================== */
 #sheet.matter-editor-sheet .matter-editor-titlecopy,
@@ -44857,7 +44857,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
 }
 
 /* =====================================================================
-   5.0.445 — NEW MATTER upper block finalization.
+   5.0.446 — NEW MATTER upper block finalization.
    Final polish requested by user before approving the upper part:
    1) lower the back button closer to the title;
    2) make the subtitle slightly smaller/shorter;
@@ -44943,7 +44943,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER / BLOCK 02 first full mockup pass.
+   5.0.446 — NEW MATTER / BLOCK 02 first full mockup pass.
    Only “Данные доверителя” is changed; approved block 01 remains untouched.
    - mockup-like filled client icon in the section header;
    - building icon for “Доверитель”;
@@ -45059,7 +45059,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
+   5.0.446 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
    Requested fixes:
    - phone and case numbers should stop looking jumpy; use calmer input typography
      with tabular numerals;
@@ -45087,7 +45087,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.445 — NEW MATTER / BLOCK 02 icon-cell restoration.
+   5.0.446 — NEW MATTER / BLOCK 02 icon-cell restoration.
    Requested fixes:
    - return visible left icon squares in block 02, but with a paler fill;
    - switch trustor/person icon to the mockup-like variant.
@@ -45114,7 +45114,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.445 — COMPACT PREMIUM TOASTS.
+   5.0.446 — COMPACT PREMIUM TOASTS.
    Smaller, calmer in-app notifications while preserving the approved
    marble / gold / navy visual language.
    ===================================================================== */
@@ -45203,6 +45203,155 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
   .toast.premium-toast.is-long{
     width:min(306px,calc(100vw - 24px))!important;
     min-height:60px!important;
+  }
+  .toast.premium-toast.is-long .premium-toast-text{font-size:12.1px!important;}
+}
+
+
+/* =====================================================================
+   5.0.446 — PREMIUM TOASTS / NAVY GLASS EDITION.
+   Compact luxury notification card: deep navy glass, gold medallion icon,
+   soft inner sheen, no heavy divider, calmer typography.
+   ===================================================================== */
+.toast.premium-toast{
+  bottom:calc(var(--bot) + 90px)!important;
+  display:grid!important;
+  grid-template-columns:38px minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:10px!important;
+  width:min(272px,calc(100vw - 38px))!important;
+  min-height:58px!important;
+  padding:9px 14px 9px 10px!important;
+  border-radius:19px!important;
+  border:1px solid rgba(205,164,88,.74)!important;
+  background:
+    radial-gradient(120px 70px at 16% 0%,rgba(255,255,255,.10),transparent 72%),
+    radial-gradient(130px 90px at 96% 100%,rgba(202,159,79,.08),transparent 76%),
+    linear-gradient(145deg,rgba(18,42,67,.975),rgba(28,53,80,.965))!important;
+  color:#F7F0E3!important;
+  box-shadow:
+    0 12px 26px rgba(8,21,34,.28),
+    0 3px 9px rgba(60,43,20,.14),
+    inset 0 1px 0 rgba(255,255,255,.11),
+    inset 0 -1px 0 rgba(0,0,0,.12)!important;
+  overflow:hidden!important;
+  backdrop-filter:blur(13px) saturate(115%)!important;
+  -webkit-backdrop-filter:blur(13px) saturate(115%)!important;
+}
+.toast.premium-toast::before{
+  content:""!important;
+  position:absolute!important;
+  inset:2px!important;
+  border-radius:16px!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  pointer-events:none!important;
+}
+.toast.premium-toast::after{
+  content:""!important;
+  position:absolute!important;
+  top:0!important;
+  left:46px!important;
+  right:18px!important;
+  height:1px!important;
+  background:linear-gradient(90deg,rgba(220,181,105,.05),rgba(232,196,126,.62),rgba(220,181,105,.03))!important;
+  pointer-events:none!important;
+}
+.premium-toast-icon{
+  position:relative!important;
+  width:36px!important;
+  height:36px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:50%!important;
+  color:#F0CF8E!important;
+  background:
+    radial-gradient(circle at 34% 26%,rgba(255,255,255,.24),transparent 34%),
+    linear-gradient(145deg,rgba(190,139,52,.24),rgba(122,86,31,.13))!important;
+  border:1px solid rgba(223,181,101,.48)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 3px 8px rgba(4,15,25,.18)!important;
+  filter:none!important;
+}
+.premium-toast-icon .ico{
+  width:20px!important;
+  height:20px!important;
+  stroke-width:1.75!important;
+}
+.premium-toast-sep{
+  display:none!important;
+}
+.premium-toast-text{
+  min-width:0!important;
+  color:#F8F2E7!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:14.6px!important;
+  line-height:1.16!important;
+  font-weight:600!important;
+  letter-spacing:-.006em!important;
+  text-align:left!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.12)!important;
+}
+.toast.premium-toast.is-long{
+  width:min(302px,calc(100vw - 28px))!important;
+  min-height:60px!important;
+  grid-template-columns:36px minmax(0,1fr)!important;
+  column-gap:10px!important;
+  padding:9px 13px 9px 10px!important;
+  border-radius:19px!important;
+}
+.toast.premium-toast.is-long .premium-toast-icon{
+  width:34px!important;
+  height:34px!important;
+}
+.toast.premium-toast.is-long .premium-toast-icon .ico{
+  width:19px!important;
+  height:19px!important;
+}
+.toast.premium-toast.is-long .premium-toast-text{
+  font-size:12.5px!important;
+  line-height:1.22!important;
+  font-weight:600!important;
+}
+.toast.premium-toast.is-success .premium-toast-icon{
+  color:#F4D79B!important;
+  border-color:rgba(227,187,109,.58)!important;
+  background:linear-gradient(145deg,rgba(195,148,62,.31),rgba(128,91,32,.15))!important;
+}
+.toast.premium-toast.is-warning .premium-toast-icon{
+  color:#F3C974!important;
+  border-color:rgba(225,170,75,.58)!important;
+}
+.toast.premium-toast.is-danger .premium-toast-icon{
+  color:#F0C48B!important;
+  border-color:rgba(205,151,88,.55)!important;
+}
+.toast.premium-toast.is-bell-off .premium-toast-icon::after{
+  left:6px!important;
+  top:17px!important;
+  width:24px!important;
+  height:1.6px!important;
+  background:#F1CF8E!important;
+  box-shadow:0 0 0 1px rgba(18,42,67,.68)!important;
+}
+@media(max-width:390px){
+  .toast.premium-toast{
+    width:min(264px,calc(100vw - 32px))!important;
+    min-height:56px!important;
+    grid-template-columns:36px minmax(0,1fr)!important;
+    column-gap:9px!important;
+    padding:8px 12px 8px 9px!important;
+    border-radius:18px!important;
+  }
+  .toast.premium-toast::before{border-radius:15px!important;}
+  .toast.premium-toast::after{left:43px!important;right:16px!important;}
+  .premium-toast-icon{width:34px!important;height:34px!important;}
+  .premium-toast-icon .ico{width:19px!important;height:19px!important;}
+  .premium-toast-text{font-size:14px!important;}
+  .toast.premium-toast.is-long{
+    width:min(294px,calc(100vw - 22px))!important;
+    min-height:58px!important;
   }
   .toast.premium-toast.is-long .premium-toast-text{font-size:12.1px!important;}
 }
