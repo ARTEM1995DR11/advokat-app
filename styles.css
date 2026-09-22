@@ -46381,3 +46381,176 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
     font-size:22px!important;
   }
 }
+
+/* =====================================================================
+   5.0.466 — NEW MATTER / BLOCK 02 final geometry & icon fidelity pass.
+   Block 01 remains frozen.
+   Goals from review:
+   - make block 02 leading cells read like the same square compartments as block 01,
+     instead of flat grey rectangles;
+   - enlarge and redraw the header trustor icon and the building icon closer to the mockup;
+   - keep the whole block visually aligned to block 01 proportions and rhythm.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+  padding:10px 13px 12px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head{
+  grid-template-columns:29px auto minmax(20px,1fr) auto!important;
+  gap:8px!important;
+  min-height:23px!important;
+  margin:0 0 7px!important;
+  align-items:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+  width:29px!important;
+  height:23px!important;
+  color:transparent!important;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='6.7' r='3.2' fill='%23B18442'/%3E%3Cpath d='M4.55 18.95c.5-3 2.95-5.45 7.45-5.45 4.46 0 6.96 2.45 7.45 5.45a.62.62 0 0 1-.62.72H5.17a.62.62 0 0 1-.62-.72Z' fill='%23B18442'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-position:50% 50%!important;
+  background-size:22px 22px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon .ico{
+  opacity:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+  font-size:10.85px!important;
+  line-height:1!important;
+  letter-spacing:.136em!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head>em{
+  font-size:10.2px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld{
+  margin:0 0 8px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld:last-child{
+  margin-bottom:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+  margin:0 0 4px!important;
+  font-size:10.95px!important;
+  line-height:1.04!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell{
+  border:1px solid rgba(181,135,61,.245)!important;
+  border-radius:13px!important;
+  background:rgba(255,255,255,.84)!important;
+  overflow:hidden!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 4px 12px rgba(93,62,20,.02)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+  min-height:38px!important;
+  height:38px!important;
+  padding:0 11px 0 54px!important;
+  border:0!important;
+  border-radius:13px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif!important;
+  font-size:12.75px!important;
+  line-height:1!important;
+  font-weight:560!important;
+  letter-spacing:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+  color:#9CA7B7!important;
+  opacity:1!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif!important;
+  font-size:12.75px!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:49px!important;
+  min-width:49px!important;
+  max-width:49px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#B18442!important;
+  background-color:rgba(250,247,241,.94)!important;
+  background-image:linear-gradient(180deg,rgba(251,248,242,.96),rgba(246,241,233,.92))!important;
+  border-right:1px solid rgba(183,139,68,.07)!important;
+  border-radius:12px 0 0 12px!important;
+  overflow:hidden!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading{
+  color:transparent!important;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B18442' stroke-width='1.72' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.1 19.2h13.8'/%3E%3Cpath d='M7.1 18.95V7.35h6.2v11.6'/%3E%3Cpath d='M13.3 18.95v-8.25h4.45v8.25'/%3E%3Cpath d='M9.05 9.45h.01M11.15 9.45h.01M9.05 11.95h.01M11.15 11.95h.01M9.05 14.45h.01M11.15 14.45h.01M15.08 12.7h.01M16.55 12.7h.01M15.08 15.2h.01M16.55 15.2h.01'/%3E%3C/svg%3E"),linear-gradient(180deg,rgba(251,248,242,.96),rgba(246,241,233,.92))!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:50% 50%,0 0!important;
+  background-size:22px 22px,100% 100%!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading .ico{
+  opacity:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"] .matter-editor-field-leading .ico{
+  opacity:1!important;
+  width:20px!important;
+  height:20px!important;
+  stroke-width:1.68!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{
+  font-size:24px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  opacity:.99!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"]>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"]>input{
+  font-variant-numeric:tabular-nums lining-nums!important;
+  font-feature-settings:"tnum" 1,"lnum" 1!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+    padding:10px 12px 12px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head{
+    grid-template-columns:28px auto minmax(18px,1fr) auto!important;
+    gap:7px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+    width:28px!important;
+    height:22px!important;
+    background-size:21px 21px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+    font-size:10.55px!important;
+    letter-spacing:.13em!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+    font-size:10.72px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+    min-height:37px!important;
+    height:37px!important;
+    padding-left:52px!important;
+    font-size:12.5px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+    font-size:12.5px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+    width:47px!important;
+    min-width:47px!important;
+    max-width:47px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading{
+    background-size:21px 21px,100% 100%!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"] .matter-editor-field-leading .ico{
+    width:19px!important;
+    height:19px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{
+    font-size:23px!important;
+  }
+}
