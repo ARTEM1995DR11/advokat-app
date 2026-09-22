@@ -44223,3 +44223,81 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
     font-size:12.9px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.425 — NEW MATTER / BLOCK 01 — geometry copied from approved mockup.
+   Major fix: the leading-icon column was much too wide, pushing values
+   too far right. Keep vertical position; correct horizontal proportions.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+  display:grid!important;
+  grid-template-columns:39px minmax(0,1fr) 24px!important;
+  column-gap:0!important;
+  padding:0 7px 0 0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  width:39px!important;
+  min-width:39px!important;
+  max-width:39px!important;
+  flex:0 0 39px!important;
+  margin:0!important;
+  border-right:1px solid rgba(219,204,181,.82)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy{
+  padding:0 0 0 11px!important;
+  min-width:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone .premium-select-field-arrow{
+  width:24px!important;
+  min-width:24px!important;
+  transform:translateX(1px)!important;
+  justify-self:end!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field .premium-select-field-arrow .ico{
+  width:12px!important;
+  height:12px!important;
+  stroke-width:2!important;
+}
+/* icon artwork proportions from the full-screen mockup */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
+  background-size:19px auto!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
+  background-size:19px 21px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-size:16px 21px!important;
+}
+/* typography: small final adjustment only; preserve current field height */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+  font-size:11.05px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+  font-size:12.9px!important;
+  transform:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+  font-size:11.05px!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+    grid-template-columns:38px minmax(0,1fr) 23px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    width:38px!important;
+    min-width:38px!important;
+    max-width:38px!important;
+    flex-basis:38px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy{
+    padding-left:10px!important;
+  }
+}
