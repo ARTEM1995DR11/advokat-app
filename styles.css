@@ -44301,3 +44301,31 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-
     padding-left:10px!important;
   }
 }
+
+/* =====================================================================
+   5.0.426 — NEW MATTER / BLOCK 01
+   Fixes from latest review:
+   1) lower block 01 so it starts just after the statue scales;
+   2) enlarge the document icon in field 2 to match the approved mockup.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  margin:0 0 26px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params{
+  margin-top:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-size:19px 24px!important;
+  background-position:center!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    margin-bottom:24px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:18px 23px!important;
+  }
+}
