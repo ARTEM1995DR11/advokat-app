@@ -1,5 +1,5 @@
 /* =====================================================================
-   5.0.478 — NEW MATTER / approved glossy gold SAVE surface.
+   5.0.479 — NEW MATTER / approved glossy gold SAVE surface.
    Dedicated final stylesheet loaded after all other matter-editor styles.
    The goal is to visually match the approved “Сохранить заседание” button:
    richer metallic bevel, taller capsule, larger dark serif label and icon.
@@ -20,7 +20,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-save{
   border:1px solid rgba(151,99,13,.72)!important;
   border-radius:32px!important;
   background-color:#D9A326!important;
-  background-image:url('premium-gold-save-v5249.webp?v=5478')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
   background-repeat:no-repeat!important;
   background-position:50% 50%!important;
   background-size:100% 100%!important;
@@ -98,13 +98,13 @@ body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
   text-shadow:0 1px 0 rgba(255,244,203,.28)!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save:active{
-  background-image:url('premium-gold-save-v5249.webp?v=5478')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
   background-size:100% 100%!important;
   transform:translateY(1px)!important;
   filter:brightness(.97)!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
-  background-image:url('premium-gold-save-v5249.webp?v=5478')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
   background-size:100% 100%!important;
   outline:none!important;
 }
