@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.462';
-var APP_BUILD='5462';
+var APP_VERSION='5.0.463';
+var APP_BUILD='5463';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1749,7 +1749,7 @@ function matterDynamicFields(){
     }
   }
   var html=''+
-    '<section class="matter-editor-card matter-editor-card-client">'+matterEditorSectionHead('user','Данные доверителя','02')+
+    '<section class="matter-editor-card matter-editor-card-client">'+matterEditorSectionHead('client-solid','Данные доверителя','02')+
       '<div class="fld"><label>'+esc(cfg.clientLabel)+'</label>'+matterEditorInputShell('m-client','building','<input id="m-client" value="'+esc(MED.client)+'" placeholder="'+esc(cfg.clientPlaceholder)+'">')+'</div>'+ 
       '<div class="fld"><label>Телефон</label>'+matterEditorInputShell('m-phone','phone','<input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__">')+'</div>'+ 
       '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label>'+matterEditorInputShell('m-number','brief','<input id="m-number" value="'+esc(MED.number)+'" placeholder="">')+'</div>'+ 
