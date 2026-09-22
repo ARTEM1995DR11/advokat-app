@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.479';
-var APP_BUILD='5479';
+var APP_VERSION='5.0.480';
+var APP_BUILD='5480';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4424,7 +4424,7 @@ function editMatter(m){
   '</section>'+ 
   '<div id="matter-dynamic"></div>'+ 
   '<div class="matter-editor-motto"><i></i><span>ПРАВО&nbsp;&nbsp;•&nbsp;&nbsp;ОПЫТ&nbsp;&nbsp;•&nbsp;&nbsp;РЕЗУЛЬТАТ</span><i></i></div>'+ 
-  '<button class="btn matter-editor-save task-editor-save hearing-premium-save" data-act="m-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить дело</span></button>');
+  '<button class="btn matter-editor-save" data-act="m-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить дело</span></button>');
   $('#sheet').classList.add('matter-editor-sheet','full');
   var matterFoot=$('#sheet .shfoot'),matterMotto=$('#sheet .matter-editor-motto');
   if(matterFoot&&matterMotto)matterFoot.appendChild(matterMotto);

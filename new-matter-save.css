@@ -1,134 +1,95 @@
 /* =====================================================================
-   5.0.479 — NEW MATTER / approved glossy gold SAVE surface.
-   Dedicated final stylesheet loaded after all other matter-editor styles.
-   The goal is to visually match the approved “Сохранить заседание” button:
-   richer metallic bevel, taller capsule, larger dark serif label and icon.
+   5.0.480 — NEW MATTER / EXACT APPROVED SAVE-BUTTON SURFACE.
+   Uses the exact user-approved transparent gold PNG as the button skin.
+   No generated gradient, no synthetic bevel, no legacy save-button skin.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-save{
   position:relative!important;
-  isolation:isolate!important;
-  overflow:hidden!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:15px!important;
+  gap:14px!important;
   width:100%!important;
-  min-height:70px!important;
-  height:70px!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:2112 / 374!important;
   margin:0!important;
-  padding:0 24px!important;
-  border:1px solid rgba(151,99,13,.72)!important;
-  border-radius:32px!important;
-  background-color:#D9A326!important;
-  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
+  padding:0 22px!important;
+  border:0!important;
+  border-radius:0!important;
+  background-color:transparent!important;
+  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
   background-repeat:no-repeat!important;
-  background-position:50% 50%!important;
+  background-position:center!important;
   background-size:100% 100%!important;
-  background-origin:border-box!important;
-  background-clip:border-box!important;
-  color:#172036!important;
-  box-shadow:
-    0 0 0 2px rgba(255,231,151,.72),
-    0 13px 24px rgba(104,59,5,.21),
-    0 4px 8px rgba(93,49,4,.13),
-    inset 0 2px 0 rgba(255,255,255,.62),
-    inset 0 -2px 0 rgba(126,72,5,.24)!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  color:#182139!important;
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  -webkit-tap-highlight-color:transparent!important;
   transform:none!important;
   filter:none!important;
-  -webkit-tap-highlight-color:transparent!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:3.2%!important;
-  right:3.2%!important;
-  top:4px!important;
-  height:16px!important;
-  border-radius:50%!important;
-  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0))!important;
-  opacity:.52!important;
-  pointer-events:none!important;
-  z-index:1!important;
-}
+body.light #sheet.matter-editor-sheet .matter-editor-save::before,
 body.light #sheet.matter-editor-sheet .matter-editor-save::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  inset:3px!important;
-  border:1px solid rgba(255,239,184,.72)!important;
-  border-radius:29px!important;
-  box-shadow:inset 0 0 0 1px rgba(133,80,8,.18)!important;
-  background:none!important;
-  pointer-events:none!important;
-  z-index:1!important;
-}
-body.light #sheet.matter-editor-sheet .matter-editor-save > *{
-  position:relative!important;
-  z-index:3!important;
+  content:none!important;
+  display:none!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-  width:31px!important;
-  height:31px!important;
-  flex:0 0 31px!important;
+  width:27px!important;
+  height:27px!important;
+  flex:0 0 27px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   padding:0!important;
   border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
+  background:none!important;
   box-shadow:none!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
-  width:29px!important;
-  height:29px!important;
-  color:#172036!important;
-  stroke:#172036!important;
-  stroke-width:2!important;
+  width:25px!important;
+  height:25px!important;
+  color:#182139!important;
+  stroke:#182139!important;
+  stroke-width:1.9!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-  color:#172036!important;
+  color:#182139!important;
   font-family:Georgia,'Times New Roman',serif!important;
-  font-size:22px!important;
+  font-size:20px!important;
   line-height:1!important;
   font-weight:700!important;
   letter-spacing:0!important;
   white-space:nowrap!important;
-  text-shadow:0 1px 0 rgba(255,244,203,.28)!important;
+  text-shadow:none!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save:active{
-  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
+  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
   background-size:100% 100%!important;
   transform:translateY(1px)!important;
-  filter:brightness(.97)!important;
+  filter:brightness(.98)!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
-  background-image:url('premium-gold-save-v5249.webp?v=5479')!important;
+  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
   background-size:100% 100%!important;
   outline:none!important;
 }
 @media(max-width:390px){
   body.light #sheet.matter-editor-sheet .matter-editor-save{
-    min-height:66px!important;
-    height:66px!important;
-    border-radius:30px!important;
-    gap:13px!important;
-    padding:0 20px!important;
+    gap:12px!important;
+    padding:0 18px!important;
   }
-  body.light #sheet.matter-editor-sheet .matter-editor-save::after{
-    border-radius:27px!important;
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon,
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+    width:23px!important;
+    height:23px!important;
   }
   body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-    width:28px!important;
-    height:28px!important;
-    flex-basis:28px!important;
-  }
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
-    width:26px!important;
-    height:26px!important;
+    flex-basis:23px!important;
   }
   body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-    font-size:20px!important;
+    font-size:19px!important;
   }
 }
