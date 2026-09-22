@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.448';
-var APP_BUILD='5448';
+var APP_VERSION='5.0.449';
+var APP_BUILD='5449';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -739,7 +739,7 @@ function syncPremiumSelectButton(id){
 }
 function matterEditorControlIconName(id){
   var map={
-    'm-type':'nm-scale','m-basis':'nm-page','m-client':'client-solid','m-phone':'phone','m-number':'brief',
+    'm-type':'nm-scale','m-basis':'nm-page','m-client':'client-building','m-phone':'phone','m-number':'brief',
     'm-stage':'flag','m-role':'user','m-execution-issue':'gavel','m-court-choice':'court',
     'm-judge-choice':'judge','m-restraint-choice':'lock'
   };
