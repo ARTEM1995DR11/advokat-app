@@ -27239,7 +27239,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  color:#754704!important;
+  color:#754714!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
@@ -28776,7 +28776,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  color:#754706!important;
+  color:#754716!important;
 }
 
 /* SAVE button — same approved premium gold */
@@ -46557,7 +46557,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.470 — NEW MATTER / unified premium SAVE button.
+   5.0.471 — NEW MATTER / unified premium SAVE button.
    The New Matter save action now uses the exact visual language already
    approved for Save task / Save meeting / Save hearing.
    ===================================================================== */
@@ -46577,7 +46577,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-save{
   border:0!important;
   border-radius:18px!important;
   background-color:transparent!important;
-  background-image:url('premium-gold-save-v5249.webp?v=5470')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5471')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -46632,5 +46632,85 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:active{
   }
   body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
     font-size:16px!important;
+  }
+}
+
+/* =====================================================================
+   5.0.471 — NEW MATTER / SAVE BUTTON FINAL APPROVED GOLD STYLE.
+   Matches the premium Save hearing / Save meeting / Save task surface.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-save{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  width:100%!important;
+  min-height:58px!important;
+  height:58px!important;
+  margin:0!important;
+  padding:0 18px!important;
+  border:0!important;
+  border-radius:21px!important;
+  background:#D9A326 url('premium-gold-save-v5249.webp?v=5471') center/100% 100% no-repeat!important;
+  color:#17191C!important;
+  box-shadow:0 10px 24px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.56)!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:20px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  text-shadow:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save::before,
+body.light #sheet.matter-editor-sheet .matter-editor-save::after{
+  content:none!important;
+  display:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
+  width:24px!important;
+  height:24px!important;
+  flex:0 0 24px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+  width:23px!important;
+  height:23px!important;
+  color:#17191C!important;
+  stroke:#17191C!important;
+  stroke-width:1.8!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
+  color:#17191C!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:20px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  white-space:nowrap!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save:active{
+  transform:translateY(1px)!important;
+  filter:brightness(.985)!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-save{
+    min-height:56px!important;
+    height:56px!important;
+    border-radius:20px!important;
+    gap:10px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
+    font-size:19px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+    width:22px!important;
+    height:22px!important;
   }
 }
