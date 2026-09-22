@@ -44331,7 +44331,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 }
 
 /* =====================================================================
-   5.0.429 — NEW MATTER / BLOCK 01
+   5.0.430 — NEW MATTER / BLOCK 01
    Latest review: move the whole first card lower without moving hero text;
    center the document icon inside the left cell.
    ===================================================================== */
@@ -44339,13 +44339,13 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:18px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
-  background-image:url('nm-folder-mockup.png?v=5429')!important;
+  background-image:url('nm-folder-mockup.png?v=5430')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5429')!important;
+  background-image:url('nm-scale-mockup.png?v=5430')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5429')!important;
+  background-image:url('nm-doc-mockup.png?v=5430')!important;
   background-size:19px 24px!important;
   background-position:calc(50% + 3px) 50%!important;
 }
@@ -44360,7 +44360,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 }
 
 /* =====================================================================
-   5.0.429 — NEW MATTER / BLOCK 01
+   5.0.430 — NEW MATTER / BLOCK 01
    Explicit correction after visual review:
    - move the whole first card visibly lower; hero text stays untouched;
    - enlarge + recenter the document glyph inside its left icon cell.
@@ -44369,7 +44369,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:30px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5429')!important;
+  background-image:url('nm-doc-mockup.png?v=5430')!important;
   background-size:22px 28px!important;
   background-position:calc(50% + 5px) 51%!important;
   background-repeat:no-repeat!important;
@@ -44381,5 +44381,39 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
     background-size:21px 27px!important;
     background-position:calc(50% + 5px) 51%!important;
+  }
+}
+
+/* =====================================================================
+   5.0.430 — NEW MATTER hero/card composition correction.
+   Keep block 01 where it is (directly after the statue scales).
+   Move only the page title/subtitle down inside the existing hero space,
+   so the title sits close to block 01 without lifting the card.
+   Move the document icon left inside its leading cell.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  transform:translateY(66px)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:30px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5430')!important;
+  background-size:22px 28px!important;
+  background-position:calc(50% - 5px) 51%!important;
+  background-repeat:no-repeat!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    transform:translateY(62px)!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:28px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:21px 27px!important;
+    background-position:calc(50% - 5px) 51%!important;
   }
 }
