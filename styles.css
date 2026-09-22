@@ -44729,3 +44729,50 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .req
   color:#D85B46!important;
   font-weight:700!important;
 }
+
+
+/* =====================================================================
+   5.0.436 — NEW MATTER final micro-adjustments after visual review.
+   - bring title/subtitle slightly closer to block 01;
+   - nudge the document icon slightly upward for visual centering;
+   - remove sharp inner corners on the tinted left icon cells.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  transform:translateY(31px)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  margin-bottom:5px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  border-radius:16px 0 0 16px!important;
+  overflow:hidden!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5437'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-size:20px 26px,100% 100%!important;
+  background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    transform:translateY(29px)!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    margin-bottom:5px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field>.matter-editor-field-leading,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    border-radius:16px 0 0 16px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:19px 25px,100% 100%!important;
+    background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
+  }
+}
