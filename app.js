@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.472';
-var APP_BUILD='5472';
+var APP_VERSION='5.0.473';
+var APP_BUILD='5473';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1782,7 +1782,15 @@ function matterDynamicFields(){
   if(showRestraintNow){
     html += '<div class="fld matter-restraint-field matter-hybrid-choice-field"><label>Мера пресечения</label>'+restraintField+'</div>';
   }
-  if(cfg.showOpponent){
+  // На стадии исполнения по материалам, подсудность которых определяется
+  // местом учреждения, отдельное поле учреждения уже показано выше.
+  // Не дублируем его вторым полем «Учреждение / орган / иной участник».
+  var executionIssueMeta=((MED&&MED.type)==='criminal'&&currentStage==='Исполнение приговора')
+    ? criminalExecutionIssue((MED&&MED.executionIssue)||'')
+    : null;
+  var hideOpponentForExecutionInstitution=!!(executionIssueMeta&&executionIssueMeta.jurisdiction==='institution');
+  if(hideOpponentForExecutionInstitution&&MED) MED.opponent='';
+  if(cfg.showOpponent&&!hideOpponentForExecutionInstitution){
     var oppLabel=cfg.opponentLabel,oppPlaceholder=cfg.opponentPlaceholder||'';
     if((MED&&MED.type)==='criminal'&&currentStage==='Исполнение приговора'){
       oppLabel='Учреждение / орган / иной участник'; oppPlaceholder='ИК, УФИЦ, УИИ, прокурор, потерпевший…';
@@ -1860,6 +1868,10 @@ function sanitizeMatterByType(o){
   }
   if(o.type!=='criminal'||o.stage!=='Исполнение приговора'){o.executionIssue='';o.executionInstitution='';}
   else if(o.executionIssue&&!criminalExecutionIssue(o.executionIssue)){o.executionIssue='';o.executionInstitution='';}
+  else{
+    var executionMeta=criminalExecutionIssue(o.executionIssue||'');
+    if(executionMeta&&executionMeta.jurisdiction==='institution') o.opponent='';
+  }
 
   // 5.0.25: взаимно исключаемые реквизиты очищаются не только визуально,
   // но и в самой записи дела. Иначе старый судья мог снова появиться после
@@ -1903,7 +1915,10 @@ function matterDossierRows(m){
   if(cfg.showArticle) push('lock',matterArticleLabel((m&&m.type)||'other'),m.article);
   push('user',cfg.roleLabel,matterRoleDisplayLabel((m&&m.type)||'other',(m&&m.stage)||'',m.role));
   if(cfg.showRestraint&&m.stage!=='Материал проверки'&&m.stage!=='Исполнение приговора') push('lock','Мера пресечения',m.restraint);
-  if(cfg.showOpponent) push('user',cfg.opponentLabel,m.opponent);
+  var dossierExecutionMeta=(m.type==='criminal'&&m.stage==='Исполнение приговора')
+    ? criminalExecutionIssue(m.executionIssue||'')
+    : null;
+  if(cfg.showOpponent&&!(dossierExecutionMeta&&dossierExecutionMeta.jurisdiction==='institution')) push('user',cfg.opponentLabel,m.opponent);
   push('doc','Основание ведения',matterBasisLabel(m.basis));
   push('clock','Стадия',m.stage);
   push('doc','Суть / рабочая заметка',m.notes);
