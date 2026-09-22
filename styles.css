@@ -44722,7 +44722,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER required marker.
+   5.0.448 — NEW MATTER required marker.
    Match approved mockup: the asterisk in “Основание ведения” is red.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .required-star{
@@ -44732,7 +44732,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .req
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER final micro-adjustments after visual review.
+   5.0.448 — NEW MATTER final micro-adjustments after visual review.
    - bring title/subtitle slightly closer to block 01;
    - nudge the document icon slightly upward for visual centering;
    - remove sharp inner corners on the tinted left icon cells.
@@ -44752,7 +44752,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   overflow:hidden!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5447'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  background-image:url('nm-doc-mockup.png?v=5448'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
   background-repeat:no-repeat,no-repeat!important;
   background-size:20px 26px,100% 100%!important;
   background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
@@ -44779,7 +44779,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER final alignment polish.
+   5.0.448 — NEW MATTER final alignment polish.
    Remaining differences vs approved mockup:
    1) subtitle under the title was slightly too large/long;
    2) back button sat too far from the title block.
@@ -44810,7 +44810,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER final header polish.
+   5.0.448 — NEW MATTER final header polish.
    Requested fixes:
    - drop the back button lower, closer to the “Новое дело” title;
    - keep the subtitle on a single line like in the approved mockup.
@@ -44842,7 +44842,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER final title drop.
+   5.0.448 — NEW MATTER final title drop.
    Final requested tweak: lower the title/subtitle closer to block 01.
    ===================================================================== */
 #sheet.matter-editor-sheet .matter-editor-titlecopy,
@@ -44857,7 +44857,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
 }
 
 /* =====================================================================
-   5.0.447 — NEW MATTER upper block finalization.
+   5.0.448 — NEW MATTER upper block finalization.
    Final polish requested by user before approving the upper part:
    1) lower the back button closer to the title;
    2) make the subtitle slightly smaller/shorter;
@@ -44943,7 +44943,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER / BLOCK 02 first full mockup pass.
+   5.0.448 — NEW MATTER / BLOCK 02 first full mockup pass.
    Only “Данные доверителя” is changed; approved block 01 remains untouched.
    - mockup-like filled client icon in the section header;
    - building icon for “Доверитель”;
@@ -45059,7 +45059,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
+   5.0.448 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
    Requested fixes:
    - phone and case numbers should stop looking jumpy; use calmer input typography
      with tabular numerals;
@@ -45087,7 +45087,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER / BLOCK 02 icon-cell restoration.
+   5.0.448 — NEW MATTER / BLOCK 02 icon-cell restoration.
    Requested fixes:
    - return visible left icon squares in block 02, but with a paler fill;
    - switch trustor/person icon to the mockup-like variant.
@@ -45114,7 +45114,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.447 — COMPACT PREMIUM TOASTS.
+   5.0.448 — COMPACT PREMIUM TOASTS.
    Smaller, calmer in-app notifications while preserving the approved
    marble / gold / navy visual language.
    ===================================================================== */
@@ -45209,7 +45209,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.447 — PREMIUM TOASTS / NAVY GLASS EDITION.
+   5.0.448 — PREMIUM TOASTS / NAVY GLASS EDITION.
    Compact luxury notification card: deep navy glass, gold medallion icon,
    soft inner sheen, no heavy divider, calmer typography.
    ===================================================================== */
@@ -45358,7 +45358,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.447 — NEW MATTER / BLOCK 02 bring icon cells in line with block 01.
+   5.0.448 — NEW MATTER / BLOCK 02 bring icon cells in line with block 01.
    Requested:
    - make the left icon cells behave like block 01 (integrated full-height cells),
      but with a slightly paler fill;

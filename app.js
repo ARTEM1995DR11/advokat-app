@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.447';
-var APP_BUILD='5447';
+var APP_VERSION='5.0.448';
+var APP_BUILD='5448';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2494,6 +2494,40 @@ function openPremiumDeleteConfirm(id){
   document.body.appendChild(root);
   requestAnimationFrame(function(){root.classList.add('open');});
   vib(8);
+}
+function openPremiumMatterDeleteConfirm(id){
+  var m=matter(id);
+  if(!m)return;
+  closePremiumDeleteConfirm();
+  var root=document.createElement('div');
+  root.id='premium-delete-confirm-root';
+  root.className='premium-delete-confirm-root';
+  root.innerHTML='<button type="button" class="premium-delete-confirm-backdrop" data-act="premium-delete-cancel" aria-label="Отмена"></button>'+
+    '<section class="premium-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="premium-delete-confirm-title">'+
+      '<div class="premium-delete-confirm-mark"><i></i><span>'+ico('trash')+'</span><i></i></div>'+
+      '<h2 id="premium-delete-confirm-title">Удалить дело?</h2>'+
+      '<p>Будут удалены дело, связанные задачи и журнал. Действие необратимо.</p>'+
+      '<div class="premium-delete-confirm-actions">'+
+        '<button type="button" class="premium-delete-cancel" data-act="premium-delete-cancel">Отмена</button>'+
+        '<button type="button" class="premium-delete-accept" data-act="premium-delete-matter-confirm" data-id="'+esc(id)+'">'+ico('trash','s')+'<span>Удалить</span></button>'+
+      '</div>'+
+    '</section>';
+  document.body.appendChild(root);
+  requestAnimationFrame(function(){root.classList.add('open');});
+  vib(8);
+}
+function performDeleteMatterById(id){
+  var m=matter(id);
+  if(!m)return;
+  S.tasks=S.tasks.filter(function(t){return t.mid!==id;});
+  S.participation=S.participation.filter(function(e){return e.mid!==id;});
+  S.journal=S.journal.filter(function(j){return j.mid!==id;});
+  S.matters=S.matters.filter(function(x){return x.id!==id;});
+  save();
+  closePremiumDeleteConfirm();
+  closeAll();
+  render();
+  toast('Дело удалено');
 }
 function performDeleteTaskById(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0];
@@ -5342,6 +5376,7 @@ document.addEventListener('click', function(ev){
     case 'task-action-delete': deleteTaskById(id); break;
     case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
     case 'premium-delete-confirm': performDeleteTaskById(id); break;
+    case 'premium-delete-matter-confirm': performDeleteMatterById(id); break;
     case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
@@ -5385,7 +5420,7 @@ document.addEventListener('click', function(ev){
         if(activeLinked.length&&!confirm('По делу осталось '+activeLinked.length+' '+plural(activeLinked.length,'активная запись','активные записи','активных записей')+'. Они продолжат отображаться в «Сегодня» и «Задачах». Всё равно отправить дело в архив?'))break;
       }
       mm.archived=!mm.archived;addJournal(id,mm.archived?'Дело отправлено в архив':'Дело возвращено в работу',today(),'system',true);save();closeAll();render();toast(mm.archived?'Дело в архиве':'Дело возвращено в работу');break;}
-    case 'm-del': if(confirm('Удалить дело, связанные задачи и журнал? Действие необратимо.')){S.tasks=S.tasks.filter(function(t){return t.mid!==id;});S.participation=S.participation.filter(function(e){return e.mid!==id;});S.journal=S.journal.filter(function(j){return j.mid!==id;});S.matters=S.matters.filter(function(m){return m.id!==id;});save();closeAll();render();toast('Дело удалено');}break;
+    case 'm-del': openPremiumMatterDeleteConfirm(id); break;
 
     /* journal + participation */
     case 'j-clear': {var jtxt=$('#j-text');if(jtxt){jtxt.value='';jtxt.dispatchEvent(new Event('input',{bubbles:true}));jtxt.focus();}break;}
