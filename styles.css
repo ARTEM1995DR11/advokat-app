@@ -44331,7 +44331,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 }
 
 /* =====================================================================
-   5.0.428 — NEW MATTER / BLOCK 01
+   5.0.429 — NEW MATTER / BLOCK 01
    Latest review: move the whole first card lower without moving hero text;
    center the document icon inside the left cell.
    ===================================================================== */
@@ -44339,13 +44339,13 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:18px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
-  background-image:url('nm-folder-mockup.png?v=5428')!important;
+  background-image:url('nm-folder-mockup.png?v=5429')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5428')!important;
+  background-image:url('nm-scale-mockup.png?v=5429')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5428')!important;
+  background-image:url('nm-doc-mockup.png?v=5429')!important;
   background-size:19px 24px!important;
   background-position:calc(50% + 3px) 50%!important;
 }
@@ -44356,5 +44356,30 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
     background-size:18px 23px!important;
     background-position:calc(50% + 3px) 50%!important;
+  }
+}
+
+/* =====================================================================
+   5.0.429 — NEW MATTER / BLOCK 01
+   Explicit correction after visual review:
+   - move the whole first card visibly lower; hero text stays untouched;
+   - enlarge + recenter the document glyph inside its left icon cell.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:30px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5429')!important;
+  background-size:22px 28px!important;
+  background-position:calc(50% + 5px) 51%!important;
+  background-repeat:no-repeat!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:28px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:21px 27px!important;
+    background-position:calc(50% + 5px) 51%!important;
   }
 }
