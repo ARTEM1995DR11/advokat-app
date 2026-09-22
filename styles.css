@@ -44855,3 +44855,88 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
     transform:translateY(41px)!important;
   }
 }
+
+/* =====================================================================
+   5.0.441 — NEW MATTER upper block finalization.
+   Final polish requested by user before approving the upper part:
+   1) lower the back button closer to the title;
+   2) make the subtitle slightly smaller/shorter;
+   3) make “ПАРАМЕТРЫ ДЕЛА” more compact;
+   4) slightly tighten the vertical rhythm inside block 01;
+   5) slightly reduce the field labels to match the mockup.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-back,
+body.light #sheet.matter-editor-sheet .matter-editor-back{
+  top:40px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+  max-width:86%!important;
+  font-size:11.15px!important;
+  line-height:1.04!important;
+  letter-spacing:-.01em!important;
+  white-space:nowrap!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  padding:10px 13px 10px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head{
+  margin:0 0 6px!important;
+  gap:7px!important;
+  min-height:22px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+  font-size:10.75px!important;
+  line-height:1!important;
+  letter-spacing:.135em!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-head>em{
+  font-size:10.2px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld{
+  margin:0 0 7px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+  margin:0 0 4px!important;
+  font-size:10.9px!important;
+  line-height:1.04!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+  min-height:37px!important;
+  height:37px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+  font-size:12.95px!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-back,
+  body.light #sheet.matter-editor-sheet .matter-editor-back{
+    top:37px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
+    max-width:87%!important;
+    font-size:10.95px!important;
+    line-height:1.03!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-title{
+    font-size:10.55px!important;
+    letter-spacing:.128em!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld{
+    margin:0 0 7px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label{
+    font-size:10.72px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.matter-choice-tone{
+    min-height:36px!important;
+    height:36px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+    font-size:12.75px!important;
+  }
+}
