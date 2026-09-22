@@ -46,3 +46,25 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-stage .matter-editor-s
 body.light #sheet.matter-editor-sheet .matter-editor-card-stage .matter-editor-section-icon .ico{display:none!important;}
 body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control.inline-choice-wrap.matter-inline-choice-clean>.inline-choice-arrow.matter-choice-chevron-clean .ico{display:block!important;transform:rotate(90deg)!important;}
 body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control .premium-select-field-arrow .ico{transform:rotate(90deg)!important;}
+
+/* 5.0.472 — NEW MATTER: unified value typography in block 03.
+   Manual text now matches selected values: Georgia, bold, dark navy.
+   Empty placeholders stay light so the form remains readable. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-weight:700!important;
+  color:#182239!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control .premium-select-field-copy>b{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-weight:700!important;
+  color:#182239!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>input::placeholder,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea::placeholder,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control.empty .premium-select-field-copy>b{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#969dad!important;
+}

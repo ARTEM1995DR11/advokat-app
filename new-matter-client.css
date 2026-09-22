@@ -23,3 +23,22 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading .ico{display:none!important;opacity:0!important;}
 body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{content:none!important;display:none!important;}
 body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell:focus-within{border-color:#b4976b!important;box-shadow:0 0 0 2px rgba(180,151,107,.16)!important;}
+
+/* 5.0.472 — NEW MATTER: unified value typography in block 02.
+   Any actual entered value uses the same bold serif typography as selected values.
+   Placeholders intentionally remain light and muted. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-weight:700!important;
+  color:#182239!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"]>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"]>input{
+  font-variant-numeric:tabular-nums lining-nums!important;
+  font-feature-settings:"tnum" 1,"lnum" 1!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#969dad!important;
+}

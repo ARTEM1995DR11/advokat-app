@@ -27239,7 +27239,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  color:#754714!important;
+  color:#754724!important;
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-icon .ico,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-icon .ico{
@@ -28776,7 +28776,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  color:#754716!important;
+  color:#754726!important;
 }
 
 /* SAVE button — same approved premium gold */
@@ -46557,7 +46557,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.471 — NEW MATTER / unified premium SAVE button.
+   5.0.472 — NEW MATTER / unified premium SAVE button.
    The New Matter save action now uses the exact visual language already
    approved for Save task / Save meeting / Save hearing.
    ===================================================================== */
@@ -46577,7 +46577,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-save{
   border:0!important;
   border-radius:18px!important;
   background-color:transparent!important;
-  background-image:url('premium-gold-save-v5249.webp?v=5471')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5472')!important;
   background-repeat:no-repeat!important;
   background-position:center!important;
   background-size:100% 100%!important;
@@ -46636,7 +46636,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:active{
 }
 
 /* =====================================================================
-   5.0.471 — NEW MATTER / SAVE BUTTON FINAL APPROVED GOLD STYLE.
+   5.0.472 — NEW MATTER / SAVE BUTTON FINAL APPROVED GOLD STYLE.
    Matches the premium Save hearing / Save meeting / Save task surface.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-save{
@@ -46654,7 +46654,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-save{
   padding:0 18px!important;
   border:0!important;
   border-radius:21px!important;
-  background:#D9A326 url('premium-gold-save-v5249.webp?v=5471') center/100% 100% no-repeat!important;
+  background:#D9A326 url('premium-gold-save-v5249.webp?v=5472') center/100% 100% no-repeat!important;
   color:#17191C!important;
   box-shadow:0 10px 24px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.56)!important;
   font-family:Georgia,'Times New Roman',serif!important;
