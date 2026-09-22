@@ -1,11 +1,11 @@
-const CACHE = 'advokat-iphone-offline-v121-premium-5464';
+const CACHE = 'advokat-iphone-offline-v121-premium-5465';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5464',
-  './app.js?v=5464',
-  './manifest.webmanifest?v=5464',
+  './styles.css?v=5465',
+  './app.js?v=5465',
+  './manifest.webmanifest?v=5465',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
@@ -23,11 +23,11 @@ const CORE = [
   './columns-light.png?v=5249',
   './header-bell-premium.png?v=5249',
   './header-search-premium.png?v=5249',
-  './header-filter-premium.png?v=5464',
-  './bg-new-matter-approved.webp?v=5464',
-  './nm-folder-mockup.png?v=5464',
-  './nm-scale-mockup.png?v=5464',
-  './nm-doc-mockup.png?v=5464',
+  './header-filter-premium.png?v=5465',
+  './bg-new-matter-approved.webp?v=5465',
+  './nm-folder-mockup.png?v=5465',
+  './nm-scale-mockup.png?v=5465',
+  './nm-doc-mockup.png?v=5465',
   './global-search-head-motif-v173.png?v=5249',
   './fab-plus-square-premium.png?v=5249',
   './nav-panel-light.png',
