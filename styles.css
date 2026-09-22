@@ -44625,3 +44625,50 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
     margin-top:14px!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.434 — NEW MATTER: refined hero / block 01 alignment.
+   Requested after visual review:
+   - lower the title/subtitle closer to block 01;
+   - lower block 01 a bit more so it sits below the hanging scales;
+   - re-center the document icon inside its square cell.
+   ===================================================================== */
+#sheet.matter-editor-sheet .matter-editor-titlecopy,
+body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+  transform:translateY(24px)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  margin-bottom:8px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:26px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+  background-image:url('nm-doc-mockup.png?v=5434')!important;
+  background-size:22px 28px!important;
+  background-position:50% 50%!important;
+  background-repeat:no-repeat!important;
+}
+@media(max-width:390px){
+  #sheet.matter-editor-sheet .matter-editor-titlecopy,
+  body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
+    transform:translateY(22px)!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    margin-bottom:8px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+  body.light #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:24px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
+    background-size:21px 27px!important;
+    background-position:50% 50%!important;
+  }
+}
