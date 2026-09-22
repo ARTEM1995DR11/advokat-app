@@ -1,0 +1,223 @@
+/* ================================================================
+   5.0.468 — BLOCK 02 FINAL GEOMETRY MIRROR OF APPROVED BLOCK 01
+   This file is deliberately loaded AFTER styles.css.
+   Block 01 is untouched. Measurements are copied from Block 01's
+   approved effective CSS geometry.
+   ================================================================ */
+
+/* Card container: copied from approved Block 01 */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+  padding:17px 16px 16px!important;
+  border-radius:24px!important;
+  border-color:rgba(198,164,112,.18)!important;
+  box-shadow:0 10px 24px rgba(108,79,33,.085),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+
+/* Header geometry: copied from approved Block 01 */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head{
+  grid-template-columns:32px auto minmax(18px,1fr) auto!important;
+  gap:11px!important;
+  min-height:28px!important;
+  margin:0 0 14px!important;
+  align-items:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+  width:30px!important;
+  height:28px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#B18442!important;
+  background:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon .ico{
+  opacity:1!important;
+  width:28px!important;
+  height:28px!important;
+  stroke-width:1.72!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:13.6px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:.17em!important;
+  color:#9A7641!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head>i{
+  background:linear-gradient(90deg,rgba(197,161,107,.56),rgba(197,161,107,.14))!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head>em{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:12.5px!important;
+  color:#B18B52!important;
+}
+
+/* Vertical rhythm: copied from approved Block 01 */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld{
+  margin:0 0 15px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld:last-child{
+  margin-bottom:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+  margin:0 0 8px!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:15.5px!important;
+  line-height:1.18!important;
+  font-weight:700!important;
+  color:#233E5C!important;
+}
+
+/* Field geometry: same 62px height / 18px radius as approved Block 01 */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell{
+  position:relative!important;
+  width:100%!important;
+  overflow:visible!important;
+  border:0!important;
+  border-radius:18px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+  width:100%!important;
+  min-height:62px!important;
+  height:62px!important;
+  padding:0 14px 0 100px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(206,182,144,.72)!important;
+  background:rgba(255,255,255,.90)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98)!important;
+  color:#1C3757!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:17px!important;
+  line-height:1.12!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+  color:#9AA5B4!important;
+  opacity:1!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif!important;
+  font-size:16px!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+}
+
+/* Left compartment: same effective dimensions as Block 01: 84px wide + 16px visual gap */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+  position:absolute!important;
+  z-index:2!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:84px!important;
+  min-width:84px!important;
+  max-width:84px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#AA8040!important;
+  background:linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  border-right:1px solid rgba(219,204,181,.82)!important;
+  border-radius:16px 0 0 16px!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+}
+
+/* Building icon: same visual weight as Block 01's scale icon */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading{
+  background-image:linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading .ico{
+  display:block!important;
+  opacity:1!important;
+  width:31px!important;
+  height:31px!important;
+  stroke-width:1.72!important;
+}
+
+/* Phone icon: visually equal in weight to Block 01 icons */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"] .matter-editor-field-leading .ico{
+  display:block!important;
+  opacity:1!important;
+  width:29px!important;
+  height:29px!important;
+  stroke-width:1.75!important;
+}
+
+/* Matter number: hide briefcase and render large # like the mockup */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading .ico{
+  display:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{
+  content:'#'!important;
+  color:#AA8040!important;
+  font:700 31px/1 Georgia,'Times New Roman',serif!important;
+  opacity:1!important;
+}
+
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"]>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"]>input{
+  font-variant-numeric:tabular-nums lining-nums!important;
+  font-feature-settings:"tnum" 1,"lnum" 1!important;
+}
+
+/* Same small-screen measurements Block 01 uses */
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+    padding:16px 15px 15px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head{
+    grid-template-columns:30px auto minmax(16px,1fr) auto!important;
+    gap:10px!important;
+    min-height:27px!important;
+    margin-bottom:13px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+    width:28px!important;
+    height:27px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon .ico{
+    width:27px!important;
+    height:27px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+    font-size:13px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head>em{
+    font-size:12px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld{
+    margin-bottom:14px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+    font-size:15px!important;
+    margin-bottom:7px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+    min-height:60px!important;
+    height:60px!important;
+    padding-left:92px!important;
+    font-size:16px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+    font-size:15.5px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+    width:78px!important;
+    min-width:78px!important;
+    max-width:78px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading .ico{
+    width:29px!important;
+    height:29px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"] .matter-editor-field-leading .ico{
+    width:28px!important;
+    height:28px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{
+    font-size:29px!important;
+  }
+}
