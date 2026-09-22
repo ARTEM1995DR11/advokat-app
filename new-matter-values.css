@@ -1,0 +1,85 @@
+/* =====================================================================
+   5.0.476 — NEW MATTER: single value typography for every form field.
+
+   Purpose:
+   - eliminate old-style / jumping numerals in every possible New Matter field;
+   - make typed values and selected values use exactly the same font, size,
+     weight and numeric metrics;
+   - cover all dynamic branches (criminal/civil/KAS/KoAP, investigation,
+     trial, appeal/cassation, sentence execution, institution fields, etc.).
+
+   This file is loaded LAST so legacy per-block rules cannot reintroduce
+   Georgia old-style figures on iOS.
+   ===================================================================== */
+
+body.light #sheet.matter-editor-sheet{
+  --matter-value-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --matter-value-size:14px;
+  --matter-value-line:18px;
+  --matter-value-weight:700;
+  --matter-value-color:#182239;
+}
+
+/* Every visible value control, including dynamic controls that appear only
+   for particular production types / stages. */
+body.light #sheet.matter-editor-sheet .matter-editor-card input:not([type="hidden"]),
+body.light #sheet.matter-editor-sheet .matter-editor-card textarea,
+body.light #sheet.matter-editor-sheet .matter-editor-card select,
+body.light #sheet.matter-editor-sheet .matter-editor-card .premium-select-field-copy b,
+body.light #sheet.matter-editor-sheet .matter-editor-card .stage-control .premium-select-field-copy>b{
+  font-family:var(--matter-value-font)!important;
+  font-size:var(--matter-value-size)!important;
+  line-height:var(--matter-value-line)!important;
+  font-weight:var(--matter-value-weight)!important;
+  letter-spacing:0!important;
+  color:var(--matter-value-color)!important;
+
+  /* Lining figures keep every digit on one baseline; tabular figures also
+     give each digit the same advance width (important for case numbers,
+     articles, phone numbers and dates). */
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  -webkit-font-feature-settings:"lnum" 1,"tnum" 1!important;
+}
+
+/* Textareas keep the same typeface/size/weight but a slightly larger line
+   height for multi-line readability. */
+body.light #sheet.matter-editor-sheet .matter-editor-card textarea{
+  line-height:20px!important;
+}
+
+/* Empty states are deliberately lighter, but retain the same size so text
+   does not jump when a field changes from placeholder to a real value. */
+body.light #sheet.matter-editor-sheet .matter-editor-card input::placeholder,
+body.light #sheet.matter-editor-sheet .matter-editor-card textarea::placeholder,
+body.light #sheet.matter-editor-sheet .matter-editor-card .premium-select-field.empty .premium-select-field-copy b,
+body.light #sheet.matter-editor-sheet .matter-editor-card .stage-control.empty .premium-select-field-copy>b{
+  font-family:var(--matter-value-font)!important;
+  font-size:var(--matter-value-size)!important;
+  line-height:var(--matter-value-line)!important;
+  font-weight:400!important;
+  letter-spacing:0!important;
+  color:#969dad!important;
+  opacity:1!important;
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  -webkit-font-feature-settings:"lnum" 1,"tnum" 1!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card textarea::placeholder{
+  line-height:20px!important;
+}
+
+/* Safari/iOS can apply a distinct internal style to tel controls. Reassert
+   the common field typography explicitly. */
+body.light #sheet.matter-editor-sheet #m-phone,
+body.light #sheet.matter-editor-sheet #m-number,
+body.light #sheet.matter-editor-sheet #m-article,
+body.light #sheet.matter-editor-sheet #m-notes,
+body.light #sheet.matter-editor-sheet #m-execution-institution{
+  font-family:var(--matter-value-font)!important;
+  font-size:var(--matter-value-size)!important;
+  font-weight:var(--matter-value-weight)!important;
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  -webkit-font-feature-settings:"lnum" 1,"tnum" 1!important;
+}
