@@ -44339,13 +44339,13 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:18px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .matter-editor-section-icon{
-  background-image:url('nm-folder-mockup.png?v=5432')!important;
+  background-image:url('nm-folder-mockup.png?v=5433')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5432')!important;
+  background-image:url('nm-scale-mockup.png?v=5433')!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5432')!important;
+  background-image:url('nm-doc-mockup.png?v=5433')!important;
   background-size:19px 24px!important;
   background-position:calc(50% + 3px) 50%!important;
 }
@@ -44369,7 +44369,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:30px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5432')!important;
+  background-image:url('nm-doc-mockup.png?v=5433')!important;
   background-size:22px 28px!important;
   background-position:calc(50% + 5px) 51%!important;
   background-repeat:no-repeat!important;
@@ -44399,7 +44399,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params{
   margin-top:30px!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5432')!important;
+  background-image:url('nm-doc-mockup.png?v=5433')!important;
   background-size:22px 28px!important;
   background-position:calc(50% - 5px) 51%!important;
   background-repeat:no-repeat!important;
@@ -44455,7 +44455,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.432 — Premium in-app toast notifications.
+   5.0.433 — Premium in-app toast notifications.
    Approved visual: marble card + warm gold outline + icon column +
    vertical divider + navy serif message. Implemented entirely in CSS/DOM.
    ===================================================================== */
@@ -44583,4 +44583,45 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   .premium-toast-icon .ico{width:28px!important;height:28px!important;}
   .premium-toast-sep{height:44px!important;}
   .premium-toast-text{font-size:18.5px!important;}
+}
+
+/* =====================================================================
+   5.0.433 — NEW MATTER: hero + block 01 vertical composition.
+   Targeted correction against the approved mockup:
+   - lift the decorative justice artwork so the scales finish earlier;
+   - bring block 01 noticeably closer to the subtitle;
+   - keep the title/subtitle above the card and preserve Dynamic Island safety.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet.full,
+body.light #sheet.matter-editor-sheet.full.open{
+  background-color:#F8F0E4!important;
+  background-image:url('bg-new-matter-approved.webp?v=5433')!important;
+  background-repeat:no-repeat!important;
+  background-position:center -28px!important;
+  background-size:auto calc(100% + 56px)!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top,
+body.light #sheet.matter-editor-sheet .matter-editor-top{
+  margin-bottom:12px!important;
+}
+#sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+  margin-top:16px!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet.full,
+  body.light #sheet.matter-editor-sheet.full.open{
+    background-position:center -26px!important;
+    background-size:auto calc(100% + 52px)!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top,
+  body.light #sheet.matter-editor-sheet .matter-editor-top{
+    margin-bottom:11px!important;
+  }
+  #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+  body.light #sheet.matter-editor-sheet .matter-editor-top + .matter-editor-card-params,
+  body.light #sheet.matter-editor-sheet .matter-editor-card-params{
+    margin-top:14px!important;
+  }
 }
