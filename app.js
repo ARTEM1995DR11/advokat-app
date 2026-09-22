@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.468';
-var APP_BUILD='5468';
+var APP_VERSION='5.0.469';
+var APP_BUILD='5469';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -730,7 +730,7 @@ function syncPremiumSelectButton(id){
   var inMatterEditor=!!sel.closest('.matter-editor-sheet');
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
   if(id==='m-role'&&sel.value)label=matterRoleDisplayLabel((MED&&MED.type)||'other',(MED&&MED.stage)||'',sel.value);
-  if(inMatterEditor&&!sel.value)label='';
+  if(inMatterEditor&&!sel.value)label=id==='m-role'?'Выберите статус':'';
   var b=btn.querySelector('b');if(b)b.textContent=label||(inMatterEditor?'':'— выбрать —');btn.classList.toggle('empty',!sel.value);
   var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role'||id==='m-execution-issue')?premiumListMatterMeta(id,sel.value):null;
   btn.classList.toggle('matter-choice-tone',!!tone);
@@ -1791,13 +1791,43 @@ function matterDynamicFields(){
   }
   var notesType=(MED&&MED.type)||'other';
   var notesLabel=notesType==='civil'?'Предмет спора / суть дела':(notesType==='admin'?'Предмет административного спора / суть дела':'Суть дела / рабочая заметка');
-  var notesPlaceholder=notesType==='civil'?'Например: иск о разделе имущества; определение порядка общения с ребёнком…':(notesType==='admin'?'Например: оспаривание действий пристава; признание решения незаконным…':'Кратко: предмет дела, спор или основной вопрос…');
-  var notesHint=notesType==='civil'?'Первая фраза формирует название гражданского дела вместе с фамилией доверителя.':'Первая фраза используется приложением для автоматического названия дела.';
+  var notesPlaceholder=notesType==='civil'?'Кратко опишите предмет спора и основные требования…':(notesType==='admin'?'Например: оспаривание действий пристава; признание решения незаконным…':'Кратко: предмет дела, спор или основной вопрос…');
+  var notesHint=notesType==='civil'?'Первая фраза формирует название дела.':'Первая фраза используется приложением для автоматического названия дела.';
   html += '<div class="fld"><label>'+esc(notesLabel)+'</label><textarea id="m-notes" rows="4" placeholder="'+esc(notesPlaceholder)+'">'+esc(MED.notes||'')+'</textarea><small class="fieldhint">'+esc(notesHint)+'</small></div>';
   html += '</div></section>';
   return html;
 }
-function renderMatterDynamic(){ var box=$('#matter-dynamic'); if(box){ box.innerHTML=matterDynamicFields(); setTimeout(function(){upgradePremiumSelects(box);},0); } }
+function styleMatterStageFields(root){
+  var card=root.querySelector('.matter-editor-card-stage');if(!card)return;
+  var icons={'m-stage':'flag','m-court':'court','m-judge':'gavel','m-investigator':'user','m-role':'user','m-opponent':'users','m-notes':'notes','m-article':'book','m-restraint':'lock','m-execution-issue':'gavel','m-execution-institution':'court'};
+  Object.keys(icons).forEach(function(id){
+    var input=card.querySelector('#'+id);if(!input)return;
+    var field=input.closest('.fld');if(!field)return;
+    if(id==='m-court'&&!input.placeholder)input.placeholder='Введите или выберите суд / орган';
+    if(id==='m-opponent'&&MED&&MED.type==='civil')input.placeholder='ФИО / организация';
+    field.classList.add('stage-field');field.dataset.stageField=id;
+    var label=field.querySelector('label');if(label)label.htmlFor=id;
+    var control;
+    if(input.tagName==='SELECT'){
+      control=field.querySelector('[data-premium-select-for="'+id+'"]');
+    }else{
+      control=input.closest('.inline-choice-wrap');
+      if(!control){
+        control=input.parentElement.classList.contains('stage-control')?input.parentElement:document.createElement('div');
+        if(control!==input.parentElement){input.parentNode.insertBefore(control,input);control.appendChild(input);}
+      }
+    }
+    if(!control)return;
+    control.classList.add('stage-control');control.dataset.stageIcon=icons[id];
+    if(input.tagName==='TEXTAREA')control.classList.add('stage-textarea');
+    if(label&&!control.getAttribute('aria-label')&&control.tagName==='BUTTON')control.setAttribute('aria-label',label.textContent);
+  });
+}
+function renderMatterDynamic(){
+  var box=$('#matter-dynamic');if(!box)return;
+  box.innerHTML=matterDynamicFields();
+  upgradePremiumSelects(box);styleMatterStageFields(box);
+}
 function normalizeLegacyMatterStage(o){
   if(!o)return o;
   if(o.type==='criminal'){
