@@ -68,3 +68,40 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control.e
   font-weight:400!important;
   color:#969dad!important;
 }
+
+
+/* 5.0.475 — NEW MATTER: unify typography in all remaining fields.
+   Actual values (typed or selected) now use one common face, size and
+   numeric metrics across blocks 01 and 03. Empty placeholders stay muted. */
+body.light #sheet.matter-editor-sheet{
+  --matter-value-font: Georgia,"Times New Roman",serif;
+  --matter-value-size: 14px;
+  --matter-value-line: 18px;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>input,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control .premium-select-field-copy>b,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field-copy b{
+  font-family:var(--matter-value-font)!important;
+  font-size:var(--matter-value-size)!important;
+  line-height:var(--matter-value-line)!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  color:#182239!important;
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  -webkit-font-feature-settings:"lnum" 1,"tnum" 1!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control.empty .premium-select-field-copy>b,
+body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field.empty .premium-select-field-copy b,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>input::placeholder,
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea::placeholder{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  font-size:14px!important;
+  line-height:18px!important;
+  font-weight:400!important;
+  color:#969dad!important;
+  font-variant-numeric:normal!important;
+  font-feature-settings:normal!important;
+  -webkit-font-feature-settings:normal!important;
+}

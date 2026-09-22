@@ -42,3 +42,27 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
   font-weight:400!important;
   color:#969dad!important;
 }
+
+
+/* 5.0.475 — NEW MATTER: unify live value typography in block 02.
+   All entered values keep the same serif face, size and numeric metrics.
+   This removes jumping digits and keeps visual parity with selected values. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:14px!important;
+  line-height:18px!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  color:#182239!important;
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  -webkit-font-feature-settings:"lnum" 1,"tnum" 1!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  font-size:14px!important;
+  line-height:18px!important;
+  font-weight:400!important;
+  letter-spacing:0!important;
+  color:#969dad!important;
+}
