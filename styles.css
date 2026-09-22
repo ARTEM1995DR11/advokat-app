@@ -29245,7 +29245,7 @@ body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-acti
 }
 body.light #sheet.task-editor-sheet.qe190-sheet .qe190-type-card.is-active .qe190-type-icon,
 body.light #sheet.task-editor-sheet.qe192-hearing-sheet .qe190-type-card.is-active .qe190-type-icon{
-  color:#754636!important;
+  color:#754646!important;
 }
 
 /* SAVE: approved long glossy capsule surface. */
@@ -44722,7 +44722,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER required marker.
+   5.0.464 — NEW MATTER required marker.
    Match approved mockup: the asterisk in “Основание ведения” is red.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .required-star{
@@ -44732,7 +44732,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .fld>label .req
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER final micro-adjustments after visual review.
+   5.0.464 — NEW MATTER final micro-adjustments after visual review.
    - bring title/subtitle slightly closer to block 01;
    - nudge the document icon slightly upward for visual centering;
    - remove sharp inner corners on the tinted left icon cells.
@@ -44752,7 +44752,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   overflow:hidden!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5463'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
+  background-image:url('nm-doc-mockup.png?v=5464'), linear-gradient(180deg,rgba(250,247,241,.96),rgba(245,239,230,.92))!important;
   background-repeat:no-repeat,no-repeat!important;
   background-size:20px 26px,100% 100%!important;
   background-position:calc(50% - 1px) calc(50% - 3px),0 0!important;
@@ -44779,7 +44779,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER final alignment polish.
+   5.0.464 — NEW MATTER final alignment polish.
    Remaining differences vs approved mockup:
    1) subtitle under the title was slightly too large/long;
    2) back button sat too far from the title block.
@@ -44810,7 +44810,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER final header polish.
+   5.0.464 — NEW MATTER final header polish.
    Requested fixes:
    - drop the back button lower, closer to the “Новое дело” title;
    - keep the subtitle on a single line like in the approved mockup.
@@ -44842,7 +44842,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy .sh-sub{
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER final title drop.
+   5.0.464 — NEW MATTER final title drop.
    Final requested tweak: lower the title/subtitle closer to block 01.
    ===================================================================== */
 #sheet.matter-editor-sheet .matter-editor-titlecopy,
@@ -44857,7 +44857,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-titlecopy{
 }
 
 /* =====================================================================
-   5.0.463 — NEW MATTER upper block finalization.
+   5.0.464 — NEW MATTER upper block finalization.
    Final polish requested by user before approving the upper part:
    1) lower the back button closer to the title;
    2) make the subtitle slightly smaller/shorter;
@@ -44943,7 +44943,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 first full mockup pass.
+   5.0.464 — NEW MATTER / BLOCK 02 first full mockup pass.
    Only “Данные доверителя” is changed; approved block 01 remains untouched.
    - mockup-like filled client icon in the section header;
    - building icon for “Доверитель”;
@@ -45059,7 +45059,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
+   5.0.464 — NEW MATTER / BLOCK 02 numeric typography + softer icon cells.
    Requested fixes:
    - phone and case numbers should stop looking jumpy; use calmer input typography
      with tabular numerals;
@@ -45087,7 +45087,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 icon-cell restoration.
+   5.0.464 — NEW MATTER / BLOCK 02 icon-cell restoration.
    Requested fixes:
    - return visible left icon squares in block 02, but with a paler fill;
    - switch trustor/person icon to the mockup-like variant.
@@ -45114,7 +45114,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — COMPACT PREMIUM TOASTS.
+   5.0.464 — COMPACT PREMIUM TOASTS.
    Smaller, calmer in-app notifications while preserving the approved
    marble / gold / navy visual language.
    ===================================================================== */
@@ -45209,7 +45209,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — PREMIUM TOASTS / NAVY GLASS EDITION.
+   5.0.464 — PREMIUM TOASTS / NAVY GLASS EDITION.
    Compact luxury notification card: deep navy glass, gold medallion icon,
    soft inner sheen, no heavy divider, calmer typography.
    ===================================================================== */
@@ -45358,7 +45358,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 bring icon cells in line with block 01.
+   5.0.464 — NEW MATTER / BLOCK 02 bring icon cells in line with block 01.
    Requested:
    - make the left icon cells behave like block 01 (integrated full-height cells),
      but with a slightly paler fill;
@@ -45432,7 +45432,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 final field-cell repair.
+   5.0.464 — NEW MATTER / BLOCK 02 final field-cell repair.
    Requested fixes:
    - left icon cells must look like block 01, but with a paler fill;
    - remove the visually broken / cut-off field look;
@@ -45512,7 +45512,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / unified pale icon cells + block 02 icon cleanup.
+   5.0.464 — NEW MATTER / unified pale icon cells + block 02 icon cleanup.
    Requested:
    - make block 01 icon-cell backgrounds paler too, for consistency across the page;
    - continue refining icons in block 02 and ensure the trustor field icon is visible.
@@ -45555,7 +45555,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / BLOCK 02 mockup-alignment polish.
+   5.0.464 — NEW MATTER / BLOCK 02 mockup-alignment polish.
    Using the approved block-02 mockup as the reference:
    - keep the left icon cells integrated into the fields;
    - make the pale icon-cell fill a touch softer;
@@ -45623,7 +45623,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / icon visibility repair.
+   5.0.464 — NEW MATTER / icon visibility repair.
    Fix missing icons in block 01 and client field in block 02 by painting them
    explicitly as centered assets over the pale leading cells.
    ===================================================================== */
@@ -45635,10 +45635,10 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   background-size:19px 21px,100% 100%!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5463'),linear-gradient(180deg,rgba(253,252,248,.985),rgba(249,246,241,.95))!important;
+  background-image:url('nm-scale-mockup.png?v=5464'),linear-gradient(180deg,rgba(253,252,248,.985),rgba(249,246,241,.95))!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5463'),linear-gradient(180deg,rgba(253,252,248,.985),rgba(249,246,241,.95))!important;
+  background-image:url('nm-doc-mockup.png?v=5464'),linear-gradient(180deg,rgba(253,252,248,.985),rgba(249,246,241,.95))!important;
   background-size:18px 23px,100% 100%!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading .ico,
@@ -45669,7 +45669,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — restore block 01 icon cells exactly as before.
+   5.0.464 — restore block 01 icon cells exactly as before.
    Requested fix:
    - in block 01, undo the image-paint workaround and bring the icons back
      as centered inline icons inside the left square, like the earlier approved state.
@@ -45706,7 +45706,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER repair pass after 5.0.463.
+   5.0.464 — NEW MATTER repair pass after 5.0.464.
    Goals:
    - restore block 01 icons visually exactly in the approved manner: centered in
      the pale left cells and always visible;
@@ -45727,10 +45727,10 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
   justify-content:center!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5463'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
+  background-image:url('nm-scale-mockup.png?v=5464'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5463'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
+  background-image:url('nm-doc-mockup.png?v=5464'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
   background-size:18px 22px,100% 100%!important;
   background-position:50% calc(50% - 1px),0 0!important;
 }
@@ -45787,18 +45787,18 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / block 01 icon sizing & centering refinement.
+   5.0.464 — NEW MATTER / block 01 icon sizing & centering refinement.
    Requested:
    - make block 01 icons a bit larger, closer to the approved mockup;
    - nudge the document icon to the true visual center of the left square.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-type"]>.matter-editor-field-leading{
-  background-image:url('nm-scale-mockup.png?v=5463'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
+  background-image:url('nm-scale-mockup.png?v=5464'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
   background-position:50% 50%,0 0!important;
   background-size:21px 23px,100% 100%!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5463'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
+  background-image:url('nm-doc-mockup.png?v=5464'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
   background-position:50% 50%,0 0!important;
   background-size:19px 24px,100% 100%!important;
 }
@@ -45813,14 +45813,14 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / block 01 document icon micro-adjustment.
+   5.0.464 — NEW MATTER / block 01 document icon micro-adjustment.
    Requested:
    - keep the scales size as-is;
    - make the document icon slightly larger;
    - move the document icon a touch upward so it sits visually centered.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select-field[data-premium-select-for="m-basis"]>.matter-editor-field-leading{
-  background-image:url('nm-doc-mockup.png?v=5463'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
+  background-image:url('nm-doc-mockup.png?v=5464'),linear-gradient(180deg,rgba(252,250,246,.98),rgba(248,245,239,.94))!important;
   background-position:50% calc(50% - 2px),0 0!important;
   background-size:20px 25px,100% 100%!important;
 }
@@ -45833,7 +45833,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-params .premium-select
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / block 02 only.
+   5.0.464 — NEW MATTER / block 02 only.
    Block 01 is frozen. This pass refines only block 02 toward the approved mockup:
    - outlined section icon;
    - softer left icon-cell fill;
@@ -45926,7 +45926,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / block 02 icon correction.
+   5.0.464 — NEW MATTER / block 02 icon correction.
    Requested:
    - use a different block 02 header icon, closer to the mockup;
    - use a different building icon in the client field;
@@ -45988,7 +45988,7 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
 
 
 /* =====================================================================
-   5.0.463 — NEW MATTER / block 02 restore & refine.
+   5.0.464 — NEW MATTER / block 02 restore & refine.
    User feedback:
    - block 01 is approved and frozen;
    - in block 02, restore the more correct icon language from the approved look;
@@ -46053,5 +46053,158 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-
   body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading .ico{
     width:17px!important;
     height:17px!important;
+  }
+}
+
+
+/* =====================================================================
+   5.0.464 — NEW MATTER / BLOCK 02 PIXEL-MATCH PASS.
+   IMPORTANT: Block 01 is frozen and intentionally untouched.
+   Rebuild block 02 against the approved mockup:
+   - same compact vertical rhythm as approved block 01;
+   - exact solid client header glyph (head + split shoulders);
+   - mockup-like two-building line icon;
+   - field height reduced back to the approved compact height;
+   - left icon compartments brought to the same visual scale as block 01;
+   - pale compartment fill + barely visible separator.
+   ===================================================================== */
+body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+  padding:10px 13px 10px!important;
+  border-radius:22px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head{
+  grid-template-columns:27px auto minmax(20px,1fr) auto!important;
+  gap:7px!important;
+  min-height:22px!important;
+  margin:0 0 6px!important;
+  align-items:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+  width:27px!important;
+  height:22px!important;
+  color:transparent!important;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='6.8' r='3.05' fill='%23B18442'/%3E%3Cpath d='M4.8 19.1c.55-3.45 3.15-5.45 6.2-5.45v5.45H4.8Zm8.2-5.45c3.05 0 5.65 2 6.2 5.45H13v-5.45Z' fill='%23B18442'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-position:50% 50%!important;
+  background-size:21px 21px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon .ico{
+  opacity:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+  font-size:10.75px!important;
+  line-height:1!important;
+  letter-spacing:.135em!important;
+  font-weight:700!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-head>em{
+  font-size:10.2px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld{
+  margin:0 0 7px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld:last-child{
+  margin-bottom:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+  margin:0 0 4px!important;
+  font-size:10.9px!important;
+  line-height:1.04!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell{
+  border:1px solid rgba(181,135,61,.24)!important;
+  border-radius:13px!important;
+  background:rgba(255,255,255,.84)!important;
+  overflow:hidden!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 4px 12px rgba(93,62,20,.025)!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+  min-height:37px!important;
+  height:37px!important;
+  padding:0 11px 0 58px!important;
+  border:0!important;
+  border-radius:13px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:12.95px!important;
+  line-height:1!important;
+  font-weight:600!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input::placeholder{
+  color:#99A5B5!important;
+  opacity:1!important;
+  font-weight:600!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:48px!important;
+  min-width:48px!important;
+  max-width:48px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#B18442!important;
+  background:linear-gradient(180deg,rgba(253,252,248,.995),rgba(250,248,244,.972))!important;
+  border-right:1px solid rgba(183,139,68,.045)!important;
+  border-radius:12px 0 0 12px!important;
+  overflow:hidden!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading{
+  color:transparent!important;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B18442' stroke-width='1.65' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.8 19.3h13.1'/%3E%3Cpath d='M7.2 19.3V8.2l6.15-1.35V19.3'/%3E%3Cpath d='M13.35 19.3v-7.55h4.15v7.55'/%3E%3Cpath d='M9.15 10.25h.01M11.25 9.8h.01M9.15 12.75h.01M11.25 12.3h.01M9.15 15.25h.01M11.25 14.8h.01M15.1 14.15h.01M16.55 14.15h.01M15.1 16.45h.01M16.55 16.45h.01'/%3E%3C/svg%3E"),linear-gradient(180deg,rgba(253,252,248,.995),rgba(250,248,244,.972))!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:50% 50%,0 0!important;
+  background-size:20px 20px,100% 100%!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading .ico{
+  opacity:0!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-phone"] .matter-editor-field-leading .ico{
+  opacity:1!important;
+  width:18px!important;
+  height:18px!important;
+  stroke-width:1.64!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-number"] .matter-editor-field-leading::before{
+  font-size:22px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  opacity:.98!important;
+}
+@media(max-width:390px){
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client{
+    padding:10px 12px 10px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-title{
+    font-size:10.55px!important;
+    letter-spacing:.128em!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-section-icon{
+    width:26px!important;
+    height:22px!important;
+    background-size:20px 20px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .fld>label{
+    font-size:10.72px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell>input{
+    min-height:36px!important;
+    height:36px!important;
+    padding-left:56px!important;
+    font-size:12.75px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell .matter-editor-field-leading{
+    width:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-card-client .matter-editor-input-shell[data-field="m-client"] .matter-editor-field-leading{
+    background-size:19px 19px,100% 100%!important;
   }
 }
