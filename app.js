@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.484';
-var APP_BUILD='5484';
+var APP_VERSION='5.0.485';
+var APP_BUILD='5485';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6348,13 +6348,13 @@ function renderMatters(){
   });
   var nearestHearing=matterApprovedNearestHearing();
   var heroMain=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
-  var heroSub=nearestHearing?('Ближайшее заседание: '+fmtShort(nearestHearing.due)+(nearestHearing.time?' · '+nearestHearing.time:'')):'Ближайших заседаний пока нет';
+  var heroSub='';
   var quickTypeLabel=matterApprovedQuickTypeLabel();
   var searchOpen=!!(S.ui.matterSearchOpen||q);
   var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
   var html='<div class="matters-project matters-approved-v3">'+
     mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
-    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p>'+(heroSub?('<p class="approved-sub">'+esc(heroSub)+'</p>'):'')+'</div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
