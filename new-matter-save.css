@@ -1,30 +1,31 @@
 /* =====================================================================
-   5.0.480 — NEW MATTER / EXACT APPROVED SAVE-BUTTON SURFACE.
-   Uses the exact user-approved transparent gold PNG as the button skin.
-   No generated gradient, no synthetic bevel, no legacy save-button skin.
+   5.0.481 — NEW MATTER / SAVE BUTTON MATCHED TO OTHER PREMIUM SHEETS.
+   The "Сохранить дело" button now uses the exact same gold surface logic
+   as the save buttons on hearing / task / meeting / deadline pages.
    ===================================================================== */
 body.light #sheet.matter-editor-sheet .matter-editor-save{
   position:relative!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:14px!important;
+  gap:16px!important;
   width:100%!important;
-  height:auto!important;
-  min-height:0!important;
-  aspect-ratio:2112 / 374!important;
+  min-height:74px!important;
+  height:74px!important;
   margin:0!important;
-  padding:0 22px!important;
+  padding:0 28px!important;
   border:0!important;
-  border-radius:0!important;
+  border-radius:26px!important;
   background-color:transparent!important;
-  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
   background-repeat:no-repeat!important;
-  background-position:center!important;
+  background-position:50% 50%!important;
   background-size:100% 100%!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-  color:#182139!important;
+  background-origin:border-box!important;
+  background-clip:border-box!important;
+  box-shadow:0 9px 18px rgba(88,50,5,.14)!important;
+  overflow:hidden!important;
+  color:#261a07!important;
   -webkit-appearance:none!important;
   appearance:none!important;
   -webkit-tap-highlight-color:transparent!important;
@@ -35,61 +36,68 @@ body.light #sheet.matter-editor-sheet .matter-editor-save::before,
 body.light #sheet.matter-editor-sheet .matter-editor-save::after{
   content:none!important;
   display:none!important;
+  background:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-save > *{
+  position:relative!important;
+  z-index:3!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-  width:27px!important;
-  height:27px!important;
-  flex:0 0 27px!important;
+  width:30px!important;
+  height:30px!important;
+  flex:0 0 30px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   padding:0!important;
   border:0!important;
-  background:none!important;
+  border-radius:0!important;
+  background:transparent!important;
   box-shadow:none!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
-  width:25px!important;
-  height:25px!important;
-  color:#182139!important;
-  stroke:#182139!important;
+  width:27px!important;
+  height:27px!important;
+  color:#261a07!important;
+  stroke:#261a07!important;
   stroke-width:1.9!important;
 }
 body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-  color:#182139!important;
+  color:#261a07!important;
   font-family:Georgia,'Times New Roman',serif!important;
-  font-size:20px!important;
+  font-size:22px!important;
   line-height:1!important;
   font-weight:700!important;
   letter-spacing:0!important;
   white-space:nowrap!important;
   text-shadow:none!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save:active{
-  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
-  background-size:100% 100%!important;
-  transform:translateY(1px)!important;
-  filter:brightness(.98)!important;
-}
+body.light #sheet.matter-editor-sheet .matter-editor-save:active,
 body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
-  background-image:url('matter-save-gold-v5480.png?v=5480')!important;
+  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
   background-size:100% 100%!important;
+  transform:none!important;
+  filter:none!important;
   outline:none!important;
 }
 @media(max-width:390px){
   body.light #sheet.matter-editor-sheet .matter-editor-save{
-    gap:12px!important;
-    padding:0 18px!important;
-  }
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon,
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
-    width:23px!important;
-    height:23px!important;
+    min-height:68px!important;
+    height:68px!important;
+    gap:14px!important;
+    padding:0 22px!important;
+    border-radius:24px!important;
   }
   body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-    flex-basis:23px!important;
+    width:27px!important;
+    height:27px!important;
+    flex-basis:27px!important;
+  }
+  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+    width:24px!important;
+    height:24px!important;
   }
   body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-    font-size:19px!important;
+    font-size:20px!important;
   }
 }
