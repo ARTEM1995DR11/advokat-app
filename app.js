@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.483';
-var APP_BUILD='5483';
+var APP_VERSION='5.0.484';
+var APP_BUILD='5484';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5331,6 +5331,7 @@ document.addEventListener('click', function(ev){
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
   if(el.classList.contains('quickitem')) vib(7);
   switch(a){
+    case 'matter-view': {if(v!=='grid'&&v!=='list')break;S.ui.matterView=v;save();var host=$('#sc-matters .case-folder-host');if(host){host.classList.toggle('is-grid',v==='grid');host.classList.toggle('is-list',v==='list');refreshMatterSearchResultsOnly();}document.querySelectorAll('.case-view-switch button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v));});break;}
     /* navigation / dashboard */
     case 'go-matters': go('matters'); break;
     case 'go-tasks': go('tasks'); break;
@@ -6248,7 +6249,7 @@ function matterApprovedAction(m){
   if(t.time) parts.push(t.time);
   return {text:parts.join(' · '), tone:st.pendingResult?'result':(st.late?'urgent':'next')};
 }
-function matterCard(m){
+function matterLegacyListCard(m){
   var mt=matterType(m), basis=matterBasisMeta(m.basis), badge=matterApprovedBadge(m), next=matterApprovedAction(m);
   var color=mt.c;
   if(isCriminalCheckMaterial(m)) color=matterStageMeta('Материал проверки').c;
@@ -6269,6 +6270,46 @@ function matterCard(m){
     '</div>'+
     '<span class="matter-approved-tail">'+ico('chev','s')+'</span>'+
   '</article>';
+}
+function matterFolderIcon(kind){
+  var paths={
+    scale:'<path d="M12 3v18M7 22h10M4 6h16M5 6 2 15h6L5 6zm14 0-3 9h6l-3-9"/><path d="M2 15c0 3 6 3 6 0m8 0c0 3 6 3 6 0"/><circle cx="12" cy="4" r="1.5"/>',
+    gavel:'<path d="m5 5 4-4 7 7-4 4zM3 16l4-4 4 4-4 4zM9 12l4-4m0 5 9 8-2 2-8-9M2 23h10"/>',
+    people:'<circle cx="12" cy="6" r="4"/><circle cx="4" cy="10" r="2.7"/><circle cx="20" cy="10" r="2.7"/><path d="M5 22v-3a7 6 0 0 1 14 0v3zM5 21H1v-4c0-3 3-4 5-3m13 7h4v-4c0-3-3-4-5-3"/>',
+    doc:'<path d="M5 2h10l5 5v15H5zM15 2v6h5M9 12h7m-7 4h7"/>'};
+  return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(paths[kind]||paths.doc)+'</svg>';
+}
+function matterViewButtons(){
+  var grid=S.ui.matterView!=='list';
+  return '<div class="case-view-toolbar"><div class="case-view-switch" role="group" aria-label="Вид дел">'+
+    '<button type="button" data-act="matter-view" data-v="grid" aria-label="Папки" aria-pressed="'+grid+'"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>'+
+    '<button type="button" data-act="matter-view" data-v="list" aria-label="Список" aria-pressed="'+(!grid)+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="3" cy="5" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="3" cy="19" r="1.5"/></svg></button></div></div>';
+}
+function matterCard(m){
+  if(S.ui.matterView==='list')return matterLegacyListCard(m);
+  var execution=isCriminalExecutionMatter(m),check=isCriminalCheckMaterial(m);
+  var type=execution?'execution':(check?'other':m.type||'other');
+  var label=matterTypeCardLabel(m).replace('ГРАЖДАНСКОЕ ДЕЛО','ГРАЖДАНСКОЕ').replace('УГОЛОВНОЕ ДЕЛО','УГОЛОВНОЕ');
+  var basis=matterBasisMeta(m.basis),next=matterApprovedAction(m),badge=matterApprovedBadge(m);
+  var subject=(m.type==='criminal'||m.type==='koap')&&m.article?m.article:(m.notes?matterAutoTitlePiece(m.notes,100):matterApprovedSubject(m));
+  var lead=matterApprovedLeadName(m);
+  if(subject.indexOf(lead+' — ')===0)subject=subject.slice(lead.length+3);
+  if(next.tone==='muted')next.text='Дата не назначена';
+  var meta=[m.stage,m.court].filter(Boolean).join(' · ');
+  var icon=execution||check?'doc':m.type==='admin'?'scale':m.type==='criminal'?'gavel':m.type==='civil'?'people':'doc';
+  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="Открыть дело: '+esc(lead)+'">'+
+    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i></span>'+
+    '<span class="case-folder-tab"><span>'+esc(label)+'</span></span>'+
+    '<span class="case-folder-cover">'+
+      '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span><span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+
+      '<span class="case-folder-name">'+esc(lead)+'</span>'+
+      '<span class="case-folder-chips">'+(basis?'<span class="case-folder-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'')+
+      (badge?'<span class="case-folder-status '+badge.tone+'">'+esc(badge.text)+'</span>':'')+'</span>'+
+      '<span class="case-folder-subject">'+esc(subject||'Описание не указано')+'</span>'+
+      '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+
+      '<span class="case-folder-meta">'+esc(meta||'Стадия не указана')+'</span>'+
+      '<span class="case-folder-next '+next.tone+'">'+ico('cal','s')+'<span>'+esc(next.text)+'</span></span>'+
+    '</span></button>';
 }
 function renderMatters(){
   if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
@@ -6317,7 +6358,8 @@ function renderMatters(){
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
-    '<div class="matters-list matters-approved-list">';
+    matterViewButtons()+
+    '<div class="matters-list matters-approved-list case-folder-host '+(S.ui.matterView==='list'?'is-list':'is-grid')+'">';
   html+=list.length?list.map(matterCard).join(''):
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
