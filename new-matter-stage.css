@@ -105,3 +105,23 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>t
   font-feature-settings:normal!important;
   -webkit-font-feature-settings:normal!important;
 }
+
+
+/* 5.0.483 — NEW MATTER: block 03 left icon squares aligned with blocks 01 and 02.
+   Reduce the leading icon bay from the slightly oversized stage variant to the
+   same visual width used in the first two cards, and mirror the same content
+   paddings so every row starts on one grid. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control::before{
+  width:40px!important;
+  background-size:18px 18px!important;
+  background-position:center center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>input{
+  padding-left:53px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control .premium-select-field-copy{
+  padding-left:53px!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea{
+  padding-left:53px!important;
+}

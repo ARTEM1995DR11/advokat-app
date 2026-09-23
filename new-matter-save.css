@@ -1,5 +1,5 @@
 /* =====================================================================
-   5.0.482 — NEW MATTER / EXACT SHARED PREMIUM SAVE BUTTON.
+   5.0.483 — NEW MATTER / EXACT SHARED PREMIUM SAVE BUTTON.
    This uses the SAME premium-gold-save-v5249.webp asset as the approved
    Save task / Save hearing / Save meeting / Save deadline buttons.
    Important: selector intentionally outranks the old .shfoot m-save rule.
@@ -18,7 +18,7 @@ body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-
   padding:0 22px!important;
   border:0!important;
   border-radius:22px!important;
-  background:transparent url('premium-gold-save-v5249.webp?v=5482') center/100% 100% no-repeat!important;
+  background:transparent url('premium-gold-save-v5249.webp?v=5483') center/100% 100% no-repeat!important;
   box-shadow:0 10px 24px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.30)!important;
   overflow:hidden!important;
   color:#17191C!important;
@@ -74,7 +74,7 @@ body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-
 }
 body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']:active,
 body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']:focus{
-  background:transparent url('premium-gold-save-v5249.webp?v=5482') center/100% 100% no-repeat!important;
+  background:transparent url('premium-gold-save-v5249.webp?v=5483') center/100% 100% no-repeat!important;
   transform:scale(.994)!important;
   filter:brightness(.98)!important;
   outline:none!important;
