@@ -5331,7 +5331,6 @@ document.addEventListener('click', function(ev){
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
   if(el.classList.contains('quickitem')) vib(7);
   switch(a){
-    case 'matter-view': {if(v!=='grid'&&v!=='list')break;S.ui.matterView=v;save();var host=$('#sc-matters .case-folder-host');if(host){host.classList.toggle('is-grid',v==='grid');host.classList.toggle('is-list',v==='list');refreshMatterSearchResultsOnly();}document.querySelectorAll('.case-view-switch button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v));});break;}
     /* navigation / dashboard */
     case 'go-matters': go('matters'); break;
     case 'go-tasks': go('tasks'); break;
@@ -6249,28 +6248,6 @@ function matterApprovedAction(m){
   if(t.time) parts.push(t.time);
   return {text:parts.join(' · '), tone:st.pendingResult?'result':(st.late?'urgent':'next')};
 }
-function matterLegacyListCard(m){
-  var mt=matterType(m), basis=matterBasisMeta(m.basis), badge=matterApprovedBadge(m), next=matterApprovedAction(m);
-  var color=mt.c;
-  if(isCriminalCheckMaterial(m)) color=matterStageMeta('Материал проверки').c;
-  else if(isCriminalExecutionMatter(m)) color=matterStageMeta('Исполнение приговора').c;
-  var subject=matterApprovedSubject(m), line1=matterApprovedNumberStage(m), line2=matterApprovedProfessionalLine(m);
-  return '<article class="matter-approved-card'+(m.archived?' archived':'')+'" style="--case:'+color+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(matterApprovedLeadName(m))+'">'+
-    '<span class="matter-approved-side">'+ico(matterCardIconName(m),'l')+'</span>'+
-    '<div class="matter-approved-main">'+
-      '<div class="matter-approved-top"><span class="matter-approved-type">'+esc(matterTypeCardLabel(m))+'</span>'+
-      (basis?'<span class="matter-approved-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'')+
-      (badge?'<span class="matter-approved-badge '+badge.tone+'">'+esc(badge.text)+'</span>':'')+
-      '</div>'+
-      '<b class="matter-approved-name">'+esc(matterApprovedLeadName(m))+'</b>'+
-      (subject?'<div class="matter-approved-subject">'+esc(subject)+'</div>':'')+
-      (line1?'<div class="matter-approved-meta">'+esc(line1)+'</div>':'')+
-      (line2?'<div class="matter-approved-meta second">'+esc(line2)+'</div>':'')+
-      '<div class="matter-approved-next '+next.tone+'"><i></i><span>'+esc(next.text)+'</span></div>'+
-    '</div>'+
-    '<span class="matter-approved-tail">'+ico('chev','s')+'</span>'+
-  '</article>';
-}
 function matterFolderIcon(kind){
   var paths={
     scale:'<path d="M12 3v18M7 22h10M4 6h16M5 6 2 15h6L5 6zm14 0-3 9h6l-3-9"/><path d="M2 15c0 3 6 3 6 0m8 0c0 3 6 3 6 0"/><circle cx="12" cy="4" r="1.5"/>',
@@ -6279,14 +6256,7 @@ function matterFolderIcon(kind){
     doc:'<path d="M5 2h10l5 5v15H5zM15 2v6h5M9 12h7m-7 4h7"/>'};
   return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(paths[kind]||paths.doc)+'</svg>';
 }
-function matterViewButtons(){
-  var grid=S.ui.matterView!=='list';
-  return '<div class="case-view-toolbar"><div class="case-view-switch" role="group" aria-label="Вид дел">'+
-    '<button type="button" data-act="matter-view" data-v="grid" aria-label="Папки" aria-pressed="'+grid+'"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>'+
-    '<button type="button" data-act="matter-view" data-v="list" aria-label="Список" aria-pressed="'+(!grid)+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="3" cy="5" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="3" cy="19" r="1.5"/></svg></button></div></div>';
-}
 function matterCard(m){
-  if(S.ui.matterView==='list')return matterLegacyListCard(m);
   var execution=isCriminalExecutionMatter(m),check=isCriminalCheckMaterial(m);
   var type=execution?'execution':(check?'other':m.type||'other');
   var label=matterTypeCardLabel(m).replace('ГРАЖДАНСКОЕ ДЕЛО','ГРАЖДАНСКОЕ').replace('УГОЛОВНОЕ ДЕЛО','УГОЛОВНОЕ');
@@ -6348,18 +6318,17 @@ function renderMatters(){
   });
   var nearestHearing=matterApprovedNearestHearing();
   var heroMain=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
-  var heroSub='';
+  var heroSub=nearestHearing?('Ближайшее заседание: '+fmtShort(nearestHearing.due)+(nearestHearing.time?' · '+nearestHearing.time:'')):'Ближайших заседаний пока нет';
   var quickTypeLabel=matterApprovedQuickTypeLabel();
   var searchOpen=!!(S.ui.matterSearchOpen||q);
   var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
   var html='<div class="matters-project matters-approved-v3">'+
     mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
-    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p>'+(heroSub?('<p class="approved-sub">'+esc(heroSub)+'</p>'):'')+'</div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p><p class="approved-sub">'+esc(heroSub)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
-    matterViewButtons()+
-    '<div class="matters-list matters-approved-list case-folder-host '+(S.ui.matterView==='list'?'is-list':'is-grid')+'">';
+    '<div class="matters-list matters-approved-list case-folder-host is-grid">';
   html+=list.length?list.map(matterCard).join(''):
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])

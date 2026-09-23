@@ -1,10 +1,5 @@
-/* 5.0.484 — approved folder layout. Header, FAB and navigation are untouched. */
-#sc-matters .case-view-toolbar{display:flex;justify-content:flex-end;margin:8px 0 10px;padding:0 1px;}
-#sc-matters .case-view-switch{display:flex;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.95);border-radius:10px;background:rgba(255,253,246,.92);box-shadow:0 3px 9px #76542324;}
-#sc-matters .case-view-switch button{display:flex;align-items:center;justify-content:center;width:37px;height:28px;border-radius:7px;color:#082568;transition:background .15s;}
-#sc-matters .case-view-switch button[aria-pressed="true"]{color:#89600e;background:linear-gradient(120deg,#f0ddb4,#e4cda2);box-shadow:inset 0 1px 0 #ffffffb3;}
-#sc-matters .case-view-switch svg{width:21px;height:21px;fill:currentColor;}
-#sc-matters .case-view-switch button:focus-visible,#sc-matters .case-folder:focus-visible{outline:2px solid #a57d2f;outline-offset:3px;}
+/* 5.0.485 — folder-only layout. Header, FAB and navigation are untouched. */
+#sc-matters .case-folder:focus-visible{outline:2px solid #a57d2f;outline-offset:3px;}
 #sc-matters .matters-approved-list.case-folder-host.is-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px 12px!important;margin-top:0!important;padding-top:0!important;align-items:stretch!important;}
 #sc-matters .case-folder-host.is-grid>.empty{grid-column:1/-1;}
 #sc-matters .case-folder{--folder:#40c9c4;--folder-light:#d4f7ef;--folder-ink:#00887f;position:relative;display:flex;flex-direction:column;min-width:0;width:100%;margin:0;padding:22px 0 0;border:0;background:transparent;box-shadow:none;text-align:left;color:#082568;isolation:isolate;cursor:pointer;}
