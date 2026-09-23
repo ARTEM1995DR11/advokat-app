@@ -1,103 +1,101 @@
 /* =====================================================================
-   5.0.481 — NEW MATTER / SAVE BUTTON MATCHED TO OTHER PREMIUM SHEETS.
-   The "Сохранить дело" button now uses the exact same gold surface logic
-   as the save buttons on hearing / task / meeting / deadline pages.
+   5.0.482 — NEW MATTER / EXACT SHARED PREMIUM SAVE BUTTON.
+   This uses the SAME premium-gold-save-v5249.webp asset as the approved
+   Save task / Save hearing / Save meeting / Save deadline buttons.
+   Important: selector intentionally outranks the old .shfoot m-save rule.
    ===================================================================== */
-body.light #sheet.matter-editor-sheet .matter-editor-save{
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']{
   position:relative!important;
+  isolation:isolate!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:16px!important;
+  gap:14px!important;
   width:100%!important;
-  min-height:74px!important;
-  height:74px!important;
+  min-height:64px!important;
+  height:64px!important;
   margin:0!important;
-  padding:0 28px!important;
+  padding:0 22px!important;
   border:0!important;
-  border-radius:26px!important;
-  background-color:transparent!important;
-  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
-  background-repeat:no-repeat!important;
-  background-position:50% 50%!important;
-  background-size:100% 100%!important;
-  background-origin:border-box!important;
-  background-clip:border-box!important;
-  box-shadow:0 9px 18px rgba(88,50,5,.14)!important;
+  border-radius:22px!important;
+  background:transparent url('premium-gold-save-v5249.webp?v=5482') center/100% 100% no-repeat!important;
+  box-shadow:0 10px 24px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.30)!important;
   overflow:hidden!important;
-  color:#261a07!important;
+  color:#17191C!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:20px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
   -webkit-appearance:none!important;
   appearance:none!important;
   -webkit-tap-highlight-color:transparent!important;
   transform:none!important;
   filter:none!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save::before,
-body.light #sheet.matter-editor-sheet .matter-editor-save::after{
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']::before,
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']::after{
   content:none!important;
   display:none!important;
   background:none!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save > *{
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] > *{
   position:relative!important;
-  z-index:3!important;
+  z-index:2!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-  width:30px!important;
-  height:30px!important;
-  flex:0 0 30px!important;
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-icon{
+  width:27px!important;
+  height:27px!important;
+  flex:0 0 27px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  padding:0!important;
   border:0!important;
   border-radius:0!important;
   background:transparent!important;
   box-shadow:none!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
-  width:27px!important;
-  height:27px!important;
-  color:#261a07!important;
-  stroke:#261a07!important;
-  stroke-width:1.9!important;
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-icon .ico{
+  width:25px!important;
+  height:25px!important;
+  color:#17191C!important;
+  stroke:#17191C!important;
+  stroke-width:1.85!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-  color:#261a07!important;
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-label{
+  color:#17191C!important;
   font-family:Georgia,'Times New Roman',serif!important;
-  font-size:22px!important;
+  font-size:20px!important;
   line-height:1!important;
   font-weight:700!important;
   letter-spacing:0!important;
   white-space:nowrap!important;
   text-shadow:none!important;
 }
-body.light #sheet.matter-editor-sheet .matter-editor-save:active,
-body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
-  background-image:url('premium-gold-save-v5249.webp?v=5249')!important;
-  background-size:100% 100%!important;
-  transform:none!important;
-  filter:none!important;
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']:active,
+body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']:focus{
+  background:transparent url('premium-gold-save-v5249.webp?v=5482') center/100% 100% no-repeat!important;
+  transform:scale(.994)!important;
+  filter:brightness(.98)!important;
   outline:none!important;
 }
 @media(max-width:390px){
-  body.light #sheet.matter-editor-sheet .matter-editor-save{
-    min-height:68px!important;
-    height:68px!important;
-    gap:14px!important;
-    padding:0 22px!important;
-    border-radius:24px!important;
+  body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save']{
+    min-height:61px!important;
+    height:61px!important;
+    border-radius:21px!important;
+    gap:12px!important;
+    padding:0 18px!important;
   }
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon{
-    width:27px!important;
-    height:27px!important;
-    flex-basis:27px!important;
+  body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-label{
+    font-size:19px!important;
   }
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-icon .ico{
+  body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-icon,
+  body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-icon .ico{
     width:24px!important;
     height:24px!important;
   }
-  body.light #sheet.matter-editor-sheet .matter-editor-save .save-label{
-    font-size:20px!important;
+  body.light #sheet.matter-editor-sheet.full.withfoot .shfoot > button.btn.matter-editor-save[data-act='m-save'] .save-icon{
+    flex-basis:24px!important;
   }
 }
