@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.487';
-var APP_BUILD='5487';
+var APP_VERSION='5.0.488';
+var APP_BUILD='5488';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6353,9 +6353,8 @@ function renderMatters(){
   var searchOpen=!!(S.ui.matterSearchOpen||q);
   var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
   var html='<div class="matters-project matters-approved-v3 case-page">'+
-    '<header class="case-page-header"><div class="case-page-brand"><img src="scale-gold.webp?v=5487" alt="Весы правосудия"><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
-    '<h1 class="case-page-title">Дела</h1><p class="case-page-count">'+esc(heroMain)+'</p>'+
-    '<div class="case-page-tools"><button type="button" class="case-page-tool'+(searchOpen?' on':'')+'" data-act="matter-search" aria-label="Поиск по делам" title="Поиск по делам">'+ico('search')+'</button><button type="button" class="case-page-tool'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" aria-label="Фильтры и сортировка" title="Фильтры и сортировка"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/><path d="M8 3v6m8 0v6M10 15v6" stroke-width="3.4"/></svg></button></div></header>'+
+    mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
