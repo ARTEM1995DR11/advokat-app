@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.488';
-var APP_BUILD='5488';
+var APP_VERSION='5.0.489';
+var APP_BUILD='5489';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5447',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5489',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6271,12 +6271,15 @@ function matterApprovedAction(m){
   return {text:parts.join(' · '), tone:st.pendingResult?'result':(st.late?'urgent':'next')};
 }
 function matterFolderIcon(kind){
-  if(kind==='scale')return '<img src="scale-gold.webp?v=5487" alt="" aria-hidden="true">';
-  var paths={
-    gavel:'<g transform="rotate(43 32 27)"><rect x="22" y="7" width="20" height="9" rx="2"/><path d="M26 16v17m12-17v17"/><rect x="22" y="33" width="20" height="9" rx="2"/><rect x="29" y="42" width="6" height="21" rx="2"/></g><path d="M39 55h17m-19 5h21"/>',
-    people:'<circle cx="32" cy="14" r="9"/><circle cx="11" cy="23" r="6"/><circle cx="53" cy="23" r="6"/><path d="M16 58V47c0-10 7-16 16-16s16 6 16 16v11H16zM16 54H3v-9c0-7 4-12 10-12 4 0 7 2 9 5m26 16h13v-9c0-7-4-12-10-12-4 0-7 2-9 5"/>',
-    doc:'<path d="M14 5h23l13 14v39H14a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zM37 5v15h13M23 33h16M23 43h16"/>'};
-  return '<svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">'+(paths[kind]||paths.doc)+'</svg>';
+  var bodies={
+    scale:'<path d="M36 7v45M22 54h28M27 59h18M15 17h42M36 10l-6 7h12z"/><path d="M18 18l-10 21m10-21l10 21M54 18L44 39m10-21l10 21"/><path d="M5 39h26c-1.8 7-6.4 10-13 10S6.8 46 5 39zm36 0h26c-1.8 7-6.4 10-13 10S42.8 46 41 39z"/>',
+    gavel:'<g transform="rotate(-37 34 30)"><rect x="14" y="9" width="40" height="14" rx="3"/><path d="M21 9v14m26-14v14M34 23v36"/></g><path d="M42 50h20M37 58h30"/>',
+    people:'<circle cx="36" cy="15" r="8"/><circle cx="15" cy="23" r="6"/><circle cx="57" cy="23" r="6"/><path d="M21 58V47c0-10 6-16 15-16s15 6 15 16v11H21z"/><path d="M20 54H5v-8c0-7 4-12 10-12 4 0 7 2 9 5M52 54h15v-8c0-7-4-12-10-12-4 0-7 2-9 5"/>',
+    doc:'<path d="M13 6h27l14 14v37H13a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM40 6v15h14M21 31h17M21 40h13"/><circle cx="51" cy="47" r="10"/><path d="M51 41v7m0 5h.01"/>'
+  };
+  var body=bodies[kind]||bodies.doc;
+  return '<svg class="case-icon-premium case-icon-'+esc(kind||'doc')+'" viewBox="0 0 72 64" aria-hidden="true">'+
+    '<g class="gold-depth">'+body+'</g><g class="gold-main">'+body+'</g><g class="gold-highlight">'+body+'</g></svg>';
 }
 function matterFolderCalendar(){
   return '<svg class="ico s case-folder-calendar" viewBox="0 0 24 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.3" y="4.4" width="19.4" height="19.2" rx="2.2"/><path d="M2.8 10h18.4M7 2v5m10-5v5"/><g fill="currentColor" stroke="none"><circle cx="7" cy="14" r="1.15"/><circle cx="12" cy="14" r="1.15"/><circle cx="17" cy="14" r="1.15"/><circle cx="7" cy="19" r="1.15"/><circle cx="12" cy="19" r="1.15"/></g></svg>';
@@ -6286,30 +6289,46 @@ function matterFolderCompactMeta(m){
     .replace(/городской\s+суд/gi,'горсуд')
     .replace(/областной\s+суд/gi,'облсуд');
 }
+function matterFolderNextHearing(m){
+  if(m.archived) return {text:'Дело находится в архиве',tone:'archive'};
+  var hearing=tasksOf(m.id).filter(function(t){
+    return t.kind==='hearing' && isActiveRecord(t) && !hearingNeedsResult(t) && t.due && dd(t.due)>=0;
+  }).sort(sortT)[0]||null;
+  if(!hearing) return {text:'Дата не назначена',tone:'muted'};
+  var parts=['Заседание',fmtShort(hearing.due)];
+  if(hearing.time) parts.push(hearing.time);
+  return {text:parts.join(' · '),tone:'next'};
+}
+function matterFolderVisualType(m){
+  return ['admin','criminal','civil','koap'].indexOf(m.type)>=0?m.type:'koap';
+}
+function matterFolderTypeLabel(type){
+  return type==='admin'?'ИСК КАС':type==='criminal'?'УГОЛОВНОЕ':type==='civil'?'ГРАЖДАНСКОЕ':'КОАП';
+}
+function matterFolderTypeIcon(type){
+  return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
+}
 
 function matterCard(m){
-  var execution=isCriminalExecutionMatter(m),check=isCriminalCheckMaterial(m);
-  var type=execution?'execution':(check?'other':m.type||'other');
-  var label=matterTypeCardLabel(m).replace('ГРАЖДАНСКОЕ ДЕЛО','ГРАЖДАНСКОЕ').replace('УГОЛОВНОЕ ДЕЛО','УГОЛОВНОЕ');
-  var basis=matterBasisMeta(m.basis),next=matterApprovedAction(m),badge=matterApprovedBadge(m);
+  var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
+  var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
   var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
-  if(next.tone==='muted')next.text='Дата не назначена';
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
-  var icon=execution||check?'doc':m.type==='admin'?'scale':m.type==='criminal'?'gavel':m.type==='civil'?'people':'doc';
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+
-    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i></span>'+
-    '<span class="case-folder-tab"><span>'+esc(label)+'</span></span>'+
-    '<span class="case-folder-cover">'+
-      '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span><span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+
-      '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+
-      '<span class="case-folder-chips">'+(basis?'<span class="case-folder-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'')+
-      (badge&&badge.tone==='archive'?'<span class="case-folder-status archive">'+esc(badge.text)+'</span>':'')+'</span>'+
-      '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+
-      '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+
-      '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+
-      '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+
+  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+ 
+    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i></span>'+ 
+    '<span class="case-folder-tab"><span>'+esc(label)+'</span></span>'+ 
+    '<span class="case-folder-ring" aria-hidden="true"></span>'+ 
+    '<span class="case-folder-cover">'+ 
+      '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+ 
+      '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+ 
+      '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+ 
+      '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+ 
+      '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+ 
+      '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+ 
+      '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+ 
+      '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+ 
     '</span></button>';
 }
 
