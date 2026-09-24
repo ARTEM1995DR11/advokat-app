@@ -1,6 +1,6 @@
-/* 5.0.494 — restore the earlier start-screen composition: only 4 folders visible.
-   Increase folder height and vertical rhythm so the third row no longer peeks above
-   the bottom navigation on 390px-class iPhones, while keeping the same 2-column grid. */
+/* 5.0.495 — preserve the 4-folder start-screen composition and restore the older
+   vertical placement. The view switch remains removed; its former visual breathing
+   room is kept as spacing above the case grid. Folder dimensions are unchanged. */
 html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(228px,calc(486 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
   --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(228px,calc(486 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;
@@ -27,7 +27,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
   grid-auto-rows:var(--case-folder-h);
   gap:calc(30 * var(--case-u)) calc(29 * var(--case-u))!important;
-  margin:calc(8 * var(--case-u)) 0 0!important;
+  margin:calc(92 * var(--case-u)) 0 0!important;
   padding:0!important;
   align-items:stretch;
 }
