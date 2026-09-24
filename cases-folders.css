@@ -1,9 +1,10 @@
-/* 5.0.492 — restored the original pre-redesign folder proportions.
-   Header/background/search/filter/navigation remain untouched; only the outer
-   geometry of case folders is corrected to the approved earlier proportions. */
-html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
+/* 5.0.493 — restore the old case-folder proportions on narrow iPhones.
+   The earlier layout used a fixed ~204px minimum card height; the 5.0.492
+   width-only scale made folders too short on 390px-class tall screens.
+   Header/background/search/filter/navigation remain untouched. */
+html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(204px,calc(443 * var(--case-u)));--case-folder-head:max(22px,calc(46 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
-  --case-u:clamp(.34px,.10627vw,.64px);--case-navy:#061f78;
+  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(204px,calc(443 * var(--case-u)));--case-folder-head:max(22px,calc(46 * var(--case-u)));--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 24 * var(--case-u)) calc(27 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u)) calc(41 * var(--case-u))!important;
   background:#f8f2e6 url('bg-matters-approved-v487.png') top center / 100% auto no-repeat!important;
   color:var(--case-navy)!important;
@@ -25,7 +26,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  grid-auto-rows:calc(443 * var(--case-u));
+  grid-auto-rows:var(--case-folder-h);
   gap:calc(24 * var(--case-u)) calc(29 * var(--case-u))!important;
   margin:0!important;
   padding:0!important;
@@ -43,10 +44,10 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:block;
   box-sizing:border-box;
   width:100%;
-  height:calc(443 * var(--case-u));
+  height:var(--case-folder-h);
   min-width:0;
   margin:0;
-  padding:calc(46 * var(--case-u)) 0 0;
+  padding:var(--case-folder-head) 0 0;
   border:0;
   background:none;
   box-shadow:none;
@@ -68,7 +69,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   top:0;
   left:calc(18 * var(--case-u));
   right:calc(22 * var(--case-u));
-  height:calc(61 * var(--case-u));
+  height:max(30px,calc(61 * var(--case-u)));
   pointer-events:none;
 }
 #sc-matters .case-folder-papers i {
@@ -91,7 +92,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   left:calc(4 * var(--case-u));
   top:0;
   width:54%;
-  height:calc(66 * var(--case-u));
+  height:max(30px,calc(66 * var(--case-u)));
   box-sizing:border-box;
   display:flex;
   align-items:flex-start;
@@ -130,7 +131,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   position:absolute;
   z-index:5;
   left:calc(17 * var(--case-u));
-  top:calc(35 * var(--case-u));
+  top:calc(var(--case-folder-head) - 11 * var(--case-u));
   width:calc(22 * var(--case-u));
   height:calc(22 * var(--case-u));
   box-sizing:border-box;
@@ -161,7 +162,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:flex;
   flex-direction:column;
   width:100%;
-  height:calc(397 * var(--case-u));
+  height:calc(var(--case-folder-h) - var(--case-folder-head));
   min-width:0;
   padding:calc(19 * var(--case-u)) calc(20 * var(--case-u)) calc(18 * var(--case-u)) calc(35 * var(--case-u));
   border:1px solid #dca743;
