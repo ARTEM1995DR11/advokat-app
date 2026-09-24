@@ -1,4 +1,4 @@
-/* 5.0.485 — folder-only layout. Header, FAB and navigation are untouched. */
+/* 5.0.486 — folder-only layout. Header, FAB and navigation are untouched. */
 #sc-matters .case-folder:focus-visible{outline:2px solid #a57d2f;outline-offset:3px;}
 #sc-matters .matters-approved-list.case-folder-host.is-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px 12px!important;margin-top:0!important;padding-top:0!important;align-items:stretch!important;}
 #sc-matters .case-folder-host.is-grid>.empty{grid-column:1/-1;}
