@@ -1,9 +1,8 @@
-/* 5.0.497 — move the folder composition closer to the approved mockup.
-   Keep the 5.0.486 start-screen rhythm (4 folders visible), but refine folder form: 
-   slightly more breathing room above the grid, fuller tab/stack geometry and a richer cover. */
-html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(228px,calc(486 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
+/* 5.0.498 — make folder cards closer to the approved mockup: more square,
+   less vertically stretched. Keep 4 folders visible on the start screen. */
+html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(216px,calc(470 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
-  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(228px,calc(486 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;
+  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(216px,calc(470 * var(--case-u)));--case-folder-head:max(24px,calc(50 * var(--case-u)));--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 24 * var(--case-u)) calc(27 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u)) calc(41 * var(--case-u))!important;
   background:#f8f2e6 url('bg-matters-approved-v487.png') top center / 100% auto no-repeat!important;
   color:var(--case-navy)!important;
@@ -25,8 +24,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
    This is structural spacing, not a hidden/returned view switch. */
 #sc-matters .case-grid-offset {
   display:block!important;
-  height:clamp(48px,12.4vw,56px)!important;
-  min-height:clamp(48px,12.4vw,56px)!important;
+  height:clamp(54px,13.6vw,62px)!important;
+  min-height:clamp(54px,13.6vw,62px)!important;
   width:100%;
   flex:0 0 auto;
   pointer-events:none;
@@ -37,7 +36,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
   grid-auto-rows:var(--case-folder-h);
-  gap:calc(28 * var(--case-u)) calc(29 * var(--case-u))!important;
+  gap:calc(26 * var(--case-u)) calc(24 * var(--case-u))!important;
   margin:0!important;
   padding:0!important;
   align-items:stretch;
@@ -174,7 +173,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   width:100%;
   height:calc(var(--case-folder-h) - var(--case-folder-head));
   min-width:0;
-  padding:calc(18 * var(--case-u)) calc(18 * var(--case-u)) calc(17 * var(--case-u)) calc(30 * var(--case-u));
+  padding:calc(17 * var(--case-u)) calc(17 * var(--case-u)) calc(16 * var(--case-u)) calc(28 * var(--case-u));
   border:1px solid #dca743;
   border-radius:calc(17 * var(--case-u));
   background:
@@ -190,7 +189,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   grid-template-columns:calc(74 * var(--case-u)) minmax(0,1fr) calc(30 * var(--case-u));
   align-items:center;
   column-gap:calc(8 * var(--case-u));
-  height:calc(62 * var(--case-u));
+  height:calc(58 * var(--case-u));
   margin:0 0 calc(4 * var(--case-u));
   flex:0 0 auto;
   min-width:0;
@@ -199,8 +198,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:flex;
   align-items:center;
   justify-content:center;
-  width:calc(72 * var(--case-u));
-  height:calc(58 * var(--case-u));
+  width:calc(68 * var(--case-u));
+  height:calc(54 * var(--case-u));
   min-width:0;
   color:#c58a18;
 }
@@ -281,8 +280,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  margin:0 0 calc(6 * var(--case-u));
-  font:700 calc(40 * var(--case-u))/1.03 Georgia,'Times New Roman',Times,serif;
+  margin:0 0 calc(5 * var(--case-u));
+  font:700 calc(39 * var(--case-u))/1.03 Georgia,'Times New Roman',Times,serif;
   letter-spacing:calc(-1.25 * var(--case-u));
   color:#111;
 }
@@ -292,8 +291,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   -webkit-line-clamp:2;
   overflow:hidden;
   min-height:0;
-  max-height:calc(57 * var(--case-u));
-  margin:0 0 calc(4 * var(--case-u));
+  max-height:calc(54 * var(--case-u));
+  margin:0 0 calc(3 * var(--case-u));
   font:400 calc(24 * var(--case-u))/1.18 Arial,sans-serif;
   letter-spacing:calc(-.45 * var(--case-u));
   color:#161616;
@@ -303,8 +302,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  margin:0 0 calc(4 * var(--case-u));
-  font:400 calc(23.5 * var(--case-u))/1.16 Arial,sans-serif;
+  margin:0 0 calc(3 * var(--case-u));
+  font:400 calc(22.8 * var(--case-u))/1.16 Arial,sans-serif;
   letter-spacing:calc(-.25 * var(--case-u));
   color:#161616;
 }
@@ -313,8 +312,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  margin:0 0 calc(6 * var(--case-u));
-  font:400 calc(20.6 * var(--case-u))/1.17 Arial,sans-serif;
+  margin:0 0 calc(5 * var(--case-u));
+  font:400 calc(20 * var(--case-u))/1.17 Arial,sans-serif;
   letter-spacing:calc(-.55 * var(--case-u));
   color:#161616;
 }
@@ -328,9 +327,9 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   min-height:calc(38 * var(--case-u));
   box-sizing:content-box;
   margin-top:auto;
-  padding-top:calc(16 * var(--case-u));
+  padding-top:calc(14 * var(--case-u));
   border-top:1px solid rgba(185,169,143,.42);
-  font:700 calc(23.5 * var(--case-u))/1.18 Arial,sans-serif;
+  font:700 calc(22.8 * var(--case-u))/1.18 Arial,sans-serif;
   letter-spacing:calc(-.55 * var(--case-u));
   color:#003fe2;
 }
