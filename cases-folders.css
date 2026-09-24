@@ -1,9 +1,9 @@
-/* 5.0.501 — restore the folder content after silhouette review and
-   bring the folder forms closer to the approved premium mockup.
-   Search still uses the reserved gap, so the grid must not move. */
-html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(218px,calc(474 * var(--case-u)));--case-folder-head:max(26px,calc(55 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
+/* 5.0.502 — refine only the folder body geometry toward the approved mockup.
+   Keep the 2x2 landing layout and search stability, but make the folders feel more like
+   premium physical folders: lower front cover, deeper tabs, clearer paper stack, and a softer square silhouette. */
+html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(214px,calc(462 * var(--case-u)));--case-folder-head:max(31px,calc(66 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
-  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(218px,calc(474 * var(--case-u)));--case-folder-head:max(26px,calc(55 * var(--case-u)));--case-navy:#061f78;
+  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(214px,calc(462 * var(--case-u)));--case-folder-head:max(31px,calc(66 * var(--case-u)));--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 24 * var(--case-u)) calc(27 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u)) calc(41 * var(--case-u))!important;
   background:#f8f2e6 url('bg-matters-approved-v487.png') top center / 100% auto no-repeat!important;
   color:var(--case-navy)!important;
@@ -17,7 +17,7 @@ html body #sc-matters .case-page-brand small {display:block;margin-top:calc(3 * 
 html body #sc-matters h1.case-page-title {position:absolute;left:calc(12 * var(--case-u));top:calc(98 * var(--case-u));margin:0!important;padding:0!important;font:700 calc(116 * var(--case-u))/.99 'Times New Roman',Times,serif!important;letter-spacing:calc(-3 * var(--case-u))!important;color:var(--case-navy)!important;text-shadow:none!important}
 html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--case-u));top:calc(228 * var(--case-u));margin:0!important;padding:0!important;font:700 calc(44 * var(--case-u))/1.05 'Times New Roman',Times,serif!important;letter-spacing:calc(-1 * var(--case-u));color:var(--case-navy)!important;max-width:90%}
 #sc-matters .case-page-tools {position:absolute;right:calc(5 * var(--case-u));bottom:calc(18 * var(--case-u));display:flex;gap:calc(8 * var(--case-u))}
-#sc-matters .case-page-tool {display:flex;align-items:center;justify-content:center;width:calc(76 * var(--case-u));height:calc(70 * var(--case-u));padding:calc(14 * var(--case-u));border:1px solid #e5d4b5;border-radius:calc(18 * var(--case-u));background:#fffdf5e8;color:var(--case-navy);box-shadow:0 2px 5px #78521520}
+#sc-matters .case-page-tool {display:flex;align-items:center;justify-content:center;width:calc(76 * var(--case-u));height:calc(70 * var(--case-u));padding:calc(14 * var(--case-u));border:1px solid #e5d4b5;border-radius:calc(17 * var(--case-u));background:#fffdf5e8;color:var(--case-navy);box-shadow:0 2px 5px #78521520}
 #sc-matters .case-page-tool.on {background:#eddbb4;border-color:#be913b}
 #sc-matters .case-page-tool svg {width:100%;height:100%;color:inherit;display:block}
 
@@ -25,8 +25,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
    This is structural spacing, not a hidden/returned view switch. */
 #sc-matters .case-grid-offset {
   display:block!important;
-  height:clamp(58px,14.2vw,66px)!important;
-  min-height:clamp(58px,14.2vw,66px)!important;
+  height:clamp(58px,14.5vw,68px)!important;
+  min-height:clamp(58px,14.5vw,68px)!important;
   width:100%;
   flex:0 0 auto;
   pointer-events:none;
@@ -92,50 +92,50 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   position:absolute;
   z-index:0;
   top:0;
-  left:calc(18 * var(--case-u));
-  right:calc(22 * var(--case-u));
-  height:max(34px,calc(67 * var(--case-u)));
+  left:calc(20 * var(--case-u));
+  right:calc(16 * var(--case-u));
+  height:max(40px,calc(82 * var(--case-u)));
   pointer-events:none;
 }
 #sc-matters .case-folder-papers i {
   position:absolute;
   display:block;
   left:0;
-  height:calc(35 * var(--case-u));
+  height:calc(37 * var(--case-u));
   border:1px solid rgba(201,183,150,.62);
-  border-radius:calc(7 * var(--case-u));
+  border-radius:calc(8 * var(--case-u));
   background:linear-gradient(180deg,#fffef9 0%,#fdf9ed 58%,#ead7b2 100%);
   box-shadow:0 calc(-2 * var(--case-u)) calc(7 * var(--case-u)) rgba(75,52,22,.08),inset 0 1px 0 rgba(255,255,255,.95);
 }
-#sc-matters .case-folder-papers i:nth-child(1) {top:calc(10 * var(--case-u));right:calc(40 * var(--case-u))}
-#sc-matters .case-folder-papers i:nth-child(2) {top:calc(22 * var(--case-u));right:calc(18 * var(--case-u))}
-#sc-matters .case-folder-papers i:nth-child(3) {top:calc(34 * var(--case-u));right:0}
+#sc-matters .case-folder-papers i:nth-child(1) {top:calc(10 * var(--case-u));right:calc(50 * var(--case-u));width:44%}
+#sc-matters .case-folder-papers i:nth-child(2) {top:calc(24 * var(--case-u));right:calc(24 * var(--case-u));width:52%}
+#sc-matters .case-folder-papers i:nth-child(3) {top:calc(38 * var(--case-u));right:0;width:60%}
 
 #sc-matters .case-folder-tab {
   position:absolute;
   z-index:1;
-  left:calc(3 * var(--case-u));
+  left:calc(1 * var(--case-u));
   top:0;
-  width:56%;
-  height:max(32px,calc(72 * var(--case-u)));
+  width:59%;
+  height:max(38px,calc(86 * var(--case-u)));
   box-sizing:border-box;
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:calc(18 * var(--case-u)) calc(10 * var(--case-u)) 0;
+  padding:calc(22 * var(--case-u)) calc(12 * var(--case-u)) 0;
   background:linear-gradient(118deg,var(--folder) 5%,var(--folder-light) 152%);
   border:1px solid rgba(255,255,255,.88);
-  border-radius:calc(25 * var(--case-u)) calc(33 * var(--case-u)) 0 0;
+  border-radius:calc(29 * var(--case-u)) calc(39 * var(--case-u)) 0 0;
   box-shadow:0 0 0 1px rgba(126,102,64,.34),0 calc(-4 * var(--case-u)) calc(9 * var(--case-u)) rgba(92,69,34,.15),inset 0 2px 4px rgba(255,255,255,.58);
-  transform:skewX(13deg);
+  transform:skewX(11deg);
   overflow:hidden;
 }
 #sc-matters .case-folder-tab::before {
   content:'';
   position:absolute;
-  inset:calc(10 * var(--case-u)) calc(13 * var(--case-u)) 0 calc(16 * var(--case-u));
+  inset:calc(12 * var(--case-u)) calc(14 * var(--case-u)) 0 calc(18 * var(--case-u));
   z-index:-1;
-  border-radius:calc(18 * var(--case-u)) calc(23 * var(--case-u)) 0 0;
+  border-radius:calc(20 * var(--case-u)) calc(26 * var(--case-u)) 0 0;
   border:1px solid rgba(255,255,255,.66);
   background:linear-gradient(132deg,rgba(255,255,255,.63),var(--folder-light));
 }
@@ -146,7 +146,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   text-overflow:ellipsis;
   white-space:nowrap;
   transform:skewX(-13deg);
-  font:700 calc(22 * var(--case-u))/1.12 Arial,sans-serif;
+  font:700 calc(21.5 * var(--case-u))/1.12 Arial,sans-serif;
   letter-spacing:calc(-.45 * var(--case-u));
   color:var(--folder-ink);
 }
@@ -155,12 +155,12 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .case-folder-ring {
   position:absolute;
   z-index:5;
-  left:calc(14 * var(--case-u));
-  top:calc(var(--case-folder-head) - 9 * var(--case-u));
-  width:calc(25 * var(--case-u));
-  height:calc(25 * var(--case-u));
+  left:calc(13 * var(--case-u));
+  top:calc(var(--case-folder-head) - 8 * var(--case-u));
+  width:calc(27 * var(--case-u));
+  height:calc(27 * var(--case-u));
   box-sizing:border-box;
-  border:calc(4 * var(--case-u)) solid #c68c20;
+  border:calc(4.1 * var(--case-u)) solid #c68c20;
   border-radius:50%;
   background:#fff8e9;
   box-shadow:inset 0 0 0 calc(1.4 * var(--case-u)) #f5d77a,0 calc(2 * var(--case-u)) calc(3 * var(--case-u)) rgba(80,46,3,.28);
@@ -170,9 +170,9 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   content:'';
   position:absolute;
   left:50%;
-  top:calc(15 * var(--case-u));
+  top:calc(16 * var(--case-u));
   width:calc(4 * var(--case-u));
-  height:calc(20 * var(--case-u));
+  height:calc(22 * var(--case-u));
   border-radius:999px;
   background:linear-gradient(90deg,#87560a,#e3b746 50%,#9e680d);
   transform:translateX(-50%);
@@ -189,13 +189,13 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   width:100%;
   height:calc(var(--case-folder-h) - var(--case-folder-head));
   min-width:0;
-  padding:calc(18 * var(--case-u)) calc(18 * var(--case-u)) calc(15 * var(--case-u)) calc(28 * var(--case-u));
+  padding:calc(19 * var(--case-u)) calc(18 * var(--case-u)) calc(15 * var(--case-u)) calc(28 * var(--case-u));
   border:1px solid #dca743;
-  border-radius:calc(18 * var(--case-u));
+  border-radius:calc(17 * var(--case-u));
   background:
     radial-gradient(circle at 24% 18%,rgba(255,255,255,.97),rgba(255,255,255,0) 45%),
-    linear-gradient(120deg,#fffefb 0%,#fffbf2 53%,#f8eedc 100%);
-  box-shadow:0 calc(9 * var(--case-u)) calc(18 * var(--case-u)) rgba(95,63,21,.18), inset 0 1px 0 rgba(255,255,255,.98), inset 0 0 calc(18 * var(--case-u)) rgba(204,151,55,.04), inset calc(-2 * var(--case-u)) 0 calc(7 * var(--case-u)) rgba(192,147,60,.03);
+    linear-gradient(120deg,#fffefb 0%,#fffaf1 56%,#f7edd9 100%);
+  box-shadow:0 calc(9 * var(--case-u)) calc(16 * var(--case-u)) rgba(95,63,21,.16), inset 0 1px 0 rgba(255,255,255,.98), inset 0 0 calc(18 * var(--case-u)) rgba(204,151,55,.04), inset calc(-2 * var(--case-u)) 0 calc(7 * var(--case-u)) rgba(192,147,60,.03);
   overflow:hidden;
 }
 
@@ -206,17 +206,17 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   inset:0;
   border-radius:inherit;
   pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 34%,rgba(211,174,96,.05) 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 36%,rgba(211,174,96,.05) 100%);
 }
 
 /* ---- top row: icon + basis + chevron ---- */
 #sc-matters .case-folder-top {
   display:grid;
-  grid-template-columns:calc(74 * var(--case-u)) minmax(0,1fr) calc(30 * var(--case-u));
+  grid-template-columns:calc(72 * var(--case-u)) minmax(0,1fr) calc(30 * var(--case-u));
   align-items:center;
   column-gap:calc(8 * var(--case-u));
-  height:calc(60 * var(--case-u));
-  margin:0 0 calc(4 * var(--case-u));
+  height:calc(58 * var(--case-u));
+  margin:0 0 calc(5 * var(--case-u));
   flex:0 0 auto;
   min-width:0;
 }
@@ -224,8 +224,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:flex;
   align-items:center;
   justify-content:center;
-  width:calc(66 * var(--case-u));
-  height:calc(52 * var(--case-u));
+  width:calc(64 * var(--case-u));
+  height:calc(50 * var(--case-u));
   min-width:0;
   color:#c58a18;
 }
@@ -270,7 +270,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   border:1px solid #80ded3;
   border-radius:calc(25 * var(--case-u));
   padding:calc(7 * var(--case-u)) calc(16 * var(--case-u));
-  font:600 calc(22 * var(--case-u))/1 Arial,sans-serif;
+  font:600 calc(21.5 * var(--case-u))/1 Arial,sans-serif;
   letter-spacing:calc(-.4 * var(--case-u));
   background:linear-gradient(180deg,#dcfff8,#bdf4ea);
   color:#078b80;
@@ -295,7 +295,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .case-folder-chevron>svg.ico {
   display:block;
   width:calc(27 * var(--case-u));
-  height:calc(35 * var(--case-u));
+  height:calc(37 * var(--case-u));
   color:#0046ea;
   stroke-width:2.65;
 }
@@ -307,7 +307,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   text-overflow:ellipsis;
   white-space:nowrap;
   margin:0 0 calc(4 * var(--case-u));
-  font:700 calc(38 * var(--case-u))/1.03 Georgia,'Times New Roman',Times,serif;
+  font:700 calc(37 * var(--case-u))/1.03 Georgia,'Times New Roman',Times,serif;
   letter-spacing:calc(-1.25 * var(--case-u));
   color:#111;
 }
@@ -317,9 +317,9 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   -webkit-line-clamp:2;
   overflow:hidden;
   min-height:0;
-  max-height:calc(52 * var(--case-u));
+  max-height:calc(50 * var(--case-u));
   margin:0 0 calc(3 * var(--case-u));
-  font:400 calc(23 * var(--case-u))/1.17 Arial,sans-serif;
+  font:400 calc(22.5 * var(--case-u))/1.15 Arial,sans-serif;
   letter-spacing:calc(-.45 * var(--case-u));
   color:#161616;
 }
@@ -329,7 +329,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   text-overflow:ellipsis;
   white-space:nowrap;
   margin:0 0 calc(3 * var(--case-u));
-  font:400 calc(22.4 * var(--case-u))/1.15 Arial,sans-serif;
+  font:400 calc(21.8 * var(--case-u))/1.13 Arial,sans-serif;
   letter-spacing:calc(-.25 * var(--case-u));
   color:#161616;
 }
@@ -339,7 +339,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   text-overflow:ellipsis;
   white-space:nowrap;
   margin:0 0 calc(4 * var(--case-u));
-  font:400 calc(19.4 * var(--case-u))/1.15 Arial,sans-serif;
+  font:400 calc(18.8 * var(--case-u))/1.14 Arial,sans-serif;
   letter-spacing:calc(-.55 * var(--case-u));
   color:#161616;
 }
@@ -348,14 +348,14 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .case-folder-next {
   display:flex;
   align-items:center;
-  gap:calc(12 * var(--case-u));
+  gap:calc(11 * var(--case-u));
   min-width:0;
   min-height:calc(38 * var(--case-u));
   box-sizing:content-box;
   margin-top:auto;
-  padding-top:calc(13 * var(--case-u));
+  padding-top:calc(12 * var(--case-u));
   border-top:1px solid rgba(185,169,143,.42);
-  font:700 calc(22 * var(--case-u))/1.16 Arial,sans-serif;
+  font:700 calc(21.4 * var(--case-u))/1.14 Arial,sans-serif;
   letter-spacing:calc(-.55 * var(--case-u));
   color:#003fe2;
 }
@@ -368,8 +368,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-folder-next svg {
   display:block;
-  width:calc(31 * var(--case-u));
-  height:calc(34 * var(--case-u));
+  width:calc(30 * var(--case-u));
+  height:calc(33 * var(--case-u));
   flex:0 0 auto;
   color:#003fe2;
 }
