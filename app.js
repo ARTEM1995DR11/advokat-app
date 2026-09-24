@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.495';
-var APP_BUILD='5495';
+var APP_VERSION='5.0.496';
+var APP_BUILD='5496';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5495',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5496',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6377,7 +6377,7 @@ function renderMatters(){
     (searchOpen
       ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'
       : '')+
-    '<div class="matters-list matters-approved-list case-folder-host is-grid">';
+    '<div class="case-grid-offset" aria-hidden="true"></div><div class="matters-list matters-approved-list case-folder-host is-grid">';
   html+=list.length?list.map(matterCard).join(''):
     ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
