@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.508';
-var APP_BUILD='5508';
+var APP_VERSION='5.0.509';
+var APP_BUILD='5509';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5508',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5509',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6309,6 +6309,63 @@ function matterFolderTypeIcon(type){
   return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
 }
 
+var MATTER_FOLDER_SHELL_SEQ=0;
+function matterFolderShell(){
+  var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
+  return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="@back" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="var(--folder)"/><stop offset=".55" stop-color="var(--folder-deep)"/><stop offset=".8" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
+  <linearGradient id="@tab" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#fffef6" stop-opacity=".98"/><stop offset=".15" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".09" stop-color="#fffefb"/><stop offset=".16" stop-color="#f6ead7"/><stop offset=".24" stop-color="#fffaf2"/><stop offset="1" stop-color="#f0e0c4"/></linearGradient>
+  <linearGradient id="@ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf6"/><stop offset=".34" stop-color="#fffcf5"/><stop offset=".8" stop-color="#fcf7ec"/><stop offset="1" stop-color="#f5ead4"/></linearGradient>
+  <radialGradient id="@light" cx=".32" cy=".1" r=".85"><stop stop-color="#fff" stop-opacity=".77"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@edge" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ebd2a0"/><stop offset=".23" stop-color="#ffedc6"/><stop offset=".48" stop-color="#c99942"/><stop offset=".62" stop-color="#f6da98"/><stop offset=".87" stop-color="#d4a657"/><stop offset="1" stop-color="#b77c22"/></linearGradient>
+  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#92601d"/><stop offset=".22" stop-color="#ffe9a5"/><stop offset=".4" stop-color="#fff6ca"/><stop offset=".58" stop-color="#c8912e"/><stop offset=".8" stop-color="#e9ba62"/><stop offset="1" stop-color="#865115"/></linearGradient>
+  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#915811"/><stop offset=".27" stop-color="#d19c3e"/><stop offset=".5" stop-color="#ffe7a7"/><stop offset=".67" stop-color="#f3cf7e"/><stop offset="1" stop-color="#a56a1a"/></linearGradient>
+  <pattern id="@grain" patternUnits="userSpaceOnUse" width="7" height="9"><path d="M1 1h.5M4 5h.7M2 8h.4" stroke="#9d743c" stroke-width=".6" opacity=".055"/></pattern>
+  <filter id="@stack" x="-10%" y="-20%" width="125%" height="150%"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#8e6b38" flood-opacity=".18"/></filter>
+  <filter id="@bodyShadow" x="-5%" y="-5%" width="112%" height="113%"><feDropShadow dx="1.3" dy="3" stdDeviation="2.6" flood-color="#806039" flood-opacity=".23"/></filter>
+  <filter id="@contact" x="-70%" y="-40%" width="260%" height="220%"><feDropShadow dx="1" dy="1.2" stdDeviation="1.1" flood-color="#80501a" flood-opacity=".35"/></filter>
+  <path id="@front" d="M32 77H256C266 77 272 80 276 87C280 94 288 95 298 95H403C424 95 434 105 434 126V450C434 472 424 481 403 481H38C17 481 7 470 7 449V103C7 86 15 77 32 77Z"/>
+  <clipPath id="@clip"><use href="#@front"/></clipPath>
+</defs>
+<!-- Rear cover: a shaped shoulder and continuous coloured spine, not a separate badge. -->
+<path d="M8 129V55Q8 40 21 35Q25 23 37 22L44 13Q50 6 64 6H212Q231 6 238 22L259 62Q266 75 283 76H402Q433 76 436 109V442H8Z" fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.5" filter="url(#@stack)"/>
+<path d="M12 113V54Q12 43 25 39Q29 26 40 26L49 16Q54 11 65 11H211Q227 11 233 24L256 67Q264 81 282 81" fill="none" stroke="#e5ffff" stroke-opacity=".3" stroke-width="2"/>
+<path d="M18 59Q19 46 29 44Q34 29 43 29L52 20Q56 15 68 15H211Q223 15 230 30L250 68" fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="8" stroke-linecap="round"/>
+<!-- Four full sheets; their hidden lower portions continue under the front cover. -->
+<g fill="url(#@paper)" stroke="#e4cfaf" stroke-width="1.1" filter="url(#@stack)">
+  <rect x="213" y="14" width="128" height="88" rx="5"/>
+  <rect x="211" y="28" width="153" height="90" rx="5"/>
+  <rect x="218" y="42" width="170" height="88" rx="4"/>
+  <rect x="229" y="56" width="173" height="88" rx="4"/>
+</g>
+<g fill="none" stroke="#fffefb" stroke-width="1.5" opacity=".95"><path d="M217 18h120M215 32h145M222 46h162M233 60h165"/></g>
+<!-- Inner tab: rounded upper corners and a tangent shoulder joining the front. -->
+<path d="M36 82L51 38Q55 25 69 25H212Q225 25 231 40L242 65Q247 77 264 81Z" fill="url(#@tab)" stroke="#ffffed" stroke-opacity=".76" stroke-width="1.3" filter="url(#@stack)"/>
+<path d="M40 79L55 39Q58 29 70 29H211Q222 29 227 41L239 67Q243 76 252 79" fill="none" stroke="#fff" stroke-opacity=".44" stroke-width="1.4"/>
+<path d="M228 39L242 69Q247 79 263 83" fill="none" stroke="var(--folder-deep)" stroke-opacity=".18" stroke-width="2.4"/>
+<!-- Die-cut ivory face and its shared curved upper edge. -->
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.3" filter="url(#@bodyShadow)"/>
+<g clip-path="url(#@clip)"><rect x="6" y="76" width="430" height="407" fill="url(#@light)"/><rect x="6" y="76" width="430" height="407" fill="url(#@grain)"/>
+<path d="M10 100V448Q10 477 39 477H402Q430 477 430 450V124Q430 100 402 100H298Q281 100 275 90Q270 82 255 82H34" fill="none" stroke="#fffef6" stroke-opacity=".94" stroke-width="2"/>
+<path d="M433 132V450Q433 480 402 480H38Q8 480 8 451" fill="none" stroke="url(#@edge)" stroke-width="3" opacity=".55"/>
+</g>
+<path d="M31 78H255Q269 78 275 88Q281 96 298 96H402" fill="none" stroke="#eed9b2" stroke-width="1"/>
+<path d="M8 440V451Q8 480 38 480H404Q431 480 433 453" fill="none" stroke="url(#@edge)" stroke-width="1.8"/>
+<path d="M12 456Q15 474 35 476M409 476Q425 474 428 460" fill="none" stroke="#fff3d1" stroke-width="2.1" stroke-linecap="round"/>
+<!-- Eyelet sits through the tab/front seam. Its stem contacts the cover. -->
+<ellipse cx="31" cy="101" rx="6.5" ry="2.8" fill="#9e6d27" opacity=".2"/>
+<g filter="url(#@contact)">
+  <circle cx="31" cy="67" r="9.3" fill="#fff5dc" stroke="url(#@metal)" stroke-width="5.5"/>
+  <circle cx="31" cy="67" r="6.4" fill="#fbf4dd" stroke="#9c732d" stroke-width=".7"/>
+  <path d="M24 62A8.5 8.5 0 0 1 37 61" fill="none" stroke="#fff9d9" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="27.5" y="69" width="7" height="31" rx="3.5" fill="url(#@pin)" stroke="#b48432" stroke-width=".55"/>
+  <path d="M30 73v21" stroke="#fff1b9" stroke-width="1.2" stroke-linecap="round"/>
+</g>
+</svg>`.replace(/@/g,prefix);
+}
+
 function matterCard(m){
   var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
   var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
@@ -6317,11 +6374,9 @@ function matterCard(m){
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
   return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+ 
-    '<span class="case-folder-back" aria-hidden="true"></span>'+ 
-    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i><i></i></span>'+ 
-    '<span class="case-folder-tab"><span>'+esc(label)+'</span></span>'+ 
-    '<span class="case-folder-ring" aria-hidden="true"></span>'+ 
-    '<span class="case-folder-cover">'+ 
+    matterFolderShell()+
+    '<span class="case-folder-label">'+esc(label)+'</span>'+
+    '<span class="case-folder-content">'+
       '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+ 
       '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+ 
       '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+ 

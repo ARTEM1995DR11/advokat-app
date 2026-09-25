@@ -1,9 +1,6 @@
-/* 5.0.508 — rebuild the physical folder shell to match the approved mockup more closely.
-   Page layout/search/business logic stay unchanged. This pass reconstructs the dark back folder,
-   light tab, compact layered papers, integrated eyelet and curved warm-gold front-cover seam. */
-html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
+html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
-  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;
+  --case-u:clamp(.34px,.10627vw,.64px);--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 24 * var(--case-u)) calc(27 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u)) calc(41 * var(--case-u))!important;
   background:#f8f2e6 url('bg-matters-approved-v487.png') top center / 100% auto no-repeat!important;
   color:var(--case-navy)!important;
@@ -47,256 +44,52 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* ---- 2-column case grid ---- */
+/* 5.0.509 — one SVG shell. All coordinates share the 440 × 490 drawing. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
+  --folder-gap:calc(24 * var(--case-u));
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  grid-auto-rows:var(--case-folder-h);
-  gap:calc(24 * var(--case-u)) calc(24 * var(--case-u))!important;
-  margin:0!important;
-  padding:0!important;
+  grid-auto-rows:calc((100% - var(--folder-gap)) / 2);
+  aspect-ratio:904 / 1004;
+  gap:var(--folder-gap)!important;
+  margin:0!important;padding:0!important;
   align-items:stretch;
+  overflow-x:hidden;overflow-y:auto;
+  scrollbar-width:none;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
 }
-#sc-matters .case-folder-host>.empty {grid-column:1/-1}
-
-/* ---- folder palette ---- */
+#sc-matters .case-folder-host::-webkit-scrollbar {display:none}
+#sc-matters .case-folder-host>.empty {grid-column:1/-1;grid-row:span 2}
 #sc-matters .case-folder {
-  --folder-deep:#079a96;
-  --folder:#2ecbc3;
-  --folder-light:#c9f5ef;
-  --folder-ink:#047b76;
-  position:relative;
-  isolation:isolate;
-  display:block;
-  box-sizing:border-box;
-  width:100%;
-  height:var(--case-folder-h);
-  min-width:0;
-  margin:0;
-  padding:var(--case-folder-head) 0 0;
-  border:0;
-  background:none;
-  box-shadow:none;
-  text-align:left;
-  color:#111;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+  --folder-deep:#048e8c;--folder:#19bdb9;--folder-light:#c4f6ef;--folder-ink:#087c79;
+  position:relative;isolation:isolate;display:block;box-sizing:border-box;
+  width:100%;height:100%;min-width:0;min-height:0;
+  margin:0;padding:0;border:0;border-radius:0;
+  background:transparent;box-shadow:none;text-align:left;color:#111;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-admin {--folder-deep:#069c98;--folder:#2bc9c2;--folder-light:#d5faf5;--folder-ink:#047d77}
-#sc-matters .case-folder-criminal {--folder-deep:#b92e32;--folder:#ef595d;--folder-light:#ffddd9;--folder-ink:#b8171c}
-#sc-matters .case-folder-civil {--folder-deep:#1169c7;--folder:#348fe9;--folder-light:#d8edff;--folder-ink:#075db7}
-#sc-matters .case-folder-koap,
-#sc-matters .case-folder-other {--folder-deep:#b98834;--folder:#ddb66e;--folder-light:#fff0cd;--folder-ink:#765119}
-
-/* ---- reconstructed physical folder shell ---- */
-/* saturated rear folder layer visible behind the lighter tab, as in the mockup */
-#sc-matters .case-folder-back {
-  position:absolute;
-  z-index:0;
-  top:calc(1 * var(--case-u));
-  left:calc(1 * var(--case-u));
-  width:63%;
-  height:max(39px,calc(83 * var(--case-u)));
-  box-sizing:border-box;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 16% 16%,rgba(255,255,255,.28),rgba(255,255,255,0) 35%),
-    linear-gradient(118deg,var(--folder-deep) 0%,var(--folder) 72%,var(--folder-deep) 125%);
-  border:1px solid rgba(92,67,36,.23);
-  border-radius:calc(25 * var(--case-u)) calc(26 * var(--case-u)) calc(8 * var(--case-u)) calc(18 * var(--case-u));
-  clip-path:polygon(0 100%,0 22%,5% 7%,12% 0,77% 0,84% 8%,100% 100%);
-  filter:drop-shadow(0 calc(-2 * var(--case-u)) calc(5 * var(--case-u)) rgba(64,43,17,.10));
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.24),inset 0 0 calc(12 * var(--case-u)) rgba(0,0,0,.035);
+#sc-matters .case-folder-criminal {--folder-deep:#aa2529;--folder:#e35453;--folder-light:#ffcec4;--folder-ink:#ab181c}
+#sc-matters .case-folder-civil {--folder-deep:#1161c1;--folder:#338df3;--folder-light:#d1ecff;--folder-ink:#075aba}
+#sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
+#sc-matters .case-folder-shell {
+  position:absolute;inset:0;display:block;width:100%;height:100%;
+  overflow:hidden;pointer-events:none;
 }
-
-/* compact stack of four documents: visible only on the right, with staggered top edges */
-#sc-matters .case-folder-papers {
-  position:absolute;
-  z-index:1;
-  top:calc(5 * var(--case-u));
-  left:57%;
-  right:calc(5 * var(--case-u));
-  height:max(39px,calc(82 * var(--case-u)));
-  pointer-events:none;
-  filter:drop-shadow(0 calc(3 * var(--case-u)) calc(5 * var(--case-u)) rgba(77,54,24,.08));
+#sc-matters .case-folder-label {
+  position:absolute;left:12.3%;top:8.3%;width:42%;height:7.3%;
+  display:flex;align-items:center;justify-content:center;
+  font:600 calc(23 * var(--case-u))/1 Arial,sans-serif;
+  letter-spacing:calc(-.6 * var(--case-u));color:var(--folder-ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-#sc-matters .case-folder-papers i {
-  position:absolute;
-  right:0;
-  display:block;
-  box-sizing:border-box;
-  height:calc(31 * var(--case-u));
-  border:1px solid rgba(197,173,130,.66);
-  border-radius:calc(6 * var(--case-u)) calc(7 * var(--case-u)) calc(4 * var(--case-u)) calc(4 * var(--case-u));
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.995),rgba(255,253,247,.995) 60%,rgba(239,224,196,.98));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.99),
-    0 calc(-1 * var(--case-u)) calc(3 * var(--case-u)) rgba(91,62,23,.065);
+#sc-matters .case-folder-content {
+  position:absolute;left:9%;right:6.3%;top:20.7%;bottom:5.9%;
+  display:flex;flex-direction:column;min-width:0;min-height:0;
+  padding:0;margin:0;overflow:hidden;
 }
-#sc-matters .case-folder-papers i:nth-child(1){top:calc(2 * var(--case-u));width:77%}
-#sc-matters .case-folder-papers i:nth-child(2){top:calc(14 * var(--case-u));width:86%}
-#sc-matters .case-folder-papers i:nth-child(3){top:calc(26 * var(--case-u));width:94%}
-#sc-matters .case-folder-papers i:nth-child(4){top:calc(38 * var(--case-u));width:100%;background:linear-gradient(180deg,#fffdf7 0%,#faf3e4 68%,#e6c991 100%)}
-
-/* lighter label tab sits inside the saturated rear layer */
-#sc-matters .case-folder-tab {
-  position:absolute;
-  z-index:2;
-  left:calc(24 * var(--case-u));
-  top:calc(12 * var(--case-u));
-  width:49%;
-  height:max(31px,calc(62 * var(--case-u)));
-  box-sizing:border-box;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:calc(13 * var(--case-u)) calc(10 * var(--case-u)) 0;
-  background:linear-gradient(124deg,var(--folder-light) 0%,rgba(255,255,255,.56) 55%,var(--folder-light) 112%);
-  border:1px solid rgba(255,255,255,.88);
-  border-right:0;
-  border-radius:calc(19 * var(--case-u)) calc(18 * var(--case-u)) 0 0;
-  box-shadow:
-    0 0 0 1px rgba(100,75,40,.13),
-    inset 0 2px 2px rgba(255,255,255,.74),
-    0 calc(-2 * var(--case-u)) calc(5 * var(--case-u)) rgba(77,52,22,.07);
-  overflow:visible;
-}
-/* soft sloping shoulder of the inner tab */
-#sc-matters .case-folder-tab::after {
-  content:'';
-  position:absolute;
-  z-index:-1;
-  right:calc(-24 * var(--case-u));
-  bottom:-1px;
-  width:calc(31 * var(--case-u));
-  height:calc(45 * var(--case-u));
-  background:linear-gradient(132deg,rgba(255,255,255,.44),var(--folder-light) 45%,var(--folder) 145%);
-  border-top:1px solid rgba(255,255,255,.74);
-  border-right:1px solid rgba(108,81,44,.16);
-  transform:skewX(15deg);
-  transform-origin:bottom left;
-  border-radius:0 calc(9 * var(--case-u)) 0 0;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
-}
-#sc-matters .case-folder-tab::before {
-  content:'';
-  position:absolute;
-  inset:calc(5 * var(--case-u)) calc(8 * var(--case-u)) calc(2 * var(--case-u)) calc(9 * var(--case-u));
-  z-index:0;
-  border-radius:calc(13 * var(--case-u)) calc(11 * var(--case-u)) 0 0;
-  border:1px solid rgba(255,255,255,.48);
-  border-bottom:0;
-  pointer-events:none;
-}
-#sc-matters .case-folder-tab>span {
-  position:relative;
-  z-index:2;
-  display:block;
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font:700 calc(21.5 * var(--case-u))/1.12 Arial,sans-serif;
-  letter-spacing:calc(-.45 * var(--case-u));
-  color:var(--folder-ink);
-}
-
-/* ---- integrated gold eyelet / pin ---- */
-#sc-matters .case-folder-ring {
-  position:absolute;
-  z-index:7;
-  left:calc(13 * var(--case-u));
-  top:calc(var(--case-folder-head) - 10 * var(--case-u));
-  width:calc(24 * var(--case-u));
-  height:calc(24 * var(--case-u));
-  box-sizing:border-box;
-  border:calc(3.7 * var(--case-u)) solid #bd7b0c;
-  border-radius:50%;
-  background:radial-gradient(circle at 42% 36%,#fffbea 0 48%,#f4d879 51%,#b97409 78%,#835006 100%);
-  box-shadow:
-    inset 0 0 0 calc(1.2 * var(--case-u)) rgba(255,241,165,.92),
-    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(80,46,3,.24);
-  pointer-events:none;
-}
-#sc-matters .case-folder-ring::before {
-  content:'';
-  position:absolute;
-  left:50%;
-  top:calc(14 * var(--case-u));
-  width:calc(4 * var(--case-u));
-  height:calc(23 * var(--case-u));
-  border-radius:999px;
-  background:linear-gradient(90deg,#6f4105 0%,#d59719 34%,#f2cd5d 52%,#8c5206 100%);
-  transform:translateX(-50%);
-  box-shadow:0 1px 2px rgba(77,46,4,.23);
-}
-#sc-matters .case-folder-ring::after {
-  content:'';
-  position:absolute;
-  left:calc(4 * var(--case-u));
-  top:calc(3 * var(--case-u));
-  width:calc(7 * var(--case-u));
-  height:calc(4 * var(--case-u));
-  border-radius:50%;
-  background:rgba(255,250,211,.75);
-  transform:rotate(-25deg);
-}
-
-/* ---- ivory front cover: warm paper, curved stepped seam, premium depth ---- */
-#sc-matters .case-folder-cover {
-  position:relative;
-  z-index:4;
-  box-sizing:border-box;
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  height:calc(var(--case-folder-h) - var(--case-folder-head));
-  min-width:0;
-  padding:calc(18 * var(--case-u)) calc(18 * var(--case-u)) calc(15 * var(--case-u)) calc(28 * var(--case-u));
-  border:1px solid #d3a044;
-  border-top-color:rgba(211,160,68,.42);
-  border-radius:calc(18 * var(--case-u));
-  background:
-    radial-gradient(ellipse at 15% 10%,rgba(255,255,255,.93),rgba(255,255,255,0) 39%),
-    radial-gradient(circle at 84% 82%,rgba(215,166,80,.055),rgba(215,166,80,0) 35%),
-    repeating-linear-gradient(101deg,rgba(151,113,51,.011) 0,rgba(151,113,51,.011) 1px,transparent 1px,transparent 8px),
-    linear-gradient(123deg,#fffef9 0%,#fffaf0 58%,#f8eedc 100%);
-  box-shadow:
-    0 calc(8 * var(--case-u)) calc(17 * var(--case-u)) rgba(82,54,18,.155),
-    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(92,59,17,.09),
-    inset 0 1px 0 rgba(255,255,255,.99),
-    inset 0 calc(-2 * var(--case-u)) calc(7 * var(--case-u)) rgba(178,124,39,.035);
-  overflow:hidden;
-}
-/* curved/stepped warm-gold top seam: visually reproduces the mockup's folder shoulder */
-#sc-matters .case-folder-cover::before {
-  content:'';
-  position:absolute;
-  z-index:0;
-  left:0;
-  right:0;
-  top:calc(-1 * var(--case-u));
-  height:calc(13 * var(--case-u));
-  pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 13' preserveAspectRatio='none'%3E%3Cpath d='M0 1 H60 C63 1 64 2 65.5 5.8 C66.8 9.1 69 10 72.5 10 H100' fill='none' stroke='%23d2a04a' stroke-width='0.8'/%3E%3Cpath d='M0 2 H60 C63 2 64 3 65.5 6.8 C66.8 10.1 69 11 72.5 11 H100' fill='none' stroke='%23fffdf8' stroke-opacity='.7' stroke-width='.55'/%3E%3C/svg%3E");
-  background-size:100% 100%;
-  background-repeat:no-repeat;
-}
-#sc-matters .case-folder-cover::after {
-  content:'';
-  position:absolute;
-  z-index:0;
-  inset:0;
-  border-radius:inherit;
-  pointer-events:none;
-  box-shadow:
-    inset calc(-2 * var(--case-u)) 0 calc(8 * var(--case-u)) rgba(160,111,34,.025),
-    inset calc(2 * var(--case-u)) 0 calc(8 * var(--case-u)) rgba(255,255,255,.26),
-    inset 0 calc(-2 * var(--case-u)) calc(8 * var(--case-u)) rgba(160,111,34,.038);
-}
-/* keep real content above the paper-material overlays */
-#sc-matters .case-folder-cover > *{position:relative;z-index:2}
+#sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
+#sc-matters .case-folder:focus-visible {outline:2px solid #0647d9;outline-offset:-2px;border-radius:8px}
 
 /* ---- top row: icon + basis + chevron ---- */
 #sc-matters .case-folder-top {
@@ -470,9 +263,6 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-folder-next.muted svg,
 #sc-matters .case-folder-next.archive svg {color:#91969b}
-
-#sc-matters .case-folder:active .case-folder-cover {filter:brightness(.985)}
-#sc-matters .case-folder:focus-visible {outline:2px solid #0647d9;outline-offset:4px;border-radius:8px}
 
 @media (max-width:400px) {
   #sc-matters .case-folder-top {
