@@ -6213,10 +6213,11 @@ function matterFolderShell(){
   <rect x="229" y="56" width="173" height="88" rx="4"/>
 </g>
 <g fill="none" stroke="#fffefb" stroke-width="1.5" opacity=".95"><path d="M217 18h120M215 32h145M222 46h162M233 60h165"/></g>
-<!-- Inner tab: rounded upper corners and a tangent shoulder joining the front. -->
-<path d="M36 82L51 38Q55 25 69 25H212Q225 25 231 40L242 65Q247 77 264 81Z" fill="url(#@tab)" stroke="#ffffed" stroke-opacity=".76" stroke-width="1.3" filter="url(#@stack)"/>
-<path d="M40 79L55 39Q58 29 70 29H211Q222 29 227 41L239 67Q243 76 252 79" fill="none" stroke="#fff" stroke-opacity=".44" stroke-width="1.4"/>
-<path d="M228 39L242 69Q247 79 263 83" fill="none" stroke="var(--folder-deep)" stroke-opacity=".18" stroke-width="2.4"/>
+<!-- 5.0.517: tab is refined as a physical folder tab, not a flat badge. -->
+<path d="M31 83C34 72 39 59 45 42C49 31 56 24 70 24H211C225 24 232 31 237 43L247 65C252 76 259 80 271 82L264 85H31Z" fill="url(#@tab)" stroke="#fff7dc" stroke-opacity=".9" stroke-width="1.45" filter="url(#@stack)"/>
+<path d="M38 78C42 65 47 51 52 40C56 31 62 28 72 28H208C219 28 225 33 229 43L239 66C243 74 249 78 258 80" fill="none" stroke="#ffffff" stroke-opacity=".62" stroke-width="1.7" stroke-linecap="round"/>
+<path d="M52 31C58 27 64 26 73 26H207C220 26 227 32 232 43" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="5.5" stroke-linecap="round"/>
+<path d="M232 43L245 69C250 79 258 82 270 83" fill="none" stroke="var(--folder-deep)" stroke-opacity=".24" stroke-width="2.6" stroke-linecap="round"/>
 <!-- Die-cut ivory face and its shared curved upper edge. -->
 <use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.3" filter="url(#@bodyShadow)"/>
 <g clip-path="url(#@clip)"><rect x="6" y="76" width="430" height="407" fill="url(#@light)"/><rect x="6" y="76" width="430" height="407" fill="url(#@grain)"/>
