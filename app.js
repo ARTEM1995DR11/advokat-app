@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.506';
-var APP_BUILD='5506';
+var APP_VERSION='5.0.507';
+var APP_BUILD='5507';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5506',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5507',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6317,7 +6317,7 @@ function matterCard(m){
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
   return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+ 
-    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i></span>'+ 
+    '<span class="case-folder-papers" aria-hidden="true"><i></i><i></i><i></i><i></i></span>'+ 
     '<span class="case-folder-tab"><span>'+esc(label)+'</span></span>'+ 
     '<span class="case-folder-ring" aria-hidden="true"></span>'+ 
     '<span class="case-folder-cover">'+ 
