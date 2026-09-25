@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.510';
-var APP_BUILD='5510';
+var APP_VERSION='5.0.511';
+var APP_BUILD='5511';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5510',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5511',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6318,16 +6318,17 @@ function matterFolderShell(){
   <linearGradient id="@frontTab" x1=".08" y1="0" x2=".88" y2="1"><stop stop-color="#fff" stop-opacity=".72"/><stop offset=".16" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
   <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".58" stop-color="#fffaf2"/><stop offset="1" stop-color="#f1e3cb"/></linearGradient>
   <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff8e8"/><stop offset=".72" stop-color="#e8d1a9"/><stop offset="1" stop-color="#c9a66d"/></linearGradient>
-  <linearGradient id="@ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffef9"/><stop offset=".36" stop-color="#fffdf7"/><stop offset=".78" stop-color="#fcf7ed"/><stop offset="1" stop-color="#f5ead5"/></linearGradient>
-  <radialGradient id="@faceLight" cx=".26" cy=".08" r=".92"><stop stop-color="#fff" stop-opacity=".72"/><stop offset=".52" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@ivory" x1=".04" y1="0" x2=".94" y2="1"><stop stop-color="#fffef9"/><stop offset=".24" stop-color="#fffdf8"/><stop offset=".66" stop-color="#fbf6ec"/><stop offset=".9" stop-color="#f8efdf"/><stop offset="1" stop-color="#f2e4ca"/></linearGradient>
+  <radialGradient id="@faceLight" cx=".24" cy=".07" r=".96"><stop stop-color="#fff" stop-opacity=".76"/><stop offset=".46" stop-color="#fff" stop-opacity=".15"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@faceDepth" x1="0" y1="0" x2=".95" y2="1"><stop offset=".56" stop-color="#cf9d50" stop-opacity="0"/><stop offset=".83" stop-color="#b97c24" stop-opacity=".035"/><stop offset="1" stop-color="#996016" stop-opacity=".095"/></linearGradient>
   <linearGradient id="@goldEdge" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#f3d993"/><stop offset=".18" stop-color="#fff0c9"/><stop offset=".43" stop-color="#c89436"/><stop offset=".68" stop-color="#f1d58c"/><stop offset="1" stop-color="#ad741d"/></linearGradient>
   <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#85520b"/><stop offset=".18" stop-color="#dba94f"/><stop offset=".38" stop-color="#fff2b4"/><stop offset=".55" stop-color="#c98d24"/><stop offset=".78" stop-color="#f2c76f"/><stop offset="1" stop-color="#82500b"/></linearGradient>
   <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#85500a"/><stop offset=".35" stop-color="#d5a446"/><stop offset=".53" stop-color="#fff0ad"/><stop offset=".7" stop-color="#e9bd63"/><stop offset="1" stop-color="#945d10"/></linearGradient>
   <filter id="@tabShadow" x="-18%" y="-25%" width="150%" height="175%"><feDropShadow dx="0" dy="2.1" stdDeviation="2.2" flood-color="#5e4320" flood-opacity=".22"/></filter>
   <filter id="@paperShadow" x="-18%" y="-35%" width="145%" height="180%"><feDropShadow dx=".8" dy="1.8" stdDeviation="1.6" flood-color="#7a5c31" flood-opacity=".19"/></filter>
-  <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="122%"><feDropShadow dx="1.4" dy="3.2" stdDeviation="3.1" flood-color="#73542f" flood-opacity=".22"/></filter>
+  <filter id="@bodyShadow" x="-9%" y="-9%" width="124%" height="126%"><feDropShadow dx="1.8" dy="3.6" stdDeviation="3.4" flood-color="#6d4b27" flood-opacity=".20"/></filter>
   <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="260%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.15" flood-color="#6f440b" flood-opacity=".38"/></filter>
-  <path id="@front" d="M34 96H406Q432 96 432 122V451Q432 479 404 479H35Q8 479 8 451V123Q8 96 34 96Z"/>
+  <path id="@front" d="M31 96H238Q247 96 251 103L258 112Q264 119 277 119H399Q419 119 427 129Q433 136 433 151V445Q433 461 425 470Q417 480 399 481H43Q25 481 16 472Q8 463 8 446V126Q8 109 16 101Q21 96 31 96Z"/>
   <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
 
@@ -6354,16 +6355,18 @@ function matterFolderShell(){
 <path d="M35 94L44 64Q47 54 56 49L64 38Q68 31 80 31H199Q210 31 217 42L235 77Q241 88 254 93" fill="none" stroke="#ffffff" stroke-opacity=".46" stroke-width="1.55" stroke-linecap="round"/>
 <path d="M224 38L244 76Q250 88 263 93Q273 96 286 96" fill="none" stroke="var(--folder-deep)" stroke-opacity=".16" stroke-width="2.1" stroke-linecap="round"/>
 
-<!-- premium ivory front cover -->
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.9" filter="url(#@bodyShadow)"/>
+<!-- premium ivory front cover: a shaped physical folder front, not a rounded UI card -->
+<use href="#@front" transform="translate(1.7 2.6)" fill="#ead9b8" fill-opacity=".72" stroke="#b9812c" stroke-opacity=".16" stroke-width="1.4"/>
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.75" filter="url(#@bodyShadow)"/>
 <g clip-path="url(#@frontClip)">
-  <rect x="7" y="95" width="426" height="386" fill="url(#@faceLight)"/>
-  <path d="M13 125V448Q13 473 38 473H401Q427 473 427 448V126Q427 102 403 102H35Q13 102 13 125Z" fill="none" stroke="#fffef8" stroke-opacity=".88" stroke-width="1.65"/>
-  <path d="M10 440V452Q10 476 36 476H403Q429 476 430 451" fill="none" stroke="#bd852d" stroke-opacity=".22" stroke-width="2.2"/>
+  <rect x="7" y="94" width="428" height="389" fill="url(#@faceLight)"/>
+  <rect x="7" y="94" width="428" height="389" fill="url(#@faceDepth)"/>
+  <path d="M17 127Q17 106 33 103H236Q245 103 249 109L256 118Q263 126 278 126H398Q419 126 424 141Q426 146 426 154V443Q426 458 419 465Q412 473 397 474H44Q29 474 22 467Q15 459 15 445V128" fill="none" stroke="#fffdf5" stroke-opacity=".82" stroke-width="1.45" stroke-linecap="round"/>
+  <path d="M15 438V447Q15 466 24 473Q32 479 46 479H396Q414 479 424 468" fill="none" stroke="#b77d26" stroke-opacity=".18" stroke-width="2.1" stroke-linecap="round"/>
 </g>
-<!-- top seam joins papers, tab, eyelet and the face into one physical object -->
-<path d="M34 96H404" fill="none" stroke="#f5e3bd" stroke-width="2.4" stroke-linecap="round"/>
-<path d="M34 98H404" fill="none" stroke="#b78331" stroke-opacity=".3" stroke-width=".9"/>
+<!-- shaped top seam follows the physical front-cover shoulder -->
+<path d="M31 96H238Q247 96 251 103L258 112Q264 119 277 119H398" fill="none" stroke="#f7e7c5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M31 98H238Q245 98 249 104L256 113Q263 121 277 121H398" fill="none" stroke="#a97528" stroke-opacity=".26" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round"/>
 
 <!-- gold eyelet + pin seated exactly on the tab/front seam -->
 <ellipse cx="29" cy="101" rx="8.1" ry="3.2" fill="#80500d" opacity=".18"/>
