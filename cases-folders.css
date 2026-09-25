@@ -1,7 +1,6 @@
-/* 5.0.504 — Stage 2: approved folder geometry refinement.
-   Only the case-folder body is refined: squarer silhouette, deeper premium tab,
-   clearer layered papers, corrected gold ring, and top-content spacing.
-   Header, search/filter, FAB, bottom navigation, background and business logic are untouched. */
+/* 5.0.505 — stage 3: refine the upper folder content to the approved mockup.
+   Folder body geometry, page layout and search stability stay intact; this stage aligns
+   the premium gold icon, agreement/assignment chip, chevron and client name. */
 html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
   --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;
@@ -222,11 +221,11 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 /* ---- top row: icon + basis + chevron ---- */
 #sc-matters .case-folder-top {
   display:grid;
-  grid-template-columns:calc(70 * var(--case-u)) minmax(0,1fr) calc(29 * var(--case-u));
+  grid-template-columns:calc(88 * var(--case-u)) minmax(0,1fr) calc(31 * var(--case-u));
   align-items:center;
-  column-gap:calc(7 * var(--case-u));
-  height:calc(55 * var(--case-u));
-  margin:0 0 calc(4 * var(--case-u));
+  column-gap:calc(8 * var(--case-u));
+  height:calc(70 * var(--case-u));
+  margin:calc(-2 * var(--case-u)) 0 calc(2 * var(--case-u));
   flex:0 0 auto;
   min-width:0;
 }
@@ -234,8 +233,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   display:flex;
   align-items:center;
   justify-content:center;
-  width:calc(62 * var(--case-u));
-  height:calc(48 * var(--case-u));
+  width:calc(84 * var(--case-u));
+  height:calc(64 * var(--case-u));
   min-width:0;
   color:#c58a18;
 }
@@ -244,30 +243,29 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   width:100%;
   height:100%;
   overflow:visible;
-  filter:drop-shadow(0 calc(2 * var(--case-u)) calc(2.6 * var(--case-u)) rgba(77,45,2,.24));
+  filter:drop-shadow(0 calc(2.3 * var(--case-u)) calc(3 * var(--case-u)) rgba(77,45,2,.28));
 }
 #sc-matters .case-icon-premium .gold-depth {
   fill:none;
-  stroke:#805006;
-  stroke-width:5.3;
+  stroke:#754803;
+  stroke-width:6.1;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
 #sc-matters .case-icon-premium .gold-main {
   fill:none;
-  stroke:#c88917;
-  stroke-width:3.55;
+  stroke:#c78a18;
+  stroke-width:4.05;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
 #sc-matters .case-icon-premium .gold-highlight {
   fill:none;
-  stroke:#f5d66f;
-  stroke-width:1.12;
+  stroke:#f8dc78;
+  stroke-width:1.28;
   stroke-linecap:round;
   stroke-linejoin:round;
-  opacity:.92;
-  transform:translate(calc(-.45 * var(--case-u)),calc(-.55 * var(--case-u)));
+  opacity:.96;
 }
 #sc-matters .case-folder-basis {
   justify-self:start;
@@ -276,38 +274,40 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   justify-content:center;
   max-width:100%;
   min-width:0;
+  height:calc(36 * var(--case-u));
   box-sizing:border-box;
-  border:1px solid #80ded3;
-  border-radius:calc(25 * var(--case-u));
-  padding:calc(6 * var(--case-u)) calc(15 * var(--case-u));
-  font:600 calc(21.5 * var(--case-u))/1 Arial,sans-serif;
-  letter-spacing:calc(-.4 * var(--case-u));
-  background:linear-gradient(180deg,#dcfff8,#bdf4ea);
-  color:#078b80;
+  border:1px solid #7bd9cf;
+  border-radius:calc(22 * var(--case-u));
+  padding:0 calc(16 * var(--case-u));
+  font:600 calc(25 * var(--case-u))/1 Arial,sans-serif;
+  letter-spacing:calc(-.35 * var(--case-u));
+  background:linear-gradient(180deg,#e1fff9 0%,#bff2e9 100%);
+  color:#087f77;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 calc(1 * var(--case-u)) calc(2 * var(--case-u)) rgba(26,132,122,.08);
 }
 #sc-matters .case-folder-basis.assigned {
-  color:#6552dc;
-  border-color:#c9bcff;
-  background:linear-gradient(180deg,#f2efff,#ddd7ff);
+  color:#6651d8;
+  border-color:#c3b7ff;
+  background:linear-gradient(180deg,#f4f1ff 0%,#ded8ff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.94),0 calc(1 * var(--case-u)) calc(2 * var(--case-u)) rgba(95,76,210,.07);
 }
 #sc-matters .case-folder-chevron {
   display:flex;
   align-items:center;
   justify-content:flex-end;
-  width:calc(30 * var(--case-u));
-  height:calc(42 * var(--case-u));
-  color:#0046ea;
+  width:calc(31 * var(--case-u));
+  height:calc(44 * var(--case-u));
+  color:#0048e8;
 }
 #sc-matters .case-folder-chevron>svg.ico {
   display:block;
-  width:calc(27 * var(--case-u));
-  height:calc(37 * var(--case-u));
-  color:#0046ea;
-  stroke-width:2.65;
+  width:calc(30 * var(--case-u));
+  height:calc(39 * var(--case-u));
+  color:#0048e8;
+  stroke-width:2.85;
 }
 
 /* ---- case text ---- */
@@ -316,10 +316,10 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  margin:0 0 calc(4 * var(--case-u));
-  font:700 calc(37 * var(--case-u))/1.03 Georgia,'Times New Roman',Times,serif;
+  margin:calc(-1 * var(--case-u)) 0 calc(5 * var(--case-u));
+  font:700 calc(41 * var(--case-u))/1.01 Georgia,'Times New Roman',Times,serif;
   letter-spacing:calc(-1.25 * var(--case-u));
-  color:#111;
+  color:#080808;
 }
 #sc-matters .case-folder-subject {
   display:-webkit-box;

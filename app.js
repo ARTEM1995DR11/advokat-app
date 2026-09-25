@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.504';
-var APP_BUILD='5504';
+var APP_VERSION='5.0.505';
+var APP_BUILD='5505';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5504',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5505',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6272,14 +6272,14 @@ function matterApprovedAction(m){
 }
 function matterFolderIcon(kind){
   var bodies={
-    scale:'<path d="M36 7v45M22 54h28M27 59h18M15 17h42M36 10l-6 7h12z"/><path d="M18 18l-10 21m10-21l10 21M54 18L44 39m10-21l10 21"/><path d="M5 39h26c-1.8 7-6.4 10-13 10S6.8 46 5 39zm36 0h26c-1.8 7-6.4 10-13 10S42.8 46 41 39z"/>',
-    gavel:'<g transform="rotate(-37 34 30)"><rect x="14" y="9" width="40" height="14" rx="3"/><path d="M21 9v14m26-14v14M34 23v36"/></g><path d="M42 50h20M37 58h30"/>',
-    people:'<circle cx="36" cy="15" r="8"/><circle cx="15" cy="23" r="6"/><circle cx="57" cy="23" r="6"/><path d="M21 58V47c0-10 6-16 15-16s15 6 15 16v11H21z"/><path d="M20 54H5v-8c0-7 4-12 10-12 4 0 7 2 9 5M52 54h15v-8c0-7-4-12-10-12-4 0-7 2-9 5"/>',
-    doc:'<path d="M13 6h27l14 14v37H13a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM40 6v15h14M21 31h17M21 40h13"/><circle cx="51" cy="47" r="10"/><path d="M51 41v7m0 5h.01"/>'
+    scale:'<path d="M38 6v48M22 55h32M28 60h20M15 18h46M38 9l-6 8h12z"/><path d="M19 19 8 41m11-22 11 22M57 19 46 41m11-22 11 22"/><path d="M5 41h28c-1.7 7-6.5 10.5-14 10.5S6.7 48 5 41zm38 0h28c-1.7 7-6.5 10.5-14 10.5S44.7 48 43 41z"/>',
+    gavel:'<g transform="rotate(-38 34 27)"><rect x="15" y="10" width="38" height="14" rx="3"/><path d="M23 10v14m22-14v14M34 24v35"/></g><path d="M47 49h17M42 57h27"/>',
+    people:'<circle cx="38" cy="14" r="7.5"/><circle cx="16" cy="23" r="6"/><circle cx="60" cy="23" r="6"/><path d="M23 58V47c0-10 6-16 15-16s15 6 15 16v11H23z"/><path d="M22 54H6v-8c0-7 4-12 10-12 4 0 7 2 9 5M54 54h16v-8c0-7-4-12-10-12-4 0-7 2-9 5"/>',
+    doc:'<path d="M14 6h28l14 14v38H14a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM42 6v15h14M22 31h18M22 40h14"/><circle cx="54" cy="48" r="10"/><path d="M54 42v7m0 5h.01"/>'
   };
   var body=bodies[kind]||bodies.doc;
-  return '<svg class="case-icon-premium case-icon-'+esc(kind||'doc')+'" viewBox="0 0 72 64" aria-hidden="true">'+
-    '<g class="gold-depth">'+body+'</g><g class="gold-main">'+body+'</g><g class="gold-highlight">'+body+'</g></svg>';
+  return '<svg class="case-icon-premium case-icon-'+esc(kind||'doc')+'" viewBox="0 0 76 66" aria-hidden="true">'+
+    '<g class="gold-depth" transform="translate(1.5 1.8)">'+body+'</g><g class="gold-main">'+body+'</g><g class="gold-highlight" transform="translate(-.7 -.8)">'+body+'</g></svg>';
 }
 function matterFolderCalendar(){
   return '<svg class="ico s case-folder-calendar" viewBox="0 0 24 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.3" y="4.4" width="19.4" height="19.2" rx="2.2"/><path d="M2.8 10h18.4M7 2v5m10-5v5"/><g fill="currentColor" stroke="none"><circle cx="7" cy="14" r="1.15"/><circle cx="12" cy="14" r="1.15"/><circle cx="17" cy="14" r="1.15"/><circle cx="7" cy="19" r="1.15"/><circle cx="12" cy="19" r="1.15"/></g></svg>';
