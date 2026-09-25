@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.509';
-var APP_BUILD='5509';
+var APP_VERSION='5.0.510';
+var APP_BUILD='5510';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6167,7 +6167,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5509',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5510',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6314,54 +6314,65 @@ function matterFolderShell(){
   var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
   return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <linearGradient id="@back" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="var(--folder)"/><stop offset=".55" stop-color="var(--folder-deep)"/><stop offset=".8" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
-  <linearGradient id="@tab" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#fffef6" stop-opacity=".98"/><stop offset=".15" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
-  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".09" stop-color="#fffefb"/><stop offset=".16" stop-color="#f6ead7"/><stop offset=".24" stop-color="#fffaf2"/><stop offset="1" stop-color="#f0e0c4"/></linearGradient>
-  <linearGradient id="@ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf6"/><stop offset=".34" stop-color="#fffcf5"/><stop offset=".8" stop-color="#fcf7ec"/><stop offset="1" stop-color="#f5ead4"/></linearGradient>
-  <radialGradient id="@light" cx=".32" cy=".1" r=".85"><stop stop-color="#fff" stop-opacity=".77"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-  <linearGradient id="@edge" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ebd2a0"/><stop offset=".23" stop-color="#ffedc6"/><stop offset=".48" stop-color="#c99942"/><stop offset=".62" stop-color="#f6da98"/><stop offset=".87" stop-color="#d4a657"/><stop offset="1" stop-color="#b77c22"/></linearGradient>
-  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#92601d"/><stop offset=".22" stop-color="#ffe9a5"/><stop offset=".4" stop-color="#fff6ca"/><stop offset=".58" stop-color="#c8912e"/><stop offset=".8" stop-color="#e9ba62"/><stop offset="1" stop-color="#865115"/></linearGradient>
-  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#915811"/><stop offset=".27" stop-color="#d19c3e"/><stop offset=".5" stop-color="#ffe7a7"/><stop offset=".67" stop-color="#f3cf7e"/><stop offset="1" stop-color="#a56a1a"/></linearGradient>
-  <pattern id="@grain" patternUnits="userSpaceOnUse" width="7" height="9"><path d="M1 1h.5M4 5h.7M2 8h.4" stroke="#9d743c" stroke-width=".6" opacity=".055"/></pattern>
-  <filter id="@stack" x="-10%" y="-20%" width="125%" height="150%"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#8e6b38" flood-opacity=".18"/></filter>
-  <filter id="@bodyShadow" x="-5%" y="-5%" width="112%" height="113%"><feDropShadow dx="1.3" dy="3" stdDeviation="2.6" flood-color="#806039" flood-opacity=".23"/></filter>
-  <filter id="@contact" x="-70%" y="-40%" width="260%" height="220%"><feDropShadow dx="1" dy="1.2" stdDeviation="1.1" flood-color="#80501a" flood-opacity=".35"/></filter>
-  <path id="@front" d="M32 77H256C266 77 272 80 276 87C280 94 288 95 298 95H403C424 95 434 105 434 126V450C434 472 424 481 403 481H38C17 481 7 470 7 449V103C7 86 15 77 32 77Z"/>
-  <clipPath id="@clip"><use href="#@front"/></clipPath>
+  <linearGradient id="@rearTab" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="var(--folder-deep)"/><stop offset=".48" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
+  <linearGradient id="@frontTab" x1=".08" y1="0" x2=".88" y2="1"><stop stop-color="#fff" stop-opacity=".72"/><stop offset=".16" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".58" stop-color="#fffaf2"/><stop offset="1" stop-color="#f1e3cb"/></linearGradient>
+  <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff8e8"/><stop offset=".72" stop-color="#e8d1a9"/><stop offset="1" stop-color="#c9a66d"/></linearGradient>
+  <linearGradient id="@ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffef9"/><stop offset=".36" stop-color="#fffdf7"/><stop offset=".78" stop-color="#fcf7ed"/><stop offset="1" stop-color="#f5ead5"/></linearGradient>
+  <radialGradient id="@faceLight" cx=".26" cy=".08" r=".92"><stop stop-color="#fff" stop-opacity=".72"/><stop offset=".52" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@goldEdge" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#f3d993"/><stop offset=".18" stop-color="#fff0c9"/><stop offset=".43" stop-color="#c89436"/><stop offset=".68" stop-color="#f1d58c"/><stop offset="1" stop-color="#ad741d"/></linearGradient>
+  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#85520b"/><stop offset=".18" stop-color="#dba94f"/><stop offset=".38" stop-color="#fff2b4"/><stop offset=".55" stop-color="#c98d24"/><stop offset=".78" stop-color="#f2c76f"/><stop offset="1" stop-color="#82500b"/></linearGradient>
+  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#85500a"/><stop offset=".35" stop-color="#d5a446"/><stop offset=".53" stop-color="#fff0ad"/><stop offset=".7" stop-color="#e9bd63"/><stop offset="1" stop-color="#945d10"/></linearGradient>
+  <filter id="@tabShadow" x="-18%" y="-25%" width="150%" height="175%"><feDropShadow dx="0" dy="2.1" stdDeviation="2.2" flood-color="#5e4320" flood-opacity=".22"/></filter>
+  <filter id="@paperShadow" x="-18%" y="-35%" width="145%" height="180%"><feDropShadow dx=".8" dy="1.8" stdDeviation="1.6" flood-color="#7a5c31" flood-opacity=".19"/></filter>
+  <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="122%"><feDropShadow dx="1.4" dy="3.2" stdDeviation="3.1" flood-color="#73542f" flood-opacity=".22"/></filter>
+  <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="260%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.15" flood-color="#6f440b" flood-opacity=".38"/></filter>
+  <path id="@front" d="M34 96H406Q432 96 432 122V451Q432 479 404 479H35Q8 479 8 451V123Q8 96 34 96Z"/>
+  <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
-<!-- Rear cover: a shaped shoulder and continuous coloured spine, not a separate badge. -->
-<path d="M8 129V55Q8 40 21 35Q25 23 37 22L44 13Q50 6 64 6H212Q231 6 238 22L259 62Q266 75 283 76H402Q433 76 436 109V442H8Z" fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.5" filter="url(#@stack)"/>
-<path d="M12 113V54Q12 43 25 39Q29 26 40 26L49 16Q54 11 65 11H211Q227 11 233 24L256 67Q264 81 282 81" fill="none" stroke="#e5ffff" stroke-opacity=".3" stroke-width="2"/>
-<path d="M18 59Q19 46 29 44Q34 29 43 29L52 20Q56 15 68 15H211Q223 15 230 30L250 68" fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="8" stroke-linecap="round"/>
-<!-- Four full sheets; their hidden lower portions continue under the front cover. -->
-<g fill="url(#@paper)" stroke="#e4cfaf" stroke-width="1.1" filter="url(#@stack)">
-  <rect x="213" y="14" width="128" height="88" rx="5"/>
-  <rect x="211" y="28" width="153" height="90" rx="5"/>
-  <rect x="218" y="42" width="170" height="88" rx="4"/>
-  <rect x="229" y="56" width="173" height="88" rx="4"/>
+
+<!-- rear coloured folder layer: visible only around the tab/top, never down the sides -->
+<path d="M12 101V70Q12 53 25 47Q27 34 40 30L48 20Q54 12 68 12H204Q222 12 231 27L253 69Q260 83 274 90Q282 94 295 96H307V104H12Z" fill="url(#@rearTab)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@tabShadow)"/>
+<path d="M18 94V69Q18 57 30 51Q33 39 43 36L52 25Q57 19 70 19H202Q216 19 223 31L244 70Q251 83 266 90" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round"/>
+
+<!-- compact document stack: four separate sheets with different lengths/depths -->
+<g fill="url(#@paper)" stroke="url(#@paperEdge)" stroke-width="1.15" filter="url(#@paperShadow)">
+  <path d="M209 29H343Q352 29 352 38V104H209Z"/>
+  <path d="M217 42H370Q379 42 379 51V108H217Z"/>
+  <path d="M227 55H393Q403 55 403 65V111H227Z"/>
+  <path d="M239 69H405Q415 69 415 79V113H239Z"/>
 </g>
-<g fill="none" stroke="#fffefb" stroke-width="1.5" opacity=".95"><path d="M217 18h120M215 32h145M222 46h162M233 60h165"/></g>
-<!-- Inner tab: rounded upper corners and a tangent shoulder joining the front. -->
-<path d="M36 82L51 38Q55 25 69 25H212Q225 25 231 40L242 65Q247 77 264 81Z" fill="url(#@tab)" stroke="#ffffed" stroke-opacity=".76" stroke-width="1.3" filter="url(#@stack)"/>
-<path d="M40 79L55 39Q58 29 70 29H211Q222 29 227 41L239 67Q243 76 252 79" fill="none" stroke="#fff" stroke-opacity=".44" stroke-width="1.4"/>
-<path d="M228 39L242 69Q247 79 263 83" fill="none" stroke="var(--folder-deep)" stroke-opacity=".18" stroke-width="2.4"/>
-<!-- Die-cut ivory face and its shared curved upper edge. -->
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.3" filter="url(#@bodyShadow)"/>
-<g clip-path="url(#@clip)"><rect x="6" y="76" width="430" height="407" fill="url(#@light)"/><rect x="6" y="76" width="430" height="407" fill="url(#@grain)"/>
-<path d="M10 100V448Q10 477 39 477H402Q430 477 430 450V124Q430 100 402 100H298Q281 100 275 90Q270 82 255 82H34" fill="none" stroke="#fffef6" stroke-opacity=".94" stroke-width="2"/>
-<path d="M433 132V450Q433 480 402 480H38Q8 480 8 451" fill="none" stroke="url(#@edge)" stroke-width="3" opacity=".55"/>
+<g fill="none" stroke="#fffefa" stroke-width="1.45" stroke-linecap="round" opacity=".92">
+  <path d="M214 33H344"/><path d="M222 46H371"/><path d="M232 59H394"/><path d="M244 73H406"/>
 </g>
-<path d="M31 78H255Q269 78 275 88Q281 96 298 96H402" fill="none" stroke="#eed9b2" stroke-width="1"/>
-<path d="M8 440V451Q8 480 38 480H404Q431 480 433 453" fill="none" stroke="url(#@edge)" stroke-width="1.8"/>
-<path d="M12 456Q15 474 35 476M409 476Q425 474 428 460" fill="none" stroke="#fff3d1" stroke-width="2.1" stroke-linecap="round"/>
-<!-- Eyelet sits through the tab/front seam. Its stem contacts the cover. -->
-<ellipse cx="31" cy="101" rx="6.5" ry="2.8" fill="#9e6d27" opacity=".2"/>
-<g filter="url(#@contact)">
-  <circle cx="31" cy="67" r="9.3" fill="#fff5dc" stroke="url(#@metal)" stroke-width="5.5"/>
-  <circle cx="31" cy="67" r="6.4" fill="#fbf4dd" stroke="#9c732d" stroke-width=".7"/>
-  <path d="M24 62A8.5 8.5 0 0 1 37 61" fill="none" stroke="#fff9d9" stroke-width="1.8" stroke-linecap="round"/>
-  <rect x="27.5" y="69" width="7" height="31" rx="3.5" fill="url(#@pin)" stroke="#b48432" stroke-width=".55"/>
-  <path d="M30 73v21" stroke="#fff1b9" stroke-width="1.2" stroke-linecap="round"/>
+<g fill="none" stroke="#d8bb89" stroke-width=".8" opacity=".52">
+  <path d="M210 101H352"/><path d="M218 105H379"/><path d="M228 108H403"/><path d="M240 110H415"/>
+</g>
+
+<!-- main tab: rounded crown with a soft, tangent shoulder -->
+<path d="M27 99L38 62Q41 50 51 44L60 32Q66 24 79 24H201Q216 24 224 37L244 75Q250 87 262 92Q272 96 287 96H300V103H27Z" fill="url(#@frontTab)" stroke="#fff9e8" stroke-opacity=".78" stroke-width="1.35" filter="url(#@tabShadow)"/>
+<path d="M35 94L44 64Q47 54 56 49L64 38Q68 31 80 31H199Q210 31 217 42L235 77Q241 88 254 93" fill="none" stroke="#ffffff" stroke-opacity=".46" stroke-width="1.55" stroke-linecap="round"/>
+<path d="M224 38L244 76Q250 88 263 93Q273 96 286 96" fill="none" stroke="var(--folder-deep)" stroke-opacity=".16" stroke-width="2.1" stroke-linecap="round"/>
+
+<!-- premium ivory front cover -->
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.9" filter="url(#@bodyShadow)"/>
+<g clip-path="url(#@frontClip)">
+  <rect x="7" y="95" width="426" height="386" fill="url(#@faceLight)"/>
+  <path d="M13 125V448Q13 473 38 473H401Q427 473 427 448V126Q427 102 403 102H35Q13 102 13 125Z" fill="none" stroke="#fffef8" stroke-opacity=".88" stroke-width="1.65"/>
+  <path d="M10 440V452Q10 476 36 476H403Q429 476 430 451" fill="none" stroke="#bd852d" stroke-opacity=".22" stroke-width="2.2"/>
+</g>
+<!-- top seam joins papers, tab, eyelet and the face into one physical object -->
+<path d="M34 96H404" fill="none" stroke="#f5e3bd" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M34 98H404" fill="none" stroke="#b78331" stroke-opacity=".3" stroke-width=".9"/>
+
+<!-- gold eyelet + pin seated exactly on the tab/front seam -->
+<ellipse cx="29" cy="101" rx="8.1" ry="3.2" fill="#80500d" opacity=".18"/>
+<g filter="url(#@metalShadow)">
+  <circle cx="29" cy="95" r="10.3" fill="#fff7dd" stroke="url(#@metal)" stroke-width="5.4"/>
+  <circle cx="29" cy="95" r="6.6" fill="#fff9e8" stroke="#9c6b22" stroke-width=".75"/>
+  <path d="M22 90A10 10 0 0 1 36 89" fill="none" stroke="#fff5bd" stroke-width="1.7" stroke-linecap="round"/>
+  <rect x="25.6" y="103" width="6.8" height="27" rx="3.4" fill="url(#@pin)" stroke="#a46d18" stroke-width=".65"/>
+  <path d="M28.1 107V125" stroke="#fff0b2" stroke-width="1.2" stroke-linecap="round"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
