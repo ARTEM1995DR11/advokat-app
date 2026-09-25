@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.514';
-var APP_BUILD='5514';
+var APP_VERSION='5.0.515';
+var APP_BUILD='5515';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6186,67 +6186,75 @@ function matterFolderShell(){
   var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
   return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <linearGradient id="@rearTab" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="var(--folder-deep)"/><stop offset=".48" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
-  <linearGradient id="@frontTab" x1=".08" y1="0" x2=".88" y2="1"><stop stop-color="#fff" stop-opacity=".76"/><stop offset=".15" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
-  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefb"/><stop offset=".62" stop-color="#fffaf2"/><stop offset="1" stop-color="#efe0c6"/></linearGradient>
-  <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff9ec"/><stop offset=".78" stop-color="#e2c69a"/><stop offset="1" stop-color="#b98a43"/></linearGradient>
-  <linearGradient id="@ivory" x1=".02" y1="0" x2=".96" y2="1"><stop stop-color="#fffefb"/><stop offset=".36" stop-color="#fffaf2"/><stop offset=".74" stop-color="#fbf4e8"/><stop offset="1" stop-color="#f2e4ca"/></linearGradient>
-  <radialGradient id="@faceLight" cx=".18" cy=".03" r="1"><stop stop-color="#fff" stop-opacity=".84"/><stop offset=".45" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-  <linearGradient id="@faceDepth" x1="0" y1="0" x2=".96" y2="1"><stop offset=".62" stop-color="#c9923f" stop-opacity="0"/><stop offset=".86" stop-color="#b27824" stop-opacity=".035"/><stop offset="1" stop-color="#925711" stop-opacity=".09"/></linearGradient>
-  <linearGradient id="@goldEdge" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#f7df9d"/><stop offset=".18" stop-color="#fff2cf"/><stop offset=".46" stop-color="#c58f31"/><stop offset=".73" stop-color="#edd087"/><stop offset="1" stop-color="#a96d17"/></linearGradient>
-  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#774808"/><stop offset=".18" stop-color="#d7a13d"/><stop offset=".38" stop-color="#fff0ad"/><stop offset=".58" stop-color="#c88b22"/><stop offset=".8" stop-color="#efc261"/><stop offset="1" stop-color="#754708"/></linearGradient>
-  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7d4a08"/><stop offset=".36" stop-color="#d7a23f"/><stop offset=".54" stop-color="#fff0ab"/><stop offset=".72" stop-color="#e9b957"/><stop offset="1" stop-color="#8d550b"/></linearGradient>
-  <filter id="@tabShadow" x="-18%" y="-30%" width="150%" height="190%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#5d421f" flood-opacity=".22"/></filter>
-  <filter id="@paperShadow" x="-18%" y="-40%" width="145%" height="190%"><feDropShadow dx=".7" dy="1.5" stdDeviation="1.4" flood-color="#75572f" flood-opacity=".18"/></filter>
-  <filter id="@bodyShadow" x="-10%" y="-10%" width="126%" height="130%"><feDropShadow dx="1.6" dy="4" stdDeviation="3.6" flood-color="#66461f" flood-opacity=".19"/></filter>
-  <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="270%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.2" flood-color="#684008" flood-opacity=".4"/></filter>
-  <path id="@front" d="M30 108C20 108 14 113 11 124C8 138 9 174 10 210L10 399C10 420 13 435 23 445C33 455 48 459 68 458C153 455 283 455 369 458C391 459 408 455 419 445C429 436 432 422 431 401L430 150C430 133 427 121 420 115C413 109 402 108 388 109C348 111 309 112 266 110C216 108 166 107 117 108C80 109 50 108 30 108Z"/>
+  <linearGradient id="@rearTab" x1="0" y1="0" x2=".95" y2="1"><stop stop-color="var(--folder-deep)"/><stop offset=".42" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
+  <linearGradient id="@frontTab" x1=".08" y1="0" x2=".9" y2="1"><stop stop-color="#fff" stop-opacity=".82"/><stop offset=".13" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".56" stop-color="#fffaf2"/><stop offset="1" stop-color="#ecdbbc"/></linearGradient>
+  <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fdf7e9"/><stop offset=".65" stop-color="#e9d3ad"/><stop offset="1" stop-color="#b98235"/></linearGradient>
+  <linearGradient id="@ivory" x1=".02" y1="0" x2=".96" y2="1"><stop stop-color="#fffefb"/><stop offset=".34" stop-color="#fffaf2"/><stop offset=".72" stop-color="#fbf3e5"/><stop offset="1" stop-color="#eedfc3"/></linearGradient>
+  <radialGradient id="@faceLight" cx=".2" cy=".02" r="1"><stop stop-color="#fff" stop-opacity=".9"/><stop offset=".44" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@faceDepth" x1="0" y1="0" x2="1" y2="1"><stop offset=".56" stop-color="#c9923f" stop-opacity="0"/><stop offset=".84" stop-color="#a76c1e" stop-opacity=".04"/><stop offset="1" stop-color="#805015" stop-opacity=".11"/></linearGradient>
+  <linearGradient id="@goldEdge" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#f8e4aa"/><stop offset=".18" stop-color="#fff3cf"/><stop offset=".43" stop-color="#bd8527"/><stop offset=".7" stop-color="#efd58c"/><stop offset="1" stop-color="#9b6112"/></linearGradient>
+  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#684006"/><stop offset=".18" stop-color="#d9a340"/><stop offset=".4" stop-color="#fff1ad"/><stop offset=".6" stop-color="#c8881b"/><stop offset=".82" stop-color="#f2c765"/><stop offset="1" stop-color="#724507"/></linearGradient>
+  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#744306"/><stop offset=".35" stop-color="#d9a13b"/><stop offset=".53" stop-color="#fff0a8"/><stop offset=".72" stop-color="#e8b44e"/><stop offset="1" stop-color="#7e4b07"/></linearGradient>
+  <filter id="@tabShadow" x="-18%" y="-35%" width="155%" height="205%"><feDropShadow dx="0" dy="2.7" stdDeviation="2.5" flood-color="#593b18" flood-opacity=".26"/></filter>
+  <filter id="@paperShadow" x="-20%" y="-40%" width="150%" height="205%"><feDropShadow dx=".8" dy="1.8" stdDeviation="1.6" flood-color="#6f512c" flood-opacity=".2"/></filter>
+  <filter id="@bodyShadow" x="-12%" y="-12%" width="130%" height="138%"><feDropShadow dx="2.2" dy="5.2" stdDeviation="4.8" flood-color="#5e401c" flood-opacity=".22"/></filter>
+  <filter id="@metalShadow" x="-75%" y="-60%" width="270%" height="285%"><feDropShadow dx="1.1" dy="1.8" stdDeviation="1.35" flood-color="#5c3505" flood-opacity=".45"/></filter>
+  <path id="@front" d="M25 112C16 112 11 119 10 131C9 153 10 181 10 211L10 402C10 426 16 443 31 453C44 462 64 464 92 462C171 459 272 459 352 462C382 464 405 460 419 449C430 440 433 423 432 401L432 149C432 130 427 119 416 114C405 109 389 110 371 111C335 113 307 113 277 112C213 109 154 110 101 111C67 111 42 111 25 112Z"/>
   <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- rear coloured folder layer: thick, compact, top-only depth -->
-<path d="M13 107V68Q13 54 25 47Q28 35 39 31L49 21Q56 13 70 13H202Q220 13 229 26L247 55Q257 72 272 82Q284 90 303 94H319V107H13Z" fill="url(#@rearTab)" stroke="var(--folder-deep)" stroke-width="1.4" filter="url(#@tabShadow)"/>
-<path d="M20 98V69Q20 58 30 52Q34 41 44 37L54 27Q59 21 72 21H199Q213 21 221 32L238 59Q248 75 261 83" fill="none" stroke="#fff" stroke-opacity=".20" stroke-width="2" stroke-linecap="round"/>
+<!-- compact coloured rear shell: visible as real folder material, not a side border -->
+<path d="M13 109V67Q13 52 25 45Q28 33 40 28L49 18Q57 10 72 10H202Q220 10 231 25L250 55Q258 69 271 80Q283 90 302 95L326 99V109H13Z" fill="url(#@rearTab)" stroke="var(--folder-deep)" stroke-width="1.5" filter="url(#@tabShadow)"/>
+<path d="M22 97V67Q22 57 31 51Q36 39 47 35L56 25Q62 19 74 19H198Q213 19 221 31L239 59Q247 72 260 82" fill="none" stroke="#fff" stroke-opacity=".24" stroke-width="2.2" stroke-linecap="round"/>
 
-<!-- compact paper fan: four sheets, close to the tab, no ladder effect -->
-<g fill="url(#@paper)" stroke="url(#@paperEdge)" stroke-width="1.05" filter="url(#@paperShadow)">
-  <path d="M211 41H330Q339 41 339 50V107H211Z"/>
-  <path d="M218 50H352Q361 50 361 59V109H218Z"/>
-  <path d="M227 59H374Q383 59 383 68V111H227Z"/>
-  <path d="M239 69H398Q407 69 407 78V113H239Z"/>
+<!-- paper fan: thicker, irregular lengths/heights, slight offsets like real documents -->
+<g fill="url(#@paper)" stroke="url(#@paperEdge)" stroke-width="1.15" filter="url(#@paperShadow)">
+  <path d="M209 41H324Q335 41 336 51L337 109H209Z"/>
+  <path d="M219 49H349Q360 49 361 59L362 111H219Z"/>
+  <path d="M232 58H374Q385 58 386 68L387 113H232Z"/>
+  <path d="M247 69H401Q411 69 412 79L412 115H247Z"/>
 </g>
-<g fill="none" stroke="#fffefa" stroke-width="1.35" stroke-linecap="round" opacity=".92">
-  <path d="M216 45H330"/><path d="M223 54H353"/><path d="M232 63H375"/><path d="M244 73H399"/>
+<g fill="none" stroke="#fffdf7" stroke-width="1.45" stroke-linecap="round" opacity=".95">
+  <path d="M216 46H323"/><path d="M226 54H348"/><path d="M239 63H373"/><path d="M254 74H399"/>
+</g>
+<g fill="none" stroke="#b98942" stroke-opacity=".22" stroke-width=".7">
+  <path d="M337 52L337 107"/><path d="M362 60L362 109"/><path d="M387 69L387 111"/><path d="M412 80L412 113"/>
 </g>
 
-<!-- front coloured tab: broad rounded crown, soft right shoulder -->
-<path d="M27 104L38 64Q41 52 51 46L61 34Q68 25 82 25H195Q211 25 219 37L238 67Q246 80 258 88Q271 96 291 98H304V106H27Z" fill="url(#@frontTab)" stroke="#fff9e8" stroke-opacity=".8" stroke-width="1.4" filter="url(#@tabShadow)"/>
-<path d="M35 97L44 66Q47 56 56 51L66 40Q71 33 83 33H193Q205 33 212 43L229 70Q237 82 249 89" fill="none" stroke="#fff" stroke-opacity=".48" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M219 38L238 68Q246 81 258 88Q270 95 288 98" fill="none" stroke="var(--folder-deep)" stroke-opacity=".16" stroke-width="2" stroke-linecap="round"/>
+<!-- broad front tab: taller, softer, and visually dominant like the approved mockup -->
+<path d="M28 105L39 62Q42 49 53 42L63 30Q71 20 86 20H196Q214 20 224 35L243 65Q251 79 264 88Q278 98 299 100L315 101V108H28Z" fill="url(#@frontTab)" stroke="#fff8e8" stroke-opacity=".84" stroke-width="1.5" filter="url(#@tabShadow)"/>
+<path d="M38 96L47 64Q50 54 59 48L68 37Q74 30 86 30H192Q205 30 213 41L231 69Q238 80 250 88" fill="none" stroke="#fff" stroke-opacity=".56" stroke-width="1.7" stroke-linecap="round"/>
+<path d="M224 36L243 66Q251 79 263 88Q276 97 296 100" fill="none" stroke="var(--folder-deep)" stroke-opacity=".18" stroke-width="2.2" stroke-linecap="round"/>
 
-<!-- ivory front cover: flatter physical folder silhouette, not a UI card -->
-<use href="#@front" transform="translate(1.6 2.4)" fill="#e7d4b1" fill-opacity=".74" stroke="#b77f28" stroke-opacity=".16" stroke-width="1.2"/>
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.6" filter="url(#@bodyShadow)"/>
+<!-- front pocket: noticeably different physical silhouette from the old rounded rectangle -->
+<use href="#@front" transform="translate(2.1 3.1)" fill="#dfca9f" fill-opacity=".72" stroke="#9f6719" stroke-opacity=".16" stroke-width="1.25"/>
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.8" filter="url(#@bodyShadow)"/>
 <g clip-path="url(#@frontClip)">
-  <rect x="6" y="103" width="430" height="383" fill="url(#@faceLight)"/>
-  <rect x="6" y="103" width="430" height="383" fill="url(#@faceDepth)"/>
-  <path d="M23 130C23 119 29 115 39 114C91 112 145 111 198 112C252 113 304 112 406 113C417 113 422 119 423 132L422 394C422 414 419 429 410 437C401 446 389 449 373 448C284 446 156 446 69 448C52 449 40 446 32 439C24 432 20 420 20 402L21 148C21 140 21 134 23 130" fill="none" stroke="#fffdf6" stroke-opacity=".74" stroke-width="1.3" stroke-linecap="round"/>
+  <rect x="5" y="108" width="432" height="378" fill="url(#@faceLight)"/>
+  <rect x="5" y="108" width="432" height="378" fill="url(#@faceDepth)"/>
+  <!-- warm edge depth: gives the face a thick leather/paper-board feel -->
+  <path d="M18 138C18 122 27 117 42 116C101 113 163 113 223 114C286 115 347 114 404 114C419 114 425 122 425 139L425 394C425 416 421 432 411 441C400 451 384 454 363 452C281 449 171 449 89 452C67 454 50 451 39 442C27 433 22 419 22 399L22 158C22 150 21 143 18 138" fill="none" stroke="#fffdf7" stroke-opacity=".78" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M424 151L424 397C424 419 419 434 407 444" fill="none" stroke="#b37c2c" stroke-opacity=".10" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M39 452C139 449 257 449 362 452" fill="none" stroke="#b37c2c" stroke-opacity=".12" stroke-width="2" stroke-linecap="round"/>
 </g>
-<!-- subtle top seam: binds tab, papers and cover into one physical construction -->
-<path d="M25 108C115 106.8 204 107.7 291 109C337 109.7 375 109.2 414 108.3" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
-<path d="M25 110C117 108.9 207 109.8 293 111C340 111.7 377 111.1 414 110.2" fill="none" stroke="#a97325" stroke-opacity=".22" stroke-width=".8" stroke-linecap="round"/>
 
-<!-- metal eyelet and pin -->
-<ellipse cx="29" cy="108" rx="8.7" ry="3.3" fill="#744609" opacity=".18"/>
+<!-- top overlap seam: front pocket visibly sits over tab/papers -->
+<path d="M24 112C90 109 157 110 225 111C287 112 345 111 415 112" fill="none" stroke="#fff6df" stroke-width="3.1" stroke-linecap="round"/>
+<path d="M24 114C93 111 160 112 226 113C291 114 348 113 415 114" fill="none" stroke="#9d691e" stroke-opacity=".25" stroke-width=".9" stroke-linecap="round"/>
+
+<!-- larger metal eyelet with a longer pin, matching the mockup's jewellery-like fitting -->
+<ellipse cx="29" cy="111" rx="10.3" ry="4.1" fill="#684009" opacity=".2"/>
 <g filter="url(#@metalShadow)">
-  <circle cx="29" cy="102" r="10.8" fill="#fff7dc" stroke="url(#@metal)" stroke-width="5.6"/>
-  <circle cx="29" cy="102" r="6.9" fill="#fff9e8" stroke="#94631d" stroke-width=".75"/>
-  <path d="M21.5 97A10.4 10.4 0 0 1 36.5 96" fill="none" stroke="#fff4b8" stroke-width="1.7" stroke-linecap="round"/>
-  <rect x="25.5" y="110" width="7" height="28" rx="3.5" fill="url(#@pin)" stroke="#9e6814" stroke-width=".65"/>
-  <path d="M28.1 114V133" stroke="#fff0af" stroke-width="1.25" stroke-linecap="round"/>
+  <circle cx="29" cy="103" r="12.2" fill="#fff8dc" stroke="url(#@metal)" stroke-width="6.2"/>
+  <circle cx="29" cy="103" r="7.5" fill="#fff9e9" stroke="#865616" stroke-width=".8"/>
+  <path d="M20.7 97.8A11.8 11.8 0 0 1 37.2 97" fill="none" stroke="#fff4b8" stroke-width="1.9" stroke-linecap="round"/>
+  <rect x="25.2" y="112" width="7.6" height="31" rx="3.8" fill="url(#@pin)" stroke="#8f5a0e" stroke-width=".7"/>
+  <path d="M28.2 116V137" stroke="#fff0ad" stroke-width="1.35" stroke-linecap="round"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
+
 function matterCard(m){
   var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
   var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
