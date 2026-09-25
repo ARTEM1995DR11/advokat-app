@@ -1,6 +1,6 @@
-/* 5.0.507 — stage 3: refine the upper folder content to the approved mockup.
-   Folder body geometry, page layout and search stability stay intact; this stage aligns
-   the premium gold icon, agreement/assignment chip, chevron and client name. */
+/* 5.0.508 — rebuild the physical folder shell to match the approved mockup more closely.
+   Page layout/search/business logic stay unchanged. This pass reconstructs the dark back folder,
+   light tab, compact layered papers, integrated eyelet and curved warm-gold front-cover seam. */
 html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
   --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;
@@ -61,6 +61,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 
 /* ---- folder palette ---- */
 #sc-matters .case-folder {
+  --folder-deep:#079a96;
   --folder:#2ecbc3;
   --folder-light:#c9f5ef;
   --folder-ink:#047b76;
@@ -81,88 +82,110 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-admin {--folder:#2bc9c2;--folder-light:#cdf7f1;--folder-ink:#047d77}
-#sc-matters .case-folder-criminal {--folder:#ef595d;--folder-light:#ffd9d6;--folder-ink:#b8171c}
-#sc-matters .case-folder-civil {--folder:#348fe9;--folder-light:#d3eaff;--folder-ink:#075db7}
+#sc-matters .case-folder-admin {--folder-deep:#069c98;--folder:#2bc9c2;--folder-light:#d5faf5;--folder-ink:#047d77}
+#sc-matters .case-folder-criminal {--folder-deep:#b92e32;--folder:#ef595d;--folder-light:#ffddd9;--folder-ink:#b8171c}
+#sc-matters .case-folder-civil {--folder-deep:#1169c7;--folder:#348fe9;--folder-light:#d8edff;--folder-ink:#075db7}
 #sc-matters .case-folder-koap,
-#sc-matters .case-folder-other {--folder:#ddb66e;--folder-light:#fff0cd;--folder-ink:#765119}
+#sc-matters .case-folder-other {--folder-deep:#b98834;--folder:#ddb66e;--folder-light:#fff0cd;--folder-ink:#765119}
 
-/* ---- paper stack and coloured tab: reconstructed closer to approved mockup ---- */
-#sc-matters .case-folder-papers {
+/* ---- reconstructed physical folder shell ---- */
+/* saturated rear folder layer visible behind the lighter tab, as in the mockup */
+#sc-matters .case-folder-back {
   position:absolute;
   z-index:0;
-  top:calc(4 * var(--case-u));
-  left:43%;
-  right:calc(8 * var(--case-u));
-  height:max(38px,calc(84 * var(--case-u)));
+  top:calc(1 * var(--case-u));
+  left:calc(1 * var(--case-u));
+  width:63%;
+  height:max(39px,calc(83 * var(--case-u)));
+  box-sizing:border-box;
   pointer-events:none;
-  filter:drop-shadow(0 calc(3 * var(--case-u)) calc(5 * var(--case-u)) rgba(77,54,24,.09));
+  background:
+    radial-gradient(circle at 16% 16%,rgba(255,255,255,.28),rgba(255,255,255,0) 35%),
+    linear-gradient(118deg,var(--folder-deep) 0%,var(--folder) 72%,var(--folder-deep) 125%);
+  border:1px solid rgba(92,67,36,.23);
+  border-radius:calc(25 * var(--case-u)) calc(26 * var(--case-u)) calc(8 * var(--case-u)) calc(18 * var(--case-u));
+  clip-path:polygon(0 100%,0 22%,5% 7%,12% 0,77% 0,84% 8%,100% 100%);
+  filter:drop-shadow(0 calc(-2 * var(--case-u)) calc(5 * var(--case-u)) rgba(64,43,17,.10));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.24),inset 0 0 calc(12 * var(--case-u)) rgba(0,0,0,.035);
+}
+
+/* compact stack of four documents: visible only on the right, with staggered top edges */
+#sc-matters .case-folder-papers {
+  position:absolute;
+  z-index:1;
+  top:calc(5 * var(--case-u));
+  left:57%;
+  right:calc(5 * var(--case-u));
+  height:max(39px,calc(82 * var(--case-u)));
+  pointer-events:none;
+  filter:drop-shadow(0 calc(3 * var(--case-u)) calc(5 * var(--case-u)) rgba(77,54,24,.08));
 }
 #sc-matters .case-folder-papers i {
   position:absolute;
   right:0;
   display:block;
   box-sizing:border-box;
-  height:calc(34 * var(--case-u));
-  border:1px solid rgba(194,170,128,.62);
-  border-radius:calc(7 * var(--case-u)) calc(8 * var(--case-u)) calc(5 * var(--case-u)) calc(5 * var(--case-u));
+  height:calc(31 * var(--case-u));
+  border:1px solid rgba(197,173,130,.66);
+  border-radius:calc(6 * var(--case-u)) calc(7 * var(--case-u)) calc(4 * var(--case-u)) calc(4 * var(--case-u));
   background:
-    linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,252,244,.98) 65%,rgba(238,222,193,.96));
+    linear-gradient(180deg,rgba(255,255,255,.995),rgba(255,253,247,.995) 60%,rgba(239,224,196,.98));
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.98),
-    0 calc(-1 * var(--case-u)) calc(3 * var(--case-u)) rgba(91,62,23,.06);
+    inset 0 1px 0 rgba(255,255,255,.99),
+    0 calc(-1 * var(--case-u)) calc(3 * var(--case-u)) rgba(91,62,23,.065);
 }
-#sc-matters .case-folder-papers i:nth-child(1){top:calc(2 * var(--case-u));width:78%}
-#sc-matters .case-folder-papers i:nth-child(2){top:calc(13 * var(--case-u));width:88%}
-#sc-matters .case-folder-papers i:nth-child(3){top:calc(24 * var(--case-u));width:96%}
-#sc-matters .case-folder-papers i:nth-child(4){top:calc(35 * var(--case-u));width:100%}
+#sc-matters .case-folder-papers i:nth-child(1){top:calc(2 * var(--case-u));width:77%}
+#sc-matters .case-folder-papers i:nth-child(2){top:calc(14 * var(--case-u));width:86%}
+#sc-matters .case-folder-papers i:nth-child(3){top:calc(26 * var(--case-u));width:94%}
+#sc-matters .case-folder-papers i:nth-child(4){top:calc(38 * var(--case-u));width:100%;background:linear-gradient(180deg,#fffdf7 0%,#faf3e4 68%,#e6c991 100%)}
 
+/* lighter label tab sits inside the saturated rear layer */
 #sc-matters .case-folder-tab {
   position:absolute;
-  z-index:1;
-  left:calc(2 * var(--case-u));
-  top:0;
-  width:54%;
-  height:max(38px,calc(80 * var(--case-u)));
+  z-index:2;
+  left:calc(24 * var(--case-u));
+  top:calc(12 * var(--case-u));
+  width:49%;
+  height:max(31px,calc(62 * var(--case-u)));
   box-sizing:border-box;
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:calc(18 * var(--case-u)) calc(11 * var(--case-u)) 0;
-  background:linear-gradient(118deg,var(--folder) 2%,var(--folder-light) 116%);
-  border:1px solid rgba(115,94,56,.34);
+  padding:calc(13 * var(--case-u)) calc(10 * var(--case-u)) 0;
+  background:linear-gradient(124deg,var(--folder-light) 0%,rgba(255,255,255,.56) 55%,var(--folder-light) 112%);
+  border:1px solid rgba(255,255,255,.88);
   border-right:0;
-  border-radius:calc(24 * var(--case-u)) calc(18 * var(--case-u)) 0 0;
+  border-radius:calc(19 * var(--case-u)) calc(18 * var(--case-u)) 0 0;
   box-shadow:
-    inset 0 2px 0 rgba(255,255,255,.58),
-    inset calc(5 * var(--case-u)) 0 calc(12 * var(--case-u)) rgba(255,255,255,.14),
-    0 calc(-3 * var(--case-u)) calc(8 * var(--case-u)) rgba(77,52,22,.11);
+    0 0 0 1px rgba(100,75,40,.13),
+    inset 0 2px 2px rgba(255,255,255,.74),
+    0 calc(-2 * var(--case-u)) calc(5 * var(--case-u)) rgba(77,52,22,.07);
   overflow:visible;
 }
-/* the shoulder/taper of a real folder tab */
+/* soft sloping shoulder of the inner tab */
 #sc-matters .case-folder-tab::after {
   content:'';
   position:absolute;
   z-index:-1;
-  right:calc(-34 * var(--case-u));
+  right:calc(-24 * var(--case-u));
   bottom:-1px;
-  width:calc(43 * var(--case-u));
-  height:calc(61 * var(--case-u));
-  background:linear-gradient(125deg,var(--folder-light),var(--folder));
-  border-top:1px solid rgba(115,94,56,.28);
-  border-right:1px solid rgba(115,94,56,.26);
-  transform:skewX(18deg);
+  width:calc(31 * var(--case-u));
+  height:calc(45 * var(--case-u));
+  background:linear-gradient(132deg,rgba(255,255,255,.44),var(--folder-light) 45%,var(--folder) 145%);
+  border-top:1px solid rgba(255,255,255,.74);
+  border-right:1px solid rgba(108,81,44,.16);
+  transform:skewX(15deg);
   transform-origin:bottom left;
-  border-radius:0 calc(11 * var(--case-u)) 0 0;
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.48);
+  border-radius:0 calc(9 * var(--case-u)) 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
 }
 #sc-matters .case-folder-tab::before {
   content:'';
   position:absolute;
-  inset:calc(8 * var(--case-u)) calc(12 * var(--case-u)) calc(3 * var(--case-u)) calc(13 * var(--case-u));
+  inset:calc(5 * var(--case-u)) calc(8 * var(--case-u)) calc(2 * var(--case-u)) calc(9 * var(--case-u));
   z-index:0;
-  border-radius:calc(17 * var(--case-u)) calc(12 * var(--case-u)) 0 0;
-  border:1px solid rgba(255,255,255,.52);
+  border-radius:calc(13 * var(--case-u)) calc(11 * var(--case-u)) 0 0;
+  border:1px solid rgba(255,255,255,.48);
   border-bottom:0;
   pointer-events:none;
 }
@@ -179,47 +202,51 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   color:var(--folder-ink);
 }
 
-/* ---- decorative gold ring: integrated seam hardware ---- */
+/* ---- integrated gold eyelet / pin ---- */
 #sc-matters .case-folder-ring {
   position:absolute;
-  z-index:6;
-  left:calc(14 * var(--case-u));
+  z-index:7;
+  left:calc(13 * var(--case-u));
   top:calc(var(--case-folder-head) - 10 * var(--case-u));
-  width:calc(25 * var(--case-u));
-  height:calc(25 * var(--case-u));
+  width:calc(24 * var(--case-u));
+  height:calc(24 * var(--case-u));
   box-sizing:border-box;
-  border:calc(4 * var(--case-u)) solid #c88916;
+  border:calc(3.7 * var(--case-u)) solid #bd7b0c;
   border-radius:50%;
-  background:radial-gradient(circle at 38% 32%,#fff9cf 0 25%,#f1cf68 32%,#a86408 78%,#6f4004 100%);
+  background:radial-gradient(circle at 42% 36%,#fffbea 0 48%,#f4d879 51%,#b97409 78%,#835006 100%);
   box-shadow:
-    inset 0 0 0 calc(1.2 * var(--case-u)) rgba(255,236,154,.95),
-    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(80,46,3,.25);
+    inset 0 0 0 calc(1.2 * var(--case-u)) rgba(255,241,165,.92),
+    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(80,46,3,.24);
   pointer-events:none;
 }
 #sc-matters .case-folder-ring::before {
   content:'';
   position:absolute;
   left:50%;
-  top:calc(16 * var(--case-u));
-  width:calc(5 * var(--case-u));
-  height:calc(20 * var(--case-u));
+  top:calc(14 * var(--case-u));
+  width:calc(4 * var(--case-u));
+  height:calc(23 * var(--case-u));
   border-radius:999px;
-  background:linear-gradient(90deg,#764807 0%,#d99e21 38%,#f3ce63 52%,#9a5c08 100%);
+  background:linear-gradient(90deg,#6f4105 0%,#d59719 34%,#f2cd5d 52%,#8c5206 100%);
   transform:translateX(-50%);
-  box-shadow:0 1px 2px rgba(77,46,4,.25);
+  box-shadow:0 1px 2px rgba(77,46,4,.23);
 }
 #sc-matters .case-folder-ring::after {
   content:'';
   position:absolute;
-  inset:calc(2 * var(--case-u));
+  left:calc(4 * var(--case-u));
+  top:calc(3 * var(--case-u));
+  width:calc(7 * var(--case-u));
+  height:calc(4 * var(--case-u));
   border-radius:50%;
-  border:1px solid rgba(255,242,178,.7);
+  background:rgba(255,250,211,.75);
+  transform:rotate(-25deg);
 }
 
-/* ---- ivory cover: premium paper, thin warm-gold edge, soft depth ---- */
+/* ---- ivory front cover: warm paper, curved stepped seam, premium depth ---- */
 #sc-matters .case-folder-cover {
   position:relative;
-  z-index:3;
+  z-index:4;
   box-sizing:border-box;
   display:flex;
   flex-direction:column;
@@ -227,38 +254,49 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   height:calc(var(--case-folder-h) - var(--case-folder-head));
   min-width:0;
   padding:calc(18 * var(--case-u)) calc(18 * var(--case-u)) calc(15 * var(--case-u)) calc(28 * var(--case-u));
-  border:1px solid #d5a140;
+  border:1px solid #d3a044;
+  border-top-color:rgba(211,160,68,.42);
   border-radius:calc(18 * var(--case-u));
   background:
-    radial-gradient(ellipse at 16% 9%,rgba(255,255,255,.86),rgba(255,255,255,0) 38%),
-    radial-gradient(circle at 78% 78%,rgba(219,174,88,.055),rgba(219,174,88,0) 34%),
-    repeating-linear-gradient(101deg,rgba(151,113,51,.014) 0,rgba(151,113,51,.014) 1px,transparent 1px,transparent 7px),
-    linear-gradient(122deg,#fffef8 0%,#fffaf0 57%,#f8eedc 100%);
+    radial-gradient(ellipse at 15% 10%,rgba(255,255,255,.93),rgba(255,255,255,0) 39%),
+    radial-gradient(circle at 84% 82%,rgba(215,166,80,.055),rgba(215,166,80,0) 35%),
+    repeating-linear-gradient(101deg,rgba(151,113,51,.011) 0,rgba(151,113,51,.011) 1px,transparent 1px,transparent 8px),
+    linear-gradient(123deg,#fffef9 0%,#fffaf0 58%,#f8eedc 100%);
   box-shadow:
-    0 calc(8 * var(--case-u)) calc(17 * var(--case-u)) rgba(82,54,18,.16),
-    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(92,59,17,.10),
-    inset 0 1px 0 rgba(255,255,255,.98),
-    inset 0 0 calc(17 * var(--case-u)) rgba(197,145,55,.035);
+    0 calc(8 * var(--case-u)) calc(17 * var(--case-u)) rgba(82,54,18,.155),
+    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(92,59,17,.09),
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset 0 calc(-2 * var(--case-u)) calc(7 * var(--case-u)) rgba(178,124,39,.035);
   overflow:hidden;
 }
+/* curved/stepped warm-gold top seam: visually reproduces the mockup's folder shoulder */
 #sc-matters .case-folder-cover::before {
   content:'';
   position:absolute;
-  left:calc(10 * var(--case-u));
-  right:calc(10 * var(--case-u));
-  top:calc(2 * var(--case-u));
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 18%,rgba(226,189,116,.42) 86%,transparent);
+  z-index:0;
+  left:0;
+  right:0;
+  top:calc(-1 * var(--case-u));
+  height:calc(13 * var(--case-u));
   pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 13' preserveAspectRatio='none'%3E%3Cpath d='M0 1 H60 C63 1 64 2 65.5 5.8 C66.8 9.1 69 10 72.5 10 H100' fill='none' stroke='%23d2a04a' stroke-width='0.8'/%3E%3Cpath d='M0 2 H60 C63 2 64 3 65.5 6.8 C66.8 10.1 69 11 72.5 11 H100' fill='none' stroke='%23fffdf8' stroke-opacity='.7' stroke-width='.55'/%3E%3C/svg%3E");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
 }
 #sc-matters .case-folder-cover::after {
   content:'';
   position:absolute;
+  z-index:0;
   inset:0;
   border-radius:inherit;
-  box-shadow:inset calc(-2 * var(--case-u)) 0 calc(7 * var(--case-u)) rgba(160,111,34,.03),inset 0 calc(-2 * var(--case-u)) calc(8 * var(--case-u)) rgba(160,111,34,.035);
   pointer-events:none;
+  box-shadow:
+    inset calc(-2 * var(--case-u)) 0 calc(8 * var(--case-u)) rgba(160,111,34,.025),
+    inset calc(2 * var(--case-u)) 0 calc(8 * var(--case-u)) rgba(255,255,255,.26),
+    inset 0 calc(-2 * var(--case-u)) calc(8 * var(--case-u)) rgba(160,111,34,.038);
 }
+/* keep real content above the paper-material overlays */
+#sc-matters .case-folder-cover > *{position:relative;z-index:2}
 
 /* ---- top row: icon + basis + chevron ---- */
 #sc-matters .case-folder-top {
