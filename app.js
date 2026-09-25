@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.523';
-var APP_BUILD='5523';
+var APP_VERSION='5.0.524';
+var APP_BUILD='5524';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6247,22 +6247,22 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.523 / stage 1: silhouette tuned against the approved empty-folder reference:
-       long high plateau, shallower broad rounded descent, low right shoulder and a more massive front face. -->
+  <!-- 5.0.524 / stage 1 final: front ivory silhouette fully rebalanced to the approved empty-folder reference:
+       longer left plateau, earlier and longer descent, softer landing into the low right shoulder, larger top-right / lower corner radii, and a slightly squatter mass. -->
   <path id="@front" d="
-    M31 89
-    H255
-    C266 89 275 91 282 96
-    C290 101 294 107 300 111
-    C303 113 307 114 313 114
-    H401
-    C420 114 432 127 432 147
-    V450
-    C432 470 421 481 401 481
-    H39
-    C19 481 8 470 8 450
+    M29 93
+    H246
+    C262 93 275 96 286 102
+    C297 109 305 118 315 122
+    C320 124 326 125 334 125
+    H404
+    C423 125 434 136 434 154
+    V446
+    C434 465 423 476 404 476
+    H36
+    C17 476 6 465 6 446
     V113
-    C8 98 18 89 31 89
+    C6 100 14 93 29 93
     Z"/>
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
@@ -6336,18 +6336,18 @@ function matterFolderShell(){
   <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
   <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
   <path d="
-    M15 113
-    C15 102 23 98 37 98
-    H251
-    C262 98 270 100 277 105
-    C284 110 289 116 295 119
-    C299 121 304 122 310 122
-    H399
-    C416 122 425 132 425 149
-    V447
-    C425 463 416 472 399 472
-    H41
-    C24 472 15 463 15 447
+    M14 113
+    C14 103 21 98 32 98
+    H244
+    C258 98 270 101 280 107
+    C289 113 297 120 307 124
+    C313 126 320 127 329 127
+    H401
+    C417 127 425 136 425 152
+    V442
+    C425 459 416 468 400 468
+    H40
+    C23 468 15 459 15 442
     Z"
     fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
   <path d="
@@ -6360,14 +6360,14 @@ function matterFolderShell(){
 
 <!-- Delicate continuous gold seam following the approved stepped top contour. -->
 <path d="
-  M31 89
-  H255
-  C266 89 275 91 282 96
-  C290 101 294 107 300 111
-  C303 113 307 114 313 114
-  H401"
+  M29 93
+  H246
+  C262 93 275 96 286 102
+  C297 109 305 118 315 122
+  C320 124 326 125 334 125
+  H404"
   fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
-<path d="M34 91H252C262 91 270 93 277 98C284 103 289 108 295 111C299 113 303 113 308 113"
+<path d="M32 95H243C257 95 269 98 279 104C289 111 296 118 306 121C312 123 318 124 325 124"
   fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
 
 <!-- Compact premium two-point ring: same construction as the approved empty mockup. -->
