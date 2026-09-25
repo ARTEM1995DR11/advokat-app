@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.511';
-var APP_BUILD='5511';
+var APP_VERSION='5.0.512';
+var APP_BUILD='5512';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3200,150 +3200,19 @@ function compactMatterCardNumber(value){
   return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true,empty:false};
 }
 function matterCard(m){
-  var mt=matterType(m), basis=matterBasisMeta(m.basis);
-  var caseColor=mt.c;
-  if(isCriminalCheckMaterial(m)) caseColor=matterStageMeta('Материал проверки').c;
-  else if(isCriminalExecutionMatter(m)) caseColor=matterStageMeta('Исполнение приговора').c;
-  var title=matterCardTitle(m);
-  var number=compactMatterCardNumber(m.number);
-  var professional=matterCardProfessional(m);
-  var basisChip=basis?'<span class="matter-compact-basis '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>':'';
-  var meta=[];
-  if(!number.empty) meta.push('<span class="matter-card-number'+(number.long?' is-long':'')+'" title="№ '+esc(number.full)+'">№ '+esc(number.text)+'</span>');
-  if(m.stage) meta.push('<span>'+esc(m.stage)+'</span>');
-  if(professional) meta.push('<span class="matter-strip-person">'+esc(professional.label)+' <b>'+esc(professional.value)+'</b></span>');
-  return '<article class="matter-compact-card ultra matter-strip'+(m.archived?' archived':'')+'" style="--case:'+caseColor+'" data-act="matter" data-id="'+esc(m.id)+'" role="button" tabindex="0" aria-label="Открыть дело: '+esc(title)+'">'+
-    '<div class="matter-compact-copy">'+
-      '<div class="matter-ultra-kicker"><span class="matter-compact-type">'+esc(matterTypeCardLabel(m))+'</span>'+basisChip+'</div>'+ 
-      '<b class="matter-compact-title">'+esc(title)+'</b>'+ 
-      (meta.length?'<div class="matter-ultra-meta">'+meta.join('<i></i>')+'</div>':'')+
-      matterCardPulse(m)+
-    '</div>'+ 
-    '<span class="matter-compact-chevron">'+ico('chev','s')+'</span>'+ 
-  '</article>';
+  var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
+  var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
+  var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
+  var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
+  var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
+  var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
+  var inner='';
+  if(MATTER_FOLDER_SHOW_CONTENT){
+    inner='<span class="case-folder-label">'+esc(label)+'</span>'+      '<span class="case-folder-content">'+        '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+        '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+        '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+        '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+        '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+        '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+        '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+        '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+      '</span>';
+  }
+  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+    matterFolderShell()+inner+'</button>';
 }
 
-function matterAllStages(){
-  var out=[];
-  Object.keys(MATTER_STAGE_MAP).forEach(function(type){
-    (MATTER_STAGE_MAP[type]||[]).forEach(function(stage){if(stage&&out.indexOf(stage)<0)out.push(stage);});
-  });
-  return out;
-}
-function matterStageOrder(stage){
-  var all=matterAllStages(),i=all.indexOf(stage||'');
-  return i<0?999:i;
-}
-function matterSearchText(m){
-  var type=matterType(m),basis=matterBasisMeta(m.basis);
-  return [m.title,m.client,m.phone,m.number,m.court,m.judge,m.investigator,m.article,m.role,m.notes,m.stage,type&&type.n,basis&&(basis.n||basis.short)]
-    .filter(Boolean).join(' ').toLowerCase().replace(/ё/g,'е');
-}
-function matterCardProfessional(m){
-  if(!m)return null;
-  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
-  if(ctx.mode==='investigation'&&m.investigator){
-    return {label:matterInvestigatorLabel(m.stage||'')||'Следователь / дознаватель',value:m.investigator};
-  }
-  if((ctx.mode==='judicial'||ctx.mode==='execution')&&m.judge){
-    return {label:(m.type==='koap'?'Судья / должностное лицо':'Судья'),value:m.judge};
-  }
-  return null;
-}
-function matterSortLabel(v){
-  return v==='client'?'По доверителю':(v==='stage'?'По стадии':'По срочности');
-}
-function sheetMatterFilters(){
-  var scope=S.ui.matterScope||'active';
-  var scopeMatters=S.matters.filter(function(m){return scope==='all'||(scope==='active'?!m.archived:!!m.archived);});
-  var typeCounts={all:scopeMatters.length}; MATTER_TYPE_KEYS.forEach(function(k){ typeCounts[k]=scopeMatters.filter(function(m){return m.type===k;}).length; });
-  var basisCounts={all:scopeMatters.length}; Object.keys(MATTER_BASIS).forEach(function(k){ basisCounts[k]=scopeMatters.filter(function(m){return m.basis===k;}).length; });
-  var stageBase=scopeMatters.filter(function(m){
-    if(S.ui.matterType&&m.type!==S.ui.matterType)return false;
-    if(S.ui.matterBasis&&(m.basis||'')!==S.ui.matterBasis)return false;
-    return true;
-  });
-  var stages=matterAllStages().filter(function(stage){return stageBase.some(function(m){return m.stage===stage;});});
-  var stageCounts={all:stageBase.length}; stages.forEach(function(stage){stageCounts[stage]=stageBase.filter(function(m){return m.stage===stage;}).length;});
-  function mr(act,v,icon,title,sub,count,tone,on){
-    var extra=!v?' all':'';
-    return '<button class="filter-premium-row'+extra+(on?' selected':'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-v="'+esc(v)+'" aria-pressed="'+(on?'true':'false')+'"><span class="filter-premium-icon">'+ico(icon)+'</span><span class="filter-premium-copy"><b>'+title+'</b><small>'+sub+'</small></span>'+(count==null?'':'<span class="filter-premium-count">'+count+'</span>')+'<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span></button>';
-  }
-  var allMatterCount=S.matters.length, activeMatterCount=activeM().length, archiveMatterCount=S.matters.filter(function(m){return !!m.archived;}).length;
-  var scopeRows=mr('matter-scope','all','list','Все дела','Показывать дела в работе и архиве',allMatterCount,'#B88C2D',scope==='all')+
-    mr('matter-scope','active','check','В работе','Только текущие дела',activeMatterCount,'#35A996',scope==='active')+
-    mr('matter-scope','archive','folder','Архив','Только завершённые дела',archiveMatterCount,'#7A8FA6',scope==='archive');
-  var typeRows=mr('m-filter','','list','Все производства','Показывать дела всех типов',typeCounts.all,'#B88C2D',S.ui.matterType==='')+
-    MATTER_TYPE_KEYS.map(function(k){var t=MATTER_TYPES[k],fi=matterCardIconName({type:k});return mr('m-filter',k,fi,esc(t.n),esc(t.short),typeCounts[k]||0,t.c,S.ui.matterType===k);}).join('');
-  var basisRows=mr('m-basis-filter','','doc','Все основания','Соглашение и дела по назначению',basisCounts.all,'#B88C2D',S.ui.matterBasis==='')+
-    Object.keys(MATTER_BASIS).map(function(k){var t=MATTER_BASIS[k];return mr('m-basis-filter',k,k==='agreement'?'doc':'user',esc(t.n),esc(t.short),basisCounts[k]||0,t.c,S.ui.matterBasis===k);}).join('');
-  var stageRows=mr('m-stage-filter','','flag','Все стадии','Без ограничения по стадии',stageCounts.all,'#B88C2D',S.ui.matterStage==='')+
-    (stages.length?stages.map(function(stage){var sm=matterStageMeta(stage);return mr('m-stage-filter',stage,sm.icon||'flag',esc(stage),'Стадия производства',stageCounts[stage]||0,sm.c||'#7A8FA6',S.ui.matterStage===stage);}).join(''):'');
-  var sortRows=mr('m-sort','priority','clock','По срочности','Сначала результат заседания, просрочки и ближайшие действия',null,'#C29130',S.ui.matterSort==='priority')+
-    mr('m-sort','client','user','По доверителю','Алфавитная сортировка по доверителю / подзащитному',null,'#4E86C6',S.ui.matterSort==='client')+
-    mr('m-sort','stage','flag','По стадии','Группировка по ходу производства',null,'#35A996',S.ui.matterSort==='stage');
-  openSheet(
-    '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5367" alt=""></span>'+
-      '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Статус, тип, основание, стадия и порядок списка</p></div>'+
-      '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
-    '</div>'+
-    '<div class="filter-premium-section"><div class="filter-premium-label">Состояние дел</div><div class="filter-premium-card matter-filter-premium-card">'+scopeRows+'</div></div>'+
-    '<div class="filter-premium-section"><div class="filter-premium-label">Тип производства</div><div class="filter-premium-card matter-filter-premium-card">'+typeRows+'</div></div>'+
-    '<div class="filter-premium-section"><div class="filter-premium-label">Основание ведения</div><div class="filter-premium-card matter-filter-premium-card">'+basisRows+'</div></div>'+
-    '<div class="filter-premium-section"><div class="filter-premium-label">Стадия</div><div class="filter-premium-card matter-filter-premium-card">'+stageRows+'</div></div>'+
-    '<div class="filter-premium-section"><div class="filter-premium-label">Сортировка</div><div class="filter-premium-card matter-filter-premium-card">'+sortRows+'</div></div>'+
-    '<button class="btn ghost matter-filter-reset-btn" data-act="matter-filter-reset">Сбросить фильтры и сортировку</button>'
-  );
-  $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
-  document.body.classList.add('matter-filter-open');
-}
-
-function refreshMatterSearchResultsOnly(){
-  /* 5.0.362: do not rebuild the search input while the iPhone keyboard is open.
-     Replacing #matter-q on every keystroke makes iOS dismiss the keyboard. */
-  var host=$('#sc-matters .matters-approved-list');
-  if(!host)return false;
-  var scope=S.ui.matterScope||'active';
-  if(['all','active','archive'].indexOf(scope)<0) scope='active';
-  var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
-  var list=S.matters.filter(function(m){
-    if(scope==='active' && m.archived) return false;
-    if(scope==='archive' && !m.archived) return false;
-    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
-    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
-    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
-    if(q && matterSearchText(m).indexOf(q)<0) return false;
-    return true;
-  });
-  var sortMode=S.ui.matterSort||'priority';
-  list.sort(function(a,b){
-    if(a.archived!==b.archived) return a.archived?1:-1;
-    if(sortMode==='client'){
-      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
-      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
-      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
-    }
-    if(sortMode==='stage'){
-      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
-      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
-      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
-    }
-    var A=matterStats(a),B=matterStats(b);
-    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
-    if(!!A.late!==!!B.late) return A.late?-1:1;
-    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
-    if(an!==bn) return an<bn?-1:1;
-    return B.open-A.open;
-  });
-  host.innerHTML=list.length?list.map(matterCard).join(''):
-    ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
-      ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
-      : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
-  var count=$('#sc-matters .case-page-count');
-  if(count) count.textContent=matterApprovedHero(scope,list.length,S.matters.length,activeM().length,S.matters.filter(function(m){return m.archived;}).length);
-  return true;
-}
 function renderMatters(){
   if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
   var scope=S.ui.matterScope||'active';
@@ -6309,77 +6178,75 @@ function matterFolderTypeIcon(type){
   return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
 }
 
+// Temporary visual-debug mode for refining the SVG folder shell.
+// Keep all matter data/business logic intact; only suppress inner visual content.
+var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
 function matterFolderShell(){
   var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
   return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <linearGradient id="@rearTab" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="var(--folder-deep)"/><stop offset=".48" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
-  <linearGradient id="@frontTab" x1=".08" y1="0" x2=".88" y2="1"><stop stop-color="#fff" stop-opacity=".72"/><stop offset=".16" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
-  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".58" stop-color="#fffaf2"/><stop offset="1" stop-color="#f1e3cb"/></linearGradient>
-  <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff8e8"/><stop offset=".72" stop-color="#e8d1a9"/><stop offset="1" stop-color="#c9a66d"/></linearGradient>
-  <linearGradient id="@ivory" x1=".04" y1="0" x2=".94" y2="1"><stop stop-color="#fffef9"/><stop offset=".24" stop-color="#fffdf8"/><stop offset=".66" stop-color="#fbf6ec"/><stop offset=".9" stop-color="#f8efdf"/><stop offset="1" stop-color="#f2e4ca"/></linearGradient>
-  <radialGradient id="@faceLight" cx=".24" cy=".07" r=".96"><stop stop-color="#fff" stop-opacity=".76"/><stop offset=".46" stop-color="#fff" stop-opacity=".15"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-  <linearGradient id="@faceDepth" x1="0" y1="0" x2=".95" y2="1"><stop offset=".56" stop-color="#cf9d50" stop-opacity="0"/><stop offset=".83" stop-color="#b97c24" stop-opacity=".035"/><stop offset="1" stop-color="#996016" stop-opacity=".095"/></linearGradient>
-  <linearGradient id="@goldEdge" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#f3d993"/><stop offset=".18" stop-color="#fff0c9"/><stop offset=".43" stop-color="#c89436"/><stop offset=".68" stop-color="#f1d58c"/><stop offset="1" stop-color="#ad741d"/></linearGradient>
-  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#85520b"/><stop offset=".18" stop-color="#dba94f"/><stop offset=".38" stop-color="#fff2b4"/><stop offset=".55" stop-color="#c98d24"/><stop offset=".78" stop-color="#f2c76f"/><stop offset="1" stop-color="#82500b"/></linearGradient>
-  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#85500a"/><stop offset=".35" stop-color="#d5a446"/><stop offset=".53" stop-color="#fff0ad"/><stop offset=".7" stop-color="#e9bd63"/><stop offset="1" stop-color="#945d10"/></linearGradient>
-  <filter id="@tabShadow" x="-18%" y="-25%" width="150%" height="175%"><feDropShadow dx="0" dy="2.1" stdDeviation="2.2" flood-color="#5e4320" flood-opacity=".22"/></filter>
-  <filter id="@paperShadow" x="-18%" y="-35%" width="145%" height="180%"><feDropShadow dx=".8" dy="1.8" stdDeviation="1.6" flood-color="#7a5c31" flood-opacity=".19"/></filter>
-  <filter id="@bodyShadow" x="-9%" y="-9%" width="124%" height="126%"><feDropShadow dx="1.8" dy="3.6" stdDeviation="3.4" flood-color="#6d4b27" flood-opacity=".20"/></filter>
-  <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="260%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.15" flood-color="#6f440b" flood-opacity=".38"/></filter>
-  <path id="@front" d="M31 96H238Q247 96 251 103L258 112Q264 119 277 119H399Q419 119 427 129Q433 136 433 151V445Q433 461 425 470Q417 480 399 481H43Q25 481 16 472Q8 463 8 446V126Q8 109 16 101Q21 96 31 96Z"/>
+  <linearGradient id="@frontTab" x1=".08" y1="0" x2=".88" y2="1"><stop stop-color="#fff" stop-opacity=".76"/><stop offset=".15" stop-color="var(--folder-light)"/><stop offset=".72" stop-color="var(--folder-light)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+  <linearGradient id="@paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffefb"/><stop offset=".62" stop-color="#fffaf2"/><stop offset="1" stop-color="#efe0c6"/></linearGradient>
+  <linearGradient id="@paperEdge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff9ec"/><stop offset=".78" stop-color="#e2c69a"/><stop offset="1" stop-color="#b98a43"/></linearGradient>
+  <linearGradient id="@ivory" x1=".02" y1="0" x2=".96" y2="1"><stop stop-color="#fffefb"/><stop offset=".36" stop-color="#fffaf2"/><stop offset=".74" stop-color="#fbf4e8"/><stop offset="1" stop-color="#f2e4ca"/></linearGradient>
+  <radialGradient id="@faceLight" cx=".18" cy=".03" r="1"><stop stop-color="#fff" stop-opacity=".84"/><stop offset=".45" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="@faceDepth" x1="0" y1="0" x2=".96" y2="1"><stop offset=".62" stop-color="#c9923f" stop-opacity="0"/><stop offset=".86" stop-color="#b27824" stop-opacity=".035"/><stop offset="1" stop-color="#925711" stop-opacity=".09"/></linearGradient>
+  <linearGradient id="@goldEdge" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#f7df9d"/><stop offset=".18" stop-color="#fff2cf"/><stop offset=".46" stop-color="#c58f31"/><stop offset=".73" stop-color="#edd087"/><stop offset="1" stop-color="#a96d17"/></linearGradient>
+  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#774808"/><stop offset=".18" stop-color="#d7a13d"/><stop offset=".38" stop-color="#fff0ad"/><stop offset=".58" stop-color="#c88b22"/><stop offset=".8" stop-color="#efc261"/><stop offset="1" stop-color="#754708"/></linearGradient>
+  <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7d4a08"/><stop offset=".36" stop-color="#d7a23f"/><stop offset=".54" stop-color="#fff0ab"/><stop offset=".72" stop-color="#e9b957"/><stop offset="1" stop-color="#8d550b"/></linearGradient>
+  <filter id="@tabShadow" x="-18%" y="-30%" width="150%" height="190%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#5d421f" flood-opacity=".22"/></filter>
+  <filter id="@paperShadow" x="-18%" y="-40%" width="145%" height="190%"><feDropShadow dx=".7" dy="1.5" stdDeviation="1.4" flood-color="#75572f" flood-opacity=".18"/></filter>
+  <filter id="@bodyShadow" x="-10%" y="-10%" width="126%" height="128%"><feDropShadow dx="1.8" dy="4.1" stdDeviation="3.7" flood-color="#66461f" flood-opacity=".20"/></filter>
+  <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="270%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.2" flood-color="#684008" flood-opacity=".4"/></filter>
+  <path id="@front" d="M24 106H416Q428 106 432 116Q434 121 434 131V454Q434 469 425 477Q416 484 401 484H39Q24 484 15 477Q7 469 7 454V130Q7 117 13 111Q17 106 24 106Z"/>
   <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- rear coloured folder layer: visible only around the tab/top, never down the sides -->
-<path d="M12 101V70Q12 53 25 47Q27 34 40 30L48 20Q54 12 68 12H204Q222 12 231 27L253 69Q260 83 274 90Q282 94 295 96H307V104H12Z" fill="url(#@rearTab)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@tabShadow)"/>
-<path d="M18 94V69Q18 57 30 51Q33 39 43 36L52 25Q57 19 70 19H202Q216 19 223 31L244 70Q251 83 266 90" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round"/>
+<!-- rear coloured folder layer: thick, compact, top-only depth -->
+<path d="M13 107V68Q13 54 25 47Q28 35 39 31L49 21Q56 13 70 13H202Q220 13 229 26L247 55Q257 72 272 82Q284 90 303 94H319V107H13Z" fill="url(#@rearTab)" stroke="var(--folder-deep)" stroke-width="1.4" filter="url(#@tabShadow)"/>
+<path d="M20 98V69Q20 58 30 52Q34 41 44 37L54 27Q59 21 72 21H199Q213 21 221 32L238 59Q248 75 261 83" fill="none" stroke="#fff" stroke-opacity=".20" stroke-width="2" stroke-linecap="round"/>
 
-<!-- compact document stack: four separate sheets with different lengths/depths -->
-<g fill="url(#@paper)" stroke="url(#@paperEdge)" stroke-width="1.15" filter="url(#@paperShadow)">
-  <path d="M209 29H343Q352 29 352 38V104H209Z"/>
-  <path d="M217 42H370Q379 42 379 51V108H217Z"/>
-  <path d="M227 55H393Q403 55 403 65V111H227Z"/>
-  <path d="M239 69H405Q415 69 415 79V113H239Z"/>
+<!-- compact paper fan: four sheets, close to the tab, no ladder effect -->
+<g fill="url(#@paper)" stroke="url(#@paperEdge)" stroke-width="1.05" filter="url(#@paperShadow)">
+  <path d="M211 41H330Q339 41 339 50V107H211Z"/>
+  <path d="M218 50H352Q361 50 361 59V109H218Z"/>
+  <path d="M227 59H374Q383 59 383 68V111H227Z"/>
+  <path d="M239 69H398Q407 69 407 78V113H239Z"/>
 </g>
-<g fill="none" stroke="#fffefa" stroke-width="1.45" stroke-linecap="round" opacity=".92">
-  <path d="M214 33H344"/><path d="M222 46H371"/><path d="M232 59H394"/><path d="M244 73H406"/>
-</g>
-<g fill="none" stroke="#d8bb89" stroke-width=".8" opacity=".52">
-  <path d="M210 101H352"/><path d="M218 105H379"/><path d="M228 108H403"/><path d="M240 110H415"/>
+<g fill="none" stroke="#fffefa" stroke-width="1.35" stroke-linecap="round" opacity=".92">
+  <path d="M216 45H330"/><path d="M223 54H353"/><path d="M232 63H375"/><path d="M244 73H399"/>
 </g>
 
-<!-- main tab: rounded crown with a soft, tangent shoulder -->
-<path d="M27 99L38 62Q41 50 51 44L60 32Q66 24 79 24H201Q216 24 224 37L244 75Q250 87 262 92Q272 96 287 96H300V103H27Z" fill="url(#@frontTab)" stroke="#fff9e8" stroke-opacity=".78" stroke-width="1.35" filter="url(#@tabShadow)"/>
-<path d="M35 94L44 64Q47 54 56 49L64 38Q68 31 80 31H199Q210 31 217 42L235 77Q241 88 254 93" fill="none" stroke="#ffffff" stroke-opacity=".46" stroke-width="1.55" stroke-linecap="round"/>
-<path d="M224 38L244 76Q250 88 263 93Q273 96 286 96" fill="none" stroke="var(--folder-deep)" stroke-opacity=".16" stroke-width="2.1" stroke-linecap="round"/>
+<!-- front coloured tab: broad rounded crown, soft right shoulder -->
+<path d="M27 104L38 64Q41 52 51 46L61 34Q68 25 82 25H195Q211 25 219 37L238 67Q246 80 258 88Q271 96 291 98H304V106H27Z" fill="url(#@frontTab)" stroke="#fff9e8" stroke-opacity=".8" stroke-width="1.4" filter="url(#@tabShadow)"/>
+<path d="M35 97L44 66Q47 56 56 51L66 40Q71 33 83 33H193Q205 33 212 43L229 70Q237 82 249 89" fill="none" stroke="#fff" stroke-opacity=".48" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M219 38L238 68Q246 81 258 88Q270 95 288 98" fill="none" stroke="var(--folder-deep)" stroke-opacity=".16" stroke-width="2" stroke-linecap="round"/>
 
-<!-- premium ivory front cover: a shaped physical folder front, not a rounded UI card -->
-<use href="#@front" transform="translate(1.7 2.6)" fill="#ead9b8" fill-opacity=".72" stroke="#b9812c" stroke-opacity=".16" stroke-width="1.4"/>
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.75" filter="url(#@bodyShadow)"/>
+<!-- ivory front cover: flatter physical folder silhouette, not a UI card -->
+<use href="#@front" transform="translate(1.6 2.4)" fill="#e7d4b1" fill-opacity=".74" stroke="#b77f28" stroke-opacity=".16" stroke-width="1.2"/>
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@goldEdge)" stroke-width="1.6" filter="url(#@bodyShadow)"/>
 <g clip-path="url(#@frontClip)">
-  <rect x="7" y="94" width="428" height="389" fill="url(#@faceLight)"/>
-  <rect x="7" y="94" width="428" height="389" fill="url(#@faceDepth)"/>
-  <path d="M17 127Q17 106 33 103H236Q245 103 249 109L256 118Q263 126 278 126H398Q419 126 424 141Q426 146 426 154V443Q426 458 419 465Q412 473 397 474H44Q29 474 22 467Q15 459 15 445V128" fill="none" stroke="#fffdf5" stroke-opacity=".82" stroke-width="1.45" stroke-linecap="round"/>
-  <path d="M15 438V447Q15 466 24 473Q32 479 46 479H396Q414 479 424 468" fill="none" stroke="#b77d26" stroke-opacity=".18" stroke-width="2.1" stroke-linecap="round"/>
+  <rect x="6" y="103" width="430" height="383" fill="url(#@faceLight)"/>
+  <rect x="6" y="103" width="430" height="383" fill="url(#@faceDepth)"/>
+  <path d="M20 128Q20 114 31 112H410Q422 112 424 125V452Q424 465 416 472Q409 478 398 478H42Q30 478 23 472Q15 465 15 452V128" fill="none" stroke="#fffdf6" stroke-opacity=".76" stroke-width="1.3" stroke-linecap="round"/>
 </g>
-<!-- shaped top seam follows the physical front-cover shoulder -->
-<path d="M31 96H238Q247 96 251 103L258 112Q264 119 277 119H398" fill="none" stroke="#f7e7c5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M31 98H238Q245 98 249 104L256 113Q263 121 277 121H398" fill="none" stroke="#a97528" stroke-opacity=".26" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- subtle top seam: binds tab, papers and cover into one physical construction -->
+<path d="M25 106H415" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
+<path d="M25 108H415" fill="none" stroke="#a97325" stroke-opacity=".23" stroke-width=".8" stroke-linecap="round"/>
 
-<!-- gold eyelet + pin seated exactly on the tab/front seam -->
-<ellipse cx="29" cy="101" rx="8.1" ry="3.2" fill="#80500d" opacity=".18"/>
+<!-- metal eyelet and pin -->
+<ellipse cx="29" cy="108" rx="8.7" ry="3.3" fill="#744609" opacity=".18"/>
 <g filter="url(#@metalShadow)">
-  <circle cx="29" cy="95" r="10.3" fill="#fff7dd" stroke="url(#@metal)" stroke-width="5.4"/>
-  <circle cx="29" cy="95" r="6.6" fill="#fff9e8" stroke="#9c6b22" stroke-width=".75"/>
-  <path d="M22 90A10 10 0 0 1 36 89" fill="none" stroke="#fff5bd" stroke-width="1.7" stroke-linecap="round"/>
-  <rect x="25.6" y="103" width="6.8" height="27" rx="3.4" fill="url(#@pin)" stroke="#a46d18" stroke-width=".65"/>
-  <path d="M28.1 107V125" stroke="#fff0b2" stroke-width="1.2" stroke-linecap="round"/>
+  <circle cx="29" cy="102" r="10.8" fill="#fff7dc" stroke="url(#@metal)" stroke-width="5.6"/>
+  <circle cx="29" cy="102" r="6.9" fill="#fff9e8" stroke="#94631d" stroke-width=".75"/>
+  <path d="M21.5 97A10.4 10.4 0 0 1 36.5 96" fill="none" stroke="#fff4b8" stroke-width="1.7" stroke-linecap="round"/>
+  <rect x="25.5" y="110" width="7" height="28" rx="3.5" fill="url(#@pin)" stroke="#9e6814" stroke-width=".65"/>
+  <path d="M28.1 114V133" stroke="#fff0af" stroke-width="1.25" stroke-linecap="round"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
-
 function matterCard(m){
   var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
   var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
@@ -6387,21 +6254,22 @@ function matterCard(m){
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+ 
-    matterFolderShell()+
-    '<span class="case-folder-label">'+esc(label)+'</span>'+
-    '<span class="case-folder-content">'+
-      '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+ 
-      '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+ 
-      '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+ 
-      '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+ 
-      '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+ 
-      '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+ 
-      '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+ 
-      '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+ 
-    '</span></button>';
+  var inner='';
+  if(MATTER_FOLDER_SHOW_CONTENT){
+    inner='<span class="case-folder-label">'+esc(label)+'</span>'+ 
+      '<span class="case-folder-content">'+
+        '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+ 
+        '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+ 
+        '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+ 
+        '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+ 
+        '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+ 
+        '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+ 
+        '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+ 
+        '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+ 
+      '</span>';
+  }
+  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+matterFolderShell()+inner+'</button>';
 }
-
 function renderMatters(){
   if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
   var scope=S.ui.matterScope||'active';

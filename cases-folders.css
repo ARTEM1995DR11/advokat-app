@@ -44,7 +44,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.510 — refined unified SVG shell matched to the approved folder mockup. */
+/* 5.0.512 — shell-only visual refinement mode: matter content is temporarily hidden in app.js while the unified SVG folder body is tuned against the approved mockup. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   --folder-gap:calc(24 * var(--case-u));
   display:grid!important;
