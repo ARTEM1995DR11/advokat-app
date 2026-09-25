@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.512';
-var APP_BUILD='5512';
+var APP_VERSION='5.0.513';
+var APP_BUILD='5513';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6198,9 +6198,9 @@ function matterFolderShell(){
   <linearGradient id="@pin" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7d4a08"/><stop offset=".36" stop-color="#d7a23f"/><stop offset=".54" stop-color="#fff0ab"/><stop offset=".72" stop-color="#e9b957"/><stop offset="1" stop-color="#8d550b"/></linearGradient>
   <filter id="@tabShadow" x="-18%" y="-30%" width="150%" height="190%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#5d421f" flood-opacity=".22"/></filter>
   <filter id="@paperShadow" x="-18%" y="-40%" width="145%" height="190%"><feDropShadow dx=".7" dy="1.5" stdDeviation="1.4" flood-color="#75572f" flood-opacity=".18"/></filter>
-  <filter id="@bodyShadow" x="-10%" y="-10%" width="126%" height="128%"><feDropShadow dx="1.8" dy="4.1" stdDeviation="3.7" flood-color="#66461f" flood-opacity=".20"/></filter>
+  <filter id="@bodyShadow" x="-10%" y="-10%" width="126%" height="130%"><feDropShadow dx="1.6" dy="4" stdDeviation="3.6" flood-color="#66461f" flood-opacity=".19"/></filter>
   <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="270%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.2" flood-color="#684008" flood-opacity=".4"/></filter>
-  <path id="@front" d="M24 106H416Q428 106 432 116Q434 121 434 131V454Q434 469 425 477Q416 484 401 484H39Q24 484 15 477Q7 469 7 454V130Q7 117 13 111Q17 106 24 106Z"/>
+  <path id="@front" d="M28 108C18 108 12 114 10 126C8 141 9 180 9 215L8 414C8 430 10 442 18 450C26 457 39 460 57 459C147 456 295 456 384 459C402 460 415 457 424 448C431 441 433 430 432 414L430 149C430 133 428 121 421 114C416 109 408 108 396 108C347 109 307 111 261 109C210 107 164 106 116 108C78 109 48 108 28 108Z"/>
   <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
 
@@ -6230,11 +6230,11 @@ function matterFolderShell(){
 <g clip-path="url(#@frontClip)">
   <rect x="6" y="103" width="430" height="383" fill="url(#@faceLight)"/>
   <rect x="6" y="103" width="430" height="383" fill="url(#@faceDepth)"/>
-  <path d="M20 128Q20 114 31 112H410Q422 112 424 125V452Q424 465 416 472Q409 478 398 478H42Q30 478 23 472Q15 465 15 452V128" fill="none" stroke="#fffdf6" stroke-opacity=".76" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M22 130C22 118 29 114 38 113C91 112 145 111 198 112C252 113 304 112 407 113C418 113 423 119 424 132L423 407C423 425 420 437 412 444C404 451 392 453 378 452C288 450 153 450 65 452C50 453 39 451 31 445C23 439 19 428 19 411L20 148C20 140 20 134 22 130" fill="none" stroke="#fffdf6" stroke-opacity=".76" stroke-width="1.3" stroke-linecap="round"/>
 </g>
 <!-- subtle top seam: binds tab, papers and cover into one physical construction -->
-<path d="M25 106H415" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
-<path d="M25 108H415" fill="none" stroke="#a97325" stroke-opacity=".23" stroke-width=".8" stroke-linecap="round"/>
+<path d="M25 108C118 107 206 108 291 109C337 110 374 109 414 108" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
+<path d="M25 110C120 109 210 110 293 111C339 112 376 111 414 110" fill="none" stroke="#a97325" stroke-opacity=".23" stroke-width=".8" stroke-linecap="round"/>
 
 <!-- metal eyelet and pin -->
 <ellipse cx="29" cy="108" rx="8.7" ry="3.3" fill="#744609" opacity=".18"/>
