@@ -44,7 +44,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.519 — approved blank-folder geometry.
+/* 5.0.520 — approved folder-shell geometry from the current visual reference.
    The shell is now built around the final reference: pronounced die-cut front flap, broad physical tab,
    compact paper stack and double-eyelet gold ring. Content remains hidden until the shell is accepted. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
