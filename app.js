@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.513';
-var APP_BUILD='5513';
+var APP_VERSION='5.0.514';
+var APP_BUILD='5514';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6200,7 +6200,7 @@ function matterFolderShell(){
   <filter id="@paperShadow" x="-18%" y="-40%" width="145%" height="190%"><feDropShadow dx=".7" dy="1.5" stdDeviation="1.4" flood-color="#75572f" flood-opacity=".18"/></filter>
   <filter id="@bodyShadow" x="-10%" y="-10%" width="126%" height="130%"><feDropShadow dx="1.6" dy="4" stdDeviation="3.6" flood-color="#66461f" flood-opacity=".19"/></filter>
   <filter id="@metalShadow" x="-70%" y="-55%" width="250%" height="270%"><feDropShadow dx="1" dy="1.6" stdDeviation="1.2" flood-color="#684008" flood-opacity=".4"/></filter>
-  <path id="@front" d="M28 108C18 108 12 114 10 126C8 141 9 180 9 215L8 414C8 430 10 442 18 450C26 457 39 460 57 459C147 456 295 456 384 459C402 460 415 457 424 448C431 441 433 430 432 414L430 149C430 133 428 121 421 114C416 109 408 108 396 108C347 109 307 111 261 109C210 107 164 106 116 108C78 109 48 108 28 108Z"/>
+  <path id="@front" d="M30 108C20 108 14 113 11 124C8 138 9 174 10 210L10 399C10 420 13 435 23 445C33 455 48 459 68 458C153 455 283 455 369 458C391 459 408 455 419 445C429 436 432 422 431 401L430 150C430 133 427 121 420 115C413 109 402 108 388 109C348 111 309 112 266 110C216 108 166 107 117 108C80 109 50 108 30 108Z"/>
   <clipPath id="@frontClip"><use href="#@front"/></clipPath>
 </defs>
 
@@ -6230,11 +6230,11 @@ function matterFolderShell(){
 <g clip-path="url(#@frontClip)">
   <rect x="6" y="103" width="430" height="383" fill="url(#@faceLight)"/>
   <rect x="6" y="103" width="430" height="383" fill="url(#@faceDepth)"/>
-  <path d="M22 130C22 118 29 114 38 113C91 112 145 111 198 112C252 113 304 112 407 113C418 113 423 119 424 132L423 407C423 425 420 437 412 444C404 451 392 453 378 452C288 450 153 450 65 452C50 453 39 451 31 445C23 439 19 428 19 411L20 148C20 140 20 134 22 130" fill="none" stroke="#fffdf6" stroke-opacity=".76" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M23 130C23 119 29 115 39 114C91 112 145 111 198 112C252 113 304 112 406 113C417 113 422 119 423 132L422 394C422 414 419 429 410 437C401 446 389 449 373 448C284 446 156 446 69 448C52 449 40 446 32 439C24 432 20 420 20 402L21 148C21 140 21 134 23 130" fill="none" stroke="#fffdf6" stroke-opacity=".74" stroke-width="1.3" stroke-linecap="round"/>
 </g>
 <!-- subtle top seam: binds tab, papers and cover into one physical construction -->
-<path d="M25 108C118 107 206 108 291 109C337 110 374 109 414 108" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
-<path d="M25 110C120 109 210 110 293 111C339 112 376 111 414 110" fill="none" stroke="#a97325" stroke-opacity=".23" stroke-width=".8" stroke-linecap="round"/>
+<path d="M25 108C115 106.8 204 107.7 291 109C337 109.7 375 109.2 414 108.3" fill="none" stroke="#f5e2bc" stroke-width="2.1" stroke-linecap="round"/>
+<path d="M25 110C117 108.9 207 109.8 293 111C340 111.7 377 111.1 414 110.2" fill="none" stroke="#a97325" stroke-opacity=".22" stroke-width=".8" stroke-linecap="round"/>
 
 <!-- metal eyelet and pin -->
 <ellipse cx="29" cy="108" rx="8.7" ry="3.3" fill="#744609" opacity=".18"/>

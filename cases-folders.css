@@ -44,13 +44,13 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.513 — shell-only mode. Front ivory cover changed from a regular rounded rectangle to a shorter, subtly tapered physical-folder silhouette; content remains hidden while the shell is tuned. */
+/* 5.0.514 — shell-only mode. Match the approved mockup's broader physical-folder proportions: a shorter 2x2 grid and a softer, slightly bowed front pocket instead of a square UI card. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   --folder-gap:calc(24 * var(--case-u));
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
   grid-auto-rows:calc((100% - var(--folder-gap)) / 2);
-  aspect-ratio:904 / 1004;
+  aspect-ratio:904 / 940;
   gap:var(--folder-gap)!important;
   margin:0!important;padding:0!important;
   align-items:stretch;
