@@ -1,9 +1,9 @@
-/* 5.0.505 — stage 3: refine the upper folder content to the approved mockup.
-   Folder body geometry, page layout and search stability stay intact; this stage aligns
-   the premium gold icon, agreement/assignment chip, chevron and client name. */
-html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
+/* 5.0.506 — rebuild the physical folder shell to match the approved mockup.
+   This stage changes only the folder construction: silhouette, back folder/tab, paper stack,
+   metal eyelet and ivory cover material. Page layout, search, navigation and business logic stay intact. */
+html body.matters-mockup {--case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(198px,calc(432 * var(--case-u)));--case-folder-head:max(43px,calc(94 * var(--case-u)));--case-navy:#061f78;--case-gold:#b17d13;background:#f7f1e5!important}
 html body.light #sc-matters {
-  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(202px,calc(444 * var(--case-u)));--case-folder-head:max(38px,calc(82 * var(--case-u)));--case-navy:#061f78;
+  --case-u:clamp(.34px,.10627vw,.64px);--case-folder-h:max(198px,calc(432 * var(--case-u)));--case-folder-head:max(43px,calc(94 * var(--case-u)));--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 24 * var(--case-u)) calc(27 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u)) calc(41 * var(--case-u))!important;
   background:#f8f2e6 url('bg-matters-approved-v487.png') top center / 100% auto no-repeat!important;
   color:var(--case-navy)!important;
@@ -17,7 +17,7 @@ html body #sc-matters .case-page-brand small {display:block;margin-top:calc(3 * 
 html body #sc-matters h1.case-page-title {position:absolute;left:calc(12 * var(--case-u));top:calc(98 * var(--case-u));margin:0!important;padding:0!important;font:700 calc(116 * var(--case-u))/.99 'Times New Roman',Times,serif!important;letter-spacing:calc(-3 * var(--case-u))!important;color:var(--case-navy)!important;text-shadow:none!important}
 html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--case-u));top:calc(228 * var(--case-u));margin:0!important;padding:0!important;font:700 calc(44 * var(--case-u))/1.05 'Times New Roman',Times,serif!important;letter-spacing:calc(-1 * var(--case-u));color:var(--case-navy)!important;max-width:90%}
 #sc-matters .case-page-tools {position:absolute;right:calc(5 * var(--case-u));bottom:calc(18 * var(--case-u));display:flex;gap:calc(8 * var(--case-u))}
-#sc-matters .case-page-tool {display:flex;align-items:center;justify-content:center;width:calc(76 * var(--case-u));height:calc(70 * var(--case-u));padding:calc(14 * var(--case-u));border:1px solid #e5d4b5;border-radius:calc(17 * var(--case-u));background:#fffdf5e8;color:var(--case-navy);box-shadow:0 2px 5px #78521520}
+#sc-matters .case-page-tool {display:flex;align-items:center;justify-content:center;width:calc(76 * var(--case-u));height:calc(68 * var(--case-u));padding:calc(14 * var(--case-u));border:1px solid #e5d4b5;border-radius:calc(17 * var(--case-u));background:#fffdf5e8;color:var(--case-navy);box-shadow:0 2px 5px #78521520}
 #sc-matters .case-page-tool.on {background:#eddbb4;border-color:#be913b}
 #sc-matters .case-page-tool svg {width:100%;height:100%;color:inherit;display:block}
 
@@ -81,114 +81,164 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
+#sc-matters .case-folder::before {
+  content:'';
+  position:absolute;
+  z-index:-2;
+  left:calc(2 * var(--case-u));
+  right:calc(2 * var(--case-u));
+  top:calc(5 * var(--case-u));
+  height:calc(var(--case-folder-head) + 22 * var(--case-u));
+  border:1px solid rgba(121,86,35,.28);
+  border-radius:calc(28 * var(--case-u)) calc(28 * var(--case-u)) calc(10 * var(--case-u)) calc(10 * var(--case-u));
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,0) 35%),
+    linear-gradient(122deg,var(--folder) 0%,var(--folder-light) 92%);
+  box-shadow:
+    0 calc(3 * var(--case-u)) calc(7 * var(--case-u)) rgba(88,60,23,.13),
+    inset 0 1px 0 rgba(255,255,255,.62);
+  pointer-events:none;
+}
 #sc-matters .case-folder-admin {--folder:#2bc9c2;--folder-light:#cdf7f1;--folder-ink:#047d77}
 #sc-matters .case-folder-criminal {--folder:#ef595d;--folder-light:#ffd9d6;--folder-ink:#b8171c}
 #sc-matters .case-folder-civil {--folder:#348fe9;--folder-light:#d3eaff;--folder-ink:#075db7}
 #sc-matters .case-folder-koap,
 #sc-matters .case-folder-other {--folder:#ddb66e;--folder-light:#fff0cd;--folder-ink:#765119}
 
-/* ---- paper stack and coloured tab ---- */
+/* ---- layered documents and physical folder tab ---- */
 #sc-matters .case-folder-papers {
   position:absolute;
   z-index:0;
-  top:0;
-  left:calc(18 * var(--case-u));
+  top:calc(5 * var(--case-u));
+  left:39%;
   right:calc(7 * var(--case-u));
-  height:max(45px,calc(100 * var(--case-u)));
+  height:calc(var(--case-folder-head) + 18 * var(--case-u));
   pointer-events:none;
 }
 #sc-matters .case-folder-papers i,
 #sc-matters .case-folder-papers::before {
+  content:'';
   position:absolute;
   display:block;
-  left:auto;
+  right:0;
   box-sizing:border-box;
-  height:calc(40 * var(--case-u));
-  border:1px solid rgba(194,174,139,.72);
-  border-radius:calc(8 * var(--case-u));
-  background:linear-gradient(180deg,#fffefa 0%,#fdf8ec 55%,#ead7b3 100%);
-  box-shadow:0 calc(-2 * var(--case-u)) calc(8 * var(--case-u)) rgba(74,51,20,.10),inset 0 1px 0 rgba(255,255,255,.98);
+  height:calc(34 * var(--case-u));
+  border:1px solid rgba(190,166,124,.66);
+  border-radius:calc(6 * var(--case-u)) calc(7 * var(--case-u)) calc(2 * var(--case-u)) calc(2 * var(--case-u));
+  background:
+    linear-gradient(90deg,rgba(216,190,145,.16),rgba(255,255,255,0) 18%),
+    linear-gradient(180deg,#fffefa 0%,#fffaf0 58%,#ecddc0 100%);
+  box-shadow:
+    0 calc(-2 * var(--case-u)) calc(7 * var(--case-u)) rgba(76,51,18,.09),
+    0 calc(2 * var(--case-u)) calc(3 * var(--case-u)) rgba(95,65,24,.08),
+    inset 0 1px 0 rgba(255,255,255,.98);
 }
-#sc-matters .case-folder-papers::before {
-  content:'';
-  top:calc(4 * var(--case-u));
-  right:calc(62 * var(--case-u));
-  width:42%;
-  opacity:.92;
-}
-#sc-matters .case-folder-papers i:nth-child(1) {top:calc(14 * var(--case-u));right:calc(43 * var(--case-u));width:50%}
-#sc-matters .case-folder-papers i:nth-child(2) {top:calc(26 * var(--case-u));right:calc(22 * var(--case-u));width:58%}
-#sc-matters .case-folder-papers i:nth-child(3) {top:calc(38 * var(--case-u));right:0;width:66%}
+#sc-matters .case-folder-papers::before {top:0;width:74%;right:calc(7 * var(--case-u));opacity:.92}
+#sc-matters .case-folder-papers i:nth-child(1) {top:calc(10 * var(--case-u));width:82%;right:calc(2 * var(--case-u))}
+#sc-matters .case-folder-papers i:nth-child(2) {top:calc(20 * var(--case-u));width:91%;right:calc(-2 * var(--case-u))}
+#sc-matters .case-folder-papers i:nth-child(3) {top:calc(30 * var(--case-u));width:100%;right:calc(-5 * var(--case-u))}
 
 #sc-matters .case-folder-tab {
   position:absolute;
   z-index:1;
-  left:calc(2 * var(--case-u));
+  left:calc(4 * var(--case-u));
   top:0;
-  width:64%;
-  height:max(48px,calc(106 * var(--case-u)));
+  width:58%;
+  height:calc(var(--case-folder-head) + 20 * var(--case-u));
   box-sizing:border-box;
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:calc(25 * var(--case-u)) calc(14 * var(--case-u)) 0;
-  background:linear-gradient(122deg,var(--folder) 3%,var(--folder-light) 148%);
-  border:1px solid rgba(255,255,255,.92);
-  border-radius:calc(31 * var(--case-u)) calc(43 * var(--case-u)) 0 0;
-  box-shadow:0 0 0 1px rgba(126,102,64,.38),0 calc(-5 * var(--case-u)) calc(12 * var(--case-u)) rgba(92,69,34,.17),inset 0 2px 5px rgba(255,255,255,.65);
-  transform:skewX(10deg);
+  padding:calc(21 * var(--case-u)) calc(16 * var(--case-u)) 0 calc(13 * var(--case-u));
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 28%),
+    linear-gradient(120deg,var(--folder) 2%,var(--folder-light) 118%);
+  border:1px solid rgba(132,96,43,.34);
+  border-bottom:0;
+  border-radius:calc(25 * var(--case-u)) calc(30 * var(--case-u)) 0 0;
+  clip-path:polygon(0 0,82% 0,100% 100%,0 100%);
+  box-shadow:
+    0 calc(-4 * var(--case-u)) calc(10 * var(--case-u)) rgba(91,65,30,.12),
+    inset 0 2px 4px rgba(255,255,255,.56);
   overflow:hidden;
 }
 #sc-matters .case-folder-tab::before {
   content:'';
   position:absolute;
-  inset:calc(12 * var(--case-u)) calc(14 * var(--case-u)) 0 calc(17 * var(--case-u));
+  left:calc(14 * var(--case-u));
+  top:calc(10 * var(--case-u));
+  width:78%;
+  height:calc(100% - 10 * var(--case-u));
   z-index:-1;
-  border-radius:calc(22 * var(--case-u)) calc(30 * var(--case-u)) 0 0;
-  border:1px solid rgba(255,255,255,.70);
-  background:linear-gradient(132deg,rgba(255,255,255,.69),var(--folder-light));
+  border:1px solid rgba(255,255,255,.63);
+  border-bottom:0;
+  border-radius:calc(18 * var(--case-u)) calc(22 * var(--case-u)) 0 0;
+  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.08) 48%,var(--folder-light));
+  clip-path:polygon(0 0,82% 0,100% 100%,0 100%);
+}
+#sc-matters .case-folder-tab::after {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:calc(7 * var(--case-u));
+  background:linear-gradient(180deg,rgba(90,56,12,.08),rgba(90,56,12,0));
+  pointer-events:none;
 }
 #sc-matters .case-folder-tab>span {
   display:block;
-  max-width:100%;
+  max-width:78%;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  transform:skewX(-10deg);
   font:700 calc(21.5 * var(--case-u))/1.12 Arial,sans-serif;
   letter-spacing:calc(-.45 * var(--case-u));
   color:var(--folder-ink);
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
 }
 
-/* ---- decorative gold ring ---- */
+/* ---- premium metal eyelet + pin ---- */
 #sc-matters .case-folder-ring {
   position:absolute;
-  z-index:5;
+  z-index:6;
   left:calc(12 * var(--case-u));
-  top:calc(var(--case-folder-head) - 10 * var(--case-u));
+  top:calc(var(--case-folder-head) - 13 * var(--case-u));
   width:calc(29 * var(--case-u));
   height:calc(29 * var(--case-u));
   box-sizing:border-box;
-  border:calc(4.2 * var(--case-u)) solid #c58a1d;
+  border:calc(4.2 * var(--case-u)) solid #c68b1c;
   border-radius:50%;
-  background:radial-gradient(circle at 36% 30%,#fffdf0 0 34%,#f5d578 35% 48%,#fff6d2 49% 100%);
-  box-shadow:inset 0 0 0 calc(1.2 * var(--case-u)) rgba(255,247,204,.9),0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(80,46,3,.28);
+  background:
+    radial-gradient(circle at 50% 50%,#fff8e7 0 43%,rgba(255,255,255,0) 44%),
+    conic-gradient(from 215deg,#8a5709,#f0ce63 20%,#ba7911 46%,#f8dc7c 68%,#98600a 100%);
+  box-shadow:
+    inset 0 0 0 calc(1 * var(--case-u)) rgba(255,243,181,.92),
+    0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(72,42,4,.28);
+  pointer-events:none;
+}
+#sc-matters .case-folder-ring::before {
+  content:'';
+  position:absolute;
+  inset:calc(5.7 * var(--case-u));
+  border-radius:50%;
+  box-shadow:inset 0 calc(2 * var(--case-u)) calc(3 * var(--case-u)) rgba(96,58,7,.16);
   pointer-events:none;
 }
 #sc-matters .case-folder-ring::after {
   content:'';
   position:absolute;
   left:50%;
-  top:calc(17 * var(--case-u));
-  width:calc(4 * var(--case-u));
-  height:calc(24 * var(--case-u));
+  top:calc(18 * var(--case-u));
+  width:calc(4.2 * var(--case-u));
+  height:calc(27 * var(--case-u));
   border-radius:999px;
-  background:linear-gradient(90deg,#87560a 0%,#e4b94b 45%,#f4d979 58%,#9d670d 100%);
+  background:linear-gradient(90deg,#805006 0%,#dca92f 35%,#f5d66f 56%,#9b620a 100%);
   transform:translateX(-50%);
-  box-shadow:0 1px 2px rgba(77,46,4,.22);
+  box-shadow:0 1px 2px rgba(77,46,4,.24);
 }
 
-/* ---- ivory cover ---- */
+/* ---- ivory front cover: paper material, gold edge and depth ---- */
 #sc-matters .case-folder-cover {
   position:relative;
   z-index:2;
@@ -198,24 +248,43 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   width:100%;
   height:calc(var(--case-folder-h) - var(--case-folder-head));
   min-width:0;
-  padding:calc(15 * var(--case-u)) calc(18 * var(--case-u)) calc(13 * var(--case-u)) calc(25 * var(--case-u));
-  border:1.15px solid #d49b34;
-  border-radius:calc(14 * var(--case-u));
+  padding:calc(14 * var(--case-u)) calc(18 * var(--case-u)) calc(13 * var(--case-u)) calc(25 * var(--case-u));
+  border:1px solid #d29a32;
+  border-radius:calc(15 * var(--case-u));
   background:
-    radial-gradient(circle at 24% 16%,rgba(255,255,255,.98),rgba(255,255,255,0) 44%),
-    linear-gradient(122deg,#fffefb 0%,#fffaf1 57%,#f7ecd7 100%);
-  box-shadow:0 calc(10 * var(--case-u)) calc(18 * var(--case-u)) rgba(95,63,21,.18),0 calc(2 * var(--case-u)) calc(4 * var(--case-u)) rgba(174,122,42,.10),0 0 0 calc(.7 * var(--case-u)) rgba(207,153,55,.18),inset 0 1px 0 rgba(255,255,255,.99),inset 0 0 calc(18 * var(--case-u)) rgba(204,151,55,.045);
+    radial-gradient(circle at 18% 8%,rgba(255,255,255,.98),rgba(255,255,255,0) 29%),
+    radial-gradient(circle at 80% 74%,rgba(219,184,119,.05),rgba(255,255,255,0) 45%),
+    repeating-linear-gradient(103deg,rgba(154,117,62,.018) 0 1px,rgba(255,255,255,0) 1px 6px),
+    linear-gradient(120deg,#fffefa 0%,#fffaf0 55%,#f8eedc 100%);
+  box-shadow:
+    0 calc(9 * var(--case-u)) calc(18 * var(--case-u)) rgba(92,61,19,.18),
+    0 calc(3 * var(--case-u)) calc(5 * var(--case-u)) rgba(179,123,35,.08),
+    0 0 0 calc(.75 * var(--case-u)) rgba(210,154,52,.14),
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset calc(-3 * var(--case-u)) calc(-2 * var(--case-u)) calc(12 * var(--case-u)) rgba(193,147,66,.035);
   overflow:hidden;
 }
-
-
 #sc-matters .case-folder-cover::before {
   content:'';
   position:absolute;
   inset:0;
   border-radius:inherit;
   pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 34%,rgba(211,174,96,.055) 100%);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.20),rgba(255,255,255,0) 31%),
+    linear-gradient(90deg,rgba(193,147,66,.035),rgba(255,255,255,0) 8%,rgba(255,255,255,0) 92%,rgba(193,147,66,.045));
+}
+#sc-matters .case-folder-cover::after {
+  content:'';
+  position:absolute;
+  left:calc(5 * var(--case-u));
+  right:calc(5 * var(--case-u));
+  top:calc(2 * var(--case-u));
+  height:calc(3 * var(--case-u));
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(213,172,94,.16));
+  box-shadow:0 1px 0 rgba(163,112,34,.10);
+  pointer-events:none;
 }
 
 /* ---- top row: icon + basis + chevron ---- */
@@ -224,8 +293,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   grid-template-columns:calc(88 * var(--case-u)) minmax(0,1fr) calc(31 * var(--case-u));
   align-items:center;
   column-gap:calc(8 * var(--case-u));
-  height:calc(70 * var(--case-u));
-  margin:calc(-2 * var(--case-u)) 0 calc(2 * var(--case-u));
+  height:calc(68 * var(--case-u));
+  margin:calc(-1 * var(--case-u)) 0 calc(2 * var(--case-u));
   flex:0 0 auto;
   min-width:0;
 }
