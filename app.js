@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.539';
-var APP_BUILD='5539';
+var APP_VERSION='5.0.540';
+var APP_BUILD='5540';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3198,6 +3198,3227 @@ function compactMatterCardNumber(value){
   // материалов/уголовных дел в карточке сокращаем, полный номер хранится в деле.
   if(n.length<=13) return {text:n,full:n,long:false,empty:false};
   return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true,empty:false};
+}
+function matterCard(m){
+  var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
+  var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
+  var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
+  var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
+  var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
+  var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
+  var inner='';
+  if(MATTER_FOLDER_SHOW_CONTENT){
+    inner='<span class="case-folder-label">'+esc(label)+'</span>'+      '<span class="case-folder-content">'+        '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+        '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+        '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+        '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+        '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+        '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+        '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+        '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+      '</span>';
+  }
+  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+    matterFolderShell()+inner+'</button>';
+}
+
+function renderMatters(){
+  if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
+  var scope=S.ui.matterScope||'active';
+  if(['all','active','archive'].indexOf(scope)<0) scope='active';
+  var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
+  var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
+  var list=S.matters.filter(function(m){
+    if(scope==='active' && m.archived) return false;
+    if(scope==='archive' && !m.archived) return false;
+    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
+    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
+    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
+    if(q && matterSearchText(m).indexOf(q)<0) return false;
+    return true;
+  });
+  var sortMode=S.ui.matterSort||'priority';
+  list.sort(function(a,b){
+    if(a.archived!==b.archived) return a.archived?1:-1;
+    if(sortMode==='client'){
+      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
+      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
+      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
+    }
+    if(sortMode==='stage'){
+      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
+      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
+      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
+    }
+    var A=matterStats(a),B=matterStats(b);
+    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
+    if(!!A.late!==!!B.late) return A.late?-1:1;
+    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
+    if(an!==bn) return an<bn?-1:1;
+    return B.open-A.open;
+  });
+  var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'';
+  var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
+  var stageName=S.ui.matterStage||'';
+  var sortName=sortMode!=='priority'?matterSortLabel(sortMode):'';
+  var filterName=[typeName,basisName,stageName,sortName].filter(Boolean).join(' · ')||'Фильтр';
+  var hasMatterFilter=!!(S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
+  var scopeCount=scope==='all'?allCount:(scope==='archive'?archCount:activeCount);
+  var scopeCaption=scope==='all'
+    ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' всего'
+    : (scope==='archive'
+      ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в архиве'
+      : scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в производстве');
+  if(hasMatterFilter||q)scopeCaption=list.length+' '+plural(list.length,'дело','дела','дел')+(q?' найдено':' по фильтру');
+  var html='<div class="matters-project">'+
+    mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
+    '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+scopeCaption+'</p></div>'+ 
+      '<div class="today-actions">'+headerSearch('matter-search',!!(S.ui.matterSearchOpen||q),'Поиск по делам')+'</div></div>'+ 
+    ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div>':'')+
+    '<div class="matters-scope">'+
+      '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
+      '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+ 
+      '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button>'+ 
+      '<button class="matter-filter-btn'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр дел" aria-label="Фильтр дел">'+ico('list','s')+'<span>'+esc(filterName)+'</span></button></div>'+ 
+    '<div class="matters-list">';
+  html+=list.length?list.map(matterCard).join(''):
+    ((hasMatterFilter||q)
+      ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
+      : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
+  html+='</div></div>';
+  $('#sc-matters').innerHTML=html;
+  if((S.ui.matterSearchOpen||q)&&$('#matter-q')){
+    var mq=$('#matter-q');
+    setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}},0);
+  }
+}
+
+
+function calAgendaTone(t){
+  if(hearingNeedsResult(t)) return 'result';
+  if(hearingHasResult(t)) return 'history';
+  if(t.done) return 'done';
+  if(t.kind==='hearing') return 'hearing';
+  if(t.kind==='meeting') return 'meeting';
+  if(t.kind==='deadline') return 'deadline';
+  if(t.pri==='high') return 'high';
+  if(t.pri==='mid') return 'mid';
+  return 'task';
+}
+function calAgendaLabel(t){
+  var ri=hearingResultInfo(t);
+  if(ri) return ri.label;
+  if(hearingNeedsResult(t)) return 'Результат';
+  if(t.kind==='hearing') return 'Заседание';
+  if(t.kind==='meeting') return 'Встреча';
+  if(t.kind==='deadline') return 'Срок';
+  if(t.done) return 'Готово';
+  if(t.pri==='high') return 'Срочно';
+  if(t.pri==='mid') return 'Средний';
+  if(t.pri==='low') return 'Низкий';
+  return 'Задача';
+}
+function calAgendaIcon(t){
+  if(hearingNeedsResult(t)) return ico('clock','s');
+  if(t.kind==='hearing') return ico(hearingHasResult(t)?'check':'gavel','s');
+  if(t.kind==='meeting') return ico('user','s');
+  if(t.kind==='deadline') return ico('clock','s');
+  return ico('check','s');
+}
+function calAgendaRow(t){
+  var m=t.mid?matter(t.mid):null;
+  var tone=calAgendaTone(t), label=calAgendaLabel(t);
+  var title=t.kind==='hearing'?hearingCaption(t,m):(t.title||'Без названия');
+  var sub='';
+  if(t.kind==='hearing') sub=hearingContextText(t)||t.place||'';
+  else if(t.kind==='meeting') sub=t.place||((m&&m.client)?m.client:'Встреча');
+  else if(t.kind==='deadline') sub=t.rule||((m&&m.number)?m.number:'Процессуальный срок');
+  else sub=(m?[m.number,m.title].filter(Boolean).join(' · '):'');
+  var note='';
+  if(t.kind==='hearing'&&t.place) note=t.place;
+  else if(t.note) note=t.note;
+  var meta=[sub,note].filter(function(x,i,a){ return x && a.indexOf(x)===i; }).join(' · ');
+  var act=hearingNeedsResult(t)?'hearing-result':'task';
+  return '<button class="cal-agenda-item '+tone+'" data-act="'+act+'" data-id="'+t.id+'">'+
+    '<span class="cal-agenda-time mono">'+esc(t.time||'—')+'</span>'+
+    '<span class="cal-agenda-icon">'+calAgendaIcon(t)+'</span>'+
+    '<span class="cal-agenda-main"><b>'+esc(title)+'</b>'+
+      (meta?'<small>'+esc(meta)+'</small>':'')+
+      (t.mid&&m?'<em>'+esc([m.number,m.client||m.title].filter(Boolean).join(' · '))+'</em>':'')+
+    '</span>'+
+    '<span class="cal-agenda-side"><span class="cal-agenda-badge '+tone+'">'+esc(label)+'</span><i>'+ico('chev','s')+'</i></span>'+
+  '</button>';
+}
+function profileInitials(name){
+  var raw=(name||'Адвокат').trim();
+  if(!raw) return 'АК';
+  var parts=raw.split(/\s+/).filter(Boolean);
+  if(parts.length===1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0].slice(0,1)+parts[1].slice(0,1)).toUpperCase();
+}
+
+/* =====================================================================
+   SCREEN: КАЛЕНДАРЬ
+   ===================================================================== */
+function renderCal(){
+  var u=S.ui;
+  if(!u.calM) u.calM=today().slice(0,7);
+  if(!u.calSel) u.calSel=today();
+  var y=+u.calM.slice(0,4), mo=+u.calM.slice(5,7)-1;
+  var first=new Date(y,mo,1), start=(first.getDay()+6)%7;
+  var dim=new Date(y,mo+1,0).getDate(), dimPrev=new Date(y,mo,0).getDate();
+  var cells=[];
+  for(var i=0;i<start;i++) cells.push({d:iso(new Date(y,mo-1,dimPrev-start+i+1)),out:true});
+  for(var j=1;j<=dim;j++) cells.push({d:iso(new Date(y,mo,j))});
+  while(cells.length%7) cells.push({d:iso(new Date(y,mo+1,cells.length-start-dim+1)),out:true});
+
+  var byDay={};
+  S.tasks.forEach(function(t){ if(t.due){ (byDay[t.due]=byDay[t.due]||[]).push(t); } });
+  var monthItems=S.tasks.filter(function(t){ return t.due && t.due.slice(0,7)===u.calM; });
+  var monthOpen=monthItems.filter(isActiveRecord).length;
+  var monthHearings=monthItems.filter(function(t){ return t.kind==='hearing'; }).length;
+  var monthDeadlines=monthItems.filter(function(t){ return t.kind==='deadline'; }).length;
+
+  var grid=['пн','вт','ср','чт','пт','сб','вс'].map(function(d){ return '<div class="cdow">'+d+'</div>'; }).join('');
+  grid += cells.map(function(c){
+    var dayItems=(byDay[c.d]||[]), its=dayItems.filter(function(t){ return !t.done; });
+    var dots=[];
+    if(its.some(function(t){ return t.kind==='hearing'&&!hearingNeedsResult(t); })) dots.push('var(--blue)');
+    if(its.some(hearingNeedsResult)) dots.push('var(--warn)');
+    if(dayItems.some(function(t){ return t.kind==='hearing'&&hearingHasResult(t); })) dots.push('var(--ok)');
+    if(its.some(function(t){ return t.kind==='deadline'; })) dots.push('var(--dang)');
+    if(its.some(function(t){ return t.kind==='meeting'; })) dots.push('var(--purple)');
+    if(its.some(function(t){ return t.kind==='task'; })) dots.push('var(--gold)');
+    var wd=parseD(c.d).getDay();
+    return '<button class="cday'+(c.out?' out':'')+(c.d===today()?' today':'')+(c.d===u.calSel?' sel':'')+((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'">'+parseD(c.d).getDate()+'<span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
+  }).join('');
+
+  var day=(byDay[u.calSel]||[]).sort(sortT);
+  var dHear=day.filter(function(t){ return t.kind==='hearing'; }).length;
+  var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
+  var dOpen=day.filter(isActiveRecord).length;
+  var html='<div class="calendar-project">'+
+    mainBrandHeader()+
+    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
+      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
+    '<div class="calendar-month-card">'+
+      '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
+      '<div class="cgrid calendar-grid">'+grid+'</div>'+
+      '<div class="calendar-month-stats"><span><b>'+monthOpen+'</b><small>в работе</small></span><span><b>'+monthHearings+'</b><small>заседаний</small></span><span><b>'+monthDeadlines+'</b><small>сроков</small></span></div>'+
+    '</div>'+
+    '<div class="calendar-day-card">'+
+      '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
+      '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
+      (day.length?('<div class="calendar-agenda-list">'+day.map(calAgendaRow).join('')+'</div>'):'<div class="calendar-empty">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',[{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>')+
+    '</div></div>';
+  $('#sc-cal').innerHTML=html;
+}
+
+/* =====================================================================
+   SCREEN: ЕЩЁ
+   ===================================================================== */
+function weekStats(){
+  var from=addD(today(),-6);
+  var done=S.tasks.filter(function(t){return t.done&&t.doneAt&&t.doneAt.slice(0,10)>=from;}).length;
+  var parts=S.participation.filter(function(e){return e.date>=from;});
+  var sum=parts.reduce(function(a,e){var m=matter(e.mid);return a+(+e.rate||+(m&&m.dayRate)||+S.settings.dayRate||0);},0);
+  return {done:done,days:parts.length,sum:sum};
+}
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+}
+function isStandalone(){ return window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true; }
+function iphoneInstallHint(){
+  if(!isIOS()||isStandalone())return '';
+  return '<div class="hint" style="margin:0 0 14px"><b>Установите на iPhone для офлайн-работы:</b><br>Откройте ссылку в браузере, выберите «На экран Домой». Если браузер не предлагает установку веб-приложения — используйте Safari.</div>';
+}
+function offlineStatusText(){
+  if(isStandalone())return 'Установлено на экран «Домой» · офлайн-режим готов';
+  if(isIOS())return 'Добавьте приложение на экран «Домой», чтобы запускать его автономно';
+  return navigator.onLine?'Приложение готово к автономной работе после установки':'Сейчас работает без подключения к интернету';
+}
+function applyTheme(){
+  // 5.0.59: единственная тема приложения — светлая.
+  document.body.classList.add('light');
+  var meta=document.querySelector('meta[name=theme-color]');
+  if(meta) meta.content='#F4F6F9';
+}
+
+function backupPlanStats(){
+  var active=S.tasks.filter(function(t){return !t.done;});
+  return {
+    tasks:active.filter(function(t){return t.kind==='task';}).length,
+    hearings:active.filter(function(t){return t.kind==='hearing';}).length,
+    deadlines:active.filter(function(t){return t.kind==='deadline';}).length
+  };
+}
+function backupStatusText(){
+  if(!S.settings.lastBackup) return 'Копия ещё не создавалась';
+  var age=backupAge();
+  return age===0?'Последняя копия: сегодня':'Последняя копия: '+fmtD(S.settings.lastBackup.slice(0,10),true);
+}
+function renderMore(){
+  var w=weekStats(), bs=backupPlanStats();
+  var active=S.tasks.filter(isActiveRecord).length;
+  var backupText=backupStatusText();
+  var profileName=S.settings.name||'Адвокат';
+  var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
+  var html='<div class="more-project">'+
+    mainBrandHeader(false)+
+    '<div class="today-head calendar-title-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
+    '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
+    '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
+    (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
+    iphoneInstallHint()+
+    '<div class="settings-section-title">Инструменты</div><div class="card pad0 settings-card">'+
+      row('flag','Калькулятор сроков','Создание и расчёт процессуальных сроков','deadline')+
+      row('gavel','Дни участия','Суд, следственные действия и выезды','participation-log')+
+      row('tpl','Шаблоны чек-листов','Готовые планы по типовым поручениям','templates')+
+      row('doc','Отчёты и печать','План дня и выгрузка по делу','reports')+
+      row('share','Экспорт списка','Отправить рабочий список в заметки или мессенджер','export')+
+    '</div>'+
+    '<div class="settings-section-title">Уведомления и поиск</div><div class="card pad0 settings-card">'+
+      rowSw('bell','Напоминания',S.settings.notify?'Уведомления включены':'Уведомления выключены','notify-sheet',S.settings.notify)+
+      row('search','Глобальный поиск','Дела, доверители, задачи, заметки и журнал','global-search')+
+    '</div>'+
+    '<div class="settings-section-title">Безопасность и данные</div>'+
+    '<div class="backup-safety settings-backup-card"><div class="backup-safety-top"><span class="backup-safety-icon">'+ico('lock')+'</span><div><b>Резервная копия планов</b><small>'+backupText+'</small></div></div>'+
+      '<div class="backup-safety-stats"><span><b>'+bs.tasks+'</b> задач</span><span><b>'+bs.hearings+'</b> заседаний</span><span><b>'+bs.deadlines+'</b> сроков</span></div>'+
+      '<p>Сохраняются все дела, задачи, заседания, процессуальные сроки и связанные записи.</p>'+
+      '<button class="btn backup-main-btn" data-act="backup-sheet">Создать резервную копию</button></div>'+
+    '<div class="card pad0 settings-card">'+
+      row('folder','Восстановить из копии','Вернуть данные после переустановки или сбоя','restore')+
+      row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён · база зашифрована':'База зашифрована локальным ключом устройства','pin')+
+    '</div>'+
+    '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
+      row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
+      row('list','Загрузить примеры','Учебные дела и задачи','demo')+
+      row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
+      row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
+    '</div>'+
+    '<div class="settings-footnote">Ежедневник адвоката · iPhone Offline '+APP_VERSION+' · сборка '+APP_BUILD+'<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>'+
+  '</div>';
+  $('#sc-more').innerHTML=html;
+}
+function rowSw(i,t,s,act,on){
+  return '<button class="row" data-act="'+act+'">'+ico(i)+'<span class="rl">'+t+'<small>'+esc(s)+'</small></span>'+
+    '<span class="switch'+(on?' on':'')+'"><i></i></span></button>';
+}
+function row(i,t,s,act){
+  return '<button class="row" data-act="'+act+'">'+ico(i)+'<span class="rl">'+t+'<small>'+esc(s)+'</small></span>'+
+    ico('chev','s')+'</button>';
+}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+var TAB_TRANSITION='';
+function render(){
+  document.body.classList.toggle('matters-mockup', S.ui.tab==='matters');
+  ['today','tasks','matters','cal','more'].forEach(function(k){
+    $('#sc-'+k).classList.toggle('hide', S.ui.tab!==k); });
+  ({today:renderToday,tasks:renderTasks,matters:renderMatters,cal:renderCal,more:renderMore})[S.ui.tab]();
+  document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===S.ui.tab); });
+  document.querySelectorAll('.tab[data-tab="matters"] use').forEach(function(u){
+    u.setAttribute('href', S.ui.tab==='matters' ? '#i-nav-cases-fill' : '#i-nav-cases');
+  });
+  var hideFab=(S.ui.tab==='more');
+  $('#fab').classList.toggle('fab-context-hide',hideFab);
+  $('#fab').setAttribute('aria-label',S.ui.tab==='matters'?'Новое дело':'Быстрая запись');
+  $('#fab').style.setProperty('display',hideFab?'none':'flex','important');
+  var active=$('#sc-'+S.ui.tab);
+  if(active){
+    active.classList.remove('fadein','tab-slide-next','tab-slide-prev');
+    var motionClass=TAB_TRANSITION==='next'?'tab-slide-next':(TAB_TRANSITION==='prev'?'tab-slide-prev':'fadein');
+    active.classList.add(motionClass);
+    setTimeout(function(){ if(active) active.classList.remove(motionClass); },340);
+  }
+  TAB_TRANSITION='';
+  applyTheme();
+}
+var NAV_TABS=[];
+function go(tab,replaceHistory,transition){
+  var cur=S.ui.tab;
+  if(tab!==cur){
+    /* Сворачиваем локальный поиск по делам при любом переходе между вкладками. */
+    S.ui.matterSearchOpen=false;
+    S.ui.matterQ='';
+  }
+  if(tab!==cur && !replaceHistory){
+    if(!NAV_TABS.length || NAV_TABS[NAV_TABS.length-1]!==cur) NAV_TABS.push(cur);
+    if(NAV_TABS.length>12) NAV_TABS.shift();
+  }
+  TAB_TRANSITION=transition||'';
+  S.ui.tab = tab; S.ui.q=''; S.ui._sq=false; save(); render();
+  var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
+}
+function appBack(){
+  if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
+  if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
+  if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
+  var sheet=$('#sheet'), page=$('#page');
+  if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
+  if(page.classList.contains('open')){
+    if(page._navType==='report' && REPORT && REPORT.back && matter(REPORT.back)){
+      openMatter(REPORT.back); vib(5); return true;
+    }
+    closeAll(); vib(5); return true;
+  }
+  if(NAV_TABS.length){
+    var prev=NAV_TABS.pop(); go(prev,true); vib(5); return true;
+  }
+  if(S.ui.tab!=='today'){ go('today',true); vib(5); return true; }
+  return false;
+}
+
+/* =====================================================================
+   TASK EDITOR
+   ===================================================================== */
+var ED = null;
+/* 5.0.249 — new task/meeting titles are manual-only. */
+var NEW_TITLE_USER_EDITED=false;
+function clearUnsolicitedNewTitle(){
+  if(!ED || ED.id || (ED.kind!=='task'&&ED.kind!=='meeting') || NEW_TITLE_USER_EDITED)return;
+  var e=$('#e-title');
+  if(!e)return;
+  if(e.value)e.value='';
+  ED.title='';
+  var sh=e.closest('.qe193-title-shell');
+  var xb=sh&&sh.querySelector('.qe193-title-clear');
+  if(xb)xb.classList.remove('is-visible');
+}
+function armNewTitleManualGuard(){
+  if(!ED || ED.id || (ED.kind!=='task'&&ED.kind!=='meeting'))return;
+  NEW_TITLE_USER_EDITED=false;
+  clearUnsolicitedNewTitle();
+  [60,220,520,1100].forEach(function(ms){setTimeout(clearUnsolicitedNewTitle,ms);});
+}
+
+function hearingCourt(mid){
+  var m=mid?matter(mid):null;
+  if(!m)return '';
+  if(String(m.court||'').trim())return String(m.court||'').trim();
+  var linkedJudge=String((m.judge||m.investigator)||'').trim();
+  if(linkedJudge){
+    var entry=knownJudgeEntry(linkedJudge);
+    if(entry&&entry.court)return entry.court;
+  }
+  return '';
+}
+function syncHearingCourt(force){
+  if(!ED||ED.kind!=='hearing'||!ED.mid)return;
+  var c=hearingCourt(ED.mid);
+  if(force || !ED.place) ED.place=c;
+}
+function applyLinkedMatterCourtToHearing(mid){
+  if(!ED||ED.kind!=='hearing'||!mid)return '';
+  var court=hearingCourt(mid);
+  ED.place=court||'';
+  var placeInput=$('#e-place');
+  if(placeInput)placeInput.value=ED.place;
+  var courtSelect=$('#e-court-choice');
+  if(courtSelect){
+    var hasOption=Array.prototype.some.call(courtSelect.options||[],function(o){return o.value===ED.place;});
+    courtSelect.value=hasOption?ED.place:'';
+  }
+  return ED.place;
+}
+var COMMON_KINESHMA_COURTS = [
+  {short:'Кинешемский городской суд', value:'Кинешемский городской суд Ивановской области', main:true, judge:''},
+  {short:'Мировой № 1', value:'Судебный участок № 1 Кинешемского судебного района Ивановской области', judge:'Осокина Е.В.'},
+  {short:'Мировой № 2', value:'Судебный участок № 2 Кинешемского судебного района Ивановской области', judge:'Новиков О.В.'},
+  {short:'Мировой № 3', value:'Судебный участок № 3 Кинешемского судебного района Ивановской области', judge:'Скворцова А.В.'},
+  {short:'Мировой № 4', value:'Судебный участок № 4 Кинешемского судебного района Ивановской области', judge:'Кочемина М.Л.'},
+  {short:'Мировой № 5', value:'Судебный участок № 5 Кинешемского судебного района Ивановской области', judge:'Шлыков А.В.'},
+  {short:'Мировой № 6', value:'Судебный участок № 6 Кинешемского судебного района Ивановской области', judge:''}
+];
+var KINESHMA_CITY_JUDGES = [
+  'Асташкин Е.М.','Груздев В.В.','Долинкина Е.К.','Ельцова Т.В.','Капустина Е.А.','Кротов Е.В.',
+  'Разуваев Г.Л.','Туроватов Д.В.','Шилова Н.Ю.','Ширшин А.А.','Румянцева Ю.А.','Хватова О.И.',
+  'Коровкина О.А.','Лобанкова А.Е.','Силина О.А.','Пангачева М.В.'
+];
+var CRIMINAL_JUDGE_SURNAMES = {
+  'асташкин':1,
+  'груздев':1,
+  'туроватов':1,
+  'кротов':1,
+  'разуваев':1,
+  'шилова':1,
+  'ширшин':1
+};
+function commonCourtByValue(value){
+  return COMMON_KINESHMA_COURTS.filter(function(c){return c.value===value;})[0]||null;
+}
+function judgeDirectory(courtValue,matterType,stage){
+  var cityCourt=(COMMON_KINESHMA_COURTS.filter(function(c){return c.main;})[0]||{}).value||'Кинешемский городской суд Ивановской области';
+  // Premium order without a selected court: criminal (red), civil (blue), magistrates (green).
+  var criminal=[], civil=[];
+  KINESHMA_CITY_JUDGES.forEach(function(j){
+    var surname=normLookup((j||'').split(/\s+/)[0]);
+    var row={judge:j,court:cityCourt,label:j};
+    if(CRIMINAL_JUDGE_SURNAMES[surname]) criminal.push(row); else civil.push(row);
+  });
+  var magistrates=[];
+  COMMON_KINESHMA_COURTS.filter(function(c){return !c.main&&c.judge;}).forEach(function(c){
+    magistrates.push({judge:c.judge,court:c.value,label:c.short+' — '+c.judge});
+  });
+  var selected=String(courtValue||'').trim();
+  var type=String(matterType||'').trim();
+  var currentStage=String(stage||'').trim();
+  var isAppealStage=(currentStage==='Апелляция'||currentStage==='Пересмотр / апелляция');
+  var known=selected?commonCourtByValue(selected):null;
+
+  // В апелляционной инстанции мировой судья не может выступать судьёй апелляции.
+  // Поэтому мировые судьи исключаются из справочника независимо от типа производства.
+  if(isAppealStage){
+    magistrates=[];
+    if(known&&!known.main)return [];
+  }
+
+  // Для уголовного производства в Кинешемском городском суде показываем
+  // только судей уголовной специализации (красная группа). Гражданские судьи
+  // в уголовном деле не предлагаются. Мировой участок сохраняет своего судью.
+  if(type==='criminal'){
+    if(known&&known.main)return criminal.slice();
+    if(known&&!known.main)return magistrates.filter(function(r){return r.court===known.value;});
+    if(!selected)return criminal.concat(magistrates);
+    return [];
+  }
+
+  // Для гражданского производства зеркально исключаем уголовную специализацию:
+  // в Кинешемском городском суде показываются только гражданские судьи (синяя группа),
+  // а при выборе мирового участка — только судья конкретного участка.
+  if(type==='civil'){
+    if(known&&known.main)return civil.slice();
+    if(known&&!known.main)return magistrates.filter(function(r){return r.court===known.value;});
+    if(!selected)return civil.concat(magistrates);
+    return [];
+  }
+
+  var rows=criminal.concat(civil,magistrates);
+  if(!selected)return rows;
+  if(known){
+    return rows.filter(function(r){return r.court===known.value;});
+  }
+  return [];
+}
+function judgeAllowedForCourt(judgeValue,courtValue,matterType,stage){
+  if(!judgeValue)return true;
+  var allowed=judgeDirectory(courtValue,matterType||'',stage||'');
+  return allowed.some(function(r){return r.judge===judgeValue;});
+}
+function normLookup(v){
+  return String(v||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/gi,'').trim();
+}
+function knownJudgeEntry(value){
+  var q=normLookup(value); if(!q)return null;
+  var rows=judgeDirectory(''), exact=rows.filter(function(x){return normLookup(x.judge)===q;});
+  if(exact.length===1)return exact[0];
+  if(q.length<4)return null;
+  var candidates=rows.filter(function(x){
+    var full=normLookup(x.judge), surname=normLookup((x.judge||'').split(/\s+/)[0]);
+    return full.indexOf(q)===0||surname===q;
+  });
+  return candidates.length===1?candidates[0]:null;
+}
+function courtChoiceOptions(current){
+  var selected=current||'';
+  return '<option value="">— выбрать суд —</option>'+COMMON_KINESHMA_COURTS.map(function(c){
+    return '<option value="'+esc(c.value)+'"'+(c.value===selected?' selected':'')+'>'+esc(c.short)+'</option>';
+  }).join('');
+}
+function judgeChoiceOptions(current,courtValue){
+  var selected=current||'';
+  return '<option value="">— выбрать судью —</option>'+judgeDirectory(courtValue||'').map(function(x){
+    return '<option value="'+esc(x.judge)+'"'+(x.judge===selected?' selected':'')+'>'+esc(x.label)+'</option>';
+  }).join('');
+}
+function hearingJudgeChoiceOptions(current){
+  var selected=current||'';
+  return '<option value="">— выбрать судью —</option>'+judgeDirectory('').map(function(x){
+    return '<option value="'+esc(x.judge)+'"'+(x.judge===selected?' selected':'')+'>'+esc(x.label)+'</option>';
+  }).join('');
+}
+function courtDatalist(){
+  return '<datalist id="court-options">'+COMMON_KINESHMA_COURTS.map(function(c){return '<option value="'+esc(c.value)+'">'+esc(c.short)+'</option>';}).join('')+'</datalist>';
+}
+function judgeDatalist(courtValue){
+  return '<datalist id="judge-options">'+judgeDirectory(courtValue||'').map(function(x){return '<option value="'+esc(x.judge)+'">'+esc(x.label)+'</option>';}).join('')+'</datalist>';
+}
+function inlineChoiceField(inputId,selectId,value,placeholder,optionsHtml,listId){
+  // Не привязываем input к <datalist>. На iPhone/Safari нативный datalist
+  // иногда перехватывает касание и показывает системную чёрную подсказку
+  // вместо нашего premium-списка. Ручной ввод остаётся обычным input,
+  // а справочник всегда открывается только через собственный trigger.
+  return '<div class="inline-choice-wrap"><input id="'+inputId+'" value="'+esc(value||'')+'" placeholder="'+esc(placeholder||'')+'" autocomplete="off">'+
+    '<select id="'+selectId+'" class="inline-choice-select premium-select-native" aria-label="Выбрать из списка" tabindex="-1" aria-hidden="true">'+optionsHtml+'</select></div>';
+}
+function applyKnownJudgeCourt(judgeValue,editorMode){
+  var entry=knownJudgeEntry(judgeValue); if(!entry)return false;
+  if(editorMode==='matter'){
+    var mc=$('#m-court'); if(mc)mc.value=entry.court;
+    var mcs=$('#m-court-choice'); if(mcs)mcs.value=entry.court;
+  }else if(ED&&ED.kind==='hearing'){
+    ED.place=entry.court;
+    var pl=$('#e-place'); if(pl)pl.value=entry.court;
+    var cs=$('#e-court-choice'); if(cs)cs.value=entry.court;
+  }
+  return true;
+}
+function applyKnownCourtJudge(courtValue,editorMode){
+  var c=commonCourtByValue(courtValue); if(!c||!c.judge)return false;
+  if(editorMode==='matter'){
+    if(MED)MED.judge=c.judge;
+    var mj=$('#m-judge'); if(mj)mj.value=c.judge;
+  }else if(ED&&ED.kind==='hearing'){
+    ED.hearingJudge=c.judge;
+    var hj=$('#e-hjudge'); if(hj)hj.value=c.judge;
+    var js=$('#e-hjudge-choice'); if(js)js.value=c.judge;
+  }
+  return true;
+}
+function editTask(t,preset){
+  ED = t ? JSON.parse(JSON.stringify(t))
+    : Object.assign({ id:null,title:'',mid:'',note:'',due:'',time:'',place:'',pri:'mid',kind:'task',sourceDate:'',sourceTime:'',rule:'',ruleCode:'',ruleArticle:'',deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',hearingClient:'',hearingNumber:'',hearingJudge:'',
+        done:false,steps:[] }, preset||{});
+  if(EDITOR_KINDS.indexOf(ED.kind)<0) ED.kind='task';
+  /* 5.0.249: new task/meeting title is always manual-only. */
+  if(!t && (ED.kind==='task'||ED.kind==='meeting')){
+    ED.title='';
+    NEW_TITLE_USER_EDITED=false;
+  }else{
+    NEW_TITLE_USER_EDITED=true;
+  }
+  syncHearingCourt(false);
+  drawEditor();
+}
+
+function hearingPremiumDateControl(id,value,emptyLabel,iconName){
+  var v=value||'', label=v?fmtD(v,false):(emptyLabel||'Выберите дату');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="hearing-premium-picker hearing-premium-picker-date'+(v?'':' empty')+'" data-act="date-open" data-target="'+esc(id)+'" data-date-for="'+esc(id)+'" data-date-compact="1">'+
+      '<span class="hearing-premium-picker-icon">'+ico(iconName||'qe-calendar','s')+'</span>'+
+      '<span class="hearing-premium-picker-copy"><b>'+esc(label)+'</b></span>'+
+      '<span class="hearing-premium-picker-tail">'+ico('chev','s')+'</span>'+
+    '</button>';
+}
+function hearingPremiumTimeControl(id,value,mode,emptyLabel,iconName){
+  var v=value||'', label=v?v:(emptyLabel||'Выберите время');
+  return '<input type="hidden" id="'+esc(id)+'" value="'+esc(v)+'">'+
+    '<button type="button" class="hearing-premium-picker hearing-premium-picker-time'+(v?'':' empty')+'" data-act="time-open" data-target="'+esc(id)+'" data-time-mode="'+esc(mode||'default')+'" data-time-for="'+esc(id)+'">'+
+      '<span class="hearing-premium-picker-icon">'+ico(iconName||'qe-clock','s')+'</span>'+
+      '<span class="hearing-premium-picker-copy"><b>'+esc(label)+'</b></span>'+
+      '<span class="hearing-premium-picker-tail">'+ico('chev','s')+'</span>'+
+    '</button>';
+}
+function renderHearingPremiumTypeCards(currentKind){
+  var map={
+    task:{title:'Задача',sub:'Личные дела и заметки',icon:'qe-task'},
+    hearing:{title:'Заседание',sub:'Судебное заседание',icon:'qe-hearing'},
+    meeting:{title:'Встреча',sub:'Клиенты и переговоры',icon:'qe-meeting'},
+    deadline:{title:'<span class="qe190-deadline-word">Процессуальный</span><span class="qe190-deadline-word qe190-deadline-word-last">срок</span>',sub:'Контроль сроков',icon:'qe-deadline'}
+  };
+  return EDITOR_KINDS.map(function(k){
+    var meta=map[k], on=currentKind===k;
+    return '<button type="button" class="qe190-type-card qe190-type-'+k+(on?' is-active':'')+'" data-act="e-kind" data-v="'+k+'">'+
+      '<span class="qe190-type-icon">'+ico(meta.icon,'s')+'</span>'+
+      '<span class="qe190-type-copy"><b>'+meta.title+'</b><small>'+meta.sub+'</small></span>'+
+    '</button>';
+  }).join('');
+}
+function renderQuickEntryTop190(title,currentKind){
+  var editTitle=title.indexOf('qe-edit-title-main')!==-1;
+  var longTitle=title.length>20?' qe190-title-long':'';
+  if(editTitle) longTitle+=' qe190-title-edit';
+  return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5367" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
+    '<div class="qe190-heading">'+
+      '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
+      '<div class="qe190-heading-center"><h2 class="'+longTitle.trim()+'">'+title+'</h2><div class="qe190-motto"><i></i><span>Порядок в делах — сила в праве</span><i></i></div></div>'+
+    '</div>'+
+    '<div class="qe190-type-block"><h3>Тип</h3><div class="qe190-type-grid">'+renderHearingPremiumTypeCards(currentKind)+'</div></div>'+
+  '</section>';
+}
+function renderHearingPremiumEditor(t,isNew){
+  var title=isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>';
+  var opts='<option value="">Выберите дело</option>'+activeM().map(function(m){
+    return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>';
+  }).join('');
+  return ''+
+  '<div class="qe192-hearing">'+
+    renderQuickEntryTop190(title,t.kind)+
+    '<div class="qe192-form">'+
+      '<section class="qe192-field qe192-matter-field">'+
+        '<label>Дело (необязательно)</label>'+
+        '<div class="qe192-control qe192-select-control"><span class="qe192-leading qe-icon-case">'+ico('qe-folder','s')+'</span><select id="e-mid">'+opts+'</select></div>'+
+        '<small class="qe192-hint qe193-hearing-matter-hint">Для разового или дежурного заседания дело можно не выбирать.</small>'+
+      '</section>'+
+      '<section id="hearing-topic-field" class="qe192-field qe193-hearing-topic-field"'+(t.mid?' style="display:none"':'')+'>'+
+        '<label>Что за заседание *</label>'+
+        '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hearing-topic" name="advokat-hearing-topic-5293" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'" autocomplete="off" autocapitalize="sentences" spellcheck="true"></div>'+
+        '<small class="qe192-hint">Обязательно только для заседания без привязки к делу. Эта формулировка будет показана в списках и календаре.</small>'+
+      '</section>'+
+      '<div id="hearing-standalone" class="qe192-standalone">'+
+        '<div class="qe192-two qe192-party-grid">'+
+          '<section class="qe192-field qe192-client-field">'+
+            '<label>Доверитель /<br>подзащитный</label>'+
+            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-client">'+ico('qe-person','s')+'</span><input id="e-hclient" name="advokat-hearing-client-5264" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'" autocomplete="off" autocapitalize="words" spellcheck="false"></div>'+
+          '</section>'+
+          '<section class="qe192-field">'+
+            '<label>№ дела / материала</label>'+
+            '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hnumber" name="advokat-hearing-number-5264" placeholder="Например: 1-123/2024" value="'+esc(t.hearingNumber||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>'+
+          '</section>'+
+        '</div>'+
+        '<section class="qe192-field qe192-judge-field">'+
+          '<label>Судья / председательствующий</label>'+
+          '<div class="qe192-control qe192-inline-control"><span class="qe192-leading qe192-judge-icon qe-icon-judge">'+ico('qe-judge','s')+'</span>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',hearingJudgeChoiceOptions(t.hearingJudge||''),'judge-options')+'</div>'+
+          '<small class="qe192-hint">Стрелкой справа можно выбрать судью; для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+
+        '</section>'+
+        '<section class="qe192-field qe192-court-field">'+
+          '<label>Суд / место заседания *</label>'+
+          '<div class="qe192-control qe192-inline-control"><span class="qe192-leading qe-icon-court">'+ico('qe-court','s')+'</span>'+inlineChoiceField('e-place','e-court-choice',t.place||'','Суд или место заседания',courtChoiceOptions(t.place||''),'court-options')+'</div>'+
+          '<small class="qe192-hint">Стрелкой справа можно выбрать суд или ввести название вручную.</small>'+courtDatalist()+
+        '</section>'+
+      '</div>'+
+      '<div class="qe192-two qe192-datetime">'+
+        '<section class="qe192-field"><label>Дата *</label>'+hearingPremiumDateControl('e-due',t.due||'','Выберите дату','cal')+'</section>'+
+        '<section class="qe192-field"><label>Время *</label>'+hearingPremiumTimeControl('e-time',t.time||'','hearing','Выберите время','clock')+'</section>'+
+      '</div>'+
+      '<div class="qe192-save-divider" aria-hidden="true"><i></i><span></span><i></i></div>'+
+    '</div>'+
+  '</div>'+
+  '<button class="btn qe192-save" data-act="e-save"><span class="qe192-save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить заседание</span></button>'+
+  (isNew?'':'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button><button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>');
+}
+
+function drawEditor(preserveScroll){
+  var previousBody=$('#sheet .shbody');
+  var previousScroll=(preserveScroll&&previousBody)?previousBody.scrollTop:0;
+  var t = ED, isNew = !t.id, hearing=t.kind==='hearing', meeting=t.kind==='meeting', timedEvent=(t.kind==='hearing'||t.kind==='meeting');
+  var opts = '<option value="">— без дела —</option>' + activeM().map(function(m){
+    return '<option value="'+m.id+'"'+(t.mid===m.id?' selected':'')+'>'+esc(m.title)+'</option>'; }).join('');
+  var kindIcons={task:'tpl',hearing:'cal',meeting:'user',deadline:'clock'};
+  var kindSubs={task:'Личные дела и заметки',hearing:'Судебное заседание',meeting:'Клиенты и переговоры',deadline:'Контроль сроков'};
+  var kindSaveLabels={task:'Сохранить задачу',hearing:'Сохранить заседание',meeting:'Сохранить встречу',deadline:'Сохранить срок'};
+  var kinds = renderHearingPremiumTypeCards(t.kind);
+  var pris = Object.keys(PRI).map(function(k){
+    var mark = k==='high'
+      ? '<span class="qe193-pri-mark qe194-pri-alert-circle">!</span>'
+      : (k==='mid'
+          ? '<span class="qe193-pri-mark qe193-pri-ring"></span>'
+          : '<span class="qe193-pri-mark qe195-pri-low-mark">'+ico('chev','s')+'</span>');
+    return '<button class="chip pri-'+k+(t.pri===k?' on':'')+'" data-act="e-pri" data-v="'+k+'">'+mark+'<span>'+PRI[k].n+'</span></button>'; }).join('');
+  var quickDates = timedEvent ? [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя']] : [['0','Сегодня'],['1','Завтра'],['3','+3 дня'],['7','Неделя'],['','Без даты']];
+  var title = hearing ? (isNew?'Новое заседание':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">заседания</span>') : (meeting ? (isNew?'Новая встреча':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">встречи</span>') : (t.kind==='deadline' ? (isNew?'<span class="qe-new-deadline-main">Новый процессуальный</span><span class="qe-new-deadline-kind">срок</span>':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">срока</span>') : (isNew?'Новая задача':'<span class="qe-edit-title-main">Редактирование</span><span class="qe-edit-title-kind">задачи</span>')));
+  var oldRuleParts=t.kind==='deadline'?inferDeadlineRuleParts(t):{code:'GPK',ruleId:''};
+  if(t.kind==='deadline'){
+    if(!t.deadlineCode)t.deadlineCode=oldRuleParts.code||'GPK';
+    if(!t.deadlineRuleId)t.deadlineRuleId=oldRuleParts.ruleId||((legalDeadlineRules(t.deadlineCode)[0]||{}).id||'gpk-appeal');
+    if(!t.sourceDate)t.sourceDate=t.due||today();
+  }
+  var deadlineRule=t.kind==='deadline'?legalDeadlineRule(t.deadlineRuleId):null;
+  var deadlineRes=t.kind==='deadline'?calculateLegalDeadline(deadlineRule,t.sourceDate,t.sourceTime):null;
+
+  if(hearing){
+    openSheet(renderHearingPremiumEditor(t,isNew));
+  } else openSheet(
+  '<div class="hearing-premium-editor standard-premium-editor kind-'+t.kind+'-editor">'+
+  renderQuickEntryTop190(title,t.kind)+
+  (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('qe-document','s')+'</span><input id="e-title" name="advokat-manual-entry-title-5264" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off" autocapitalize="sentences" autocorrect="on" spellcheck="true" data-form-type="other" ><button type="button" class="qe193-title-clear'+(t.title?' is-visible':'')+'" data-act="e-title-clear" aria-label="Очистить поле">'+ico('xmark','s')+'</button></div></div>':'')+
+  '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
+  (hearing?'<div id="hearing-topic-field" class="fld hearing-topic-field"'+(t.mid?' style="display:none"':'')+'><label>Что за заседание *</label><input id="e-hearing-topic" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'"><small class="fieldhint">Для разового заседания без дела укажите краткое пояснение.</small></div>':'')+
+  (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',hearingJudgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Стрелкой справа можно выбрать судью; для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
+  (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
+    '<div class="fld"><label>Дата'+(timedEvent?' *':'')+'</label>'+premiumDateControl('e-due',t.due||'','Выберите дату',true)+'</div>'+
+    '<div class="fld"><label>Время'+(timedEvent?' *':'')+'</label>'+premiumTimeControl('e-time',t.time||'',hearing?'hearing':'default','Выберите время')+'</div>'+
+  '</div>'+
+  '<div class="chips task-quick-dates">'+quickDates.map(function(x){
+      return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'):'')+
+  (!hearing&&!meeting&&t.kind!=='deadline'?'<div class="fld task-priority-field"><label>Приоритет</label><div class="chips task-priority-chips">'+pris+'</div></div>':'')+
+  (hearing
+    ? '<div class="fld hearing-court-field"><label>Суд / место заседания *</label>'+inlineChoiceField('e-place','e-court-choice',t.place||'','Суд или место заседания',courtChoiceOptions(t.place||''),'court-options')+'<small class="fieldhint">Можно выбрать Кинешемский городской суд или мировой участок стрелкой справа либо ввести любой другой суд вручную.</small>'+courtDatalist()+'</div>'
+    : (meeting?'<div class="fld hearing-court-field"><label>Место встречи</label><input id="e-place" placeholder="Офис, СИЗО, адрес, кафе" value="'+esc(t.place||'')+'"></div>':''))+
+  (t.kind==='deadline' ? '<div class="deadline-calculator">'+
+    '<div class="deadline-calculator-title"><span>'+ico('qe-clock','s')+'</span><div><b>Юридический калькулятор срока</b><small>Правила расчёта встроены по выбранной норме</small></div></div>'+
+    '<div class="deadline-premium-status"><span class="deadline-premium-shield">'+ico('check','s')+'</span><div><b>'+legalDeadlineCount()+' процессуальных сроков</b><small>Правовая база проверена '+LEGAL_DEADLINE_REVIEWED+'</small></div><em>PRO</em></div>'+
+    '<div class="two deadline-calc-grid"><div class="fld"><label>Производство / кодекс</label><select id="e-deadline-code">'+legalDeadlineCodeOptions(t.deadlineCode||'GPK')+'</select></div>'+
+    '<div class="fld"><label>Что рассчитываем</label><select id="e-deadline-rule">'+legalDeadlineRuleOptions(t.deadlineCode||'GPK',t.deadlineRuleId)+'</select></div></div>'+
+    '<div class="deadline-source-grid"><div class="fld deadline-source-field"><label id="e-source-label">'+esc(deadlineRule?deadlineRule.dateLabel:'Исходная дата')+'</label>'+premiumDateControl('e-source',t.sourceDate||today(),'Выберите исходную дату')+'</div>'+
+    '<div id="e-source-time-wrap" class="fld deadline-source-time"'+(deadlineRule&&deadlineRule.requiresTime?'':' hidden')+'><label id="e-source-time-label">'+esc(deadlineRule&&deadlineRule.timeLabel?deadlineRule.timeLabel:'Точное время')+'</label>'+premiumTimeControl('e-source-time',t.sourceTime||'','default','Укажите время')+'<small class="fieldhint deadline-time-hint">Требуется только для специального срока, который исчисляется ровно в часах от момента получения.</small></div></div>'+
+    '<div id="e-deadline-result">'+deadlineCalcResultHTML(deadlineRule,deadlineRes)+'</div>'+
+    '<div class="deadline-calc-footnote">Расчёт учитывает режим конкретной нормы: рабочие и календарные дни, перенос окончания срока, обратные сроки, точный 24-часовой период и производственный календарь 2026. Для специальных норм всегда сверяйте событие, с которого начинается срок.</div>'+
+    '</div>' : '')+
+  '<div class="fld task-editor-note-field"><label>'+(hearing?'Примечание (необязательно)':(meeting?'Комментарий':'Примечание'))+'</label>'+
+    '<div class="qe194-note-shell"><span class="qe194-note-icon">'+ico('qe-document','s')+'</span><textarea id="e-note" class="task-note-editor" rows="5" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':(meeting?'Например: обсудить позицию, взять документы':'Нормы права, документы, что взять с собой…'))+'">'+esc(t.note||'')+'</textarea></div></div>'+
+  '<div class="hearing-save-divider"><i></i><span></span><i></i></div>'+
+  '</div>'+
+  '<button class="btn task-editor-save hearing-premium-save" data-act="e-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">'+(kindSaveLabels[t.kind]||'Сохранить')+'</span></button>'+
+  (isNew?'':((hearing||meeting||t.kind==='deadline')?'<button class="btn ghost" data-act="ics-task" data-id="'+t.id+'" style="margin-top:8px">Добавить в календарь iPhone</button>':'')+
+   '<button class="btn danger task-editor-delete" data-act="e-del">'+ico('trash','s')+'Удалить</button>'));
+  $('#sheet').classList.add('task-editor-sheet');
+  $('#sheet').classList.add('entry-premium-sheet');
+  $('#sheet').classList.add('qe190-sheet');
+  if(hearing){
+    $('#sheet').classList.add('qe192-hearing-sheet');
+  }else{
+    $('#sheet').classList.add('hearing-premium-sheet');
+  }
+  $('#sheet').classList.add(isNew?'editor-create-mode':'editor-edit-mode');
+  var editorSheet=$('#sheet'), editorBody=editorSheet&&editorSheet.querySelector('.shbody');
+  if(editorSheet) editorSheet.scrollLeft=0;
+  if(editorBody){
+    /* 5.0.189: save block scrolls as the natural final part of the form instead of
+       permanently covering the lower fields. This matches the approved mockup and
+       prevents half-visible labels/controls behind the gold button. */
+    var editorFoot=editorSheet.querySelector(':scope > .shfoot');
+    if(editorFoot){
+      editorBody.appendChild(editorFoot);
+      editorSheet.classList.add('editor-inline-foot');
+    }
+    editorBody.scrollLeft=0;
+    if(preserveScroll){
+      var restoreScroll=function(){
+        var body=$('#sheet .shbody');
+        if(!body)return;
+        var max=Math.max(0,body.scrollHeight-body.clientHeight);
+        body.scrollTop=Math.min(previousScroll,max);
+      };
+      requestAnimationFrame(function(){restoreScroll();requestAnimationFrame(restoreScroll);});
+      setTimeout(restoreScroll,80);
+    }
+  }
+  if(isNew && !hearing && t.kind!=='deadline' && !preserveScroll){
+    /* No autofocus: iOS may restore a previous value when the field is focused programmatically. */
+    armNewTitleManualGuard();
+  }
+}
+function pullEditor(){
+  var g = function(id){ var e = $(id); return e ? e.value : undefined; };
+  if(g('#e-title')!==undefined) ED.title = $('#e-title').value.trim();
+  if(g('#e-mid')!==undefined) ED.mid = $('#e-mid').value;
+  if(g('#e-due')!==undefined) ED.due = $('#e-due').value;
+  if(g('#e-time')!==undefined) ED.time = $('#e-time').value;
+  if(g('#e-place')!==undefined) ED.place = $('#e-place').value.trim();
+  if(g('#e-hearing-topic')!==undefined) ED.hearingTopic = $('#e-hearing-topic').value.trim();
+  if(g('#e-hclient')!==undefined) ED.hearingClient = $('#e-hclient').value.trim();
+  if(g('#e-hnumber')!==undefined) ED.hearingNumber = $('#e-hnumber').value.trim();
+  if(g('#e-hjudge')!==undefined) ED.hearingJudge = $('#e-hjudge').value.trim();
+  if(g('#e-source')!==undefined) ED.sourceDate = $('#e-source').value;
+  if(g('#e-source-time')!==undefined) ED.sourceTime = $('#e-source-time').value;
+  if(g('#e-deadline-code')!==undefined) ED.deadlineCode = $('#e-deadline-code').value;
+  if(g('#e-deadline-rule')!==undefined) ED.deadlineRuleId = $('#e-deadline-rule').value;
+  if(ED.kind==='deadline'){
+    var dr=legalDeadlineRule(ED.deadlineRuleId),dres=calculateLegalDeadline(dr,ED.sourceDate,ED.sourceTime);
+    if(dr){ED.title=dr.name;ED.ruleCode=legalDeadlineCode(dr.code).name;ED.ruleArticle=dr.article;ED.rule=dr.article;ED.pri='high';}
+    if(dres){ED.due=dres.end;ED.time=dres.endTime||'';}
+  }
+  if(g('#e-note')!==undefined) ED.note = $('#e-note').value.trim();
+}
+
+function enforceHearingStageCompatibilityInEditor(){
+  var kindEl=$('#e-kind'), midEl=$('#e-mid');
+  if(!kindEl) return;
+  var m=midEl&&midEl.value?matter(midEl.value):null;
+  var opt=kindEl.querySelector('option[value="hearing"]');
+  var blocked=!!(m&&!hearingMatterIsJudicial(m));
+  if(opt){
+    opt.disabled=blocked;
+    opt.hidden=blocked;
+  }
+  if(blocked && kindEl.value==='hearing'){
+    kindEl.value='task';
+    try{kindEl.dispatchEvent(new Event('change',{bubbles:true}));}catch(_e){}
+    toast('На досудебной стадии запись изменена с «Заседание» на «Задача»');
+  }
+}
+
+function saveTask(){
+  /* 5.0.425: "Заседание" is strictly a judicial event. */
+  try{
+    var kindEl=$('#e-kind');
+    var midEl=$('#e-mid');
+    var selectedKind=kindEl?kindEl.value:'';
+    var selectedMid=midEl?midEl.value:'';
+    var selectedMatter=selectedMid?matter(selectedMid):null;
+    if(selectedKind==='hearing' && selectedMatter && !hearingMatterIsJudicial(selectedMatter)){
+      toast('Для стадии «'+(selectedMatter.stage||'Досудебное производство')+'» нельзя выбрать тип «Заседание»');
+      return;
+    }
+  }catch(_hearingStageValidationErr){}
+
+  pullEditor();
+  var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
+  if(hearing){
+    if(!ED.mid && !String(ED.hearingTopic||'').trim()){
+      toast('Укажите, что за заседание');
+      var ht=$('#e-hearing-topic'); if(ht){ht.focus();try{ht.scrollIntoView({behavior:'smooth',block:'center'});}catch(_){}} return;
+    }
+    if(!ED.due){ toast('Укажите дату заседания'); openPremiumDatePicker('e-due',''); return; }
+    if(!ED.time){ toast('Укажите время заседания'); openPremiumTimePicker('e-time','','hearing'); return; }
+    if(!isHearingTime(ED.time)){ toast('Время заседания: с 08:00 до 18:00'); openPremiumTimePicker('e-time',ED.time,'hearing'); return; }
+    if(!ED.place) syncHearingCourt(false);
+    if(!ED.place && ED.mid) ED.place=hearingCourt(ED.mid)||'';
+    ED.title=ED.mid?'Судебное заседание':String(ED.hearingTopic||'').trim(); ED.pri='mid'; ED.steps=[];
+  }else if(meeting){
+    if(!ED.title){ toast('Введите тему встречи'); var me=$('#e-title'); if(me) me.focus(); return; }
+    if(!ED.due){ toast('Укажите дату встречи'); openPremiumDatePicker('e-due',''); return; }
+    if(!ED.time){ toast('Укажите время встречи'); openPremiumTimePicker('e-time','','default'); return; }
+    ED.pri='mid'; ED.steps=[];
+  }else if(ED.kind==='deadline'){
+    var dc=applyDeadlineRuleFromDom();
+    if(!dc||!dc.rule){toast('Выберите процессуальное действие');return;}
+    if(!ED.sourceDate){toast('Укажите исходную дату');var se=$('#e-source');if(se)se.focus();return;}
+    if(dc.rule.requiresTime&&!ED.sourceTime){toast('Укажите точное время получения');var ste=$('#e-source-time');if(ste)ste.focus();return;}
+    if(!dc.res){toast('Не удалось рассчитать срок');return;}
+    ED.due=dc.res.end;ED.title=dc.rule.name;ED.rule=dc.rule.article;ED.ruleCode=legalDeadlineCode(dc.rule.code).name;ED.ruleArticle=dc.rule.article;ED.pri='high';ED.time=dc.res.endTime||'';ED.steps=[];
+  }else if(!ED.title){ toast('Введите текст задачи'); var e=$('#e-title'); if(e) e.focus(); return; }
+  var isNew=!ED.id;
+  if(ED.id){
+    var t = S.tasks.filter(function(x){ return x.id===ED.id; })[0]; Object.assign(t, ED);
+  } else {
+    ED.id=uid();ED.created=new Date().toISOString();ED.done=false;S.tasks.unshift(ED);
+  }
+  if(ED.mid && (isNew || ED.kind==='hearing' || ED.kind==='meeting' || ED.kind==='deadline')){
+    var label='';
+    if(ED.kind==='hearing') label='Назначено заседание'+(ED.due?' — '+fmtD(ED.due,true):'')+(ED.time?' в '+ED.time:'')+(ED.place?' · '+ED.place:'');
+    else if(ED.kind==='meeting') label='Назначена встреча: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'')+(ED.time?' в '+ED.time:'')+(ED.place?' · '+ED.place:'');
+    else if(ED.kind==='deadline') label='Поставлен процессуальный срок: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'')+(ED.time?' в '+ED.time:'');
+    else label='Добавлена задача: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'');
+    addJournal(ED.mid,label,today(),'task',true);
+  }
+  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':(ED.kind==='deadline'?'Срок сохранён':'Задача сохранена')));schedule();
+}
+
+/* =====================================================================
+   MATTER PAGE
+   ===================================================================== */
+var MED = null;
+
+function matterFieldCard(i,l,v,opts){
+  if(!v) return '';
+  opts=opts||{};
+  var cls='matter-field-card'+(opts.wide?' wide':'');
+  var body='<span class="matter-field-icon">'+ico(i)+'</span><span class="matter-field-copy"><small>'+esc(l)+'</small><b>'+esc(v)+'</b></span>'+(opts.chev?ico('chev','s'):'');
+  if(opts.href) return '<a class="'+cls+'" href="'+opts.href+'" style="text-decoration:none;color:inherit">'+body+'</a>';
+  return '<div class="'+cls+'">'+body+'</div>';
+}
+function matterNoteCard(text){
+  return text?'<div class="matter-note-card"><small>Рабочая заметка</small><p>'+esc(text)+'</p></div>':'';
+}
+
+function matterPanelRow(i,l,v,opts){
+  if(!v) return '';
+  opts=opts||{};
+  var tail='';
+  if(opts.href) tail='<a class="matter-panel-tail" href="'+opts.href+'">'+ico('chev','s')+'</a>';
+  else if(opts.chev) tail='<span class="matter-panel-tail">'+ico('chev','s')+'</span>';
+  return '<div class="matter-panel-row">'+
+    '<span class="matter-panel-icon">'+ico(i)+'</span>'+
+    '<div class="matter-panel-copy"><small>'+esc(l)+'</small><b>'+esc(v)+'</b></div>'+
+    tail+
+  '</div>';
+}
+function matterPremiumBadge(kind,label){
+  return '<span class="matter-pill '+kind+'">'+esc(label)+'</span>';
+}
+function matterPremiumTaskRow(t,m){
+  var title=t.kind==='hearing'?(t.title||'Судебное заседание'):(t.title||'Без названия');
+  var subtitle='';
+  if(t.kind==='hearing') subtitle=[hearingPlace(t,m).replace(/<br>/g,' · '), hearingJudgeName(t,m), hearingClientName(t,m)].filter(Boolean).join(' · ');
+  else if(t.kind==='meeting') subtitle=t.place||'Встреча';
+  else if(t.kind==='deadline') subtitle=t.ruleCode||t.rule||'Процессуальный срок';
+  else subtitle=(m&&m.number)?('По делу № '+m.number):(m&&m.client?m.client:'');
+  var dateBadge='';
+  if(t.due){
+    var d=dd(t.due), held=meetingOccurred(t), dateLabel=held?'прошло':(d<0?'просрочено':(d===0?'сегодня':(d===1?'завтра':fmtShort(t.due))));
+    dateBadge=matterPremiumBadge('date '+(held?'held':(d<0?'overdue':(d===0?'today':''))),dateLabel);
+  }
+  var kindLabel='';
+  if(t.kind==='hearing') kindLabel=matterPremiumBadge('hearing','Заседание');
+  else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting'+(meetingOccurred(t)?' past':''),meetingOccurred(t)?'Прошло':'Встреча');
+  else if(t.kind==='deadline') kindLabel=matterPremiumBadge('deadline','Срок');
+  else kindLabel=matterPremiumBadge('task','Задача');
+  var lead=t.kind==='hearing'
+    ? '<span class="matter-event-check icon">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>'
+    : (meetingOccurred(t)
+        ? '<span class="matter-event-check past meeting-past">'+ico('clock','s')+'</span>'
+        : '<button class="matter-event-check'+(t.done?' done':'')+'" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
+  return '<div class="matter-event-card'+(t.done?' done':'')+(t.kind==='hearing'?' hearing':'')+(t.kind==='meeting'?' meeting':'')+(t.kind==='deadline'?' deadline':'')+'">'+
+    lead+
+    '<div class="matter-event-main"><button class="matter-event-open" data-act="'+(hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+t.id+'"><b>'+esc(title)+'</b>'+
+    (subtitle?'<small>'+esc(subtitle)+'</small>':'')+'</button></div>'+
+    '<div class="matter-event-side">'+(t.time?'<em class="matter-event-time mono">'+esc(t.time)+'</em>':'')+'<div class="matter-event-badges">'+kindLabel+dateBadge+'</div></div>'+
+    '<span class="matter-event-chevron">'+ico('chev','s')+'</span>'+
+  '</div>';
+}
+function matterJournalRow(j){
+  return '<div class="matter-jline"><i></i><div class="matter-jcopy"><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div><button class="matter-jdel" data-act="journal-del" data-id="'+j.id+'">'+ico('trash','s')+'</button></div>';
+}
+
+
+function matterStatusText(m){
+  if(!m) return 'В производстве';
+  if(m.archived) return 'Архив';
+  if(m.stage==='Завершено') return 'Завершено';
+  return 'В производстве';
+}
+function matterStatusClass(m){
+  if(!m) return 'green';
+  if(m.archived) return 'slate';
+  if(m.stage==='Завершено') return 'blue';
+  if(m.stage==='Апелляция' || m.stage==='Кассация' || m.stage==='Надзор') return 'blue';
+  return 'green';
+}
+function matterDisplayTitle(m){
+  return esc(m.number||m.title||'Карточка дела');
+}
+function matterDisplaySubtitle(m){
+  if(m.number && m.title && m.title!==m.number) return esc(m.title);
+  return esc([matterType(m).n,matterBasisLabel(m.basis),m.stage].filter(Boolean).join(' · ') || 'Карточка дела');
+}
+function matterSegment(label,count,active,target,disabled){
+  return '<button type="button" class="matter-detail-seg'+(active?' on':'')+'"'+(disabled?' disabled aria-disabled="true"':' data-act="matter-jump" data-v="'+esc(target||'matter-detail-top')+'"')+'>'+esc(label)+(count>0?'<em>'+count+'</em>':'')+'</button>';
+}
+function matterNextHearingCard(t,m){
+  if(!t) return '';
+  var needs=t.kind==='hearing'&&hearingNeedsResult(t);
+  var title=needs?'Требуется результат заседания':(t.kind==='meeting'?'Ближайшая встреча':'Следующее заседание');
+  var place=t.kind==='hearing' ? hearingPlace(t,m).replace(/<br>/g,' · ') : (t.place||'');
+  var judge=t.kind==='hearing' ? hearingJudgeName(t,m) : '';
+  var subtitle=[place,judge].filter(Boolean).join(' · ');
+  return '<button class="matter-next-card'+(needs?' needs-result':'')+'" data-act="'+(needs?'hearing-result':'task')+'" data-id="'+t.id+'">'+
+    '<span class="matter-next-icon">'+ico(needs?'gavel':(t.kind==='meeting'?'user':'cal'),'s')+'</span>'+ 
+    '<span class="matter-next-copy"><small>'+title+'</small><b>'+fmtD(t.due,true)+(t.time?', '+esc(t.time):'')+'</b>'+(subtitle?'<span>'+esc(subtitle)+'</span>':'')+'</span>'+ 
+    '<span class="matter-next-tail">'+ico('chev','s')+'</span>'+ 
+  '</button>';
+}
+function matterCompactDeadlineRow(t){
+  var days=typeof dd==='function'&&t.due?dd(t.due):null;
+  var label=days===null?'':(days<0?'просрочено':days===0?'сегодня':days===1?'1 день':String(days)+' дней');
+  return '<button class="matter-deadline-row" data-act="task" data-id="'+t.id+'">'+
+    '<span class="matter-deadline-dot '+(days!==null&&days<0?'overdue':'')+'"></span>'+
+    '<span class="matter-deadline-copy"><b>'+esc(t.title||'Процессуальный срок')+'</b><small>'+esc(fmtD(t.due,true)+(t.ruleArticle?' · '+t.ruleArticle:''))+'</small></span>'+
+    (label?'<span class="matter-deadline-tag '+(days!==null&&days<0?'overdue':'')+'">'+esc(label)+'</span>':'')+
+  '</button>';
+}
+function sheetMatterMore(id){
+  var m=matter(id); if(!m) return;
+  function row(act, tone, icon, title, subtitle, extraCls){
+    return '<button type="button" class="matter-act-row '+(extraCls||'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-id="'+id+'">'+
+      '<span class="matter-act-ico">'+ico(icon)+'</span>'+
+      '<span class="matter-act-copy"><b>'+title+'</b><small>'+subtitle+'</small></span>'+
+      '<span class="matter-act-tail">'+ico('chev','s')+'</span>'+
+    '</button>';
+  }
+  var archiveTitle = m.archived ? 'Вернуть в работу' : 'Отправить в архив';
+  var archiveSub = m.archived ? 'Снова показать дело в активном списке' : 'Скрыть дело из активного списка';
+  var rows='';
+  if(!m.archived){
+    rows+=row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
+      row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок');
+  }
+  rows+=row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
+    row('m-edit','#728FB0','edit','Изменить карточку','Отредактировать реквизиты дела')+
+    row('m-print','#C89A3F','share','Экспорт / печать','Подготовить сводку по делу')+
+    row('m-arch','#8197AF','arch',archiveTitle,archiveSub)+
+    row('m-del','#E06161','trash','Удалить дело','Связанные записи также будут удалены','danger');
+  openSheet(
+    '<div class="matter-actions-head">'+
+      '<div class="matter-actions-head-icon">'+ico('brief')+'</div>'+
+      '<div class="matter-actions-head-copy"><small>управление делом</small><h2>Действия по делу</h2><p>'+esc(matterDisplayTitle(m))+'</p></div>'+
+    '</div>'+
+    '<div class="matter-actions-card">'+rows+'</div>'
+  );
+  $('#sheet').classList.add('matter-actions-premium');
+}
+
+function openMatter(id){
+  var m = matter(id); if(!m){ closeAll(); return; }
+  var ts = tasksOf(id).sort(sortT);
+  var open = ts.filter(isActiveRecord);
+  var done = ts.filter(function(t){ return t.done || meetingOccurred(t); });
+  var activeDeadlines = open.filter(function(t){ return t.kind==='deadline'; });
+  var activeFlow = open.filter(function(t){ return t.kind!=='deadline'; });
+  var hearings = open.filter(function(t){ return t.kind==='hearing' || t.kind==='meeting'; }).sort(sortT);
+  var nextEvent = hearings[0] || null;
+  var js = journalOf(id).slice().sort(function(a,b){ return (a.date||'')<(b.date||'')?1:-1; });
+  var dossier = matterDossierRows(m);
+  var noteRow = dossier.filter(function(r){ return r[1]==='Суть / рабочая заметка'; })[0] || null;
+  var mainRows = dossier.filter(function(r){ return r[1]!=='Суть / рабочая заметка'; });
+
+  openPage(
+  '<div class="shhead matter-headerbar matter-headerbar-project"><button class="iconbtn" data-act="close">'+ico('left')+'</button>'+
+    '<div class="matter-header-brand">Карточка дела</div>'+
+    '<div class="matter-header-actions"><button class="iconbtn" data-act="m-print">'+ico('share')+'</button><button class="iconbtn" data-act="m-edit">'+ico('edit')+'</button></div></div>'+
+  '<div class="matter-detail-shell matter-detail-shell-project">'+
+    '<div class="matter-project-topcard" id="matter-detail-top">'+
+      '<div class="matter-project-topline"><div class="matter-project-headcopy"><h1>'+matterDisplayTitle(m)+'</h1><p>'+matterDisplaySubtitle(m)+'</p></div><span class="matter-project-status '+matterStatusClass(m)+'">'+esc(matterStatusText(m))+'</span></div>'+
+      '<div class="matter-project-tabs">'+
+        matterSegment('Общее',0,true,'matter-detail-top',false)+
+        matterSegment('Сроки',activeDeadlines.length,false,'matter-sec-deadlines',!activeDeadlines.length)+
+        matterSegment('Задачи',activeFlow.length,false,'matter-sec-flow',false)+
+        matterSegment('Журнал',js.length,false,'matter-sec-journal',false)+
+      '</div>'+
+    '</div>'+
+    (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
+    matterNextHearingCard(nextEvent,m)+
+    (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2>'+(m.archived?'<span class="matter-section-link static">'+activeDeadlines.length+'</span>':'<button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button>')+'</div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
+    '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2>'+(m.archived?'<span class="matter-section-link static">'+activeFlow.length+'</span>':'<button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button>')+'</div>'+
+      (activeFlow.length?'<div class="matter-events-list matter-events-list-compact">'+activeFlow.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card"><div class="hint">Добавьте по делу первую задачу, заседание или встречу.</div></div>')+
+    '</div>'+
+    '<div class="matter-premium-section" id="matter-sec-journal"><div class="matter-premium-section-head"><h2>Недавние действия</h2><button class="matter-section-link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
+      (js.length?'<div class="matter-journal-list matter-journal-list-card">'+js.slice(0,8).map(matterJournalRow).join('')+'</div>':'<div class="hint">Записи журнала помогут быстро восстановить ход работы по делу.</div>')+
+    '</div>'+
+    (noteRow&&noteRow[2]?matterNoteCard(noteRow[2]):'')+
+    (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list matter-events-list-compact done-list">'+done.slice(0,4).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
+    '<div class="matter-bottom-actions">'+
+      (m.archived
+        ? '<button class="matter-bottom-btn primary" data-act="m-arch" data-id="'+id+'">'+ico('arch','s')+' <span>Вернуть в работу</span></button>'
+        : '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+' <span>Добавить задачу</span></button>')+
+      '<button class="matter-bottom-btn" data-act="m-moremenu" data-id="'+id+'">'+ico('more','s')+' <span>Ещё действия</span></button>'+
+    '</div>'+
+    '<div style="height:18px"></div>'+
+  '</div>');
+  $('#page')._mid=id; $('#page')._navType='matter';
+}
+function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
+
+function matterEditorSectionHead(icon,title,num){
+  return '<div class="matter-editor-section-head">'+
+    '<span class="matter-editor-section-icon">'+ico(icon,'s')+'</span>'+
+    '<span class="matter-editor-section-title">'+esc(title)+'</span>'+
+    '<i></i><em>'+esc(num)+'</em>'+
+  '</div>';
+}
+function editMatter(m){
+  MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',executionIssue:'',executionInstitution:'',dayRate:'',notes:'',archived:false};
+  MED = sanitizeMatterByType(MED);
+  if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
+  openSheet(
+  '<div class="matter-editor-top">'+
+    '<button type="button" class="matter-editor-back" data-act="close" aria-label="Назад">'+ico('left','s')+'</button>'+
+    '<div class="matter-editor-titlecopy"><h2>'+(m?'Изменить дело':'Новое дело')+'</h2><p class="sh-sub">Основная карточка доверителя и производства.</p></div>'+
+  '</div>'+ 
+  '<section class="matter-editor-card matter-editor-card-params">'+matterEditorSectionHead('nm-folder','Параметры дела','01')+
+    '<div class="fld"><label>Тип производства</label><select id="m-type">'+((MED.type==='other')?'<option value="other" selected disabled>Иное (старое дело — выберите новый тип)</option>':'')+MATTER_TYPE_KEYS.map(function(k){return '<option value="'+k+'"'+(MED.type===k?' selected':'')+'>'+MATTER_TYPES[k].n+'</option>';}).join('')+'</select></div>'+ 
+    '<div class="fld"><label>Основание ведения <span class="required-star">*</span></label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+ 
+  '</section>'+ 
+  '<div id="matter-dynamic"></div>'+ 
+  '<div class="matter-editor-motto"><i></i><span>ПРАВО&nbsp;&nbsp;•&nbsp;&nbsp;ОПЫТ&nbsp;&nbsp;•&nbsp;&nbsp;РЕЗУЛЬТАТ</span><i></i></div>'+ 
+  '<button class="btn matter-editor-save" data-act="m-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить дело</span></button>');
+  $('#sheet').classList.add('matter-editor-sheet','full');
+  var matterFoot=$('#sheet .shfoot'),matterMotto=$('#sheet .matter-editor-motto');
+  if(matterFoot&&matterMotto)matterFoot.appendChild(matterMotto);
+  renderMatterDynamic();
+}
+
+function saveMatter(){
+  pullMatterDraft();
+  if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
+  if(MED.type==='criminal'&&MED.stage==='Исполнение приговора'&&!MED.executionIssue){toast('Выберите вопрос исполнения приговора');return;}
+  var notes=(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim();
+  var o={title:'',type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:notes};
+  o=sanitizeMatterByType(o);
+  o.title=matterAutoTitle(o);
+  var wasNew=!MED.id;
+  if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
+  addJournal(MED.id,wasNew?'Досье создано':'Досье обновлено',today(),'system',true);
+  /* If a case is moved back to a pre-trial stage, linked "hearing" records
+     cannot remain judicial hearings. Convert them to ordinary tasks. */
+  var savedMatter=matter(MED.id);
+  if(savedMatter && !hearingMatterIsJudicial(savedMatter)){
+    (S.tasks||[]).forEach(function(tt){
+      if(tt&&tt.mid===MED.id&&tt.kind==='hearing') normalizeHearingKindByMatter(tt,savedMatter);
+    });
+  }
+  save(); closeSheet(); if($('#page').classList.contains('open'))openMatter(MED.id); render(); toast('Дело сохранено');
+}
+
+function addJournal(mid,text,date,type,silent){
+  if(!mid||!text)return; S.journal.unshift({id:uid(),mid:mid,date:date||today(),text:text,type:type||'note',created:new Date().toISOString()}); if(!silent)save();
+}
+function journalMatterMetaText(mid){
+  var m=mid?matter(mid):null;if(!m)return '';
+  var bits=[];
+  if(m.client)bits.push(m.client);
+  if(m.court)bits.push(m.court);
+  else if(m.number)bits.push('№ '+m.number);
+  return bits.slice(0,2).join(' · ');
+}
+function syncJournalMatterMeta(){
+  var box=$('#j-matter-meta');if(!box)return;
+  var sel=$('#j-mid-select'),mid=sel?sel.value:($('#j-mid')?$('#j-mid').value:'');
+  var meta=journalMatterMetaText(mid);
+  box.textContent=meta;
+  box.classList.toggle('is-visible',!!meta);
+}
+function decorateJournalPremiumControls(){
+  var sh=$('#sheet');if(!sh||!sh.classList.contains('journal-premium-sheet'))return;
+
+  var matterBtn=sh.querySelector('[data-premium-select-for="j-mid-select"]');
+  if(matterBtn&&!matterBtn.querySelector('.journal-field-leading')){
+    var lead=document.createElement('span');
+    lead.className='journal-field-leading';
+    lead.innerHTML=ico('folder','s');
+    matterBtn.insertBefore(lead,matterBtn.firstChild);
+    matterBtn.classList.add('journal-premium-picker');
+  }
+
+  var dateBtn=sh.querySelector('[data-date-for="j-date"]');
+  if(dateBtn&&!dateBtn.querySelector('.journal-field-leading')){
+    var dlead=document.createElement('span');
+    dlead.className='journal-field-leading';
+    dlead.innerHTML=ico('cal','s');
+    dateBtn.insertBefore(dlead,dateBtn.firstChild);
+    var tail=document.createElement('span');
+    tail.className='journal-field-tail';
+    tail.innerHTML=ico('chev','s');
+    dateBtn.appendChild(tail);
+    dateBtn.classList.add('journal-premium-picker');
+  }
+  syncJournalMatterMeta();
+}
+function sheetJournal(mid){
+  var fixed=mid?matter(mid):null;
+  var fixedMeta=mid?journalMatterMetaText(mid):'';
+  openSheet(
+    '<div class="journal-premium-head">'+
+      '<span class="journal-premium-head-icon">'+ico('doc','s')+'</span>'+
+      '<div class="journal-premium-head-copy"><h2>Запись в журнал дела</h2><p>Хронология работы и процессуальных событий</p></div>'+
+    '</div>'+
+    '<div class="journal-premium-ornament"><span></span><i></i><span></span></div>'+
+    (!mid?
+      '<div class="fld journal-premium-fld journal-matter-fld"><label>Дело</label>'+
+        '<select id="j-mid-select" autocomplete="off"><option value="" selected disabled>Выберите дело</option>'+activeM().map(function(m){return '<option value="'+m.id+'">'+esc(m.title)+'</option>';}).join('')+'</select>'+
+        '<div id="j-matter-meta" class="journal-matter-meta" aria-live="polite"></div>'+
+      '</div>'
+      :
+      '<div class="fld journal-premium-fld journal-fixed-matter-fld"><label>Дело</label>'+
+        '<div class="journal-fixed-matter"><span class="journal-field-leading">'+ico('folder','s')+'</span><div><b>'+esc((fixed&&fixed.title)||'Дело')+'</b>'+(fixedMeta?'<small>'+esc(fixedMeta)+'</small>':'')+'</div></div>'+
+      '</div>'
+    )+
+    '<div class="fld journal-premium-fld journal-date-fld"><label>Дата</label><div class="journal-date-wrap">'+premiumDateControl('j-date',today(),'Выберите дату')+'</div></div>'+
+    '<div class="fld journal-premium-fld journal-note-fld"><label>Событие / заметка</label>'+
+      '<div class="journal-note-shell"><span class="journal-note-icon">'+ico('doc','s')+'</span>'+
+        '<textarea id="j-text" name="advokat-journal-note-5267" rows="5" autocomplete="off" spellcheck="true" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea>'+
+        '<button type="button" class="journal-note-clear" data-act="j-clear" aria-label="Очистить запись">'+ico('xmark','s')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="journal-premium-ornament journal-premium-ornament-bottom"><span></span><i></i><span></span></div>'+
+    '<input type="hidden" id="j-mid" value="'+esc(mid)+'">'+
+    '<button class="btn journal-premium-save" data-act="j-save"><span class="journal-premium-save-icon">'+ico('qe-save','s')+'</span><b>Добавить в журнал</b></button>'
+  );
+  $('#sheet').classList.add('sheet-premium-form','journal-premium-sheet');
+  document.body.classList.add('journal-sheet-open');
+  setTimeout(function(){decorateJournalPremiumControls();},0);
+}
+function sheetParticipation(mid){
+  var m=mid?matter(mid):null;
+  openSheet('<h2>День участия</h2><p class="sh-sub">Любое фактическое участие считается как 1 день, даже если оно длилось несколько минут.</p>'+
+    '<div class="two"><div class="fld"><label>Дата</label>'+premiumDateControl('pt-date',today(),'Выберите дату')+'</div><div class="fld"><label>Вид участия</label><select id="pt-kind">'+Object.keys(PART_KINDS).map(function(k){return '<option value="'+k+'">'+PART_KINDS[k]+'</option>';}).join('')+'</select></div></div>'+
+    '<div class="fld"><label>Дело</label><select id="pt-mid"><option value="">— выбрать дело —</option>'+activeM().map(function(x){return '<option value="'+x.id+'"'+(mid===x.id?' selected':'')+'>'+esc(x.title)+'</option>';}).join('')+'</select></div>'+
+    '<div class="fld"><label>Место / орган</label><input id="pt-place" value="'+esc((m&&m.court)||'')+'" placeholder="Суд, СИЗО, следственный отдел…"></div>'+
+    '<div class="fld"><label>Что было</label><input id="pt-desc" placeholder="Заседание, допрос, ознакомление, выезд…"></div>'+
+    '<div class="fld"><label>Ставка за этот день, '+esc(S.settings.cur)+'</label><input id="pt-rate" type="number" inputmode="numeric" value="'+esc((m&&m.dayRate)||S.settings.dayRate||'')+'"></div>'+
+    '<div class="hint">Если по одному делу в одну дату запись уже есть, приложение не создаст второй оплачиваемый день.</div><button class="btn" data-act="pt-save">Записать день участия</button>');
+}
+
+/* =====================================================================
+   ШАБЛОНЫ ЧЕК-ЛИСТОВ
+   ===================================================================== */
+var TPL = [
+ { n:'Первичная консультация', i:'user', items:[
+   ['Уточнить существо обращения и цель доверителя',0],
+   ['Запросить документы и доказательства',1],
+   ['Проверить сроки исковой давности',1],
+   ['Оценить судебную перспективу',2],
+   ['Подготовить и подписать соглашение об оказании юрпомощи',3],
+   ['Выписать ордер / оформить доверенность',3]]},
+ { n:'Иск в суд общей юрисдикции', i:'doc', items:[
+   ['Рассчитать цену иска и госпошлину',1],
+   ['Собрать доказательства, заверить копии',3],
+   ['Составить исковое заявление',5],
+   ['Направить копии иска сторонам, сохранить квитанции',6],
+   ['Оплатить госпошлину, приложить платёжку',6],
+   ['Подать иск (канцелярия / ГАС «Правосудие»)',7],
+   ['Отследить принятие иска и дату заседания',12]]},
+ { n:'Арбитражный иск', i:'gavel', items:[
+   ['Направить претензию, дождаться 30 дней',1],
+   ['Выписка из ЕГРЮЛ на ответчика (не старше 30 дней)',2],
+   ['Расчёт долга, неустойки, процентов ст. 395 ГК',3],
+   ['Составить исковое заявление',5],
+   ['Направить иск сторонам заказным с уведомлением',6],
+   ['Госпошлина, подача через «Мой арбитр»',7],
+   ['Проверить карточку дела в КАД',10]]},
+ { n:'Подготовка к заседанию', i:'gavel', items:[
+   ['Изучить материалы дела, сделать выписки',0],
+   ['Подготовить правовую позицию и тезисы выступления',1],
+   ['Подготовить вопросы свидетелям / оппоненту',1],
+   ['Проверить наличие ордера, удостоверения, доверенности',2],
+   ['Подготовить ходатайства (об истребовании, экспертизе)',2],
+   ['Согласовать позицию с доверителем',2]]},
+ { n:'Апелляционная жалоба', i:'flag', items:[
+   ['Получить мотивированное решение суда',0],
+   ['Проанализировать решение, выявить нарушения',2],
+   ['Составить апелляционную жалобу',5],
+   ['Оплатить госпошлину',6],
+   ['Направить копии лицам, участвующим в деле',6],
+   ['Подать жалобу через суд первой инстанции',7]]},
+ { n:'Уголовное дело — вступление', i:'lock', items:[
+   ['Заключить соглашение, выписать ордер',0],
+   ['Ознакомиться с постановлением о возбуждении дела',1],
+   ['Свидание с подзащитным, согласование позиции',1],
+   ['Заявить ходатайство об ознакомлении с материалами',2],
+   ['Проверить законность задержания / меры пресечения',2],
+   ['Подготовить ходатайства и жалобы (ст. 125 УПК)',4]]},
+ { n:'Исполнительное производство', i:'money', items:[
+   ['Получить исполнительный лист',0],
+   ['Заявление о возбуждении ИП в ФССП',2],
+   ['Запрос об имуществе и счетах должника',5],
+   ['Контроль действий пристава, ознакомление с ИП',14],
+   ['При бездействии — жалоба старшему приставу',21]]},
+ { n:'Завершение дела', i:'arch', items:[
+   ['Получить и передать доверителю итоговые документы',0],
+   ['Подписать акт выполненных работ',2],
+   ['Выставить и проконтролировать оплату',3],
+   ['Сформировать адвокатское досье, сдать в архив',5]]},
+ { n:'КАС — административный иск', i:'doc', items:[
+   ['Проверить подсудность и административного ответчика',0],
+   ['Проверить срок обращения в суд',0],
+   ['Собрать оспариваемые решения, ответы и доказательства',2],
+   ['Сформулировать предмет и основания административного иска',3],
+   ['Подготовить административное исковое заявление',5],
+   ['Направить копии участникам и подготовить подтверждения',6],
+   ['Подать административный иск и отследить принятие',7]]},
+ { n:'Ст. 81 УК РФ — освобождение по болезни', i:'lock', items:[
+   ['Собрать медицинские документы и актуальные заключения',0],
+   ['Сверить диагнозы и функциональные нарушения с ПП РФ № 54',1],
+   ['Проверить состав и процедуру медицинского освидетельствования',1],
+   ['Подготовить ходатайство и приложения',3],
+   ['Подготовить вопросы врачу / специалисту',4],
+   ['Подготовить позицию к судебному заседанию',5],
+   ['При отказе — получить постановление и рассчитать срок обжалования',7]]},
+ { n:'УДО — подготовка', i:'flag', items:[
+   ['Проверить фактически отбытый срок и право на обращение',0],
+   ['Получить характеристику и сведения о поощрениях / взысканиях',2],
+   ['Собрать документы о семье, жилье и трудоустройстве',3],
+   ['Подготовить ходатайство об УДО и приложения',5],
+   ['Подготовить осужденного к вопросам суда',6],
+   ['Проверить извещение потерпевшего и позицию учреждения',7]]},
+ { n:'Допрос / очная ставка — защита', i:'user', items:[
+   ['Согласовать позицию и допустимый объём показаний',0],
+   ['Подготовить краткий свободный рассказ',0],
+   ['Составить вероятные вопросы следствия / суда и ответы',1],
+   ['Определить вопросы другому участнику',1],
+   ['Проверить противоречия с прежними показаниями',1],
+   ['Обсудить основания для использования ст. 51 Конституции РФ',1]]}
+];
+function sheetTemplates(mid){
+  openSheet('<h2>Шаблоны чек-листов</h2><p class="sh-sub">Готовый набор задач со сроками — один тап, и план работы по делу составлен.</p>'+
+    (mid?'':'<div class="hint">Задачи добавятся без привязки к делу. Чтобы привязать — откройте карточку дела и нажмите «Шаблон».</div>')+
+    '<div class="card" style="padding:0 16px">'+TPL.map(function(t,i){
+      return '<button class="row" data-act="tpl-use" data-v="'+i+'" data-id="'+(mid||'')+'">'+ico(t.i)+
+        '<span class="rl">'+t.n+'<small>'+t.items.length+' задач</small></span>'+ico('chev','s')+'</button>'; }).join('')+'</div>');
+}
+function applyTpl(i,mid){
+  var t = TPL[i];
+  t.items.forEach(function(it,k){
+    S.tasks.push({ id:uid(), title:it[0], mid:mid||'', due:addD(today(),it[1]), time:'',
+      pri: it[1]<=1?'high':it[1]<=5?'mid':'low', kind:'task', note:'', steps:[], done:false,
+      created:new Date().toISOString(), tpl:t.n });
+  });
+  save(); closeSheet();
+  if($('#page').classList.contains('open') && mid) openMatter(mid);
+  render(); toast('Добавлено задач: '+t.items.length);
+}
+
+/* =====================================================================
+   КАЛЬКУЛЯТОР СРОКОВ
+   ===================================================================== */
+function sheetDeadline(mid){
+  editTask(null,{kind:'deadline',mid:mid||'',sourceDate:today(),deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',pri:'high'});
+}
+
+/* =====================================================================
+   УЧАСТИЕ / БЫСТРЫЕ ДЕЙСТВИЯ / ПОИСК / КАЛЕНДАРЬ IPHONE
+   ===================================================================== */
+function sheetParticipationLog(){
+  var logs=S.participation.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+  var sum=logs.reduce(function(a,e){var m=matter(e.mid);return a+(+e.rate||+(m&&m.dayRate)||+S.settings.dayRate||0);},0);
+  openSheet('<h2>Дни участия</h2><p class="sh-sub">Всего '+logs.length+' '+plural(logs.length,'день','дня','дней')+' · '+money(sum)+'</p>'+
+    '<button class="btn" data-act="pt-new" style="margin-bottom:14px">Добавить день участия</button>'+
+    (logs.length?'<div class="card pad0">'+logs.slice(0,50).map(function(e){var m=matter(e.mid);return '<div class="row">'+ico('gavel')+'<span class="rl">'+esc(PART_KINDS[e.kind]||'Участие')+'<small>'+fmtD(e.date,true)+(m?' · '+esc(m.title):'')+(e.place?' · '+esc(e.place):'')+'</small></span><button data-act="part-del" data-id="'+e.id+'">'+ico('trash','s')+'</button></div>';}).join('')+'</div>':empty('gavel','Участий пока нет','Добавьте судебное заседание, следственное действие, выезд или другое фактическое участие.')));
+}
+
+function sheetQuickAdd(){
+  openSheet('<div class="quickintro">'+premiumHead('plus','Быстрая запись','Добавьте нужное действие без перехода по разделам.')+'</div><div class="quickgrid quickgrid-core">'+
+    quickItem('gavel','Заседание','qa-hearing','blue')+
+    quickItem('user','Встреча','qa-meeting','purple')+
+    quickItem('flag','Процессуальный срок','qa-deadline','red')+
+    quickItem('check','Задача','qa-task','green')+
+    quickItem('doc','Запись в журнал','qa-journal','gold')+
+  '</div>');
+  $('#sheet').classList.add('quick-sheet');
+}
+function quickItem(i,t,act,tone){
+  /* 5.0.152: карточка «Быстрой записи» теперь является единым визуальным слоем,
+     восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
+     не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
+  var art={
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5249',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5249',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5249',
+    'qa-task':'quick-card-task-v5100.png?v=5249',
+    'qa-journal':'quick-card-journal-v5100.png?v=5249'
+  }[act]||'';
+  if(art){
+    return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
+  }
+  return '<button class="quickitem q-'+(tone||'slate')+'" data-act="'+act+'"><span class="qico">'+ico(i,'l')+'</span><b>'+t+'</b></button>';
+}
+function premiumActionIcon(type,cls){
+  cls=cls||'premium-sheet-action-icon';
+  var src=type==='bell'?'header-bell-premium.png?v=5250':type==='search'?'header-search-premium.png?v=5250':type==='plus'?'fab-plus-square-premium.png?v=5249':'';
+  if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
+  return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
+}
+function premiumHead(icon,title,sub){return '<div class="filter-premium-head">'+premiumActionIcon(icon,'premium-sheet-action-icon')+'<div><h2>'+title+'</h2><p>'+sub+'</p></div></div>'; }
+function premiumSheetOrb(icon,cls){
+  cls=cls||'sheet-premium-orb';
+  return '<span class="'+cls+'"><span class="sheet-premium-orb-core">'+ico(icon,'s')+'</span></span>';
+}
+
+var GQ='';
+var GSEARCH_TIP_HIDDEN=false;
+function globalSearchData(q){
+  q=(q||'').trim().toLowerCase(); if(!q)return {m:[],t:[],j:[]};
+  function has(x){return String(x||'').toLowerCase().replace(/ё/g,'е').indexOf(q.replace(/ё/g,'е'))>=0;}
+  var ms=S.matters.filter(function(m){return [m.title,m.client,m.phone,m.number,m.court,m.judge,m.investigator,m.article,m.role,m.notes].some(has);}).slice(0,8);
+  var ts=S.tasks.filter(function(t){var m=t.mid?matter(t.mid):null;return [t.title,t.note,t.place,t.rule,t.hearingClient,t.hearingNumber,t.hearingJudge,m&&m.title,m&&m.client,m&&m.number].some(has);}).sort(sortT).slice(0,12);
+  var js=S.journal.filter(function(j){var m=matter(j.mid);return [j.text,m&&m.title,m&&m.client].some(has);}).slice(0,10);
+  return {m:ms,t:ts,j:js};
+}
+function searchPremiumMicIcon(){
+  return '<svg class="search-premium-mic-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.6a2.65 2.65 0 0 1 2.65 2.65v4.9a2.65 2.65 0 1 1-5.3 0v-4.9A2.65 2.65 0 0 1 12 4.6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.8 10.9v.6a4.2 4.2 0 0 0 8.4 0v-.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.7v3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9.5 19.3h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+}
+function searchExampleIcon(icon){
+  var a='class="search-example-svg search-example-'+icon+'" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.62" stroke-linecap="round" stroke-linejoin="round"';
+  if(icon==='user') return '<svg '+a+'><circle cx="12" cy="7.1" r="3"/><path d="M6.15 19.05c.34-2.56 2.68-4.22 5.85-4.22s5.51 1.66 5.85 4.22"/></svg>';
+  if(icon==='page') return '<svg '+a+'><path d="M7.35 3.95h6.35l3.35 3.35v11.78a1.12 1.12 0 0 1-1.12 1.12H7.35a1.12 1.12 0 0 1-1.12-1.12V5.07a1.12 1.12 0 0 1 1.12-1.12Z"/><path d="M13.7 4v3.45h3.35"/></svg>';
+  if(icon==='court') return '<svg '+a+'><path d="M3.95 8.65 12 4.3l8.05 4.35H3.95Z"/><path d="M5.2 10.05h13.6M6.6 10.05v6.4M9.95 10.05v6.4M14.05 10.05v6.4M17.4 10.05v6.4M4.55 17.95h14.9M3.7 19.8h16.6"/></svg>';
+  if(icon==='scale-line') return '<svg '+a+'><path d="M12 4v15.3M7.9 19.75h8.2M5 7.3h14M12 5.15 5.6 7.3M12 5.15l6.4 2.15"/><path d="m6.2 7.75-2.15 4.1h4.3L6.2 7.75Zm11.6 0-2.15 4.1h4.3l-2.15-4.1Z"/><path d="M4.05 11.95c.38 1.35 1.18 2 2.15 2 1 0 1.8-.65 2.18-2M15.62 11.95c.38 1.35 1.18 2 2.18 2 .97 0 1.77-.65 2.15-2"/></svg>';
+  if(icon==='cal') return '<svg '+a+'><rect x="4.3" y="5.55" width="15.4" height="14.1" rx="2.2"/><path d="M4.3 9.55h15.4M8.15 4.2v2.95M15.85 4.2v2.95"/></svg>';
+  if(icon==='doc') return '<svg '+a+'><path d="M7.2 3.95h6.45l3.45 3.45v11.82a1.05 1.05 0 0 1-1.05 1.05H7.2a1.05 1.05 0 0 1-1.05-1.05V5a1.05 1.05 0 0 1 1.05-1.05Z"/><path d="M13.65 3.95v3.55h3.45M9.15 11.75h5.55M9.15 14.95h4.2"/></svg>';
+  return ico(icon,'s');
+}
+function searchPremiumChip(q,label,icon){
+  return '<button class="search-premium-chip" type="button" data-act="global-search-suggestion" data-v="'+esc(q)+'"><span class="search-premium-chip-ico">'+searchExampleIcon(icon)+'</span><span>'+esc(label)+'</span></button>';
+}
+function searchPremiumExamples(){
+  return '<div class="search-premium-label-row"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
+    '<div class="search-premium-chips">'+
+      searchPremiumChip('Ошарин','Ошарин','user')+
+      searchPremiumChip('81 УК','81 УК','page')+
+      searchPremiumChip('Ивановский суд','Ивановский суд','court')+
+      searchPremiumChip('А56-12345/2024','А56-12345/2024','page')+
+      searchPremiumChip('ст. 318 УК','ст. 318 УК','scale-line')+
+      searchPremiumChip('заседание завтра','заседание завтра','cal')+
+      searchPremiumChip('доверенность','доверенность','doc')+
+    '</div>';
+}
+function renderSearchPremiumMatter(m){
+  var prof=matterCardProfessional(m), meta=[];
+  if(m.number) meta.push('№ '+m.number);
+  if(m.stage) meta.push(m.stage);
+  if(m.court) meta.push(m.court);
+  if(prof&&prof.value) meta.push((prof.label?prof.label+': ':'')+prof.value);
+  return '<button class="search-premium-result" data-act="matter" data-id="'+esc(m.id)+'">'+
+    '<span class="search-premium-result-ico tone-gold">'+ico('folder','s')+'</span>'+
+    '<span class="search-premium-result-copy"><b>'+esc(m.title||'Дело')+'</b>'+
+    (m.client?'<small>'+esc(m.client)+'</small>':'')+
+    (meta.length?'<small>'+esc(meta.join(' · '))+'</small>':'')+
+    '</span><span class="search-premium-result-tail">'+ico('chev','s')+'</span></button>';
+}
+function renderSearchPremiumTask(t){
+  var m=t.mid?matter(t.mid):null, meta=[];
+  if(t.due) meta.push(fmtShort(t.due)+(t.time?' · '+t.time:''));
+  if(t.place) meta.push(t.place);
+  if(m&&m.title) meta.push(m.title);
+  var label=t.kind==='hearing'?'Судебное заседание':(t.kind==='meeting'?'Встреча':(t.kind==='deadline'?'Процессуальный срок':'Задача'));
+  var title=t.kind==='hearing'?hearingCaption(t,m):(t.title||label);
+  var icoName=t.kind==='hearing'?'gavel':(t.kind==='meeting'?'user':(t.kind==='deadline'?'flag':'check'));
+  return '<button class="search-premium-result" data-act="task" data-id="'+esc(t.id)+'">'+
+    '<span class="search-premium-result-ico tone-blue">'+ico(icoName,'s')+'</span>'+
+    '<span class="search-premium-result-copy"><b>'+esc(title)+'</b>'+
+    '<small>'+esc(label)+'</small>'+
+    (meta.length?'<small>'+esc(meta.join(' · '))+'</small>':'')+
+    '</span><span class="search-premium-result-tail">'+ico('chev','s')+'</span></button>';
+}
+function renderSearchPremiumJournal(j){
+  var m=matter(j.mid), meta=[fmtD(j.date,true)];
+  if(m&&m.title) meta.push(m.title);
+  return '<button class="search-premium-result" data-act="journal-open" data-id="'+esc(j.mid||'')+'">'+
+    '<span class="search-premium-result-ico tone-sand">'+ico('doc','s')+'</span>'+
+    '<span class="search-premium-result-copy"><b>'+esc(j.text||'Запись в журнале')+'</b>'+
+    '<small>'+esc(meta.join(' · '))+'</small>'+
+    '</span><span class="search-premium-result-tail">'+ico('chev','s')+'</span></button>';
+}
+function searchPremiumResultsSection(title,count,rows){
+  return '<section class="search-premium-section"><div class="search-premium-section-head"><b>'+title+'</b><em>'+count+'</em></div><div class="search-premium-section-body">'+rows.join('')+'</div></section>';
+}
+function searchPremiumHelperCard(){
+  if(GSEARCH_TIP_HIDDEN) return '';
+  return '<div class="search-premium-helper" id="ghelper"><div class="search-premium-helper-icon">✦</div><div class="search-premium-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти нужные дела, документы и задачи.</p></div><button type="button" class="search-premium-helper-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button></div>';
+}
+function globalSearchApprovedExamples(){
+  return '<div class="g118-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+    '<div class="g118-chips">'+      searchPremiumChip('Ошарин','Ошарин','user')+      searchPremiumChip('81 УК','81 УК','page')+      searchPremiumChip('Ивановский суд','Ивановский суд','court')+      searchPremiumChip('А56-12345/2024','А56-12345/2024','page')+      searchPremiumChip('ст. 318 УК','ст. 318 УК','scale-line')+      searchPremiumChip('заседание завтра','заседание завтра','cal')+      searchPremiumChip('доверенность','доверенность','doc')+    '</div>';
+}
+function globalSearchApprovedHelper(){
+  if(GSEARCH_TIP_HIDDEN) return '';
+  return '<div class="g118-helper" id="ghelper">'+
+    '<div class="g118-helper-star">✦</div>'+
+    '<div class="g118-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти нужные дела, документы и задачи.</p></div>'+
+    '<button type="button" class="g118-helper-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
+  '</div>';
+}
+function sheetGlobalSearch(){
+  GQ='';
+  GSEARCH_TIP_HIDDEN=false;
+  openSheet('<section class="gs166 gs153">'+
+    '<header class="gs166-head gs153-head">'+
+      '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5249" alt="" aria-hidden="true">'+
+    '</header>'+
+    '<div class="gs166-searchwrap">'+
+      '<label class="gs166-search gs153-search" for="gq">'+
+        '<span class="gs153-search-icon">'+ico('search','s')+'</span>'+
+        '<input id="gq" placeholder="Введите запрос..." autocomplete="off" autocapitalize="off" spellcheck="false">'+
+        '<button class="gs153-clear" id="gq-clear" type="button" data-act="global-search-clear-query" aria-label="Очистить поиск">'+ico('xmark','s')+'</button>'+
+        '<span class="gs153-search-sep"></span>'+
+        '<button class="gs153-mic" type="button" data-act="global-search-mic" aria-label="Голосовой поиск">'+searchPremiumMicIcon()+'</button>'+
+      '</label>'+
+    '</div>'+
+    '<div class="gs166-tip gs153-info" id="gsearch-tip">'+
+      '<span class="gs153-info-icon"><b>i</b></span>'+
+      '<div class="gs153-info-copy">Ищите по фамилии, номеру дела, суду,<br>статье, задаче или части заметки.</div>'+
+      '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
+    '</div>'+
+    '<div class="gs166-main gs153-main">'+
+      '<div class="gs166-examples gs153-examples">'+
+        '<div class="gs166-section-title gs153-example-title"><span></span><b>ПРИМЕРЫ ЗАПРОСОВ</b><span></span></div>'+
+        '<div class="gs166-chiprows gs153-chiprows">'+
+          '<div class="gs166-chiprow gs153-chiprow gs153-chiprow-1">'+
+            searchPremiumChip('Ошарин','Ошарин','user')+
+            searchPremiumChip('81 УК','81 УК','page')+
+            searchPremiumChip('Ивановский суд','Ивановский суд','court')+
+          '</div>'+
+          '<div class="gs166-chiprow gs153-chiprow gs153-chiprow-2">'+
+            searchPremiumChip('А56-12345/2024','А56-12345/2024','page')+
+            searchPremiumChip('ст. 318 УК','ст. 318 УК','scale-line')+
+          '</div>'+
+          '<div class="gs166-chiprow gs153-chiprow gs153-chiprow-3">'+
+            searchPremiumChip('заседание завтра','заседание завтра','cal')+
+            searchPremiumChip('доверенность','доверенность','doc')+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div id="gresults" class="gs166-results gs153-results search-premium-results"></div>'+
+      '<div class="gs166-helper gs153-helper" id="ghelper">'+
+        '<div class="gs153-helper-star">'+ico('sparkles','s')+'</div>'+
+        '<div class="gs153-helper-copy"><b>Быстрый доступ к важному</b><p>Используйте поиск, чтобы мгновенно найти<br>нужные дела, документы и задачи.</p></div>'+
+        '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5249" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+  '</section>');
+  $('#sheet').classList.add('global-search-premium-v166-sheet');
+  renderGlobalSearch();
+}
+function renderGlobalSearch(){
+  var box=$('#gresults'); if(!box)return;
+  var shell=document.querySelector('.gs153');
+  var helper=$('#ghelper');
+  var examples=document.querySelector('.gs153-examples');
+  var clearBtn=$('#gq-clear');
+  var q=(GQ||'').trim();
+  if(shell) shell.classList.toggle('has-query',!!q);
+  if(clearBtn) clearBtn.style.display=q?'flex':'none';
+  if(helper) helper.style.display=q?'none':'';
+  if(examples) examples.style.display=q?'none':'';
+  if(!q){ box.innerHTML=''; return; }
+  var r=globalSearchData(q), n=r.m.length+r.t.length+r.j.length;
+  if(!n){
+    box.innerHTML='<div class="search-premium-empty"><span class="search-premium-empty-ico">'+ico('search')+'</span><b>Ничего не найдено</b><p>Попробуйте другой фрагмент запроса.</p></div>';
+    return;
+  }
+  var h='';
+  if(r.m.length) h += searchPremiumResultsSection('Дела',r.m.length,r.m.map(renderSearchPremiumMatter));
+  if(r.t.length) h += searchPremiumResultsSection('Задачи и события',r.t.length,r.t.map(renderSearchPremiumTask));
+  if(r.j.length) h += searchPremiumResultsSection('Журнал',r.j.length,r.j.map(renderSearchPremiumJournal));
+  box.innerHTML=h;
+}
+
+function icsEsc(s){return String(s||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');}
+function icsDT(date,time){return date.replace(/-/g,'')+(time?'T'+time.replace(':','')+'00':'');}
+function taskICS(t){
+  if(!t||!t.due)return '';
+  var m=t.mid?matter(t.mid):null, hctx=t.kind==='hearing'&&!m?[t.hearingNumber,t.hearingClient].filter(Boolean).join(' · '):'', title=(t.kind==='hearing'?hearingCaption(t,m):t.title)+(m?' — '+m.title:(hctx?' — '+hctx:'')), desc=[t.note,t.rule].filter(Boolean).join('\n');
+  var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Advokat Offline//RU','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+t.id+'@advokat-offline','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')];
+  if(t.time){
+    lines.push('DTSTART:'+icsDT(t.due,t.time));
+    var d=new Date(t.due+'T'+t.time+':00'); d.setMinutes(d.getMinutes()+60);
+    lines.push('DTEND:'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00');
+  }else{
+    lines.push('DTSTART;VALUE=DATE:'+icsDT(t.due,'')); lines.push('DTEND;VALUE=DATE:'+icsDT(addD(t.due,1),''));
+  }
+  lines.push('SUMMARY:'+icsEsc(title)); if(t.place)lines.push('LOCATION:'+icsEsc(t.place)); if(desc)lines.push('DESCRIPTION:'+icsEsc(desc));
+  lines.push('END:VEVENT','END:VCALENDAR'); return lines.join('\r\n');
+}
+async function shareICS(t){
+  if(!t||!t.due){toast('Сначала укажите дату');return;}
+  var text=taskICS(t),name='advokat-'+t.due+'-'+t.id.slice(-4)+'.ics',blob=new Blob([text],{type:'text/calendar'});
+  try{
+    var file=new File([blob],name,{type:'text/calendar'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({files:[file],title:t.title});toast('Откройте файл в Календаре');return;}
+  }catch(e){}
+  dl(name,text,'text/calendar');
+}
+
+/* ------------------------- encrypted backup ------------------------- */
+function backupReadableRecords(){
+  var active=S.tasks.filter(isActiveRecord).slice().sort(sortT);
+  return {
+    hearings:active.filter(function(t){ return t.kind==='hearing'; }),
+    deadlines:active.filter(function(t){ return t.kind==='deadline'; }),
+    tasks:active.filter(function(t){ return t.kind!=='hearing' && t.kind!=='deadline'; })
+  };
+}
+function backupReadableTitle(t){
+  var m=t.mid?matter(t.mid):null;
+  if(t.kind==='hearing') return hearingCaption(t,m);
+  return t.title||KIND[t.kind].n;
+}
+function backupReadableSub(t){
+  var m=t.mid?matter(t.mid):null, bits=[];
+  if(m){
+    if(m.title) bits.push(m.title);
+    if(m.number) bits.push('№ '+m.number);
+  }else if(t.kind==='hearing'){
+    if(t.hearingClient) bits.push(t.hearingClient);
+    if(t.hearingNumber) bits.push('№ '+t.hearingNumber);
+    if(t.hearingJudge) bits.push('Судья: '+t.hearingJudge);
+  }
+  if(t.kind==='hearing' && t.place) bits.push(t.place);
+  if(t.kind==='deadline' && t.rule) bits.push(t.rule);
+  if(t.note) bits.push(t.note);
+  return bits.join(' · ');
+}
+function backupReadableDateCell(t){
+  var base=t.due?fmtShort(t.due):'Без даты';
+  if(t.time) base += ', '+t.time;
+  return base;
+}
+function backupReadableSection(title,list){
+  if(!list.length) return '<h2>'+title+'</h2><p>Нет записей.</p>';
+  return '<h2>'+title+'</h2><table>'+list.map(function(t){
+    var sub=backupReadableSub(t);
+    return '<tr><td style="white-space:nowrap;width:118px"><b>'+esc(backupReadableDateCell(t))+'</b></td><td><b>'+esc(backupReadableTitle(t))+'</b>'+
+      (sub?'<br><small>'+esc(sub)+'</small>':'')+'</td></tr>';
+  }).join('')+'</table>';
+}
+function backupReadableText(){
+  var r=backupReadableRecords(), lines=['ЧИТАЕМАЯ КОПИЯ ПЛАНОВ — '+fmtD(today(),true),''];
+  var pushGroup=function(title,list){
+    lines.push(title+':');
+    if(!list.length){ lines.push('  — нет записей'); lines.push(''); return; }
+    list.forEach(function(t){
+      var row='  • '+backupReadableDateCell(t)+' — '+backupReadableTitle(t);
+      var sub=backupReadableSub(t); if(sub) row += ' · '+sub;
+      lines.push(row);
+    });
+    lines.push('');
+  };
+  pushGroup('Заседания',r.hearings);
+  pushGroup('Процессуальные сроки',r.deadlines);
+  pushGroup('Задачи',r.tasks);
+  return lines.join('\n');
+}
+function openBackupReadableReport(){
+  var r=backupReadableRecords();
+  var rows='<h2>Сводка</h2><table>'+
+    '<tr><td>Заседания</td><td style="text-align:right"><b>'+r.hearings.length+'</b></td></tr>'+
+    '<tr><td>Процессуальные сроки</td><td style="text-align:right"><b>'+r.deadlines.length+'</b></td></tr>'+
+    '<tr><td>Задачи</td><td style="text-align:right"><b>'+r.tasks.length+'</b></td></tr>'+
+    '</table>'+
+    backupReadableSection('Заседания',r.hearings)+
+    backupReadableSection('Процессуальные сроки',r.deadlines)+
+    backupReadableSection('Задачи',r.tasks);
+  printHTML('Ежедневник адвоката','Читаемая резервная копия · '+fmtD(today(),true),rows,'Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')+'. Сохраните документ как PDF.',backupReadableText());
+  setTimeout(function(){ try{ doPrint(); }catch(e){} }, 220);
+}
+function sheetBackup(){
+  var bs=backupPlanStats();
+  openSheet('<h2>Резервная копия планов</h2><p class="sh-sub">По одной кнопке создаются сразу две копии: <b>зашифрованный файл</b> для полного восстановления приложения и <b>читаемая копия в PDF</b>, чтобы при необходимости вручную перенести заседания, сроки и задачи.</p>'+
+    '<div class="backup-sheet-counts"><span>'+bs.tasks+' задач</span><span>'+bs.hearings+' заседаний</span><span>'+bs.deadlines+' сроков</span></div>'+
+    '<div class="fld"><label>Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Запомните этот пароль"></div>'+
+    '<div class="fld"><label>Повторите пароль</label><input id="bk-pass2" type="password" autocomplete="new-password"></div>'+
+    '<div class="hint">Пароль нужен только для зашифрованного файла восстановления. После его сохранения приложение сразу откроет читаемую копию для печати / сохранения в PDF.</div><button class="btn" data-act="backup-create">Сохранить обе копии</button>');
+}
+async function createBackupFile(){
+  var a=$('#bk-pass').value,b=$('#bk-pass2').value;if(a.length<6){toast('Минимум 6 символов');return;}if(a!==b){toast('Пароли не совпадают');return;}
+  try{
+    var salt=randomB64(16),key=await deriveKey(a,salt),payload=await encryptObj(S,key);
+    var wrap={app:'Ежедневник адвоката',version:3,encrypted:true,salt:salt,created:new Date().toISOString(),payload:payload};
+    var txt=JSON.stringify(wrap),name='advokat-backup-'+today()+'.advokat.json';
+    var shared=false;
+    try{
+      var blob=new Blob([txt],{type:'application/json'}),file=new File([blob],name,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){
+        await navigator.share({files:[file],title:'Резервная копия — Ежедневник адвоката'}); shared=true;
+      }
+    }catch(shareErr){ if(shareErr&&shareErr.name==='AbortError') return; }
+    if(!shared) dl(name,txt,'application/json');
+    S.settings.lastBackup=new Date().toISOString();save();closeSheet();render();
+    openBackupReadableReport();
+    toast('Копии подготовлены');
+  }catch(e){toast('Не удалось создать копию');}
+}
+async function restoreBackupObject(obj,password){
+  var data=obj;
+  if(obj&&obj.encrypted&&obj.payload){var key=await deriveKey(password,obj.salt);data=await decryptObj(obj.payload,key);}
+  if(!data||!Array.isArray(data.tasks)||!Array.isArray(data.matters))throw new Error('bad backup');
+  S=mergeState(data);save();await persistNow();closeAll();render();toast('Данные восстановлены');
+}
+
+/* =====================================================================
+   ОТЧЁТЫ / ПЕЧАТЬ
+   ===================================================================== */
+var REPORT = null;
+function printHTML(title,sub,rows,foot,text){
+  var body = '<div class="ph"><h1>'+esc(title)+'</h1><div>'+esc(sub)+'</div></div>'+rows+
+    '<div class="ft">'+esc(foot||('Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')))+'</div>';
+  $('#printarea').innerHTML = body;
+  var back = $('#page').classList.contains('open') ? $('#page')._mid : '';
+  REPORT = { title:title, text:text||'', back:back };
+  openPage('<div class="shhead"><button class="iconbtn" data-act="rep-back">'+ico('left')+'</button>'+
+    '<div style="flex:1"></div>'+
+    '<button class="iconbtn" data-act="rep-share">'+ico('share')+'</button>'+
+    '<button class="iconbtn" data-act="rep-print">'+ico('doc')+'</button></div>'+
+    '<div class="report">'+body+'</div>'+
+    '<button class="btn" data-act="rep-print" style="margin-top:16px">Печать / сохранить в PDF</button>'+
+    '<button class="btn ghost" data-act="rep-share" style="margin-top:8px">Поделиться текстом</button>'+
+    '<div style="height:24px"></div>');
+  $('#page')._navType='report';
+}
+function doPrint(){
+  try{
+    var w = window.open('', '_blank');
+    if(w){
+      w.document.write('<html><head><meta charset="utf-8"><title>'+esc(REPORT?REPORT.title:'Отчёт')+'</title>'+
+        '<style>body{font:12pt/1.45 -apple-system,Georgia,serif;color:#000;padding:18px}'+
+        'h1{font-size:18pt;margin:0 0 4px}.ph{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px}'+
+        'h2{font-size:13pt;margin:18px 0 6px;border-bottom:1px solid #999;padding-bottom:3px}'+
+        'table{width:100%;border-collapse:collapse;font-size:10.5pt}td{padding:5px 4px;border-bottom:1px solid #ddd;vertical-align:top}'+
+        '.cb{width:18px}.ft{margin-top:26px;font-size:9pt;color:#555;border-top:1px solid #ccc;padding-top:8px}</style>'+
+        '</head><body>'+$('#printarea').innerHTML+'</body></html>');
+      w.document.close(); w.focus();
+      setTimeout(function(){ try{ w.print(); }catch(e){} }, 400);
+      return;
+    }
+  }catch(e){}
+  try{ window.print(); }catch(e){ toast('Печать недоступна — используйте «Поделиться текстом»'); }
+}
+function reportText(){
+  var el = document.createElement('div'); el.innerHTML = $('#printarea').innerHTML;
+  el.querySelectorAll('tr').forEach(function(r){ r.appendChild(document.createTextNode('\n')); });
+  el.querySelectorAll('td').forEach(function(c){ c.appendChild(document.createTextNode('  ')); });
+  el.querySelectorAll('h1,h2,div').forEach(function(c){ c.appendChild(document.createTextNode('\n')); });
+  return (el.textContent||'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function printDay(){
+  var list = overdue().concat(dueToday()).sort(sortT);
+  var rows = '<h2>План на '+fmtD(today(),true)+'</h2><table>'+list.map(function(t){
+    var m = t.mid?matter(t.mid):null;
+    return '<tr><td class="cb">☐</td><td><b>'+(t.time?t.time+' ':'')+esc(t.title)+'</b>'+
+      (m?'<br><small>'+esc(m.title)+'</small>':'')+
+      (t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td>'+
+      '<td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'')+'</td></tr>'; }).join('')+'</table>';
+  if(!list.length) rows = '<h2>Задач на сегодня нет</h2>';
+  var h = S.tasks.filter(function(t){ return !t.done && t.kind==='hearing' && t.due && dd(t.due)>=0 && dd(t.due)<=14; }).sort(sortT);
+  if(h.length) rows += '<h2>Заседания ближайших двух недель</h2><table>'+h.map(function(t){
+    var m = t.mid?matter(t.mid):null;
+    return '<tr><td style="white-space:nowrap"><b>'+fmtShort(t.due)+(t.time?', '+t.time:'')+'</b></td><td>'+esc(t.title)+
+      (m?' — '+esc(m.title):'')+(t.place?'<br><small>'+esc(t.place)+'</small>':'')+'</td></tr>'; }).join('')+'</table>';
+  printHTML('План работы адвоката', fmtD(today(),true), rows);
+}
+function printMatter(id){
+  var m=matter(id),st=matterStats(m),ts=tasksOf(id).sort(sortT),parts=participationOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;}),js=journalOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;});
+  var pctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  var info='<table>'+[
+    ['Тип',matterType(m).n],['Основание ведения',matterBasisLabel(m.basis)],['Доверитель',m.client],['Номер дела / материала',m.number],[pctx.label,m.court],[pctx.mode==='judicial'?'Судья':'',pctx.mode==='judicial'?m.judge:''],[pctx.mode==='investigation'?matterInvestigatorLabel(m.stage):'',pctx.mode==='investigation'?m.investigator:''],[matterArticleLabel((m&&m.type)||'other'),m.article],['Статус',matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role)],['Мера пресечения',m.stage==='Материал проверки'?'':m.restraint],['Оппонент',m.opponent],['Стадия',m.stage]
+  ].filter(function(r){return r[0]&&r[1];}).map(function(r){return '<tr><td style="width:38%;color:#555">'+r[0]+'</td><td><b>'+esc(r[1])+'</b></td></tr>';}).join('')+
+  '<tr><td style="color:#555">Дни участия</td><td><b>'+st.days+(st.sum?' · '+money(st.sum):'')+'</b></td></tr></table>';
+  var rows='<h2>Сведения по делу</h2>'+info+'<h2>Задачи ('+st.open+' в работе, '+st.done+' выполнено)</h2><table>'+ts.map(function(t){return '<tr><td class="cb">'+(t.done?'☑':'☐')+'</td><td>'+esc(t.title)+(t.note?'<br><small>'+esc(t.note)+'</small>':'')+'</td><td style="text-align:right;white-space:nowrap">'+(t.due?fmtShort(t.due):'—')+'</td></tr>';}).join('')+'</table>';
+  if(parts.length)rows+='<h2>Дни участия</h2><table>'+parts.map(function(e){var rate=+e.rate||+m.dayRate||+S.settings.dayRate||0;return '<tr><td style="white-space:nowrap">'+fmtD(e.date)+'</td><td>'+esc(PART_KINDS[e.kind]||'Участие')+(e.place?'<br><small>'+esc(e.place)+'</small>':'')+(e.desc?'<br><small>'+esc(e.desc)+'</small>':'')+'</td><td style="text-align:right">'+(rate?money(rate):'—')+'</td></tr>';}).join('')+'</table>';
+  if(js.length)rows+='<h2>Журнал дела</h2><table>'+js.map(function(j){return '<tr><td style="white-space:nowrap">'+fmtD(j.date)+'</td><td>'+esc(j.text)+'</td></tr>';}).join('')+'</table>';
+  printHTML(m.title,'Отчёт по делу · '+fmtD(today(),true),rows);
+}
+function exportText(){
+  var lines = ['ЕЖЕДНЕВНИК АДВОКАТА — '+fmtD(today(),true),''];
+  activeM().forEach(function(m){
+    var ts = tasksOf(m.id); if(!ts.length) return;
+    lines.push('◆ '+m.title+(m.number?' ('+m.number+')':''));
+    ts.sort(sortT).forEach(function(t){
+      lines.push('  '+(t.done?'[x]':'[ ]')+' '+t.title+(t.due?' — '+fmtShort(t.due):'')+(t.time?' '+t.time:'')); });
+    lines.push('');
+  });
+  var free = S.tasks.filter(function(t){ return !t.mid; });
+  if(free.length){ lines.push('◆ Без дела');
+    free.sort(sortT).forEach(function(t){ lines.push('  '+(t.done?'[x]':'[ ]')+' '+t.title+(t.due?' — '+fmtShort(t.due):'')); }); }
+  var txt = lines.join('\n');
+  shareOrCopy('Ежедневник адвоката', txt);
+}
+function dl(name,text,type){
+  try{
+    var a = document.createElement('a');
+    if(typeof a.download === 'undefined') throw new Error('no download');
+    a.href = URL.createObjectURL(new Blob([text],{type:type+';charset=utf-8'}));
+    a.download = name; a.rel='noopener'; document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },400);
+    toast('Файл сохранён: '+name);
+  }catch(e){ showText(name,text); }
+}
+/* запасной путь для iPhone в режиме приложения: показать текст и дать скопировать */
+var TXT = '';
+function showText(name,text){
+  TXT = text;
+  openPage('<div class="shhead"><button class="iconbtn" data-act="close">'+ico('left')+'</button>'+
+    '<h2 style="flex:1;font-size:17px">'+esc(name)+'</h2>'+
+    '<button class="iconbtn" data-act="txt-copy">'+ico('doc')+'</button></div>'+
+    '<div class="hint">Скачивание файлов недоступно в этом режиме. Скопируйте текст или отправьте его себе — в Заметки, почту, мессенджер.</div>'+
+    '<textarea id="txt-area" rows="16" style="width:100%;font-size:12px;background:var(--elev2);'+
+    'border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--txt)">'+esc(text)+'</textarea>'+
+    '<button class="btn" data-act="txt-copy" style="margin-top:12px">Скопировать</button>'+
+    '<button class="btn ghost" data-act="txt-share" style="margin-top:8px">Поделиться</button><div style="height:24px"></div>');
+  $('#page')._navType='text';
+}
+function shareOrCopy(title,text){
+  if(navigator.share){ navigator.share({title:title,text:text}).catch(function(){ copyText(text); }); }
+  else copyText(text);
+}
+function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast('Скопировано в буфер обмена'); },
+      function(){ legacyCopy(text); });
+  } else legacyCopy(text);
+}
+function legacyCopy(text){
+  var ta = $('#txt-area');
+  if(!ta){ showText('Текст',text); return; }
+  ta.focus(); ta.setSelectionRange(0,ta.value.length);
+  try{ document.execCommand('copy'); toast('Скопировано'); }catch(e){ toast('Выделите текст и скопируйте вручную'); }
+}
+
+/* =====================================================================
+   НАСТРОЙКИ
+   ===================================================================== */
+function sheetProfile(){
+  openSheet('<h2>Профиль</h2><p class="sh-sub">Ставка применяется к каждому фактическому дню участия. Продолжительность участия не учитывается.</p>'+
+  '<div class="fld"><label>Имя / ФИО</label><input id="p-name" value="'+esc(S.settings.name)+'" placeholder="Смирнов А. В."></div>'+
+  '<div class="two"><div class="fld"><label>Ставка за день участия</label><input id="p-dayrate" type="number" inputmode="numeric" value="'+(S.settings.dayRate||'')+'" placeholder="10000"></div>'+
+  '<div class="fld"><label>Валюта</label><input id="p-cur" value="'+esc(S.settings.cur)+'"></div></div>'+
+  '<div class="fld"><label>Напоминать о резервной копии каждые, дней</label><input id="p-backdays" type="number" inputmode="numeric" min="1" max="90" value="'+(+S.settings.backupEveryDays||7)+'"></div>'+
+  '<button class="btn" data-act="p-save">Сохранить</button>');
+}
+function sheetPin(){
+  if(pinEnabled()){
+    openSheet('<h2>Код доступа и шифрование</h2><p class="sh-sub">PIN используется как ключ для локальной зашифрованной базы.</p>'+
+      '<div class="hint"><b>PIN включён.</b> Без правильного PIN база не расшифровывается при запуске приложения. Сам PIN в базе не хранится.</div>'+
+      '<button class="btn ghost" data-act="pin-off">Отключить PIN и перейти на локальный ключ устройства</button>');
+  }else{
+    openSheet('<h2>Включить PIN-шифрование</h2><p class="sh-sub">4 цифры. Они понадобятся при каждом новом запуске веб-приложения.</p>'+
+      '<div class="fld"><label>PIN</label><input id="pin1" type="tel" inputmode="numeric" maxlength="4" placeholder="••••" style="letter-spacing:.5em;text-align:center;font-size:22px"></div>'+
+      '<div class="fld"><label>Повторите PIN</label><input id="pin2" type="tel" inputmode="numeric" maxlength="4" style="letter-spacing:.5em;text-align:center;font-size:22px"></div>'+
+      '<div class="hint">Если PIN будет забыт, расшифровать локальную базу невозможно. Перед включением рекомендуется сделать зашифрованную резервную копию с отдельным паролем.</div>'+
+      '<button class="btn" data-act="pin-set">Включить PIN-шифрование</button>');
+  }
+}
+function notifyStatusMeta(){
+  var st=('Notification' in window)?Notification.permission:'unsupported';
+  if(st==='unsupported') return {title:'Локальные уведомления', text:'Уведомления недоступны в этом режиме. На iPhone добавьте приложение на экран «Домой».', chip:'Недоступны', tone:'muted'};
+  if(st==='denied') return {title:'Локальные уведомления', text:'Уведомления запрещены в настройках iPhone. Разрешите их для приложения.', chip:'Запрещены', tone:'warn'};
+  if(S.settings.notify && st==='granted') return {title:'Локальные уведомления', text:'Напоминания включены. На iPhone они срабатывают, пока веб-приложение активно; iOS может приостанавливать его в фоне.', chip:'Включены', tone:'ok'};
+  return {title:'Локальные уведомления', text:'Напоминания сейчас выключены. После включения приложение запросит разрешение iPhone на уведомления.', chip:'Выключены', tone:'off'};
+}
+function sheetNotify(){
+  var meta=notifyStatusMeta();
+  var exactOn=!!(S.settings.notify && ('Notification' in window) && Notification.permission==='granted');
+  var statusIco=meta.tone==='ok'?'check':(meta.tone==='off'?'bell':'info');
+  var toggleText=exactOn?'Выключить напоминания':'Включить напоминания';
+  var stateText=meta.text;
+  if(meta.tone==='off') stateText='Напоминания сейчас выключены. После включения приложение запросит разрешение iPhone.';
+  openSheet('<section class="rem116">'+
+    '<header class="rem116-head">'+
+      '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5249" alt="">'+
+    '</header>'+
+    '<article class="rem116-card rem116-card-local">'+
+      '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
+      '<div class="rem116-card-copy"><h3>'+meta.title+'</h3><p>'+stateText+'</p><span class="rem116-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span></div>'+
+      '<span class="rem116-chevron">'+ico('chev','s')+'</span>'+
+    '</article>'+
+    '<article class="rem116-card rem116-card-calendar">'+
+      '<span class="rem116-card-icon">'+ico('cal','s')+'</span>'+
+      '<div class="rem116-card-copy"><h3>Критичные события —<br>в системный календарь</h3><p>Для судебных заседаний и важных процессуальных сроков дополнительно используйте «Календарь» или «Напоминания» iPhone. Автономное PWA не может гарантировать фоновые таймеры после выгрузки системой.</p></div>'+
+      '<span class="rem116-chevron">'+ico('chev','s')+'</span>'+
+    '</article>'+
+    '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
+    '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5249" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+  '</section>');
+  $('#sheet').classList.add('reminders-approved-v117-sheet');
+}
+
+function sheetReports(){
+  openSheet('<h2>Отчёты</h2><p class="sh-sub">Печать или сохранение в PDF (в меню печати iPhone).</p>'+
+   '<div class="card" style="padding:0 16px">'+
+    '<button class="row" data-act="print-day">'+ico('sun')+'<span class="rl">План на сегодня<small>Задачи и заседания на 2 недели</small></span>'+ico('chev','s')+'</button>'+
+    activeM().map(function(m){ return '<button class="row" data-act="print-m" data-id="'+m.id+'">'+ico('folder')+
+      '<span class="rl">Отчёт по делу<small>'+esc(m.title)+'</small></span>'+ico('chev','s')+'</button>'; }).join('')+
+   '</div>');
+}
+
+/* =====================================================================
+   НАПОМИНАНИЯ
+   ===================================================================== */
+var timers = [];
+function schedule(){
+  timers.forEach(clearTimeout); timers = [];
+  if(!S.settings.notify || !('Notification' in window) || Notification.permission!=='granted') return;
+  var now = new Date();
+  S.tasks.filter(function(t){ return !t.done && t.due===today() && t.time; }).forEach(function(t){
+    var at = new Date(today()+'T'+t.time+':00'); var lead = t.kind==='hearing' ? 60 : 10;
+    var when = at.getTime() - lead*60000 - now.getTime();
+    if(when>0 && when<86400000){
+      timers.push(setTimeout(function(){
+        var title = KIND[t.kind].n+' через '+lead+' мин';
+        var opts = { body:t.title+(t.place?' · '+t.place:''), icon:'premium-icon-192.png', badge:'premium-icon-192.png', tag:'adv-'+t.id };
+        if(navigator.serviceWorker && navigator.serviceWorker.ready){
+          navigator.serviceWorker.ready.then(function(reg){
+            if(reg.showNotification) return reg.showNotification(title, opts);
+            try{ new Notification(title, opts); }catch(e){}
+          }).catch(function(){ try{ new Notification(title, opts); }catch(e){} });
+        } else { try{ new Notification(title, opts); }catch(e){} }
+      }, when));
+    }
+  });
+}
+function toggleNotify(){
+  if(S.settings.notify){
+    S.settings.notify = false;
+    save();
+    render();
+    if($('#sheet').classList.contains('open')) sheetNotify();
+    toast('Напоминания выключены');
+    return;
+  }
+  if(!('Notification' in window)){ toast('Устройство не поддерживает уведомления'); return; }
+  Notification.requestPermission().then(function(p){
+    if(p==='granted'){
+      S.settings.notify = true;
+      save();
+      render();
+      schedule();
+      if($('#sheet').classList.contains('open')) sheetNotify();
+      toast('Напоминания включены');
+    }else{
+      if($('#sheet').classList.contains('open')) sheetNotify();
+      toast('Разрешение не выдано');
+    }
+  });
+}
+
+/* =====================================================================
+   LOCK
+   ===================================================================== */
+var pinBuf='';
+function drawPad(){
+  $('#lock-pad').innerHTML=[1,2,3,4,5,6,7,8,9].map(function(n){return '<button data-n="'+n+'">'+n+'</button>';}).join('')+'<button class="f"></button><button data-n="0">0</button><button class="f" data-n="del">←</button>';
+}
+function lockShow(msg){pinBuf='';paintDots();$('#lock-msg').textContent=msg||'Введите PIN для расшифровки базы';$('#lock').classList.add('on');}
+function paintDots(){document.querySelectorAll('#lock-dots i').forEach(function(d,i){d.classList.toggle('f',i<pinBuf.length);});}
+function pinPress(n){
+  if(n==='del'){pinBuf=pinBuf.slice(0,-1);paintDots();return;} if(pinBuf.length>=4)return;
+  pinBuf+=n;paintDots();vib(6);
+  if(pinBuf.length===4)setTimeout(async function(){
+    $('#lock-msg').textContent='Проверка…';var ok=await unlockWithPin(pinBuf);
+    if(ok){$('#lock').classList.remove('on');pinBuf='';paintDots();afterUnlock();}
+    else{$('#lock-dots').classList.add('shake');$('#lock-msg').textContent='Неверный PIN';vib([40,60,40]);setTimeout(function(){$('#lock-dots').classList.remove('shake');pinBuf='';paintDots();},420);}
+  },120);
+}
+
+/* =====================================================================
+   ПЕРВЫЙ ЗАПУСК / ПРИМЕРЫ / ПОЛНАЯ ОЧИСТКА
+   ===================================================================== */
+function showIntro(){
+  openSheet('<h2>Ежедневник адвоката 3.1</h2><p class="sh-sub">Локальный рабочий кабинет для дел, заседаний, сроков и задач.</p>'+iphoneInstallHint()+
+  '<div class="card pad0">'+
+    infoRow('sun','Сегодня','Критичные сроки, ближайшее заседание и план дня')+
+    infoRow('folder','Досье дела','Доверитель, суд/орган, статья, стадия, задачи и журнал')+
+    infoRow('gavel','Дни участия','Каждое фактическое участие = 1 день независимо от продолжительности')+
+    infoRow('flag','Процессуальные сроки','Расчёт срока и отдельная подготовительная задача')+
+    infoRow('cal','Календарь iPhone','Заседание или срок можно выгрузить в .ics')+
+    infoRow('lock','Конфиденциальность','Локальная база в IndexedDB шифруется; резервные копии защищаются паролем')+
+  '</div><p class="sh-sub" style="margin:14px 2px 8px">С чего начать</p>'+
+  '<button class="btn" data-act="new-matter">Завести первое дело</button><button class="btn ghost" data-act="quick-add" style="margin-top:8px">Быстрая запись</button>'+
+  '<button class="btn ghost" data-act="demo" style="margin-top:8px">Загрузить примеры</button><button class="btn danger" data-act="skip">Закрыть</button>');
+}
+async function wipeAll(){
+  if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+}
+
+function demo(){
+  if(S.matters.length||S.tasks.length||S.participation.length||S.journal.length){if(!confirm('Примеры будут добавлены к текущей базе. Продолжить?'))return;}
+  var m1={id:uid(),title:'Ошарин А.С. — освобождение по болезни',type:'criminal',client:'Ошарин Александр Сергеевич',number:'материал 4/17-2026',court:'Ивановский районный суд',article:'ст. 81 УК РФ',role:'осужденный',stage:'Первая инстанция',dayRate:10000,notes:'Оспаривается полнота медицинского освидетельствования. Контроль медицинских документов и процессуальных сроков.',archived:false,created:new Date().toISOString()};
+  var m2={id:uid(),title:'Наследственный спор — признание свидетельств недействительными',type:'civil',client:'Иванова А.С.',number:'2-1438/2026',court:'Кинешемский городской суд',judge:'Судья Петрова Н.В.',stage:'Первая инстанция',dayRate:10000,notes:'Фактическое принятие наследства, спор о составе наследственной массы.',archived:false,created:new Date().toISOString()};
+  var m3={id:uid(),title:'Песков — спор о квалификации',type:'criminal',client:'Песков Д.С.',number:'УД-88/2026',court:'Районный суд',article:'ч. 2 ст. 228 УК РФ / обвинение в покушении на сбыт',role:'подсудимый',stage:'Первая инстанция',dayRate:10000,archived:false,created:new Date().toISOString()};
+  S.matters=[m1,m2,m3].concat(S.matters);
+  S.matters.forEach(function(m){m.title=matterAutoTitle(m);});
+  var T=[
+    [m1.id,'Подать апелляционную жалобу','deadline',4,'','high','','Срок обжалования постановления'],
+    [m1.id,'Получить копию заключения медицинской комиссии','task',0,'','high','',''],
+    [m2.id,'Заседание по наследственному делу','hearing',1,'10:30','high','Кинешемский городской суд','Подготовить оригиналы документов'],
+    [m2.id,'Подготовить вопросы свидетелям','task',0,'','mid','',''],
+    [m3.id,'Подготовить Пескова к допросу','task',2,'','high','','Свободный рассказ + вопросы участников'],
+    [m3.id,'Судебное заседание','hearing',5,'11:00','high','Районный суд',''],
+    ['','Позвонить новому доверителю','task',0,'16:00','low','','']
+  ];
+  T.forEach(function(x){S.tasks.push({id:uid(),mid:x[0],title:x[1],kind:x[2],due:addD(today(),x[3]),time:x[4],pri:x[5],place:x[6],note:x[7],sourceDate:x[2]==='deadline'?today():'',rule:x[2]==='deadline'?'Сверить с постановлением и применимым кодексом':'',done:false,steps:[],created:new Date().toISOString()});});
+  S.participation.unshift({id:uid(),mid:m2.id,date:addD(today(),-3),kind:'hearing',place:'Кинешемский городской суд',desc:'Судебное заседание',rate:10000,created:new Date().toISOString()});
+  S.participation.unshift({id:uid(),mid:m3.id,date:addD(today(),-6),kind:'meeting',place:'СИЗО',desc:'Свидание с подзащитным',rate:10000,created:new Date().toISOString()});
+  S.journal.unshift({id:uid(),mid:m2.id,date:addD(today(),-2),text:'Приобщены письменные объяснения и копии документов.',type:'note'});
+  S.journal.unshift({id:uid(),mid:m1.id,date:addD(today(),-1),text:'Получены медицинские документы для подготовки жалобы.',type:'note'});
+  S.settings.seen=true;S.ui.tab='today';save();render();toast('Примеры загружены');
+}
+
+/* =====================================================================
+   EVENTS
+   ===================================================================== */
+var SWIPE_CLICK_BLOCK_UNTIL=0;
+document.addEventListener('click', function(ev){
+  if(Date.now()<SWIPE_CLICK_BLOCK_UNTIL){ev.preventDefault();ev.stopPropagation();return;}
+  var el=ev.target.closest('[data-act]'); if(!el){ if(!ev.target.closest('.pt-item')) closeTaskActionRows(); return; }
+  var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
+  if(el.classList.contains('quickitem')) vib(7);
+  switch(a){
+    /* navigation / dashboard */
+    case 'go-matters': go('matters'); break;
+    case 'go-tasks': go('tasks'); break;
+    case 'go-more': go('more'); break;
+    case 'go-cal': go('cal'); break;
+    case 'close': appBack(); break;
+    case 'quick-add': sheetQuickAdd(); break;
+    case 'global-search': sheetGlobalSearch(); break;
+    case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
+    case 'global-search-clear-query': {GQ=''; var gqi=$('#gq'); if(gqi){gqi.value=''; gqi.focus();} renderGlobalSearch(); break;}
+    case 'global-search-clear-tip': {GSEARCH_TIP_HIDDEN=true; var gst=$('#gsearch-tip'); if(gst)gst.style.display='none'; var gh=$('#ghelper'); if(gh)gh.style.display='none'; break;}
+    case 'global-search-mic': {var gi=$('#gq'); if(gi)gi.focus(); toast('Голосовой поиск можно добавить позже'); break;}
+    case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
+    case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
+    case 'date-prev': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,-1);renderPremiumDatePicker();}break;
+    case 'date-next': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,1);renderPremiumDatePicker();}break;
+    case 'date-day': if(DATE_PICKER){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
+    case 'date-today': if(DATE_PICKER){DATE_PICKER.selected=today();DATE_PICKER.month=today().slice(0,7);renderPremiumDatePicker();}break;
+    case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
+    case 'date-apply': applyPremiumDatePicker();break;
+    case 'date-close': closePremiumDatePicker();break;
+    case 'time-open': {var tt=el.dataset.target||'',ti=tt?$('#'+tt):null;openPremiumTimePicker(tt,ti?ti.value:'',el.dataset.timeMode||'default');break;}
+    case 'time-hour': if(TIME_PICKER){TIME_PICKER.hour=+v;normalizePremiumTimeSelection();renderPremiumTimePicker();vib(4);}break;
+    case 'time-minute': if(TIME_PICKER&&premiumTimeMinuteAllowed(TIME_PICKER.hour,+v)){TIME_PICKER.minute=+v;updatePremiumTimeWheelVisuals();vib(4);}break;
+    case 'time-apply': applyPremiumTimePicker();break;
+    case 'time-clear': clearPremiumTimePicker();break;
+    case 'time-close': closePremiumTimePicker();break;
+    case 'list-open': {
+      var lt=el.dataset.target||'',li=el.dataset.input||'';
+      var ls=lt?$('#'+lt):null;
+      if(!ls){upgradePremiumSelects(el.closest('.sheet')||document);ls=lt?$('#'+lt):null;}
+      if(ls)openPremiumListPicker(lt,li);else toast('Список временно недоступен');
+      break;
+    }
+    case 'list-pick': applyPremiumListChoice(v==null?'':v);break;
+    case 'matter-group-toggle':
+      if(LIST_PICKER&&premiumListIsMatterPicker(LIST_PICKER.target)){
+        var now=(LIST_PICKER.groupOpen||{})[v]===true;
+        LIST_PICKER.groupOpen={agreement:false,assigned:false,other:false};
+        if(!now) LIST_PICKER.groupOpen[v]=true;
+        renderPremiumListPicker();vib(4);
+      }
+      break;
+    case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
+    case 'list-matter-clear': clearPremiumMatterChoice();break;
+    case 'list-close': closePremiumListPicker();break;
+    case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
+    case 'reschedule': {var ov=S.tasks.filter(function(t){return !t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
+    case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
+    case 'f-today': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';S.ui.taskType='';save();renderTasks();break;
+    case 'f-hear': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='hearing';save();renderTasks();break;
+    case 'today-more-tasks': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='today';S.ui.taskType='';save();renderTasks();break;
+    case 'today-more-hearings': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='hearing';save();renderTasks();break;
+    case 'f-deadline': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='';S.ui.taskType='deadline';save();renderTasks();break;
+    case 'seg': S.ui.taskSeg=v;save();renderTasks();break;
+    case 'chip': S.ui.taskChip=v;save();renderTasks();break;
+    case 'search': S.ui._sq=!S.ui._sq;if(!S.ui._sq)S.ui.q='';renderTasks();break;
+    case 'task-search-clear': S.ui.q='';S.ui._sq=true;save();renderTasks();setTimeout(function(){var tq=$('#q');if(tq)tq.focus({preventScroll:true});},0);break;
+    case 'reset-task-filters': S.ui.q='';S.ui._sq=false;S.ui.taskChip='';S.ui.taskType='';save();renderTasks();toast('Фильтры сброшены');break;
+    case 'task-type-sheet': sheetTaskTypeFilters();break;
+    case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
+    case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
+    case 'matter-scope': S.ui.matterScope=v||'active';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
+    case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();break;
+    case 'matter-search-clear': {S.ui.matterQ='';S.ui.matterSearchOpen=true;save();var mq=$('#matter-q');if(mq){mq.value='';var mw=mq.closest('.matters-local-search-field'),mc=mw&&mw.querySelector('.matters-local-search-clear');if(mc)mc.classList.remove('is-visible');refreshMatterSearchResultsOnly();setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(0,0);}catch(_){mq.focus();}},0);}else renderMatters();break;}
+    case 'matter-filter-sheet': sheetMatterFilters();break;
+    case 'm-filter': S.ui.matterType=v||'';save();closeSheet();renderMatters();break;
+    case 'm-basis-filter': S.ui.matterBasis=v||'';save();closeSheet();renderMatters();break;
+    case 'm-stage-filter': S.ui.matterStage=v||'';save();closeSheet();renderMatters();break;
+    case 'm-sort': S.ui.matterSort=v||'priority';save();closeSheet();renderMatters();break;
+    case 'matter-filter-reset': S.ui.matterScope='active';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
+
+    /* quick add */
+    case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
+    case 'qa-meeting': closeSheet();editTask(null,{kind:'meeting',pri:'mid',due:today(),time:''});break;
+    case 'qa-deadline': closeSheet();sheetDeadline('');break;
+    case 'qa-task': closeSheet();editTask(null,{kind:'task',due:today()});break;
+    case 'qa-call': closeSheet();editTask(null,{kind:'task',due:today()});break;
+    case 'qa-journal': closeSheet();if(!activeM().length){toast('Сначала создайте дело');break;}sheetJournal('');break;
+
+    /* tasks */
+    case 'toggle': toggleTaskDone(id); break;
+    case 'hearing-result': sheetHearingResult(id); break;
+    case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
+    case 'hearing-result-save': saveHearingResult();break;
+    case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
+    case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
+    case 'task-action-delete': deleteTaskById(id); break;
+    case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
+    case 'premium-delete-confirm': performDeleteTaskById(id); break;
+    case 'premium-delete-matter-confirm': performDeleteMatterById(id); break;
+    case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
+    case 'task-del': deleteTaskById(id); break;
+    case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
+    case 'task-group': setTaskGroupOpen(v,!taskGroupOpen(v)); renderTaskList(); break;
+    case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
+    case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(!ED.id&&(v==='task'||v==='meeting')){ED.title='';NEW_TITLE_USER_EDITED=false;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);if(!ED.id&&(v==='task'||v==='meeting'))armNewTitleManualGuard();break;}
+    case 'e-title-clear': {
+      var et=$('#e-title');
+      if(et){
+        et.value='';
+        if(ED)ED.title='';
+        var cb=el.closest('.qe193-title-shell');
+        var xb=cb&&cb.querySelector('.qe193-title-clear');
+        if(xb)xb.classList.remove('is-visible');
+        et.focus({preventScroll:true});
+      }
+      break;
+    }
+    case 'e-pri': pullEditor();ED.pri=v;drawEditor(true);break;
+    case 'e-quick': pullEditor();ED.due=v===''?'':addD(today(),+v);drawEditor(true);break;
+    case 'e-save': saveTask();break;
+    case 'e-del': {var edt=ED&&ED.id?S.tasks.filter(function(x){return x.id===ED.id;})[0]:null;if(edt&&edt.kind==='hearing'&&(hearingNeedsResult(edt)||hearingHasResult(edt))){toast('Прошедшее заседание сохраняется в истории');break;}if(ED&&ED.id)openPremiumDeleteConfirm(ED.id);break;}
+
+    /* matters */
+    case 'new-matter': closeSheet();editMatter(null);break;
+    case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
+    case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
+    case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
+    case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
+    case 'm-save': saveMatter();break;
+    case 'm-add': {var ma=matter(id);if(ma&&ma.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,due:today()});break;}
+    case 'm-hearing': {var mh=matter(id);if(mh&&mh.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;}
+    case 'm-deadline': {var md=matter(id);if(md&&md.archived){toast('Сначала верните дело в работу');break;}sheetDeadline(id);break;}
+    case 'm-tpl': sheetTemplates(id);break;
+    case 'm-part': sheetParticipation(id);break;
+    case 'm-journal': sheetJournal(id);break;
+    case 'm-print': if(matter($('#page')._mid))printMatter($('#page')._mid);break;
+    case 'm-arch': {var mm=matter(id);if(!mm)break;
+      if(!mm.archived){
+        var activeLinked=tasksOf(id).filter(isActiveRecord);
+        if(activeLinked.length&&!confirm('По делу осталось '+activeLinked.length+' '+plural(activeLinked.length,'активная запись','активные записи','активных записей')+'. Они продолжат отображаться в «Сегодня» и «Задачах». Всё равно отправить дело в архив?'))break;
+      }
+      mm.archived=!mm.archived;addJournal(id,mm.archived?'Дело отправлено в архив':'Дело возвращено в работу',today(),'system',true);save();closeAll();render();toast(mm.archived?'Дело в архиве':'Дело возвращено в работу');break;}
+    case 'm-del': openPremiumMatterDeleteConfirm(id); break;
+
+    /* journal + participation */
+    case 'j-clear': {var jtxt=$('#j-text');if(jtxt){jtxt.value='';jtxt.dispatchEvent(new Event('input',{bubbles:true}));jtxt.focus();}break;}
+    case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var jt=$('#j-text').value.trim();if(!jm){toast('Выберите дело');break;}if(!jt){toast('Введите запись');break;}addJournal(jm,jt,$('#j-date').value||today(),'note',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
+    case 'journal-del': {S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
+    case 'pt-new': closeSheet();sheetParticipation('');break;
+    case 'participation-log': sheetParticipationLog();break;
+    case 'pt-save': {var pm=$('#pt-mid').value,pd=$('#pt-date').value||today();if(!pm){toast('Выберите дело');break;}var dup=S.participation.some(function(e){return e.mid===pm&&e.date===pd;});if(dup){toast('По этому делу день участия на эту дату уже учтён');break;}var rec={id:uid(),mid:pm,date:pd,kind:$('#pt-kind').value||'other',place:$('#pt-place').value.trim(),desc:$('#pt-desc').value.trim(),rate:+$('#pt-rate').value||0,created:new Date().toISOString()};S.participation.unshift(rec);addJournal(pm,'День участия: '+(PART_KINDS[rec.kind]||'участие')+(rec.place?' · '+rec.place:''),pd,'participation',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(pm);render();toast('Учтён 1 день участия');break;}
+    case 'part-del': {var pe=S.participation.filter(function(e){return e.id===id;})[0];S.participation=S.participation.filter(function(e){return e.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);else sheetParticipationLog();render();toast('День участия удалён');break;}
+
+    /* calendar */
+    case 'cday': S.ui.calSel=v;save();renderCal();break;
+    case 'cal-m': {var pp=S.ui.calM.split('-'),d2=new Date(+pp[0],+pp[1]-1+(+v),1);S.ui.calM=iso(d2).slice(0,7);renderCal();break;}
+    case 'cal-today': S.ui.calM=today().slice(0,7);S.ui.calSel=today();renderCal();break;
+    case 'new-on-day': editTask(null,{due:S.ui.calSel});break;
+
+    /* helpers */
+    case 'templates': sheetTemplates('');break;
+    case 'tpl-use': applyTpl(+v,id||'');break;
+    case 'deadline': sheetDeadline('');break;
+    case 'dl-add': break;
+    case 'reports': sheetReports();break;
+    case 'notify-sheet': sheetNotify();break;
+    case 'rep-back': appBack();break;
+    case 'rep-print': doPrint();break;
+    case 'rep-share': shareOrCopy(REPORT?REPORT.title:'Отчёт',reportText());break;
+    case 'txt-copy': copyText(TXT);break;
+    case 'txt-share': shareOrCopy('Ежедневник адвоката',TXT);break;
+    case 'print-day': closeAll();printDay();break;
+    case 'print-m': closeAll();printMatter(id);break;
+
+    /* settings / data */
+    case 'profile': sheetProfile();break;
+    case 'p-save': S.settings.name=$('#p-name').value.trim();S.settings.dayRate=+$('#p-dayrate').value||0;S.settings.cur=$('#p-cur').value.trim()||'₽';S.settings.backupEveryDays=Math.min(90,Math.max(1,+$('#p-backdays').value||7));save();closeSheet();render();toast('Профиль сохранён');break;
+    case 'pin': sheetPin();break;
+    case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
+    case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');});break;
+    case 'notify': toggleNotify();break;
+    case 'export': exportText();break;
+    case 'backup-sheet': sheetBackup();break;
+    case 'backup-create': createBackupFile();break;
+    case 'restore': $('#file').click();break;
+    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus);});save();render();toast('Выполненные задачи удалены');}break;}
+    case 'demo': demo();closeSheet();break;
+    case 'new-task': editTask(null,S.ui.tab==='cal'&&S.ui.calSel?{due:S.ui.calSel}:{due:today()});break;
+    case 'intro': showIntro();break;
+    case 'wipe': wipeAll();break;
+    case 'skip': closeSheet();S.settings.seen=true;S.settings.dismissed=true;save();break;
+  }
+});
+document.addEventListener('change',function(e){
+  setTimeout(enforceHearingStageCompatibilityInEditor,0);
+
+  if(e.target&&e.target.tagName==='SELECT'&&e.target.id) syncPremiumSelectButton(e.target.id);
+  if(e.target&&e.target.id==='j-mid-select'){syncJournalMatterMeta();return;}
+  if(e.target.id==='e-hjudge-choice'&&ED){
+    var jv=e.target.value, ji=$('#e-hjudge');
+    if(jv){ED.hearingJudge=jv;if(ji)ji.value=jv;applyKnownJudgeCourt(jv,'hearing');vib(5);}
+    e.target.value=''; return;
+  }
+  if(e.target.id==='e-court-choice'&&ED){
+    var cv=e.target.value, ci=$('#e-place');
+    if(cv){ED.place=cv;if(ci)ci.value=cv;applyKnownCourtJudge(cv,'hearing');vib(5);}
+    e.target.value=''; return;
+  }
+  if(e.target.id==='m-court-choice'){
+    var mv=e.target.value, mi=$('#m-court');
+    if(mv){
+      if(mi)mi.value=mv;
+      if(MED){
+        MED.court=mv;
+        if(MED.judge&&!judgeAllowedForCourt(MED.judge,mv,MED.type||'',MED.stage||''))MED.judge='';
+      }
+      applyKnownCourtJudge(mv,'matter');
+      renderMatterDynamic();
+      vib(5);
+    }
+    e.target.value=''; return;
+  }
+  if(e.target.id==='m-basis'){
+    if(!MED)return;
+    pullMatterDraft();
+    MED.basis=e.target.value||'agreement';
+    var allowedStages=matterStageList(MED.type||'other',MED.basis||'');
+    if(MED.stage!=='Завершено'&&allowedStages.indexOf(MED.stage)<0){
+      MED.stage=allowedStages[0]||'';
+      MED.court='';MED.judge='';MED.investigator='';MED.role='';MED.restraint='';
+      MED.executionIssue='';MED.executionInstitution='';
+    }
+    MED=sanitizeMatterByType(MED);
+    renderMatterDynamic();
+    vib(5);
+    return;
+  }
+  if(e.target.id==='m-type'){
+    var oldType=(MED&&MED.type)||'other';
+    pullMatterDraft();
+    var newType=e.target.value||'other';
+    MED.type=newType;
+    if(oldType!==newType){
+      // Тип производства меняет смысл зависимых реквизитов. Не переносим
+      // судью из уголовного дела в КоАП, статью УК в другую категорию и т.п.
+      MED.court='';MED.judge='';MED.investigator='';MED.article='';MED.role='';MED.restraint='';MED.opponent='';
+      MED.executionIssue='';MED.executionInstitution='';
+    }
+    MED=sanitizeMatterByType(MED);
+    renderMatterDynamic();
+    vib(5);
+    return;
+  }
+  if(e.target.id==='m-stage'){
+    if(!MED)return;
+    var oldStage=MED.stage||'',oldMode=matterStageMode(MED.type||'other',oldStage,MED.court||'');
+    pullMatterDraft();
+    var newStage=e.target.value||MED.stage||'',newCtx=matterPlaceContext(MED.type||'other',newStage,MED.court||'');
+    MED.stage=newStage;
+    if(oldStage!==newStage){
+      // При смене стадии не сохраняем процессуальный статус, который на новой
+      // стадии невозможен. Пользователь выбирает актуальный статус доверителя заново.
+      MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',newStage,MED.executionIssue||'');
+      if((MED.type||'other')==='criminal'&&(newStage==='Материал проверки'||newStage==='Исполнение приговора')) MED.restraint='';
+      if(newCtx.mode==='judicial'){
+        MED.court=''; MED.judge=''; MED.investigator='';
+      }else if(newCtx.mode==='investigation'){
+        MED.judge='';
+        var allowed=matterInvestigationOrgList(newStage).map(function(o){return o.value;});
+        if(MED.court&&allowed.indexOf(MED.court)<0)MED.court='';
+        if(oldMode!=='investigation'||oldStage!==newStage)MED.investigator='';
+      }else if(newCtx.mode==='execution'){
+        // Новая стадия исполнения имеет собственную подсудность/орган исполнения.
+        // Старый суд, судья или следователь из предыдущей стадии не переносится.
+        MED.court=''; MED.judge=''; MED.investigator='';
+      }else if(oldMode==='judicial'||oldMode==='investigation'||oldMode==='execution'){
+        if(MED.type==='criminal'){MED.executionIssue='';MED.executionInstitution='';}
+        MED.court=''; MED.judge=''; MED.investigator='';
+      }
+    }
+    MED=sanitizeMatterByType(MED);
+    renderMatterDynamic(); vib(5); return;
+  }
+  if(e.target.id==='m-execution-issue'){
+    if(!MED)return;
+    pullMatterDraft(); MED.executionIssue=e.target.value||'';
+    MED.role=normalizeMatterClientRole(MED.type||'other',MED.role||'',MED.stage||'',MED.executionIssue||'');
+    MED.court=''; MED.judge=''; MED.executionInstitution='';
+    renderMatterDynamic(); vib(5); return;
+  }
+  if(e.target.id==='m-restraint-choice'){ var rr=e.target.value, i3=$('#m-restraint'); if(rr&&i3){ i3.value=rr; MED&& (MED.restraint=rr); vib(5);} e.target.value=''; return; }
+  if(e.target.id==='m-judge-choice'){ var jv=e.target.value, ji=$('#m-judge'); if(jv){ if(ji)ji.value=jv; MED&& (MED.judge=jv); applyKnownJudgeCourt(jv,'matter'); vib(5);} e.target.value=''; return; }
+  if(e.target.id==='e-deadline-code'){
+    ED.deadlineCode=e.target.value;
+    var rs=legalDeadlineRules(ED.deadlineCode),sel=$('#e-deadline-rule');
+    ED.deadlineRuleId=(rs[0]||{}).id||'';
+    if(sel){sel.innerHTML=legalDeadlineRuleOptions(ED.deadlineCode,ED.deadlineRuleId);sel.value=ED.deadlineRuleId;syncPremiumSelectButton('e-deadline-rule');}
+    applyDeadlineRuleFromDom(); return;
+  }
+  if(e.target.id==='e-deadline-rule'||e.target.id==='e-source'||e.target.id==='e-source-time'){pullEditor();applyDeadlineRuleFromDom();return;}
+  if(e.target.id&&e.target.id.indexOf('e-')===0){
+    pullEditor();
+    if(e.target.id==='e-mid' && ED && ED.kind==='hearing'){
+      var st=$('#hearing-standalone'); if(st) st.style.display='';
+      var topicField=$('#hearing-topic-field'); if(topicField) topicField.style.display=ED.mid?'none':'';
+      if(ED.mid){
+        var pm=matter(ED.mid), linkedJudge=(pm&&(pm.judge||pm.investigator))||'';
+        applyLinkedMatterCourtToHearing(ED.mid);
+        if(pm&&pm.client&&!ED.hearingClient){ ED.hearingClient=pm.client; var hc=$('#e-hclient'); if(hc)hc.value=pm.client; }
+        if(pm&&pm.number&&!ED.hearingNumber){ ED.hearingNumber=pm.number; var hn=$('#e-hnumber'); if(hn)hn.value=pm.number; }
+        if(linkedJudge){
+          ED.hearingJudge=linkedJudge;
+          var hj=$('#e-hjudge'); if(hj)hj.value=linkedJudge;
+          var hp=$('#e-hjudge-choice');
+          if(hp){
+            var hasJudge=Array.prototype.some.call(hp.options||[],function(o){return o.value===linkedJudge;});
+            hp.value=hasJudge?linkedJudge:'';
+          }
+        }
+      }
+    }
+  }
+  if(e.target.id==='pt-mid'){
+    var pm=matter(e.target.value), pp=$('#pt-place'), pr=$('#pt-rate');
+    if(pp) pp.value=(pm&&pm.court)||'';
+    if(pr && !pr.value) pr.value=(pm&&pm.dayRate)||S.settings.dayRate||'';
+  }
+});
+/* 5.0.249 — distinguish real typing/paste from Safari restoration. */
+document.addEventListener('beforeinput',function(e){
+  if(e.target&&e.target.id==='e-title'&&ED&&!ED.id&&(ED.kind==='task'||ED.kind==='meeting'))NEW_TITLE_USER_EDITED=true;
+},true);
+document.addEventListener('paste',function(e){
+  if(e.target&&e.target.id==='e-title'&&ED&&!ED.id&&(ED.kind==='task'||ED.kind==='meeting'))NEW_TITLE_USER_EDITED=true;
+},true);
+document.addEventListener('focusin',function(e){
+  if(e.target&&e.target.id==='e-title'&&ED&&!ED.id&&(ED.kind==='task'||ED.kind==='meeting')&&!NEW_TITLE_USER_EDITED)clearUnsolicitedNewTitle();
+},true);
+
+document.addEventListener('input',function(e){
+  if(e.target.id==='premium-list-search'&&LIST_PICKER){LIST_PICKER.query=e.target.value;renderPremiumListPicker();var q=$('#premium-list-search');if(q){q.focus({preventScroll:true});try{q.setSelectionRange(q.value.length,q.value.length);}catch(_){}}return;}
+  if(e.target.id==='j-text'){var jc=e.target.closest('.journal-note-shell');var jb=jc&&jc.querySelector('.journal-note-clear');if(jb)jb.classList.toggle('is-visible',!!e.target.value.trim());}
+  if(e.target.id==='e-title'){
+    if(ED&&!ED.id&&(ED.kind==='task'||ED.kind==='meeting')&&!NEW_TITLE_USER_EDITED){
+      e.target.value='';
+      ED.title='';
+    }else if(ED){
+      ED.title=e.target.value;
+    }
+    var sh=e.target.closest('.qe193-title-shell');
+    var clr=sh&&sh.querySelector('.qe193-title-clear');
+    if(clr)clr.classList.toggle('is-visible',!!e.target.value);
+  }
+  if(e.target.id==='q'){
+    S.ui.q=e.target.value;
+    var qWrap=e.target.closest('.tasks-project-search-field');
+    var qClear=qWrap&&qWrap.querySelector('.tasks-project-search-clear');
+    if(qClear)qClear.classList.toggle('is-visible',!!e.target.value);
+    renderTaskList();
+  }
+  if(e.target.id==='matter-q'){
+    S.ui.matterQ=e.target.value;
+    var matterQWrap=e.target.closest('.matters-local-search-field');
+    var matterQClear=matterQWrap&&matterQWrap.querySelector('.matters-local-search-clear');
+    if(matterQClear)matterQClear.classList.toggle('is-visible',!!e.target.value);
+    /* Keep the same input node alive: iOS keeps the keyboard and caret open. */
+    refreshMatterSearchResultsOnly();
+    return;
+  }
+  if(e.target.id==='gq'){GQ=e.target.value;renderGlobalSearch();}
+  if(e.target.id==='e-hjudge'&&ED&&ED.kind==='hearing'){
+    ED.hearingJudge=e.target.value.trim(); applyKnownJudgeCourt(ED.hearingJudge,'hearing');
+  }
+  if(e.target.id==='e-place'&&ED&&ED.kind==='hearing'){
+    ED.place=e.target.value.trim(); var cc=commonCourtByValue(ED.place); if(cc&&cc.judge)applyKnownCourtJudge(ED.place,'hearing');
+  }
+  if(e.target.id==='m-judge'){ applyKnownJudgeCourt(e.target.value.trim(),'matter'); }
+  if(e.target.id==='m-court'){
+    var mcv=e.target.value.trim(),mc=commonCourtByValue(mcv),prevCourt=(MED&&MED.court)||'';
+    if(MED){
+      MED.court=mcv;
+      // При ручной замене суда/органа старый судья не должен оставаться
+      // привязанным к новому месту рассмотрения.
+      if(prevCourt!==mcv&&MED.judge) MED.judge='';
+    }
+    if(mc&&mc.judge)applyKnownCourtJudge(mcv,'matter');
+  }
+  if(e.target.id==='m-phone'){
+    var rawPhone=e.target.value||'',rawPos=e.target.selectionStart==null?rawPhone.length:e.target.selectionStart;
+    var before=phoneDigitCountBefore(rawPhone,rawPos),rawDigits=String(rawPhone).replace(/\D/g,'');
+    /* При вводе номера без 7/8 форматтер добавляет код страны сам — учитываем его в позиции курсора. */
+    if(rawDigits&&rawDigits.charAt(0)!=='7'&&rawDigits.charAt(0)!=='8')before++;
+    var masked=formatRussianPhone(rawPhone);
+    if(e.target.value!==masked)e.target.value=masked;
+    if(MED)MED.phone=masked;
+    var caret=phoneCaretAfterDigits(masked,before);
+    try{e.target.setSelectionRange(caret,caret);}catch(_){ }
+  }
+});
+document.addEventListener('keydown',function(e){
+  if(handlePhoneDeleteKey(e))return;
+  if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}
+});
+document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
+$('#fab').onclick=function(){if(!unlocked)return;vib(); if(S.ui.tab==='matters' && !$('#page').classList.contains('open')){ closeSheet(); editMatter(null); } else sheetQuickAdd();};
+$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
+$('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
+$('#file').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;var r=new FileReader();
+  r.onload=async function(){
+    try{
+      var obj=JSON.parse(r.result),pass='';
+      if(obj&&obj.encrypted){pass=prompt('Введите пароль резервной копии');if(pass===null){e.target.value='';return;}}
+      await restoreBackupObject(obj,pass);
+    }catch(err){toast('Не удалось восстановить: неверный пароль или повреждённый файл');}
+    e.target.value='';
+  };
+  r.readAsText(f);
+};
+document.addEventListener('gesturestart',function(e){e.preventDefault();});
+
+/* =====================================================================
+   iPhone-style edge swipe: left edge -> right = Back
+   ===================================================================== */
+var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  // На основных вкладках горизонтальный жест теперь переключает страницы.
+  // Системный edge-swipe «Назад» оставляем только внутри открытых экранов/панелей.
+  var overlayOpen=$('#page').classList.contains('open')||$('#sheet').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER;
+  EDGE_SWIPE.on = overlayOpen && t.clientX <= 44;
+  EDGE_SWIPE.x=t.clientX; EDGE_SWIPE.y=t.clientY; EDGE_SWIPE.dx=0; EDGE_SWIPE.dy=0; EDGE_SWIPE.moved=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!EDGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0]; EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x; EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
+  if(EDGE_SWIPE.dx>12 && Math.abs(EDGE_SWIPE.dx)>Math.abs(EDGE_SWIPE.dy)*1.25){
+    EDGE_SWIPE.moved=true;
+    if(e.cancelable) e.preventDefault();
+  }
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!EDGE_SWIPE.on) return;
+  var ok=EDGE_SWIPE.moved && EDGE_SWIPE.dx>=68 && Math.abs(EDGE_SWIPE.dy)<=70 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.35;
+  EDGE_SWIPE.on=false;
+  if(ok) appBack();
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
+
+/* =====================================================================
+   Swipe по задачам / встречам / срокам / судебным заседаниям — 5.0.101
+   Свайп справа налево открывает «Быстрые действия».
+   Будущее заседание открывает быстрые действия; после наступления времени свайп ведёт к фиксации результата.
+   Вертикальная прокрутка имеет приоритет; короткий случайный жест ничего не делает.
+   ===================================================================== */
+/* 5.0.364 — единая чувствительность карточечных свайпов на «Задачи» и «Сегодня».
+   Важно: визуальная геометрия раскрытия карточек не меняется, меняется только распознавание жеста. */
+var CARD_SWIPE_SENS={
+  // 5.0.367: ещё более лёгкая реакция на короткий свайп без изменения визуального раскрытия.
+  lockX:4, verticalCancelY:28, verticalCancelRatio:1.20, lockRatio:.95,
+  fastMs:420, fastX:14, fastMaxY:64, fastRatio:.78,
+  normalX:22, normalMaxY:76, normalRatio:.88
+};
+function refreshSwipeEndPoint(st,e){
+  if(!st || !e || !e.changedTouches || !e.changedTouches.length) return;
+  var t=e.changedTouches[0];
+  st.dx=t.clientX-st.sx; st.dy=t.clientY-st.sy;
+}
+function cardSwipeShouldOpen(st,e){
+  refreshSwipeEndPoint(st,e);
+  var ax=Math.abs(st.dx), ay=Math.abs(st.dy);
+  var elapsed=Math.max(1,Date.now()-(st.started||Date.now()));
+  var looksHorizontal=st.horizontal || (st.dx<=-CARD_SWIPE_SENS.fastX && ax>ay*CARD_SWIPE_SENS.fastRatio);
+  var fast=elapsed<=CARD_SWIPE_SENS.fastMs && st.dx<=-CARD_SWIPE_SENS.fastX && ay<=CARD_SWIPE_SENS.fastMaxY && ax>ay*CARD_SWIPE_SENS.fastRatio;
+  var normal=st.dx<=-CARD_SWIPE_SENS.normalX && ay<=CARD_SWIPE_SENS.normalMaxY && ax>ay*CARD_SWIPE_SENS.normalRatio;
+  return !!(looksHorizontal && (fast||normal));
+}
+var TASK_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false,started:0,fired:false};
+function taskTouchReset(animate){
+  var row=TASK_TOUCH.row;
+  if(row){
+    if(animate) row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  }
+  TASK_TOUCH.on=false;TASK_TOUCH.row=null;TASK_TOUCH.id='';TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;TASK_TOUCH.started=0;TASK_TOUCH.fired=false;
+}
+function finishTaskSwipe(openActions){
+  var id=TASK_TOUCH.id;
+  taskTouchReset(true);
+  if(!openActions || !id) return;
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(7);
+  setTimeout(function(){sheetTaskActions(id);},40);
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || S.ui.tab!=='tasks' || !e.touches || e.touches.length!==1) return;
+  var row=e.target.closest('#tasklist .pt-row');
+  if(!row || e.target.closest('[data-act="toggle"]')) return;
+  var id=row.dataset.id||'';
+  var rec=S.tasks.filter(function(x){return x.id===id;})[0];
+  var swipeKindOk=rec && (['task','meeting','deadline'].indexOf(rec.kind)>=0 || (rec.kind==='hearing'&&!hearingHasResult(rec)));
+  if(!swipeKindOk) return;
+  var t=e.touches[0];
+  if(t.clientX<=44) return; // не конфликтуем с системным свайпом «Назад»
+  TASK_TOUCH.on=true;TASK_TOUCH.row=row;TASK_TOUCH.id=id;
+  TASK_TOUCH.sx=t.clientX;TASK_TOUCH.sy=t.clientY;TASK_TOUCH.dx=0;TASK_TOUCH.dy=0;TASK_TOUCH.horizontal=false;TASK_TOUCH.started=Date.now();TASK_TOUCH.fired=false;
+  row.classList.remove('swipe-snap');
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!TASK_TOUCH.on || !TASK_TOUCH.row || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  TASK_TOUCH.dx=t.clientX-TASK_TOUCH.sx;TASK_TOUCH.dy=t.clientY-TASK_TOUCH.sy;
+  if(!TASK_TOUCH.horizontal){
+    // Единая чувствительность 5.0.364. Вертикальный скролл остаётся приоритетным,
+    // но горизонтальный жест фиксируется раньше и не требует сильного натяжения.
+    if(Math.abs(TASK_TOUCH.dy)>CARD_SWIPE_SENS.verticalCancelY && Math.abs(TASK_TOUCH.dy)>Math.abs(TASK_TOUCH.dx)*CARD_SWIPE_SENS.verticalCancelRatio){taskTouchReset(true);return;}
+    if(TASK_TOUCH.dx<-CARD_SWIPE_SENS.lockX && Math.abs(TASK_TOUCH.dx)>Math.abs(TASK_TOUCH.dy)*CARD_SWIPE_SENS.lockRatio) TASK_TOUCH.horizontal=true;
+  }
+  if(!TASK_TOUCH.horizontal) return;
+  if(e.cancelable)e.preventDefault();
+  var x=Math.max(-108,Math.min(0,TASK_TOUCH.dx));
+  TASK_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
+  TASK_TOUCH.row.classList.toggle('swipe-left',x<=-18);
+  TASK_TOUCH.row.classList.toggle('swipe-ready',x<=-58);
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(e){
+  if(!TASK_TOUCH.on) return;
+  // Берём конечную координату из changedTouches: на быстром flick iOS может не прислать
+  // последнюю точку через touchmove, из-за чего раньше одинаковый жест срабатывал по-разному.
+  var intentional=cardSwipeShouldOpen(TASK_TOUCH,e);
+  finishTaskSwipe(intentional);
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){
+  if(!TASK_TOUCH.on) return;
+  taskTouchReset(true);
+},{passive:true,capture:true});
+
+/* =====================================================================
+   Swipe прошедшего заседания на экране «Сегодня» — 4.0.48
+   Свайп справа налево сразу открывает фиксацию результата.
+   ===================================================================== */
+var TODAY_HEARING_TOUCH={on:false,row:null,id:'',sx:0,sy:0,dx:0,dy:0,horizontal:false,started:0};
+function todayHearingTouchReset(animate){
+  var row=TODAY_HEARING_TOUCH.row;
+  if(row){
+    if(animate) row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    if(animate) setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  }
+  TODAY_HEARING_TOUCH.on=false;TODAY_HEARING_TOUCH.row=null;TODAY_HEARING_TOUCH.id='';TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;TODAY_HEARING_TOUCH.started=0;
+}
+function resetAllTodayHearingSwipes(){
+  $$('#sc-today .today-hearing-swipe-row').forEach(function(row){
+    row.classList.add('swipe-snap');
+    row.style.removeProperty('transform');
+    row.classList.remove('swipe-left','swipe-ready');
+    setTimeout(function(){row.classList.remove('swipe-snap');},190);
+  });
+}
+function finishTodayHearingSwipe(openResult){
+  var id=TODAY_HEARING_TOUCH.id;
+  todayHearingTouchReset(true);
+  if(!openResult || !id) return;
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(7);
+  setTimeout(function(){sheetHearingResult(id);},40);
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || S.ui.tab!=='today' || !e.touches || e.touches.length!==1) return;
+  var row=e.target.closest('#sc-today .today-hearing-swipe-row');
+  if(!row) return;
+  var id=row.dataset.id||'',rec=S.tasks.filter(function(x){return x.id===id;})[0];
+  if(!rec || rec.kind!=='hearing' || !hearingNeedsResult(rec)) return;
+  var t=e.touches[0];
+  if(t.clientX<=44) return;
+  TODAY_HEARING_TOUCH.on=true;TODAY_HEARING_TOUCH.row=row;TODAY_HEARING_TOUCH.id=id;
+  TODAY_HEARING_TOUCH.sx=t.clientX;TODAY_HEARING_TOUCH.sy=t.clientY;TODAY_HEARING_TOUCH.dx=0;TODAY_HEARING_TOUCH.dy=0;TODAY_HEARING_TOUCH.horizontal=false;TODAY_HEARING_TOUCH.started=Date.now();
+  row.classList.remove('swipe-snap');
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!TODAY_HEARING_TOUCH.on || !TODAY_HEARING_TOUCH.row || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  TODAY_HEARING_TOUCH.dx=t.clientX-TODAY_HEARING_TOUCH.sx;TODAY_HEARING_TOUCH.dy=t.clientY-TODAY_HEARING_TOUCH.sy;
+  if(!TODAY_HEARING_TOUCH.horizontal){
+    if(Math.abs(TODAY_HEARING_TOUCH.dy)>CARD_SWIPE_SENS.verticalCancelY && Math.abs(TODAY_HEARING_TOUCH.dy)>Math.abs(TODAY_HEARING_TOUCH.dx)*CARD_SWIPE_SENS.verticalCancelRatio){todayHearingTouchReset(true);return;}
+    if(TODAY_HEARING_TOUCH.dx<-CARD_SWIPE_SENS.lockX && Math.abs(TODAY_HEARING_TOUCH.dx)>Math.abs(TODAY_HEARING_TOUCH.dy)*CARD_SWIPE_SENS.lockRatio) TODAY_HEARING_TOUCH.horizontal=true;
+  }
+  if(!TODAY_HEARING_TOUCH.horizontal) return;
+  if(e.cancelable)e.preventDefault();
+  var x=Math.max(-104,Math.min(0,TODAY_HEARING_TOUCH.dx));
+  TODAY_HEARING_TOUCH.row.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
+  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-left',x<=-30);
+  TODAY_HEARING_TOUCH.row.classList.toggle('swipe-ready',x<=-72);
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(e){
+  if(!TODAY_HEARING_TOUCH.on) return;
+  // Та же чувствительность, что у карточек на странице «Задачи».
+  // Внешняя ширина визуального раскрытия остаётся прежней.
+  var intentional=cardSwipeShouldOpen(TODAY_HEARING_TOUCH,e);
+  finishTodayHearingSwipe(intentional);
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){
+  if(!TODAY_HEARING_TOUCH.on) return;
+  todayHearingTouchReset(true);
+},{passive:true,capture:true});
+
+/* =====================================================================
+   iPhone-style bottom sheet: pull the top area down = Close
+   ===================================================================== */
+var SHEET_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  var s=$('#sheet');
+  if(!s || !s.classList.contains('open') || s.classList.contains('full')) return;
+  var t=e.touches[0],r=s.getBoundingClientRect();
+  // The whole visual handle/header zone is draggable, not just the 4px grabber.
+  if(t.clientY < r.top || t.clientY > r.top+108) return;
+  SHEET_SWIPE.on=true;SHEET_SWIPE.x=t.clientX;SHEET_SWIPE.y=t.clientY;
+  SHEET_SWIPE.dx=0;SHEET_SWIPE.dy=0;SHEET_SWIPE.moved=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!SHEET_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  SHEET_SWIPE.dx=t.clientX-SHEET_SWIPE.x;SHEET_SWIPE.dy=t.clientY-SHEET_SWIPE.y;
+  if(SHEET_SWIPE.dy>10 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.15){
+    SHEET_SWIPE.moved=true;
+    if(e.cancelable) e.preventDefault();
+  }
+},{passive:false,capture:true});
+document.addEventListener('touchend',function(){
+  if(!SHEET_SWIPE.on) return;
+  var ok=SHEET_SWIPE.moved && SHEET_SWIPE.dy>=64 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.2;
+  SHEET_SWIPE.on=false;
+  if(ok){vib(5);closeSheet();}
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passive:true,capture:true});
+
+/* =====================================================================
+   4.0.70 — поиск на странице «Задачи» приведён к шапке «Сегодня»
+   По принятой в приложении логике пользователя:
+   свайп слева направо = предыдущая вкладка, свайп справа налево = следующая.
+   Вертикальная прокрутка, формы, горизонтальные ленты и локальные свайпы
+   карточек всегда имеют приоритет.
+   ===================================================================== */
+var MAIN_TAB_ORDER=['today','tasks','matters','cal','more'];
+var PAGE_SWIPE={on:false,sx:0,sy:0,dx:0,dy:0,horizontal:false};
+function pageSwipeReset(){
+  PAGE_SWIPE.on=false;PAGE_SWIPE.sx=0;PAGE_SWIPE.sy=0;PAGE_SWIPE.dx=0;PAGE_SWIPE.dy=0;PAGE_SWIPE.horizontal=false;
+}
+function hasHorizontalScrollAncestor(target){
+  var n=target;
+  while(n && n!==document.body){
+    if(n.classList && n.classList.contains('screen')) break;
+    if(n.scrollWidth>n.clientWidth+8){
+      var cs=window.getComputedStyle?getComputedStyle(n):null;
+      var ox=cs?cs.overflowX:'';
+      if(ox==='auto'||ox==='scroll') return true;
+    }
+    n=n.parentElement;
+  }
+  return false;
+}
+function pageSwipeTargetAllowed(target){
+  if(!target || !target.closest) return false;
+  if($('#sheet').classList.contains('open')||$('#page').classList.contains('open')||LIST_PICKER||TIME_PICKER||DATE_PICKER) return false;
+  if(target.closest('#lock,.tabbar,#fab,.timerpill,input,textarea,select,[contenteditable="true"]')) return false;
+  // Здесь уже существуют собственные горизонтальные жесты — не перехватываем их.
+  if(target.closest('#tasklist .pt-row,#sc-today .today-hearing-swipe-row')) return false;
+  if(hasHorizontalScrollAncestor(target)) return false;
+  return true;
+}
+function finishPageSwipe(){
+  if(!PAGE_SWIPE.on) return;
+  var dx=PAGE_SWIPE.dx,dy=PAGE_SWIPE.dy;
+  var intentional=PAGE_SWIPE.horizontal && Math.abs(dx)>=72 && Math.abs(dy)<=76 && Math.abs(dx)>Math.abs(dy)*1.28;
+  pageSwipeReset();
+  if(!intentional) return;
+  var idx=MAIN_TAB_ORDER.indexOf(S.ui.tab);
+  if(idx<0) return;
+  // Естественная навигация: слева направо — назад, справа налево — вперёд.
+  var nextIdx=dx>0?idx-1:idx+1;
+  if(nextIdx<0 || nextIdx>=MAIN_TAB_ORDER.length){vib(3);return;}
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+  vib(6);
+  go(MAIN_TAB_ORDER[nextIdx],false,dx>0?'prev':'next');
+}
+document.addEventListener('touchstart',function(e){
+  if(!unlocked || !e.touches || e.touches.length!==1) return;
+  if(!pageSwipeTargetAllowed(e.target)) return;
+  var t=e.touches[0];
+  PAGE_SWIPE.on=true;PAGE_SWIPE.sx=t.clientX;PAGE_SWIPE.sy=t.clientY;PAGE_SWIPE.dx=0;PAGE_SWIPE.dy=0;PAGE_SWIPE.horizontal=false;
+},{passive:true,capture:true});
+document.addEventListener('touchmove',function(e){
+  if(!PAGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  var t=e.touches[0];
+  PAGE_SWIPE.dx=t.clientX-PAGE_SWIPE.sx;PAGE_SWIPE.dy=t.clientY-PAGE_SWIPE.sy;
+  if(!PAGE_SWIPE.horizontal){
+    if(Math.abs(PAGE_SWIPE.dy)>14 && Math.abs(PAGE_SWIPE.dy)>Math.abs(PAGE_SWIPE.dx)*1.12){pageSwipeReset();return;}
+    if(Math.abs(PAGE_SWIPE.dx)>16 && Math.abs(PAGE_SWIPE.dx)>Math.abs(PAGE_SWIPE.dy)*1.22) PAGE_SWIPE.horizontal=true;
+  }
+  if(PAGE_SWIPE.horizontal && e.cancelable) e.preventDefault();
+},{passive:false,capture:true});
+document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true});
+document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
+
+/* =====================================================================
+   iOS 26 PWA BOTTOM CHROME FIX (5.0.93)
+   Не используем fixed + bottom и не используем screen.height.
+   Реальную видимую нижнюю границу берём из visualViewport и
+   задаём fixed-элементам координату top. Пользовательские данные
+   и IndexedDB этот код не читает и не изменяет.
+   ===================================================================== */
+function refreshFixedChrome(){
+  try{
+    var root=document.documentElement;
+    var vv=window.visualViewport;
+    var vvTop=vv&&Number.isFinite(vv.offsetTop)?vv.offsetTop:0;
+    var vvHeight=vv&&Number.isFinite(vv.height)?vv.height:window.innerHeight;
+    if(!Number.isFinite(vvHeight)||vvHeight<=0)return;
+    var visibleBottom=vvTop+vvHeight;
+    var nav=document.getElementById('tabbar');
+    var fab=document.getElementById('fab');
+    var narrow=window.innerWidth<=390;
+    var navH=nav&&nav.offsetHeight?nav.offsetHeight:(narrow?73:75);
+    var fabH=fab&&fab.offsetHeight?fab.offsetHeight:(narrow?52:56);
+    var fabGap=narrow?85:88;
+    root.style.setProperty('--ios-vv-height',Math.round(vvHeight)+'px');
+    root.style.setProperty('--ios-nav-top',Math.max(0,Math.round(visibleBottom-navH))+'px');
+    root.style.setProperty('--ios-fab-top',Math.max(0,Math.round(visibleBottom-fabGap-fabH))+'px');
+    if(nav){nav.style.visibility='visible';void nav.offsetHeight;}
+    if(fab){void fab.offsetHeight;}
+  }catch(e){}
+}
+function settleFixedChrome(){
+  refreshFixedChrome();
+  requestAnimationFrame(refreshFixedChrome);
+  setTimeout(refreshFixedChrome,60);
+  setTimeout(refreshFixedChrome,220);
+  setTimeout(refreshFixedChrome,650);
+}
+settleFixedChrome();
+window.addEventListener('pageshow',settleFixedChrome,{passive:true});
+window.addEventListener('resize',refreshFixedChrome,{passive:true});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)settleFixedChrome();},{passive:true});
+window.addEventListener('orientationchange',function(){setTimeout(settleFixedChrome,120);},{passive:true});
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',refreshFixedChrome,{passive:true});
+  window.visualViewport.addEventListener('scroll',refreshFixedChrome,{passive:true});
+}
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+var APP_STARTED=false,hiddenAt=0;
+function afterUnlock(){
+  if(!unlocked)return;
+  /* 5.0.249: a stale invisible scrim must never block taps after launch. */
+  try{
+    var startupScrim=$('#scrim');
+    if(startupScrim)startupScrim.classList.remove('open');
+  }catch(e){}
+  if(!APP_STARTED){
+    S.ui.tab='today';
+    S.ui.q='';
+    S.ui._sq=false;
+
+    /* 5.0.295:
+       Архивные разделы страницы «Задачи» при каждом новом запуске
+       должны начинаться свернутыми. Пользователь по-прежнему может
+       раскрыть их вручную на время текущего сеанса. */
+    if(!S.ui.taskGroupOpen || typeof S.ui.taskGroupOpen!=='object') S.ui.taskGroupOpen={};
+    S.ui.taskGroupOpen['past-meetings']=false;
+    S.ui.taskGroupOpen['hearing-history']=false;
+    S.ui.taskGroupOpen['done']=false;
+
+    NAV_TABS=[];
+    closeAll();
+    save();
+  }
+  render();schedule();
+  refreshFixedChrome();
+  if(!APP_STARTED){
+    APP_STARTED=true;setInterval(schedule,15*60*1000);
+    var hearingSig=S.tasks.filter(hearingNeedsResult).map(function(t){return t.id;}).sort().join('|');
+    setInterval(function(){if(!unlocked)return;var sig=S.tasks.filter(hearingNeedsResult).map(function(t){return t.id;}).sort().join('|');if(sig!==hearingSig){hearingSig=sig;render();}},30000);
+    if(!S.settings.seen||(noData()&&!S.settings.dismissed)){S.settings.seen=true;save();setTimeout(showIntro,500);}
+  }
+}
+async function boot(){
+  META=getMeta();drawPad();
+  if(pinEnabled()){lockShow('Введите PIN для расшифровки базы');return;}
+  try{
+    await bootLoadDevice();
+  }catch(e){
+    /* 5.0.91 DATA-SAFETY: никогда не подменяем ошибку чтения пустой базой.
+       При любой ошибке загрузки существующее хранилище остаётся нетронутым. */
+    SESSION_KEY=null;
+    unlocked=false;
+    lockShow('Не удалось открыть локальную базу. Данные не изменены. Перезапустите приложение или восстановите резервную копию.');
+    try{console.error('Storage boot failed',e);}catch(_e){}
+    return;
+  }
+  /* Ошибки интерфейса после успешного чтения базы не должны попадать в
+     обработчик хранилища и тем более приводить к созданию пустого состояния. */
+  try{afterUnlock();}
+  catch(e){
+    try{console.error('UI boot failed',e);}catch(_e){}
+    refreshFixedChrome();
+  }
+}
+boot();
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){hiddenAt=Date.now();flushSave();return;}
+  var awayMs=hiddenAt?Date.now()-hiddenAt:0;
+  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&awayMs>60000){
+    S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
+  }
+  if(unlocked){
+    /* 5.0.300 — рабочий контекст сохраняется при кратком уходе в другое приложение.
+       Не закрываем редакторы/шторки, не сбрасываем текущую вкладку и поиск.
+       Если поверх страницы ничего не открыто — обновляем текущий экран, чтобы
+       время, сроки и состояния событий были актуальны. */
+    var overlayOpen=$('#sheet').classList.contains('open')||$('#page').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER;
+    if(!overlayOpen) render();
+    schedule();
+    settleFixedChrome();
+  }
+  hiddenAt=0;
+});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    /* 5.0.249 STARTUP-STABILITY:
+       register only after the UI is already usable; do not force an update,
+       reload, navigation or controller switch during launch. */
+    setTimeout(function(){
+      navigator.serviceWorker.register('./sw.js?v=5511',{updateViaCache:'none'})
+        .catch(function(){});
+    },1400);
+  });
+}
+if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
+window.addEventListener('pagehide',function(){ if(unlocked) flushSave(); });
+window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
+window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
+
+
+/* ================================================================
+   5.0.318 — MATTERS SCREEN STARTED ACCORDING TO APPROVED LAYOUT 3
+   Первый этап переноса страницы «Дела» на утверждённый макет 3.
+   ================================================================ */
+function matterApprovedHero(scope, listLen, allCount, activeCount, archCount){
+  var total = scope==='all' ? allCount : (scope==='archive' ? archCount : activeCount);
+  var line = scope==='archive'
+    ? total+' '+plural(total,'дело','дела','дел')+' в архиве'
+    : (scope==='all' ? total+' '+plural(total,'дело','дела','дел')+' всего' : total+' '+plural(total,'дело','дела','дел')+' в работе');
+  if(S.ui.matterType || S.ui.matterBasis || S.ui.matterStage || (S.ui.matterSort||'priority')!=='priority' || String(S.ui.matterQ||'').trim()){
+    line = listLen+' '+plural(listLen,'дело','дела','дел')+' по фильтру';
+  }
+  return line;
+}
+function matterApprovedNearestHearing(){
+  var hearings=S.tasks.filter(function(t){
+    if(t.kind!=='hearing') return false;
+    if(!isActiveRecord(t)) return false;
+    if(hearingNeedsResult(t)) return false;
+    if(!t.due) return false;
+    return dd(t.due)>=0;
+  }).sort(sortT);
+  return hearings[0]||null;
+}
+function matterApprovedQuickTypeLabel(){
+  if(!S.ui.matterType) return 'По типу';
+  var meta=MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other;
+  return meta.short||meta.n||'По типу';
+}
+function matterApprovedLeadName(m){
+  var client=String(m.client||'').replace(/\s+/g,' ').trim();
+  if(!client)return matterCardTitle(m);
+  // Preserve punctuation in names already entered with one or more initials.
+  if(/^[А-ЯЁA-Z][А-Яа-яЁёA-Za-z'’\-]+\s+(?:[А-ЯЁA-Z]\.\s*){1,3}$/u.test(client))return client;
+  if(/[«»"]/.test(client)||/^(?:ООО|АО|ПАО|ИП|ФКУ|ФКУЗ|ГУ|МБУ|МУП|УФСИН|ОМВД|МВД|СУ\s+СК|РОСП)(?:\s|$)/i.test(client))return client;
+  var words=client.split(' ');
+  if(words.length>=2&&words.length<=4&&words.every(function(w){return /^[А-ЯЁA-Z][А-Яа-яЁёA-Za-z'’\-]+$/u.test(w);}))return matterAutoClientLabel(client);
+  return client;
+}
+
+function matterApprovedSubject(m){
+  var lead=matterApprovedLeadName(m),subject='';
+  var execution=isCriminalExecutionMatter(m);
+  if(execution){
+    var issue=criminalExecutionIssue(m.executionIssue||'');
+    subject=m.notes||(issue&&issue.short)||m.article||'';
+  }else if((m.type==='criminal'||m.type==='koap')&&m.article){
+    subject=m.article;
+  }else{
+    subject=m.notes||'';
+  }
+  if(!subject&&m.title&&m.title!==lead&&m.title!==m.client)subject=m.title;
+  subject=String(subject||'').replace(/\s+/g,' ').trim();
+  if(subject.indexOf(lead+' — ')===0)subject=subject.slice(lead.length+3);
+  // Card CSS clamps the complete text; periods in «Ст.» and initials are not sentence boundaries.
+  return subject;
+}
+
+function matterApprovedBadge(m){
+  var st=matterStats(m);
+  if(m.archived) return {tone:'archive', text:'Архив'};
+  if(st.pendingResult) return {tone:'result', text:'Результат'};
+  if(st.late) return {tone:'urgent', text:'Срочно'};
+  /* 5.0.383: бейдж «Сегодня» в карточке дела убран как лишний —
+     ближайшее заседание уже показано отдельной строкой внизу карточки. */
+  return null;
+}
+function matterApprovedNumberStage(m){
+  var parts=[];
+  if(m.number) parts.push('№ '+m.number);
+  if(m.stage) parts.push(m.stage);
+  return parts.join('  ·  ');
+}
+function matterApprovedProfessionalLine(m){
+  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  var parts=[];
+  if(ctx.mode==='investigation' && m.investigator) parts.push((matterInvestigatorLabel(m.stage)||'Следователь')+' '+m.investigator);
+  else if((ctx.mode==='judicial'||ctx.mode==='execution') && m.judge) parts.push('Судья '+m.judge);
+  else if(m.judge) parts.push('Судья '+m.judge);
+  if(m.court) parts.push(m.court);
+  return parts.join('  ·  ');
+}
+function matterApprovedAction(m){
+  if(m.archived) return {text:'Дело находится в архиве', tone:'archive'};
+  var st=matterStats(m), t=st.pendingResult || st.lateItems[0] || st.next;
+  if(!t) return {text:'Без ближайших записей', tone:'muted'};
+  var kind=t.kind==='hearing'?'Заседание':(t.kind==='meeting'?'Встреча':(t.kind==='deadline'?'Срок':'Задача'));
+  var parts=[kind];
+  if(t.due) parts.push(fmtShort(t.due));
+  if(t.time) parts.push(t.time);
+  return {text:parts.join(' · '), tone:st.pendingResult?'result':(st.late?'urgent':'next')};
+}
+function matterFolderIcon(kind){
+  var bodies={
+    scale:'<path d="M38 6v48M22 55h32M28 60h20M15 18h46M38 9l-6 8h12z"/><path d="M19 19 8 41m11-22 11 22M57 19 46 41m11-22 11 22"/><path d="M5 41h28c-1.7 7-6.5 10.5-14 10.5S6.7 48 5 41zm38 0h28c-1.7 7-6.5 10.5-14 10.5S44.7 48 43 41z"/>',
+    gavel:'<g transform="rotate(-38 34 27)"><rect x="15" y="10" width="38" height="14" rx="3"/><path d="M23 10v14m22-14v14M34 24v35"/></g><path d="M47 49h17M42 57h27"/>',
+    people:'<circle cx="38" cy="14" r="7.5"/><circle cx="16" cy="23" r="6"/><circle cx="60" cy="23" r="6"/><path d="M23 58V47c0-10 6-16 15-16s15 6 15 16v11H23z"/><path d="M22 54H6v-8c0-7 4-12 10-12 4 0 7 2 9 5M54 54h16v-8c0-7-4-12-10-12-4 0-7 2-9 5"/>',
+    doc:'<path d="M14 6h28l14 14v38H14a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM42 6v15h14M22 31h18M22 40h14"/><circle cx="54" cy="48" r="10"/><path d="M54 42v7m0 5h.01"/>'
+  };
+  var body=bodies[kind]||bodies.doc;
+  return '<svg class="case-icon-premium case-icon-'+esc(kind||'doc')+'" viewBox="0 0 76 66" aria-hidden="true">'+
+    '<g class="gold-depth" transform="translate(1.5 1.8)">'+body+'</g><g class="gold-main">'+body+'</g><g class="gold-highlight" transform="translate(-.7 -.8)">'+body+'</g></svg>';
+}
+function matterFolderCalendar(){
+  return '<svg class="ico s case-folder-calendar" viewBox="0 0 24 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.3" y="4.4" width="19.4" height="19.2" rx="2.2"/><path d="M2.8 10h18.4M7 2v5m10-5v5"/><g fill="currentColor" stroke="none"><circle cx="7" cy="14" r="1.15"/><circle cx="12" cy="14" r="1.15"/><circle cx="17" cy="14" r="1.15"/><circle cx="7" cy="19" r="1.15"/><circle cx="12" cy="19" r="1.15"/></g></svg>';
+}
+function matterFolderCompactMeta(m){
+  return [m.stage,m.court].filter(Boolean).join(' · ')
+    .replace(/городской\s+суд/gi,'горсуд')
+    .replace(/областной\s+суд/gi,'облсуд');
+}
+function matterFolderNextHearing(m){
+  if(m.archived) return {text:'Дело находится в архиве',tone:'archive'};
+  var hearing=tasksOf(m.id).filter(function(t){
+    return t.kind==='hearing' && isActiveRecord(t) && !hearingNeedsResult(t) && t.due && dd(t.due)>=0;
+  }).sort(sortT)[0]||null;
+  if(!hearing) return {text:'Дата не назначена',tone:'muted'};
+  var parts=['Заседание',fmtShort(hearing.due)];
+  if(hearing.time) parts.push(hearing.time);
+  return {text:parts.join(' · '),tone:'next'};
+}
+function matterFolderVisualType(m){
+  return ['admin','criminal','civil','koap'].indexOf(m.type)>=0?m.type:'koap';
+}
+function matterFolderTypeLabel(type){
+  return type==='admin'?'ИСК КАС':type==='criminal'?'УГОЛОВНОЕ':type==='civil'?'ГРАЖДАНСКОЕ':'КОАП';
+}
+function matterFolderTypeIcon(type){
+  return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
+}
+
+// Temporary visual-debug mode for refining the SVG folder shell.
+// Keep all matter data/business logic intact; only suppress inner visual content.
+var MATTER_FOLDER_SHOW_CONTENT=false;
+var MATTER_FOLDER_SHELL_SEQ=0;
+function matterFolderShell(){
+  var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
+  return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="@back" x1="0" y1="0" x2=".92" y2=".82">
+    <stop stop-color="var(--folder-deep)"/>
+    <stop offset=".34" stop-color="var(--folder)"/>
+    <stop offset=".72" stop-color="var(--folder-deep)"/>
+    <stop offset="1" stop-color="var(--folder)"/>
+  </linearGradient>
+  <linearGradient id="@tab" x1=".15" y1="0" x2=".78" y2="1">
+    <stop stop-color="#fff" stop-opacity=".75"/>
+    <stop offset=".18" stop-color="var(--folder-light)"/>
+    <stop offset=".70" stop-color="var(--folder-light)"/>
+    <stop offset="1" stop-color="var(--folder)"/>
+  </linearGradient>
+  <linearGradient id="@paper" x1=".08" y1="0" x2=".96" y2="1">
+    <stop stop-color="#fffefa"/>
+    <stop offset=".72" stop-color="#fffdf8"/>
+    <stop offset="1" stop-color="#ead8b7"/>
+  </linearGradient>
+  <linearGradient id="@ivory" x1=".08" y1=".02" x2=".92" y2="1">
+    <stop stop-color="#fffef9"/>
+    <stop offset=".55" stop-color="#fffaf1"/>
+    <stop offset=".87" stop-color="#fbf2e4"/>
+    <stop offset="1" stop-color="#f0dfc1"/>
+  </linearGradient>
+  <linearGradient id="@edge" x1=".02" y1="0" x2=".98" y2="1">
+    <stop stop-color="#925708"/>
+    <stop offset=".13" stop-color="#e6b044"/>
+    <stop offset=".30" stop-color="#fff0a9"/>
+    <stop offset=".48" stop-color="#b8730e"/>
+    <stop offset=".66" stop-color="#e7b64b"/>
+    <stop offset=".84" stop-color="#fff2b4"/>
+    <stop offset="1" stop-color="#8b5207"/>
+  </linearGradient>
+  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#6d3d04"/>
+    <stop offset=".20" stop-color="#d99b2f"/>
+    <stop offset=".36" stop-color="#fff4b5"/>
+    <stop offset=".56" stop-color="#ad6a0d"/>
+    <stop offset=".77" stop-color="#f0c45c"/>
+    <stop offset="1" stop-color="#663803"/>
+  </linearGradient>
+  <radialGradient id="@frontLight" cx=".26" cy=".02" r="1.08">
+    <stop stop-color="#fff" stop-opacity=".50"/>
+    <stop offset=".50" stop-color="#fff" stop-opacity=".13"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="@bottomMass" x1="0" y1="0" x2="0" y2="1">
+    <stop offset=".82" stop-color="#d7b27a" stop-opacity="0"/>
+    <stop offset=".95" stop-color="#c88f46" stop-opacity=".020"/>
+    <stop offset="1" stop-color="#9f691a" stop-opacity=".055"/>
+  </linearGradient>
+  <filter id="@rearShadow" x="-10%" y="-24%" width="130%" height="170%">
+    <feDropShadow dx="1.3" dy="3.1" stdDeviation="3" flood-color="#3f2b16" flood-opacity=".20"/>
+  </filter>
+  <filter id="@paperShadow" x="-12%" y="-30%" width="145%" height="195%">
+    <feDropShadow dx="1.1" dy="2" stdDeviation="1.7" flood-color="#6a4a24" flood-opacity=".15"/>
+  </filter>
+  <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="126%">
+    <feDropShadow dx="1.6" dy="3.3" stdDeviation="3.2" flood-color="#65451f" flood-opacity=".19"/>
+  </filter>
+  <filter id="@hardwareShadow" x="-120%" y="-90%" width="340%" height="300%">
+    <feDropShadow dx=".9" dy="1.5" stdDeviation="1.15" flood-color="#5c3908" flood-opacity=".42"/>
+  </filter>
+  <pattern id="@grain" patternUnits="userSpaceOnUse" width="13" height="13">
+    <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
+  </pattern>
+
+  <!-- 5.0.540 — folders brought closer to the approved physical mockup.
+       Final step for the shell: 1) compact far-right rear wall, 2) clearer left eyelet block,
+       3) cleaner four-sheet paper stack, 4) smoother shoulder/cover contour. -->
+  <path id="@front" d="
+    M28 95
+    H228
+    C240 95 250 96 260 99
+    C270 102 278 107 286 113
+    C292 117 297 120 304 122
+    H389
+    C406 122 419 125 427 132
+    C433 137 435 145 435 155
+    V437
+    C435 461 421 474 397 474
+    H43
+    C19 474 5 461 5 437
+    V114
+    C5 101 14 95 28 95
+    Z"/>
+  <clipPath id="@clip"><use href="#@front"/></clipPath>
+</defs>
+
+<!-- Rear coloured folder: compact left shoulder and restrained right wall like the approved mockup. -->
+<path d="
+  M7 167V82
+  C7 58 18 42 37 36
+  C47 18 63 10 86 10
+  H232
+  C252 10 265 22 274 43
+  L297 99
+  C304 116 316 126 334 129
+  H389
+  C405 129 416 132 423 139
+  C429 145 432 154 432 166
+  V176H7Z"
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.4" filter="url(#@rearShadow)"/>
+<!-- Far-right rear wall: now shorter and cleaner, visible mainly around the papers like in the reference. -->
+<path d="
+  M391 64
+  H411
+  C423 64 431 70 435 80
+  C437 85 437 91 437 98
+  V146
+  C437 158 429 165 417 165
+  H397
+  C392 165 389 162 389 157
+  V74
+  C389 68 390 64 391 64
+  Z"
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@rearShadow)"/>
+<path d="
+  M399 73H410
+  C419 73 425 77 428 85
+  C430 90 430 96 430 102
+  V137"
+  fill="none" stroke="#f3ffff" stroke-opacity=".24" stroke-width="1.6" stroke-linecap="round"/>
+<path d="
+  M15 155V83
+  C15 67 24 55 40 50
+  C47 31 60 22 80 22
+  H228
+  C241 22 251 30 258 46
+  L281 100
+  C288 116 298 123 312 126"
+  fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2"/>
+
+<!-- Four staggered papers, starting behind the tab and stepping right/up as in the mockup. -->
+<g fill="url(#@paper)" stroke="#e3d0af" stroke-width="1" filter="url(#@paperShadow)">
+  <path d="M232 31H330Q339 31 339 38V126H232Z"/>
+  <path d="M244 42H349Q358 42 358 49V130H244Z"/>
+  <path d="M255 55H370Q380 55 380 63V136H255Z"/>
+  <path d="M270 70H391Q401 70 401 78V143H270Z"/>
+</g>
+<g fill="none" stroke="#fff" stroke-opacity=".72" stroke-width="1.02">
+  <path d="M238 35h91"/>
+  <path d="M250 46h97"/>
+  <path d="M261 59h107"/>
+  <path d="M276 74h113"/>
+</g>
+
+<!-- Broad front tab: softer shoulder and slightly higher ridge to match the approved shell. -->
+<path d="
+  M41 127
+  C46 104 54 76 68 53
+  C77 39 88 32 104 32
+  H232
+  C247 32 257 40 264 57
+  L285 104
+  C291 118 302 128 319 133
+  L311 127
+  H41Z"
+  fill="url(#@tab)" stroke="#fff3d5" stroke-opacity=".92" stroke-width="1.4" filter="url(#@paperShadow)"/>
+<path d="
+  M49 118
+  C54 97 61 77 73 58
+  C80 47 90 42 104 42
+  H228
+  C240 42 248 48 254 61
+  L274 104
+  C280 116 288 122 300 127"
+  fill="none" stroke="#fff" stroke-opacity=".60" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M86 38H223C237 38 245 45 251 58"
+  fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.2" stroke-linecap="round"/>
+
+<!-- Main cream cover. -->
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.5" filter="url(#@bodyShadow)"/>
+
+<!-- Light material modelling. -->
+<g clip-path="url(#@clip)">
+  <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
+  <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
+  <rect x="7" y="390" width="426" height="92" fill="url(#@bottomMass)"/>
+  <path d="
+    M14 114
+    C14 104 21 99 32 99
+    H226
+    C236 99 245 100 254 102
+    C264 105 272 109 279 114
+    C285 118 290 121 298 124
+    H384
+    C399 124 411 127 417 133
+    C422 138 424 145 424 153
+    V432
+    C424 452 413 464 393 464
+    H47
+    C27 464 16 452 16 432
+    Z"
+    fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
+  <path d="M18 429C18 450 28 461 47 461H118"
+    fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
+  <path d="M320 461H391C410 461 421 450 421 429"
+    fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
+</g>
+
+<!-- Continuous gold seam along the top edge. -->
+<path d="
+  M29 95
+  H228
+  C240 95 250 96 260 99
+  C270 102 278 107 286 113
+  C292 117 297 120 304 122
+  H404"
+  fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M32 97H225C236 97 245 98 254 100C264 103 272 108 280 113C286 117 291 120 299 122"
+  fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
+
+<!-- Premium ring/eyelet assembly: clearer top eyelet + slimmer linked ring, closer to the mockup. -->
+<g filter="url(#@hardwareShadow)">
+  <circle cx="29.8" cy="78.4" r="10.6" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.2"/>
+  <circle cx="29.8" cy="78.4" r="4.5" fill="#2a1503" stroke="#7b4b0b" stroke-width=".75"/>
+  <path d="M24.8 72.8C27.4 70.5 31.2 70.0 34.5 72.0" fill="none" stroke="#fff3ad" stroke-width="1.2" stroke-linecap="round" opacity=".94"/>
+  <circle cx="30.0" cy="111.0" r="9.9" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.0"/>
+  <circle cx="30.0" cy="111.0" r="4.2" fill="#2b1603" stroke="#7b4b0b" stroke-width=".7"/>
+  <path d="M25.5 105.6C27.7 103.5 31.1 103.0 34.0 104.7" fill="none" stroke="#fff1a5" stroke-width="1.1" stroke-linecap="round" opacity=".90"/>
+  <path d="
+    M29.9 85.3
+    C25.1 86.3 23.8 91.6 23.8 98.9
+    V101.4
+    C23.8 108.6 25.9 114.4 30.0 117.0
+    C34.2 114.4 36.3 108.6 36.3 101.4
+    V98.6
+    C36.3 91.4 35.0 86.2 29.9 85.3Z"
+    fill="none" stroke="url(#@metal)" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27.4 87.3C26.0 91.6 25.8 96.6 25.8 101.1C25.8 105.9 27.0 110.2 28.8 112.6"
+    fill="none" stroke="#fff1a7" stroke-width="1.15" stroke-linecap="round" opacity=".95"/>
+</g>
+</svg>`.replace(/@/g,prefix);
 }
 function matterCard(m){
   var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
