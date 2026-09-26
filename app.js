@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.549';
-var APP_BUILD='5549';
+var APP_VERSION='5.0.550';
+var APP_BUILD='5550';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -28,6 +28,8 @@ var DEF = {
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
 var DBP = null, META = null, SESSION_KEY = null, saveTimer = null, unlocked = false;
+/* 5.0.550: app.js contains legacy repeated boot blocks; never let them start storage twice. */
+var BOOT_ONCE=false;
 
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
 function mergeState(d){
@@ -43,6 +45,9 @@ function mergeState(d){
   }
   delete out.settings.pin; delete out.settings.rate;
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
+  /* 5.0.550 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
+     Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
+  out.ui.tab='today';
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
@@ -5989,6 +5994,8 @@ function afterUnlock(){
   }
 }
 async function boot(){
+  if(BOOT_ONCE)return;
+  BOOT_ONCE=true;
   META=getMeta();drawPad();
   if(pinEnabled()){lockShow('Введите PIN для расшифровки базы');return;}
   try{
@@ -6019,7 +6026,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.549 — keep the restored launch behavior requested by the user:
+    /* 5.0.550 — always return to the requested launch page:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -6036,13 +6043,26 @@ document.addEventListener('visibilitychange',function(){
   }
   hiddenAt=0;
 });
+/* 5.0.550 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
+   pageshow can occur without a normal cold boot. Force the main page to «Сегодня». */
+window.addEventListener('pageshow',function(){
+  if(!unlocked)return;
+  S.ui.tab='today';
+  S.ui.q='';
+  S.ui._sq=false;
+  NAV_TABS=[];
+  closeAll();
+  save();
+  render();
+  settleFixedChrome();
+},{passive:true});
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     /* 5.0.249 STARTUP-STABILITY:
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5549',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5550',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -9210,6 +9230,8 @@ function afterUnlock(){
   }
 }
 async function boot(){
+  if(BOOT_ONCE)return;
+  BOOT_ONCE=true;
   META=getMeta();drawPad();
   if(pinEnabled()){lockShow('Введите PIN для расшифровки базы');return;}
   try{
@@ -9240,7 +9262,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.549 — keep the restored launch behavior requested by the user:
+    /* 5.0.550 — always return to the requested launch page:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -9257,13 +9279,26 @@ document.addEventListener('visibilitychange',function(){
   }
   hiddenAt=0;
 });
+/* 5.0.550 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
+   pageshow can occur without a normal cold boot. Force the main page to «Сегодня». */
+window.addEventListener('pageshow',function(){
+  if(!unlocked)return;
+  S.ui.tab='today';
+  S.ui.q='';
+  S.ui._sq=false;
+  NAV_TABS=[];
+  closeAll();
+  save();
+  render();
+  settleFixedChrome();
+},{passive:true});
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     /* 5.0.249 STARTUP-STABILITY:
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5549',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5550',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
