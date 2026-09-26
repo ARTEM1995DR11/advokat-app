@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.526';
-var APP_BUILD='5526';
+var APP_VERSION='5.0.527';
+var APP_BUILD='5527';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6247,15 +6247,15 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.526 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
+  <!-- 5.0.527 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
   <path id="@front" d="
     M29 93
-    H238
-    C251 93 262 95 272 99
-    C284 104 294 113 305 120
-    C308 123 309 125 313 126
+    H233
+    C245 93 256 94 266 98
+    C278 102 288 109 299 116
+    C307 121 315 126 325 127
     H404
-    C423 126 434 137 434 154
+    C423 127 434 137 434 154
     V446
     C434 465 423 476 404 476
     H36
@@ -6337,12 +6337,12 @@ function matterFolderShell(){
   <path d="
     M14 113
     C14 103 21 98 32 98
-    H236
-    C248 98 259 100 269 104
-    C280 109 290 117 300 123
-    C304 126 306 128 310 128
+    H231
+    C242 98 253 99 263 102
+    C274 106 284 113 294 120
+    C302 125 311 130 323 130
     H401
-    C417 128 425 138 425 152
+    C417 130 425 138 425 152
     V442
     C425 459 416 468 400 468
     H40
@@ -6360,13 +6360,13 @@ function matterFolderShell(){
 <!-- Delicate continuous gold seam following the approved stepped top contour. -->
 <path d="
   M29 93
-  H238
-  C251 93 262 95 272 99
-  C284 104 294 113 305 120
-  C308 123 309 125 313 126
+  H233
+  C245 93 256 94 266 98
+  C278 102 288 109 299 116
+  C307 121 315 126 325 127
   H404"
   fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
-<path d="M32 95H235C248 95 258 97 268 101C279 107 288 115 299 121C304 124 306 126 310 126"
+<path d="M32 95H230C242 95 252 96 262 100C273 104 283 111 293 117C301 122 309 126 320 127"
   fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
 
 <!-- Compact premium two-point ring: same construction as the approved empty mockup. -->
