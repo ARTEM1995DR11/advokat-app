@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.540';
-var APP_BUILD='5540';
+var APP_VERSION='5.0.541';
+var APP_BUILD='5541';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6252,9 +6252,9 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.540 — folders brought closer to the approved physical mockup.
-       Final step for the shell: 1) compact far-right rear wall, 2) clearer left eyelet block,
-       3) cleaner four-sheet paper stack, 4) smoother shoulder/cover contour. -->
+  <!-- 5.0.541 — precision pass against the approved physical mockup.
+       Paper stack is tucked behind one front sheet; right rear wall is compact;
+       eyelet/grommet hardware has more visible gold and a distinct lower anchor. -->
   <path id="@front" d="
     M28 95
     H228
@@ -6288,26 +6288,26 @@ function matterFolderShell(){
   C429 145 432 154 432 166
   V176H7Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.4" filter="url(#@rearShadow)"/>
-<!-- Far-right rear wall: now shorter and cleaner, visible mainly around the papers like in the reference. -->
+<!-- Far-right rear wall: only the shaped shoulder and short side are visible, as in the reference. -->
 <path d="
-  M391 64
+  M394 66
   H411
-  C423 64 431 70 435 80
-  C437 85 437 91 437 98
-  V146
-  C437 158 429 165 417 165
-  H397
-  C392 165 389 162 389 157
-  V74
-  C389 68 390 64 391 64
+  C421 66 428 70 431 78
+  C433 83 433 88 433 94
+  V126
+  C433 135 427 140 418 140
+  H399
+  C394 140 392 137 392 132
+  V76
+  C392 70 393 67 394 66
   Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@rearShadow)"/>
 <path d="
-  M399 73H410
-  C419 73 425 77 428 85
-  C430 90 430 96 430 102
-  V137"
-  fill="none" stroke="#f3ffff" stroke-opacity=".24" stroke-width="1.6" stroke-linecap="round"/>
+  M401 73H410
+  C418 73 423 76 426 82
+  C428 87 428 92 428 97
+  V119"
+  fill="none" stroke="#f3ffff" stroke-opacity=".25" stroke-width="1.55" stroke-linecap="round"/>
 <path d="
   M15 155V83
   C15 67 24 55 40 50
@@ -6318,18 +6318,19 @@ function matterFolderShell(){
   C288 116 298 123 312 126"
   fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2"/>
 
-<!-- Four staggered papers, starting behind the tab and stepping right/up as in the mockup. -->
+<!-- Paper stack tucked inside the folder: three rear sheets are mostly hidden behind one front sheet. -->
 <g fill="url(#@paper)" stroke="#e3d0af" stroke-width="1" filter="url(#@paperShadow)">
-  <path d="M232 31H330Q339 31 339 38V126H232Z"/>
-  <path d="M244 42H349Q358 42 358 49V130H244Z"/>
-  <path d="M255 55H370Q380 55 380 63V136H255Z"/>
-  <path d="M270 70H391Q401 70 401 78V143H270Z"/>
+  <path d="M248 30H343Q352 30 352 37V119H248Z"/>
+  <path d="M250 43H363Q372 43 372 50V127H250Z"/>
+  <path d="M252 56H382Q391 56 391 63V135H252Z"/>
+  <!-- front sheet: widest face, hiding the lower portions of the rear sheets -->
+  <path d="M249 72H396Q405 72 405 80V145H249Z"/>
 </g>
 <g fill="none" stroke="#fff" stroke-opacity=".72" stroke-width="1.02">
-  <path d="M238 35h91"/>
-  <path d="M250 46h97"/>
-  <path d="M261 59h107"/>
-  <path d="M276 74h113"/>
+  <path d="M254 34h87"/>
+  <path d="M256 47h105"/>
+  <path d="M258 60h121"/>
+  <path d="M255 76h137"/>
 </g>
 
 <!-- Broad front tab: softer shoulder and slightly higher ridge to match the approved shell. -->
@@ -6357,7 +6358,7 @@ function matterFolderShell(){
   fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.2" stroke-linecap="round"/>
 
 <!-- Main cream cover. -->
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.5" filter="url(#@bodyShadow)"/>
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.7" filter="url(#@bodyShadow)"/>
 
 <!-- Light material modelling. -->
 <g clip-path="url(#@clip)">
@@ -6394,29 +6395,36 @@ function matterFolderShell(){
   C270 102 278 107 286 113
   C292 117 297 120 304 122
   H404"
-  fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
+  fill="none" stroke="url(#@edge)" stroke-width="2.75" stroke-linecap="round"/>
 <path d="M32 97H225C236 97 245 98 254 100C264 103 272 108 280 113C286 117 291 120 299 122"
   fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
 
-<!-- Premium ring/eyelet assembly: clearer top eyelet + slimmer linked ring, closer to the mockup. -->
+<!-- Premium ring/eyelet assembly: more gold surface and a clearly separated lower grommet. -->
 <g filter="url(#@hardwareShadow)">
-  <circle cx="29.8" cy="78.4" r="10.6" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.2"/>
-  <circle cx="29.8" cy="78.4" r="4.5" fill="#2a1503" stroke="#7b4b0b" stroke-width=".75"/>
-  <path d="M24.8 72.8C27.4 70.5 31.2 70.0 34.5 72.0" fill="none" stroke="#fff3ad" stroke-width="1.2" stroke-linecap="round" opacity=".94"/>
-  <circle cx="30.0" cy="111.0" r="9.9" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.0"/>
-  <circle cx="30.0" cy="111.0" r="4.2" fill="#2b1603" stroke="#7b4b0b" stroke-width=".7"/>
-  <path d="M25.5 105.6C27.7 103.5 31.1 103.0 34.0 104.7" fill="none" stroke="#fff1a5" stroke-width="1.1" stroke-linecap="round" opacity=".90"/>
+  <!-- contact shadows -->
+  <circle cx="29.8" cy="78.3" r="12.4" fill="#5b3508" opacity=".18"/>
+  <circle cx="30.0" cy="113.0" r="11.6" fill="#5b3508" opacity=".16"/>
+  <!-- upper gold eyelet on rear wall -->
+  <circle cx="29.8" cy="78.2" r="11.8" fill="url(#@metal)" stroke="#89520a" stroke-width="1.25"/>
+  <circle cx="29.8" cy="78.2" r="4.0" fill="#3a1d03" stroke="#d9a13a" stroke-width="1.0"/>
+  <path d="M23.7 72.7C26.5 69.8 31.4 69.0 35.3 71.4" fill="none" stroke="#fff3ad" stroke-width="1.45" stroke-linecap="round" opacity=".96"/>
+  <path d="M22.8 80.7C24.1 85.0 27.1 87.4 31.2 87.8" fill="none" stroke="#8b5207" stroke-width="1.0" stroke-linecap="round" opacity=".55"/>
+  <!-- lower gold grommet on cream front -->
+  <circle cx="30.0" cy="113.0" r="10.7" fill="url(#@metal)" stroke="#89520a" stroke-width="1.15"/>
+  <circle cx="30.0" cy="113.0" r="3.7" fill="#3b1f04" stroke="#d9a13a" stroke-width=".9"/>
+  <path d="M24.7 107.5C27.1 105.0 31.4 104.5 34.8 106.5" fill="none" stroke="#fff1a5" stroke-width="1.3" stroke-linecap="round" opacity=".92"/>
+  <!-- long linked ring between both anchors -->
   <path d="
-    M29.9 85.3
-    C25.1 86.3 23.8 91.6 23.8 98.9
-    V101.4
-    C23.8 108.6 25.9 114.4 30.0 117.0
-    C34.2 114.4 36.3 108.6 36.3 101.4
-    V98.6
-    C36.3 91.4 35.0 86.2 29.9 85.3Z"
-    fill="none" stroke="url(#@metal)" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M27.4 87.3C26.0 91.6 25.8 96.6 25.8 101.1C25.8 105.9 27.0 110.2 28.8 112.6"
-    fill="none" stroke="#fff1a7" stroke-width="1.15" stroke-linecap="round" opacity=".95"/>
+    M29.9 84.6
+    C24.5 85.7 23.0 91.4 23.0 99.1
+    V102.0
+    C23.0 109.7 25.4 116.0 30.0 118.7
+    C34.6 116.0 37.0 109.7 37.0 102.0
+    V98.7
+    C37.0 91.2 35.5 85.6 29.9 84.6Z"
+    fill="none" stroke="url(#@metal)" stroke-width="5.65" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27.0 86.9C25.6 91.4 25.3 96.6 25.3 101.5C25.3 106.5 26.6 111.0 28.5 113.5"
+    fill="none" stroke="#fff1a7" stroke-width="1.2" stroke-linecap="round" opacity=".96"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
