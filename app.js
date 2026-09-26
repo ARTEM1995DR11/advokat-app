@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.535';
-var APP_BUILD='5535';
+var APP_VERSION='5.0.536';
+var APP_BUILD='5536';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6233,8 +6233,8 @@ function matterFolderShell(){
   </radialGradient>
   <linearGradient id="@bottomMass" x1="0" y1="0" x2="0" y2="1">
     <stop offset=".82" stop-color="#d7b27a" stop-opacity="0"/>
-    <stop offset=".93" stop-color="#c88f46" stop-opacity=".045"/>
-    <stop offset="1" stop-color="#9f691a" stop-opacity=".10"/>
+    <stop offset=".95" stop-color="#c88f46" stop-opacity=".020"/>
+    <stop offset="1" stop-color="#9f691a" stop-opacity=".055"/>
   </linearGradient>
   <filter id="@rearShadow" x="-10%" y="-24%" width="130%" height="170%">
     <feDropShadow dx="1.3" dy="3.1" stdDeviation="3" flood-color="#3f2b16" flood-opacity=".20"/>
@@ -6243,31 +6243,31 @@ function matterFolderShell(){
     <feDropShadow dx="1.1" dy="2" stdDeviation="1.7" flood-color="#6a4a24" flood-opacity=".15"/>
   </filter>
   <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="126%">
-    <feDropShadow dx="2" dy="4" stdDeviation="3.5" flood-color="#65451f" flood-opacity=".24"/>
+    <feDropShadow dx="1.6" dy="3.3" stdDeviation="3.2" flood-color="#65451f" flood-opacity=".19"/>
   </filter>
   <filter id="@hardwareShadow" x="-120%" y="-90%" width="340%" height="300%">
-    <feDropShadow dx="1" dy="1.4" stdDeviation="1.1" flood-color="#5c3908" flood-opacity=".40"/>
+    <feDropShadow dx=".9" dy="1.5" stdDeviation="1.15" flood-color="#5c3908" flood-opacity=".42"/>
   </filter>
   <pattern id="@grain" patternUnits="userSpaceOnUse" width="13" height="13">
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.535 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
+  <!-- 5.0.536 / stage 1 step 4 final: top silhouette preserved; lower base and corner sweep recalibrated to the approved mockup. -->
   <path id="@front" d="
     M29 93
     H229
     C241 93 251 94 260 97
     C270 100 278 105 286 111
     C292 115 297 118 304 120
-    H388
-    C405 120 418 123 426 130
-    C432 135 434 142 434 151
-    V442
-    C434 463 422 476 401 476
-    H39
-    C18 476 6 463 6 442
+    H389
+    C406 120 419 123 427 130
+    C433 135 435 143 435 153
+    V437
+    C435 461 421 474 397 474
+    H43
+    C19 474 5 461 5 437
     V113
-    C6 100 14 93 29 93
+    C5 100 14 93 29 93
     Z"/>
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
@@ -6340,7 +6340,7 @@ function matterFolderShell(){
 <g clip-path="url(#@clip)">
   <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
   <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
-  <rect x="7" y="352" width="426" height="130" fill="url(#@bottomMass)"/>
+  <rect x="7" y="390" width="426" height="92" fill="url(#@bottomMass)"/>
   <path d="
     M14 113
     C14 103 21 98 32 98
@@ -6350,19 +6350,17 @@ function matterFolderShell(){
     C286 117 291 120 299 123
     H384
     C400 123 412 126 419 132
-    C423 136 425 142 425 150
-    V437
-    C425 455 414 466 395 466
-    H45
-    C26 466 15 455 15 437
+    C423 136 425 143 425 151
+    V432
+    C425 452 413 464 393 464
+    H47
+    C27 464 15 452 15 432
     Z"
     fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
-  <path d="
-    M429 190V446
-    C429 464 418 475 398 475
-    H42
-    C22 475 11 464 11 446"
-    fill="none" stroke="#a96e1a" stroke-opacity=".13" stroke-width="2.3"/>
+  <path d="M18 429C18 450 28 461 47 461H118"
+    fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
+  <path d="M320 461H391C410 461 421 450 421 429"
+    fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
 </g>
 
 <!-- Delicate continuous gold seam following the approved stepped top contour. -->
@@ -6379,21 +6377,21 @@ function matterFolderShell(){
 
 <!-- Compact premium two-point ring: same construction as the approved empty mockup. -->
 <g filter="url(#@hardwareShadow)">
-  <circle cx="31" cy="92" r="8.5" fill="#fff8d8" stroke="url(#@metal)" stroke-width="4.9"/>
-  <circle cx="31" cy="92" r="4.8" fill="#f9efcb" stroke="#8f5e18" stroke-width=".7"/>
-  <circle cx="31" cy="127" r="8.2" fill="#fff8d8" stroke="url(#@metal)" stroke-width="4.8"/>
-  <circle cx="31" cy="127" r="4.6" fill="#f9efcb" stroke="#8f5e18" stroke-width=".7"/>
+  <circle cx="31" cy="92" r="8.7" fill="#fff8d8" stroke="url(#@metal)" stroke-width="5.0"/>
+  <circle cx="31" cy="92" r="4.9" fill="#f9efcb" stroke="#8f5e18" stroke-width=".7"/>
+  <circle cx="31" cy="127" r="8.35" fill="#fff8d8" stroke="url(#@metal)" stroke-width="4.9"/>
+  <circle cx="31" cy="127" r="4.7" fill="#f9efcb" stroke="#8f5e18" stroke-width=".7"/>
   <path d="
     M31 99
-    C26 100 25 106 25 112
-    V117
-    C25 123 27 128 31 130
-    C35 128 37 123 37 117
-    V111
-    C37 105 36 100 31 99Z"
-    fill="none" stroke="url(#@metal)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M28.7 101C27.4 106 27.2 112 27.2 117C27.2 122 28.2 126 29.6 128"
-    fill="none" stroke="#fff0a8" stroke-width="1.1" stroke-linecap="round"/>
+    C25.8 100.2 24.8 106.1 24.8 112.1
+    V117.1
+    C24.8 123.5 27 128.4 31 130.3
+    C35 128.4 37.2 123.5 37.2 117.1
+    V111.3
+    C37.2 105.2 36.2 100.2 31 99Z"
+    fill="none" stroke="url(#@metal)" stroke-width="5.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28.7 101C27.4 106 27.1 112.1 27.1 117.1C27.1 122.2 28.2 126.5 29.6 128.2"
+    fill="none" stroke="#fff0a8" stroke-width="1.15" stroke-linecap="round"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
