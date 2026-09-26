@@ -44,7 +44,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.525 — folder shell, stage 1.
+/* 5.0.526 — folder shell, stage 1.
    Cream front silhouette/proportion tuned against the approved empty-folder reference.
    Rear/tab/papers/hardware remain intentionally unchanged for later stages. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
