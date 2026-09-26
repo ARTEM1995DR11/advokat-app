@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.530';
-var APP_BUILD='5530';
+var APP_VERSION='5.0.532';
+var APP_BUILD='5532';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6247,15 +6247,16 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.530 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
+  <!-- 5.0.532 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
   <path id="@front" d="
     M29 93
     H229
     C241 93 251 94 260 97
     C270 100 278 105 286 111
     C292 115 297 118 304 120
-    H399
-    C420 120 434 129 434 145
+    H388
+    C405 120 418 122 426 128
+    C431 132 434 137 434 144
     V446
     C434 465 423 476 404 476
     H36
@@ -6341,8 +6342,9 @@ function matterFolderShell(){
     C237 98 246 99 255 101
     C265 104 273 108 280 113
     C286 117 291 120 299 123
-    H394
-    C413 123 425 132 425 146
+    H384
+    C400 123 411 125 418 130
+    C423 134 425 139 425 145
     V442
     C425 459 416 468 400 468
     H40
