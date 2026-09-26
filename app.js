@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.541';
-var APP_BUILD='5541';
+var APP_VERSION='5.0.542';
+var APP_BUILD='5542';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6242,6 +6242,9 @@ function matterFolderShell(){
   <filter id="@paperShadow" x="-12%" y="-30%" width="145%" height="195%">
     <feDropShadow dx="1.1" dy="2" stdDeviation="1.7" flood-color="#6a4a24" flood-opacity=".15"/>
   </filter>
+  <filter id="@paperStackShadow" x="-10%" y="-22%" width="135%" height="165%">
+    <feDropShadow dx=".7" dy="1.05" stdDeviation="1.15" flood-color="#6a4a24" flood-opacity=".095"/>
+  </filter>
   <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="126%">
     <feDropShadow dx="1.6" dy="3.3" stdDeviation="3.2" flood-color="#65451f" flood-opacity=".19"/>
   </filter>
@@ -6252,9 +6255,7 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.541 — precision pass against the approved physical mockup.
-       Paper stack is tucked behind one front sheet; right rear wall is compact;
-       eyelet/grommet hardware has more visible gold and a distinct lower anchor. -->
+  <!-- 5.0.542 — paper-depth correction: sheets moved farther back/right and visually recessed behind the inner tab, matching the approved mockup. -->
   <path id="@front" d="
     M28 95
     H228
@@ -6318,19 +6319,19 @@ function matterFolderShell(){
   C288 116 298 123 312 126"
   fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2"/>
 
-<!-- Paper stack tucked inside the folder: three rear sheets are mostly hidden behind one front sheet. -->
-<g fill="url(#@paper)" stroke="#e3d0af" stroke-width="1" filter="url(#@paperShadow)">
-  <path d="M248 30H343Q352 30 352 37V119H248Z"/>
-  <path d="M250 43H363Q372 43 372 50V127H250Z"/>
-  <path d="M252 56H382Q391 56 391 63V135H252Z"/>
-  <!-- front sheet: widest face, hiding the lower portions of the rear sheets -->
-  <path d="M249 72H396Q405 72 405 80V145H249Z"/>
+<!-- Paper stack recessed into the BACK of the folder, matching the approved mockup.
+     Only the upper/right edges are exposed; the light tab and cream front cover the lower/left portions. -->
+<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperStackShadow)">
+  <path d="M279 27H353Q362 27 362 34V111H279Z"/>
+  <path d="M269 40H374Q383 40 383 47V117H269Z"/>
+  <path d="M260 53H392Q401 53 401 61V123H260Z"/>
+  <path d="M252 67H405Q414 67 414 75V129H252Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".72" stroke-width="1.02">
-  <path d="M254 34h87"/>
-  <path d="M256 47h105"/>
-  <path d="M258 60h121"/>
-  <path d="M255 76h137"/>
+<g fill="none" stroke="#fff" stroke-opacity=".66" stroke-width=".9">
+  <path d="M285 31h65"/>
+  <path d="M275 44h96"/>
+  <path d="M266 57h123"/>
+  <path d="M258 71h143"/>
 </g>
 
 <!-- Broad front tab: softer shoulder and slightly higher ridge to match the approved shell. -->
@@ -9471,6 +9472,9 @@ function matterFolderShell(){
   <filter id="@paperShadow" x="-12%" y="-30%" width="145%" height="195%">
     <feDropShadow dx="1.1" dy="2" stdDeviation="1.7" flood-color="#6a4a24" flood-opacity=".15"/>
   </filter>
+  <filter id="@paperStackShadow" x="-10%" y="-22%" width="135%" height="165%">
+    <feDropShadow dx=".7" dy="1.05" stdDeviation="1.15" flood-color="#6a4a24" flood-opacity=".095"/>
+  </filter>
   <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="126%">
     <feDropShadow dx="1.6" dy="3.3" stdDeviation="3.2" flood-color="#65451f" flood-opacity=".19"/>
   </filter>
@@ -9481,7 +9485,7 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.539 / stage A step 2: empty shell preserved; add the missing right rear wall and rebuild the left premium ring/eyelet assembly to match the approved folder mockup. -->
+  <!-- 5.0.542 — paper-depth correction: sheets moved farther back/right and visually recessed behind the inner tab, matching the approved mockup. -->
   <path id="@front" d="
     M29 93
     H229
@@ -9544,18 +9548,19 @@ function matterFolderShell(){
   C291 117 301 124 316 127"
   fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2.05"/>
 
-<!-- Natural compact paper stack: four sheets, all different in height/width. -->
-<g fill="url(#@paper)" stroke="#e3d0af" stroke-width="1" filter="url(#@paperShadow)">
-  <path d="M236 28H336Q344 28 344 35V127H236Z"/>
-  <path d="M248 41H358Q366 41 366 48V132H248Z"/>
-  <path d="M238 56H378Q387 56 387 63V137H238Z"/>
-  <path d="M255 71H388Q397 71 397 78V143H255Z"/>
+<!-- Paper stack recessed into the BACK of the folder, matching the approved mockup.
+     Only the upper/right edges are exposed; the light tab and cream front cover the lower/left portions. -->
+<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperStackShadow)">
+  <path d="M279 27H353Q362 27 362 34V111H279Z"/>
+  <path d="M269 40H374Q383 40 383 47V117H269Z"/>
+  <path d="M260 53H392Q401 53 401 61V123H260Z"/>
+  <path d="M252 67H405Q414 67 414 75V129H252Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".72" stroke-width="1.05">
-  <path d="M242 32h95"/>
-  <path d="M254 45h104"/>
-  <path d="M244 60h134"/>
-  <path d="M261 75h126"/>
+<g fill="none" stroke="#fff" stroke-opacity=".66" stroke-width=".9">
+  <path d="M285 31h65"/>
+  <path d="M275 44h96"/>
+  <path d="M266 57h123"/>
+  <path d="M258 71h143"/>
 </g>
 
 <!-- Broad front tab with the smooth right shoulder from the approved mockup. -->
