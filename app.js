@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.544';
-var APP_BUILD='5544';
+var APP_VERSION='5.0.545';
+var APP_BUILD='5545';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6252,8 +6252,8 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.544 — folder shell rebuilt to the newly approved mockup.
-       Physical order: deep rear body → wide paper stack on the back plane → large light tab → ivory front → hardware. -->
+  <!-- 5.0.545 — precision pass against the approved mockup.
+       Rear body raised, papers pushed further behind the tab, right shoulder softened, hardware enlarged. -->
   <path id="@front" d="
     M29 94
     H228
@@ -6275,77 +6275,81 @@ function matterFolderShell(){
 
 <!-- Deep rear folder body: broad, coherent and clearly visible around the inner contents. -->
 <path d="
-  M7 174V82
-  C7 58 18 42 38 35
-  C47 17 63 9 86 9
-  H244
-  C260 9 271 18 279 35
-  L302 92
-  C310 111 323 122 342 126
-  H393
-  C417 126 432 141 432 165
-  V179H7Z"
+  M7 174V80
+  C7 55 18 39 38 32
+  C47 13 63 5 87 5
+  H249
+  C265 5 276 15 284 33
+  L306 91
+  C313 109 326 121 345 125
+  H395
+  C419 125 434 140 434 165
+  V180H7Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
 <path d="
-  M15 156V84
-  C15 68 24 56 40 50
-  C47 31 60 22 80 22
-  H238
-  C251 22 260 29 267 45
-  L289 98
-  C296 114 306 122 321 125"
+  M15 156V82
+  C15 65 24 53 40 47
+  C47 27 60 18 81 18
+  H242
+  C255 18 264 26 271 43
+  L293 97
+  C300 113 310 121 325 124"
   fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2.05"/>
 
 <!-- Right rear shoulder/wall: integrated with the main body instead of reading as a separate strip. -->
 <path d="
-  M384 72
+  M386 63
   H410
-  C423 72 432 78 436 89
-  V149
-  C436 162 428 169 416 169
-  H390
-  C386 169 384 166 384 162
+  C419 63 425 67 428 74
+  H431
+  C436 74 439 79 439 86
+  V151
+  C439 164 430 171 418 171
+  H391
+  C387 171 385 168 385 163
+  V72
+  C385 67 385 64 386 63
   Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@rearShadow)"/>
-<path d="M394 80H408C418 80 425 84 428 92V141"
+<path d="M396 71H409C417 71 422 74 425 80H429C431 84 431 90 431 96V141"
   fill="none" stroke="#f3ffff" stroke-opacity=".23" stroke-width="1.6" stroke-linecap="round"/>
 
 <!-- Wide paper stack: four broad sheets on the back plane, not a compact staircase. -->
 <g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperShadow)">
-  <path d="M236 31H348Q356 31 356 38V124H236Z"/>
-  <path d="M248 43H370Q378 43 378 50V130H248Z"/>
-  <path d="M260 55H389Q397 55 397 62V136H260Z"/>
-  <path d="M272 68H404Q412 68 412 75V143H272Z"/>
+  <path d="M270 29H347Q356 29 356 36V123H270Z"/>
+  <path d="M278 41H367Q376 41 376 48V129H278Z"/>
+  <path d="M286 54H388Q397 54 397 61V136H286Z"/>
+  <path d="M296 68H405Q414 68 414 76V144H296Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".68" stroke-width=".95">
-  <path d="M242 35h106"/>
-  <path d="M254 47h116"/>
-  <path d="M266 59h123"/>
-  <path d="M278 72h126"/>
+<g fill="none" stroke="#fff" stroke-opacity=".70" stroke-width=".95">
+  <path d="M276 33h71"/>
+  <path d="M284 45h83"/>
+  <path d="M292 58h96"/>
+  <path d="M302 72h103"/>
 </g>
 
 <!-- Large light tab: drawn over the papers, hiding their left/lower parts exactly like the approved mockup. -->
 <path d="
-  M38 129
-  C44 103 53 74 69 50
-  C78 37 89 31 105 31
-  H237
-  C252 31 262 39 269 56
-  L291 105
-  C298 120 310 130 329 135
-  L318 129
-  H38Z"
+  M36 130
+  C42 102 51 70 68 45
+  C77 31 89 25 106 25
+  H246
+  C261 25 271 34 278 52
+  L300 103
+  C307 119 319 130 337 135
+  L325 130
+  H36Z"
   fill="url(#@tab)" stroke="#fff3d5" stroke-opacity=".92" stroke-width="1.4" filter="url(#@paperShadow)"/>
 <path d="
-  M47 119
-  C52 97 60 76 73 56
-  C80 45 90 41 104 41
-  H232
-  C244 41 252 48 258 61
-  L279 105
-  C285 117 294 123 307 128"
+  M45 119
+  C50 95 58 72 72 51
+  C80 39 90 35 105 35
+  H240
+  C252 35 260 42 266 56
+  L287 103
+  C293 116 302 123 316 128"
   fill="none" stroke="#fff" stroke-opacity=".60" stroke-width="1.8" stroke-linecap="round"/>
-<path d="M86 36H229C242 36 250 44 256 58"
+<path d="M86 30H237C250 30 258 38 264 53"
   fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.4" stroke-linecap="round"/>
 
 <!-- Main cream front face. -->
@@ -6389,22 +6393,22 @@ function matterFolderShell(){
 
 <!-- Premium ring/eyelet assembly. -->
 <g filter="url(#@hardwareShadow)">
-  <circle cx="29.8" cy="78.5" r="10.8" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.4"/>
-  <circle cx="29.8" cy="78.5" r="4.45" fill="#2a1503" stroke="#7b4b0b" stroke-width=".75"/>
-  <path d="M24.7 72.9C27.2 70.5 31.3 70.0 34.6 72.0" fill="none" stroke="#fff3ad" stroke-width="1.25" stroke-linecap="round" opacity=".94"/>
-  <circle cx="30" cy="111" r="10" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.1"/>
-  <circle cx="30" cy="111" r="4.25" fill="#2b1603" stroke="#7b4b0b" stroke-width=".7"/>
-  <path d="M25.5 105.5C27.7 103.5 31.1 103.0 34.0 104.7" fill="none" stroke="#fff1a5" stroke-width="1.1" stroke-linecap="round" opacity=".90"/>
+  <circle cx="29.6" cy="77.4" r="12.1" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.7"/>
+  <circle cx="29.6" cy="77.4" r="4.55" fill="#2a1503" stroke="#7b4b0b" stroke-width=".72"/>
+  <path d="M23.9 71.0C26.7 68.5 31.2 67.9 35.0 70.2" fill="none" stroke="#fff3ad" stroke-width="1.35" stroke-linecap="round" opacity=".95"/>
+  <circle cx="30" cy="112" r="11.2" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.45"/>
+  <circle cx="30" cy="112" r="4.35" fill="#2b1603" stroke="#7b4b0b" stroke-width=".68"/>
+  <path d="M24.9 106.0C27.3 103.7 31.2 103.1 34.5 105.0" fill="none" stroke="#fff1a5" stroke-width="1.18" stroke-linecap="round" opacity=".92"/>
   <path d="
-    M29.9 85.2
-    C25.0 86.2 23.7 91.5 23.7 98.9
-    V101.4
-    C23.7 108.7 25.9 114.4 30.0 117.0
-    C34.2 114.4 36.4 108.7 36.4 101.4
-    V98.6
-    C36.4 91.4 35.0 86.1 29.9 85.2Z"
-    fill="none" stroke="url(#@metal)" stroke-width="5.35" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M27.4 87.2C26.0 91.6 25.8 96.5 25.8 101.1C25.8 105.9 27.0 110.2 28.8 112.6" fill="none" stroke="#fff1a7" stroke-width="1.15" stroke-linecap="round" opacity=".95"/>
+    M29.8 85.0
+    C24.5 86.1 22.9 92.0 22.9 100.0
+    V103.0
+    C22.9 111.1 25.4 117.4 30.0 120.1
+    C34.7 117.4 37.2 111.1 37.2 103.0
+    V99.6
+    C37.2 91.7 35.5 86.0 29.8 85.0Z"
+    fill="none" stroke="url(#@metal)" stroke-width="5.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26.9 87.0C25.4 91.7 25.1 97.2 25.1 102.2C25.1 107.5 26.5 112.2 28.5 114.9" fill="none" stroke="#fff1a7" stroke-width="1.2" stroke-linecap="round" opacity=".96"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
