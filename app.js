@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.546';
-var APP_BUILD='5546';
+var APP_VERSION='5.0.547';
+var APP_BUILD='5547';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6252,8 +6252,8 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.546 — Stage 1 against the final approved empty-folder reference.
-       Only the deep coloured rear body is refined here; tab, papers, cream front and hardware are unchanged. -->
+  <!-- 5.0.547 — Stage 1 rebuilt against the final approved empty-folder reference.
+       Only the deep coloured rear body is changed: broad left shoulder, calmer top ridge and a rounded right rear wing. -->
   <path id="@front" d="
     M29 94
     H228
@@ -6273,50 +6273,56 @@ function matterFolderShell(){
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- Stage 1: one coherent deep-coloured rear folder body, shaped like the final approved reference. -->
+<!-- Stage 1: rear coloured body only.  Geometry measured against the approved reference. -->
+<!-- Main rear body: low rounded left shoulder -> long upper ridge -> decisive curved descent behind the tab. -->
 <path d="
-  M7 176
-  V86
-  C7 64 18 48 36 42
-  C44 23 59 13 81 12
-  C88 7 97 6 108 6
-  H245
-  C262 6 274 17 282 36
-  L304 94
-  C312 113 325 125 344 129
-  H386
-  V75
-  C386 68 390 65 396 65
-  H410
-  C421 65 428 70 431 78
-  H433
-  C437 78 439 83 439 90
-  V151
-  C439 164 431 172 418 172
-  H392
+  M6 176
+  V89
+  C6 70 14 57 29 50
+  C34 35 44 20 52 10
+  C56 7 60 6 66 6
+  H221
+  C229 6 236 10 240 16
+  C245 25 249 34 254 43
+  C260 55 266 66 273 77
+  C278 85 283 90 288 94
+  C299 102 313 108 331 110
+  C351 112 373 116 405 122
   V176
-  H7
+  H6
   Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
+<!-- Right rear wing: a separate rounded shoulder that is visually connected behind the paper stack. -->
 <path d="
-  M15 157
-  V87
-  C15 70 24 58 40 52
-  C47 33 61 23 81 22
-  C88 18 96 17 106 17
-  H239
-  C253 17 263 26 270 43
-  L292 98
-  C299 114 310 122 325 126"
-  fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2.05" stroke-linecap="round"/>
+  M386 176
+  V78
+  C386 61 392 48 400 41
+  C407 41 413 46 417 53
+  C427 54 435 61 439 70
+  V151
+  C439 164 431 172 418 175
+  C407 176 397 176 386 176
+  Z"
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
+<!-- single restrained material highlight on the exposed outer ridge -->
 <path d="
-  M394 74
-  H408
-  C417 74 423 77 426 84
-  H429
-  C431 88 431 94 431 101
-  V142"
-  fill="none" stroke="#f3ffff" stroke-opacity=".23" stroke-width="1.6" stroke-linecap="round"/>
+  M14 155
+  V91
+  C14 75 22 63 36 57
+  C42 41 51 28 60 19
+  C64 16 69 15 75 15
+  H215
+  C223 15 229 18 233 24
+  C239 34 244 45 249 55
+  C255 66 261 76 268 84
+  C273 90 278 94 283 97"
+  fill="none" stroke="#f3ffff" stroke-opacity=".24" stroke-width="1.85" stroke-linecap="round"/>
+<path d="
+  M394 75
+  C394 61 397 51 402 47
+  C409 47 414 51 418 58
+  C426 59 431 64 433 72"
+  fill="none" stroke="#f3ffff" stroke-opacity=".20" stroke-width="1.45" stroke-linecap="round"/>
 
 <!-- Wide paper stack: four broad sheets on the back plane, not a compact staircase. -->
 <g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperShadow)">
