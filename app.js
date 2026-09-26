@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.548';
-var APP_BUILD='5548';
+var APP_VERSION='5.0.549';
+var APP_BUILD='5549';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6019,7 +6019,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.548 — restore the earlier launch behavior requested by the user:
+    /* 5.0.549 — keep the restored launch behavior requested by the user:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -6042,7 +6042,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5548',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5549',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6258,8 +6258,8 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.548 — Stage 1 rebuilt again against the final approved reference.
-       Rear body only: compact left/main shell ending behind the tab, plus a separate rounded right rear wing. -->
+  <!-- 5.0.549 — Stage 1 rebuilt against the newly approved 2x2 mockup.
+       Rear body only: one coherent physical rear shell; tab, papers, front and ring intentionally unchanged. -->
   <path id="@front" d="
     M29 94
     H228
@@ -6279,56 +6279,48 @@ function matterFolderShell(){
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- Stage 1: rear coloured body only. Geometry re-measured against the approved reference. -->
-<!-- Main rear shell ends behind the large inner tab instead of stretching across the paper stack. -->
+<!-- 5.0.549 — Stage 1, rear coloured body rebuilt to the newly approved 2x2 mockup. -->
+<!-- One physical rear folder body: broad left shoulder, long top crown and a coherent right rear shoulder behind papers. -->
 <path d="
   M6 176
-  V90
-  C6 72 14 59 29 52
-  C35 36 45 22 55 12
-  C59 8 64 6 70 6
+  V94
+  C6 76 15 62 30 54
+  C35 39 43 27 54 17
+  C61 10 68 7 78 7
   H220
-  C230 6 237 11 242 20
-  C249 34 255 49 262 64
-  C268 78 274 91 280 104
-  C286 117 292 132 299 143
-  C304 151 307 160 307 176
+  C235 7 244 14 251 27
+  L294 115
+  C300 128 311 137 327 141
+  C341 145 356 146 378 146
+  V91
+  C378 78 386 69 398 68
+  H407
+  C416 68 422 73 425 81
+  C434 82 439 90 439 102
+  V151
+  C439 166 430 174 416 176
   H6
   Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
-<!-- Separate rounded right rear wing, matching the visible shoulder in the reference. -->
-<path d="
-  M382 176
-  V83
-  C382 72 388 66 398 65
-  H407
-  C414 65 419 69 422 76
-  C432 77 438 85 439 97
-  V151
-  C439 165 431 174 418 176
-  H382
-  Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
-<!-- restrained material highlights only on the actually exposed rear edges -->
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.55" filter="url(#@rearShadow)"/>
+<!-- restrained highlights follow the real exposed crown and right shoulder; no fake split/extra plate -->
 <path d="
   M14 154
-  V92
-  C14 77 21 65 35 59
-  C41 44 50 31 61 21
-  C65 18 70 16 77 16
-  H213
-  C221 16 227 20 231 27
-  C238 40 244 54 250 68
-  C256 81 262 93 268 105
-  C273 116 278 128 283 137"
-  fill="none" stroke="#f3ffff" stroke-opacity=".24" stroke-width="1.85" stroke-linecap="round"/>
+  V95
+  C14 80 22 68 36 61
+  C41 47 49 35 60 25
+  C65 20 71 17 80 17
+  H212
+  C224 17 232 23 238 34
+  L278 116
+  C284 128 294 136 307 140"
+  fill="none" stroke="#f3ffff" stroke-opacity=".25" stroke-width="1.9" stroke-linecap="round"/>
 <path d="
-  M391 82
-  C391 74 395 71 401 71
+  M387 91
+  C387 82 392 76 400 75
   H405
-  C411 71 415 74 418 80
-  C426 81 431 87 432 96"
-  fill="none" stroke="#f3ffff" stroke-opacity=".20" stroke-width="1.45" stroke-linecap="round"/>
+  C412 75 416 79 419 86
+  C427 87 432 93 432 102"
+  fill="none" stroke="#f3ffff" stroke-opacity=".20" stroke-width="1.55" stroke-linecap="round"/>
 
 <!-- Wide paper stack: four broad sheets on the back plane, not a compact staircase. -->
 <g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperShadow)">
@@ -9248,7 +9240,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.548 — restore the earlier launch behavior requested by the user:
+    /* 5.0.549 — keep the restored launch behavior requested by the user:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -9271,7 +9263,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5548',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5549',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

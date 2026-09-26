@@ -44,8 +44,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.548 — folder shell, precision pass against the approved reference.
-   Empty shell retained; rear wall, left ring block, paper stack and shoulder contour refined in code. */
+/* 5.0.549 — Stage 1 against the newly approved 2x2 mockup.
+   Only the rear coloured body is rebuilt; all later folder layers remain untouched for staged approval. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   --folder-gap:calc(24 * var(--case-u));
   display:grid!important;
@@ -70,7 +70,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   background:transparent;box-shadow:none;text-align:left;color:#111;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#aa2529;--folder:#e35453;--folder-light:#ffcec4;--folder-ink:#ab181c}
+#sc-matters .case-folder-criminal {--folder-deep:#b30f16;--folder:#e01b22;--folder-light:#ffcec4;--folder-ink:#a30d14}
 #sc-matters .case-folder-civil {--folder-deep:#1161c1;--folder:#338df3;--folder-light:#d1ecff;--folder-ink:#075aba}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
 #sc-matters .case-folder-shell {
