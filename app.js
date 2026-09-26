@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.550';
-var APP_BUILD='5550';
+var APP_VERSION='5.0.551';
+var APP_BUILD='5551';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -28,7 +28,7 @@ var DEF = {
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
 var DBP = null, META = null, SESSION_KEY = null, saveTimer = null, unlocked = false;
-/* 5.0.550: app.js contains legacy repeated boot blocks; never let them start storage twice. */
+/* 5.0.551: app.js contains legacy repeated boot blocks; never let them start storage twice. */
 var BOOT_ONCE=false;
 
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
@@ -45,7 +45,7 @@ function mergeState(d){
   }
   delete out.settings.pin; delete out.settings.rate;
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
-  /* 5.0.550 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
+  /* 5.0.551 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
   out.ui.tab='today';
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
@@ -6026,7 +6026,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.550 — always return to the requested launch page:
+    /* 5.0.551 — always return to the requested launch page:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -6043,7 +6043,7 @@ document.addEventListener('visibilitychange',function(){
   }
   hiddenAt=0;
 });
-/* 5.0.550 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
+/* 5.0.551 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
    pageshow can occur without a normal cold boot. Force the main page to «Сегодня». */
 window.addEventListener('pageshow',function(){
   if(!unlocked)return;
@@ -6062,7 +6062,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5550',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5551',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6210,233 +6210,231 @@ var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
 function matterFolderShell(){
   var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
-  return `<svg class="case-folder-shell" viewBox="0 0 440 490" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <linearGradient id="@back" x1="0" y1="0" x2=".92" y2=".82">
+  <linearGradient id="@back" x1=".03" y1=".03" x2=".96" y2=".92">
     <stop stop-color="var(--folder-deep)"/>
-    <stop offset=".34" stop-color="var(--folder)"/>
-    <stop offset=".72" stop-color="var(--folder-deep)"/>
+    <stop offset=".18" stop-color="var(--folder)"/>
+    <stop offset=".56" stop-color="var(--folder)"/>
+    <stop offset=".83" stop-color="var(--folder-deep)"/>
     <stop offset="1" stop-color="var(--folder)"/>
   </linearGradient>
-  <linearGradient id="@tab" x1=".10" y1="0" x2=".84" y2="1">
-    <stop stop-color="#fff" stop-opacity=".78"/>
-    <stop offset=".16" stop-color="var(--folder-light)"/>
-    <stop offset=".72" stop-color="var(--folder-light)"/>
+  <linearGradient id="@tab" x1=".05" y1=".02" x2=".92" y2=".95">
+    <stop stop-color="#ffffff" stop-opacity=".20"/>
+    <stop offset=".12" stop-color="var(--folder-light)"/>
+    <stop offset=".68" stop-color="var(--folder-light)"/>
     <stop offset="1" stop-color="var(--folder)"/>
   </linearGradient>
-  <linearGradient id="@paper" x1=".05" y1="0" x2=".96" y2="1">
-    <stop stop-color="#fffefa"/>
-    <stop offset=".76" stop-color="#fffdf8"/>
-    <stop offset="1" stop-color="#ead8b7"/>
+  <linearGradient id="@paper" x1=".08" y1="0" x2=".95" y2="1">
+    <stop stop-color="#fffefb"/>
+    <stop offset=".78" stop-color="#fffdf8"/>
+    <stop offset="1" stop-color="#ebdcc2"/>
   </linearGradient>
-  <linearGradient id="@ivory" x1=".08" y1=".02" x2=".92" y2="1">
-    <stop stop-color="#fffef9"/>
-    <stop offset=".55" stop-color="#fffaf1"/>
-    <stop offset=".87" stop-color="#fbf2e4"/>
-    <stop offset="1" stop-color="#f0dfc1"/>
+  <linearGradient id="@ivory" x1=".07" y1=".02" x2=".92" y2="1">
+    <stop stop-color="#fffdf8"/>
+    <stop offset=".46" stop-color="#fef8ed"/>
+    <stop offset=".83" stop-color="#faefdf"/>
+    <stop offset="1" stop-color="#f2dfc1"/>
   </linearGradient>
-  <linearGradient id="@edge" x1=".02" y1="0" x2=".98" y2="1">
-    <stop stop-color="#925708"/>
-    <stop offset=".13" stop-color="#e6b044"/>
-    <stop offset=".30" stop-color="#fff0a9"/>
-    <stop offset=".48" stop-color="#b8730e"/>
-    <stop offset=".66" stop-color="#e7b64b"/>
-    <stop offset=".84" stop-color="#fff2b4"/>
-    <stop offset="1" stop-color="#8b5207"/>
+  <linearGradient id="@edge" x1=".02" y1=".02" x2=".98" y2=".98">
+    <stop stop-color="#9a5d09"/>
+    <stop offset=".10" stop-color="#e6aa31"/>
+    <stop offset=".23" stop-color="#fff2aa"/>
+    <stop offset=".39" stop-color="#cb8216"/>
+    <stop offset=".56" stop-color="#f4c85f"/>
+    <stop offset=".73" stop-color="#af6910"/>
+    <stop offset=".88" stop-color="#ffeda1"/>
+    <stop offset="1" stop-color="#875006"/>
   </linearGradient>
   <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1">
-    <stop stop-color="#6d3d04"/>
-    <stop offset=".20" stop-color="#d99b2f"/>
-    <stop offset=".36" stop-color="#fff4b5"/>
-    <stop offset=".56" stop-color="#ad6a0d"/>
-    <stop offset=".77" stop-color="#f0c45c"/>
-    <stop offset="1" stop-color="#663803"/>
+    <stop stop-color="#5f3302"/>
+    <stop offset=".18" stop-color="#d89420"/>
+    <stop offset=".34" stop-color="#fff0a1"/>
+    <stop offset=".52" stop-color="#9c5807"/>
+    <stop offset=".73" stop-color="#f1be48"/>
+    <stop offset=".88" stop-color="#fff1a5"/>
+    <stop offset="1" stop-color="#5c3002"/>
   </linearGradient>
-  <radialGradient id="@frontLight" cx=".26" cy=".02" r="1.08">
-    <stop stop-color="#fff" stop-opacity=".50"/>
-    <stop offset=".50" stop-color="#fff" stop-opacity=".13"/>
+  <radialGradient id="@frontLight" cx=".22" cy=".03" r="1.10">
+    <stop stop-color="#fff" stop-opacity=".48"/>
+    <stop offset=".50" stop-color="#fff" stop-opacity=".10"/>
     <stop offset="1" stop-color="#fff" stop-opacity="0"/>
   </radialGradient>
   <linearGradient id="@bottomMass" x1="0" y1="0" x2="0" y2="1">
-    <stop offset=".82" stop-color="#d7b27a" stop-opacity="0"/>
-    <stop offset=".95" stop-color="#c88f46" stop-opacity=".020"/>
-    <stop offset="1" stop-color="#9f691a" stop-opacity=".055"/>
+    <stop offset=".80" stop-color="#c99a5d" stop-opacity="0"/>
+    <stop offset=".96" stop-color="#b77b30" stop-opacity=".025"/>
+    <stop offset="1" stop-color="#80500f" stop-opacity=".065"/>
   </linearGradient>
-  <filter id="@rearShadow" x="-10%" y="-24%" width="130%" height="170%">
-    <feDropShadow dx="1.3" dy="3.0" stdDeviation="2.8" flood-color="#3f2b16" flood-opacity=".20"/>
+  <filter id="@rearShadow" x="-12%" y="-22%" width="136%" height="176%">
+    <feDropShadow dx="1.8" dy="4.1" stdDeviation="3.1" flood-color="#3c2813" flood-opacity=".24"/>
   </filter>
-  <filter id="@paperShadow" x="-12%" y="-30%" width="145%" height="195%">
-    <feDropShadow dx=".8" dy="1.3" stdDeviation="1.15" flood-color="#6a4a24" flood-opacity=".11"/>
+  <filter id="@paperShadow" x="-15%" y="-35%" width="150%" height="205%">
+    <feDropShadow dx=".8" dy="1.7" stdDeviation="1.35" flood-color="#5b3d1c" flood-opacity=".15"/>
   </filter>
-  <filter id="@bodyShadow" x="-8%" y="-8%" width="120%" height="126%">
-    <feDropShadow dx="1.6" dy="3.3" stdDeviation="3.2" flood-color="#65451f" flood-opacity=".19"/>
+  <filter id="@bodyShadow" x="-10%" y="-10%" width="124%" height="134%">
+    <feDropShadow dx="2.0" dy="5.1" stdDeviation="4.0" flood-color="#563719" flood-opacity=".28"/>
   </filter>
-  <filter id="@hardwareShadow" x="-120%" y="-90%" width="340%" height="300%">
-    <feDropShadow dx=".9" dy="1.5" stdDeviation="1.15" flood-color="#5c3908" flood-opacity=".42"/>
+  <filter id="@hardwareShadow" x="-130%" y="-100%" width="370%" height="320%">
+    <feDropShadow dx="1.0" dy="1.7" stdDeviation="1.35" flood-color="#563306" flood-opacity=".46"/>
   </filter>
-  <pattern id="@grain" patternUnits="userSpaceOnUse" width="13" height="13">
-    <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
+  <pattern id="@grain" patternUnits="userSpaceOnUse" width="10" height="10">
+    <path d="M1 2.8h1.1M6.3 5.2h.8M3.9 8.7h.7M1.8 7.4l.8-.45M8.1 9.1l.65-.35" stroke="#846443" stroke-width=".42" opacity=".045"/>
   </pattern>
-
-  <!-- 5.0.549 — Stage 1 rebuilt against the newly approved 2x2 mockup.
-       Rear body only: one coherent physical rear shell; tab, papers, front and ring intentionally unchanged. -->
   <path id="@front" d="
-    M29 94
-    H228
-    C240 94 250 95 260 98
-    C270 101 279 106 287 112
-    C294 117 299 120 306 122
-    H388
-    C405 122 418 125 426 132
-    C432 137 434 145 434 155
-    V437
-    C434 461 421 474 397 474
-    H43
-    C19 474 6 461 6 437
-    V114
-    C6 101 14 94 29 94
+    M28 108
+    H249
+    C263 108 273 111 282 118
+    C291 125 298 132 309 136
+    H397
+    C417 136 431 147 431 166
+    V420
+    C431 440 420 451 399 451
+    H40
+    C19 451 8 440 8 420
+    V130
+    C8 116 15 108 28 108
     Z"/>
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- 5.0.549 — Stage 1, rear coloured body rebuilt to the newly approved 2x2 mockup. -->
-<!-- One physical rear folder body: broad left shoulder, long top crown and a coherent right rear shoulder behind papers. -->
+<!-- Rear physical folder body: broad crown, real left shoulder and a rounded right shoulder behind the papers. -->
 <path d="
-  M6 176
-  V94
-  C6 76 15 62 30 54
-  C35 39 43 27 54 17
-  C61 10 68 7 78 7
-  H220
-  C235 7 244 14 251 27
-  L294 115
-  C300 128 311 137 327 141
-  C341 145 356 146 378 146
-  V91
-  C378 78 386 69 398 68
-  H407
-  C416 68 422 73 425 81
-  C434 82 439 90 439 102
-  V151
-  C439 166 430 174 416 176
-  H6
+  M8 168
+  V92
+  C8 75 17 61 31 53
+  C36 38 45 25 58 15
+  C65 10 73 8 83 8
+  H231
+  C248 8 258 15 266 30
+  L309 111
+  C317 126 330 134 350 136
+  H378
+  V84
+  C378 70 387 61 399 61
+  H408
+  C419 61 426 68 429 79
+  C436 82 439 91 439 103
+  V146
+  C439 160 431 168 417 170
+  H8
   Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.55" filter="url(#@rearShadow)"/>
-<!-- restrained highlights follow the real exposed crown and right shoulder; no fake split/extra plate -->
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.8" filter="url(#@rearShadow)"/>
 <path d="
-  M14 154
-  V95
-  C14 80 22 68 36 61
-  C41 47 49 35 60 25
-  C65 20 71 17 80 17
-  H212
-  C224 17 232 23 238 34
-  L278 116
-  C284 128 294 136 307 140"
-  fill="none" stroke="#f3ffff" stroke-opacity=".25" stroke-width="1.9" stroke-linecap="round"/>
-<path d="
-  M387 91
-  C387 82 392 76 400 75
-  H405
-  C412 75 416 79 419 86
-  C427 87 432 93 432 102"
-  fill="none" stroke="#f3ffff" stroke-opacity=".20" stroke-width="1.55" stroke-linecap="round"/>
+  M17 149
+  V93
+  C17 79 25 68 38 61
+  C43 48 51 37 62 28
+  C68 23 74 20 83 20
+  H222
+  C235 20 243 25 250 37"
+  fill="none" stroke="#eaffff" stroke-opacity=".30" stroke-width="2.1" stroke-linecap="round"/>
+<path d="M388 83C388 75 393 70 401 69H406C413 69 417 74 419 81C427 83 431 89 431 100"
+  fill="none" stroke="#f1ffff" stroke-opacity=".25" stroke-width="1.65" stroke-linecap="round"/>
 
-<!-- Wide paper stack: four broad sheets on the back plane, not a compact staircase. -->
-<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperShadow)">
-  <path d="M270 29H347Q356 29 356 36V123H270Z"/>
-  <path d="M278 41H367Q376 41 376 48V129H278Z"/>
-  <path d="M286 54H388Q397 54 397 61V136H286Z"/>
-  <path d="M296 68H405Q414 68 414 76V144H296Z"/>
+<!-- Wide paper stack on the rear plane: varied height/width, warm thin edges and separate contact shadows. -->
+<g fill="url(#@paper)" stroke="#dfcbaa" stroke-width=".95" filter="url(#@paperShadow)">
+  <path d="M246 31H350Q359 31 359 39V124H246Z"/>
+  <path d="M255 43H370Q379 43 379 51V130H255Z"/>
+  <path d="M265 56H390Q399 56 399 64V136H265Z"/>
+  <path d="M277 69H407Q416 69 416 77V143H277Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".70" stroke-width=".95">
-  <path d="M276 33h71"/>
-  <path d="M284 45h83"/>
-  <path d="M292 58h96"/>
-  <path d="M302 72h103"/>
+<g fill="none" stroke="#fff" stroke-opacity=".76" stroke-width="1">
+  <path d="M253 35h97"/>
+  <path d="M262 47h108"/>
+  <path d="M272 60h118"/>
+  <path d="M284 73h123"/>
 </g>
 
-<!-- Large light tab: drawn over the papers, hiding their left/lower parts exactly like the approved mockup. -->
+<!-- Large light inner tab, physically in front of the paper stack. -->
 <path d="
-  M36 130
-  C42 102 51 70 68 45
-  C77 31 89 25 106 25
-  H246
-  C261 25 271 34 278 52
-  L300 103
-  C307 119 319 130 337 135
-  L325 130
-  H36Z"
-  fill="url(#@tab)" stroke="#fff3d5" stroke-opacity=".92" stroke-width="1.4" filter="url(#@paperShadow)"/>
+  M39 128
+  C45 101 55 73 71 49
+  C81 34 94 28 111 28
+  H244
+  C260 28 271 37 279 55
+  L305 108
+  C312 122 325 131 344 135
+  H39
+  Z"
+  fill="url(#@tab)" stroke="#f9f5e7" stroke-opacity=".92" stroke-width="1.55" filter="url(#@paperShadow)"/>
 <path d="
-  M45 119
-  C50 95 58 72 72 51
-  C80 39 90 35 105 35
-  H240
-  C252 35 260 42 266 56
-  L287 103
-  C293 116 302 123 316 128"
-  fill="none" stroke="#fff" stroke-opacity=".60" stroke-width="1.8" stroke-linecap="round"/>
-<path d="M86 30H237C250 30 258 38 264 53"
-  fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.4" stroke-linecap="round"/>
+  M48 117
+  C53 95 61 74 75 54
+  C83 42 93 38 108 38
+  H238
+  C250 38 258 45 264 59
+  L287 105
+  C294 118 304 126 318 130"
+  fill="none" stroke="#fff" stroke-opacity=".63" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M91 34H237C248 34 257 42 263 56"
+  fill="none" stroke="#fff" stroke-opacity=".17" stroke-width="5.8" stroke-linecap="round"/>
 
-<!-- Main cream front face. -->
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.5" filter="url(#@bodyShadow)"/>
-
+<!-- Cream front pocket: almost-square, warm ivory, substantial, with the approved high-left-to-low-right top profile. -->
+<use href="#@front" fill="url(#@ivory)" stroke="#865006" stroke-width="4.45" filter="url(#@bodyShadow)"/>
+<use href="#@front" fill="none" stroke="url(#@edge)" stroke-width="3.10"/>
 <g clip-path="url(#@clip)">
-  <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
-  <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
-  <rect x="7" y="390" width="426" height="92" fill="url(#@bottomMass)"/>
+  <rect x="8" y="108" width="423" height="350" fill="url(#@frontLight)"/>
+  <rect x="8" y="108" width="423" height="350" fill="url(#@grain)"/>
+  <rect x="8" y="365" width="423" height="93" fill="url(#@bottomMass)"/>
   <path d="
-    M14 114
-    C14 104 21 99 32 99
-    H226
-    C236 99 245 100 254 102
-    C264 105 272 109 280 114
-    C286 118 291 121 299 124
-    H384
-    C399 124 411 127 417 133
-    C422 138 424 145 424 153
-    V432
-    C424 452 413 464 393 464
-    H47
-    C27 464 16 452 16 432
+    M18 130
+    C18 118 23 113 31 113
+    H247
+    C259 113 269 116 278 122
+    C287 128 294 135 305 139
+    H394
+    C411 139 421 148 421 164
+    V415
+    C421 433 411 442 395 442
+    H44
+    C28 442 18 433 18 415
     Z"
-    fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
-  <path d="M18 429C18 450 28 461 47 461H118" fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
-  <path d="M320 461H391C410 461 421 450 421 429" fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
+    fill="none" stroke="#fffdf7" stroke-opacity=".91" stroke-width="1.75"/>
+  <path d="M20 414C20 432 29 441 45 441H121" fill="none" stroke="#9f6215" stroke-opacity=".10" stroke-width="2.05" stroke-linecap="round"/>
+  <path d="M320 441H394C410 441 419 432 419 414" fill="none" stroke="#9f6215" stroke-opacity=".10" stroke-width="2.05" stroke-linecap="round"/>
 </g>
 
-<!-- Delicate continuous gold seam. -->
+<!-- Continuous metallic seam exactly follows the complex front contour. -->
 <path d="
-  M29 94
-  H228
-  C240 94 250 95 260 98
-  C270 101 279 106 287 112
-  C294 117 299 120 306 122
-  H404"
-  fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
-<path d="M32 96H225C236 96 245 97 254 99C264 102 272 107 280 112C286 116 291 119 299 121"
-  fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
+  M28 108
+  H249
+  C263 108 273 111 282 118
+  C291 125 298 132 309 136
+  H397"
+  fill="none" stroke="url(#@edge)" stroke-width="3.25" stroke-linecap="round"/>
+<path d="M32 110H246C258 110 267 113 276 119C285 125 292 131 303 134"
+  fill="none" stroke="#fff0a8" stroke-opacity=".60" stroke-width="1.05" stroke-linecap="round"/>
 
-<!-- Premium ring/eyelet assembly. -->
+<!-- Larger premium ring/eyelet assembly, sitting on the junction of coloured body and cream front. -->
 <g filter="url(#@hardwareShadow)">
-  <circle cx="29.6" cy="77.4" r="12.1" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.7"/>
-  <circle cx="29.6" cy="77.4" r="4.55" fill="#2a1503" stroke="#7b4b0b" stroke-width=".72"/>
-  <path d="M23.9 71.0C26.7 68.5 31.2 67.9 35.0 70.2" fill="none" stroke="#fff3ad" stroke-width="1.35" stroke-linecap="round" opacity=".95"/>
-  <circle cx="30" cy="112" r="11.2" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.45"/>
-  <circle cx="30" cy="112" r="4.35" fill="#2b1603" stroke="#7b4b0b" stroke-width=".68"/>
-  <path d="M24.9 106.0C27.3 103.7 31.2 103.1 34.5 105.0" fill="none" stroke="#fff1a5" stroke-width="1.18" stroke-linecap="round" opacity=".92"/>
+  <circle cx="30" cy="80.5" r="12.6" fill="url(#@metal)" stroke="#714006" stroke-width="1.25"/>
+  <circle cx="30" cy="80.5" r="4.7" fill="#281403" stroke="#a86a10" stroke-width="1.05"/>
+  <path d="M24.3 74.6C27.2 72.2 31.7 71.8 35.2 74.0" fill="none" stroke="#fff2a7" stroke-width="1.5" stroke-linecap="round" opacity=".98"/>
+
   <path d="
-    M29.8 85.0
-    C24.5 86.1 22.9 92.0 22.9 100.0
-    V103.0
-    C22.9 111.1 25.4 117.4 30.0 120.1
-    C34.7 117.4 37.2 111.1 37.2 103.0
-    V99.6
-    C37.2 91.7 35.5 86.0 29.8 85.0Z"
+    M30 87.2
+    C24.0 88.2 21.8 94.0 21.8 102.0
+    V105.5
+    C21.8 114.6 24.9 121.2 30 124.1
+    C35.1 121.2 38.2 114.6 38.2 105.5
+    V102.0
+    C38.2 94.0 36.0 88.2 30 87.2Z"
+    fill="none" stroke="#6a3904" stroke-width="7.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="
+    M30 87.2
+    C24.0 88.2 21.8 94.0 21.8 102.0
+    V105.5
+    C21.8 114.6 24.9 121.2 30 124.1
+    C35.1 121.2 38.2 114.6 38.2 105.5
+    V102.0
+    C38.2 94.0 36.0 88.2 30 87.2Z"
     fill="none" stroke="url(#@metal)" stroke-width="5.7" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M26.9 87.0C25.4 91.7 25.1 97.2 25.1 102.2C25.1 107.5 26.5 112.2 28.5 114.9" fill="none" stroke="#fff1a7" stroke-width="1.2" stroke-linecap="round" opacity=".96"/>
+  <path d="M26.5 90.2C24.9 94.8 24.6 100.1 24.6 104.8C24.6 110.3 26.1 115.0 28.4 118.0"
+    fill="none" stroke="#fff0a0" stroke-width="1.3" stroke-linecap="round" opacity=".97"/>
+
+  <circle cx="30" cy="112.0" r="10.7" fill="url(#@metal)" stroke="#744206" stroke-width="1.12"/>
+  <circle cx="30" cy="112.0" r="4.05" fill="#281403" stroke="#a86a10" stroke-width=".95"/>
+  <path d="M25.2 106.9C27.6 104.8 31.5 104.4 34.5 106.2" fill="none" stroke="#fff1a2" stroke-width="1.2" stroke-linecap="round" opacity=".95"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
@@ -9262,7 +9260,7 @@ document.addEventListener('visibilitychange',function(){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
-    /* 5.0.550 — always return to the requested launch page:
+    /* 5.0.551 — always return to the requested launch page:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
@@ -9279,7 +9277,7 @@ document.addEventListener('visibilitychange',function(){
   }
   hiddenAt=0;
 });
-/* 5.0.550 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
+/* 5.0.551 iOS/PWA: when Safari restores a standalone window from its saved snapshot,
    pageshow can occur without a normal cold boot. Force the main page to «Сегодня». */
 window.addEventListener('pageshow',function(){
   if(!unlocked)return;
@@ -9298,7 +9296,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5550',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5551',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
