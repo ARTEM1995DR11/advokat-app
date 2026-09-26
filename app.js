@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.555';
-var APP_BUILD='5555';
+var APP_VERSION='5.0.556';
+var APP_BUILD='5556';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5555" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5556" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5555',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5556',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6461,110 +6461,111 @@ function matterFolderShell(){
   <pattern id="@grain" patternUnits="userSpaceOnUse" width="9" height="9">
     <path d="M1 2.4h1.1M5.8 4.8h.9M3.5 8h.8M1.7 6.7l.8-.4M7.4 8.2l.65-.35" stroke="#7d6040" stroke-width=".42" opacity=".055"/>
   </pattern>
+  <!-- 5.0.556: front pocket geometry rebuilt against the approved 2×2 mockup. -->
   <path id="@front" d="
-    M27 104
-    H243
-    C256 104 265 107 274 113
-    C284 121 291 127 305 130
-    H406
-    C425 130 436 141 436 158
+    M25 92
+    H244
+    C258 92 268 96 278 104
+    C289 113 297 120 312 123
+    H405
+    C425 123 436 135 436 153
     V421
     C436 443 425 454 402 454
     H39
     C16 454 5 443 5 421
-    V129
-    C5 112 13 104 27 104
+    V117
+    C5 101 13 92 25 92
     Z"/>
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- Rear coloured folder body. Broad crown and rounded right shoulder match the approved mockup. -->
+<!-- 5.0.556 rear body: taller crown, broad left shoulder and integrated right shoulder. -->
 <path d="
-  M7 142
-  V88
-  C7 73 15 61 29 53
-  C35 37 45 26 59 19
-  C67 15 76 14 87 14
+  M6 132
+  V80
+  C6 63 15 49 31 41
+  C37 25 49 14 64 8
+  C72 5 80 4 91 4
   H238
-  C254 14 264 21 272 36
-  L311 106
-  C319 120 332 128 350 131
-  H380
-  V87
-  C380 72 389 64 401 64
-  H409
-  C421 64 429 71 431 82
-  C437 85 439 93 439 104
-  V128
-  C439 136 433 140 423 141
-  H7
+  C255 4 267 12 276 29
+  L314 97
+  C323 112 337 119 355 122
+  H378
+  V72
+  C378 55 389 47 403 47
+  H411
+  C424 47 432 55 433 68
+  C438 73 440 83 440 96
+  V124
+  C440 134 433 139 423 140
+  H6
   Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.6" filter="url(#@rearShadow)"/>
-<path d="M16 137V89C16 77 23 67 35 60C40 48 49 38 61 30C68 26 75 24 84 24H228C240 24 248 29 255 42"
+<path d="M16 126V82C16 69 23 59 35 52C40 40 49 30 62 22C69 18 77 16 86 16H228C241 16 250 22 257 36"
   fill="none" stroke="#efffff" stroke-opacity=".26" stroke-width="2" stroke-linecap="round"/>
-<path d="M389 85C389 77 394 72 402 71H407C414 71 418 76 420 83C427 85 431 91 431 101"
+<path d="M389 69C389 60 394 55 402 54H407C415 54 420 59 421 67C428 69 432 76 432 87"
   fill="none" stroke="#efffff" stroke-opacity=".22" stroke-width="1.5" stroke-linecap="round"/>
 
-<!-- Four sheets on the rear plane. The large inner tab hides their left/lower portions. -->
+<!-- Papers remain on the rear plane, with wider stagger like the approved mockup. -->
 <g fill="url(#@paper)" stroke="#ddc8a5" stroke-width=".9" filter="url(#@paperShadow)">
-  <path d="M248 18H352Q360 18 360 26V121H248Z"/>
-  <path d="M258 34H373Q381 34 381 42V126H258Z"/>
-  <path d="M269 50H393Q401 50 401 58V132H269Z"/>
-  <path d="M281 66H410Q418 66 418 74V139H281Z"/>
+  <path d="M244 12H351Q360 12 360 21V116H244Z"/>
+  <path d="M254 29H373Q382 29 382 38V122H254Z"/>
+  <path d="M265 46H394Q403 46 403 55V129H265Z"/>
+  <path d="M278 63H411Q420 63 420 72V138H278Z"/>
 </g>
 <g fill="none" stroke="#fff" stroke-opacity=".70" stroke-width="1">
-  <path d="M255 22h97"/><path d="M265 38h108"/><path d="M276 54h117"/><path d="M288 70h122"/>
+  <path d="M252 16h99"/><path d="M262 33h111"/><path d="M273 50h121"/><path d="M286 67h125"/>
 </g>
 
-<!-- Large coloured inner tab, lower and more compact than the rear crown. -->
+<!-- 5.0.556 inner tab: wider, higher and with a longer natural right descent. -->
 <path d="
-  M42 124
-  C48 103 57 82 71 63
-  C81 49 94 43 110 43
-  H239
-  C253 43 262 50 269 64
-  L294 108
-  C301 120 311 126 325 129
-  H338
-  V134
-  H42
+  M38 111
+  C43 88 52 63 67 43
+  C78 29 91 23 108 23
+  H240
+  C257 23 268 31 277 47
+  L309 103
+  C316 115 327 121 343 124
+  H359
+  V132
+  H38
   Z"
   fill="url(#@tab)" stroke="#f8f4e7" stroke-opacity=".90" stroke-width="1.35" filter="url(#@paperShadow)"/>
-<path d="M51 116C56 99 64 82 76 66C85 54 96 50 110 50H234C246 50 254 56 260 68L282 107C288 117 298 123 311 127"
+<path d="M49 103C54 84 62 65 75 47C84 35 96 30 110 30H235C248 30 257 36 264 49L294 102C300 112 310 118 324 121"
   fill="none" stroke="#fff" stroke-opacity=".54" stroke-width="1.55" stroke-linecap="round"/>
 
-<!-- Warm ivory front pocket. -->
+<!-- Taller warm ivory front pocket. -->
 <use href="#@front" fill="url(#@ivory)" stroke="#875006" stroke-width="2.9" filter="url(#@bodyShadow)"/>
 <use href="#@front" fill="none" stroke="url(#@edge)" stroke-width="1.95"/>
 <g clip-path="url(#@clip)">
-  <rect x="5" y="104" width="431" height="350" fill="url(#@frontLight)"/>
-  <rect x="5" y="104" width="431" height="350" fill="url(#@grain)"/>
+  <rect x="5" y="92" width="431" height="362" fill="url(#@frontLight)"/>
+  <rect x="5" y="92" width="431" height="362" fill="url(#@grain)"/>
   <rect x="5" y="356" width="431" height="98" fill="url(#@bottomMass)"/>
-  <path d="M17 128C17 117 23 110 31 110H241C253 110 262 113 271 119C281 126 288 132 302 135H402C417 135 426 144 426 159V416C426 434 417 444 399 444H42C24 444 15 434 15 416Z"
+  <path d="M17 117C17 106 23 98 31 98H241C253 98 263 102 272 109C282 117 290 123 304 128H401C417 128 426 138 426 153V416C426 434 417 444 399 444H42C24 444 15 434 15 416Z"
     fill="none" stroke="#fffdf7" stroke-opacity=".84" stroke-width="1.45"/>
 </g>
 
-<!-- Metallic top seam follows the exact front contour. -->
-<path d="M27 104H243C256 104 265 107 274 113C284 121 291 127 305 130H406"
+<!-- Metallic top seam follows the rebuilt front contour. -->
+<path d="M25 92H244C258 92 268 96 278 104C289 113 297 120 312 123H405"
   fill="none" stroke="url(#@edge)" stroke-width="2.15" stroke-linecap="round"/>
-<path d="M31 106H240C252 106 261 109 269 114C278 120 285 126 299 128"
+<path d="M30 94H241C253 94 262 98 271 105C280 112 288 118 302 121"
   fill="none" stroke="#fff1aa" stroke-opacity=".54" stroke-width=".85" stroke-linecap="round"/>
 
-<!-- Refined gold ring: smaller grommets and a longer vertical connector, like the approved mockup. -->
+<!-- 5.0.556 hardware: larger grommets and a substantial vertical ring, matching the mockup scale. -->
 <g filter="url(#@hardwareShadow)">
-  <circle cx="28.5" cy="84" r="9.2" fill="url(#@metal)" stroke="#714006" stroke-width="1.05"/>
-  <circle cx="28.5" cy="84" r="3.7" fill="#281403" stroke="#aa6c10" stroke-width=".9"/>
-  <path d="M24.2 79.7C26.4 77.9 30.1 77.6 33.0 79.2" fill="none" stroke="#fff1a3" stroke-width="1.25" stroke-linecap="round"/>
+  <circle cx="29" cy="72" r="11.8" fill="url(#@metal)" stroke="#714006" stroke-width="1.2"/>
+  <circle cx="29" cy="72" r="4.7" fill="#281403" stroke="#aa6c10" stroke-width="1"/>
+  <path d="M23.7 66.9C26.4 64.6 30.9 64.2 34.5 66.3" fill="none" stroke="#fff1a3" stroke-width="1.45" stroke-linecap="round"/>
 
-  <path d="M28.5 90.0C23.8 91.2 22.0 96.2 22.0 103.1V108.0C22.0 115.5 24.3 121.5 28.5 124.5C32.7 121.5 35.0 115.5 35.0 108.0V103.1C35.0 96.2 33.2 91.2 28.5 90.0Z"
-    fill="none" stroke="#673603" stroke-width="6.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M28.5 90.0C23.8 91.2 22.0 96.2 22.0 103.1V108.0C22.0 115.5 24.3 121.5 28.5 124.5C32.7 121.5 35.0 115.5 35.0 108.0V103.1C35.0 96.2 33.2 91.2 28.5 90.0Z"
-    fill="none" stroke="url(#@metal)" stroke-width="4.9" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M25.0 92.8C23.9 96.8 23.8 102.0 23.8 107.0C23.8 112.5 25.0 116.9 26.8 119.4"
-    fill="none" stroke="#fff0a0" stroke-width="1.05" stroke-linecap="round" opacity=".96"/>
+  <path d="M29 80C23.2 81.5 20.7 87.8 20.7 96.4V102.5C20.7 112.0 23.8 119.6 29 123.2C34.2 119.6 37.3 112.0 37.3 102.5V96.4C37.3 87.8 34.8 81.5 29 80Z"
+    fill="none" stroke="#673603" stroke-width="8.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29 80C23.2 81.5 20.7 87.8 20.7 96.4V102.5C20.7 112.0 23.8 119.6 29 123.2C34.2 119.6 37.3 112.0 37.3 102.5V96.4C37.3 87.8 34.8 81.5 29 80Z"
+    fill="none" stroke="url(#@metal)" stroke-width="6.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24.7 83.7C23.3 88.5 23.1 95.0 23.1 101.3C23.1 108.1 24.7 113.6 27 116.8"
+    fill="none" stroke="#fff0a0" stroke-width="1.25" stroke-linecap="round" opacity=".96"/>
 
-  <circle cx="28.5" cy="116.5" r="7.8" fill="url(#@metal)" stroke="#744206" stroke-width="1.0"/>
-  <circle cx="28.5" cy="116.5" r="3.15" fill="#281403" stroke="#aa6b0f" stroke-width=".8"/>
+  <circle cx="29" cy="112" r="9.7" fill="url(#@metal)" stroke="#744206" stroke-width="1.1"/>
+  <circle cx="29" cy="112" r="3.9" fill="#281403" stroke="#aa6b0f" stroke-width=".9"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
