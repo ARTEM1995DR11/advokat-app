@@ -44,7 +44,7 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.545 — folder shell, precision pass against the approved reference.
+/* 5.0.546 — folder shell, precision pass against the approved reference.
    Empty shell retained; rear wall, left ring block, paper stack and shoulder contour refined in code. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   --folder-gap:calc(24 * var(--case-u));
