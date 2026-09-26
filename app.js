@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.534';
-var APP_BUILD='5534';
+var APP_VERSION='5.0.535';
+var APP_BUILD='5535';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6232,9 +6232,9 @@ function matterFolderShell(){
     <stop offset="1" stop-color="#fff" stop-opacity="0"/>
   </radialGradient>
   <linearGradient id="@bottomMass" x1="0" y1="0" x2="0" y2="1">
-    <stop offset=".70" stop-color="#d5ab70" stop-opacity="0"/>
-    <stop offset=".88" stop-color="#cc9a58" stop-opacity=".09"/>
-    <stop offset="1" stop-color="#9f691a" stop-opacity=".18"/>
+    <stop offset=".82" stop-color="#d7b27a" stop-opacity="0"/>
+    <stop offset=".93" stop-color="#c88f46" stop-opacity=".045"/>
+    <stop offset="1" stop-color="#9f691a" stop-opacity=".10"/>
   </linearGradient>
   <filter id="@rearShadow" x="-10%" y="-24%" width="130%" height="170%">
     <feDropShadow dx="1.3" dy="3.1" stdDeviation="3" flood-color="#3f2b16" flood-opacity=".20"/>
@@ -6252,7 +6252,7 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.534 / stage 1 step 4: only the lower corners and lower mass of the ivory cover are refined — broader bottom radii and a heavier physical base, while the approved upper geometry stays untouched. -->
+  <!-- 5.0.535 / stage 1 step 2: only the descent landing/right shoulder is refined — earlier horizontal landing and a longer calm right shoulder; step 1 start/entry remains unchanged. -->
   <path id="@front" d="
     M29 93
     H229
@@ -6262,10 +6262,10 @@ function matterFolderShell(){
     H388
     C405 120 418 123 426 130
     C432 135 434 142 434 151
-    V440
-    C434 464 421 479 398 479
-    H42
-    C19 479 6 464 6 440
+    V442
+    C434 463 422 476 401 476
+    H39
+    C18 476 6 463 6 442
     V113
     C6 100 14 93 29 93
     Z"/>
@@ -6340,7 +6340,7 @@ function matterFolderShell(){
 <g clip-path="url(#@clip)">
   <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
   <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
-  <rect x="7" y="336" width="426" height="146" fill="url(#@bottomMass)"/>
+  <rect x="7" y="352" width="426" height="130" fill="url(#@bottomMass)"/>
   <path d="
     M14 113
     C14 103 21 98 32 98
@@ -6351,18 +6351,18 @@ function matterFolderShell(){
     H384
     C400 123 412 126 419 132
     C423 136 425 142 425 150
-    V435
-    C425 456 414 468 394 468
-    H46
-    C26 468 15 456 15 435
+    V437
+    C425 455 414 466 395 466
+    H45
+    C26 466 15 455 15 437
     Z"
     fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
   <path d="
-    M429 190V444
-    C429 466 417 479 396 479
-    H44
-    C23 479 11 466 11 444"
-    fill="none" stroke="#a96e1a" stroke-opacity=".20" stroke-width="2.7"/>
+    M429 190V446
+    C429 464 418 475 398 475
+    H42
+    C22 475 11 464 11 446"
+    fill="none" stroke="#a96e1a" stroke-opacity=".13" stroke-width="2.3"/>
 </g>
 
 <!-- Delicate continuous gold seam following the approved stepped top contour. -->
