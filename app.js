@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.553';
-var APP_BUILD='5553';
+var APP_VERSION='5.0.554';
+var APP_BUILD='5554';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -23,7 +23,7 @@ var DEF = {
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null,
-    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterSort:'priority', matterQ:'', matterSearchOpen:false, taskGroupOpen:{}
+    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterStatus:'', matterSort:'priority', matterQ:'', matterSearchOpen:false, taskGroupOpen:{}
   }
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
@@ -52,6 +52,7 @@ function mergeState(d){
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
   if(typeof out.ui.matterStage!=='string') out.ui.matterStage='';
+  if(['','today','late'].indexOf(out.ui.matterStatus)<0) out.ui.matterStatus='';
   if(['priority','client','stage'].indexOf(out.ui.matterSort)<0) out.ui.matterSort='priority';
   if(typeof out.ui.matterQ!=='string') out.ui.matterQ='';
   /* 5.0.369: локальный поиск по делам не должен занимать место по умолчанию.
@@ -2042,7 +2043,7 @@ function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; 
   p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open'); var sh=$('#sheet');
+function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -2789,6 +2790,170 @@ function sheetTaskTypeFilters(){
   $('#sheet').classList.add('filter-premium-sheet','task-filter-premium');
   document.body.classList.add('task-filter-open');
 }
+/* =====================================================================
+   5.0.554 — RESTORED MATTERS SEARCH / FILTER RUNTIME
+   Внешний вид страницы «Дела» не меняем на этом этапе. Восстанавливаем
+   согласованную логику: лупа открывает локальный поиск; все постоянные
+   «Все / В работе / Архив» и сортировки остаются убраны со страницы и
+   доступны только в шторке «Фильтр дел».
+   ===================================================================== */
+function matterStageOrder(stage){
+  var order=[
+    'Материал проверки','Проверка / административное расследование','Дознание','Следствие МВД','Следствие СК',
+    'Досудебная работа','Первая инстанция','Апелляция','Пересмотр / апелляция','Кассация','Надзор',
+    'Исполнение','Исполнение приговора','Завершено'
+  ];
+  var i=order.indexOf(stage||'');
+  return i<0?999:i;
+}
+function matterSortLabel(mode){
+  return mode==='client'?'По доверителю':(mode==='stage'?'По стадии':'По срочности');
+}
+function matterHasToday(m){
+  return tasksOf(m.id).some(function(t){
+    if(!isActiveRecord(t)) return false;
+    if(meetingOccurred(t)) return false;
+    if(t.due && dd(t.due)===0) return true;
+    return !!urgentTaskNeedsToday(t);
+  });
+}
+function matterHasLate(m){
+  if(m&&m.archived) return false;
+  var st=matterStats(m);
+  return !!(st.pendingResult || st.late);
+}
+function matterStatusMatch(m,status){
+  if(status==='today') return matterHasToday(m);
+  if(status==='late') return matterHasLate(m);
+  return true;
+}
+function matterMatchesCurrentFilters(m,q){
+  var scope=S.ui.matterScope||'active';
+  if(['all','active','archive'].indexOf(scope)<0) scope='active';
+  if(scope==='active' && m.archived) return false;
+  if(scope==='archive' && !m.archived) return false;
+  if(S.ui.matterStatus && !matterStatusMatch(m,S.ui.matterStatus)) return false;
+  if(S.ui.matterType && m.type!==S.ui.matterType) return false;
+  if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
+  if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
+  if(q && matterSearchText(m).indexOf(q)<0) return false;
+  return true;
+}
+function matterSortList(list){
+  var sortMode=S.ui.matterSort||'priority';
+  list.sort(function(a,b){
+    if(a.archived!==b.archived) return a.archived?1:-1;
+    if(sortMode==='client'){
+      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
+      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
+      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
+    }
+    if(sortMode==='stage'){
+      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
+      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
+      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
+    }
+    var A=matterStats(a),B=matterStats(b);
+    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
+    if(!!A.late!==!!B.late) return A.late?-1:1;
+    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
+    if(an!==bn) return an<bn?-1:1;
+    return B.open-A.open;
+  });
+  return list;
+}
+function matterCurrentList(q){
+  q=String(q==null?S.ui.matterQ:q).trim().toLowerCase().replace(/ё/g,'е');
+  return matterSortList(S.matters.filter(function(m){return matterMatchesCurrentFilters(m,q);}));
+}
+function matterFilterIsActive(){
+  return !!((S.ui.matterScope||'active')!=='active' || S.ui.matterStatus || S.ui.matterType || S.ui.matterBasis || S.ui.matterStage || (S.ui.matterSort||'priority')!=='priority');
+}
+function matterFilterViewValue(){
+  if(S.ui.matterStatus==='today') return 'today';
+  if(S.ui.matterStatus==='late') return 'late';
+  return S.ui.matterScope||'active';
+}
+function matterFilterViewMatch(m,view){
+  if(view==='archive') return !!m.archived;
+  if(view==='all') return true;
+  if(m.archived) return false;
+  if(view==='today') return matterHasToday(m);
+  if(view==='late') return matterHasLate(m);
+  return true;
+}
+function matterFilterSheetStages(){
+  var seen={},arr=[];
+  S.matters.forEach(function(m){
+    var st=String((m&&m.stage)||'').trim();
+    if(!st||seen[st])return;
+    if(S.ui.matterType && m.type!==S.ui.matterType)return;
+    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis)return;
+    seen[st]=1;arr.push(st);
+  });
+  if(S.ui.matterStage && !seen[S.ui.matterStage])arr.push(S.ui.matterStage);
+  arr.sort(function(a,b){var d=matterStageOrder(a)-matterStageOrder(b);return d||a.localeCompare(b,'ru',{sensitivity:'base'});});
+  return arr;
+}
+function sheetMatterFilters(){
+  var view=matterFilterViewValue();
+  var activeCount=S.matters.filter(function(m){return !m.archived;}).length;
+  var archiveCount=S.matters.filter(function(m){return !!m.archived;}).length;
+  var todayCount=S.matters.filter(function(m){return !m.archived&&matterHasToday(m);}).length;
+  var lateCount=S.matters.filter(function(m){return !m.archived&&matterHasLate(m);}).length;
+  function row(action,value,icon,title,sub,count,tone,on){
+    return '<button class="filter-premium-row '+esc(tone||'all')+(on?' selected':'')+'" style="--tone:'+esc(tone||'#B68622')+'" data-act="'+esc(action)+'" data-v="'+esc(value)+'" aria-pressed="'+(on?'true':'false')+'">'+
+      '<span class="filter-premium-icon">'+ico(icon,'s')+'</span>'+ 
+      '<span class="filter-premium-copy"><b>'+esc(title)+'</b><small>'+esc(sub)+'</small></span>'+ 
+      '<span class="filter-premium-count">'+esc(count)+'</span>'+ 
+      '<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span>'+ 
+    '</button>';
+  }
+  function stateCountForType(type){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!type||m.type===type);}).length;}
+  function stateTypeCountForBasis(basis){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!basis||(m.basis||'')===basis);}).length;}
+  function stageCount(stage){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!S.ui.matterBasis||(m.basis||'')===S.ui.matterBasis)&&(!stage||(m.stage||'')===stage);}).length;}
+  var states=''+
+    row('matter-view','active','brief','В работе','Текущие дела в производстве',activeCount,'#2F8F83',view==='active')+
+    row('matter-view','all','list','Все дела','Активные и архивные дела',S.matters.length,'#B68622',view==='all')+
+    row('matter-view','archive','arch','Архив','Завершённые и архивные дела',archiveCount,'#73879A',view==='archive')+
+    row('matter-view','today','clock','Сегодня','Дела с действиями на сегодня',todayCount,'#3C8FE8',view==='today')+
+    row('matter-view','late','alert','Просроченные','Есть просроченные записи или требуется результат',lateCount,'#D94B53',view==='late');
+  var types=row('m-filter','','list','Все типы','Без ограничения по виду производства',stateCountForType(''),'#B68622',!S.ui.matterType);
+  MATTER_TYPE_KEYS.forEach(function(k){
+    var meta=MATTER_TYPES[k];
+    var icon=k==='criminal'?'lock':(k==='civil'?'gavel':(k==='admin'?'court':'doc'));
+    types+=row('m-filter',k,icon,meta.n,'Только '+meta.short,stateCountForType(k),meta.c,S.ui.matterType===k);
+  });
+  var basis=''+
+    row('m-basis-filter','','list','Любое основание','Соглашение и назначение',stateTypeCountForBasis(''),'#B68622',!S.ui.matterBasis)+
+    row('m-basis-filter','agreement','brief','По соглашению','Дела по соглашению с доверителем',stateTypeCountForBasis('agreement'),MATTER_BASIS.agreement.c,S.ui.matterBasis==='agreement')+
+    row('m-basis-filter','assigned','user','По назначению','Дела в порядке назначения',stateTypeCountForBasis('assigned'),MATTER_BASIS.assigned.c,S.ui.matterBasis==='assigned');
+  var stages=row('m-stage-filter','','list','Все стадии','Без ограничения по стадии',stageCount(''),'#B68622',!S.ui.matterStage);
+  matterFilterSheetStages().forEach(function(st){
+    var meta=matterStageMeta(st);
+    stages+=row('m-stage-filter',st,meta.icon||'flag',st,'Стадия производства',stageCount(st),meta.c||'#7A8FA6',S.ui.matterStage===st);
+  });
+  var sort=''+
+    row('m-sort','priority','alert','По срочности','Сначала требующие внимания и ближайшие действия','', '#D5A13B',(S.ui.matterSort||'priority')==='priority')+
+    row('m-sort','client','user','По доверителю','По фамилии / наименованию доверителя','', '#3C8FE8',S.ui.matterSort==='client')+
+    row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
+  openSheet(
+    '<div class="matter-filter-premium-head">'+
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5554" alt=""></span>'+ 
+      '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
+      '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
+    '</div>'+ 
+    '<section class="filter-premium-section"><div class="filter-premium-label">СОСТОЯНИЕ ДЕЛ</div><div class="matter-filter-premium-card">'+states+'</div></section>'+ 
+    '<section class="filter-premium-section"><div class="filter-premium-label">ТИП ПРОИЗВОДСТВА</div><div class="matter-filter-premium-card">'+types+'</div></section>'+ 
+    '<section class="filter-premium-section"><div class="filter-premium-label">ОСНОВАНИЕ ВЕДЕНИЯ</div><div class="matter-filter-premium-card">'+basis+'</div></section>'+ 
+    '<section class="filter-premium-section"><div class="filter-premium-label">СТАДИЯ ПРОИЗВОДСТВА</div><div class="matter-filter-premium-card">'+stages+'</div></section>'+ 
+    '<section class="filter-premium-section"><div class="filter-premium-label">СОРТИРОВКА</div><div class="matter-filter-premium-card">'+sort+'</div></section>'+ 
+    '<button type="button" class="matter-filter-reset-btn" data-act="matter-filter-reset">'+ico('xmark','s')+'<span>Сбросить фильтры и сортировку</span></button>'
+  );
+  $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
+  document.body.classList.add('matter-filter-open');
+}
+
 function taskProjectBase(){
   var q=(S.ui.q||'').toLowerCase().trim();
   return S.tasks.filter(function(t){
@@ -5181,7 +5346,7 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 function demo(){
@@ -5282,15 +5447,16 @@ document.addEventListener('click', function(ev){
     case 'task-type-sheet': sheetTaskTypeFilters();break;
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
-    case 'matter-scope': S.ui.matterScope=v||'active';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
+    case 'matter-scope': S.ui.matterScope=v||'active';S.ui.matterStatus='';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
     case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();break;
     case 'matter-search-clear': {S.ui.matterQ='';S.ui.matterSearchOpen=true;save();var mq=$('#matter-q');if(mq){mq.value='';var mw=mq.closest('.matters-local-search-field'),mc=mw&&mw.querySelector('.matters-local-search-clear');if(mc)mc.classList.remove('is-visible');refreshMatterSearchResultsOnly();setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(0,0);}catch(_){mq.focus();}},0);}else renderMatters();break;}
     case 'matter-filter-sheet': sheetMatterFilters();break;
-    case 'm-filter': S.ui.matterType=v||'';save();closeSheet();renderMatters();break;
+    case 'matter-view': {var mv=v||'active';if(mv==='today'||mv==='late'){S.ui.matterScope='active';S.ui.matterStatus=mv;}else{S.ui.matterScope=(mv==='all'||mv==='archive')?mv:'active';S.ui.matterStatus='';}S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;}
+    case 'm-filter': S.ui.matterType=v||'';if(S.ui.matterType&&S.ui.matterStage&&matterStageList(S.ui.matterType,S.ui.matterBasis).indexOf(S.ui.matterStage)<0)S.ui.matterStage='';save();closeSheet();renderMatters();break;
     case 'm-basis-filter': S.ui.matterBasis=v||'';save();closeSheet();renderMatters();break;
     case 'm-stage-filter': S.ui.matterStage=v||'';save();closeSheet();renderMatters();break;
     case 'm-sort': S.ui.matterSort=v||'priority';save();closeSheet();renderMatters();break;
-    case 'matter-filter-reset': S.ui.matterScope='active';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
+    case 'matter-filter-reset': S.ui.matterScope='active';S.ui.matterStatus='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
 
     /* quick add */
     case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
@@ -6075,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5553',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5554',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6095,7 +6261,10 @@ function matterApprovedHero(scope, listLen, allCount, activeCount, archCount){
   var line = scope==='archive'
     ? total+' '+plural(total,'дело','дела','дел')+' в архиве'
     : (scope==='all' ? total+' '+plural(total,'дело','дела','дел')+' всего' : total+' '+plural(total,'дело','дела','дел')+' в работе');
-  if(S.ui.matterType || S.ui.matterBasis || S.ui.matterStage || (S.ui.matterSort||'priority')!=='priority' || String(S.ui.matterQ||'').trim()){
+  if(String(S.ui.matterQ||'').trim()) return listLen+' '+plural(listLen,'дело','дела','дел')+' найдено';
+  if(S.ui.matterStatus==='today') return listLen+' '+plural(listLen,'дело','дела','дел')+' на сегодня';
+  if(S.ui.matterStatus==='late') return listLen+' '+plural(listLen,'дело','дела','дел')+' требуют внимания';
+  if(S.ui.matterType || S.ui.matterBasis || S.ui.matterStage || (S.ui.matterSort||'priority')!=='priority'){
     line = listLen+' '+plural(listLen,'дело','дела','дел')+' по фильтру';
   }
   return line;
@@ -6496,9 +6665,11 @@ function matterCardProfessional(m){
 }
 function matterSearchText(m){
   var prof=matterCardProfessional(m)||{};
+  var mt=m&&MATTER_TYPES[m.type],mb=m&&MATTER_BASIS[m.basis];
   return [
     m&&m.title,m&&m.client,m&&m.phone,m&&m.number,m&&m.court,m&&m.judge,m&&m.investigator,
-    m&&m.article,m&&m.role,m&&m.stage,m&&m.notes,m&&m.basis,prof.label,prof.value
+    m&&m.article,m&&m.role,m&&m.stage,m&&m.notes,m&&m.basis,
+    mt&&mt.n,mt&&mt.short,mb&&mb.n,mb&&mb.short,prof.label,prof.value
   ].filter(Boolean).join(' ').toLowerCase().replace(/ё/g,'е');
 }
 function refreshMatterSearchResultsOnly(){
@@ -6507,39 +6678,11 @@ function refreshMatterSearchResultsOnly(){
   var scope=S.ui.matterScope||'active';
   if(['all','active','archive'].indexOf(scope)<0) scope='active';
   var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
-  var list=S.matters.filter(function(m){
-    if(scope==='active' && m.archived) return false;
-    if(scope==='archive' && !m.archived) return false;
-    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
-    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
-    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
-    if(q && matterSearchText(m).indexOf(q)<0) return false;
-    return true;
-  });
-  var sortMode=S.ui.matterSort||'priority';
-  list.sort(function(a,b){
-    if(a.archived!==b.archived) return a.archived?1:-1;
-    if(sortMode==='client'){
-      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
-      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
-      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
-    }
-    if(sortMode==='stage'){
-      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
-      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
-      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
-    }
-    var A=matterStats(a),B=matterStats(b);
-    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
-    if(!!A.late!==!!B.late) return A.late?-1:1;
-    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
-    if(an!==bn) return an<bn?-1:1;
-    return B.open-A.open;
-  });
+  var list=matterCurrentList(q);
   if(list.length){
     host.innerHTML=list.map(matterCard).join('');
   }else{
-    host.innerHTML=(S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
+    host.innerHTML=(matterFilterIsActive()||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]);
   }
@@ -6553,39 +6696,12 @@ function renderMatters(){
   if(['all','active','archive'].indexOf(scope)<0) scope='active';
   var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
   var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
-  var list=S.matters.filter(function(m){
-    if(scope==='active' && m.archived) return false;
-    if(scope==='archive' && !m.archived) return false;
-    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
-    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
-    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
-    if(q && matterSearchText(m).indexOf(q)<0) return false;
-    return true;
-  });
+  var list=matterCurrentList(q);
   var sortMode=S.ui.matterSort||'priority';
-  list.sort(function(a,b){
-    if(a.archived!==b.archived) return a.archived?1:-1;
-    if(sortMode==='client'){
-      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
-      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
-      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
-    }
-    if(sortMode==='stage'){
-      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
-      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
-      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
-    }
-    var A=matterStats(a),B=matterStats(b);
-    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
-    if(!!A.late!==!!B.late) return A.late?-1:1;
-    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
-    if(an!==bn) return an<bn?-1:1;
-    return B.open-A.open;
-  });
   var heroMain=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
   var quickTypeLabel=matterApprovedQuickTypeLabel();
   var searchOpen=!!(S.ui.matterSearchOpen||q);
-  var hasMatterFilter=!!(scope!=='active'||S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
+  var hasMatterFilter=matterFilterIsActive();
   var html='<div class="matters-project matters-approved-v3 case-page">'+
     mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
     '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
@@ -6595,7 +6711,7 @@ function renderMatters(){
         : '')+
     '</div><div class="matters-list matters-approved-list case-folder-host is-grid">';
   html+=list.length?list.map(matterCard).join(''):
-    ((S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||q)
+    ((matterFilterIsActive()||q)
       ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
       : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
   html+='</div></div>';
