@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.542';
-var APP_BUILD='5542';
+var APP_VERSION='5.0.543';
+var APP_BUILD='5543';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6255,131 +6255,130 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.542 — paper-depth correction: sheets moved farther back/right and visually recessed behind the inner tab, matching the approved mockup. -->
+  <!-- 5.0.543 — new approved folder layering: rear wall → papers → large inner tab → cream front → hardware.
+       Papers are deliberately on the back plane; their left/lower edges are hidden by the inner tab. -->
   <path id="@front" d="
-    M28 95
-    H228
-    C240 95 250 96 260 99
-    C270 102 278 107 286 113
-    C292 117 297 120 304 122
+    M29 93
+    H229
+    C241 93 251 94 260 97
+    C270 100 278 105 286 111
+    C292 115 297 118 304 120
     H389
-    C406 122 419 125 427 132
-    C433 137 435 145 435 155
+    C406 120 419 123 427 130
+    C433 135 435 143 435 153
     V437
     C435 461 421 474 397 474
     H43
     C19 474 5 461 5 437
-    V114
-    C5 101 14 95 28 95
+    V113
+    C5 100 14 93 29 93
     Z"/>
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- Rear coloured folder: compact left shoulder and restrained right wall like the approved mockup. -->
+<!-- Deep coloured rear folder layer. The left shoulder and the right rear wall are both physical parts of the folder. -->
 <path d="
-  M7 167V82
-  C7 58 18 42 37 36
-  C47 18 63 10 86 10
-  H232
-  C252 10 265 22 274 43
-  L297 99
-  C304 116 316 126 334 129
-  H389
-  C405 129 416 132 423 139
-  C429 145 432 154 432 166
-  V176H7Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.4" filter="url(#@rearShadow)"/>
-<!-- Far-right rear wall: only the shaped shoulder and short side are visible, as in the reference. -->
-<path d="
-  M394 66
-  H411
-  C421 66 428 70 431 78
-  C433 83 433 88 433 94
-  V126
-  C433 135 427 140 418 140
+  M6 167V80
+  C6 55 18 39 38 33
+  C48 14 63 7 86 7
+  H234
+  C254 7 267 19 275 40
+  L299 99
+  C307 118 321 128 340 128
   H399
-  C394 140 392 137 392 132
+  C423 128 436 143 436 168
+  V179H6Z"
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
+<!-- Explicit far-right rear wall: visible behind the papers like the approved physical folder. -->
+<path d="
+  M387 63
+  H414
+  C426 63 434 69 438 80
+  C439 85 439 91 439 99
+  V151
+  C439 164 430 171 418 171
+  H390
+  C386 171 384 168 384 164
   V76
-  C392 70 393 67 394 66
+  C384 68 386 63 387 63
   Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.35" filter="url(#@rearShadow)"/>
+  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.45" filter="url(#@rearShadow)"/>
 <path d="
-  M401 73H410
-  C418 73 423 76 426 82
-  C428 87 428 92 428 97
-  V119"
-  fill="none" stroke="#f3ffff" stroke-opacity=".25" stroke-width="1.55" stroke-linecap="round"/>
+  M396 72H411
+  C421 72 427 76 430 85
+  C432 90 432 96 432 104
+  V141"
+  fill="none" stroke="#f3ffff" stroke-opacity=".26" stroke-width="1.7" stroke-linecap="round"/>
 <path d="
-  M15 155V83
-  C15 67 24 55 40 50
-  C47 31 60 22 80 22
-  H228
-  C241 22 251 30 258 46
-  L281 100
-  C288 116 298 123 312 126"
-  fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2"/>
+  M14 154V82
+  C14 66 23 54 40 48
+  C47 29 60 19 80 19
+  H229
+  C243 19 253 27 260 43
+  L284 101
+  C291 117 301 124 316 127"
+  fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2.05"/>
 
-<!-- Paper stack recessed into the BACK of the folder, matching the approved mockup.
-     Only the upper/right edges are exposed; the light tab and cream front cover the lower/left portions. -->
-<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperStackShadow)">
-  <path d="M279 27H353Q362 27 362 34V111H279Z"/>
-  <path d="M269 40H374Q383 40 383 47V117H269Z"/>
-  <path d="M260 53H392Q401 53 401 61V123H260Z"/>
-  <path d="M252 67H405Q414 67 414 75V129H252Z"/>
+<!-- Paper stack on the BACK plane.  The large inner tab is drawn after it and hides the left/lower edges, so the sheets read as contents inside the folder rather than cards on top. -->
+<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".85" filter="url(#@paperStackShadow)">
+  <path d="M303 25H355Q365 25 365 33V115H303Z"/>
+  <path d="M294 38H377Q387 38 387 46V120H294Z"/>
+  <path d="M286 51H396Q406 51 406 59V126H286Z"/>
+  <path d="M278 64H414Q424 64 424 72V132H278Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".66" stroke-width=".9">
-  <path d="M285 31h65"/>
-  <path d="M275 44h96"/>
-  <path d="M266 57h123"/>
-  <path d="M258 71h143"/>
+<g fill="none" stroke="#fff" stroke-opacity=".62" stroke-width=".85">
+  <path d="M309 29h43"/>
+  <path d="M300 42h74"/>
+  <path d="M292 55h101"/>
+  <path d="M284 68h126"/>
 </g>
 
-<!-- Broad front tab: softer shoulder and slightly higher ridge to match the approved shell. -->
+<!-- Large inner tab is physically IN FRONT OF the paper stack, exactly as in the new approved mockup. -->
 <path d="
-  M41 127
-  C46 104 54 76 68 53
-  C77 39 88 32 104 32
-  H232
-  C247 32 257 40 264 57
-  L285 104
-  C291 118 302 128 319 133
-  L311 127
-  H41Z"
+  M39 127
+  C44 103 52 74 67 50
+  C75 37 86 31 101 31
+  H237
+  C251 31 260 39 267 55
+  L290 104
+  C297 120 309 130 329 135
+  L320 127
+  H39Z"
   fill="url(#@tab)" stroke="#fff3d5" stroke-opacity=".92" stroke-width="1.4" filter="url(#@paperShadow)"/>
 <path d="
-  M49 118
-  C54 97 61 77 73 58
-  C80 47 90 42 104 42
-  H228
-  C240 42 248 48 254 61
-  L274 104
-  C280 116 288 122 300 127"
+  M47 118
+  C52 96 59 75 72 55
+  C79 45 88 41 102 41
+  H232
+  C244 41 252 48 258 61
+  L279 104
+  C285 116 294 123 307 128"
   fill="none" stroke="#fff" stroke-opacity=".60" stroke-width="1.8" stroke-linecap="round"/>
-<path d="M86 38H223C237 38 245 45 251 58"
-  fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.2" stroke-linecap="round"/>
+<path d="M84 36H229C242 36 250 44 256 58"
+  fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.5" stroke-linecap="round"/>
 
-<!-- Main cream cover. -->
-<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.7" filter="url(#@bodyShadow)"/>
+<!-- Main cream cover: same silhouette on every matter, only rear/tab colour changes by type. -->
+<use href="#@front" fill="url(#@ivory)" stroke="url(#@edge)" stroke-width="2.5" filter="url(#@bodyShadow)"/>
 
-<!-- Light material modelling. -->
+<!-- Very light surface/material modelling, clipped to the exact physical shape. -->
 <g clip-path="url(#@clip)">
   <rect x="7" y="125" width="426" height="357" fill="url(#@frontLight)"/>
   <rect x="7" y="125" width="426" height="357" fill="url(#@grain)"/>
   <rect x="7" y="390" width="426" height="92" fill="url(#@bottomMass)"/>
   <path d="
-    M14 114
-    C14 104 21 99 32 99
-    H226
-    C236 99 245 100 254 102
-    C264 105 272 109 279 114
-    C285 118 290 121 298 124
+    M14 113
+    C14 103 21 98 32 98
+    H227
+    C237 98 246 99 255 101
+    C265 104 273 108 280 113
+    C286 117 291 120 299 123
     H384
-    C399 124 411 127 417 133
-    C422 138 424 145 424 153
+    C400 123 412 126 419 132
+    C423 136 425 143 425 151
     V432
-    C424 452 413 464 393 464
+    C425 452 413 464 393 464
     H47
-    C27 464 16 452 16 432
+    C27 464 15 452 15 432
     Z"
     fill="none" stroke="#fffef9" stroke-opacity=".90" stroke-width="1.8"/>
   <path d="M18 429C18 450 28 461 47 461H118"
@@ -6388,44 +6387,40 @@ function matterFolderShell(){
     fill="none" stroke="#a96e1a" stroke-opacity=".085" stroke-width="2.1" stroke-linecap="round"/>
 </g>
 
-<!-- Continuous gold seam along the top edge. -->
+<!-- Delicate continuous gold seam following the approved stepped top contour. -->
 <path d="
-  M29 95
-  H228
-  C240 95 250 96 260 99
-  C270 102 278 107 286 113
-  C292 117 297 120 304 122
+  M29 93
+  H229
+  C241 93 251 94 260 97
+  C270 100 278 105 286 111
+  C292 115 297 118 304 120
   H404"
-  fill="none" stroke="url(#@edge)" stroke-width="2.75" stroke-linecap="round"/>
-<path d="M32 97H225C236 97 245 98 254 100C264 103 272 108 280 113C286 117 291 120 299 122"
+  fill="none" stroke="url(#@edge)" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M32 95H226C236 95 245 96 254 98C264 101 272 106 280 111C286 115 291 118 299 120"
   fill="none" stroke="#fff1b4" stroke-opacity=".52" stroke-width="1" stroke-linecap="round"/>
 
-<!-- Premium ring/eyelet assembly: more gold surface and a clearly separated lower grommet. -->
+<!-- Premium physical ring/eyelet assembly: upper eyelet on the coloured rear wall, lower grommet on the ivory front. -->
 <g filter="url(#@hardwareShadow)">
-  <!-- contact shadows -->
-  <circle cx="29.8" cy="78.3" r="12.4" fill="#5b3508" opacity=".18"/>
-  <circle cx="30.0" cy="113.0" r="11.6" fill="#5b3508" opacity=".16"/>
-  <!-- upper gold eyelet on rear wall -->
-  <circle cx="29.8" cy="78.2" r="11.8" fill="url(#@metal)" stroke="#89520a" stroke-width="1.25"/>
-  <circle cx="29.8" cy="78.2" r="4.0" fill="#3a1d03" stroke="#d9a13a" stroke-width="1.0"/>
-  <path d="M23.7 72.7C26.5 69.8 31.4 69.0 35.3 71.4" fill="none" stroke="#fff3ad" stroke-width="1.45" stroke-linecap="round" opacity=".96"/>
-  <path d="M22.8 80.7C24.1 85.0 27.1 87.4 31.2 87.8" fill="none" stroke="#8b5207" stroke-width="1.0" stroke-linecap="round" opacity=".55"/>
-  <!-- lower gold grommet on cream front -->
-  <circle cx="30.0" cy="113.0" r="10.7" fill="url(#@metal)" stroke="#89520a" stroke-width="1.15"/>
-  <circle cx="30.0" cy="113.0" r="3.7" fill="#3b1f04" stroke="#d9a13a" stroke-width=".9"/>
-  <path d="M24.7 107.5C27.1 105.0 31.4 104.5 34.8 106.5" fill="none" stroke="#fff1a5" stroke-width="1.3" stroke-linecap="round" opacity=".92"/>
-  <!-- long linked ring between both anchors -->
+  <!-- upper metal eyelet on the rear wall -->
+  <circle cx="29.4" cy="77.2" r="11.8" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.8"/>
+  <circle cx="29.4" cy="77.2" r="4.8" fill="#2a1503" stroke="#7b4b0b" stroke-width=".8"/>
+  <path d="M23.8 71.2C26.5 68.6 31.2 68.0 34.9 70.3" fill="none" stroke="#fff3ad" stroke-width="1.35" stroke-linecap="round" opacity=".94"/>
+  <!-- lower front grommet -->
+  <circle cx="29.6" cy="111.0" r="10.8" fill="#3a2108" stroke="url(#@metal)" stroke-width="5.35"/>
+  <circle cx="29.6" cy="111.0" r="4.6" fill="#2b1603" stroke="#7b4b0b" stroke-width=".75"/>
+  <path d="M24.7 105.2C27.1 102.9 31.0 102.3 34.3 104.2" fill="none" stroke="#fff1a5" stroke-width="1.2" stroke-linecap="round" opacity=".90"/>
+  <!-- vertical linked ring -->
   <path d="
-    M29.9 84.6
-    C24.5 85.7 23.0 91.4 23.0 99.1
+    M29.5 84.0
+    C23.9 85.2 22.2 91.2 22.2 99.3
     V102.0
-    C23.0 109.7 25.4 116.0 30.0 118.7
-    C34.6 116.0 37.0 109.7 37.0 102.0
-    V98.7
-    C37.0 91.2 35.5 85.6 29.9 84.6Z"
-    fill="none" stroke="url(#@metal)" stroke-width="5.65" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M27.0 86.9C25.6 91.4 25.3 96.6 25.3 101.5C25.3 106.5 26.6 111.0 28.5 113.5"
-    fill="none" stroke="#fff1a7" stroke-width="1.2" stroke-linecap="round" opacity=".96"/>
+    C22.2 110.3 24.8 116.8 29.7 119.6
+    C34.7 116.8 37.4 110.3 37.4 102.0
+    V98.9
+    C37.4 90.8 35.9 85.0 29.5 84.0Z"
+    fill="none" stroke="url(#@metal)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26.7 86.2C25.2 91.1 24.9 96.7 24.9 101.8C24.9 107.2 26.4 112.1 28.5 114.7"
+    fill="none" stroke="#fff1a7" stroke-width="1.25" stroke-linecap="round" opacity=".95"/>
 </g>
 </svg>`.replace(/@/g,prefix);
 }
@@ -9485,7 +9480,8 @@ function matterFolderShell(){
     <path d="M1 3h.9M7 5h.7M4 10h.55" stroke="#866642" stroke-width=".45" opacity=".020"/>
   </pattern>
 
-  <!-- 5.0.542 — paper-depth correction: sheets moved farther back/right and visually recessed behind the inner tab, matching the approved mockup. -->
+  <!-- 5.0.543 — new approved folder layering: rear wall → papers → large inner tab → cream front → hardware.
+       Papers are deliberately on the back plane; their left/lower edges are hidden by the inner tab. -->
   <path id="@front" d="
     M29 93
     H229
@@ -9548,43 +9544,42 @@ function matterFolderShell(){
   C291 117 301 124 316 127"
   fill="none" stroke="#f3ffff" stroke-opacity=".27" stroke-width="2.05"/>
 
-<!-- Paper stack recessed into the BACK of the folder, matching the approved mockup.
-     Only the upper/right edges are exposed; the light tab and cream front cover the lower/left portions. -->
-<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".9" filter="url(#@paperStackShadow)">
-  <path d="M279 27H353Q362 27 362 34V111H279Z"/>
-  <path d="M269 40H374Q383 40 383 47V117H269Z"/>
-  <path d="M260 53H392Q401 53 401 61V123H260Z"/>
-  <path d="M252 67H405Q414 67 414 75V129H252Z"/>
+<!-- Paper stack on the BACK plane.  The large inner tab is drawn after it and hides the left/lower edges, so the sheets read as contents inside the folder rather than cards on top. -->
+<g fill="url(#@paper)" stroke="#e3d0af" stroke-width=".85" filter="url(#@paperStackShadow)">
+  <path d="M303 25H355Q365 25 365 33V115H303Z"/>
+  <path d="M294 38H377Q387 38 387 46V120H294Z"/>
+  <path d="M286 51H396Q406 51 406 59V126H286Z"/>
+  <path d="M278 64H414Q424 64 424 72V132H278Z"/>
 </g>
-<g fill="none" stroke="#fff" stroke-opacity=".66" stroke-width=".9">
-  <path d="M285 31h65"/>
-  <path d="M275 44h96"/>
-  <path d="M266 57h123"/>
-  <path d="M258 71h143"/>
+<g fill="none" stroke="#fff" stroke-opacity=".62" stroke-width=".85">
+  <path d="M309 29h43"/>
+  <path d="M300 42h74"/>
+  <path d="M292 55h101"/>
+  <path d="M284 68h126"/>
 </g>
 
-<!-- Broad front tab with the smooth right shoulder from the approved mockup. -->
+<!-- Large inner tab is physically IN FRONT OF the paper stack, exactly as in the new approved mockup. -->
 <path d="
   M39 127
   C44 103 52 74 67 50
   C75 37 86 31 101 31
-  H233
-  C248 31 257 38 264 54
-  L286 104
-  C293 120 305 130 322 135
-  L313 127
+  H237
+  C251 31 260 39 267 55
+  L290 104
+  C297 120 309 130 329 135
+  L320 127
   H39Z"
   fill="url(#@tab)" stroke="#fff3d5" stroke-opacity=".92" stroke-width="1.4" filter="url(#@paperShadow)"/>
 <path d="
   M47 118
   C52 96 59 75 72 55
   C79 45 88 41 102 41
-  H228
-  C240 41 248 47 253 59
-  L274 105
-  C280 117 288 123 300 128"
+  H232
+  C244 41 252 48 258 61
+  L279 104
+  C285 116 294 123 307 128"
   fill="none" stroke="#fff" stroke-opacity=".60" stroke-width="1.8" stroke-linecap="round"/>
-<path d="M84 36H225C238 36 246 43 252 57"
+<path d="M84 36H229C242 36 250 44 256 58"
   fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="5.5" stroke-linecap="round"/>
 
 <!-- Main cream cover: same silhouette on every matter, only rear/tab colour changes by type. -->
