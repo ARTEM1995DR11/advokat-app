@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.559';
-var APP_BUILD='5559';
+var APP_VERSION='5.0.560';
+var APP_BUILD='5560';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5559" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5560" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -5448,7 +5448,7 @@ document.addEventListener('click', function(ev){
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
     case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
     case 'matter-scope': S.ui.matterScope=v||'active';S.ui.matterStatus='';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
-    case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();break;
+    case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();if(S.ui.matterSearchOpen){setTimeout(function(){var mq=$('#matter-q');if(mq){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}}},0);}break;
     case 'matter-search-clear': {S.ui.matterQ='';S.ui.matterSearchOpen=true;save();var mq=$('#matter-q');if(mq){mq.value='';var mw=mq.closest('.matters-local-search-field'),mc=mw&&mw.querySelector('.matters-local-search-clear');if(mc)mc.classList.remove('is-visible');refreshMatterSearchResultsOnly();setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(0,0);}catch(_){mq.focus();}},0);}else renderMatters();break;}
     case 'matter-filter-sheet': sheetMatterFilters();break;
     case 'matter-view': {var mv=v||'active';if(mv==='today'||mv==='late'){S.ui.matterScope='active';S.ui.matterStatus=mv;}else{S.ui.matterScope=(mv==='all'||mv==='archive')?mv:'active';S.ui.matterStatus='';}S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;}
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5559',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5560',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,191 +6390,13 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
+/* 5.0.560 CLEAN BASELINE — the visual folder shell is deliberately empty.
+   Matter buttons, IDs, click handlers and all stored matter data remain intact.
+   New approved folder geometry will be rebuilt here layer-by-layer from a clean SVG. */
 function matterFolderShell(){
-  var prefix='folder-shell-'+(++MATTER_FOLDER_SHELL_SEQ)+'-';
-  return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <linearGradient id="@back" x1=".06" y1=".02" x2=".94" y2="1">
-    <stop stop-color="var(--folder-deep)"/>
-    <stop offset=".16" stop-color="var(--folder)"/>
-    <stop offset=".64" stop-color="var(--folder)"/>
-    <stop offset="1" stop-color="var(--folder-deep)"/>
-  </linearGradient>
-  <linearGradient id="@tab" x1=".10" y1="0" x2=".90" y2="1">
-    <stop stop-color="#ffffff" stop-opacity=".10"/>
-    <stop offset=".08" stop-color="var(--folder-light)"/>
-    <stop offset=".73" stop-color="var(--folder-light)"/>
-    <stop offset="1" stop-color="var(--folder)"/>
-  </linearGradient>
-  <linearGradient id="@paper" x1=".08" y1="0" x2=".94" y2="1">
-    <stop stop-color="#fffefb"/>
-    <stop offset=".73" stop-color="#fffdf8"/>
-    <stop offset="1" stop-color="#ead9bb"/>
-  </linearGradient>
-  <linearGradient id="@ivory" x1=".08" y1="0" x2=".90" y2="1">
-    <stop stop-color="#fffdf8"/>
-    <stop offset=".45" stop-color="#fef9ef"/>
-    <stop offset=".83" stop-color="#faefdf"/>
-    <stop offset="1" stop-color="#f1dfc2"/>
-  </linearGradient>
-  <linearGradient id="@edge" x1="0" y1="0" x2="1" y2="1">
-    <stop stop-color="#7f4905"/>
-    <stop offset=".09" stop-color="#d9971e"/>
-    <stop offset=".20" stop-color="#fff0a0"/>
-    <stop offset=".37" stop-color="#bd7610"/>
-    <stop offset=".54" stop-color="#f2c14d"/>
-    <stop offset=".71" stop-color="#a45d09"/>
-    <stop offset=".87" stop-color="#ffe991"/>
-    <stop offset="1" stop-color="#7b4303"/>
-  </linearGradient>
-  <linearGradient id="@metal" x1="0" y1="0" x2="1" y2="1">
-    <stop stop-color="#6a3802"/>
-    <stop offset=".17" stop-color="#dc981f"/>
-    <stop offset=".34" stop-color="#fff2aa"/>
-    <stop offset=".52" stop-color="#995405"/>
-    <stop offset=".72" stop-color="#f0b83b"/>
-    <stop offset=".88" stop-color="#fff0a0"/>
-    <stop offset="1" stop-color="#603100"/>
-  </linearGradient>
-  <radialGradient id="@frontLight" cx=".19" cy=".03" r="1.12">
-    <stop stop-color="#fff" stop-opacity=".50"/>
-    <stop offset=".50" stop-color="#fff" stop-opacity=".12"/>
-    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-  </radialGradient>
-  <linearGradient id="@bottomMass" x1="0" y1="0" x2="0" y2="1">
-    <stop offset=".76" stop-color="#bc8a48" stop-opacity="0"/>
-    <stop offset=".94" stop-color="#a86e26" stop-opacity=".035"/>
-    <stop offset="1" stop-color="#73450c" stop-opacity=".085"/>
-  </linearGradient>
-  <filter id="@rearShadow" x="-12%" y="-24%" width="136%" height="184%">
-    <feDropShadow dx="1.8" dy="4.6" stdDeviation="3.8" flood-color="#3e2811" flood-opacity=".27"/>
-  </filter>
-  <filter id="@paperShadow" x="-18%" y="-40%" width="156%" height="220%">
-    <feDropShadow dx=".8" dy="1.75" stdDeviation="1.5" flood-color="#5b3d1c" flood-opacity=".18"/>
-  </filter>
-  <filter id="@bodyShadow" x="-12%" y="-10%" width="128%" height="138%">
-    <feDropShadow dx="2.1" dy="6.0" stdDeviation="4.8" flood-color="#503016" flood-opacity=".32"/>
-  </filter>
-  <filter id="@hardwareShadow" x="-145%" y="-110%" width="400%" height="350%">
-    <feDropShadow dx="1.0" dy="1.9" stdDeviation="1.35" flood-color="#543000" flood-opacity=".47"/>
-  </filter>
-  <pattern id="@grain" patternUnits="userSpaceOnUse" width="9" height="9">
-    <path d="M1 2.4h1.1M5.8 4.8h.9M3.5 8h.8M1.7 6.7l.8-.4M7.4 8.2l.65-.35" stroke="#7d6040" stroke-width=".42" opacity=".055"/>
-  </pattern>
-  <!-- 5.0.556: front pocket geometry rebuilt against the approved 2×2 mockup. -->
-  <path id="@front" d="
-    M25 92
-    H244
-    C258 92 268 96 278 104
-    C289 113 297 120 312 123
-    H405
-    C425 123 436 135 436 153
-    V421
-    C436 443 425 454 402 454
-    H39
-    C16 454 5 443 5 421
-    V117
-    C5 101 13 92 25 92
-    Z"/>
-  <clipPath id="@clip"><use href="#@front"/></clipPath>
-</defs>
-
-<!-- 5.0.559 STEP 1: rebuild only the rear coloured shell as one physical layer.
-     Geometry is based on the approved folder reference: a broad rounded left shoulder,
-     long calm crown and a distinct rounded right shoulder behind the papers. -->
-<g class="folder-layer folder-layer-back">
-  <path id="@backShell" d="
-    M3 136
-    V82
-    C3 66 8 54 20 45
-    C27 23 47 7 69 2.5
-    C77 1 84 1 93 1
-    H230
-    C246 1 257 7 265 19
-    C273 31 279 46 287 61
-    L309 101
-    C317 116 329 123 347 126
-    H379
-    V70
-    C379 51 389 39 405 38
-    C421 38 432 48 435 63
-    C439 69 439 77 439 86
-    V126
-    C439 134 434 138 424 138
-    H3
-    Z"
-    fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.7" filter="url(#@rearShadow)"/>
-
-  <!-- restrained edge light only; depth/textures are intentionally deferred to a later step -->
-  <path d="M13 126V84C13 70 19 60 30 53C36 36 50 22 68 15C76 12 84 11 94 11H225C238 11 248 17 255 28"
-    fill="none" stroke="#f2ffff" stroke-opacity=".24" stroke-width="1.8" stroke-linecap="round"/>
-  <path d="M389 68C389 55 396 47 405 46C416 46 425 54 427 67C431 72 432 79 432 88"
-    fill="none" stroke="#f2ffff" stroke-opacity=".20" stroke-width="1.35" stroke-linecap="round"/>
-</g>
-
-<!-- Papers remain on the rear plane, with wider stagger like the approved mockup. -->
-<g fill="url(#@paper)" stroke="#ddc8a5" stroke-width=".9" filter="url(#@paperShadow)">
-  <path d="M244 12H351Q360 12 360 21V116H244Z"/>
-  <path d="M254 29H373Q382 29 382 38V122H254Z"/>
-  <path d="M265 46H394Q403 46 403 55V129H265Z"/>
-  <path d="M278 63H411Q420 63 420 72V138H278Z"/>
-</g>
-<g fill="none" stroke="#fff" stroke-opacity=".70" stroke-width="1">
-  <path d="M252 16h99"/><path d="M262 33h111"/><path d="M273 50h121"/><path d="M286 67h125"/>
-</g>
-
-<!-- 5.0.556 inner tab: wider, higher and with a longer natural right descent. -->
-<path d="
-  M38 111
-  C43 88 52 63 67 43
-  C78 29 91 23 108 23
-  H240
-  C257 23 268 31 277 47
-  L309 103
-  C316 115 327 121 343 124
-  H359
-  V132
-  H38
-  Z"
-  fill="url(#@tab)" stroke="#f8f4e7" stroke-opacity=".90" stroke-width="1.35" filter="url(#@paperShadow)"/>
-<path d="M49 103C54 84 62 65 75 47C84 35 96 30 110 30H235C248 30 257 36 264 49L294 102C300 112 310 118 324 121"
-  fill="none" stroke="#fff" stroke-opacity=".54" stroke-width="1.55" stroke-linecap="round"/>
-
-<!-- Taller warm ivory front pocket. -->
-<use href="#@front" fill="url(#@ivory)" stroke="#875006" stroke-width="2.9" filter="url(#@bodyShadow)"/>
-<use href="#@front" fill="none" stroke="url(#@edge)" stroke-width="1.95"/>
-<g clip-path="url(#@clip)">
-  <rect x="5" y="92" width="431" height="362" fill="url(#@frontLight)"/>
-  <rect x="5" y="92" width="431" height="362" fill="url(#@grain)"/>
-  <rect x="5" y="356" width="431" height="98" fill="url(#@bottomMass)"/>
-  <path d="M17 117C17 106 23 98 31 98H241C253 98 263 102 272 109C282 117 290 123 304 128H401C417 128 426 138 426 153V416C426 434 417 444 399 444H42C24 444 15 434 15 416Z"
-    fill="none" stroke="#fffdf7" stroke-opacity=".84" stroke-width="1.45"/>
-</g>
-
-<!-- Metallic top seam follows the rebuilt front contour. -->
-<path d="M25 92H244C258 92 268 96 278 104C289 113 297 120 312 123H405"
-  fill="none" stroke="url(#@edge)" stroke-width="2.15" stroke-linecap="round"/>
-<path d="M30 94H241C253 94 262 98 271 105C280 112 288 118 302 121"
-  fill="none" stroke="#fff1aa" stroke-opacity=".54" stroke-width=".85" stroke-linecap="round"/>
-
-<!-- 5.0.556 hardware: larger grommets and a substantial vertical ring, matching the mockup scale. -->
-<g filter="url(#@hardwareShadow)">
-  <circle cx="29" cy="72" r="11.8" fill="url(#@metal)" stroke="#714006" stroke-width="1.2"/>
-  <circle cx="29" cy="72" r="4.7" fill="#281403" stroke="#aa6c10" stroke-width="1"/>
-  <path d="M23.7 66.9C26.4 64.6 30.9 64.2 34.5 66.3" fill="none" stroke="#fff1a3" stroke-width="1.45" stroke-linecap="round"/>
-
-  <path d="M29 80C23.2 81.5 20.7 87.8 20.7 96.4V102.5C20.7 112.0 23.8 119.6 29 123.2C34.2 119.6 37.3 112.0 37.3 102.5V96.4C37.3 87.8 34.8 81.5 29 80Z"
-    fill="none" stroke="#673603" stroke-width="8.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M29 80C23.2 81.5 20.7 87.8 20.7 96.4V102.5C20.7 112.0 23.8 119.6 29 123.2C34.2 119.6 37.3 112.0 37.3 102.5V96.4C37.3 87.8 34.8 81.5 29 80Z"
-    fill="none" stroke="url(#@metal)" stroke-width="6.1" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M24.7 83.7C23.3 88.5 23.1 95.0 23.1 101.3C23.1 108.1 24.7 113.6 27 116.8"
-    fill="none" stroke="#fff0a0" stroke-width="1.25" stroke-linecap="round" opacity=".96"/>
-
-  <circle cx="29" cy="112" r="9.7" fill="url(#@metal)" stroke="#744206" stroke-width="1.1"/>
-  <circle cx="29" cy="112" r="3.9" fill="#281403" stroke="#aa6b0f" stroke-width=".9"/>
-</g>
-</svg>`.replace(/@/g,prefix);
+  return '<svg class="case-folder-shell case-folder-shell-clean" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"></svg>';
 }
+
 
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
 
