@@ -6,7 +6,7 @@ html body.light #sc-matters {
   color:var(--case-navy)!important;
 }
 #sc-matters .case-page {max-width:900px;margin:0 auto!important;padding:0!important}
-#sc-matters .case-page-header {position:relative;height:calc(382 * var(--case-u));margin:0;padding:0;color:var(--case-navy);flex-shrink:0}
+#sc-matters .case-page-header {position:relative;height:calc(337 * var(--case-u));margin:0;padding:0;color:var(--case-navy);flex-shrink:0}
 #sc-matters .case-page-brand {position:absolute;top:0;left:calc(18 * var(--case-u));display:flex;align-items:center;gap:calc(22 * var(--case-u));white-space:nowrap}
 #sc-matters .case-page-brand>img {display:block;width:calc(96 * var(--case-u));height:calc(90 * var(--case-u));object-fit:contain}
 html body #sc-matters .case-page-brand b {display:block;font:700 calc(39 * var(--case-u))/1.06 'Times New Roman',Times,serif;letter-spacing:calc(-1 * var(--case-u));color:var(--case-navy)!important;text-shadow:none}
@@ -22,8 +22,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
    This is structural spacing, not a hidden/returned view switch. */
 #sc-matters .case-grid-offset {
   display:block!important;
-  height:clamp(30px,7.7vw,36px)!important;
-  min-height:clamp(30px,7.7vw,36px)!important;
+  height:clamp(12px,3.0vw,16px)!important;
+  min-height:clamp(12px,3.0vw,16px)!important;
   width:100%;
   flex:0 0 auto;
   pointer-events:none;
@@ -64,15 +64,15 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .case-folder-host::-webkit-scrollbar {display:none}
 #sc-matters .case-folder-host>.empty {grid-column:1/-1;grid-row:span 2}
 #sc-matters .case-folder {
-  --folder-deep:#078a8d;--folder:#0bb2b4;--folder-light:#4ed0cc;--folder-ink:#087c79;
+  --folder-deep:#07837f;--folder:#0aa9a7;--folder-light:#62d6d0;--folder-ink:#087c79;
   position:relative;isolation:isolate;display:block;box-sizing:border-box;
   width:100%;height:100%;min-width:0;min-height:0;
   margin:0;padding:0;border:0;border-radius:0;
   background:transparent;box-shadow:none;text-align:left;color:#111;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#b20d17;--folder:#df1823;--folder-light:#ef3039;--folder-ink:#a30d14}
-#sc-matters .case-folder-civil {--folder-deep:#0b55c5;--folder:#1670e4;--folder-light:#5ba4f4;--folder-ink:#075aba}
+#sc-matters .case-folder-criminal {--folder-deep:#a90b16;--folder:#d51622;--folder-light:#ef4650;--folder-ink:#a30d14}
+#sc-matters .case-folder-civil {--folder-deep:#0c4fbd;--folder:#176be0;--folder-light:#68aaf5;--folder-ink:#075aba}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;
@@ -296,11 +296,4 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   touch-action:manipulation!important;
 }
 
-/* 5.0.565 — matter folder stage 1+2: only rear shell + separate right shoulder. */
-#sc-matters .case-folder-shell-stage12{
-  display:block!important;
-  width:100%!important;
-  height:100%!important;
-  overflow:visible!important;
-  pointer-events:none!important;
-}
+#sc-matters .case-folder-shell-complete{display:block!important;width:100%!important;height:100%!important;overflow:visible!important;pointer-events:none!important;}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.565';
-var APP_BUILD='5565';
+var APP_VERSION='5.0.566';
+var APP_BUILD='5566';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5565" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5566" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5565',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5566',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,49 +6390,96 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.565 — FOLDER REBUILD: ELEMENTS #1 + #2 ONLY.
-   #1 main rear coloured shell and #2 separate rear-right shoulder are recreated
-   as independent SVG layers using the approved decomposition mockups as the geometry reference.
-   No papers, inner tab, front face, gold trim or hardware are rendered at this stage. */
+/* 5.0.566 — COMPLETE APPROVED FOLDER REBUILD FROM CLEAN 5.0.560 BASELINE.
+   Rebuilt layer-by-layer in one controlled pass:
+   rear shell -> right rear shoulder -> 4 papers -> inner tab -> ivory front -> metallic edge -> hardware -> contact shadow.
+   Matter data stays intact and visually hidden; search/filter/open-matter logic is unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  return '<svg class="case-folder-shell case-folder-shell-stage12" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
-    '<defs>'+ 
-      '<linearGradient id="'+uid+'-main" x1="38" y1="42" x2="390" y2="425" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="var(--folder-light)"/>'+ 
-        '<stop offset="44%" stop-color="var(--folder)"/>'+ 
-        '<stop offset="100%" stop-color="var(--folder-deep)"/>'+ 
-      '</linearGradient>'+ 
-      '<linearGradient id="'+uid+'-shoulder" x1="342" y1="154" x2="434" y2="382" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="var(--folder)"/>'+ 
-        '<stop offset="100%" stop-color="var(--folder-deep)"/>'+ 
-      '</linearGradient>'+ 
-      '<radialGradient id="'+uid+'-mainGlow" cx="26%" cy="9%" r="86%">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.30)"/>'+ 
-        '<stop offset="42%" stop-color="rgba(255,255,255,.07)"/>'+ 
-        '<stop offset="100%" stop-color="rgba(255,255,255,0)"/>'+ 
-      '</radialGradient>'+ 
-      '<linearGradient id="'+uid+'-edge" x1="30" y1="52" x2="402" y2="420" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.60)"/>'+ 
-        '<stop offset="33%" stop-color="rgba(255,255,255,.18)"/>'+ 
-        '<stop offset="100%" stop-color="rgba(0,28,86,.27)"/>'+ 
-      '</linearGradient>'+ 
-      '<filter id="'+uid+'-mainShadow" x="-16%" y="-12%" width="142%" height="145%">'+
-        '<feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#523a15" flood-opacity=".17"/>'+ 
-      '</filter>'+ 
-      '<filter id="'+uid+'-shoulderShadow" x="-30%" y="-20%" width="170%" height="160%">'+
-        '<feDropShadow dx="3" dy="8" stdDeviation="7" flood-color="#15366e" flood-opacity=".20"/>'+ 
-      '</filter>'+ 
-      '<path id="'+uid+'-mainShape" d="M52 132 C52 112 66 97 87 92 C101 89 111 81 118 69 C130 50 148 42 172 42 H278 C300 42 313 51 322 70 L347 121 C354 136 366 144 383 144 H391 C404 144 414 154 414 168 V386 C414 410 395 429 371 429 H66 C41 429 21 409 21 384 V157 C21 143 32 133 52 132 Z"/>'+ 
-      '<path id="'+uid+'-shoulderShape" d="M349 158 H383 C397 158 407 167 413 180 C418 191 426 199 434 204 C440 208 444 216 444 225 V349 C444 366 431 379 414 379 H357 C344 379 335 370 335 357 V176 C335 166 340 160 349 158 Z"/>'+ 
-    '</defs>'+ 
-    '<use href="#'+uid+'-shoulderShape" fill="url(#'+uid+'-shoulder)" filter="url(#'+uid+'-shoulderShadow)"/>'+ 
-    '<use href="#'+uid+'-shoulderShape" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="2.0"/>'+ 
-    '<path d="M349 165 H380 C392 165 400 172 405 183" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.7" stroke-linecap="round"/>'+ 
-    '<use href="#'+uid+'-mainShape" fill="url(#'+uid+'-main)" filter="url(#'+uid+'-mainShadow)"/>'+ 
-    '<use href="#'+uid+'-mainShape" fill="url(#'+uid+'-mainGlow)"/>'+ 
-    '<use href="#'+uid+'-mainShape" fill="none" stroke="url(#'+uid+'-edge)" stroke-width="2.6"/>'+ 
-    '<path d="M42 137 C46 117 62 103 85 98 C102 94 115 85 124 71 C135 55 151 48 173 48 H276 C296 48 308 56 317 74" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2.0" stroke-linecap="round"/>'+ 
+  var front='M33 158 H245 C266 158 277 163 289 177 C301 191 312 194 331 194 H391 C408 194 420 207 420 224 V405 C420 422 408 434 391 434 H47 C30 434 19 422 19 405 V180 C19 167 24 158 33 158 Z';
+  return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs>'+
+      '<linearGradient id="'+uid+'-back" x1="34" y1="27" x2="385" y2="229" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset=".46" style="stop-color:var(--folder)"/>'+
+        '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-tab" x1="67" y1="67" x2="360" y2="190" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset=".64" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset="1" style="stop-color:var(--folder)"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-ivory" x1="67" y1="151" x2="395" y2="437" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0" stop-color="#fffdf6"/>'+
+        '<stop offset=".50" stop-color="#fbf6e9"/>'+
+        '<stop offset="1" stop-color="#f1e7d3"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-paper" x1="185" y1="47" x2="393" y2="181" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0" stop-color="#fffefb"/>'+
+        '<stop offset="1" stop-color="#eee8df"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-gold" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#fff0a0"/>'+
+        '<stop offset=".18" stop-color="#dfaa2f"/>'+
+        '<stop offset=".44" stop-color="#7c4302"/>'+
+        '<stop offset=".70" stop-color="#efbe3e"/>'+
+        '<stop offset="1" stop-color="#714000"/>'+
+      '</linearGradient>'+
+      '<radialGradient id="'+uid+'-grommet" cx="35%" cy="27%" r="76%">'+
+        '<stop offset="0" stop-color="#fff8ba"/>'+
+        '<stop offset=".30" stop-color="#f4c340"/>'+
+        '<stop offset=".62" stop-color="#925105"/>'+
+        '<stop offset=".83" stop-color="#edb92e"/>'+
+        '<stop offset="1" stop-color="#673300"/>'+
+      '</radialGradient>'+
+      '<filter id="'+uid+'-backShadow" x="-16%" y="-18%" width="138%" height="152%"><feDropShadow dx="0" dy="7" stdDeviation="6.5" flood-color="#68410c" flood-opacity=".20"/></filter>'+
+      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="3.2" flood-color="#4f3b27" flood-opacity=".20"/></filter>'+
+      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="5" stdDeviation="4.5" flood-color="#173b69" flood-opacity=".25"/></filter>'+
+      '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
+      '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2.1" flood-color="#3b2400" flood-opacity=".46"/></filter>'+
+      '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
+        '<feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="2" seed="11" result="noise"/>'+
+        '<feColorMatrix in="noise" type="saturate" values="0" result="gray"/>'+
+        '<feComponentTransfer in="gray" result="alpha"><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer>'+
+        '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
+      '</filter>'+
+    '</defs>'+
+
+    '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
+
+    '<path d="M19 165 V104 C19 84 33 68 52 64 C61 62 67 57 73 48 C83 34 98 29 118 29 H260 C281 29 293 38 302 57 L327 111 C334 126 344 135 358 135 H386 C405 135 419 149 419 167 V264 H19 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M28 108 C28 89 39 78 56 75 C68 72 72 65 80 54 C88 42 101 38 118 38 H257 C273 38 284 45 292 60" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2.4" stroke-linecap="round"/>'+
+
+    '<path d="M369 92 H393 C408 92 420 104 420 119 V131 C420 138 424 142 430 146 C437 151 439 160 439 170 V244 C439 259 428 270 413 270 H369 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M377 100 H392 C403 100 411 108 411 119" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.8" stroke-linecap="round"/>'+
+
+    '<path d="M203 49 H354 C360 49 363 52 363 58 V154 H197 V56 C197 52 199 50 203 49 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M191 61 H373 C378 61 381 64 381 69 V161 H185 V68 C185 64 188 62 191 61 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M180 75 H389 C394 75 397 78 397 83 V168 H174 V82 C174 78 177 76 180 75 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M168 91 H377 C382 91 385 94 385 99 V178 H163 V98 C163 94 165 92 168 91 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<g opacity=".30" stroke="#d4cdc3" stroke-width="1"><path d="M214 62 H350"/><path d="M202 74 H367"/><path d="M192 88 H383"/><path d="M183 104 H371"/></g>'+
+
+    '<path d="M63 159 V106 C63 85 79 69 101 69 H240 C267 69 281 79 292 103 L317 151 C325 166 336 174 353 179 H390 V203 H57 V159 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M74 107 C74 90 86 79 103 79 H239 C258 79 269 85 278 103" fill="none" stroke="rgba(255,255,255,.43)" stroke-width="2.1" stroke-linecap="round"/>'+
+
+    '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
+    '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
+    '<path d="M34 164 H244 C262 164 271 168 282 181" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+
+    '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
+    '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
+    '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
+
+    '<g filter="url(#'+uid+'-hwShadow)">'+
+      '<circle cx="43" cy="137" r="12.2" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.7"/>'+
+      '<circle cx="43" cy="137" r="5.5" fill="#573004" stroke="#2c1701" stroke-width="1.2"/>'+
+      '<circle cx="43" cy="137" r="8.6" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".86"/>'+
+      '<path d="M43 143 C37 143 35 150 35 157 V164 C35 171 38 176 43 176 C49 176 52 171 52 165 V153 C52 147 49 143 43 143 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.6"/>'+
+      '<path d="M40 147 C38 152 38 158 38 164 C38 168 40 171 42 172" fill="none" stroke="#fff2ac" stroke-width="1.6" stroke-linecap="round" opacity=".90"/>'+
+      '<circle cx="43" cy="178" r="11.2" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.7"/>'+
+      '<circle cx="43" cy="178" r="5" fill="#552d03" stroke="#2a1601" stroke-width="1.1"/>'+
+      '<circle cx="43" cy="178" r="8" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".84"/>'+
+    '</g>'+
   '</svg>';
 }
 
