@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.574';
-var APP_BUILD='5574';
+var APP_VERSION='5.0.575';
+var APP_BUILD='5575';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5574" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5575" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5574',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5575',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,14 +6391,13 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.574 — STAGE 2 RESTARTED FROM APPROVED 5.0.572 BASELINE.
-   Only the ivory front-face contour and the gold trim that follows it are changed.
-   The front face is lifted substantially to match the approved mockup: longer high left run,
-   later/shallower smooth descent, and a short higher right shoulder.
-   Grid, rear shell, papers, inner tab, hardware and matter logic remain unchanged. */
+/* 5.0.575 — corrected Stage 1 baseline + Stage 2 front-face profile.
+   The tall 5.0.571/572 grid distortion is removed. Stage 2 changes only the front face TOP CONTOUR:
+   longer high left run, later and shallower smooth descent, higher short right shoulder.
+   The front face is NOT lifted over the hardware; ring relation remains intact. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M31 120 H260 C279 120 289 124 300 135 C311 146 322 149 340 149 H392 C409 149 421 161 421 178 V406 C421 423 409 435 392 435 H46 C29 435 18 423 18 406 V142 C18 129 23 120 31 120 Z';
+  var front='M33 158 H268 C284 158 295 162 306 171 C317 180 329 183 347 183 H391 C408 183 420 196 420 213 V405 C420 422 408 434 391 434 H47 C30 434 19 422 19 405 V180 C19 167 24 158 33 158 Z';
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="34" y1="27" x2="385" y2="229" gradientUnits="userSpaceOnUse">'+
@@ -6467,7 +6466,7 @@ function matterFolderShell(){
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M33 126 H259 C275 126 284 130 295 140" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+    '<path d="M34 164 H266 C281 164 290 167 300 175" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
