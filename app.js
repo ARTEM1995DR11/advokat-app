@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.583';
-var APP_BUILD='5583';
+var APP_VERSION='5.0.584';
+var APP_BUILD='5584';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5583" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5584" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5583',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5584',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,10 +6391,10 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.583 — FINAL STAGE 3: rear coloured shell + inner tab only.
-   Rear shell is made visibly more massive at the crown/left shoulder, the right rear shoulder is compacted and rounded,
-   the inner coloured tab gets a calmer long top and softer right descent, and the depth split between both coloured layers is strengthened.
-   Front ivory face, gold hardware, papers, grid, search and matter logic are intentionally unchanged. */
+/* 5.0.584 — FINAL STAGE 3 LOCK: rear coloured shell + inner tab only.
+   The rear shell has a fuller rounded crown and clearer dark depth, the right rear shoulder is wider at the top but shorter/rounder,
+   and the inner coloured tab is slightly taller with a longer quiet top and a later, softer descent.
+   Front ivory face, gold hardware, papers, grid, search and matter logic are intentionally unchanged from the approved Stage 2 baseline. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M34 143 H284 C301 143 312 147 323 156 C334 165 346 168 363 168 H393 C409 168 420 179 420 195 V409 C420 425 409 436 393 436 H47 C31 436 20 425 20 409 V160 C20 150 26 143 34 143 Z';
@@ -6402,14 +6402,14 @@ function matterFolderShell(){
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="42" y1="22" x2="391" y2="218" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder)"/>'+
-        '<stop offset=".34" style="stop-color:var(--folder)"/>'+
-        '<stop offset=".78" style="stop-color:var(--folder-deep)"/>'+
+        '<stop offset=".30" style="stop-color:var(--folder)"/>'+
+        '<stop offset=".72" style="stop-color:var(--folder-deep)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
       '<linearGradient id="'+uid+'-tab" x1="72" y1="66" x2="350" y2="183" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".55" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".86" style="stop-color:var(--folder)"/>'+
+        '<stop offset=".62" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset=".88" style="stop-color:var(--folder)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
       '<linearGradient id="'+uid+'-ivory" x1="67" y1="150" x2="395" y2="437" gradientUnits="userSpaceOnUse">'+
@@ -6435,9 +6435,9 @@ function matterFolderShell(){
         '<stop offset=".83" stop-color="#edb92e"/>'+
         '<stop offset="1" stop-color="#673300"/>'+
       '</radialGradient>'+
-      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.2" flood-color="#17334e" flood-opacity=".30"/></filter>'+
+      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.5" flood-color="#17334e" flood-opacity=".34"/></filter>'+
       '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.8" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
-      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="6" stdDeviation="4.2" flood-color="#173b69" flood-opacity=".34"/></filter>'+
+      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="6" stdDeviation="4.4" flood-color="#173b69" flood-opacity=".30"/></filter>'+
       '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
       '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#3b2400" flood-opacity=".44"/></filter>'+
       '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
@@ -6451,11 +6451,11 @@ function matterFolderShell(){
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M18 176 V104 C18 82 32 65 52 60 C66 56 74 48 84 38 C96 26 112 22 133 22 H270 C292 22 306 30 317 48 L340 88 C349 103 362 111 379 113 H389 C406 113 418 126 418 143 V226 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M29 108 C29 90 41 78 59 74 C72 71 80 64 90 53 C101 41 114 35 132 35 H265 C281 35 292 41 301 55" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2.0" stroke-linecap="round"/>'+
+    '<path d="M18 176 V101 C18 79 32 62 53 57 C68 53 77 44 88 34 C100 23 116 19 137 19 H271 C293 19 307 27 318 45 L341 84 C350 99 363 107 380 109 H390 C407 109 418 122 418 139 V226 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M29 105 C29 87 41 75 60 71 C73 68 82 60 92 49 C103 38 116 32 134 32 H266 C282 32 293 38 302 52" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.8" stroke-linecap="round"/>'+
 
-    '<path d="M382 107 H396 C408 107 417 116 417 128 V137 C417 143 420 148 424 152 C428 156 430 161 430 168 V184 C430 195 422 203 411 203 H382 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M388 114 H395 C402 114 407 119 407 126" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.35" stroke-linecap="round"/>'+
+    '<path d="M374 104 H397 C410 104 419 114 419 127 V136 C419 142 422 146 427 150 C432 154 434 160 434 167 V177 C434 188 426 196 415 196 H374 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M381 112 H397 C405 112 411 118 411 126" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.25" stroke-linecap="round"/>'+
 
     '<path d="M214 44 H362 C368 44 372 48 372 54 V145 H208 V50 C208 46 211 44 214 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<path d="M202 58 H376 C382 58 386 62 386 68 V158 H196 V64 C196 60 199 58 202 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
@@ -6463,9 +6463,9 @@ function matterFolderShell(){
     '<path d="M175 90 H383 C389 90 393 94 393 100 V182 H169 V96 C169 92 172 90 175 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M226 64 H345"/><path d="M213 80 H366"/><path d="M198 97 H387"/><path d="M185 113 H378"/></g>'+
 
-    '<path d="M57 160 V108 C57 84 75 66 100 66 H248 C267 66 280 73 290 88 L311 120 C321 135 334 145 351 150 H382 V169 H56 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M70 109 C70 92 84 81 102 81 H246 C262 81 273 86 281 98" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5" stroke-linecap="round"/>'+
-    '<path d="M291 91 C297 99 304 110 311 120 C320 134 333 143 349 149" fill="none" stroke="rgba(17,77,126,.13)" stroke-width="1.55" stroke-linecap="round"/>'+
+    '<path d="M57 160 V103 C57 80 75 62 100 62 H253 C272 62 285 69 295 84 L316 116 C326 131 338 140 354 145 H384 V169 H56 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M70 104 C70 87 84 76 102 76 H251 C267 76 278 81 286 93" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.35" stroke-linecap="round"/>'+
+    '<path d="M296 87 C302 95 309 106 316 116 C325 129 337 138 353 144" fill="none" stroke="rgba(17,77,126,.12)" stroke-width="1.45" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
