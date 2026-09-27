@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.584';
-var APP_BUILD='5584';
+var APP_VERSION='5.0.585';
+var APP_BUILD='5585';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5584" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5585" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5584',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5585',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,10 +6391,10 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.584 — FINAL STAGE 3 LOCK: rear coloured shell + inner tab only.
-   The rear shell has a fuller rounded crown and clearer dark depth, the right rear shoulder is wider at the top but shorter/rounder,
-   and the inner coloured tab is slightly taller with a longer quiet top and a later, softer descent.
-   Front ivory face, gold hardware, papers, grid, search and matter logic are intentionally unchanged from the approved Stage 2 baseline. */
+/* 5.0.585 — STAGE 3 FINAL GEOMETRY LOCK.
+   Rear coloured shell and inner tab are compacted vertically to the approved mockup proportions:
+   lower/cleaner rear crown, inner tab shifted down with a longer quiet top, softer later descent,
+   and a shorter rounded right rear shoulder. Front face, gold hardware, papers, grid/search and matter logic remain unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M34 143 H284 C301 143 312 147 323 156 C334 165 346 168 363 168 H393 C409 168 420 179 420 195 V409 C420 425 409 436 393 436 H47 C31 436 20 425 20 409 V160 C20 150 26 143 34 143 Z';
@@ -6435,7 +6435,7 @@ function matterFolderShell(){
         '<stop offset=".83" stop-color="#edb92e"/>'+
         '<stop offset="1" stop-color="#673300"/>'+
       '</radialGradient>'+
-      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.5" flood-color="#17334e" flood-opacity=".34"/></filter>'+
+      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.5" flood-color="#17334e" flood-opacity=".30"/></filter>'+
       '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.8" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
       '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="6" stdDeviation="4.4" flood-color="#173b69" flood-opacity=".30"/></filter>'+
       '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
@@ -6451,11 +6451,11 @@ function matterFolderShell(){
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M18 176 V101 C18 79 32 62 53 57 C68 53 77 44 88 34 C100 23 116 19 137 19 H271 C293 19 307 27 318 45 L341 84 C350 99 363 107 380 109 H390 C407 109 418 122 418 139 V226 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M29 105 C29 87 41 75 60 71 C73 68 82 60 92 49 C103 38 116 32 134 32 H266 C282 32 293 38 302 52" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.8" stroke-linecap="round"/>'+
+    '<path d="M18 176 V123 C18 103 31 88 52 83 C67 79 76 72 87 63 C99 53 115 49 136 49 H274 C294 49 307 57 317 72 L339 105 C348 119 361 127 378 129 H390 C407 129 418 142 418 159 V226 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M29 124 C29 108 40 97 59 93 C72 90 81 83 91 74 C102 64 115 59 133 59 H269 C284 59 295 64 304 76" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
 
-    '<path d="M374 104 H397 C410 104 419 114 419 127 V136 C419 142 422 146 427 150 C432 154 434 160 434 167 V177 C434 188 426 196 415 196 H374 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M381 112 H397 C405 112 411 118 411 126" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.25" stroke-linecap="round"/>'+
+    '<path d="M375 120 H397 C409 120 418 130 418 143 V150 C418 156 421 160 426 164 C431 168 433 174 433 181 V187 C433 198 425 206 414 206 H375 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M382 128 H397 C404 128 410 134 410 142" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.15" stroke-linecap="round"/>'+
 
     '<path d="M214 44 H362 C368 44 372 48 372 54 V145 H208 V50 C208 46 211 44 214 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<path d="M202 58 H376 C382 58 386 62 386 68 V158 H196 V64 C196 60 199 58 202 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
@@ -6463,9 +6463,9 @@ function matterFolderShell(){
     '<path d="M175 90 H383 C389 90 393 94 393 100 V182 H169 V96 C169 92 172 90 175 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M226 64 H345"/><path d="M213 80 H366"/><path d="M198 97 H387"/><path d="M185 113 H378"/></g>'+
 
-    '<path d="M57 160 V103 C57 80 75 62 100 62 H253 C272 62 285 69 295 84 L316 116 C326 131 338 140 354 145 H384 V169 H56 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M70 104 C70 87 84 76 102 76 H251 C267 76 278 81 286 93" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.35" stroke-linecap="round"/>'+
-    '<path d="M296 87 C302 95 309 106 316 116 C325 129 337 138 353 144" fill="none" stroke="rgba(17,77,126,.12)" stroke-width="1.45" stroke-linecap="round"/>'+
+    '<path d="M64 160 V116 C64 96 80 81 102 81 H267 C286 81 299 88 309 102 L328 127 C337 139 348 146 362 149 H384 V169 H58 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M76 116 C76 101 88 91 104 91 H264 C279 91 290 96 298 106" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2" stroke-linecap="round"/>'+
+    '<path d="M310 103 C316 111 322 119 328 127 C337 139 348 146 361 149" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.25" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
