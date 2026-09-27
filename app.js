@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.557';
-var APP_BUILD='5557';
+var APP_VERSION='5.0.558';
+var APP_BUILD='5558';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5557" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5558" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5557',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5558',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6479,31 +6479,30 @@ function matterFolderShell(){
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- 5.0.557 STEP 1: rear body only — broader left shoulder, calmer crown and a higher independent right shoulder. -->
+<!-- 5.0.558 STEP 1B: rear body refined from the real iPhone 5.0.557 screenshot against the approved mockup. -->
 <path d="
-  M2 133
-  V79
-  C2 62 9 51 22 42
-  C29 24 46 9 67 2
-  C72 1 76 1 81 1
-  H238
-  C255 1 267 10 276 27
-  L312 91
-  C322 108 337 116 357 119
-  H379
-  V63
-  C379 48 389 40 402 40
-  H410
-  C424 40 433 49 434 62
-  C438 67 439 76 439 88
-  V125
-  C439 135 433 139 422 140
+  M2 132
+  V80
+  C2 64 8 53 20 44
+  C27 22 47 6 70 1.5
+  C76 .5 82 .5 89 .5
+  H232
+  C246 .5 257 6 265 18
+  C275 33 282 50 291 66
+  L309 98
+  C318 113 331 119 350 121
+  H382
+  V69
+  C382 51 392 40 407 39
+  C424 39 436 51 436 69
+  V124
+  C436 132 431 136 421 136
   H2
   Z"
   fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.6" filter="url(#@rearShadow)"/>
-<path d="M12 126V81C12 68 19 58 31 51C36 37 47 26 61 18C68 14 76 12 85 12H229C242 12 251 19 258 33"
+<path d="M12 124V82C12 69 18 59 29 52C35 35 49 21 67 14C74 11 82 10 91 10H227C239 10 249 16 256 27"
   fill="none" stroke="#efffff" stroke-opacity=".26" stroke-width="2" stroke-linecap="round"/>
-<path d="M390 62C390 53 395 48 402 47H407C415 47 420 52 421 60C428 63 432 70 432 81"
+<path d="M392 66C392 54 398 47 407 46C418 46 427 54 428 67C432 72 433 79 433 87"
   fill="none" stroke="#efffff" stroke-opacity=".22" stroke-width="1.5" stroke-linecap="round"/>
 
 <!-- Papers remain on the rear plane, with wider stagger like the approved mockup. -->
