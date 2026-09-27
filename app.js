@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.566';
-var APP_BUILD='5566';
+var APP_VERSION='5.0.567';
+var APP_BUILD='5567';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5566" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5567" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5566',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5567',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,7 +6390,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.566 — COMPLETE APPROVED FOLDER REBUILD FROM CLEAN 5.0.560 BASELINE.
+/* 5.0.567 — COMPLETE APPROVED FOLDER REBUILD FROM CLEAN 5.0.560 BASELINE.
    Rebuilt layer-by-layer in one controlled pass:
    rear shell -> right rear shoulder -> 4 papers -> inner tab -> ivory front -> metallic edge -> hardware -> contact shadow.
    Matter data stays intact and visually hidden; search/filter/open-matter logic is unchanged. */
