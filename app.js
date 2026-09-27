@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.577';
-var APP_BUILD='5577';
+var APP_VERSION='5.0.578';
+var APP_BUILD='5578';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5577" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5578" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5577',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5578',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,12 +6391,12 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.577 — Stage 2 FINAL refinement against the approved close-up mockup.
-   Front face mass/top contour, hardware seating, paper fan and right rear shoulder are tuned together.
-   Stage 1 grid/search geometry and all matter business logic remain untouched. */
+/* 5.0.578 — Stage 2 FINAL lock against the approved close-up mockup.
+   Final pass only on the folder shell: slightly fuller ivory face, softer/later top descent, larger elongated gold hardware,
+   clearer staggered paper sheets, and a tighter right rear shoulder. Stage 1 grid/search geometry is unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M34 148 H276 C293 148 304 152 314 160 C324 168 336 172 354 172 H392 C408 172 419 183 419 199 V408 C419 424 408 436 392 436 H47 C31 436 20 424 20 408 V165 C20 155 26 148 34 148 Z';
+  var front='M34 143 H284 C301 143 312 147 323 156 C334 165 346 168 363 168 H393 C409 168 420 179 420 195 V409 C420 425 409 436 393 436 H47 C31 436 20 425 20 409 V160 C20 150 26 143 34 143 Z';
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="34" y1="27" x2="385" y2="229" gradientUnits="userSpaceOnUse">'+
@@ -6451,35 +6451,35 @@ function matterFolderShell(){
     '<path d="M19 165 V104 C19 84 33 68 52 64 C61 62 67 57 73 48 C83 34 98 29 118 29 H260 C281 29 293 38 302 57 L327 111 C334 126 344 135 358 135 H382 C401 135 415 149 415 167 V264 H19 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
     '<path d="M28 108 C28 89 39 78 56 75 C68 72 72 65 80 54 C88 42 101 38 118 38 H257 C273 38 284 45 292 60" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2.4" stroke-linecap="round"/>'+
 
-    '<path d="M378 98 H393 C406 98 415 108 415 121 V129 C415 135 418 139 423 143 C429 148 431 156 431 165 V224 C431 238 421 248 408 248 H378 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M384 106 H393 C402 106 409 113 409 122" fill="none" stroke="rgba(255,255,255,.23)" stroke-width="1.65" stroke-linecap="round"/>'+
+    '<path d="M384 101 H396 C407 101 415 110 415 122 V129 C415 135 418 139 422 143 C427 147 429 154 429 163 V216 C429 229 420 238 408 238 H384 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M389 108 H396 C404 108 410 114 410 122" fill="none" stroke="rgba(255,255,255,.23)" stroke-width="1.55" stroke-linecap="round"/>'+
 
-    '<path d="M214 54 H351 Q358 54 358 61 V146 H208 V61 Q208 55 214 54 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M201 65 H370 Q377 65 377 72 V155 H195 V72 Q195 66 201 65 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M188 78 H389 Q396 78 396 85 V165 H182 V85 Q182 79 188 78 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M176 92 H398 Q405 92 405 99 V174 H170 V99 Q170 93 176 92 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<g opacity=".20" stroke="#d6cfc5" stroke-width=".9"><path d="M222 66 H347"/><path d="M209 78 H365"/><path d="M196 91 H384"/><path d="M184 105 H392"/></g>'+
+    '<path d="M221 51 H351 Q357 51 357 58 V143 H215 V58 Q215 52 221 51 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M205 63 H373 Q379 63 379 70 V153 H199 V70 Q199 64 205 63 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M191 77 H392 Q398 77 398 84 V164 H185 V84 Q185 78 191 77 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M178 93 H384 Q390 93 390 100 V173 H172 V100 Q172 94 178 93 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M228 64 H347"/><path d="M213 76 H368"/><path d="M199 90 H387"/><path d="M186 106 H378"/></g>'+
 
     '<path d="M63 159 V106 C63 85 79 69 101 69 H240 C267 69 281 79 292 103 L317 151 C325 166 336 174 353 179 H389 V203 H57 V159 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
     '<path d="M74 107 C74 90 86 79 103 79 H239 C258 79 269 85 278 103" fill="none" stroke="rgba(255,255,255,.43)" stroke-width="2.1" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M35 154 H274 C290 154 300 157 309 164" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+    '<path d="M35 149 H282 C298 149 308 152 317 159" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
 
     '<g filter="url(#'+uid+'-hwShadow)">'+
-      '<circle cx="40.5" cy="130.5" r="11.8" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
-      '<circle cx="40.5" cy="130.5" r="5.15" fill="#573004" stroke="#2c1701" stroke-width="1.05"/>'+
-      '<circle cx="40.5" cy="130.5" r="8.25" fill="none" stroke="#fff0a1" stroke-width="1.35" opacity=".86"/>'+
-      '<path d="M40.5 136.8 C35.8 136.8 34.5 143.2 34.5 150 V158.5 C34.5 165.2 36.9 169.5 40.5 169.5 C45 169.5 47.5 165 47.5 158.9 V146.3 C47.5 140.9 45.4 136.8 40.5 136.8 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.45"/>'+
-      '<path d="M37.9 140.7 C36.4 145.1 36.5 151.4 36.5 157.8 C36.5 162.4 38.3 165.8 40.1 167.1" fill="none" stroke="#fff2ac" stroke-width="1.4" stroke-linecap="round" opacity=".90"/>'+
-      '<circle cx="40.5" cy="171.2" r="10.3" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.55"/>'+
-      '<circle cx="40.5" cy="171.2" r="4.55" fill="#552d03" stroke="#2a1601" stroke-width="1.0"/>'+
-      '<circle cx="40.5" cy="171.2" r="7.45" fill="none" stroke="#fff0a1" stroke-width="1.2" opacity=".84"/>'+
+      '<circle cx="41.5" cy="126.5" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
+      '<circle cx="41.5" cy="126.5" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
+      '<circle cx="41.5" cy="126.5" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
+      '<path d="M41.5 133.3 C36.2 133.3 34.2 140.4 34.2 148.2 V162.5 C34.2 170.4 36.8 175.8 41.5 175.8 C46.9 175.8 49.6 170.5 49.6 163 V143.8 C49.6 137.5 46.9 133.3 41.5 133.3 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
+      '<path d="M38.4 137.5 C36.8 143 36.9 150.4 36.9 157.7 C36.9 164.1 38.9 169 41 170.8" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
+      '<circle cx="41.5" cy="178.5" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
+      '<circle cx="41.5" cy="178.5" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
+      '<circle cx="41.5" cy="178.5" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
     '</g>'+
     '</g>'+
   '</svg>';
