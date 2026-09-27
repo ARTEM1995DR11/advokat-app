@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.560';
-var APP_BUILD='5560';
+var APP_VERSION='5.0.561';
+var APP_BUILD='5561';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5560" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5561" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5560',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5561',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,11 +6390,43 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.560 CLEAN BASELINE — the visual folder shell is deliberately empty.
-   Matter buttons, IDs, click handlers and all stored matter data remain intact.
-   New approved folder geometry will be rebuilt here layer-by-layer from a clean SVG. */
+/* 5.0.561 — FOLDER REBUILD STAGE 1.
+   Only element #1 is rendered: the main rear coloured shell body.
+   All matter business logic, buttons and data remain intact; the search hit-area fix from 5.0.560 is preserved. */
 function matterFolderShell(){
-  return '<svg class="case-folder-shell case-folder-shell-clean" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"></svg>';
+  var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
+  return '<svg class="case-folder-shell case-folder-shell-stage1" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs>'+
+      '<linearGradient id="'+uid+'-rearFill" x1="38" y1="72" x2="374" y2="410" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="var(--folder-light)"/>'+
+        '<stop offset="46%" stop-color="var(--folder)"/>'+
+        '<stop offset="100%" stop-color="var(--folder-deep)"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-rearEdge" x1="38" y1="52" x2="376" y2="432" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.78)"/>'+
+        '<stop offset="28%" stop-color="rgba(255,255,255,.22)"/>'+
+        '<stop offset="72%" stop-color="rgba(10,53,120,.12)"/>'+
+        '<stop offset="100%" stop-color="rgba(4,34,83,.34)"/>'+
+      '</linearGradient>'+
+      '<radialGradient id="'+uid+'-sheen" cx="34%" cy="16%" r="82%">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.34)"/>'+
+        '<stop offset="38%" stop-color="rgba(255,255,255,.10)"/>'+
+        '<stop offset="100%" stop-color="rgba(255,255,255,0)"/>'+
+      '</radialGradient>'+
+      '<filter id="'+uid+'-shadow" x="-14%" y="-10%" width="132%" height="140%">'+
+        '<feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#6b460d" flood-opacity=".18"/>'+
+      '</filter>'+
+      '<filter id="'+uid+'-soft" x="-10%" y="-10%" width="120%" height="120%">'+
+        '<feGaussianBlur stdDeviation="1.2"/>'+
+      '</filter>'+
+      '<path id="'+uid+'-rearShape" d="M56 118 C58 98 73 84 95 84 H248 C276 84 289 94 302 120 L331 176 C339 191 351 199 367 199 H392 C410 199 424 213 424 231 V374 C424 399 404 419 379 419 H71 C45 419 24 398 24 372 V146 C24 128 37 116 56 118 Z"/>'+
+    '</defs>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearFill)" filter="url(#'+uid+'-shadow)"/>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-sheen)" opacity=".92"/>'+
+    '<use href="#'+uid+'-rearShape" fill="none" stroke="url(#'+uid+'-rearEdge)" stroke-width="3.2"/>'+
+    '<path d="M46 126 C51 101 70 92 95 92 H248 C270 92 282 102 295 124" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2.3" stroke-linecap="round" filter="url(#'+uid+'-soft)"/>'+
+    '<path d="M333 182 C340 192 350 197 363 197 H390" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2" stroke-linecap="round"/>'+
+  '</svg>';
 }
 
 
