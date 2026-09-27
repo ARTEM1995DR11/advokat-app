@@ -22,8 +22,8 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
    This is structural spacing, not a hidden/returned view switch. */
 #sc-matters .case-grid-offset {
   display:block!important;
-  height:clamp(58px,14.5vw,68px)!important;
-  min-height:clamp(58px,14.5vw,68px)!important;
+  height:clamp(30px,7.7vw,36px)!important;
+  min-height:clamp(30px,7.7vw,36px)!important;
   width:100%;
   flex:0 0 auto;
   pointer-events:none;
@@ -44,14 +44,15 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 }
 #sc-matters .case-grid-offset>.matters-approved-search-open .matters-approved-search{margin:0!important;}
 
-/* 5.0.541 — folder shell, precision pass against the approved reference.
-   Empty shell retained; rear wall, left ring block, paper stack and shoulder contour refined in code. */
+/* 5.0.557 — STEP 1 rear-body geometry; grid/chrome intentionally unchanged.
+   Previous shell alignment baseline: 5.0.556.
+   Folder geometry is tightened toward the approved mockup while page chrome and business logic stay untouched. */
 #sc-matters .matters-approved-list.case-folder-host.is-grid {
   --folder-gap:calc(24 * var(--case-u));
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
   grid-auto-rows:calc((100% - var(--folder-gap)) / 2);
-  aspect-ratio:904 / 1004;
+  aspect-ratio:904 / 942;
   gap:var(--folder-gap)!important;
   margin:0!important;padding:0!important;
   align-items:stretch;
@@ -63,15 +64,15 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 #sc-matters .case-folder-host::-webkit-scrollbar {display:none}
 #sc-matters .case-folder-host>.empty {grid-column:1/-1;grid-row:span 2}
 #sc-matters .case-folder {
-  --folder-deep:#048e8c;--folder:#19bdb9;--folder-light:#c4f6ef;--folder-ink:#087c79;
+  --folder-deep:#078a8d;--folder:#0bb2b4;--folder-light:#4ed0cc;--folder-ink:#087c79;
   position:relative;isolation:isolate;display:block;box-sizing:border-box;
   width:100%;height:100%;min-width:0;min-height:0;
   margin:0;padding:0;border:0;border-radius:0;
   background:transparent;box-shadow:none;text-align:left;color:#111;
   cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#aa2529;--folder:#e35453;--folder-light:#ffcec4;--folder-ink:#ab181c}
-#sc-matters .case-folder-civil {--folder-deep:#1161c1;--folder:#338df3;--folder-light:#d1ecff;--folder-ink:#075aba}
+#sc-matters .case-folder-criminal {--folder-deep:#b20d17;--folder:#df1823;--folder-light:#ef3039;--folder-ink:#a30d14}
+#sc-matters .case-folder-civil {--folder-deep:#0b55c5;--folder:#1670e4;--folder-light:#5ba4f4;--folder-ink:#075aba}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;
