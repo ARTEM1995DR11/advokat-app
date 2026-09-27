@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.571';
-var APP_BUILD='5571';
+var APP_VERSION='5.0.572';
+var APP_BUILD='5572';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6445,7 +6445,7 @@ function matterFolderShell(){
         '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
       '</filter>'+
     '</defs>'+
-    '<g transform="translate(18 -8) scale(.92 1.07)">'+
+    '<g transform="translate(-4 -9) scale(1.02 1.04)">'+
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
