@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.563';
-var APP_BUILD='5563';
+var APP_VERSION='5.0.564';
+var APP_BUILD='5564';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5563" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5564" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5563',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5564',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,62 +6390,39 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.563 — FOLDER REBUILD STAGE 2.
-   Elements #1 and #2 only: main rear coloured shell + separate right rear shoulder.
-   The right shoulder is its own SVG layer so future paper sheets can sit between it and the front layers. */
+/* 5.0.564 — FOLDER REBUILD, ELEMENT #1 ONLY.
+   Rebuilt from the approved full-folder reference, not from the generated decomposition sheet.
+   This stage draws only the visible upper mass of the rear coloured shell. All later layers stay absent. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  return '<svg class="case-folder-shell case-folder-shell-stage2" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
+  return '<svg class="case-folder-shell case-folder-shell-stage1-ref" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
-      '<linearGradient id="'+uid+'-rearFill" x1="54" y1="78" x2="348" y2="420" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-rear" x1="50" y1="76" x2="354" y2="252" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0%" stop-color="var(--folder-light)"/>'+
-        '<stop offset="43%" stop-color="var(--folder)"/>'+
+        '<stop offset="42%" stop-color="var(--folder)"/>'+
         '<stop offset="100%" stop-color="var(--folder-deep)"/>'+
       '</linearGradient>'+
-      '<radialGradient id="'+uid+'-rearGlow" cx="30%" cy="14%" r="74%">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.36)"/>'+
-        '<stop offset="28%" stop-color="rgba(255,255,255,.13)"/>'+
-        '<stop offset="62%" stop-color="rgba(255,255,255,.03)"/>'+
+      '<radialGradient id="'+uid+'-rearGlow" cx="31%" cy="9%" r="92%">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.24)"/>'+
+        '<stop offset="36%" stop-color="rgba(255,255,255,.06)"/>'+
         '<stop offset="100%" stop-color="rgba(255,255,255,0)"/>'+
       '</radialGradient>'+
-      '<linearGradient id="'+uid+'-rearEdge" x1="34" y1="84" x2="365" y2="426" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.48)"/>'+
-        '<stop offset="24%" stop-color="rgba(255,255,255,.20)"/>'+
-        '<stop offset="82%" stop-color="rgba(3,31,81,.17)"/>'+
-        '<stop offset="100%" stop-color="rgba(2,18,51,.30)"/>'+
+      '<linearGradient id="'+uid+'-edge" x1="42" y1="84" x2="390" y2="250" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.46)"/>'+
+        '<stop offset="34%" stop-color="rgba(255,255,255,.12)"/>'+
+        '<stop offset="100%" stop-color="rgba(0,25,72,.22)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-shoulderFill" x1="348" y1="125" x2="426" y2="310" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="var(--folder)"/>'+
-        '<stop offset="56%" stop-color="var(--folder-deep)"/>'+
-        '<stop offset="100%" stop-color="color-mix(in srgb,var(--folder-deep) 86%,#031d55 14%)"/>'+
-      '</linearGradient>'+
-      '<linearGradient id="'+uid+'-shoulderEdge" x1="349" y1="122" x2="423" y2="305" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.34)"/>'+
-        '<stop offset="45%" stop-color="rgba(255,255,255,.10)"/>'+
-        '<stop offset="100%" stop-color="rgba(0,24,75,.34)"/>'+
-      '</linearGradient>'+
-      '<filter id="'+uid+'-rearShadow" x="-14%" y="-12%" width="136%" height="148%">'+
-        '<feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#1d3559" flood-opacity=".18"/>'+
+      '<filter id="'+uid+'-rearShadow" x="-18%" y="-35%" width="145%" height="185%">'+
+        '<feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#173c71" flood-opacity=".14"/>'+
       '</filter>'+
-      '<filter id="'+uid+'-shoulderShadow" x="-30%" y="-18%" width="170%" height="160%">'+
-        '<feDropShadow dx="2" dy="7" stdDeviation="6" flood-color="#163466" flood-opacity=".18"/>'+
-      '</filter>'+
-      '<filter id="'+uid+'-softBlur" x="-12%" y="-12%" width="124%" height="124%">'+
-        '<feGaussianBlur stdDeviation="1.05"/>'+
-      '</filter>'+
-      '<path id="'+uid+'-rearShape" d="M62 117 C64 99 76 84 99 84 H250 C274 84 288 93 300 115 L326 163 C335 179 343 190 354 199 L361 205 V374 C361 401 339 424 312 424 H65 C38 424 15 401 15 374 V160 C15 142 24 130 41 123 C50 119 57 118 62 117 Z"/>'+
-      '<path id="'+uid+'-shoulderShape" d="M344 124 H373 C386 124 395 129 401 139 C407 149 408 160 416 169 C423 176 430 185 430 199 V292 C430 310 417 324 399 324 H360 C351 324 344 317 344 308 Z"/>'+
+      '<path id="'+uid+'-rearShape" d="M43 182 C43 157 57 136 80 129 C96 124 106 116 114 103 C125 84 143 74 168 74 H276 C299 74 314 83 323 102 L349 156 C357 173 370 182 389 184 L397 185 V248 H43 Z"/>'+
     '</defs>'+
-    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearFill)" filter="url(#'+uid+'-rearShadow)"/>'+
-    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearGlow)" opacity=".96"/>'+
-    '<use href="#'+uid+'-rearShape" fill="none" stroke="url(#'+uid+'-rearEdge)" stroke-width="2.9"/>'+
-    '<path d="M61 117 C72 94 84 92 100 92 H247 C271 92 285 101 296 120" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="2.15" stroke-linecap="round" filter="url(#'+uid+'-softBlur)"/>'+
-    '<use href="#'+uid+'-shoulderShape" fill="url(#'+uid+'-shoulderFill)" filter="url(#'+uid+'-shoulderShadow)"/>'+
-    '<use href="#'+uid+'-shoulderShape" fill="none" stroke="url(#'+uid+'-shoulderEdge)" stroke-width="2.5"/>'+
-    '<path d="M351 132 H372 C385 132 392 137 397 146" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.8" stroke-linecap="round"/>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rear)" filter="url(#'+uid+'-rearShadow)"/>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearGlow)"/>'+
+    '<use href="#'+uid+'-rearShape" fill="none" stroke="url(#'+uid+'-edge)" stroke-width="2.4"/>'+
+    '<path d="M49 177 C52 155 63 142 83 136 C100 131 111 122 120 108 C130 92 146 83 168 83 H273 C295 83 309 91 318 109" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.9" stroke-linecap="round"/>'+
   '</svg>';
 }
-
 
 
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
