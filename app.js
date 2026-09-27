@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.561';
-var APP_BUILD='5561';
+var APP_VERSION='5.0.563';
+var APP_BUILD='5563';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5561" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5563" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5561',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5563',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,44 +6390,62 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.561 — FOLDER REBUILD STAGE 1.
-   Only element #1 is rendered: the main rear coloured shell body.
-   All matter business logic, buttons and data remain intact; the search hit-area fix from 5.0.560 is preserved. */
+/* 5.0.563 — FOLDER REBUILD STAGE 2.
+   Elements #1 and #2 only: main rear coloured shell + separate right rear shoulder.
+   The right shoulder is its own SVG layer so future paper sheets can sit between it and the front layers. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  return '<svg class="case-folder-shell case-folder-shell-stage1" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
+  return '<svg class="case-folder-shell case-folder-shell-stage2" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
-      '<linearGradient id="'+uid+'-rearFill" x1="38" y1="72" x2="374" y2="410" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-rearFill" x1="54" y1="78" x2="348" y2="420" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0%" stop-color="var(--folder-light)"/>'+
-        '<stop offset="46%" stop-color="var(--folder)"/>'+
+        '<stop offset="43%" stop-color="var(--folder)"/>'+
         '<stop offset="100%" stop-color="var(--folder-deep)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-rearEdge" x1="38" y1="52" x2="376" y2="432" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.78)"/>'+
-        '<stop offset="28%" stop-color="rgba(255,255,255,.22)"/>'+
-        '<stop offset="72%" stop-color="rgba(10,53,120,.12)"/>'+
-        '<stop offset="100%" stop-color="rgba(4,34,83,.34)"/>'+
-      '</linearGradient>'+
-      '<radialGradient id="'+uid+'-sheen" cx="34%" cy="16%" r="82%">'+
-        '<stop offset="0%" stop-color="rgba(255,255,255,.34)"/>'+
-        '<stop offset="38%" stop-color="rgba(255,255,255,.10)"/>'+
+      '<radialGradient id="'+uid+'-rearGlow" cx="30%" cy="14%" r="74%">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.36)"/>'+
+        '<stop offset="28%" stop-color="rgba(255,255,255,.13)"/>'+
+        '<stop offset="62%" stop-color="rgba(255,255,255,.03)"/>'+
         '<stop offset="100%" stop-color="rgba(255,255,255,0)"/>'+
       '</radialGradient>'+
-      '<filter id="'+uid+'-shadow" x="-14%" y="-10%" width="132%" height="140%">'+
-        '<feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#6b460d" flood-opacity=".18"/>'+
+      '<linearGradient id="'+uid+'-rearEdge" x1="34" y1="84" x2="365" y2="426" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.48)"/>'+
+        '<stop offset="24%" stop-color="rgba(255,255,255,.20)"/>'+
+        '<stop offset="82%" stop-color="rgba(3,31,81,.17)"/>'+
+        '<stop offset="100%" stop-color="rgba(2,18,51,.30)"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-shoulderFill" x1="348" y1="125" x2="426" y2="310" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="var(--folder)"/>'+
+        '<stop offset="56%" stop-color="var(--folder-deep)"/>'+
+        '<stop offset="100%" stop-color="color-mix(in srgb,var(--folder-deep) 86%,#031d55 14%)"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="'+uid+'-shoulderEdge" x1="349" y1="122" x2="423" y2="305" gradientUnits="userSpaceOnUse">'+
+        '<stop offset="0%" stop-color="rgba(255,255,255,.34)"/>'+
+        '<stop offset="45%" stop-color="rgba(255,255,255,.10)"/>'+
+        '<stop offset="100%" stop-color="rgba(0,24,75,.34)"/>'+
+      '</linearGradient>'+
+      '<filter id="'+uid+'-rearShadow" x="-14%" y="-12%" width="136%" height="148%">'+
+        '<feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#1d3559" flood-opacity=".18"/>'+
       '</filter>'+
-      '<filter id="'+uid+'-soft" x="-10%" y="-10%" width="120%" height="120%">'+
-        '<feGaussianBlur stdDeviation="1.2"/>'+
+      '<filter id="'+uid+'-shoulderShadow" x="-30%" y="-18%" width="170%" height="160%">'+
+        '<feDropShadow dx="2" dy="7" stdDeviation="6" flood-color="#163466" flood-opacity=".18"/>'+
       '</filter>'+
-      '<path id="'+uid+'-rearShape" d="M56 118 C58 98 73 84 95 84 H248 C276 84 289 94 302 120 L331 176 C339 191 351 199 367 199 H392 C410 199 424 213 424 231 V374 C424 399 404 419 379 419 H71 C45 419 24 398 24 372 V146 C24 128 37 116 56 118 Z"/>'+
+      '<filter id="'+uid+'-softBlur" x="-12%" y="-12%" width="124%" height="124%">'+
+        '<feGaussianBlur stdDeviation="1.05"/>'+
+      '</filter>'+
+      '<path id="'+uid+'-rearShape" d="M62 117 C64 99 76 84 99 84 H250 C274 84 288 93 300 115 L326 163 C335 179 343 190 354 199 L361 205 V374 C361 401 339 424 312 424 H65 C38 424 15 401 15 374 V160 C15 142 24 130 41 123 C50 119 57 118 62 117 Z"/>'+
+      '<path id="'+uid+'-shoulderShape" d="M344 124 H373 C386 124 395 129 401 139 C407 149 408 160 416 169 C423 176 430 185 430 199 V292 C430 310 417 324 399 324 H360 C351 324 344 317 344 308 Z"/>'+
     '</defs>'+
-    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearFill)" filter="url(#'+uid+'-shadow)"/>'+
-    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-sheen)" opacity=".92"/>'+
-    '<use href="#'+uid+'-rearShape" fill="none" stroke="url(#'+uid+'-rearEdge)" stroke-width="3.2"/>'+
-    '<path d="M46 126 C51 101 70 92 95 92 H248 C270 92 282 102 295 124" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2.3" stroke-linecap="round" filter="url(#'+uid+'-soft)"/>'+
-    '<path d="M333 182 C340 192 350 197 363 197 H390" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2" stroke-linecap="round"/>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearFill)" filter="url(#'+uid+'-rearShadow)"/>'+
+    '<use href="#'+uid+'-rearShape" fill="url(#'+uid+'-rearGlow)" opacity=".96"/>'+
+    '<use href="#'+uid+'-rearShape" fill="none" stroke="url(#'+uid+'-rearEdge)" stroke-width="2.9"/>'+
+    '<path d="M61 117 C72 94 84 92 100 92 H247 C271 92 285 101 296 120" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="2.15" stroke-linecap="round" filter="url(#'+uid+'-softBlur)"/>'+
+    '<use href="#'+uid+'-shoulderShape" fill="url(#'+uid+'-shoulderFill)" filter="url(#'+uid+'-shoulderShadow)"/>'+
+    '<use href="#'+uid+'-shoulderShape" fill="none" stroke="url(#'+uid+'-shoulderEdge)" stroke-width="2.5"/>'+
+    '<path d="M351 132 H372 C385 132 392 137 397 146" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.8" stroke-linecap="round"/>'+
   '</svg>';
 }
+
 
 
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */

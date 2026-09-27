@@ -275,9 +275,9 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   #sc-matters .case-folder-meta {font-size:calc(20 * var(--case-u))}
 }
 @media (prefers-reduced-motion:reduce) {#sc-matters .case-folder{transition:none}}
-/* 5.0.561 — STAGE 1 REBUILD + SEARCH HIT AREA
-   Element #1 only: the main rear coloured shell body.
-   Search hit-area fix from 5.0.560 remains active. */
+/* 5.0.563 — REBUILD STAGE 2 + MATTERS SEARCH HIT AREA
+   Elements #1 and #2 are rendered: rear shell plus separate right rear shoulder.
+   The reserved search slot may not intercept taps itself, but its opened search child must. */
 #sc-matters .case-folder-shell-clean{
   display:block!important;
   width:100%!important;
@@ -298,6 +298,14 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
 
 
 #sc-matters .case-folder-shell-stage1{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+}
+
+#sc-matters .case-folder-shell-stage2{
   display:block!important;
   width:100%!important;
   height:100%!important;
