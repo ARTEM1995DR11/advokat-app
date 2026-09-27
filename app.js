@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.575';
-var APP_BUILD='5575';
+var APP_VERSION='5.0.576';
+var APP_BUILD='5576';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5575" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5576" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5575',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5576',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,13 +6391,13 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.575 — corrected Stage 1 baseline + Stage 2 front-face profile.
-   The tall 5.0.571/572 grid distortion is removed. Stage 2 changes only the front face TOP CONTOUR:
-   longer high left run, later and shallower smooth descent, higher short right shoulder.
-   The front face is NOT lifted over the hardware; ring relation remains intact. */
+/* 5.0.576 — Stage 2 refinement pass.
+   Front face mass is increased slightly toward a near-square silhouette, the top contour is smoothed,
+   the left gold hardware is seated more delicately, the papers are softened/re-stacked,
+   and the right rear shoulder is tightened to match the approved folder mockup more closely. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M33 158 H268 C284 158 295 162 306 171 C317 180 329 183 347 183 H391 C408 183 420 196 420 213 V405 C420 422 408 434 391 434 H47 C30 434 19 422 19 405 V180 C19 167 24 158 33 158 Z';
+  var front='M34 154 H272 C289 154 301 158 311 166 C321 174 333 177 350 177 H391 C407 177 418 188 418 204 V407 C418 423 407 434 391 434 H48 C32 434 21 423 21 407 V170 C21 160 26 154 34 154 Z';
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="34" y1="27" x2="385" y2="229" gradientUnits="userSpaceOnUse">'+
@@ -6407,15 +6407,15 @@ function matterFolderShell(){
       '</linearGradient>'+
       '<linearGradient id="'+uid+'-tab" x1="67" y1="67" x2="360" y2="190" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".64" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset=".66" style="stop-color:var(--folder-light)"/>'+
         '<stop offset="1" style="stop-color:var(--folder)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-ivory" x1="67" y1="151" x2="395" y2="437" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-ivory" x1="67" y1="150" x2="395" y2="437" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" stop-color="#fffdf6"/>'+
         '<stop offset=".50" stop-color="#fbf6e9"/>'+
         '<stop offset="1" stop-color="#f1e7d3"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-paper" x1="185" y1="47" x2="393" y2="181" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-paper" x1="190" y1="53" x2="388" y2="178" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" stop-color="#fffefb"/>'+
         '<stop offset="1" stop-color="#eee8df"/>'+
       '</linearGradient>'+
@@ -6434,10 +6434,10 @@ function matterFolderShell(){
         '<stop offset="1" stop-color="#673300"/>'+
       '</radialGradient>'+
       '<filter id="'+uid+'-backShadow" x="-16%" y="-18%" width="138%" height="152%"><feDropShadow dx="0" dy="7" stdDeviation="6.5" flood-color="#68410c" flood-opacity=".20"/></filter>'+
-      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="3.2" flood-color="#4f3b27" flood-opacity=".20"/></filter>'+
-      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="5" stdDeviation="4.5" flood-color="#173b69" flood-opacity=".25"/></filter>'+
+      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.8" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
+      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="5" stdDeviation="4.3" flood-color="#173b69" flood-opacity=".24"/></filter>'+
       '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
-      '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2.1" flood-color="#3b2400" flood-opacity=".46"/></filter>'+
+      '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#3b2400" flood-opacity=".44"/></filter>'+
       '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
         '<feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="2" seed="11" result="noise"/>'+
         '<feColorMatrix in="noise" type="saturate" values="0" result="gray"/>'+
@@ -6449,38 +6449,38 @@ function matterFolderShell(){
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M19 165 V104 C19 84 33 68 52 64 C61 62 67 57 73 48 C83 34 98 29 118 29 H260 C281 29 293 38 302 57 L327 111 C334 126 344 135 358 135 H386 C405 135 419 149 419 167 V264 H19 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M19 165 V104 C19 84 33 68 52 64 C61 62 67 57 73 48 C83 34 98 29 118 29 H260 C281 29 293 38 302 57 L327 111 C334 126 344 135 358 135 H382 C401 135 415 149 415 167 V264 H19 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
     '<path d="M28 108 C28 89 39 78 56 75 C68 72 72 65 80 54 C88 42 101 38 118 38 H257 C273 38 284 45 292 60" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2.4" stroke-linecap="round"/>'+
 
-    '<path d="M369 92 H393 C408 92 420 104 420 119 V131 C420 138 424 142 430 146 C437 151 439 160 439 170 V244 C439 259 428 270 413 270 H369 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M377 100 H392 C403 100 411 108 411 119" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.8" stroke-linecap="round"/>'+
+    '<path d="M374 96 H392 C405 96 415 106 415 119 V130 C415 136 418 140 423 144 C429 148 431 156 431 166 V240 C431 254 421 264 407 264 H374 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M381 104 H392 C402 104 409 111 409 121" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.7" stroke-linecap="round"/>'+
 
-    '<path d="M203 49 H354 C360 49 363 52 363 58 V154 H197 V56 C197 52 199 50 203 49 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M191 61 H373 C378 61 381 64 381 69 V161 H185 V68 C185 64 188 62 191 61 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M180 75 H389 C394 75 397 78 397 83 V168 H174 V82 C174 78 177 76 180 75 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M168 91 H377 C382 91 385 94 385 99 V178 H163 V98 C163 94 165 92 168 91 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<g opacity=".30" stroke="#d4cdc3" stroke-width="1"><path d="M214 62 H350"/><path d="M202 74 H367"/><path d="M192 88 H383"/><path d="M183 104 H371"/></g>'+
+    '<path d="M212 55 H354 C359 55 362 58 362 63 V150 H206 V62 C206 58 208 56 212 55 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M199 66 H371 C376 66 379 69 379 74 V157 H193 V73 C193 69 196 67 199 66 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M187 79 H386 C391 79 394 82 394 87 V166 H181 V86 C181 82 184 80 187 79 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M175 94 H373 C378 94 381 97 381 102 V174 H170 V101 C170 97 172 95 175 94 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<g opacity=".24" stroke="#d4cdc3" stroke-width="1"><path d="M220 67 H350"/><path d="M207 79 H367"/><path d="M195 92 H381"/><path d="M183 107 H368"/></g>'+
 
-    '<path d="M63 159 V106 C63 85 79 69 101 69 H240 C267 69 281 79 292 103 L317 151 C325 166 336 174 353 179 H390 V203 H57 V159 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M63 159 V106 C63 85 79 69 101 69 H240 C267 69 281 79 292 103 L317 151 C325 166 336 174 353 179 H389 V203 H57 V159 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
     '<path d="M74 107 C74 90 86 79 103 79 H239 C258 79 269 85 278 103" fill="none" stroke="rgba(255,255,255,.43)" stroke-width="2.1" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M34 164 H266 C281 164 290 167 300 175" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+    '<path d="M35 160 H270 C286 160 296 163 305 170" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
 
     '<g filter="url(#'+uid+'-hwShadow)">'+
-      '<circle cx="43" cy="137" r="12.2" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.7"/>'+
-      '<circle cx="43" cy="137" r="5.5" fill="#573004" stroke="#2c1701" stroke-width="1.2"/>'+
-      '<circle cx="43" cy="137" r="8.6" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".86"/>'+
-      '<path d="M43 143 C37 143 35 150 35 157 V164 C35 171 38 176 43 176 C49 176 52 171 52 165 V153 C52 147 49 143 43 143 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.6"/>'+
-      '<path d="M40 147 C38 152 38 158 38 164 C38 168 40 171 42 172" fill="none" stroke="#fff2ac" stroke-width="1.6" stroke-linecap="round" opacity=".90"/>'+
-      '<circle cx="43" cy="178" r="11.2" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.7"/>'+
-      '<circle cx="43" cy="178" r="5" fill="#552d03" stroke="#2a1601" stroke-width="1.1"/>'+
-      '<circle cx="43" cy="178" r="8" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".84"/>'+
+      '<circle cx="41.5" cy="136" r="11.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
+      '<circle cx="41.5" cy="136" r="5.2" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
+      '<circle cx="41.5" cy="136" r="8.1" fill="none" stroke="#fff0a1" stroke-width="1.35" opacity=".84"/>'+
+      '<path d="M41.5 142.1 C36.8 142.1 35 148.7 35 155.4 V161.5 C35 167.3 37.2 171.8 41.6 171.8 C46.2 171.8 48.7 167.6 48.7 162.2 V151.4 C48.7 146.3 46.7 142.1 41.5 142.1 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.5"/>'+
+      '<path d="M38.8 146.1 C37.1 150.3 37.2 155.9 37.2 161.2 C37.2 164.8 39 167.8 40.9 169" fill="none" stroke="#fff2ac" stroke-width="1.45" stroke-linecap="round" opacity=".88"/>'+
+      '<circle cx="41.5" cy="173.6" r="10.5" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
+      '<circle cx="41.5" cy="173.6" r="4.7" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
+      '<circle cx="41.5" cy="173.6" r="7.6" fill="none" stroke="#fff0a1" stroke-width="1.25" opacity=".82"/>'+
     '</g>'+
     '</g>'+
   '</svg>';
