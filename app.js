@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.580';
-var APP_BUILD='5580';
+var APP_VERSION='5.0.581';
+var APP_BUILD='5581';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5579" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5581" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5579',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5581',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,7 +6391,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.579 — STAGE 3: approved upper coloured construction.
+/* 5.0.581 — STAGE 3: approved upper coloured construction.
    Stage 1 grid/search and Stage 2 ivory face/hardware are locked.
    This pass changes only the rear coloured shell, its separate right shoulder, and the large inner coloured tab:
    broader rounded rear crown, calmer long tab top, smoother right descents, and independent depth/highlights. */
