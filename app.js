@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.568';
-var APP_BUILD='5566';
+var APP_VERSION='5.0.569';
+var APP_BUILD='5569';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2933,13 +2933,14 @@ function sheetMatterFilters(){
     var meta=matterStageMeta(st);
     stages+=row('m-stage-filter',st,meta.icon||'flag',st,'Стадия производства',stageCount(st),meta.c||'#7A8FA6',S.ui.matterStage===st);
   });
+  var sortCount=matterCurrentList('').length;
   var sort=''+
-    row('m-sort','priority','alert','По срочности','Сначала требующие внимания и ближайшие действия','', '#D5A13B',(S.ui.matterSort||'priority')==='priority')+
-    row('m-sort','client','user','По доверителю','По фамилии / наименованию доверителя','', '#3C8FE8',S.ui.matterSort==='client')+
-    row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
+    row('m-sort','priority','alert','По срочности','Сначала требующие внимания и ближайшие действия',sortCount,'#D5A13B',(S.ui.matterSort||'priority')==='priority')+
+    row('m-sort','client','user','По доверителю','По фамилии / наименованию доверителя',sortCount,'#3C8FE8',S.ui.matterSort==='client')+
+    row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5566" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5569" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -2948,7 +2949,7 @@ function sheetMatterFilters(){
     '<section class="filter-premium-section"><div class="filter-premium-label">ОСНОВАНИЕ ВЕДЕНИЯ</div><div class="matter-filter-premium-card">'+basis+'</div></section>'+ 
     '<section class="filter-premium-section"><div class="filter-premium-label">СТАДИЯ ПРОИЗВОДСТВА</div><div class="matter-filter-premium-card">'+stages+'</div></section>'+ 
     '<section class="filter-premium-section"><div class="filter-premium-label">СОРТИРОВКА</div><div class="matter-filter-premium-card">'+sort+'</div></section>'+ 
-    '<button type="button" class="matter-filter-reset-btn" data-act="matter-filter-reset">'+ico('xmark','s')+'<span>Сбросить фильтры и сортировку</span></button>'
+    '<button type="button" class="matter-filter-reset-btn" data-act="matter-filter-reset"><span>Сбросить фильтры и сортировку</span></button>'
   );
   $('#sheet').classList.add('filter-premium-sheet','matter-filter-premium');
   document.body.classList.add('matter-filter-open');
@@ -6241,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5566',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5569',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });

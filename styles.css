@@ -46850,3 +46850,29 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
     height:23px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.569 — MATTERS FILTER CLEANUP
+   Center the reset action, remove legacy icon spacing, and keep the footer clean.
+   Counts in sorting rows are populated by runtime with the current filtered case total.
+   ================================================================ */
+.sheet.matter-filter-premium .matter-filter-reset-btn,
+.sheet.matter-filter-premium.withfoot .matter-filter-reset-btn{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  gap:0!important;
+  padding-left:20px!important;
+  padding-right:20px!important;
+}
+.sheet.matter-filter-premium .matter-filter-reset-btn > .ico,
+.sheet.matter-filter-premium .matter-filter-reset-btn > svg{
+  display:none!important;
+}
+.sheet.matter-filter-premium .matter-filter-reset-btn > span{
+  width:100%!important;
+  text-align:center!important;
+  margin:0!important;
+}
