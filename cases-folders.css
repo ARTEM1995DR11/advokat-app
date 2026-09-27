@@ -29,11 +29,9 @@ html body #sc-matters p.case-page-count {position:absolute;left:calc(14 * var(--
   pointer-events:none;
 }
 
-/* 5.0.567 — when search is open, reserve its full 48px height plus a clear visual gap.
-   This prevents the first folder row from sitting behind/under the search field. */
-#sc-matters .case-grid-offset.is-search-open{
-  height:clamp(66px,16.5vw,72px)!important;
-  min-height:clamp(66px,16.5vw,72px)!important;
+#sc-matters .case-grid-offset.is-search-open {
+  height:clamp(78px,19vw,96px)!important;
+  min-height:clamp(78px,19vw,96px)!important;
 }
 
 

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.567';
-var APP_BUILD='5567';
+var APP_VERSION='5.0.568';
+var APP_BUILD='5566';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5567" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5566" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5567',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5566',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6390,7 +6390,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.567 — COMPLETE APPROVED FOLDER REBUILD FROM CLEAN 5.0.560 BASELINE.
+/* 5.0.568 — STAGE 1: folder proportions corrected toward the approved near-square reference while preserving the current layer structure.
    Rebuilt layer-by-layer in one controlled pass:
    rear shell -> right rear shoulder -> 4 papers -> inner tab -> ivory front -> metallic edge -> hardware -> contact shadow.
    Matter data stays intact and visually hidden; search/filter/open-matter logic is unchanged. */
@@ -6444,6 +6444,7 @@ function matterFolderShell(){
         '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
       '</filter>'+
     '</defs>'+
+    '<g transform="translate(18 -8) scale(.92 1.07)">'+
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
@@ -6479,6 +6480,7 @@ function matterFolderShell(){
       '<circle cx="43" cy="178" r="11.2" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.7"/>'+
       '<circle cx="43" cy="178" r="5" fill="#552d03" stroke="#2a1601" stroke-width="1.1"/>'+
       '<circle cx="43" cy="178" r="8" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".84"/>'+
+    '</g>'+
     '</g>'+
   '</svg>';
 }
