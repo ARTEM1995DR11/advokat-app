@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.558';
-var APP_BUILD='5558';
+var APP_VERSION='5.0.559';
+var APP_BUILD='5559';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2939,7 +2939,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства','', '#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5558" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5559" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6241,7 +6241,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5558',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5559',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6479,31 +6479,38 @@ function matterFolderShell(){
   <clipPath id="@clip"><use href="#@front"/></clipPath>
 </defs>
 
-<!-- 5.0.558 STEP 1B: rear body refined from the real iPhone 5.0.557 screenshot against the approved mockup. -->
-<path d="
-  M2 132
-  V80
-  C2 64 8 53 20 44
-  C27 22 47 6 70 1.5
-  C76 .5 82 .5 89 .5
-  H232
-  C246 .5 257 6 265 18
-  C275 33 282 50 291 66
-  L309 98
-  C318 113 331 119 350 121
-  H382
-  V69
-  C382 51 392 40 407 39
-  C424 39 436 51 436 69
-  V124
-  C436 132 431 136 421 136
-  H2
-  Z"
-  fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.6" filter="url(#@rearShadow)"/>
-<path d="M12 124V82C12 69 18 59 29 52C35 35 49 21 67 14C74 11 82 10 91 10H227C239 10 249 16 256 27"
-  fill="none" stroke="#efffff" stroke-opacity=".26" stroke-width="2" stroke-linecap="round"/>
-<path d="M392 66C392 54 398 47 407 46C418 46 427 54 428 67C432 72 433 79 433 87"
-  fill="none" stroke="#efffff" stroke-opacity=".22" stroke-width="1.5" stroke-linecap="round"/>
+<!-- 5.0.559 STEP 1: rebuild only the rear coloured shell as one physical layer.
+     Geometry is based on the approved folder reference: a broad rounded left shoulder,
+     long calm crown and a distinct rounded right shoulder behind the papers. -->
+<g class="folder-layer folder-layer-back">
+  <path id="@backShell" d="
+    M3 136
+    V82
+    C3 66 8 54 20 45
+    C27 23 47 7 69 2.5
+    C77 1 84 1 93 1
+    H230
+    C246 1 257 7 265 19
+    C273 31 279 46 287 61
+    L309 101
+    C317 116 329 123 347 126
+    H379
+    V70
+    C379 51 389 39 405 38
+    C421 38 432 48 435 63
+    C439 69 439 77 439 86
+    V126
+    C439 134 434 138 424 138
+    H3
+    Z"
+    fill="url(#@back)" stroke="var(--folder-deep)" stroke-width="1.7" filter="url(#@rearShadow)"/>
+
+  <!-- restrained edge light only; depth/textures are intentionally deferred to a later step -->
+  <path d="M13 126V84C13 70 19 60 30 53C36 36 50 22 68 15C76 12 84 11 94 11H225C238 11 248 17 255 28"
+    fill="none" stroke="#f2ffff" stroke-opacity=".24" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M389 68C389 55 396 47 405 46C416 46 425 54 427 67C431 72 432 79 432 88"
+    fill="none" stroke="#f2ffff" stroke-opacity=".20" stroke-width="1.35" stroke-linecap="round"/>
+</g>
 
 <!-- Papers remain on the rear plane, with wider stagger like the approved mockup. -->
 <g fill="url(#@paper)" stroke="#ddc8a5" stroke-width=".9" filter="url(#@paperShadow)">
