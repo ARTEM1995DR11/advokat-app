@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.581';
-var APP_BUILD='5581';
+var APP_VERSION='5.0.582';
+var APP_BUILD='5582';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5581" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5582" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6242,7 +6242,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5581',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5582',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6391,7 +6391,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.581 — STAGE 3: approved upper coloured construction.
+/* 5.0.582 — STAGE 3 FINAL: upper coloured construction aligned to the approved mockup.
    Stage 1 grid/search and Stage 2 ivory face/hardware are locked.
    This pass changes only the rear coloured shell, its separate right shoulder, and the large inner coloured tab:
    broader rounded rear crown, calmer long tab top, smoother right descents, and independent depth/highlights. */
@@ -6401,9 +6401,9 @@ function matterFolderShell(){
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="42" y1="22" x2="391" y2="218" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".26" style="stop-color:var(--folder)"/>'+
-        '<stop offset=".76" style="stop-color:var(--folder)"/>'+
+        '<stop offset="0" style="stop-color:var(--folder)"/>'+
+        '<stop offset=".34" style="stop-color:var(--folder)"/>'+
+        '<stop offset=".78" style="stop-color:var(--folder-deep)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
       '<linearGradient id="'+uid+'-tab" x1="72" y1="66" x2="350" y2="183" gradientUnits="userSpaceOnUse">'+
@@ -6435,9 +6435,9 @@ function matterFolderShell(){
         '<stop offset=".83" stop-color="#edb92e"/>'+
         '<stop offset="1" stop-color="#673300"/>'+
       '</radialGradient>'+
-      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="7" stdDeviation="6.2" flood-color="#17334e" flood-opacity=".25"/></filter>'+
+      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="7" stdDeviation="5.6" flood-color="#17334e" flood-opacity=".27"/></filter>'+
       '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.8" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
-      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="5" stdDeviation="4.1" flood-color="#173b69" flood-opacity=".29"/></filter>'+
+      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="5" stdDeviation="3.8" flood-color="#173b69" flood-opacity=".31"/></filter>'+
       '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
       '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#3b2400" flood-opacity=".44"/></filter>'+
       '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
@@ -6451,11 +6451,11 @@ function matterFolderShell(){
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M18 170 V103 C18 84 30 68 48 63 C63 59 72 52 83 39 C95 25 112 20 134 20 H266 C286 20 302 28 314 48 L335 84 C344 100 358 108 376 110 H389 C407 110 420 123 420 141 V254 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M29 110 C29 92 41 80 58 76 C71 73 79 66 89 54 C99 41 112 35 130 35 H263 C279 35 291 41 300 54" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="2.2" stroke-linecap="round"/>'+
+    '<path d="M18 170 V108 C18 89 31 74 49 69 C63 65 72 58 82 47 C94 34 109 29 130 29 H268 C288 29 301 37 311 54 L332 92 C341 108 354 116 372 118 H386 C403 118 416 131 416 148 V224 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M29 113 C29 95 41 84 58 80 C71 77 79 70 89 59 C99 47 112 41 130 41 H264 C280 41 291 47 299 60" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="2.2" stroke-linecap="round"/>'+
 
-    '<path d="M377 98 H395 C409 98 420 109 420 123 V136 C420 144 424 150 429 155 C434 160 436 166 436 175 V230 C436 244 426 254 412 254 H377 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M384 107 H394 C403 107 410 114 410 123" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5" stroke-linecap="round"/>'+
+    '<path d="M381 104 H396 C409 104 419 114 419 127 V137 C419 144 422 149 427 154 C431 158 433 164 433 172 V190 C433 203 424 212 411 212 H381 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M387 112 H395 C403 112 409 118 409 126" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5" stroke-linecap="round"/>'+
 
     '<path d="M214 44 H362 C368 44 372 48 372 54 V145 H208 V50 C208 46 211 44 214 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<path d="M202 58 H376 C382 58 386 62 386 68 V158 H196 V64 C196 60 199 58 202 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
@@ -6463,9 +6463,9 @@ function matterFolderShell(){
     '<path d="M175 90 H383 C389 90 393 94 393 100 V182 H169 V96 C169 92 172 90 175 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
     '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M226 64 H345"/><path d="M213 80 H366"/><path d="M198 97 H387"/><path d="M185 113 H378"/></g>'+
 
-    '<path d="M54 160 V107 C54 81 73 61 97 61 H236 C255 61 271 68 283 81 L306 105 C318 118 334 128 354 132 H383 V171 H53 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M67 112 C67 93 82 81 100 81 H233 C250 81 265 87 276 99" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.95" stroke-linecap="round"/>'+
-    '<path d="M286 89 C292 96 298 103 306 112 C317 124 331 133 347 137" fill="none" stroke="rgba(17,77,126,.12)" stroke-width="2.1" stroke-linecap="round"/>'+
+    '<path d="M56 160 V111 C56 87 74 69 98 69 H244 C263 69 277 77 287 93 L307 126 C316 141 330 150 349 154 H383 V171 H55 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M69 113 C69 95 83 84 101 84 H242 C258 84 270 90 278 102" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1.7" stroke-linecap="round"/>'+
+    '<path d="M289 96 C295 104 300 112 307 123 C316 137 329 146 345 151" fill="none" stroke="rgba(17,77,126,.16)" stroke-width="1.8" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
