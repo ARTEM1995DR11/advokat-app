@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.585';
-var APP_BUILD='5585';
+var APP_VERSION='5.0.586';
+var APP_BUILD='5586';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2183,9 +2183,9 @@ function hearingBasisBadge(m){
   if(!basis) return '';
   return '<span class="hearing-basis-badge '+(m.basis==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>';
 }
-function hearingTitleBasisRow(t,m){
+function hearingTitleBasisRow(t,m,hideBasis){
   if(!hearingMatterIsJudicial(m)) return '<span class="hearing-title-basis-row"><b class="hearing-unified-title">'+esc(t.title||m.stage||'Досудебное действие')+'</b></span>';
-  var badge=hearingBasisBadge(m);
+  var badge=hideBasis?'':hearingBasisBadge(m);
   return '<span class="hearing-title-basis-row">'+
     '<b class="hearing-unified-title">'+esc(hearingCaption(t,m))+'</b>'+badge+
   '</span>';
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5585" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5586" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3141,13 +3141,18 @@ function taskProjectRow(t){
       }
       wideDue=due;
     }else{
+      var completedHearing=hearingHasResult(t);
+      var completedBasis=completedHearing?hearingBasisBadge(m):'';
+      var completedTags=completedHearing
+        ? '<span class="pt-history-tags">'+taskDoneKindBadge(t)+completedBasis+'</span>'
+        : taskDoneKindBadge(t);
       mainHtml=
-        '<button class="pt-open pt-hearing-open" data-act="task" data-id="'+t.id+'">'+hearingTitleBasisRow(t,m)+'</button>'+ 
-        taskDoneKindBadge(t)+
+        '<button class="pt-open pt-hearing-open" data-act="task" data-id="'+t.id+'">'+hearingTitleBasisRow(t,m,completedHearing)+'</button>'+ 
+        completedTags+
         hearingCaseBasisLine(t,m)+
         hearingUnifiedJudgeLine(t,m)+
         hearingUnifiedCourtLine(t,m)+
-        (hearingHasResult(t)&&t.hearingResultText?'<small class="pt-hearing-result-text">'+esc(t.hearingResultText)+'</small>':'')+
+        (completedHearing&&t.hearingResultText?'<small class="pt-hearing-result-text">'+esc(t.hearingResultText)+'</small>':'')+
         due;
     }
   }else{
@@ -6242,7 +6247,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5585',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5586',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
