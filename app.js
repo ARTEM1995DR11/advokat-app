@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.586';
-var APP_BUILD='5586';
+var APP_VERSION='5.0.587';
+var APP_BUILD='5587';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5586" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5587" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3379,8 +3379,8 @@ function compactMatterCardNumber(value){
   if(n.length<=13) return {text:n,full:n,long:false,empty:false};
   return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true,empty:false};
 }
-function matterCard(m){
-  var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
+function matterCard(m, idx){
+  var type=matterFolderVisualType(m, idx),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
   var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
   var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
@@ -6247,7 +6247,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5586',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5587',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6382,7 +6382,11 @@ function matterFolderNextHearing(m){
   if(hearing.time) parts.push(hearing.time);
   return {text:parts.join(' · '),tone:'next'};
 }
-function matterFolderVisualType(m){
+function matterFolderVisualType(m, idx){
+  if(!MATTER_FOLDER_SHOW_CONTENT){
+    var seq=['admin','civil','admin','criminal'];
+    return seq[Math.abs((idx||0)%seq.length)];
+  }
   return ['admin','criminal','civil','koap'].indexOf(m.type)>=0?m.type:'koap';
 }
 function matterFolderTypeLabel(type){
@@ -6402,7 +6406,7 @@ var MATTER_FOLDER_SHELL_SEQ=0;
    and a shorter rounded right rear shoulder. Front face, gold hardware, papers, grid/search and matter logic remain unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M34 143 H284 C301 143 312 147 323 156 C334 165 346 168 363 168 H393 C409 168 420 179 420 195 V409 C420 425 409 436 393 436 H47 C31 436 20 425 20 409 V160 C20 150 26 143 34 143 Z';
+  var front='M32 147 H283 C302 147 317 151 329 160 C340 169 349 172 365 172 H394 C410 172 421 183 421 199 V409 C421 425 410 436 394 436 H45 C29 436 18 425 18 409 V160 C18 151 24 147 32 147 Z';
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
       '<linearGradient id="'+uid+'-back" x1="42" y1="22" x2="391" y2="218" gradientUnits="userSpaceOnUse">'+
@@ -6411,7 +6415,7 @@ function matterFolderShell(){
         '<stop offset=".72" style="stop-color:var(--folder-deep)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-tab" x1="72" y1="66" x2="350" y2="183" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-tab" x1="82" y1="78" x2="348" y2="189" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
         '<stop offset=".62" style="stop-color:var(--folder-light)"/>'+
         '<stop offset=".88" style="stop-color:var(--folder)"/>'+
@@ -6422,7 +6426,7 @@ function matterFolderShell(){
         '<stop offset=".50" stop-color="#fbf6e9"/>'+
         '<stop offset="1" stop-color="#f1e7d3"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-paper" x1="188" y1="45" x2="394" y2="182" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-paper" x1="198" y1="48" x2="398" y2="182" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" stop-color="#fffefb"/>'+
         '<stop offset="1" stop-color="#eee8df"/>'+
       '</linearGradient>'+
@@ -6452,43 +6456,43 @@ function matterFolderShell(){
         '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
       '</filter>'+
     '</defs>'+
-    '<g transform="translate(18 -8) scale(.92 1.07)">'+
+    '<g transform="translate(7 -2) scale(.975 1.01)">'+
 
     '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M18 176 V123 C18 103 31 88 52 83 C67 79 76 72 87 63 C99 53 115 49 136 49 H274 C294 49 307 57 317 72 L339 105 C348 119 361 127 378 129 H390 C407 129 418 142 418 159 V226 H18 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M29 124 C29 108 40 97 59 93 C72 90 81 83 91 74 C102 64 115 59 133 59 H269 C284 59 295 64 304 76" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
+    '<path d="M16 181 V121 C16 100 31 84 54 78 C72 74 84 67 96 56 C108 46 124 42 147 42 H281 C304 42 320 50 331 65 L349 92 C359 106 372 114 389 116 H397 C413 116 424 129 424 146 V224 H16 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M28 123 C28 107 40 95 59 91 C73 88 83 81 94 71 C105 61 118 56 137 56 H273 C289 56 301 61 310 72" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
 
-    '<path d="M375 120 H397 C409 120 418 130 418 143 V150 C418 156 421 160 426 164 C431 168 433 174 433 181 V187 C433 198 425 206 414 206 H375 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M382 128 H397 C404 128 410 134 410 142" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.15" stroke-linecap="round"/>'+
+    '<path d="M379 112 H399 C412 112 422 123 422 136 V145 C422 152 426 158 432 163 C437 167 440 175 440 183 V191 C440 204 430 213 417 213 H379 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M386 120 H399 C407 120 414 126 414 135" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.15" stroke-linecap="round"/>'+
 
-    '<path d="M214 44 H362 C368 44 372 48 372 54 V145 H208 V50 C208 46 211 44 214 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M202 58 H376 C382 58 386 62 386 68 V158 H196 V64 C196 60 199 58 202 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M188 74 H391 C397 74 401 78 401 84 V170 H182 V80 C182 76 185 74 188 74 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M175 90 H383 C389 90 393 94 393 100 V182 H169 V96 C169 92 172 90 175 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M226 64 H345"/><path d="M213 80 H366"/><path d="M198 97 H387"/><path d="M185 113 H378"/></g>'+
+    '<path d="M220 44 H363 C369 44 373 48 373 54 V147 H214 V50 C214 46 217 44 220 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M208 58 H378 C384 58 388 62 388 68 V160 H202 V64 C202 60 205 58 208 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M194 74 H394 C400 74 404 78 404 84 V173 H188 V80 C188 76 191 74 194 74 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M181 90 H388 C394 90 398 94 398 100 V184 H175 V96 C175 92 178 90 181 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M232 64 H350"/><path d="M219 80 H372"/><path d="M204 97 H392"/><path d="M191 113 H383"/></g>'+
 
-    '<path d="M64 160 V116 C64 96 80 81 102 81 H267 C286 81 299 88 309 102 L328 127 C337 139 348 146 362 149 H384 V169 H58 V160 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M76 116 C76 101 88 91 104 91 H264 C279 91 290 96 298 106" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2" stroke-linecap="round"/>'+
-    '<path d="M310 103 C316 111 322 119 328 127 C337 139 348 146 361 149" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.25" stroke-linecap="round"/>'+
+    '<path d="M78 166 V123 C78 101 94 84 117 84 H264 C284 84 298 91 308 104 L327 129 C336 141 348 148 363 151 H385 V170 H74 V166 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M91 123 C91 106 103 95 120 95 H260 C276 95 288 101 296 111" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2" stroke-linecap="round"/>'+
+    '<path d="M309 105 C315 113 321 121 327 129 C336 141 347 148 361 151" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.25" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M35 149 H282 C298 149 308 152 317 159" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+    '<path d="M33 153 H281 C299 153 311 156 321 164" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
 
     '<g filter="url(#'+uid+'-hwShadow)">'+
-      '<circle cx="41.5" cy="127.5" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
-      '<circle cx="41.5" cy="127.5" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
-      '<circle cx="41.5" cy="127.5" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
-      '<path d="M41.5 134.3 C36.2 134.3 34.2 141.2 34.2 149 V163.2 C34.2 171.1 36.8 176.4 41.5 176.4 C46.9 176.4 49.6 171.2 49.6 163.7 V144.6 C49.6 138.3 46.9 134.3 41.5 134.3 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
-      '<path d="M38.4 138.4 C36.8 143.8 36.9 151.1 36.9 158.3 C36.9 164.6 38.9 169.4 41 171.2" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
-      '<circle cx="41.5" cy="179.1" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
-      '<circle cx="41.5" cy="179.1" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
-      '<circle cx="41.5" cy="179.1" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
+      '<circle cx="43" cy="127.5" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
+      '<circle cx="43" cy="127.5" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
+      '<circle cx="43" cy="127.5" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
+      '<path d="M43 134.3 C37.7 134.3 35.7 141.2 35.7 149 V163.2 C35.7 171.1 38.3 176.4 43 176.4 C48.4 176.4 51.1 171.2 51.1 163.7 V144.6 C51.1 138.3 48.4 134.3 43 134.3 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
+      '<path d="M39.9 138.4 C38.3 143.8 38.4 151.1 38.4 158.3 C38.4 164.6 40.4 169.4 42.5 171.2" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
+      '<circle cx="43" cy="179.1" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
+      '<circle cx="43" cy="179.1" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
+      '<circle cx="43" cy="179.1" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
     '</g>'+
     '</g>'+
   '</svg>';
@@ -6504,8 +6508,8 @@ function matterFolderShell(){
    Первый этап переноса страницы «Дела» на утверждённый макет 3.
    ================================================================ */
 /* 5.0.553 AUDIT: duplicate approved-matters helper definitions removed. */
-function matterCard(m){
-  var type=matterFolderVisualType(m),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
+function matterCard(m, idx){
+  var type=matterFolderVisualType(m, idx),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
   var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
   var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
