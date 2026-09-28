@@ -1,4 +1,4 @@
-/* 5.0.589 — Sole folder layout. Geometry lives in matterFolderShell(), never in CSS transforms. */
+/* 5.0.591 — Sole folder layout. Geometry lives in matterFolderShell(), never in CSS transforms. */
 html body.light #sc-matters {
   --case-u:clamp(.34px,.10627vw,.64px);--case-navy:#061f78;
   padding:calc(env(safe-area-inset-top,0px) + 22 * var(--case-u)) calc(28 * var(--case-u)) calc(env(safe-area-inset-bottom,0px) + 300 * var(--case-u))!important;

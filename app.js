@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.589';
-var APP_BUILD='5589';
+var APP_VERSION='5.0.591';
+var APP_BUILD='5591';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5589" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5591" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5589',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5591',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6314,7 +6314,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.589 — One physical folder, traced in the 440 × 458 coordinate system.
+/* 5.0.591 — One physical folder, traced in the 440 × 458 coordinate system.
    Reference envelope: x16..424 / y10..438; front crown y96, right crown y120.
    Every colour shares these paths. No geometry transforms or aspect distortion. */
 function matterFolderShell(){
@@ -6349,7 +6349,7 @@ function matterFolderShell(){
     <g data-layer="tab" filter="url(#${uid}-tabShadow)"><path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/><path d="M54 106 C63 86 66 61 76 44 C81 36 88 34 98 34 H230 C243 34 249 42 255 56 C266 80 276 108 288 117" fill="none" stroke="var(--folder-light)" stroke-width="1.2" opacity=".78"/></g>
     <g data-layer="front" filter="url(#${uid}-frontShadow)"><use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/></g>
     <g data-layer="trim" fill="none" stroke-linejoin="round"><use href="#${uid}-face" stroke="#905513" stroke-width="5"/><use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.5"/><use href="#${uid}-face" stroke="#fff4cd" stroke-width=".9"/></g>
-    <!-- 5.0.590: крепление полностью удалено по новому макету; лицевая часть папки без отверстий и кольца -->
+    <!-- 5.0.591: крепление полностью удалено по новому макету; лицевая часть папки без отверстий и кольца -->
   </svg>`;
 }
 
