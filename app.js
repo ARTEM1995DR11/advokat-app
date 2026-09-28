@@ -6406,27 +6406,27 @@ var MATTER_FOLDER_SHELL_SEQ=0;
    and a shorter rounded right rear shoulder. Front face, gold hardware, papers, grid/search and matter logic remain unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M32 147 H283 C302 147 317 151 329 160 C340 169 349 172 365 172 H394 C410 172 421 183 421 199 V409 C421 425 410 436 394 436 H45 C29 436 18 425 18 409 V160 C18 151 24 147 32 147 Z';
+  var front='M31 145 H283 C303 145 319 149 332 158 C343 166 352 169 367 169 H397 C414 169 426 181 426 198 V409 C426 426 414 438 397 438 H45 C28 438 16 426 16 409 V158 C16 149 22 145 31 145 Z';
   return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
     '<defs>'+
-      '<linearGradient id="'+uid+'-back" x1="42" y1="22" x2="391" y2="218" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-back" x1="40" y1="18" x2="394" y2="212" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder)"/>'+
         '<stop offset=".30" style="stop-color:var(--folder)"/>'+
         '<stop offset=".72" style="stop-color:var(--folder-deep)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-tab" x1="82" y1="78" x2="348" y2="189" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-tab" x1="76" y1="68" x2="350" y2="176" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".62" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".88" style="stop-color:var(--folder)"/>'+
+        '<stop offset=".64" style="stop-color:var(--folder-light)"/>'+
+        '<stop offset=".89" style="stop-color:var(--folder)"/>'+
         '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-ivory" x1="67" y1="150" x2="395" y2="437" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-ivory" x1="64" y1="144" x2="398" y2="439" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" stop-color="#fffdf6"/>'+
         '<stop offset=".50" stop-color="#fbf6e9"/>'+
         '<stop offset="1" stop-color="#f1e7d3"/>'+
       '</linearGradient>'+
-      '<linearGradient id="'+uid+'-paper" x1="198" y1="48" x2="398" y2="182" gradientUnits="userSpaceOnUse">'+
+      '<linearGradient id="'+uid+'-paper" x1="202" y1="38" x2="404" y2="176" gradientUnits="userSpaceOnUse">'+
         '<stop offset="0" stop-color="#fffefb"/>'+
         '<stop offset="1" stop-color="#eee8df"/>'+
       '</linearGradient>'+
@@ -6444,10 +6444,10 @@ function matterFolderShell(){
         '<stop offset=".83" stop-color="#edb92e"/>'+
         '<stop offset="1" stop-color="#673300"/>'+
       '</radialGradient>'+
-      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.5" flood-color="#17334e" flood-opacity=".30"/></filter>'+
-      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.8" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
+      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.6" flood-color="#17334e" flood-opacity=".30"/></filter>'+
+      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.7" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
       '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="6" stdDeviation="4.4" flood-color="#173b69" flood-opacity=".30"/></filter>'+
-      '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#573811" flood-opacity=".27"/></filter>'+
+      '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9.3" flood-color="#573811" flood-opacity=".28"/></filter>'+
       '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#3b2400" flood-opacity=".44"/></filter>'+
       '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
         '<feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="2" seed="11" result="noise"/>'+
@@ -6456,48 +6456,47 @@ function matterFolderShell(){
         '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
       '</filter>'+
     '</defs>'+
-    '<g transform="translate(7 -2) scale(.975 1.01)">'+
+    '<g transform="translate(3 -6) scale(.992 1.03)">'+
 
-    '<ellipse cx="220" cy="429" rx="184" ry="16" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
+    '<ellipse cx="220" cy="431" rx="188" ry="16.5" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
 
-    '<path d="M16 181 V121 C16 100 31 84 54 78 C72 74 84 67 96 56 C108 46 124 42 147 42 H281 C304 42 320 50 331 65 L349 92 C359 106 372 114 389 116 H397 C413 116 424 129 424 146 V224 H16 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M28 123 C28 107 40 95 59 91 C73 88 83 81 94 71 C105 61 118 56 137 56 H273 C289 56 301 61 310 72" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
+    '<path d="M16 187 V115 C16 93 32 75 56 68 C76 63 89 56 101 45 C113 34 128 30 152 30 H286 C309 30 326 40 338 56 L356 83 C366 97 379 105 396 107 H404 C421 107 432 120 432 138 V226 H16 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M29 118 C29 101 42 88 61 83 C76 79 87 71 98 61 C109 51 123 46 143 46 H279 C296 46 309 52 319 64" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
 
-    '<path d="M379 112 H399 C412 112 422 123 422 136 V145 C422 152 426 158 432 163 C437 167 440 175 440 183 V191 C440 204 430 213 417 213 H379 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M386 120 H399 C407 120 414 126 414 135" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.15" stroke-linecap="round"/>'+
+    '<path d="M387 104 H404 C417 104 427 115 427 128 V138 C427 146 431 152 436 157 C441 161 444 168 444 176 V185 C444 198 434 208 421 208 H387 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
+    '<path d="M393 113 H404 C412 113 419 119 419 128" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.1" stroke-linecap="round"/>'+
 
-    '<path d="M220 44 H363 C369 44 373 48 373 54 V147 H214 V50 C214 46 217 44 220 44 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M208 58 H378 C384 58 388 62 388 68 V160 H202 V64 C202 60 205 58 208 58 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M194 74 H394 C400 74 404 78 404 84 V173 H188 V80 C188 76 191 74 194 74 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M181 90 H388 C394 90 398 94 398 100 V184 H175 V96 C175 92 178 90 181 90 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".85"><path d="M232 64 H350"/><path d="M219 80 H372"/><path d="M204 97 H392"/><path d="M191 113 H383"/></g>'+
+    '<path d="M223 31 H367 C373 31 377 35 377 41 V145 H217 V37 C217 33 220 31 223 31 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M210 45 H383 C389 45 393 49 393 55 V158 H204 V51 C204 47 207 45 210 45 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M196 61 H399 C405 61 409 65 409 71 V171 H190 V67 C190 63 193 61 196 61 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<path d="M184 77 H393 C399 77 403 81 403 87 V183 H178 V83 C178 79 181 77 184 77 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
+    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".82"><path d="M235 52 H354"/><path d="M221 69 H377"/><path d="M206 86 H397"/><path d="M192 102 H388"/></g>'+
 
-    '<path d="M78 166 V123 C78 101 94 84 117 84 H264 C284 84 298 91 308 104 L327 129 C336 141 348 148 363 151 H385 V170 H74 V166 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M91 123 C91 106 103 95 120 95 H260 C276 95 288 101 296 111" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.2" stroke-linecap="round"/>'+
-    '<path d="M309 105 C315 113 321 121 327 129 C336 141 347 148 361 151" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.25" stroke-linecap="round"/>'+
+    '<path d="M79 164 V116 C79 94 96 76 121 76 H270 C291 76 305 84 316 98 L336 123 C345 135 357 143 372 146 H392 V165 H75 V164 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
+    '<path d="M93 115 C93 98 106 87 124 87 H266 C283 87 296 93 305 104" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.2" stroke-linecap="round"/>'+
+    '<path d="M318 100 C324 108 330 116 336 123 C345 135 356 143 370 146" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.2" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
     '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M33 153 H281 C299 153 311 156 321 164" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
+    '<path d="M32 151 H281 C300 151 314 155 324 163" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
 
     '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
-    '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.7" stroke-linejoin="round"/>'+
+    '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.75" stroke-linejoin="round"/>'+
     '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
 
     '<g filter="url(#'+uid+'-hwShadow)">'+
-      '<circle cx="43" cy="127.5" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
-      '<circle cx="43" cy="127.5" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
-      '<circle cx="43" cy="127.5" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
-      '<path d="M43 134.3 C37.7 134.3 35.7 141.2 35.7 149 V163.2 C35.7 171.1 38.3 176.4 43 176.4 C48.4 176.4 51.1 171.2 51.1 163.7 V144.6 C51.1 138.3 48.4 134.3 43 134.3 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
-      '<path d="M39.9 138.4 C38.3 143.8 38.4 151.1 38.4 158.3 C38.4 164.6 40.4 169.4 42.5 171.2" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
-      '<circle cx="43" cy="179.1" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
-      '<circle cx="43" cy="179.1" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
-      '<circle cx="43" cy="179.1" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
+      '<circle cx="43" cy="121.8" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
+      '<circle cx="43" cy="121.8" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
+      '<circle cx="43" cy="121.8" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
+      '<path d="M43 128.4 C37.7 128.4 35.7 135.1 35.7 142.9 V158.8 C35.7 166.7 38.3 171.8 43 171.8 C48.4 171.8 51.1 166.9 51.1 159.5 V138.8 C51.1 132.4 48.4 128.4 43 128.4 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
+      '<path d="M39.9 132.4 C38.3 137.6 38.4 145 38.4 152.1 C38.4 158.1 40.4 162.9 42.5 164.7" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
+      '<circle cx="43" cy="174.8" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
+      '<circle cx="43" cy="174.8" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
+      '<circle cx="43" cy="174.8" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
     '</g>'+
     '</g>'+
   '</svg>';
 }
-
 
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
 
