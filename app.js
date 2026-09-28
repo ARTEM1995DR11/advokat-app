@@ -6349,9 +6349,7 @@ function matterFolderShell(){
     <g data-layer="tab" filter="url(#${uid}-tabShadow)"><path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/><path d="M54 106 C63 86 66 61 76 44 C81 36 88 34 98 34 H230 C243 34 249 42 255 56 C266 80 276 108 288 117" fill="none" stroke="var(--folder-light)" stroke-width="1.2" opacity=".78"/></g>
     <g data-layer="front" filter="url(#${uid}-frontShadow)"><use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/></g>
     <g data-layer="trim" fill="none" stroke-linejoin="round"><use href="#${uid}-face" stroke="#905513" stroke-width="5"/><use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.5"/><use href="#${uid}-face" stroke="#fff4cd" stroke-width=".9"/></g>
-    <g data-layer="upper-grommet" filter="url(#${uid}-hardware)"><ellipse cx="43" cy="82" rx="11.5" ry="12" fill="url(#${uid}-grommet)" stroke="#9a631c" stroke-width="1"/><ellipse cx="43" cy="82" rx="6.2" ry="6.8" fill="var(--folder-deep)" stroke="#603905" stroke-width="1.6"/><path d="M34 84 C32 74 44 68 50 78" fill="none" stroke="#fff4c2" stroke-width="1.6"/></g>
-    <g data-layer="ring" filter="url(#${uid}-hardware)"><path d="M43 79 C38 79 38 85 38 89 V116 C38 124 40 127 43 127 C47 127 49 123 49 117 V90 C49 82 47 79 43 79 Z" fill="none" stroke="#713e0b" stroke-width="6"/><path d="M43 79 C38 79 38 85 38 89 V116 C38 124 40 127 43 127 C47 127 49 123 49 117 V90 C49 82 47 79 43 79 Z" fill="none" stroke="url(#${uid}-metal)" stroke-width="4.4"/><path d="M41 82 C39 85 40 105 40 118" fill="none" stroke="#fff4bd" stroke-width="1.3" stroke-linecap="round"/></g>
-    <g data-layer="lower-grommet" filter="url(#${uid}-hardware)"><path fill-rule="evenodd" d="M54 124 A11 11 0 1 0 32 124 A11 11 0 1 0 54 124 Z M49 123 A6 6 0 1 1 37 123 A6 6 0 1 1 49 123 Z" fill="url(#${uid}-grommet)" stroke="#9b5b11" stroke-width=".8"/><path d="M34 126 C35 133 46 136 51 128" fill="none" stroke="#fff0af" stroke-width="1.4"/></g>
+    <!-- 5.0.590: крепление полностью удалено по новому макету; лицевая часть папки без отверстий и кольца -->
   </svg>`;
 }
 
