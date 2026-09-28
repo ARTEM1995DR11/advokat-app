@@ -1,4 +1,4 @@
-const CACHE = 'advokat-iphone-offline-v140-premium-5595';
+const CACHE = 'advokat-iphone-offline-v141-premium-5596';
 
 const CORE = [
   './',
