@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.591';
-var APP_BUILD='5591';
+var APP_VERSION='5.0.592';
+var APP_BUILD='5592';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5591" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5592" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5591',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5592',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6314,45 +6314,73 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.591 — One physical folder, traced in the 440 × 458 coordinate system.
-   Reference envelope: x16..424 / y10..438; front crown y96, right crown y120.
-   Every colour shares these paths. No geometry transforms or aspect distortion. */
+/* 5.0.592 — Premium folder shell refinement without changing grid/scale.
+   Same 440 × 458 envelope as 5.0.591; only details/materials were refined.
+   No hardware: no holes, grommets, rings or connectors. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M48 96 H257 C270 96 275 100 282 109 C288 117 295 120 307 120 H397 C413 120 424 132 424 149 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
-  var back='M16 143 V76 C16 57 23 46 37 39 C49 34 51 27 61 19 C68 13 77 10 89 10 H231 C248 10 254 20 262 38 L290 104 C294 114 303 121 319 123 H397 V177 H16 Z';
-  var shoulder='M370 43 H389 C402 43 405 49 409 57 C419 61 424 69 424 81 V150 H370 Z';
-  var tab='M53 108 C61 93 64 64 75 44 C80 35 86 32 98 32 H230 C245 32 251 40 257 55 C267 77 277 107 288 115 C293 119 299 121 308 122 H329 V151 H53 Z';
-  function shadow(name,dy,blur,alpha){return '<filter id="'+uid+'-'+name+'" x="-30%" y="-40%" width="170%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="1" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="#58381c" flood-opacity="'+alpha+'"/></filter>';}
+  var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
+  var back='M16 143 V76 C16 57 23 46 37 39 C49 34 52 27 62 19 C69 13 78 10 90 10 H230 C247 10 254 19 262 37 L290 103 C295 114 304 121 319 123 H397 V177 H16 Z';
+  var shoulder='M370 45 H390 C402 45 408 52 410 62 C420 66 426 75 426 87 V148 C426 162 418 172 405 176 H370 Z';
+  var tab='M53 110 C60 95 65 70 75 48 C81 36 89 32 102 32 H226 C243 32 251 39 258 53 C268 73 277 95 288 108 C296 118 307 121 322 121 H329 V151 H53 Z';
+  function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <path id="${uid}-face" d="${front}"/>
-      <linearGradient id="${uid}-back" x1="0" y1="0" x2="1" y2=".4"><stop stop-color="var(--folder-deep)"/><stop offset=".16" stop-color="var(--folder)"/><stop offset=".4" stop-color="var(--folder-deep)"/><stop offset=".76" stop-color="var(--folder-deep)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
-      <linearGradient id="${uid}-tab" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="var(--folder-light)"/><stop offset=".70" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
-      <linearGradient id="${uid}-cream" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#fffaf0"/><stop offset=".48" stop-color="#faf4e9"/><stop offset="1" stop-color="#f2e8d9"/></linearGradient>
-      <linearGradient id="${uid}-paper" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#fffdf8"/><stop offset="1" stop-color="#eae4dc"/></linearGradient>
-      <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="#b47820"/><stop offset=".055" stop-color="#fff2b3"/><stop offset=".17" stop-color="#c58a28"/><stop offset=".48" stop-color="#f2ca77"/><stop offset=".74" stop-color="#a56213"/><stop offset=".94" stop-color="#e6b252"/><stop offset=".983" stop-color="#fff0a7"/><stop offset="1" stop-color="#925111"/></linearGradient>
-      <linearGradient id="${uid}-metal" x1="0" y1="0" x2="1" y2=".2"><stop stop-color="#6b360a"/><stop offset=".22" stop-color="#d9972b"/><stop offset=".43" stop-color="#fff6be"/><stop offset=".6" stop-color="#f3c668"/><stop offset=".84" stop-color="#9c570e"/><stop offset="1" stop-color="#e3a340"/></linearGradient>
-      <radialGradient id="${uid}-grommet" cx=".32" cy=".25" r=".78"><stop stop-color="#fff9cf"/><stop offset=".35" stop-color="#f4d083"/><stop offset=".63" stop-color="#a76516"/><stop offset=".82" stop-color="#f1bf59"/><stop offset="1" stop-color="#73400e"/></radialGradient>
-      ${shadow('contact',9,8,.28)}${shadow('rear',3,3,.22)}${shadow('shoulder',2,2,.23)}${shadow('paperShadow',2.2,1.7,.20)}${shadow('tabShadow',3,2.6,.27)}${shadow('frontShadow',5,4,.28)}${shadow('hardware',1.7,1.3,.4)}
-      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".035"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+      <linearGradient id="${uid}-back" x1="0" y1="0" x2="1" y2=".42"><stop stop-color="var(--folder-deep)"/><stop offset=".18" stop-color="var(--folder)"/><stop offset=".44" stop-color="var(--folder-deep)"/><stop offset=".76" stop-color="var(--folder-deep)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+      <linearGradient id="${uid}-tab" x1="0" y1="0" x2=".34" y2="1"><stop stop-color="var(--folder-light)"/><stop offset=".54" stop-color="var(--folder-light)"/><stop offset=".82" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
+      <linearGradient id="${uid}-cream" x1=".08" y1="0" x2=".86" y2="1"><stop stop-color="#fffdf6"/><stop offset=".42" stop-color="#fbf6eb"/><stop offset=".76" stop-color="#f7f0e3"/><stop offset="1" stop-color="#efe4d2"/></linearGradient>
+      <linearGradient id="${uid}-paper" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#fffefa"/><stop offset=".7" stop-color="#f7f3eb"/><stop offset="1" stop-color="#e7e0d6"/></linearGradient>
+      <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".12" y2="1"><stop stop-color="#6f3904"/><stop offset=".06" stop-color="#c58018"/><stop offset=".13" stop-color="#fff1a7"/><stop offset=".23" stop-color="#d79b2b"/><stop offset=".48" stop-color="#f6cf73"/><stop offset=".70" stop-color="#9a560c"/><stop offset=".88" stop-color="#e6ad39"/><stop offset=".965" stop-color="#fff1a3"/><stop offset="1" stop-color="#774004"/></linearGradient>
+      ${shadow('contact',0,8.5,7.2,.22,'#5a3b1c')}${shadow('rear',0,3.3,3.2,.22,'#173c4e')}${shadow('shoulder',0,2.5,2.4,.20,'#173c4e')}${shadow('paperShadow',.7,2.4,1.5,.16,'#5b4b39')}${shadow('tabShadow',0,3.1,2.7,.23,'#173c57')}${shadow('frontShadow',0,5.2,4.4,.25,'#593a1d')}
+      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".74" numOctaves="2" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".026"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
     </defs>
-    <path data-layer="contact" d="${front}" fill="#805023" opacity=".80" filter="url(#${uid}-contact)"/>
-    <g data-layer="rear" filter="url(#${uid}-rear)"><path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/><path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C71 15 79 13 90 13 H230" fill="none" stroke="var(--folder-light)" stroke-width="1.4" opacity=".55"/></g>
-    <g data-layer="shoulder" filter="url(#${uid}-shoulder)"><path d="${shoulder}" fill="url(#${uid}-back)"/><path d="M377 45 H388 C399 45 401 51 404 58" fill="none" stroke="var(--folder-light)" stroke-width="1.3" opacity=".5"/></g>
-    <g data-layer="papers" fill="url(#${uid}-paper)" stroke="#fffcf4" stroke-width="1.2">
-      <path d="M262 17 L360 14 L361 139 H310 Z" filter="url(#${uid}-paperShadow)"/>
-      <path d="M265 34 L370 31 L372 145 H305 Z" filter="url(#${uid}-paperShadow)"/>
-      <path d="M275 55 L391 53 L392 152 H298 Z" filter="url(#${uid}-paperShadow)"/>
-      <path d="M278 75 L380 74 L382 160 H294 Z" filter="url(#${uid}-paperShadow)"/>
+
+    <path data-layer="contact" d="${front}" fill="#76502b" opacity=".72" filter="url(#${uid}-contact)"/>
+
+    <g data-layer="rear" filter="url(#${uid}-rear)">
+      <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
+      <path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C72 15 80 13 91 13 H229" fill="none" stroke="var(--folder-light)" stroke-width="1.25" opacity=".44" stroke-linecap="round"/>
+      <path d="M22 137 V82" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="1.2"/>
     </g>
-    <g data-layer="tab" filter="url(#${uid}-tabShadow)"><path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/><path d="M54 106 C63 86 66 61 76 44 C81 36 88 34 98 34 H230 C243 34 249 42 255 56 C266 80 276 108 288 117" fill="none" stroke="var(--folder-light)" stroke-width="1.2" opacity=".78"/></g>
-    <g data-layer="front" filter="url(#${uid}-frontShadow)"><use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/></g>
-    <g data-layer="trim" fill="none" stroke-linejoin="round"><use href="#${uid}-face" stroke="#905513" stroke-width="5"/><use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.5"/><use href="#${uid}-face" stroke="#fff4cd" stroke-width=".9"/></g>
-    <!-- 5.0.591: крепление полностью удалено по новому макету; лицевая часть папки без отверстий и кольца -->
+
+    <g data-layer="shoulder" filter="url(#${uid}-shoulder)">
+      <path d="${shoulder}" fill="url(#${uid}-back)"/>
+      <path d="M377 48 H389 C398 48 403 53 405 61" fill="none" stroke="var(--folder-light)" stroke-width="1.15" opacity=".42" stroke-linecap="round"/>
+    </g>
+
+    <g data-layer="papers" fill="url(#${uid}-paper)">
+      <path d="M249 20 H359 Q364 20 364 25 V139 H307 L287 91 L264 37 Q259 20 249 20 Z" stroke="#f3eee6" stroke-width="1.05" filter="url(#${uid}-paperShadow)"/>
+      <path d="M258 36 H374 Q379 36 379 41 V146 H305 L289 103 L269 50 Q265 36 258 36 Z" stroke="#eee8df" stroke-width="1.05" filter="url(#${uid}-paperShadow)"/>
+      <path d="M270 53 H392 Q397 53 397 58 V153 H300 L290 116 L278 68 Q275 53 270 53 Z" stroke="#e9e2d9" stroke-width="1.05" filter="url(#${uid}-paperShadow)"/>
+      <path d="M281 72 H385 Q390 72 390 77 V160 H294 L289 129 L284 84 Q283 72 281 72 Z" stroke="#e4ddd3" stroke-width="1.05" filter="url(#${uid}-paperShadow)"/>
+      <g fill="none" stroke="#dcd5cc" stroke-width=".72" opacity=".56" stroke-linecap="round">
+        <path d="M279 33 H348"/><path d="M287 49 H363"/><path d="M298 66 H380"/><path d="M307 85 H374"/>
+      </g>
+      <g fill="none" stroke="#fff" stroke-width=".75" opacity=".78">
+        <path d="M254 21 H359"/><path d="M263 37 H374"/><path d="M275 54 H392"/><path d="M285 73 H385"/>
+      </g>
+    </g>
+
+    <g data-layer="tab" filter="url(#${uid}-tabShadow)">
+      <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
+      <path d="M55 107 C63 88 67 63 77 46 C82 38 89 35 101 35 H225 C239 35 247 41 253 53" fill="none" stroke="rgba(255,255,255,.56)" stroke-width="1.15" opacity=".72" stroke-linecap="round"/>
+      <path d="M260 57 C269 77 278 97 289 110 C297 119 307 123 321 123" fill="none" stroke="rgba(16,68,102,.12)" stroke-width="1.15" stroke-linecap="round"/>
+    </g>
+
+    <g data-layer="front" filter="url(#${uid}-frontShadow)">
+      <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
+      <path d="M49 99 H256 C268 99 274 103 281 112" fill="none" stroke="#fffef9" stroke-width="1.35" opacity=".58" stroke-linecap="round"/>
+    </g>
+
+    <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <use href="#${uid}-face" stroke="#6f3904" stroke-width="5.25"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
+      <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
+    </g>
+    <!-- 5.0.592: no hardware by design; geometry/scale preserved, detail quality refined -->
   </svg>`;
 }
-
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
 
 /* 5.0.553 AUDIT: exact duplicate calendar/profile helper block removed. */
