@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.587';
-var APP_BUILD='5587';
+var APP_VERSION='5.0.589';
+var APP_BUILD='5589';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5587" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5589" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3379,92 +3379,6 @@ function compactMatterCardNumber(value){
   if(n.length<=13) return {text:n,full:n,long:false,empty:false};
   return {text:n.slice(0,6)+'…'+n.slice(-3),full:n,long:true,empty:false};
 }
-function matterCard(m, idx){
-  var type=matterFolderVisualType(m, idx),label=matterFolderTypeLabel(type),icon=matterFolderTypeIcon(type);
-  var basisKey=m.basis==='assigned'?'assigned':'agreement',basis=matterBasisMeta(basisKey),next=matterFolderNextHearing(m),badge=matterApprovedBadge(m);
-  var subject=matterApprovedSubject(m),lead=matterApprovedLeadName(m);
-  var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
-  var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
-  var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  var inner='';
-  if(MATTER_FOLDER_SHOW_CONTENT){
-    inner='<span class="case-folder-label">'+esc(label)+'</span>'+      '<span class="case-folder-content">'+        '<span class="case-folder-top"><span class="case-folder-icon">'+matterFolderIcon(icon)+'</span>'+        '<span class="case-folder-basis '+(basisKey==='agreement'?'agreement':'assigned')+'">'+esc(basis.short||basis.n)+'</span>'+        '<span class="case-folder-chevron">'+ico('chev','s')+'</span></span>'+        '<span class="case-folder-name" title="'+esc(m.client||lead)+'">'+esc(lead)+'</span>'+        '<span class="case-folder-subject" title="'+esc(subject)+'">'+esc(subject||'Описание не указано')+'</span>'+        '<span class="case-folder-number">№ '+esc(m.number||'—')+'</span>'+        '<span class="case-folder-meta" title="'+esc(fullMeta)+'">'+esc(meta||'Стадия не указана')+'</span>'+        '<span class="case-folder-next '+next.tone+'">'+matterFolderCalendar()+'<span>'+esc(next.text)+'</span></span>'+      '</span>';
-  }
-  return '<button type="button" class="case-folder case-folder-'+esc(type)+(m.archived?' is-archived':'')+'" data-act="matter" data-id="'+esc(m.id)+'" aria-label="'+esc(accessible)+'"'+(statusText?' title="'+esc(statusText)+'"':'')+'>'+    matterFolderShell()+inner+'</button>';
-}
-
-function renderMatters(){
-  if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
-  var scope=S.ui.matterScope||'active';
-  if(['all','active','archive'].indexOf(scope)<0) scope='active';
-  var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
-  var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
-  var list=S.matters.filter(function(m){
-    if(scope==='active' && m.archived) return false;
-    if(scope==='archive' && !m.archived) return false;
-    if(S.ui.matterType && m.type!==S.ui.matterType) return false;
-    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
-    if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
-    if(q && matterSearchText(m).indexOf(q)<0) return false;
-    return true;
-  });
-  var sortMode=S.ui.matterSort||'priority';
-  list.sort(function(a,b){
-    if(a.archived!==b.archived) return a.archived?1:-1;
-    if(sortMode==='client'){
-      var ac=matterAutoClientLabel(a.client||a.title||''),bc=matterAutoClientLabel(b.client||b.title||'');
-      var cmp=ac.localeCompare(bc,'ru',{sensitivity:'base'}); if(cmp)return cmp;
-      return (a.title||'').localeCompare(b.title||'','ru',{sensitivity:'base'});
-    }
-    if(sortMode==='stage'){
-      var so=matterStageOrder(a.stage)-matterStageOrder(b.stage); if(so)return so;
-      var sc=(a.stage||'').localeCompare(b.stage||'','ru',{sensitivity:'base'}); if(sc)return sc;
-      return matterAutoClientLabel(a.client||'').localeCompare(matterAutoClientLabel(b.client||''),'ru',{sensitivity:'base'});
-    }
-    var A=matterStats(a),B=matterStats(b);
-    if(!!A.pendingResult!==!!B.pendingResult) return A.pendingResult?-1:1;
-    if(!!A.late!==!!B.late) return A.late?-1:1;
-    var an=A.next?A.next.due:'9999',bn=B.next?B.next.due:'9999';
-    if(an!==bn) return an<bn?-1:1;
-    return B.open-A.open;
-  });
-  var typeName=S.ui.matterType?(MATTER_TYPES[S.ui.matterType]||MATTER_TYPES.other).short:'';
-  var basisName=S.ui.matterBasis?(MATTER_BASIS[S.ui.matterBasis]||{short:'Основание'}).short:'';
-  var stageName=S.ui.matterStage||'';
-  var sortName=sortMode!=='priority'?matterSortLabel(sortMode):'';
-  var filterName=[typeName,basisName,stageName,sortName].filter(Boolean).join(' · ')||'Фильтр';
-  var hasMatterFilter=!!(S.ui.matterType||S.ui.matterBasis||S.ui.matterStage||sortMode!=='priority');
-  var scopeCount=scope==='all'?allCount:(scope==='archive'?archCount:activeCount);
-  var scopeCaption=scope==='all'
-    ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' всего'
-    : (scope==='archive'
-      ? scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в архиве'
-      : scopeCount+' '+plural(scopeCount,'дело','дела','дел')+' в производстве');
-  if(hasMatterFilter||q)scopeCaption=list.length+' '+plural(list.length,'дело','дела','дел')+(q?' найдено':' по фильтру');
-  var html='<div class="matters-project">'+
-    mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
-    '<div class="today-head matters-title-head"><div><h1>Дела</h1><p>'+scopeCaption+'</p></div>'+ 
-      '<div class="today-actions">'+headerSearch('matter-search',!!(S.ui.matterSearchOpen||q),'Поиск по делам')+'</div></div>'+ 
-    ((S.ui.matterSearchOpen||q)?'<div class="fld matters-local-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск: доверитель, номер, статья, суд, судья…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div>':'')+
-    '<div class="matters-scope">'+
-      '<button class="'+(scope==='all'?'on':'')+'" data-act="matter-scope" data-v="all"><span>Все</span><em>'+allCount+'</em></button>'+ 
-      '<button class="'+(scope==='active'?'on':'')+'" data-act="matter-scope" data-v="active"><span>В работе</span><em>'+activeCount+'</em></button>'+ 
-      '<button class="'+(scope==='archive'?'on':'')+'" data-act="matter-scope" data-v="archive"><span>Архив</span><em>'+archCount+'</em></button>'+ 
-      '<button class="matter-filter-btn'+(hasMatterFilter?' on':'')+'" data-act="matter-filter-sheet" title="Фильтр дел" aria-label="Фильтр дел">'+ico('list','s')+'<span>'+esc(filterName)+'</span></button></div>'+ 
-    '<div class="matters-list">';
-  html+=list.length?list.map(matterCard).join(''):
-    ((hasMatterFilter||q)
-      ? empty('folder',q?'Дела не найдены':'Нет дел по фильтру',q?'Измените запрос или очистите поиск.':'Измените параметры отбора или сбросьте фильтры.',q?[{act:'matter-search-clear',t:'Очистить поиск'}]:[{act:'matter-filter-reset',t:'Сбросить фильтры'}])
-      : empty('folder',scope==='archive'?'Архив пуст':'Дел пока нет',scope==='archive'?'Завершённые дела появятся здесь после отправки в архив.':'Создайте первое дело и ведите задачи, заседания и историю в одном месте.',scope==='archive'?null:[{act:'new-matter',t:'Завести дело'}]));
-  html+='</div></div>';
-  $('#sc-matters').innerHTML=html;
-  if((S.ui.matterSearchOpen||q)&&$('#matter-q')){
-    var mq=$('#matter-q');
-    setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}},0);
-  }
-}
-
-
 function calAgendaTone(t){
   if(hearingNeedsResult(t)) return 'result';
   if(hearingHasResult(t)) return 'history';
@@ -6247,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5587',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5589',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6400,102 +6314,45 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.585 — STAGE 3 FINAL GEOMETRY LOCK.
-   Rear coloured shell and inner tab are compacted vertically to the approved mockup proportions:
-   lower/cleaner rear crown, inner tab shifted down with a longer quiet top, softer later descent,
-   and a shorter rounded right rear shoulder. Front face, gold hardware, papers, grid/search and matter logic remain unchanged. */
+/* 5.0.589 — One physical folder, traced in the 440 × 458 coordinate system.
+   Reference envelope: x16..424 / y10..438; front crown y96, right crown y120.
+   Every colour shares these paths. No geometry transforms or aspect distortion. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
-  var front='M31 145 H283 C303 145 319 149 332 158 C343 166 352 169 367 169 H397 C414 169 426 181 426 198 V409 C426 426 414 438 397 438 H45 C28 438 16 426 16 409 V158 C16 149 22 145 31 145 Z';
-  return '<svg class="case-folder-shell case-folder-shell-complete" viewBox="0 0 440 458" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'+
-    '<defs>'+
-      '<linearGradient id="'+uid+'-back" x1="40" y1="18" x2="394" y2="212" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0" style="stop-color:var(--folder)"/>'+
-        '<stop offset=".30" style="stop-color:var(--folder)"/>'+
-        '<stop offset=".72" style="stop-color:var(--folder-deep)"/>'+
-        '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
-      '</linearGradient>'+
-      '<linearGradient id="'+uid+'-tab" x1="76" y1="68" x2="350" y2="176" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".64" style="stop-color:var(--folder-light)"/>'+
-        '<stop offset=".89" style="stop-color:var(--folder)"/>'+
-        '<stop offset="1" style="stop-color:var(--folder-deep)"/>'+
-      '</linearGradient>'+
-      '<linearGradient id="'+uid+'-ivory" x1="64" y1="144" x2="398" y2="439" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0" stop-color="#fffdf6"/>'+
-        '<stop offset=".50" stop-color="#fbf6e9"/>'+
-        '<stop offset="1" stop-color="#f1e7d3"/>'+
-      '</linearGradient>'+
-      '<linearGradient id="'+uid+'-paper" x1="202" y1="38" x2="404" y2="176" gradientUnits="userSpaceOnUse">'+
-        '<stop offset="0" stop-color="#fffefb"/>'+
-        '<stop offset="1" stop-color="#eee8df"/>'+
-      '</linearGradient>'+
-      '<linearGradient id="'+uid+'-gold" x1="0" y1="0" x2="0" y2="1">'+
-        '<stop offset="0" stop-color="#fff0a0"/>'+
-        '<stop offset=".18" stop-color="#dfaa2f"/>'+
-        '<stop offset=".44" stop-color="#7c4302"/>'+
-        '<stop offset=".70" stop-color="#efbe3e"/>'+
-        '<stop offset="1" stop-color="#714000"/>'+
-      '</linearGradient>'+
-      '<radialGradient id="'+uid+'-grommet" cx="35%" cy="27%" r="76%">'+
-        '<stop offset="0" stop-color="#fff8ba"/>'+
-        '<stop offset=".30" stop-color="#f4c340"/>'+
-        '<stop offset=".62" stop-color="#925105"/>'+
-        '<stop offset=".83" stop-color="#edb92e"/>'+
-        '<stop offset="1" stop-color="#673300"/>'+
-      '</radialGradient>'+
-      '<filter id="'+uid+'-backShadow" x="-18%" y="-18%" width="142%" height="154%"><feDropShadow dx="0" dy="8" stdDeviation="6.6" flood-color="#17334e" flood-opacity=".30"/></filter>'+
-      '<filter id="'+uid+'-paperShadow" x="-18%" y="-22%" width="148%" height="155%"><feDropShadow dx="1" dy="4" stdDeviation="2.7" flood-color="#4f3b27" flood-opacity=".18"/></filter>'+
-      '<filter id="'+uid+'-tabShadow" x="-18%" y="-22%" width="148%" height="158%"><feDropShadow dx="0" dy="6" stdDeviation="4.4" flood-color="#173b69" flood-opacity=".30"/></filter>'+
-      '<filter id="'+uid+'-faceShadow" x="-14%" y="-12%" width="137%" height="147%"><feDropShadow dx="0" dy="12" stdDeviation="9.3" flood-color="#573811" flood-opacity=".28"/></filter>'+
-      '<filter id="'+uid+'-hwShadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="1" dy="3" stdDeviation="2" flood-color="#3b2400" flood-opacity=".44"/></filter>'+
-      '<filter id="'+uid+'-grain" x="-5%" y="-5%" width="110%" height="110%">'+
-        '<feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="2" seed="11" result="noise"/>'+
-        '<feColorMatrix in="noise" type="saturate" values="0" result="gray"/>'+
-        '<feComponentTransfer in="gray" result="alpha"><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer>'+
-        '<feBlend in="SourceGraphic" in2="alpha" mode="multiply"/>'+
-      '</filter>'+
-    '</defs>'+
-    '<g transform="translate(3 -6) scale(.992 1.03)">'+
-
-    '<ellipse cx="220" cy="431" rx="188" ry="16.5" fill="#5b431f" opacity=".13" filter="url(#'+uid+'-faceShadow)"/>'+
-
-    '<path d="M16 187 V115 C16 93 32 75 56 68 C76 63 89 56 101 45 C113 34 128 30 152 30 H286 C309 30 326 40 338 56 L356 83 C366 97 379 105 396 107 H404 C421 107 432 120 432 138 V226 H16 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M29 118 C29 101 42 88 61 83 C76 79 87 71 98 61 C109 51 123 46 143 46 H279 C296 46 309 52 319 64" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="1.55" stroke-linecap="round"/>'+
-
-    '<path d="M387 104 H404 C417 104 427 115 427 128 V138 C427 146 431 152 436 157 C441 161 444 168 444 176 V185 C444 198 434 208 421 208 H387 Z" fill="url(#'+uid+'-back)" filter="url(#'+uid+'-backShadow)"/>'+
-    '<path d="M393 113 H404 C412 113 419 119 419 128" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.1" stroke-linecap="round"/>'+
-
-    '<path d="M223 31 H367 C373 31 377 35 377 41 V145 H217 V37 C217 33 220 31 223 31 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M210 45 H383 C389 45 393 49 393 55 V158 H204 V51 C204 47 207 45 210 45 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M196 61 H399 C405 61 409 65 409 71 V171 H190 V67 C190 63 193 61 196 61 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<path d="M184 77 H393 C399 77 403 81 403 87 V183 H178 V83 C178 79 181 77 184 77 Z" fill="url(#'+uid+'-paper)" filter="url(#'+uid+'-paperShadow)"/>'+
-    '<g opacity=".18" stroke="#d6cfc5" stroke-width=".82"><path d="M235 52 H354"/><path d="M221 69 H377"/><path d="M206 86 H397"/><path d="M192 102 H388"/></g>'+
-
-    '<path d="M79 164 V116 C79 94 96 76 121 76 H270 C291 76 305 84 316 98 L336 123 C345 135 357 143 372 146 H392 V165 H75 V164 Z" fill="url(#'+uid+'-tab)" filter="url(#'+uid+'-tabShadow)"/>'+
-    '<path d="M93 115 C93 98 106 87 124 87 H266 C283 87 296 93 305 104" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.2" stroke-linecap="round"/>'+
-    '<path d="M318 100 C324 108 330 116 336 123 C345 135 356 143 370 146" fill="none" stroke="rgba(17,77,126,.10)" stroke-width="1.2" stroke-linecap="round"/>'+
-
-    '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-faceShadow)"/>'+
-    '<path d="'+front+'" fill="url(#'+uid+'-ivory)" filter="url(#'+uid+'-grain)" opacity=".98"/>'+
-    '<path d="M32 151 H281 C300 151 314 155 324 163" fill="none" stroke="#fffef8" stroke-width="2" opacity=".66" stroke-linecap="round"/>'+
-
-    '<path d="'+front+'" fill="none" stroke="#6c3b00" stroke-width="7" stroke-linejoin="round"/>'+
-    '<path d="'+front+'" fill="none" stroke="url(#'+uid+'-gold)" stroke-width="4.75" stroke-linejoin="round"/>'+
-    '<path d="'+front+'" fill="none" stroke="#fff0a2" stroke-width="1.2" stroke-linejoin="round" opacity=".94"/>'+
-
-    '<g filter="url(#'+uid+'-hwShadow)">'+
-      '<circle cx="43" cy="121.8" r="13.6" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.65"/>'+
-      '<circle cx="43" cy="121.8" r="5.9" fill="#573004" stroke="#2c1701" stroke-width="1.1"/>'+
-      '<circle cx="43" cy="121.8" r="9.45" fill="none" stroke="#fff0a1" stroke-width="1.45" opacity=".88"/>'+
-      '<path d="M43 128.4 C37.7 128.4 35.7 135.1 35.7 142.9 V158.8 C35.7 166.7 38.3 171.8 43 171.8 C48.4 171.8 51.1 166.9 51.1 159.5 V138.8 C51.1 132.4 48.4 128.4 43 128.4 Z" fill="url(#'+uid+'-gold)" stroke="#633500" stroke-width="1.55"/>'+
-      '<path d="M39.9 132.4 C38.3 137.6 38.4 145 38.4 152.1 C38.4 158.1 40.4 162.9 42.5 164.7" fill="none" stroke="#fff2ac" stroke-width="1.5" stroke-linecap="round" opacity=".91"/>'+
-      '<circle cx="43" cy="174.8" r="11.9" fill="url(#'+uid+'-grommet)" stroke="#663700" stroke-width="1.6"/>'+
-      '<circle cx="43" cy="174.8" r="5.2" fill="#552d03" stroke="#2a1601" stroke-width="1.05"/>'+
-      '<circle cx="43" cy="174.8" r="8.55" fill="none" stroke="#fff0a1" stroke-width="1.3" opacity=".86"/>'+
-    '</g>'+
-    '</g>'+
-  '</svg>';
+  var front='M48 96 H257 C270 96 275 100 282 109 C288 117 295 120 307 120 H397 C413 120 424 132 424 149 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
+  var back='M16 143 V76 C16 57 23 46 37 39 C49 34 51 27 61 19 C68 13 77 10 89 10 H231 C248 10 254 20 262 38 L290 104 C294 114 303 121 319 123 H397 V177 H16 Z';
+  var shoulder='M370 43 H389 C402 43 405 49 409 57 C419 61 424 69 424 81 V150 H370 Z';
+  var tab='M53 108 C61 93 64 64 75 44 C80 35 86 32 98 32 H230 C245 32 251 40 257 55 C267 77 277 107 288 115 C293 119 299 121 308 122 H329 V151 H53 Z';
+  function shadow(name,dy,blur,alpha){return '<filter id="'+uid+'-'+name+'" x="-30%" y="-40%" width="170%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="1" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="#58381c" flood-opacity="'+alpha+'"/></filter>';}
+  return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="${uid}-face" d="${front}"/>
+      <linearGradient id="${uid}-back" x1="0" y1="0" x2="1" y2=".4"><stop stop-color="var(--folder-deep)"/><stop offset=".16" stop-color="var(--folder)"/><stop offset=".4" stop-color="var(--folder-deep)"/><stop offset=".76" stop-color="var(--folder-deep)"/><stop offset="1" stop-color="var(--folder)"/></linearGradient>
+      <linearGradient id="${uid}-tab" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="var(--folder-light)"/><stop offset=".70" stop-color="var(--folder)"/><stop offset="1" stop-color="var(--folder-deep)"/></linearGradient>
+      <linearGradient id="${uid}-cream" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#fffaf0"/><stop offset=".48" stop-color="#faf4e9"/><stop offset="1" stop-color="#f2e8d9"/></linearGradient>
+      <linearGradient id="${uid}-paper" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#fffdf8"/><stop offset="1" stop-color="#eae4dc"/></linearGradient>
+      <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="#b47820"/><stop offset=".055" stop-color="#fff2b3"/><stop offset=".17" stop-color="#c58a28"/><stop offset=".48" stop-color="#f2ca77"/><stop offset=".74" stop-color="#a56213"/><stop offset=".94" stop-color="#e6b252"/><stop offset=".983" stop-color="#fff0a7"/><stop offset="1" stop-color="#925111"/></linearGradient>
+      <linearGradient id="${uid}-metal" x1="0" y1="0" x2="1" y2=".2"><stop stop-color="#6b360a"/><stop offset=".22" stop-color="#d9972b"/><stop offset=".43" stop-color="#fff6be"/><stop offset=".6" stop-color="#f3c668"/><stop offset=".84" stop-color="#9c570e"/><stop offset="1" stop-color="#e3a340"/></linearGradient>
+      <radialGradient id="${uid}-grommet" cx=".32" cy=".25" r=".78"><stop stop-color="#fff9cf"/><stop offset=".35" stop-color="#f4d083"/><stop offset=".63" stop-color="#a76516"/><stop offset=".82" stop-color="#f1bf59"/><stop offset="1" stop-color="#73400e"/></radialGradient>
+      ${shadow('contact',9,8,.28)}${shadow('rear',3,3,.22)}${shadow('shoulder',2,2,.23)}${shadow('paperShadow',2.2,1.7,.20)}${shadow('tabShadow',3,2.6,.27)}${shadow('frontShadow',5,4,.28)}${shadow('hardware',1.7,1.3,.4)}
+      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".035"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+    </defs>
+    <path data-layer="contact" d="${front}" fill="#805023" opacity=".80" filter="url(#${uid}-contact)"/>
+    <g data-layer="rear" filter="url(#${uid}-rear)"><path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/><path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C71 15 79 13 90 13 H230" fill="none" stroke="var(--folder-light)" stroke-width="1.4" opacity=".55"/></g>
+    <g data-layer="shoulder" filter="url(#${uid}-shoulder)"><path d="${shoulder}" fill="url(#${uid}-back)"/><path d="M377 45 H388 C399 45 401 51 404 58" fill="none" stroke="var(--folder-light)" stroke-width="1.3" opacity=".5"/></g>
+    <g data-layer="papers" fill="url(#${uid}-paper)" stroke="#fffcf4" stroke-width="1.2">
+      <path d="M262 17 L360 14 L361 139 H310 Z" filter="url(#${uid}-paperShadow)"/>
+      <path d="M265 34 L370 31 L372 145 H305 Z" filter="url(#${uid}-paperShadow)"/>
+      <path d="M275 55 L391 53 L392 152 H298 Z" filter="url(#${uid}-paperShadow)"/>
+      <path d="M278 75 L380 74 L382 160 H294 Z" filter="url(#${uid}-paperShadow)"/>
+    </g>
+    <g data-layer="tab" filter="url(#${uid}-tabShadow)"><path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/><path d="M54 106 C63 86 66 61 76 44 C81 36 88 34 98 34 H230 C243 34 249 42 255 56 C266 80 276 108 288 117" fill="none" stroke="var(--folder-light)" stroke-width="1.2" opacity=".78"/></g>
+    <g data-layer="front" filter="url(#${uid}-frontShadow)"><use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/></g>
+    <g data-layer="trim" fill="none" stroke-linejoin="round"><use href="#${uid}-face" stroke="#905513" stroke-width="5"/><use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.5"/><use href="#${uid}-face" stroke="#fff4cd" stroke-width=".9"/></g>
+    <g data-layer="upper-grommet" filter="url(#${uid}-hardware)"><ellipse cx="43" cy="82" rx="11.5" ry="12" fill="url(#${uid}-grommet)" stroke="#9a631c" stroke-width="1"/><ellipse cx="43" cy="82" rx="6.2" ry="6.8" fill="var(--folder-deep)" stroke="#603905" stroke-width="1.6"/><path d="M34 84 C32 74 44 68 50 78" fill="none" stroke="#fff4c2" stroke-width="1.6"/></g>
+    <g data-layer="ring" filter="url(#${uid}-hardware)"><path d="M43 79 C38 79 38 85 38 89 V116 C38 124 40 127 43 127 C47 127 49 123 49 117 V90 C49 82 47 79 43 79 Z" fill="none" stroke="#713e0b" stroke-width="6"/><path d="M43 79 C38 79 38 85 38 89 V116 C38 124 40 127 43 127 C47 127 49 123 49 117 V90 C49 82 47 79 43 79 Z" fill="none" stroke="url(#${uid}-metal)" stroke-width="4.4"/><path d="M41 82 C39 85 40 105 40 118" fill="none" stroke="#fff4bd" stroke-width="1.3" stroke-linecap="round"/></g>
+    <g data-layer="lower-grommet" filter="url(#${uid}-hardware)"><path fill-rule="evenodd" d="M54 124 A11 11 0 1 0 32 124 A11 11 0 1 0 54 124 Z M49 123 A6 6 0 1 1 37 123 A6 6 0 1 1 49 123 Z" fill="url(#${uid}-grommet)" stroke="#9b5b11" stroke-width=".8"/><path d="M34 126 C35 133 46 136 51 128" fill="none" stroke="#fff0af" stroke-width="1.4"/></g>
+  </svg>`;
 }
 
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */

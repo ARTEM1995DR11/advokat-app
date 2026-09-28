@@ -35997,7 +35997,7 @@ body:not(.light) .sheet.matter-filter-premium.withfoot{
 #sc-matters .matters-approved-sort-icon.on{
   background:rgba(198,151,66,.16)!important;border-color:rgba(198,151,66,.34)!important;color:#A36F12!important;
 }
-#sc-matters .matters-approved-list{display:flex;flex-direction:column;gap:10px;margin-top:2px;}
+
 #sc-matters .matter-approved-card{
   position:relative;display:grid;grid-template-columns:86px minmax(0,1fr) 22px;gap:12px;align-items:stretch;
   padding:10px 12px 12px;border-radius:22px;border:1px solid rgba(91,114,138,.17);
@@ -38867,13 +38867,7 @@ html body #sc-cal .today-head.calendar-title-head > .today-actions{
 #sc-matters .matters-approved-v3 .matters-approved-head{
   margin-bottom:7px!important;
 }
-#sc-matters .matters-approved-search-open{
-  position:relative!important;
-  z-index:8!important;
-  margin:0 0 8px!important;
-  padding:0!important;
-  background:transparent!important;
-}
+
 #sc-matters .matters-approved-search-open .matters-approved-search{
   margin:0!important;
 }
