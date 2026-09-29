@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.600';
-var APP_BUILD='5600';
+var APP_VERSION='5.0.601';
+var APP_BUILD='5601';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5600',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5601',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.600 — Upper coloured tab: final local polish.
+/* 5.0.601 — Point 2: document stack refinement.
    Only three requested details are changed: remove highlight-end artifacts, soften the
    inner highlight, and lengthen/smooth the right descent. Folder size/grid/papers/front stay unchanged. */
 function matterFolderShell(){
@@ -6362,10 +6362,10 @@ function matterFolderShell(){
       <linearGradient id="${uid}-cream" x1=".08" y1="0" x2=".86" y2="1"><stop stop-color="#fffdf6"/><stop offset=".42" stop-color="#fbf6eb"/><stop offset=".76" stop-color="#f7f0e3"/><stop offset="1" stop-color="#efe4d2"/></linearGradient>
 
       <!-- Stage 1: more readable stagger and richer depth between four sheets. -->
-      <linearGradient id="${uid}-paperA" x1="0" y1="0" x2=".16" y2="1"><stop stop-color="#fffefb"/><stop offset=".76" stop-color="#faf5ec"/><stop offset="1" stop-color="#ece3d8"/></linearGradient>
-      <linearGradient id="${uid}-paperB" x1="0" y1="0" x2=".20" y2="1"><stop stop-color="#fffdf9"/><stop offset=".72" stop-color="#f8f2e9"/><stop offset="1" stop-color="#e9dfd4"/></linearGradient>
-      <linearGradient id="${uid}-paperC" x1="0" y1="0" x2=".22" y2="1"><stop stop-color="#fffdf8"/><stop offset=".72" stop-color="#f6efe5"/><stop offset="1" stop-color="#e7ddcf"/></linearGradient>
-      <linearGradient id="${uid}-paperD" x1="0" y1="0" x2=".24" y2="1"><stop stop-color="#fffdf8"/><stop offset=".70" stop-color="#f5ede3"/><stop offset="1" stop-color="#e2d6c7"/></linearGradient>
+      <linearGradient id="${uid}-paperA" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#fffefa"/><stop offset=".62" stop-color="#fbf7ef"/><stop offset="1" stop-color="#eee6dc"/></linearGradient>
+      <linearGradient id="${uid}-paperB" x1="0" y1="0" x2=".20" y2="1"><stop stop-color="#fffdf8"/><stop offset=".64" stop-color="#faf5ec"/><stop offset="1" stop-color="#ebe2d7"/></linearGradient>
+      <linearGradient id="${uid}-paperC" x1="0" y1="0" x2=".22" y2="1"><stop stop-color="#fffdf8"/><stop offset=".66" stop-color="#f8f2e9"/><stop offset="1" stop-color="#e8ddd1"/></linearGradient>
+      <linearGradient id="${uid}-paperD" x1="0" y1="0" x2=".24" y2="1"><stop stop-color="#fffdf8"/><stop offset=".68" stop-color="#f7f0e6"/><stop offset="1" stop-color="#e5dacd"/></linearGradient>
 
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".12" y2="1"><stop stop-color="#6f3904"/><stop offset=".06" stop-color="#c58018"/><stop offset=".13" stop-color="#fff1a7"/><stop offset=".23" stop-color="#d79b2b"/><stop offset=".48" stop-color="#f6cf73"/><stop offset=".70" stop-color="#9a560c"/><stop offset=".88" stop-color="#e6ad39"/><stop offset=".965" stop-color="#fff1a3"/><stop offset="1" stop-color="#774004"/></linearGradient>
 
@@ -6373,10 +6373,10 @@ function matterFolderShell(){
       ${shadow('rear',0,3.8,3.5,.24,'#181818')}
       ${shadow('rearInner',0,1.0,1.1,.10,'#111111')}
       ${shadow('shoulder',0,3.0,2.6,.19,'#181818')}
-      ${shadow('paperShadowA',.32,1.68,1.12,.12,'#4b4035')}
-      ${shadow('paperShadowB',.48,2.00,1.26,.14,'#4b4035')}
-      ${shadow('paperShadowC',.66,2.32,1.40,.16,'#4b4035')}
-      ${shadow('paperShadowD',.84,2.62,1.54,.18,'#4b4035')}
+      ${shadow('paperShadowA',.28,1.50,1.05,.10,'#55483c')}
+      ${shadow('paperShadowB',.42,1.85,1.18,.12,'#55483c')}
+      ${shadow('paperShadowC',.56,2.15,1.30,.14,'#55483c')}
+      ${shadow('paperShadowD',.70,2.45,1.42,.16,'#55483c')}
       ${shadow('tabShadow',0,4.1,3.0,.22,'#181818')}
       ${shadow('tabLift',0,1.15,1.15,.10,'#111111')}
       ${shadow('frontShadow',0,5.3,4.5,.26,'#593a1d')}
@@ -6400,24 +6400,25 @@ function matterFolderShell(){
       <path d="M372 47 H390 C401 47 408 52 411 61" fill="none" stroke="var(--folder-light)" stroke-width="1.08" opacity=".30" stroke-linecap="round"/>
     </g>
 
-    <!-- Stage 1 final: four separate sheets with stronger silhouette and visible right edges. -->
+    <!-- 5.0.601 / Point 2: four clean, staggered sheets with softer edges and natural depth. -->
     <g data-layer="papers">
-      <path d="M236 14 H355 Q364 14 364 23 V140 H307 L286 92 L256 30 Q250 14 236 14 Z" fill="url(#${uid}-paperA)" stroke="#f1e9df" stroke-width=".92" filter="url(#${uid}-paperShadowA)"/>
-      <path d="M247 27 H371 Q380 27 380 36 V149 H309 L291 104 L263 43 Q258 27 247 27 Z" fill="url(#${uid}-paperB)" stroke="#ece3d8" stroke-width=".92" filter="url(#${uid}-paperShadowB)"/>
-      <path d="M260 42 H387 Q396 42 396 51 V159 H308 L294 118 L275 61 Q271 42 260 42 Z" fill="url(#${uid}-paperC)" stroke="#e7ddd1" stroke-width=".92" filter="url(#${uid}-paperShadowC)"/>
-      <path d="M276 60 H403 Q412 60 412 69 V169 H307 L297 130 L287 84 Q285 60 276 60 Z" fill="url(#${uid}-paperD)" stroke="#e1d6c8" stroke-width=".92" filter="url(#${uid}-paperShadowD)"/>
+      <path d="M238 16 H354 Q362 16 362 24 V141 H307 L287 93 L258 33 Q252 16 238 16 Z" fill="url(#${uid}-paperA)" stroke="#f0e9df" stroke-width=".82" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M249 30 H370 Q378 30 378 38 V150 H309 L292 105 L265 47 Q260 30 249 30 Z" fill="url(#${uid}-paperB)" stroke="#ebe3d9" stroke-width=".82" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M262 46 H387 Q395 46 395 54 V159 H309 L296 118 L278 66 Q274 46 262 46 Z" fill="url(#${uid}-paperC)" stroke="#e7ddd2" stroke-width=".82" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M278 64 H401 Q409 64 409 72 V168 H309 L300 132 L289 88 Q287 64 278 64 Z" fill="url(#${uid}-paperD)" stroke="#e2d7ca" stroke-width=".82" filter="url(#${uid}-paperShadowD)"/>
 
-      <g fill="none" stroke="#fffefb" stroke-width=".76" opacity=".76" stroke-linecap="round">
-        <path d="M241 15 H354"/>
-        <path d="M252 28 H370"/>
-        <path d="M265 43 H386"/>
-        <path d="M281 61 H402"/>
+      <!-- subtle exposed top edges only; no hard right-side rules / no grid effect -->
+      <g fill="none" stroke="#fffefb" stroke-width=".66" opacity=".62" stroke-linecap="round">
+        <path d="M243 17 H353"/>
+        <path d="M254 31 H369"/>
+        <path d="M267 47 H386"/>
+        <path d="M283 65 H400"/>
       </g>
-      <g fill="none" stroke="#cdc1b4" stroke-width=".5" opacity=".28" stroke-linecap="round">
-        <path d="M359 26 V134"/>
-        <path d="M375 39 V143"/>
-        <path d="M391 54 V153"/>
-        <path d="M407 72 V163"/>
+      <g fill="none" stroke="#cfc4b8" stroke-width=".44" opacity=".16" stroke-linecap="round">
+        <path d="M360 28 V136"/>
+        <path d="M376 42 V145"/>
+        <path d="M393 58 V154"/>
+        <path d="M407 76 V162"/>
       </g>
     </g>
 
@@ -6440,7 +6441,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.600: point 1 final local pass — no teeth, softer highlight, longer/smoother right descent -->
+    <!-- 5.0.601: point 1 preserved; point 2 papers refined only -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
