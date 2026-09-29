@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.617';
-var APP_BUILD='5617';
+var APP_VERSION='5.0.618';
+var APP_BUILD='5618';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5617',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5618',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,14 +6315,15 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.617 — Point 3 rebuilt closer to the older successful geometry.
-   Points 1–2 stay preserved. The dedicated right rear shoulder is now a broader body continuation with a
-   short top shelf and rounded outer side, instead of the narrow upright strip seen in 5.0.616. */
+/* 5.0.618 — Points 3–4 pass against the approved mockup.
+   Points 1–2 stay preserved. Point 3: the dedicated right rear shoulder is shifted into view so its top
+   shelf is readable before the rounded outer side. Point 4: the paper stack is rebuilt with clearer 3–4
+   layer separation, softer depth and slightly shorter right reach so the rear shoulder remains visible. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
-  var back='M16 143 V67 C16 49 24 38 39 31 C52 25 56 18 67 10 C75 4 85 1 98 1 H236 C254 1 262 10 271 29 L300 99 C305 110 314 117 329 119 H395 C405 119 411 124 411 135 V179 H16 Z';
-  var shoulder='M352 76 H398 C413 76 424 84 429 96 C431 101 432 108 432 116 V150 C432 165 423 176 408 181 H352 Z';
+  var back='M16 143 V67 C16 49 24 38 39 31 C52 25 56 18 67 10 C75 4 85 1 98 1 H236 C254 1 262 10 271 29 L300 99 C305 110 314 117 329 119 H385 C398 119 407 122 412 129 V179 H16 Z';
+  var shoulder='M332 82 H392 C410 82 422 90 427 103 C430 110 431 118 431 128 V150 C431 165 422 176 407 181 H332 Z';
   var tab='M52 116 C58 95 66 68 77 44 C85 27 98 19 116 19 H236 C252 19 265 25 275 39 C286 55 295 72 306 85 C317 97 329 104 342 107 C350 109 357 110 363 110 H366 V156 H52 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
@@ -6372,7 +6373,7 @@ function matterFolderShell(){
 
       ${shadow('contact',0,10.2,8.8,.28,'#563719')}
       ${shadow('rear',0,4.7,4.2,.28,'#181818')}
-      ${shadow('shoulder',0,3.7,3.0,.22,'#181818')}
+      ${shadow('shoulder',0,3.9,3.1,.24,'#181818')}
       ${shadow('rearInner',0,1.15,1.25,.12,'#111111')}
       ${shadow('paperShadowA',.30,1.85,1.22,.11,'#55483b')}
       ${shadow('paperShadowB',.44,2.12,1.34,.13,'#55483b')}
@@ -6393,44 +6394,44 @@ function matterFolderShell(){
       <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".30"/>
       <path d="M18 70 C18 50 26 39 40 33 C54 27 58 17 69 10 C77 5 86 3 98 3 H235" fill="none" stroke="var(--folder-light)" stroke-width="1.42" opacity=".42" stroke-linecap="round"/>
       <path d="M26 63 C35 45 45 39 58 32 C69 25 74 14 87 9" fill="none" stroke="#fff" stroke-width=".72" opacity=".11" stroke-linecap="round"/>
-      <path d="M19 139 H406" fill="none" stroke="#111" stroke-width="1.0" opacity=".078" filter="url(#${uid}-rearInner)"/>
+      <path d="M19 139 H398" fill="none" stroke="#111" stroke-width="1.0" opacity=".078" filter="url(#${uid}-rearInner)"/>
       <path d="M22 137 V73" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
     </g>
 
-    <!-- Older successful construction restored more faithfully: a broader right body continuation behind the document stack. -->
+    <!-- Point 3: broader right body continuation, shifted into clearer view behind the document stack. -->
     <g data-layer="rear-shoulder" filter="url(#${uid}-shoulder)">
       <path d="${shoulder}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
       <path d="${shoulder}" fill="url(#${uid}-backSheen)" opacity=".24"/>
-      <path d="M366 79 H399 C412 79 422 86 426 97" fill="none" stroke="var(--folder-light)" stroke-width="1.12" opacity=".30" stroke-linecap="round"/>
+      <path d="M347 85 H392 C406 85 417 92 422 103" fill="none" stroke="var(--folder-light)" stroke-width="1.12" opacity=".31" stroke-linecap="round"/>
     </g>
 
     <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
     <g data-layer="papers">
-      <path d="M234 14 H347 Q356 14 356 22 V140 H304 L284 92 L254 31 Q248 14 234 14 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
-      <path d="M245 32 H367 Q376 32 376 40 V151 H307 L290 104 L261 50 Q256 32 245 32 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
-      <path d="M257 51 H388 Q397 51 397 59 V163 H310 L297 121 L273 73 Q269 51 257 51 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
-      <path d="M270 71 H406 Q415 71 415 80 V175 H312 L303 137 L285 98 Q281 71 270 71 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
+      <path d="M228 16 H336 Q345 16 345 24 V136 H296 L277 90 L249 33 Q244 16 228 16 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M240 31 H354 Q363 31 363 40 V148 H300 L284 103 L257 49 Q252 31 240 31 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M252 47 H373 Q382 47 382 56 V160 H304 L292 119 L268 71 Q264 47 252 47 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M265 65 H389 Q398 65 398 75 V173 H308 L299 135 L281 96 Q277 65 265 65 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
 
       <!-- exposed top edges with clearer step rhythm -->
-      <g fill="none" stroke="#fffefb" stroke-width=".72" opacity=".68" stroke-linecap="round">
-        <path d="M239 15 H346"/>
-        <path d="M250 33 H366"/>
-        <path d="M262 52 H387"/>
-        <path d="M275 72 H405"/>
+      <g fill="none" stroke="#fffefb" stroke-width=".72" opacity=".74" stroke-linecap="round">
+        <path d="M233 17 H335"/>
+        <path d="M245 32 H353"/>
+        <path d="M257 48 H372"/>
+        <path d="M270 66 H388"/>
       </g>
 
-      <!-- very soft right-edge hints only: shortened and lightened so no visible comb/striping -->
-      <g fill="none" stroke="#cfc4b8" stroke-width=".40" opacity=".10" stroke-linecap="round">
-        <path d="M353 28 V116"/>
-        <path d="M373 46 V129"/>
-        <path d="M394 66 V142"/>
-        <path d="M411 87 V154"/>
+      <!-- faint right-edge cues only, shortened and softened -->
+      <g fill="none" stroke="#cfc4b8" stroke-width=".38" opacity=".08" stroke-linecap="round">
+        <path d="M341 30 V112"/>
+        <path d="M360 45 V125"/>
+        <path d="M378 63 V139"/>
+        <path d="M395 82 V152"/>
       </g>
 
-      <!-- internal sheet depth now comes mainly from stagger + soft shadows; no visible diagonal striping -->
+      <!-- 5.0.618: clearer 3–4 sheet layering with shorter right reach to keep the rear shoulder visible. -->
     </g>
 
-    <!-- Point 3: overlap order is intentional. Papers stay behind the inner tab; the rear shell/shoulder stays behind both. -->
+    <!-- Points 3–4: overlap order is intentional. Rear shell/shoulder stays behind the rebuilt papers; papers stay behind the inner tab. -->
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
@@ -6452,7 +6453,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
       <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
     </g>
-    <!-- 5.0.617: point 3 rebuilt with a broader dedicated shoulder layer, closer to the older successful geometry. -->
+    <!-- 5.0.618: point 3 visibility adjusted and point 4 paper stack rebuilt; points 1–2 preserved. -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
