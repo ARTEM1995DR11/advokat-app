@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.597';
-var APP_BUILD='5597';
+var APP_VERSION='5.0.599';
+var APP_BUILD='5599';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,8 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5597',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5599',{updateViaCache:'none'})
+        .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
   });
@@ -6314,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.597 — Stage 1 focused refinement: upper coloured tab.
+/* 5.0.599 — Upper-tab refinement + synchronized PWA build metadata.
    Geometry, grid and folder scale stay approved.
    This pass only improves the upper tab silhouette, right descent and tab volume
    so the folders read closer to the approved mockup without changing the folder size. */
