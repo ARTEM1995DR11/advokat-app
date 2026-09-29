@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.601';
-var APP_BUILD='5601';
+var APP_VERSION='5.0.603';
+var APP_BUILD='5603';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5601',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5603',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.601 — Point 2: document stack refinement.
+/* 5.0.603 — Point 2: document stack refinement.
    Only three requested details are changed: remove highlight-end artifacts, soften the
    inner highlight, and lengthen/smooth the right descent. Folder size/grid/papers/front stay unchanged. */
 function matterFolderShell(){
@@ -6450,7 +6450,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.601: point 1 preserved; point 2 papers refined only -->
+    <!-- 5.0.603: point 1 preserved; point 2 papers refined only -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
