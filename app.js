@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.604';
-var APP_BUILD='5604';
+var APP_VERSION='5.0.605';
+var APP_BUILD='5605';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5604',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5605',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,14 +6315,13 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.604 — Point 2: document stack refinement.
-   Only three requested details are changed: remove highlight-end artifacts, soften the
-   inner highlight, and lengthen/smooth the right descent. Folder size/grid/papers/front stay unchanged. */
+/* 5.0.605 — Point 3: right rear shoulder + layer joints.
+   Point 1 tab and Point 2 papers are frozen. The rear shoulder is merged into the rear shell
+   so it reads as one continuous body, with cleaner overlap order: rear → papers → tab → front. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
-  var back='M16 143 V76 C16 57 23 46 37 39 C49 34 52 27 62 19 C69 13 78 10 90 10 H230 C247 10 254 19 262 37 L290 103 C295 114 304 121 319 123 H397 V177 H16 Z';
-  var shoulder='M364 43 H391 C405 43 414 50 417 63 C425 67 430 76 430 88 V149 C430 164 421 174 406 177 H364 Z';
+  var back='M16 143 V76 C16 57 23 46 37 39 C49 34 52 27 62 19 C69 13 78 10 90 10 H230 C247 10 254 19 262 37 L290 103 C295 114 304 121 319 123 H385 C395 123 401 118 401 109 V79 C401 65 408 56 419 52 C425 50 430 55 430 63 V148 C430 163 421 173 407 177 H16 Z';
   var tab='M51 114 C55 98 60 77 69 55 C76 39 87 31 103 31 H230 C246 31 258 37 267 50 C277 65 286 82 296 95 C306 108 316 114 327 117 C335 119 342 120 350 120 H353 V156 H51 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
@@ -6372,7 +6371,6 @@ function matterFolderShell(){
       ${shadow('contact',0,8.7,7.4,.23,'#5a3b1c')}
       ${shadow('rear',0,3.8,3.5,.24,'#181818')}
       ${shadow('rearInner',0,1.0,1.1,.10,'#111111')}
-      ${shadow('shoulder',0,3.0,2.6,.19,'#181818')}
       ${shadow('paperShadowA',.30,1.54,1.02,.085,'#4f4338')}
       ${shadow('paperShadowB',.44,1.82,1.16,.105,'#4f4338')}
       ${shadow('paperShadowC',.58,2.08,1.28,.125,'#4f4338')}
@@ -6390,14 +6388,9 @@ function matterFolderShell(){
       <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
       <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".30"/>
       <path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C72 15 80 13 91 13 H229" fill="none" stroke="var(--folder-light)" stroke-width="1.16" opacity=".30" stroke-linecap="round"/>
-      <path d="M19 140 H397" fill="none" stroke="#111" stroke-width="1.0" opacity=".085" filter="url(#${uid}-rearInner)"/>
-      <path d="M22 137 V82" fill="none" stroke="rgba(0,0,0,.095)" stroke-width="1.1"/>
-    </g>
-
-    <g data-layer="shoulder" filter="url(#${uid}-shoulder)">
-      <path d="${shoulder}" fill="url(#${uid}-back)"/>
-      <path d="${shoulder}" fill="url(#${uid}-backSheen)" opacity=".24"/>
-      <path d="M372 47 H390 C401 47 408 52 411 61" fill="none" stroke="var(--folder-light)" stroke-width="1.08" opacity=".30" stroke-linecap="round"/>
+      <path d="M405 78 C405 65 411 58 420 55 C424 54 427 57 427 64" fill="none" stroke="var(--folder-light)" stroke-width="1.02" opacity=".22" stroke-linecap="round"/>
+      <path d="M19 140 H397" fill="none" stroke="#111" stroke-width="1.0" opacity=".078" filter="url(#${uid}-rearInner)"/>
+      <path d="M22 137 V82" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
     </g>
 
     <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
@@ -6426,6 +6419,7 @@ function matterFolderShell(){
       <!-- internal sheet depth now comes mainly from stagger + soft shadows; no visible diagonal striping -->
     </g>
 
+    <!-- Point 3: overlap order is intentional. Papers stay behind the inner tab; the rear shell/shoulder stays behind both. -->
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
@@ -6445,7 +6439,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.604: point 1 preserved; point 2 papers refined only -->
+    <!-- 5.0.605: point 1 + point 2 preserved; point 3 rear shoulder integrated and layer joints cleaned -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
