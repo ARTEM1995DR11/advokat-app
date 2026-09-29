@@ -6373,10 +6373,10 @@ function matterFolderShell(){
       ${shadow('rear',0,3.8,3.5,.24,'#181818')}
       ${shadow('rearInner',0,1.0,1.1,.10,'#111111')}
       ${shadow('shoulder',0,3.0,2.6,.19,'#181818')}
-      ${shadow('paperShadowA',.28,1.50,1.05,.10,'#55483c')}
-      ${shadow('paperShadowB',.42,1.85,1.18,.12,'#55483c')}
-      ${shadow('paperShadowC',.56,2.15,1.30,.14,'#55483c')}
-      ${shadow('paperShadowD',.70,2.45,1.42,.16,'#55483c')}
+      ${shadow('paperShadowA',.34,1.68,1.12,.12,'#4f4338')}
+      ${shadow('paperShadowB',.50,2.02,1.24,.145,'#4f4338')}
+      ${shadow('paperShadowC',.66,2.34,1.36,.17,'#4f4338')}
+      ${shadow('paperShadowD',.82,2.68,1.50,.19,'#4f4338')}
       ${shadow('tabShadow',0,4.1,3.0,.22,'#181818')}
       ${shadow('tabLift',0,1.15,1.15,.10,'#111111')}
       ${shadow('frontShadow',0,5.3,4.5,.26,'#593a1d')}
@@ -6400,25 +6400,34 @@ function matterFolderShell(){
       <path d="M372 47 H390 C401 47 408 52 411 61" fill="none" stroke="var(--folder-light)" stroke-width="1.08" opacity=".30" stroke-linecap="round"/>
     </g>
 
-    <!-- 5.0.601 / Point 2: four clean, staggered sheets with softer edges and natural depth. -->
+    <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
     <g data-layer="papers">
-      <path d="M238 16 H354 Q362 16 362 24 V141 H307 L287 93 L258 33 Q252 16 238 16 Z" fill="url(#${uid}-paperA)" stroke="#f0e9df" stroke-width=".82" filter="url(#${uid}-paperShadowA)"/>
-      <path d="M249 30 H370 Q378 30 378 38 V150 H309 L292 105 L265 47 Q260 30 249 30 Z" fill="url(#${uid}-paperB)" stroke="#ebe3d9" stroke-width=".82" filter="url(#${uid}-paperShadowB)"/>
-      <path d="M262 46 H387 Q395 46 395 54 V159 H309 L296 118 L278 66 Q274 46 262 46 Z" fill="url(#${uid}-paperC)" stroke="#e7ddd2" stroke-width=".82" filter="url(#${uid}-paperShadowC)"/>
-      <path d="M278 64 H401 Q409 64 409 72 V168 H309 L300 132 L289 88 Q287 64 278 64 Z" fill="url(#${uid}-paperD)" stroke="#e2d7ca" stroke-width=".82" filter="url(#${uid}-paperShadowD)"/>
+      <path d="M234 14 H346 Q355 14 355 22 V139 H304 L284 92 L254 31 Q248 14 234 14 Z" fill="url(#${uid}-paperA)" stroke="#f0e9df" stroke-width=".84" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M248 32 H366 Q375 32 375 40 V149 H307 L290 104 L264 50 Q259 32 248 32 Z" fill="url(#${uid}-paperB)" stroke="#ebe3d9" stroke-width=".84" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M264 52 H387 Q396 52 396 60 V160 H310 L297 121 L279 74 Q275 52 264 52 Z" fill="url(#${uid}-paperC)" stroke="#e7ddd2" stroke-width=".84" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M281 74 H405 Q413 74 413 82 V172 H312 L303 137 L293 100 Q290 74 281 74 Z" fill="url(#${uid}-paperD)" stroke="#e2d7ca" stroke-width=".84" filter="url(#${uid}-paperShadowD)"/>
 
-      <!-- subtle exposed top edges only; no hard right-side rules / no grid effect -->
-      <g fill="none" stroke="#fffefb" stroke-width=".66" opacity=".62" stroke-linecap="round">
-        <path d="M243 17 H353"/>
-        <path d="M254 31 H369"/>
-        <path d="M267 47 H386"/>
-        <path d="M283 65 H400"/>
+      <!-- exposed top edges with clearer step rhythm -->
+      <g fill="none" stroke="#fffefb" stroke-width=".72" opacity=".68" stroke-linecap="round">
+        <path d="M239 15 H345"/>
+        <path d="M253 33 H365"/>
+        <path d="M269 53 H386"/>
+        <path d="M286 75 H404"/>
       </g>
-      <g fill="none" stroke="#cfc4b8" stroke-width=".44" opacity=".16" stroke-linecap="round">
-        <path d="M360 28 V136"/>
-        <path d="M376 42 V145"/>
-        <path d="M393 58 V154"/>
-        <path d="M407 76 V162"/>
+
+      <!-- faint right-edge hints only, with varied lengths to avoid a rigid comb effect -->
+      <g fill="none" stroke="#cabeb1" stroke-width=".46" opacity=".18" stroke-linecap="round">
+        <path d="M352 24 V132"/>
+        <path d="M372 42 V143"/>
+        <path d="M393 63 V155"/>
+        <path d="M409 85 V166"/>
+      </g>
+
+      <!-- soft internal depth between sheets -->
+      <g fill="none" stroke-linecap="round">
+        <path d="M252 34 C257 33 264 34 270 39 C277 45 281 53 286 65 C289 73 292 85 295 97" stroke="rgba(0,0,0,.070)" stroke-width="1.05" opacity=".72"/>
+        <path d="M268 54 C275 54 281 57 287 64 C293 72 297 82 301 94 C304 104 307 115 309 125" stroke="rgba(0,0,0,.082)" stroke-width="1.10" opacity=".76"/>
+        <path d="M285 76 C292 77 298 81 304 89 C309 97 313 107 316 118 C318 127 320 136 321 145" stroke="rgba(0,0,0,.094)" stroke-width="1.15" opacity=".80"/>
       </g>
     </g>
 
