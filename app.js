@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.607';
-var APP_BUILD='5607';
+var APP_VERSION='5.0.608';
+var APP_BUILD='5608';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5607',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5608',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,14 +6315,14 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.607 — Folder shell step 1 against the approved mockup.
-   Only point 1 is addressed here: the coloured upper shell and inner tab are raised so the top block
-   protrudes higher above the cream front face, while all surrounding page UI stays untouched. */
+/* 5.0.608 — Folder shell step 2 against the approved mockup.
+   Only point 2 is addressed here: the inner coloured tab is enlarged and widened inside the already
+   raised upper block, while the surrounding page UI and previously fixed overall top height stay untouched. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
   var back='M16 143 V67 C16 49 24 38 39 31 C52 25 56 18 67 10 C75 4 85 1 98 1 H236 C254 1 262 10 271 29 L300 99 C305 110 314 117 329 119 H389 C400 119 407 114 407 104 V72 C407 58 414 48 424 44 C430 42 434 47 434 56 V148 C434 164 424 175 408 179 H16 Z';
-  var tab='M49 114 C54 94 61 69 72 43 C80 26 93 18 111 18 H238 C255 18 268 25 278 39 C289 55 298 74 308 88 C319 102 330 109 343 112 C352 114 359 115 368 115 H372 V156 H49 Z';
+  var tab='M43 115 C49 91 58 62 71 35 C80 18 96 10 118 10 H246 C264 10 279 18 291 34 C303 51 313 71 325 86 C337 100 350 108 365 111 C375 113 384 114 394 114 H398 V156 H43 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -6427,8 +6427,8 @@ function matterFolderShell(){
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
       <!-- one continuous, very soft highlight: no short endpoints / no visible white contour -->
-      <path d="M60 102 C66 83 73 57 83 39 C90 28 100 24 112 24 H236 C252 24 263 30 272 42 C282 56 291 75 301 89 C312 102 326 110 342 113" fill="none" stroke="rgba(255,255,255,.42)" stroke-width=".90" opacity=".56" stroke-linecap="round"/>
-      <path d="M281 42 C291 57 300 75 311 89 C322 102 333 109 347 112" fill="none" stroke="rgba(0,0,0,.085)" stroke-width=".82" opacity=".66" stroke-linecap="round"/>
+      <path d="M55 103 C62 79 71 49 84 29 C93 17 107 14 121 14 H244 C261 14 275 21 286 35 C298 51 308 71 320 86 C333 100 349 108 366 111" fill="none" stroke="rgba(255,255,255,.42)" stroke-width=".90" opacity=".56" stroke-linecap="round"/>
+      <path d="M294 36 C306 52 316 72 328 86 C340 99 354 107 369 110" fill="none" stroke="rgba(0,0,0,.085)" stroke-width=".82" opacity=".66" stroke-linecap="round"/>
       <path d="M52 153 H352" fill="none" stroke="#111" stroke-width=".92" opacity=".074" filter="url(#${uid}-tabLift)"/>
     </g>
 
@@ -6444,7 +6444,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
       <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
     </g>
-    <!-- 5.0.607: point 1 only — raised coloured upper shell and enlarged inner tab protrusion. -->
+    <!-- 5.0.608: point 2 only — enlarged inner coloured tab within the already raised upper block. -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
