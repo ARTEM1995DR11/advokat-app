@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.596';
-var APP_BUILD='5596';
+var APP_VERSION='5.0.597';
+var APP_BUILD='5597';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5595',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5597',{updateViaCache:'none'})
         .catch(function(){});
     },1400);
   });
@@ -6314,17 +6314,16 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.596 — Final refinement for stages 1–2.
-   Geometry, grid and folder scale are preserved.
-   Stage 1: papers have clearer stagger, more readable right-side edges and slightly richer depth.
-   Stage 2: rear shell is deeper, the inner tab is brighter, and the right shoulder is cleaner and more premium.
-   No hardware by design. */
+/* 5.0.597 — Stage 1 focused refinement: upper coloured tab.
+   Geometry, grid and folder scale stay approved.
+   This pass only improves the upper tab silhouette, right descent and tab volume
+   so the folders read closer to the approved mockup without changing the folder size. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
   var back='M16 143 V76 C16 57 23 46 37 39 C49 34 52 27 62 19 C69 13 78 10 90 10 H230 C247 10 254 19 262 37 L290 103 C295 114 304 121 319 123 H397 V177 H16 Z';
   var shoulder='M364 43 H391 C405 43 414 50 417 63 C425 67 430 76 430 88 V149 C430 164 421 174 406 177 H364 Z';
-  var tab='M53 110 C60 95 65 70 75 48 C81 36 89 32 102 32 H226 C243 32 251 39 258 53 C268 73 277 95 288 108 C296 118 307 121 322 121 H329 V151 H53 Z';
+  var tab='M53 113 C58 97 64 72 74 49 C81 34 91 28 105 28 H229 C246 28 257 36 265 52 C274 69 282 86 291 98 C301 111 311 118 326 119 H333 V154 H53 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -6344,18 +6343,20 @@ function matterFolderShell(){
         <stop offset=".58" stop-color="var(--folder-light)" stop-opacity="0"/>
         <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".075"/>
       </linearGradient>
-      <linearGradient id="${uid}-tab" x1=".04" y1="0" x2=".74" y2="1">
+      <linearGradient id="${uid}-tab" x1=".06" y1="0" x2=".78" y2="1">
         <stop offset="0" stop-color="var(--folder-light)"/>
-        <stop offset=".36" stop-color="var(--folder-light)"/>
-        <stop offset=".64" stop-color="var(--folder)"/>
-        <stop offset=".90" stop-color="var(--folder)"/>
+        <stop offset=".22" stop-color="var(--folder-light)"/>
+        <stop offset=".46" stop-color="var(--folder)"/>
+        <stop offset=".76" stop-color="var(--folder)"/>
+        <stop offset=".96" stop-color="var(--folder-deep)"/>
         <stop offset="1" stop-color="var(--folder-deep)"/>
       </linearGradient>
-      <linearGradient id="${uid}-tabSheen" x1=".10" y1="0" x2=".84" y2=".70">
-        <stop stop-color="#fff" stop-opacity=".24"/>
-        <stop offset=".26" stop-color="#fff" stop-opacity=".085"/>
-        <stop offset=".60" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".04"/>
+      <linearGradient id="${uid}-tabSheen" x1=".08" y1="0" x2=".88" y2=".76">
+        <stop stop-color="#fff" stop-opacity=".30"/>
+        <stop offset=".18" stop-color="#fff" stop-opacity=".16"/>
+        <stop offset=".44" stop-color="#fff" stop-opacity=".04"/>
+        <stop offset=".70" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".065"/>
       </linearGradient>
 
       <linearGradient id="${uid}-cream" x1=".08" y1="0" x2=".86" y2="1"><stop stop-color="#fffdf6"/><stop offset=".42" stop-color="#fbf6eb"/><stop offset=".76" stop-color="#f7f0e3"/><stop offset="1" stop-color="#efe4d2"/></linearGradient>
@@ -6376,8 +6377,8 @@ function matterFolderShell(){
       ${shadow('paperShadowB',.48,2.00,1.26,.14,'#4b4035')}
       ${shadow('paperShadowC',.66,2.32,1.40,.16,'#4b4035')}
       ${shadow('paperShadowD',.84,2.62,1.54,.18,'#4b4035')}
-      ${shadow('tabShadow',0,3.8,2.9,.21,'#181818')}
-      ${shadow('tabLift',0,1.0,1.0,.09,'#111111')}
+      ${shadow('tabShadow',0,4.1,3.0,.22,'#181818')}
+      ${shadow('tabLift',0,1.15,1.15,.10,'#111111')}
       ${shadow('frontShadow',0,5.3,4.5,.26,'#593a1d')}
 
       <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".74" numOctaves="2" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".026"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
@@ -6423,9 +6424,10 @@ function matterFolderShell(){
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".48"/>
-      <path d="M55 107 C63 88 67 63 77 46 C82 38 89 35 101 35 H225 C239 35 247 41 253 53" fill="none" stroke="rgba(255,255,255,.60)" stroke-width="1.14" opacity=".72" stroke-linecap="round"/>
-      <path d="M260 57 C269 77 278 97 289 110 C297 119 307 123 321 123" fill="none" stroke="rgba(0,0,0,.11)" stroke-width="1.0" stroke-linecap="round"/>
-      <path d="M54 149 H328" fill="none" stroke="#111" stroke-width=".92" opacity=".085" filter="url(#${uid}-tabLift)"/>
+      <path d="M57 108 C64 89 68 63 78 45 C84 36 91 33 103 33 H227 C242 33 251 39 258 51" fill="none" stroke="rgba(255,255,255,.68)" stroke-width="1.20" opacity=".78" stroke-linecap="round"/>
+      <path d="M267 55 C276 72 285 88 294 99 C303 110 313 116 326 118" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="1.04" stroke-linecap="round"/>
+      <path d="M54 152 H333" fill="none" stroke="#111" stroke-width=".96" opacity=".092" filter="url(#${uid}-tabLift)"/>
+      <path d="M80 47 H221 C237 47 248 52 256 63" fill="none" stroke="rgba(255,255,255,.26)" stroke-width=".9" opacity=".80" stroke-linecap="round"/>
     </g>
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
@@ -6438,7 +6440,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.596: stages 1–2 refined without changing the approved folder size/grid -->
+    <!-- 5.0.597: upper tab refined only; folder size, grid and non-tab geometry remain approved -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
