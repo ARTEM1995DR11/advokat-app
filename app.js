@@ -6323,7 +6323,7 @@ function matterFolderShell(){
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
   var back='M16 143 V76 C16 57 23 46 37 39 C49 34 52 27 62 19 C69 13 78 10 90 10 H230 C247 10 254 19 262 37 L290 103 C295 114 304 121 319 123 H397 V177 H16 Z';
   var shoulder='M364 43 H391 C405 43 414 50 417 63 C425 67 430 76 430 88 V149 C430 164 421 174 406 177 H364 Z';
-  var tab='M53 113 C58 97 64 72 74 49 C81 34 91 28 105 28 H229 C246 28 257 36 265 52 C274 69 282 86 291 98 C301 111 311 118 326 119 H333 V154 H53 Z';
+  var tab='M51 114 C55 98 60 77 69 55 C76 39 87 31 103 31 H229 C246 31 258 39 267 55 C277 73 286 90 295 102 C304 114 315 120 329 121 H337 V156 H51 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -6424,10 +6424,11 @@ function matterFolderShell(){
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".48"/>
-      <path d="M57 108 C64 89 68 63 78 45 C84 36 91 33 103 33 H227 C242 33 251 39 258 51" fill="none" stroke="rgba(255,255,255,.68)" stroke-width="1.20" opacity=".78" stroke-linecap="round"/>
-      <path d="M267 55 C276 72 285 88 294 99 C303 110 313 116 326 118" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="1.04" stroke-linecap="round"/>
-      <path d="M54 152 H333" fill="none" stroke="#111" stroke-width=".96" opacity=".092" filter="url(#${uid}-tabLift)"/>
-      <path d="M80 47 H221 C237 47 248 52 256 63" fill="none" stroke="rgba(255,255,255,.26)" stroke-width=".9" opacity=".80" stroke-linecap="round"/>
+      <path d="M56 109 C62 91 66 67 75 47 C82 38 90 35 102 35 H226 C242 35 252 41 260 54" fill="none" stroke="rgba(255,255,255,.76)" stroke-width="1.26" opacity=".86" stroke-linecap="round"/>
+      <path d="M270 58 C279 75 287 91 296 103 C305 114 315 119 328 120" fill="none" stroke="rgba(0,0,0,.11)" stroke-width="1.02" stroke-linecap="round"/>
+      <path d="M52 153 H337" fill="none" stroke="#111" stroke-width=".98" opacity=".088" filter="url(#${uid}-tabLift)"/>
+      <path d="M82 49 H220 C236 49 248 54 257 67" fill="none" stroke="rgba(255,255,255,.34)" stroke-width=".96" opacity=".84" stroke-linecap="round"/>
+      <path d="M87 40 H224 C240 40 252 46 261 60" fill="none" stroke="rgba(255,255,255,.17)" stroke-width=".74" opacity=".72" stroke-linecap="round"/>
     </g>
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
@@ -6440,7 +6441,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.597: upper tab refined only; folder size, grid and non-tab geometry remain approved -->
+    <!-- 5.0.598: point 1 refined only — upper color tab reshaped, highlighted and lifted; folder size, grid and papers unchanged -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
