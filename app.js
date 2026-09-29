@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.603';
-var APP_BUILD='5603';
+var APP_VERSION='5.0.604';
+var APP_BUILD='5604';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5603',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5604',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.603 — Point 2: document stack refinement.
+/* 5.0.604 — Point 2: document stack refinement.
    Only three requested details are changed: remove highlight-end artifacts, soften the
    inner highlight, and lengthen/smooth the right descent. Folder size/grid/papers/front stay unchanged. */
 function matterFolderShell(){
@@ -6373,10 +6373,10 @@ function matterFolderShell(){
       ${shadow('rear',0,3.8,3.5,.24,'#181818')}
       ${shadow('rearInner',0,1.0,1.1,.10,'#111111')}
       ${shadow('shoulder',0,3.0,2.6,.19,'#181818')}
-      ${shadow('paperShadowA',.34,1.68,1.12,.12,'#4f4338')}
-      ${shadow('paperShadowB',.50,2.02,1.24,.145,'#4f4338')}
-      ${shadow('paperShadowC',.66,2.34,1.36,.17,'#4f4338')}
-      ${shadow('paperShadowD',.82,2.68,1.50,.19,'#4f4338')}
+      ${shadow('paperShadowA',.30,1.54,1.02,.085,'#4f4338')}
+      ${shadow('paperShadowB',.44,1.82,1.16,.105,'#4f4338')}
+      ${shadow('paperShadowC',.58,2.08,1.28,.125,'#4f4338')}
+      ${shadow('paperShadowD',.72,2.34,1.40,.145,'#4f4338')}
       ${shadow('tabShadow',0,4.1,3.0,.22,'#181818')}
       ${shadow('tabLift',0,1.15,1.15,.10,'#111111')}
       ${shadow('frontShadow',0,5.3,4.5,.26,'#593a1d')}
@@ -6415,20 +6415,15 @@ function matterFolderShell(){
         <path d="M286 75 H404"/>
       </g>
 
-      <!-- faint right-edge hints only, with varied lengths to avoid a rigid comb effect -->
-      <g fill="none" stroke="#cabeb1" stroke-width=".46" opacity=".18" stroke-linecap="round">
-        <path d="M352 24 V132"/>
-        <path d="M372 42 V143"/>
-        <path d="M393 63 V155"/>
-        <path d="M409 85 V166"/>
+      <!-- very soft right-edge hints only: shortened and lightened so no visible comb/striping -->
+      <g fill="none" stroke="#cfc4b8" stroke-width=".40" opacity=".10" stroke-linecap="round">
+        <path d="M352 28 V116"/>
+        <path d="M372 46 V128"/>
+        <path d="M393 67 V140"/>
+        <path d="M409 89 V151"/>
       </g>
 
-      <!-- soft internal depth between sheets -->
-      <g fill="none" stroke-linecap="round">
-        <path d="M252 34 C257 33 264 34 270 39 C277 45 281 53 286 65 C289 73 292 85 295 97" stroke="rgba(0,0,0,.070)" stroke-width="1.05" opacity=".72"/>
-        <path d="M268 54 C275 54 281 57 287 64 C293 72 297 82 301 94 C304 104 307 115 309 125" stroke="rgba(0,0,0,.082)" stroke-width="1.10" opacity=".76"/>
-        <path d="M285 76 C292 77 298 81 304 89 C309 97 313 107 316 118 C318 127 320 136 321 145" stroke="rgba(0,0,0,.094)" stroke-width="1.15" opacity=".80"/>
-      </g>
+      <!-- internal sheet depth now comes mainly from stagger + soft shadows; no visible diagonal striping -->
     </g>
 
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
@@ -6450,7 +6445,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
       <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
     </g>
-    <!-- 5.0.603: point 1 preserved; point 2 papers refined only -->
+    <!-- 5.0.604: point 1 preserved; point 2 papers refined only -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
