@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.605';
-var APP_BUILD='5605';
+var APP_VERSION='5.0.606';
+var APP_BUILD='5606';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5605',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5606',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,9 +6315,9 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.605 — Point 3: right rear shoulder + layer joints.
-   Point 1 tab and Point 2 papers are frozen. The rear shoulder is merged into the rear shell
-   so it reads as one continuous body, with cleaner overlap order: rear → papers → tab → front. */
+/* 5.0.606 — Folder shell material/detail pass against the approved mockup.
+   Geometry from 5.0.605 is preserved; this pass strengthens metallic trim, front-face depth,
+   inter-sheet separation and the glossy coloured layers without reintroducing clips/rings. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6358,7 +6358,8 @@ function matterFolderShell(){
         <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".055"/>
       </linearGradient>
 
-      <linearGradient id="${uid}-cream" x1=".08" y1="0" x2=".86" y2="1"><stop stop-color="#fffdf6"/><stop offset=".42" stop-color="#fbf6eb"/><stop offset=".76" stop-color="#f7f0e3"/><stop offset="1" stop-color="#efe4d2"/></linearGradient>
+      <linearGradient id="${uid}-cream" x1=".05" y1="0" x2=".92" y2="1"><stop stop-color="#fffefa"/><stop offset=".30" stop-color="#fffaf0"/><stop offset=".64" stop-color="#faf3e6"/><stop offset=".88" stop-color="#f4ead9"/><stop offset="1" stop-color="#eadcc7"/></linearGradient>
+      <radialGradient id="${uid}-creamGlow" cx=".24" cy=".15" r=".92"><stop stop-color="#fff" stop-opacity=".66"/><stop offset=".44" stop-color="#fff" stop-opacity=".12"/><stop offset=".78" stop-color="#f0dec0" stop-opacity=".05"/><stop offset="1" stop-color="#c98c2a" stop-opacity=".10"/></radialGradient>
 
       <!-- Stage 1: more readable stagger and richer depth between four sheets. -->
       <linearGradient id="${uid}-paperA" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#fffefa"/><stop offset=".62" stop-color="#fbf7ef"/><stop offset="1" stop-color="#eee6dc"/></linearGradient>
@@ -6368,18 +6369,19 @@ function matterFolderShell(){
 
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".12" y2="1"><stop stop-color="#6f3904"/><stop offset=".06" stop-color="#c58018"/><stop offset=".13" stop-color="#fff1a7"/><stop offset=".23" stop-color="#d79b2b"/><stop offset=".48" stop-color="#f6cf73"/><stop offset=".70" stop-color="#9a560c"/><stop offset=".88" stop-color="#e6ad39"/><stop offset=".965" stop-color="#fff1a3"/><stop offset="1" stop-color="#774004"/></linearGradient>
 
-      ${shadow('contact',0,8.7,7.4,.23,'#5a3b1c')}
-      ${shadow('rear',0,3.8,3.5,.24,'#181818')}
-      ${shadow('rearInner',0,1.0,1.1,.10,'#111111')}
-      ${shadow('paperShadowA',.30,1.54,1.02,.085,'#4f4338')}
-      ${shadow('paperShadowB',.44,1.82,1.16,.105,'#4f4338')}
-      ${shadow('paperShadowC',.58,2.08,1.28,.125,'#4f4338')}
-      ${shadow('paperShadowD',.72,2.34,1.40,.145,'#4f4338')}
-      ${shadow('tabShadow',0,4.1,3.0,.22,'#181818')}
-      ${shadow('tabLift',0,1.15,1.15,.10,'#111111')}
-      ${shadow('frontShadow',0,5.3,4.5,.26,'#593a1d')}
+      ${shadow('contact',0,10.2,8.8,.28,'#563719')}
+      ${shadow('rear',0,4.7,4.2,.28,'#181818')}
+      ${shadow('rearInner',0,1.15,1.25,.12,'#111111')}
+      ${shadow('paperShadowA',.30,1.85,1.22,.11,'#55483b')}
+      ${shadow('paperShadowB',.44,2.12,1.34,.13,'#55483b')}
+      ${shadow('paperShadowC',.58,2.42,1.48,.15,'#55483b')}
+      ${shadow('paperShadowD',.72,2.72,1.60,.17,'#55483b')}
+      ${shadow('tabShadow',0,4.8,3.5,.27,'#181818')}
+      ${shadow('tabLift',0,1.3,1.3,.12,'#111111')}
+      ${shadow('frontShadow',0,6.5,5.4,.31,'#573719')}
+      ${shadow('trimGlow',0,1.0,1.15,.20,'#784409')}
 
-      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".74" numOctaves="2" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".026"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
     </defs>
 
     <path data-layer="contact" d="${front}" fill="#76502b" opacity=".74" filter="url(#${uid}-contact)"/>
@@ -6387,33 +6389,34 @@ function matterFolderShell(){
     <g data-layer="rear" filter="url(#${uid}-rear)">
       <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
       <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".30"/>
-      <path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C72 15 80 13 91 13 H229" fill="none" stroke="var(--folder-light)" stroke-width="1.16" opacity=".30" stroke-linecap="round"/>
-      <path d="M405 78 C405 65 411 58 420 55 C424 54 427 57 427 64" fill="none" stroke="var(--folder-light)" stroke-width="1.02" opacity=".22" stroke-linecap="round"/>
+      <path d="M18 79 C18 59 25 48 38 42 C51 36 55 25 65 19 C72 15 80 13 91 13 H229" fill="none" stroke="var(--folder-light)" stroke-width="1.42" opacity=".42" stroke-linecap="round"/>
+      <path d="M405 78 C405 65 411 58 420 55 C424 54 427 57 427 64" fill="none" stroke="var(--folder-light)" stroke-width="1.22" opacity=".34" stroke-linecap="round"/>
+      <path d="M26 72 C34 54 43 48 55 41 C65 35 69 24 81 19" fill="none" stroke="#fff" stroke-width=".72" opacity=".11" stroke-linecap="round"/>
       <path d="M19 140 H397" fill="none" stroke="#111" stroke-width="1.0" opacity=".078" filter="url(#${uid}-rearInner)"/>
       <path d="M22 137 V82" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
     </g>
 
     <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
     <g data-layer="papers">
-      <path d="M234 14 H346 Q355 14 355 22 V139 H304 L284 92 L254 31 Q248 14 234 14 Z" fill="url(#${uid}-paperA)" stroke="#f0e9df" stroke-width=".84" filter="url(#${uid}-paperShadowA)"/>
-      <path d="M248 32 H366 Q375 32 375 40 V149 H307 L290 104 L264 50 Q259 32 248 32 Z" fill="url(#${uid}-paperB)" stroke="#ebe3d9" stroke-width=".84" filter="url(#${uid}-paperShadowB)"/>
-      <path d="M264 52 H387 Q396 52 396 60 V160 H310 L297 121 L279 74 Q275 52 264 52 Z" fill="url(#${uid}-paperC)" stroke="#e7ddd2" stroke-width=".84" filter="url(#${uid}-paperShadowC)"/>
-      <path d="M281 74 H405 Q413 74 413 82 V172 H312 L303 137 L293 100 Q290 74 281 74 Z" fill="url(#${uid}-paperD)" stroke="#e2d7ca" stroke-width=".84" filter="url(#${uid}-paperShadowD)"/>
+      <path d="M234 14 H347 Q356 14 356 22 V140 H304 L284 92 L254 31 Q248 14 234 14 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M245 32 H367 Q376 32 376 40 V151 H307 L290 104 L261 50 Q256 32 245 32 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M257 51 H388 Q397 51 397 59 V163 H310 L297 121 L273 73 Q269 51 257 51 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M270 71 H406 Q415 71 415 80 V175 H312 L303 137 L285 98 Q281 71 270 71 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
 
       <!-- exposed top edges with clearer step rhythm -->
       <g fill="none" stroke="#fffefb" stroke-width=".72" opacity=".68" stroke-linecap="round">
-        <path d="M239 15 H345"/>
-        <path d="M253 33 H365"/>
-        <path d="M269 53 H386"/>
-        <path d="M286 75 H404"/>
+        <path d="M239 15 H346"/>
+        <path d="M250 33 H366"/>
+        <path d="M262 52 H387"/>
+        <path d="M275 72 H405"/>
       </g>
 
       <!-- very soft right-edge hints only: shortened and lightened so no visible comb/striping -->
       <g fill="none" stroke="#cfc4b8" stroke-width=".40" opacity=".10" stroke-linecap="round">
-        <path d="M352 28 V116"/>
-        <path d="M372 46 V128"/>
-        <path d="M393 67 V140"/>
-        <path d="M409 89 V151"/>
+        <path d="M353 28 V116"/>
+        <path d="M373 46 V129"/>
+        <path d="M394 66 V142"/>
+        <path d="M411 87 V154"/>
       </g>
 
       <!-- internal sheet depth now comes mainly from stagger + soft shadows; no visible diagonal striping -->
@@ -6424,22 +6427,24 @@ function matterFolderShell(){
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
       <!-- one continuous, very soft highlight: no short endpoints / no visible white contour -->
-      <path d="M61 104 C66 88 70 66 79 48 C85 39 93 36 104 36 H228 C243 36 253 41 261 53 C270 67 279 84 289 96 C300 109 313 116 328 118" fill="none" stroke="rgba(255,255,255,.30)" stroke-width=".72" opacity=".42" stroke-linecap="round"/>
+      <path d="M61 104 C66 88 70 66 79 48 C85 39 93 36 104 36 H228 C243 36 253 41 261 53 C270 67 279 84 289 96 C300 109 313 116 328 118" fill="none" stroke="rgba(255,255,255,.42)" stroke-width=".90" opacity=".56" stroke-linecap="round"/>
       <path d="M270 55 C279 70 288 86 298 98 C308 110 319 116 333 118" fill="none" stroke="rgba(0,0,0,.085)" stroke-width=".82" opacity=".66" stroke-linecap="round"/>
       <path d="M52 153 H352" fill="none" stroke="#111" stroke-width=".92" opacity=".074" filter="url(#${uid}-tabLift)"/>
     </g>
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
       <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
-      <path d="M49 99 H256 C268 99 274 103 281 112" fill="none" stroke="#fffef9" stroke-width="1.35" opacity=".58" stroke-linecap="round"/>
+      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".52"/>
+      <path d="M49 99 H256 C268 99 274 103 281 112" fill="none" stroke="#fffef9" stroke-width="1.62" opacity=".72" stroke-linecap="round"/>
     </g>
 
-    <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round">
-      <use href="#${uid}-face" stroke="#6f3904" stroke-width="5.25"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.55"/>
-      <use href="#${uid}-face" stroke="#fff1ad" stroke-width=".78" opacity=".96"/>
+    <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
+      <use href="#${uid}-face" stroke="#5d3003" stroke-width="6.35"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="4.72"/>
+      <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
+      <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
     </g>
-    <!-- 5.0.605: point 1 + point 2 preserved; point 3 rear shoulder integrated and layer joints cleaned -->
+    <!-- 5.0.606: material/detail polish only; approved geometry and layer order preserved. -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
