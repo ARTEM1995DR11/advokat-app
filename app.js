@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.627';
-var APP_BUILD='5627';
+var APP_VERSION='5.0.628';
+var APP_BUILD='5628';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5627',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5628',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,9 +6315,9 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.627 — Final depth-order fix for points 3–4 after user review.
-   Points 1–2 stay preserved. The papers are now placed behind both left-side colored tabs (rear body and front tab),
-   while the far-right rear shoulder remains the deepest visible layer behind the papers. */
+/* 5.0.628 — Point 5: papers sit deeper inside the folder.
+   Points 1–4 stay preserved. The paper bundle is raised slightly and pushed deeper behind the colored layers so the
+   sheets read as inserted documents rather than a stack resting on top of the folder. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6374,10 +6374,10 @@ function matterFolderShell(){
       ${shadow('rear',0,4.7,4.2,.28,'#181818')}
       ${shadow('shoulder',0,3.95,3.05,.245,'#181818')}
       ${shadow('rearInner',0,1.15,1.25,.12,'#111111')}
-      ${shadow('paperShadowA',.38,2.14,1.38,.14,'#55483b')}
-      ${shadow('paperShadowB',.56,2.48,1.56,.17,'#55483b')}
-      ${shadow('paperShadowC',.76,2.82,1.72,.20,'#55483b')}
-      ${shadow('paperShadowD',.94,3.16,1.88,.235,'#55483b')}
+      ${shadow('paperShadowA',.34,1.80,1.30,.12,'#55483b')}
+      ${shadow('paperShadowB',.48,2.05,1.44,.15,'#55483b')}
+      ${shadow('paperShadowC',.62,2.30,1.58,.18,'#55483b')}
+      ${shadow('paperShadowD',.76,2.58,1.72,.205,'#55483b')}
       ${shadow('tabShadow',0,4.8,3.5,.27,'#181818')}
       ${shadow('tabLift',0,1.3,1.3,.12,'#111111')}
       ${shadow('frontShadow',0,6.5,5.4,.31,'#573719')}
@@ -6400,17 +6400,17 @@ function matterFolderShell(){
     <!-- Papers are placed behind both left-side colored layers; the far-right rear shoulder remains the deepest visible layer. -->
     <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
     <g data-layer="papers">
-      <path d="M250 18 H358 Q366 18 366 26 V136 H312 L293 90 L272 39 Q267 18 250 18 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
-      <path d="M258 27 H371 Q379 27 379 35 V146 H315 L299 100 L279 49 Q274 27 258 27 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
-      <path d="M266 37 H385 Q393 37 393 46 V157 H319 L306 114 L287 68 Q282 37 266 37 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
-      <path d="M274 48 H399 Q407 48 407 57 V169 H323 L313 130 L295 93 Q291 48 274 48 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
+      <path d="M250 12 H358 Q366 12 366 20 V132 H312 L293 88 L272 35 Q267 12 250 12 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M258 22 H371 Q379 22 379 30 V142 H315 L299 97 L279 45 Q274 22 258 22 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M266 32 H385 Q393 32 393 41 V153 H319 L306 111 L287 64 Q282 32 266 32 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M274 43 H399 Q407 43 407 52 V164 H323 L313 126 L295 89 Q291 43 274 43 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
 
       <!-- exposed top edges with slightly longer but compact rhythm -->
       <g fill="none" stroke="#fffefb" stroke-width=".68" opacity=".73" stroke-linecap="round">
-        <path d="M250 19 H357"/>
-        <path d="M258 28 H370"/>
-        <path d="M266 38 H384"/>
-        <path d="M274 49 H398"/>
+        <path d="M250 13 H357"/>
+        <path d="M258 23 H370"/>
+        <path d="M266 33 H384"/>
+        <path d="M274 44 H398"/>
       </g>
 
     <!-- Left rear colored body stays above the papers, as in the approved mockup. -->
@@ -6425,13 +6425,13 @@ function matterFolderShell(){
 
       <!-- faint right-edge cues only, smoother and slightly deeper into the rear layer -->
       <g fill="none" stroke="#cfc4b8" stroke-width=".34" opacity=".054" stroke-linecap="round">
-        <path d="M360 29 V111"/>
-        <path d="M374 40 V123"/>
-        <path d="M388 53 V136"/>
-        <path d="M402 67 V149"/>
+        <path d="M360 24 V107"/>
+        <path d="M374 35 V119"/>
+        <path d="M388 48 V132"/>
+        <path d="M402 62 V145"/>
       </g>
 
-      <!-- 5.0.627: paper bundle sits behind both left-side colored layers and in front of the far-right rear shoulder. -->
+      <!-- 5.0.628: paper bundle is raised and visually tucked deeper behind the colored layers. -->
     </g>
 
     <!-- Points 3–4: final corrected overlap order. Deepest visible layer is the far-right rear shoulder, then papers, then the left rear colored body and the front colored tab. -->
@@ -6456,7 +6456,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
       <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
     </g>
-    <!-- 5.0.627: final depth-order fix for points 3–4; points 1–2 preserved. -->
+    <!-- 5.0.628: point 5 complete — papers raised and tucked deeper; points 1–4 preserved. -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
