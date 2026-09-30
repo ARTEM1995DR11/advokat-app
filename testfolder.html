@@ -1,0 +1,146 @@
+<!doctype html><html><body style="margin:0;background:#fff"><div id="root"></div><script>
+let MATTER_FOLDER_SHELL_SEQ=0;
+function matterFolderShell(){function matterFolderShell(){
+  var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
+  var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
+  var back='M16 143 V67 C16 49 24 38 39 31 C52 25 56 18 67 10 C75 4 85 1 98 1 H232 C247 1 259 5 268 13 C277 21 284 33 291 46 C299 61 307 75 316 88 C326 102 338 111 351 116 C359 119 367 120 374 120 H383 C392 120 398 123 404 129 V179 H16 Z';
+  var shoulder='M322 56 H403 C414 56 421 61 425 71 C428 79 429 89 429 101 V148 C429 161 421 172 407 178 H322 Z';
+  var tab='M52 116 C58 95 66 68 77 44 C85 27 98 19 116 19 H224 C241 19 254 22 264 30 C273 38 280 49 287 61 C295 74 303 86 313 96 C323 104 336 109 350 112 C356 113 362 114 368 114 H371 V156 H52 Z';
+  function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
+  return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="${uid}-face" d="${front}"/>
+
+      <!-- Stage 2: deeper rear shell, brighter inner tab, cleaner right shoulder. -->
+      <linearGradient id="${uid}-back" x1=".02" y1="0" x2=".98" y2=".72">
+        <stop offset="0" stop-color="var(--folder-deep)"/>
+        <stop offset=".16" stop-color="var(--folder)"/>
+        <stop offset=".40" stop-color="var(--folder-deep)"/>
+        <stop offset=".82" stop-color="var(--folder-deep)"/>
+        <stop offset="1" stop-color="var(--folder)"/>
+      </linearGradient>
+      <linearGradient id="${uid}-backSheen" x1=".04" y1="0" x2=".84" y2=".28">
+        <stop stop-color="var(--folder-light)" stop-opacity=".13"/>
+        <stop offset=".22" stop-color="var(--folder-light)" stop-opacity=".042"/>
+        <stop offset=".58" stop-color="var(--folder-light)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".075"/>
+      </linearGradient>
+      <linearGradient id="${uid}-tab" x1=".06" y1="0" x2=".78" y2="1">
+        <stop offset="0" stop-color="var(--folder-light)"/>
+        <stop offset=".22" stop-color="var(--folder-light)"/>
+        <stop offset=".46" stop-color="var(--folder)"/>
+        <stop offset=".76" stop-color="var(--folder)"/>
+        <stop offset=".96" stop-color="var(--folder-deep)"/>
+        <stop offset="1" stop-color="var(--folder-deep)"/>
+      </linearGradient>
+      <linearGradient id="${uid}-tabSheen" x1=".10" y1="0" x2=".86" y2=".82">
+        <stop stop-color="#fff" stop-opacity=".20"/>
+        <stop offset=".24" stop-color="#fff" stop-opacity=".085"/>
+        <stop offset=".48" stop-color="#fff" stop-opacity=".025"/>
+        <stop offset=".68" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".055"/>
+      </linearGradient>
+
+      <linearGradient id="${uid}-cream" x1=".05" y1="0" x2=".92" y2="1"><stop stop-color="#fffefa"/><stop offset=".30" stop-color="#fffaf0"/><stop offset=".64" stop-color="#faf3e6"/><stop offset=".88" stop-color="#f4ead9"/><stop offset="1" stop-color="#eadcc7"/></linearGradient>
+      <radialGradient id="${uid}-creamGlow" cx=".24" cy=".15" r=".92"><stop stop-color="#fff" stop-opacity=".66"/><stop offset=".44" stop-color="#fff" stop-opacity=".12"/><stop offset=".78" stop-color="#f0dec0" stop-opacity=".05"/><stop offset="1" stop-color="#c98c2a" stop-opacity=".10"/></radialGradient>
+
+      <!-- Stage 1: more readable stagger and richer depth between four sheets. -->
+      <linearGradient id="${uid}-paperA" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#fffefa"/><stop offset=".62" stop-color="#fbf7ef"/><stop offset="1" stop-color="#eee6dc"/></linearGradient>
+      <linearGradient id="${uid}-paperB" x1="0" y1="0" x2=".20" y2="1"><stop stop-color="#fffdf8"/><stop offset=".64" stop-color="#faf5ec"/><stop offset="1" stop-color="#ebe2d7"/></linearGradient>
+      <linearGradient id="${uid}-paperC" x1="0" y1="0" x2=".22" y2="1"><stop stop-color="#fffdf8"/><stop offset=".66" stop-color="#f8f2e9"/><stop offset="1" stop-color="#e8ddd1"/></linearGradient>
+      <linearGradient id="${uid}-paperD" x1="0" y1="0" x2=".24" y2="1"><stop stop-color="#fffdf8"/><stop offset=".68" stop-color="#f7f0e6"/><stop offset="1" stop-color="#e5dacd"/></linearGradient>
+
+      <linearGradient id="${uid}-gold" x1="0" y1="0" x2=".12" y2="1"><stop stop-color="#6f3904"/><stop offset=".06" stop-color="#c58018"/><stop offset=".13" stop-color="#fff1a7"/><stop offset=".23" stop-color="#d79b2b"/><stop offset=".48" stop-color="#f6cf73"/><stop offset=".70" stop-color="#9a560c"/><stop offset=".88" stop-color="#e6ad39"/><stop offset=".965" stop-color="#fff1a3"/><stop offset="1" stop-color="#774004"/></linearGradient>
+
+      ${shadow('contact',0,10.2,8.8,.28,'#563719')}
+      ${shadow('rear',0,4.7,4.2,.28,'#181818')}
+      ${shadow('shoulder',0,3.95,3.05,.245,'#181818')}
+      ${shadow('rearInner',0,1.15,1.25,.12,'#111111')}
+      ${shadow('paperShadowA',.34,1.80,1.30,.12,'#55483b')}
+      ${shadow('paperShadowB',.48,2.05,1.44,.15,'#55483b')}
+      ${shadow('paperShadowC',.62,2.30,1.58,.18,'#55483b')}
+      ${shadow('paperShadowD',.76,2.58,1.72,.205,'#55483b')}
+      ${shadow('tabShadow',0,4.8,3.5,.27,'#181818')}
+      ${shadow('tabLift',0,1.3,1.3,.12,'#111111')}
+      ${shadow('frontShadow',0,6.5,5.4,.31,'#573719')}
+      ${shadow('trimGlow',0,1.0,1.15,.20,'#784409')}
+
+      <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+    </defs>
+
+    <path data-layer="contact" d="${front}" fill="#76502b" opacity=".74" filter="url(#${uid}-contact)"/>
+
+
+    <!-- Points 3–4: final corrected depth order. The far-right rear shoulder is the deepest visible layer. -->
+    <!-- Point 3: final polish — the rear shoulder starts higher, reads as a taller rear wall, and keeps a narrower visible outer strip. -->
+    <g data-layer="rear-shoulder" filter="url(#${uid}-shoulder)">
+      <path d="${shoulder}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
+      <path d="${shoulder}" fill="url(#${uid}-backSheen)" opacity=".24"/>
+      <path d="M327 60 H402 C411 60 418 65 423 73" fill="none" stroke="var(--folder-light)" stroke-width="1.10" opacity=".32" stroke-linecap="round"/>
+    </g>
+
+    <!-- Papers are placed behind both left-side colored layers; the far-right rear shoulder remains the deepest visible layer. -->
+    <!-- 5.0.602 / Point 2: sheets tuned closer to approved mockup: stronger vertical stagger, more natural right edge offsets, deeper inter-sheet separation. -->
+    <g data-layer="papers">
+      <path d="M250 12 H358 Q366 12 366 20 V132 H312 L293 88 L272 35 Q267 12 250 12 Z" fill="url(#${uid}-paperA)" stroke="#eee5d9" stroke-width="1.02" filter="url(#${uid}-paperShadowA)"/>
+      <path d="M258 22 H371 Q379 22 379 30 V142 H315 L299 97 L279 45 Q274 22 258 22 Z" fill="url(#${uid}-paperB)" stroke="#e9dfd2" stroke-width="1.02" filter="url(#${uid}-paperShadowB)"/>
+      <path d="M266 32 H385 Q393 32 393 41 V153 H319 L306 111 L287 64 Q282 32 266 32 Z" fill="url(#${uid}-paperC)" stroke="#e4d8ca" stroke-width="1.02" filter="url(#${uid}-paperShadowC)"/>
+      <path d="M274 43 H399 Q407 43 407 52 V164 H323 L313 126 L295 89 Q291 43 274 43 Z" fill="url(#${uid}-paperD)" stroke="#ded1c2" stroke-width="1.02" filter="url(#${uid}-paperShadowD)"/>
+
+      <!-- exposed top edges with slightly longer but compact rhythm -->
+      <g fill="none" stroke="#fffefb" stroke-width=".68" opacity=".73" stroke-linecap="round">
+        <path d="M250 13 H357"/>
+        <path d="M258 23 H370"/>
+        <path d="M266 33 H384"/>
+        <path d="M274 44 H398"/>
+      </g>
+
+    <!-- Left rear colored body stays above the papers, as in the approved mockup. -->
+    <g data-layer="rear" filter="url(#${uid}-rear)">
+      <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
+      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".30"/>
+      <path d="M18 70 C18 50 26 39 40 33 C54 27 58 17 69 10 C77 5 86 3 98 3 H230 C244 3 256 7 265 15 C274 23 281 34 287 46" fill="none" stroke="var(--folder-light)" stroke-width="1.42" opacity=".42" stroke-linecap="round"/>
+      <path d="M26 63 C35 45 45 39 58 32 C69 25 74 14 87 9" fill="none" stroke="#fff" stroke-width=".72" opacity=".11" stroke-linecap="round"/>
+      <path d="M19 139 H386" fill="none" stroke="#111" stroke-width="1.0" opacity=".082" filter="url(#${uid}-rearInner)"/>
+      <path d="M22 137 V73" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
+    </g>
+
+      <!-- faint right-edge cues only, smoother and slightly deeper into the rear layer -->
+      <g fill="none" stroke="#cfc4b8" stroke-width=".34" opacity=".054" stroke-linecap="round">
+        <path d="M360 24 V107"/>
+        <path d="M374 35 V119"/>
+        <path d="M388 48 V132"/>
+        <path d="M402 62 V145"/>
+      </g>
+
+      <!-- 5.0.629: point 6 preserves the corrected paper depth while refining the upper colored profile. -->
+    </g>
+
+    <!-- Points 3–4: final corrected overlap order. Deepest visible layer is the far-right rear shoulder, then papers, then the left rear colored body and the front colored tab. -->
+    <g data-layer="tab" filter="url(#${uid}-tabShadow)">
+      <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
+      <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
+      <!-- one continuous, very soft highlight: no short endpoints / no visible white contour -->
+      <path d="M61 103 C67 83 75 57 85 38 C92 26 104 23 117 23 H223 C239 23 251 26 260 33 C269 40 276 50 282 61 C290 74 299 85 308 94 C318 103 331 108 346 111" fill="none" stroke="rgba(255,255,255,.42)" stroke-width=".90" opacity=".56" stroke-linecap="round"/>
+      <path d="M265 33 C274 40 281 50 288 62 C296 75 304 86 314 96 C323 104 336 109 349 112" fill="none" stroke="rgba(0,0,0,.085)" stroke-width=".82" opacity=".66" stroke-linecap="round"/>
+      <path d="M52 153 H352" fill="none" stroke="#111" stroke-width=".92" opacity=".074" filter="url(#${uid}-tabLift)"/>
+    </g>
+
+    <g data-layer="front" filter="url(#${uid}-frontShadow)">
+      <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
+      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".52"/>
+      <path d="M49 99 H256 C268 99 274 103 281 112" fill="none" stroke="#fffef9" stroke-width="1.62" opacity=".72" stroke-linecap="round"/>
+    </g>
+
+    <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
+      <use href="#${uid}-face" stroke="#5d3003" stroke-width="6.35"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="4.72"/>
+      <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
+      <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
+    </g>
+    <!-- 5.0.629: point 6 complete — upper colored profile is smoother and longer; points 1–5 preserved. -->
+  </svg>`;
+}
+ return matterFolderShell();}
+document.body.innerHTML='<div style="width:440px;height:458px;--folder-deep:#063fae;--folder:#086ae7;--folder-light:#79bcff;">'+matterFolderShell()+'</div>';
+</script></body></html>
