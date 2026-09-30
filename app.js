@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.632';
-var APP_BUILD='5632';
+var APP_VERSION='5.0.633';
+var APP_BUILD='5633';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5632',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5633',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6323,7 +6323,7 @@ function matterFolderShell(){
   var front='M48 96 H257 C269 96 276 100 284 110 C291 118 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
   var back='M16 143 V67 C16 49 24 38 39 31 C52 25 56 18 67 10 C75 4 85 1 98 1 H244 C255 1 264 5 272 13 L318 90 C326 102 335 109 346 112 C352 114 358 115 364 115 H371 C380 115 387 119 393 126 V179 H16 Z';
   var shoulder='M334 52 H404 C414 52 421 57 425 67 C428 75 429 85 429 97 V148 C429 161 421 172 407 178 H334 Z';
-  var tab='M65 116 V58 C65 39 80 25 99 25 H232 C244 25 252 29 259 37 L305 99 C312 109 320 114 330 115 H334 V156 H65 Z';
+  var tab='M65 116 V74 C65 56 70 43 81 35 C88 30 97 28 107 28 H230 C240 28 248 31 254 38 L299 99 C306 109 315 114 325 115 H334 V156 H65 Z';
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -6431,7 +6431,7 @@ function matterFolderShell(){
         <path d="M402 62 V145"/>
       </g>
 
-      <!-- 5.0.632: point 6 final geometry pass — the colored tab now has the mockup-like inset left edge, long flat crown, compact diagonal descent and softer depth edge; points 1–5 preserved. -->
+      <!-- 5.0.633: point 6 left corner refinement — the light tab now has a softer rounded upper-left corner instead of a near-90-degree start; points 1–5 preserved. -->
     </g>
 
     <!-- Points 3–4: final corrected overlap order. Deepest visible layer is the far-right rear shoulder, then papers, then the left rear colored body and the front colored tab. -->
@@ -6439,9 +6439,9 @@ function matterFolderShell(){
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
       <path d="${tab}" fill="url(#${uid}-tabSheen)" opacity=".34"/>
       <!-- one continuous, very soft highlight: no short endpoints / no visible white contour -->
-      <path d="M72 106 V62 C72 45 84 32 101 32 H229 C239 32 247 35 253 42 L298 101 C305 109 314 113 325 114" fill="none" stroke="rgba(255,255,255,.40)" stroke-width=".86" opacity=".50" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M262 40 L307 100 C314 109 322 113 331 114" fill="none" stroke="rgba(0,0,0,.072)" stroke-width=".74" opacity=".54" stroke-linecap="round"/>
-      <path d="M65 153 H330" fill="none" stroke="#111" stroke-width=".88" opacity=".060" filter="url(#${uid}-tabLift)"/>
+      <path d="M72 106 V72 C72 56 76 45 86 38 C92 34 100 32 109 32 H228 C237 32 244 35 250 41 L293 101 C300 109 309 113 320 114" fill="none" stroke="rgba(255,255,255,.40)" stroke-width=".86" opacity=".50" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M258 42 L301 100 C308 109 317 113 327 114" fill="none" stroke="rgba(0,0,0,.072)" stroke-width=".74" opacity=".52" stroke-linecap="round"/>
+      <path d="M65 153 H325" fill="none" stroke="#111" stroke-width=".88" opacity=".058" filter="url(#${uid}-tabLift)"/>
     </g>
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
@@ -6456,7 +6456,7 @@ function matterFolderShell(){
       <use href="#${uid}-face" stroke="#f7cf68" stroke-width="2.05" opacity=".88"/>
       <use href="#${uid}-face" stroke="#fff1a9" stroke-width=".92" opacity=".98"/>
     </g>
-    <!-- 5.0.632: point 6 final pass — upper colored profile rebuilt toward the approved mockup; points 1–5 preserved. -->
+    <!-- 5.0.633: point 6 refinement — upper colored profile keeps the 632 silhouette but softens the light tab's left top corner toward the approved mockup; points 1–5 preserved. -->
   </svg>`;
 }
 /* 5.0.553 AUDIT: removed superseded matterCard/renderMatters override; final approved override is kept below. */
