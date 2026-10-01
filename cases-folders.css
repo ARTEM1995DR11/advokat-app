@@ -26,14 +26,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-host>.empty {grid-column:1/-1}
 #sc-matters .case-folder {
-  --folder-deep:#007f84;--folder:#08b5b7;--folder-light:#76e1e1;--folder-ink:#087c79;--folder-tab-sheen:.23;
+  --folder-deep:#007f84;--folder:#08b5b7;--folder-light:#76e1e1;--folder-ink:#087c79;
   position:relative;isolation:isolate;display:block;box-sizing:border-box;
   width:100%;height:auto;aspect-ratio:440 / 458;min-width:0;min-height:0;
   margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
   text-align:left;color:#111;cursor:pointer;overflow:visible;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#7d0710;--folder:#d1111d;--folder-light:#f86a62;--folder-ink:#980c15;--folder-tab-sheen:.46}
-#sc-matters .case-folder-civil {--folder-deep:#063fae;--folder:#086ae7;--folder-light:#79bcff;--folder-ink:#075aba;--folder-tab-sheen:.24}
+#sc-matters .case-folder-criminal {--folder-deep:#79060f;--folder:#c80f19;--folder-light:#ef655b;--folder-ink:#950d14;--folder-tab-sheen:.34}
+#sc-matters .case-folder-civil {--folder-deep:#063fae;--folder:#086ae7;--folder-light:#79bcff;--folder-ink:#075aba}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
