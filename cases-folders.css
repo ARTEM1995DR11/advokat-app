@@ -32,7 +32,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
   text-align:left;color:#111;cursor:pointer;overflow:visible;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#79060f;--folder:#c80f19;--folder-light:#ef655b;--folder-ink:#950d14;--folder-tab-sheen:.34}
+#sc-matters .case-folder-criminal {--folder-deep:#71050e;--folder:#c80f19;--folder-light:#f27365;--folder-ink:#950d14;--folder-tab-sheen:.46;--folder-inner-shadow:.12}
 #sc-matters .case-folder-civil {--folder-deep:#063fae;--folder:#086ae7;--folder-light:#79bcff;--folder-ink:#075aba}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#ad7e39;--folder:#d9ae6d;--folder-light:#ffedc9;--folder-ink:#826023}
 #sc-matters .case-folder-shell {
