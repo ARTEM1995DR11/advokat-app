@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.654';
-var APP_BUILD='5654';
+var APP_VERSION='5.0.655';
+var APP_BUILD='5655';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5654',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5655',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,13 +6315,13 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.654 — point 4 final pass: accent each paper leaf without changing stack height.
-   Added subtle perimeter definition, slightly clearer right edges and cleaner top separation to match the approved mockup more closely. */
+/* 5.0.655 — point 3 refinement: right rear shoulder only.
+   Slightly wider and rounder far-right rear body to match the approved mockup; papers and all other folder geometry remain unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
   var back='M16 143 V84 C16 69 22 60 34 54 C44 49 49 45 55 38 C63 27 74 23 88 23 H245 C257 23 263 30 268 40 C274 54 290 93 298 109 C302 117 308 120 316 123 H337 V179 H16 Z';
-  var shoulder='M321 46 H394 C405 46 412.5 53.5 416.5 63.5 C421 75 422.5 90 422.5 107 C422.5 132 420.5 157 418.8 177 C418 190 412 198.5 402 201 H321 Z';
+  var shoulder='M319 47 H396.5 C407.8 47 416.4 54.2 421 64.7 C425.6 75.3 427 90.5 427 108.2 C427 132.8 425.1 157.6 423.2 178.1 C422 190.7 415.2 198.6 404 201 H319 Z';
   var tab='M58 116 V102 C58 89 60.8 77 67 62 C73 47.5 81.8 41 95 41 H244 C257 41 264 47 269 57.5 C274.5 69 282.5 93 292 107.5 C300.5 120 305 123 312 123 H318 V156 H58 Z';
   var sheets=[
     'M228 28 C274 26.8 320 24.2 364.2 24.6 Q366.6 24.6 366.8 27.1 C367.2 62.6 367.8 105.2 368.4 143.5 H238.8 Z',
@@ -6337,7 +6337,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="180"><stop stop-color="#b18a46"/><stop offset=".45" stop-color="#936323"/><stop offset="1" stop-color="#754809"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
-      <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="388" y1="0" x2="421" y2="0"><stop stop-color="var(--folder-light)" stop-opacity=".20"/><stop offset=".42" stop-color="var(--folder-light)" stop-opacity=".065"/><stop offset=".7" stop-color="var(--folder-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".09"/></linearGradient>
+      <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--folder-light)" stop-opacity=".20"/><stop offset=".42" stop-color="var(--folder-light)" stop-opacity=".065"/><stop offset=".7" stop-color="var(--folder-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".09"/></linearGradient>
       <path id="${uid}-sheet1" d="${sheets[0]}"/>
       <path id="${uid}-sheet2" d="${sheets[1]}"/>
       <path id="${uid}-sheet3" d="${sheets[2]}"/>
