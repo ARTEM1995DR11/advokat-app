@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.672';
-var APP_BUILD='5672';
+var APP_VERSION='5.0.673';
+var APP_BUILD='5673';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5672',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5673',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.672 — point 5: premium material on the main colored rear body only.
+/* 5.0.673 — point 5 refinement: soften the main colored rear body material and remove the plastic feel.
    Geometry, inner light tab, right shoulder, papers, cream face, gold rim and whole-folder shadow stay unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
@@ -6352,7 +6352,7 @@ function matterFolderShell(){
       <filter id="${uid}-paperContact" x="-14%" y="-22%" width="132%" height="152%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.62"/></filter>
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
-      <!-- 5.0.672: preserve the approved shoulder exactly; give only the main rear body a richer premium material. -->
+      <!-- 5.0.673: preserve the approved shoulder exactly; soften the main rear body light and keep it dense and premium. -->
       <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".72">
         <stop offset="0" stop-color="var(--folder-deep)"/>
         <stop offset=".16" stop-color="var(--folder)"/>
@@ -6366,33 +6366,33 @@ function matterFolderShell(){
         <stop offset=".58" stop-color="var(--folder-light)" stop-opacity="0"/>
         <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".075"/>
       </linearGradient>
-      <linearGradient id="${uid}-back" gradientUnits="userSpaceOnUse" x1="38" y1="24" x2="312" y2="171">
+      <linearGradient id="${uid}-back" gradientUnits="userSpaceOnUse" x1="44" y1="26" x2="307" y2="174">
         <stop offset="0" stop-color="var(--folder-mat-top)"/>
-        <stop offset=".18" stop-color="var(--folder-mat-mid)"/>
-        <stop offset=".47" stop-color="var(--folder-mat-main)"/>
-        <stop offset=".78" stop-color="var(--folder-mat-deep)"/>
+        <stop offset=".11" stop-color="var(--folder-mat-mid)"/>
+        <stop offset=".40" stop-color="var(--folder-mat-main)"/>
+        <stop offset=".76" stop-color="var(--folder-mat-deep)"/>
         <stop offset="1" stop-color="var(--folder-mat-edge)"/>
       </linearGradient>
-      <radialGradient id="${uid}-backTopGlow" gradientUnits="userSpaceOnUse" cx="105" cy="25" r="245">
-        <stop offset="0" stop-color="var(--folder-mat-glow)" stop-opacity=".34"/>
-        <stop offset=".29" stop-color="var(--folder-mat-glow)" stop-opacity=".15"/>
-        <stop offset=".62" stop-color="var(--folder-mat-glow)" stop-opacity=".035"/>
+      <radialGradient id="${uid}-backTopGlow" gradientUnits="userSpaceOnUse" cx="110" cy="23" r="196">
+        <stop offset="0" stop-color="var(--folder-mat-glow)" stop-opacity=".20"/>
+        <stop offset=".18" stop-color="var(--folder-mat-glow)" stop-opacity=".10"/>
+        <stop offset=".46" stop-color="var(--folder-mat-glow)" stop-opacity=".024"/>
         <stop offset="1" stop-color="var(--folder-mat-glow)" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="${uid}-backEdgeShade" gradientUnits="userSpaceOnUse" x1="16" y1="0" x2="337" y2="0">
-        <stop offset="0" stop-color="var(--folder-mat-edge)" stop-opacity=".27"/>
-        <stop offset=".085" stop-color="var(--folder-mat-edge)" stop-opacity=".08"/>
-        <stop offset=".24" stop-color="var(--folder-mat-edge)" stop-opacity="0"/>
-        <stop offset=".72" stop-color="var(--folder-mat-edge)" stop-opacity="0"/>
-        <stop offset=".91" stop-color="var(--folder-mat-edge)" stop-opacity=".07"/>
-        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".19"/>
+        <stop offset="0" stop-color="var(--folder-mat-edge)" stop-opacity=".31"/>
+        <stop offset=".09" stop-color="var(--folder-mat-edge)" stop-opacity=".12"/>
+        <stop offset=".23" stop-color="var(--folder-mat-edge)" stop-opacity="0"/>
+        <stop offset=".70" stop-color="var(--folder-mat-edge)" stop-opacity="0"/>
+        <stop offset=".88" stop-color="var(--folder-mat-edge)" stop-opacity=".10"/>
+        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".24"/>
       </linearGradient>
-      <linearGradient id="${uid}-backSheen" gradientUnits="userSpaceOnUse" x1="34" y1="28" x2="301" y2="134">
-        <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
-        <stop offset=".15" stop-color="#fff" stop-opacity=".075"/>
-        <stop offset=".34" stop-color="#fff" stop-opacity=".018"/>
-        <stop offset=".56" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".10"/>
+      <linearGradient id="${uid}-backSheen" gradientUnits="userSpaceOnUse" x1="40" y1="31" x2="292" y2="130">
+        <stop offset="0" stop-color="#fff" stop-opacity=".09"/>
+        <stop offset=".12" stop-color="#fff" stop-opacity=".042"/>
+        <stop offset=".26" stop-color="#fff" stop-opacity=".010"/>
+        <stop offset=".48" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".12"/>
       </linearGradient>
       <linearGradient id="${uid}-tab" x1=".06" y1="0" x2=".70" y2="1">
         <stop offset="0" stop-color="var(--folder-light)"/>
@@ -6530,8 +6530,8 @@ function matterFolderShell(){
       <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".72"/>
       <path d="${back}" fill="url(#${uid}-backEdgeShade)"/>
       <g clip-path="url(#${uid}-backClip)"><path d="${back}" transform="translate(1.6 2)" fill="none" stroke="var(--folder-light)" stroke-width="1" opacity=".095" stroke-linejoin="round"/></g>
-      <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".78" opacity=".10" stroke-linecap="round"/>
-      <path d="M84 27 C126 23.7 177 24.0 219 24.1" fill="none" stroke="var(--folder-mat-glow)" stroke-width="1.05" opacity=".12" stroke-linecap="round"/>
+      <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".72" opacity=".06" stroke-linecap="round"/>
+      <path d="M84 27 C126 23.7 177 24.0 219 24.1" fill="none" stroke="var(--folder-mat-glow)" stroke-width=".95" opacity=".08" stroke-linecap="round"/>
       <path d="M19 139 H333" fill="none" stroke="#111" stroke-width="1" opacity=".082" filter="url(#${uid}-rearInner)"/>
       <path d="M22 137 V91" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
     </g>
