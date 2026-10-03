@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.685';
-var APP_BUILD='5685';
+var APP_VERSION='5.0.686';
+var APP_BUILD='5686';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5685',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5686',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.685 — restore the brighter saturated rear colored body from the approved pre-5.0.672 look, while retaining the 5.0.675 paper refinement.
+/* 5.0.686 — restore the brighter saturated rear colored body from the approved pre-5.0.672 look, while retaining the 5.0.675 paper refinement.
    Inner light tab/highlight, right shoulder, folder geometry, cream face, gold rim and whole-folder shadow stay unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
@@ -6325,9 +6325,9 @@ function matterFolderShell(){
   var tab='M58 116 V102 C58 89 60.8 77 67 62 C73 47.5 81.8 41 95 41 H244 C257 41 264 47 269 57.5 C274.5 69 282.5 93 292 107.5 C300.5 120 305 123 312 123 H318 V156 H58 Z';
   var sheets=[
     'M226 25.8 C274.8 24.4 318.6 22.8 356.6 23.4 Q359.0 23.44 359.2 25.94 C359.7 60.8 360.4 103.4 360.9 143.0 H238.2 Z',
-    'M241.5 42.8 C288.6 41.2 333.8 41.9 372.8 43.0 Q375.2 43.08 375.35 45.48 C375.95 71.0 376.5 111.5 377.1 153.6 H249.2 Z',
-    'M257.5 60.9 C303.4 59.6 347.6 60.8 387.2 61.8 Q389.6 61.88 389.75 64.28 C390.3 88.0 390.8 122.5 391.3 161.8 H258.6 Z',
-    'M274.5 80.2 C318.0 79.1 359.6 80.4 397.6 81.4 Q400.0 81.48 400.15 83.88 C400.5 105.0 400.7 134.8 400.9 168.0 H267.2 Z'
+    'M239.4 41.9 C286.6 40.7 331.0 41.2 368.1 42.2 Q370.5 42.28 370.65 44.68 C371.25 69.7 371.8 110.2 372.4 152.3 H246.7 Z',
+    'M253.8 59.2 C299.4 58.2 343.0 59.1 381.2 60.1 Q383.6 60.18 383.75 62.58 C384.3 85.8 384.8 120.0 385.3 159.3 H254.9 Z',
+    'M268.9 77.8 C311.8 76.9 353.0 77.9 389.0 78.9 Q391.4 78.98 391.55 81.38 C391.9 102.0 392.1 131.2 392.3 164.0 H261.3 Z'
   ];
   function shadow(name,dx,dy,blur,alpha,color){return '<filter id="'+uid+'-'+name+'" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB"><feDropShadow dx="'+dx+'" dy="'+dy+'" stdDeviation="'+blur+'" flood-color="'+color+'" flood-opacity="'+alpha+'"/></filter>';}
   return `<svg class="case-folder-shell" viewBox="0 0 440 458" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
@@ -6349,10 +6349,10 @@ function matterFolderShell(){
       <clipPath id="${uid}-paperClip2"><use href="#${uid}-sheet2"/></clipPath>
       <clipPath id="${uid}-paperClip3"><use href="#${uid}-sheet3"/></clipPath>
       <clipPath id="${uid}-frontPaperClip"><use href="#${uid}-sheet4"/></clipPath>
-      <filter id="${uid}-paperContact" x="-16%" y="-24%" width="136%" height="156%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="2.02"/></filter>
+      <filter id="${uid}-paperContact" x="-16%" y="-24%" width="136%" height="156%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.92"/></filter>
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
-      <!-- 5.0.685: restore the saturated pre-672 rear body only; keep shoulder, highlighted inner tab and refined papers unchanged. -->
+      <!-- 5.0.686: restore the saturated pre-672 rear body only; keep shoulder, highlighted inner tab and refined papers unchanged. -->
       <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".72">
         <stop offset="0" stop-color="var(--folder-deep)"/>
         <stop offset=".16" stop-color="var(--folder)"/>
@@ -6478,34 +6478,34 @@ function matterFolderShell(){
     <g data-layer="papers">
       <g data-sheet="1" filter="url(#${uid}-paperShadowA)">
         <use href="#${uid}-sheet1" fill="url(#${uid}-paperA)"/><use href="#${uid}-sheet1" fill="url(#${uid}-paperEdge)"/><use href="#${uid}-sheet1" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".28" opacity=".09"/>
-        <g clip-path="url(#${uid}-paperClip1)"><use href="#${uid}-sheet2" transform="translate(.92 1.56)" fill="#8c7a67" opacity="0.112" filter="url(#${uid}-paperContact)"/></g>
-        <g clip-path="url(#${uid}-paperClip1)"><path d="M228 27.4 C272 26.2 315.0 24.1 349.4 24.4" transform="translate(.74 1.36)" fill="none" stroke="#a19182" stroke-width=".82" opacity=".062" filter="url(#${uid}-paperSepBlur)"/></g>
+        <g clip-path="url(#${uid}-paperClip1)"><use href="#${uid}-sheet2" transform="translate(.92 1.56)" fill="#8d7b68" opacity="0.118" filter="url(#${uid}-paperContact)"/></g>
+        <g clip-path="url(#${uid}-paperClip1)"><path d="M228 27.4 C272 26.2 315.0 24.1 349.4 24.4" transform="translate(.74 1.36)" fill="none" stroke="#9f8e7f" stroke-width=".80" opacity=".068" filter="url(#${uid}-paperSepBlur)"/></g>
         <g clip-path="url(#${uid}-paperClip1)"><path d="M228 27.4 C272 26.2 315.0 24.1 349.4 24.4" transform="translate(0 .32)" fill="none" stroke="#fffefb" stroke-width=".22" opacity=".085"/></g>
-        <g clip-path="url(#${uid}-paperClip1)"><path d="M352.4 26.8 C352.7 60.0 353.2 99.8 353.7 139.8" fill="none" stroke="#e7ddd2" stroke-width=".56" opacity=".032"/></g>
+        <g clip-path="url(#${uid}-paperClip1)"><path d="M352.4 26.8 C352.7 60.0 353.2 99.8 353.7 139.8" fill="none" stroke="#e6dbcf" stroke-width=".50" opacity=".024"/></g>
       </g>
       <g data-sheet="2" filter="url(#${uid}-paperShadowB)">
         <use href="#${uid}-sheet2" fill="url(#${uid}-paperB)"/><use href="#${uid}-sheet2" fill="url(#${uid}-paperEdge)"/><use href="#${uid}-sheet2" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".27" opacity=".088"/>
-        <g clip-path="url(#${uid}-paperClip2)"><use href="#${uid}-sheet3" transform="translate(1.00 1.62)" fill="#8c7a67" opacity="0.118" filter="url(#${uid}-paperContact)"/></g>
-        <g clip-path="url(#${uid}-paperClip2)"><path d="M241.8 44.4 C285.2 42.9 328.8 43.2 365.0 44.3" transform="translate(.76 1.40)" fill="none" stroke="#a19182" stroke-width=".84" opacity=".064" filter="url(#${uid}-paperSepBlur)"/></g>
+        <g clip-path="url(#${uid}-paperClip2)"><use href="#${uid}-sheet3" transform="translate(1.00 1.62)" fill="#8d7b68" opacity="0.124" filter="url(#${uid}-paperContact)"/></g>
+        <g clip-path="url(#${uid}-paperClip2)"><path d="M241.8 44.4 C285.2 42.9 328.8 43.2 365.0 44.3" transform="translate(.76 1.40)" fill="none" stroke="#9f8e7f" stroke-width=".82" opacity=".070" filter="url(#${uid}-paperSepBlur)"/></g>
         <g clip-path="url(#${uid}-paperClip2)"><path d="M241.8 44.4 C285.2 42.9 328.8 43.2 365.0 44.3" transform="translate(0 .32)" fill="none" stroke="#fffefb" stroke-width=".22" opacity=".09"/></g>
-        <g clip-path="url(#${uid}-paperClip2)"><path d="M368.0 46.0 C368.4 71.2 369.1 108.4 369.6 150.0" fill="none" stroke="#e7ddd2" stroke-width=".54" opacity=".03"/></g>
+        <g clip-path="url(#${uid}-paperClip2)"><path d="M368.0 46.0 C368.4 71.2 369.1 108.4 369.6 150.0" fill="none" stroke="#e6dbcf" stroke-width=".48" opacity=".022"/></g>
       </g>
       <g data-sheet="3" filter="url(#${uid}-paperShadowC)">
         <use href="#${uid}-sheet3" fill="url(#${uid}-paperC)"/><use href="#${uid}-sheet3" fill="url(#${uid}-paperEdge)"/><use href="#${uid}-sheet3" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".26" opacity=".084"/>
-        <g clip-path="url(#${uid}-paperClip3)"><use href="#${uid}-sheet4" transform="translate(1.04 1.66)" fill="#8c7a67" opacity="0.122" filter="url(#${uid}-paperContact)"/></g>
-        <g clip-path="url(#${uid}-paperClip3)"><path d="M257.8 62.4 C300.0 61.1 341.8 62.0 380.2 62.9" transform="translate(.78 1.45)" fill="none" stroke="#a19182" stroke-width=".86" opacity=".066" filter="url(#${uid}-paperSepBlur)"/></g>
+        <g clip-path="url(#${uid}-paperClip3)"><use href="#${uid}-sheet4" transform="translate(1.04 1.66)" fill="#8d7b68" opacity="0.128" filter="url(#${uid}-paperContact)"/></g>
+        <g clip-path="url(#${uid}-paperClip3)"><path d="M257.8 62.4 C300.0 61.1 341.8 62.0 380.2 62.9" transform="translate(.78 1.45)" fill="none" stroke="#9f8e7f" stroke-width=".84" opacity=".072" filter="url(#${uid}-paperSepBlur)"/></g>
         <g clip-path="url(#${uid}-paperClip3)"><path d="M257.8 62.4 C300.0 61.1 341.8 62.0 380.2 62.9" transform="translate(0 .32)" fill="none" stroke="#fffefb" stroke-width=".22" opacity=".09"/></g>
-        <g clip-path="url(#${uid}-paperClip3)"><path d="M383.0 65.0 C383.4 88.2 384.0 120.8 384.5 158.0" fill="none" stroke="#e7ddd2" stroke-width=".56" opacity=".032"/></g>
+        <g clip-path="url(#${uid}-paperClip3)"><path d="M383.0 65.0 C383.4 88.2 384.0 120.8 384.5 158.0" fill="none" stroke="#e6dbcf" stroke-width=".50" opacity=".024"/></g>
       </g>
       <g data-sheet="4" filter="url(#${uid}-paperShadowD)">
         <use href="#${uid}-sheet4" fill="url(#${uid}-paperD)"/><use href="#${uid}-sheet4" fill="url(#${uid}-paperEdge)"/><use href="#${uid}-sheet4" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".24" opacity=".08"/>
-        <g clip-path="url(#${uid}-frontPaperClip)"><path d="M274.8 81.8 C315.0 80.8 355.4 81.7 390.6 82.6" transform="translate(.80 1.49)" fill="none" stroke="#a19182" stroke-width=".88" opacity=".068" filter="url(#${uid}-paperSepBlur)"/></g>
+        <g clip-path="url(#${uid}-frontPaperClip)"><path d="M274.8 81.8 C315.0 80.8 355.4 81.7 390.6 82.6" transform="translate(.80 1.49)" fill="none" stroke="#9f8e7f" stroke-width=".86" opacity=".074" filter="url(#${uid}-paperSepBlur)"/></g>
         <g clip-path="url(#${uid}-frontPaperClip)"><path d="M274.8 81.8 C315.0 80.8 355.4 81.7 390.6 82.6" transform="translate(0 .32)" fill="none" stroke="#fffefb" stroke-width=".22" opacity=".095"/></g>
-        <g clip-path="url(#${uid}-frontPaperClip)"><path d="M393.4 84.9 C393.6 106.0 393.8 134.2 394.0 165.4" fill="none" stroke="#e7ddd2" stroke-width=".58" opacity=".034"/></g>
+        <g clip-path="url(#${uid}-frontPaperClip)"><path d="M393.4 84.9 C393.6 106.0 393.8 134.2 394.0 165.4" fill="none" stroke="#e6dbcf" stroke-width=".52" opacity=".026"/></g>
       </g>
       <!-- Compact four-leaf stack: depth comes from inter-leaf contact shadows, not a large fan. -->
       <g clip-path="url(#${uid}-paperClip)">
-        <path d="M232 94 H409 V144 H232 Z" fill="url(#${uid}-paperSeat)" opacity=".60"/>
+        <path d="M232 94 H409 V144 H232 Z" fill="url(#${uid}-paperSeat)" opacity=".62"/>
         <path d="M268 40 C274 54 290 93 298 109 C302 117 308 120 316 123" transform="translate(1.04 1.66)" fill="none" stroke="#ab9884" stroke-width="1.36" opacity=".038" filter="url(#${uid}-paperInset)"/>
       </g>
     </g>
