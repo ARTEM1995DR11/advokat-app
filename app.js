@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.663';
-var APP_BUILD='5663';
+var APP_VERSION='5.0.664';
+var APP_BUILD='5664';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.663 — point 6 final contrast pass: paper leaves are easier to read from a distance without changing geometry.
+/* 5.0.664 — point 6 final contrast pass: paper leaves are easier to read from a distance without changing geometry.
    Stronger vertical stepping, controlled rightward fan, warm contours and short contact shadows; right shoulder remains open. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
@@ -6381,6 +6381,7 @@ function matterFolderShell(){
 
       <linearGradient id="${uid}-cream" x1=".05" y1="0" x2=".92" y2="1"><stop stop-color="#fffefa"/><stop offset=".30" stop-color="#fffaf0"/><stop offset=".64" stop-color="#faf3e6"/><stop offset=".88" stop-color="#f4ead9"/><stop offset="1" stop-color="#eadcc7"/></linearGradient>
       <radialGradient id="${uid}-creamGlow" cx=".24" cy=".15" r=".92"><stop stop-color="#fff" stop-opacity=".66"/><stop offset=".44" stop-color="#fff" stop-opacity=".12"/><stop offset=".78" stop-color="#f0dec0" stop-opacity=".05"/><stop offset="1" stop-color="#c98c2a" stop-opacity=".10"/></radialGradient>
+      <linearGradient id="${uid}-frontEdgeDepth" gradientUnits="userSpaceOnUse" x1="20" y1="100" x2="425" y2="438"><stop stop-color="#fff" stop-opacity=".00"/><stop offset=".62" stop-color="#b88b52" stop-opacity=".00"/><stop offset=".86" stop-color="#9b7448" stop-opacity=".055"/><stop offset="1" stop-color="#6d4d2c" stop-opacity=".11"/></linearGradient>
 
       <!-- Four compact leaves: depth is primarily contact shadow, not enlarged spacing.
            Each shadow is clipped to its receiving leaf; both colored left bodies cover the whole stack. -->
@@ -6410,7 +6411,8 @@ function matterFolderShell(){
       ${shadow('paperShadowD',1.28,2.16,1.52,.53,'#725f49')}
       ${shadow('tabShadow',0,.9,2.8,.032,'#40504a')}
       ${shadow('tabLift',0,1.3,1.3,.12,'#111111')}
-      ${shadow('frontShadow',0,5.3,7.3,.22,'#66503a')}
+      ${shadow('frontShadow',0,7.0,8.6,.285,'#66503a')}
+      ${shadow('frontLift',0,2.1,2.8,.12,'#6a4f32')}
       ${shadow('trimGlow',0,.8,1.3,.13,'#98713d')}
 
       <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
@@ -6481,6 +6483,8 @@ function matterFolderShell(){
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
       <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
       <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".52"/>
+      <use href="#${uid}-face" fill="url(#${uid}-frontEdgeDepth)" opacity=".78"/>
+      <use href="#${uid}-face" fill="none" stroke="#704e2b" stroke-width="1.15" opacity=".09" filter="url(#${uid}-frontLift)"/>
       <path d="M49 99 H257 C269 99 276 105 284 114 C292 123 298 124 309 124 H396" fill="none" stroke="#fffef9" stroke-width="1.2" opacity=".50" stroke-linecap="round"/>
     </g>
 
