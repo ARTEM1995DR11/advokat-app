@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.667';
-var APP_BUILD='5667';
+var APP_VERSION='5.0.668';
+var APP_BUILD='5668';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5667',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5668',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,8 +6315,8 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.667 — front material only: stronger diffuse lower/right depth and localized metallic glints.
-   Geometry, cream base, rim widths, near-contact shadow and every rear layer stay fixed at 5.0.666. */
+/* 5.0.668 — overall folder depth only: add a broad, soft lower/right cast shadow for the complete folder silhouette.
+   Geometry, papers, colored layers, cream face material and gold trim remain unchanged from 5.0.667. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6415,6 +6415,17 @@ function matterFolderShell(){
       ${shadow('paperShadowD',1.28,2.16,1.52,.53,'#725f49')}
       ${shadow('tabShadow',0,.9,2.8,.032,'#40504a')}
       ${shadow('tabLift',0,1.3,1.3,.12,'#111111')}
+      <filter id="${uid}-folderAmbientShadow" x="-38%" y="-38%" width="196%" height="210%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="13.6" result="ambientAlpha"/>
+        <feOffset in="ambientAlpha" dx="4.8" dy="11.8" result="ambientOffset"/>
+        <feFlood flood-color="#6d5944" flood-opacity=".135" result="ambientColor"/>
+        <feComposite in="ambientColor" in2="ambientOffset" operator="in" result="ambientShadow"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="6.1" result="depthAlpha"/>
+        <feOffset in="depthAlpha" dx="3.0" dy="7.2" result="depthOffset"/>
+        <feFlood flood-color="#715b43" flood-opacity=".125" result="depthColor"/>
+        <feComposite in="depthColor" in2="depthOffset" operator="in" result="depthShadow"/>
+        <feMerge><feMergeNode in="ambientShadow"/><feMergeNode in="depthShadow"/></feMerge>
+      </filter>
       <filter id="${uid}-frontShadow" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceAlpha" stdDeviation="9.4" result="softAlpha"/>
         <feOffset in="softAlpha" dx="6" dy="10" result="softOffset"/>
@@ -6431,6 +6442,11 @@ function matterFolderShell(){
       <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
     </defs>
 
+    <g data-layer="folder-ambient-shadow" filter="url(#${uid}-folderAmbientShadow)">
+      <path d="${back}" fill="#000"/>
+      <path d="${shoulder}" fill="#000"/>
+      <path d="${front}" fill="#000"/>
+    </g>
     <path data-layer="contact" d="${front}" fill="#76502b" opacity=".74" filter="url(#${uid}-contact)"/>
 
 
