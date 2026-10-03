@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.668';
-var APP_BUILD='5668';
+var APP_VERSION='5.0.669';
+var APP_BUILD='5669';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5668',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5669',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,8 +6315,8 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.668 — overall folder depth only: add a broad, soft lower/right cast shadow for the complete folder silhouette.
-   Geometry, papers, colored layers, cream face material and gold trim remain unchanged from 5.0.667. */
+/* 5.0.669 — final point 3: preserve the broad ambient cast shadow and add a narrow contact shadow under the complete folder silhouette.
+   The new contact layer is concentrated down/right and fades quickly; geometry, papers, colored layers, cream material and gold trim are unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6424,7 +6424,11 @@ function matterFolderShell(){
         <feOffset in="depthAlpha" dx="3.0" dy="7.2" result="depthOffset"/>
         <feFlood flood-color="#715b43" flood-opacity=".125" result="depthColor"/>
         <feComposite in="depthColor" in2="depthOffset" operator="in" result="depthShadow"/>
-        <feMerge><feMergeNode in="ambientShadow"/><feMergeNode in="depthShadow"/></feMerge>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="2.25" result="contactAlpha"/>
+        <feOffset in="contactAlpha" dx="2.15" dy="4.45" result="contactOffset"/>
+        <feFlood flood-color="#5f4935" flood-opacity=".205" result="contactColor"/>
+        <feComposite in="contactColor" in2="contactOffset" operator="in" result="contactShadow"/>
+        <feMerge><feMergeNode in="ambientShadow"/><feMergeNode in="depthShadow"/><feMergeNode in="contactShadow"/></feMerge>
       </filter>
       <filter id="${uid}-frontShadow" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB">
         <feGaussianBlur in="SourceAlpha" stdDeviation="9.4" result="softAlpha"/>
