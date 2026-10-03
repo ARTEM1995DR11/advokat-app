@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.699';
-var APP_BUILD='5699';
+var APP_VERSION='5.0.700';
+var APP_BUILD='5700';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5699',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5700',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.699 — point 1 sheet-separation pass: keep all sheet lengths/geometry and overall shadowing unchanged; only make each sheet read a little more individually through very soft top-edge and right-plane differentiation.
+/* 5.0.700 — point 1 decisive sheet-separation pass: keep all sheet lengths/geometry and overall folder shadowing unchanged; make all four leaves visibly separate in the real app through a clearer local top seam and right-edge hairline, matching the approved reference direction.
    Keep geometry and sheet lengths unchanged. Only lighten the right paper edges and soften the inter-sheet shadows so the stack stays readable but closer to the approved mockup. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
@@ -6352,7 +6352,7 @@ function matterFolderShell(){
       <filter id="${uid}-paperContact" x="-16%" y="-24%" width="136%" height="156%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.55"/></filter>
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
-      <!-- 5.0.699: preserve approved 4-sheet geometry/lengths; make every sheet unmistakably separate using a controlled top-edge pair and a slightly more individual right face, without increasing overall folder shadow. -->
+      <!-- 5.0.700: preserve approved 4-sheet geometry/lengths and overall folder shadow; make every sheet clearly readable in-app using a visible neutral seam below each top edge plus a light/dark right-edge pair. -->
       <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".72">
         <stop offset="0" stop-color="var(--folder-deep)"/>
         <stop offset=".16" stop-color="var(--folder)"/>
@@ -6399,8 +6399,8 @@ function matterFolderShell(){
       <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
       <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
 
-      <!-- 5.0.699 paper stack: keep approved 4-sheet geometry, lengths, and overall shadow strength.
-           Increase only local sheet-to-sheet readability: each leaf gets its own warm under-edge, bright upper hairline, and slightly distinct right plane. -->
+      <!-- 5.0.700 paper stack: keep approved 4-sheet geometry, lengths, and overall shadow strength.
+           Make each leaf visibly separate in the actual PWA: each gets a crisp neutral top seam, a fine bright rim, and an individual right edge without adding a heavy block shadow. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="154"><stop stop-color="#fffefa"/><stop offset=".44" stop-color="#fbf5ec"/><stop offset=".82" stop-color="#eddfcf"/><stop offset="1" stop-color="#dcc9b3"/></linearGradient>
       <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="34" x2="0" y2="160"><stop stop-color="#fffefb"/><stop offset=".46" stop-color="#fdf7ef"/><stop offset=".82" stop-color="#f0e4d5"/><stop offset="1" stop-color="#dfccb7"/></linearGradient>
       <linearGradient id="${uid}-paperC" gradientUnits="userSpaceOnUse" x1="0" y1="48" x2="0" y2="166"><stop stop-color="#fffdf8"/><stop offset=".48" stop-color="#f8efe4"/><stop offset=".84" stop-color="#eadbc7"/><stop offset="1" stop-color="#d9c3aa"/></linearGradient>
@@ -6418,6 +6418,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-paperRightFaceD" gradientUnits="userSpaceOnUse" x1="355" y1="0" x2="405" y2="0"><stop stop-color="#fffdf9" stop-opacity="0"/><stop offset=".54" stop-color="#fff7ec" stop-opacity=".13"/><stop offset=".84" stop-color="#bca38b" stop-opacity=".24"/><stop offset="1" stop-color="#9e856d" stop-opacity=".34"/></linearGradient>
       <clipPath id="${uid}-paperClip"><use href="#${uid}-sheet1"/><use href="#${uid}-sheet2"/><use href="#${uid}-sheet3"/><use href="#${uid}-sheet4"/></clipPath>
       <filter id="${uid}-paperTopBlur" x="-24%" y="-170%" width="160%" height="430%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".62"/></filter>
+      <filter id="${uid}-paperSeamBlur" x="-20%" y="-120%" width="150%" height="320%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".24"/></filter>
       <filter id="${uid}-paperRightBlur" x="-140%" y="-24%" width="360%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".48"/></filter>
       <filter id="${uid}-paperUnderBlur" x="-24%" y="-80%" width="170%" height="220%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".84"/></filter>
       ${shadow('paperLiftA',.88,1.52,.86,.24,'#6f5a45')}
@@ -6493,12 +6494,13 @@ function matterFolderShell(){
         <use href="#${uid}-sheet1" fill="url(#${uid}-paperA)"/>
         <g clip-path="url(#${uid}-paperClip1)">
           <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 1.55)" fill="none" stroke="url(#${uid}-paperUnder)" stroke-width="2.65" opacity=".59" filter="url(#${uid}-paperUnderBlur)"/>
-          <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 .86)" fill="none" stroke="#8d7763" stroke-width="1.42" opacity=".31" filter="url(#${uid}-paperTopBlur)"/>
-          <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" fill="none" stroke="#fffefa" stroke-width=".72" opacity=".96"/>
-          <path d="M226 25 H366 V37 H226 Z" fill="url(#${uid}-paperTopBevel)" opacity=".53"/>
-          <path d="M357.4 25.0 H366.1 V145.0 H357.4 Z" fill="url(#${uid}-paperRightFaceA)" opacity=".72"/>
-          <path d="M360.3 25.4 C361.0 60.9 361.6 104.0 362.0 144.0" fill="none" stroke="#9f8973" stroke-width=".92" opacity=".46" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M359.2 25.4 C359.8 60.9 360.4 104.0 360.9 144.0" fill="none" stroke="#fffdf9" stroke-width=".46" opacity=".56"/>
+          <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 .92)" fill="none" stroke="#9b8b7b" stroke-width="1.28" opacity=".24" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 .48)" fill="none" stroke="#b8bdc1" stroke-width=".78" opacity=".72" filter="url(#${uid}-paperSeamBlur)"/>
+          <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" fill="none" stroke="#fffefa" stroke-width=".58" opacity=".92"/>
+          <path d="M226 25 H366 V37 H226 Z" fill="url(#${uid}-paperTopBevel)" opacity=".49"/>
+          <path d="M357.4 25.0 H366.1 V145.0 H357.4 Z" fill="url(#${uid}-paperRightFaceA)" opacity=".66"/>
+          <path d="M360.3 25.4 C361.0 60.9 361.6 104.0 362.0 144.0" fill="none" stroke="#b2b4b4" stroke-width=".82" opacity=".58" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M359.2 25.4 C359.8 60.9 360.4 104.0 360.9 144.0" fill="none" stroke="#fffdf9" stroke-width=".40" opacity=".62"/>
         </g>
         <use href="#${uid}-sheet1" fill="url(#${uid}-paperEdge)"/>
         <use href="#${uid}-sheet1" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".54" opacity=".54"/>
@@ -6509,12 +6511,13 @@ function matterFolderShell(){
         <use href="#${uid}-sheet2" fill="url(#${uid}-paperB)"/>
         <g clip-path="url(#${uid}-paperClip2)">
           <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 1.52)" fill="none" stroke="url(#${uid}-paperUnder)" stroke-width="2.60" opacity=".61" filter="url(#${uid}-paperUnderBlur)"/>
-          <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 .84)" fill="none" stroke="#89725e" stroke-width="1.40" opacity=".33" filter="url(#${uid}-paperTopBlur)"/>
-          <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" fill="none" stroke="#fffdf9" stroke-width=".68" opacity=".96"/>
-          <path d="M241 42 H382 V54 H241 Z" fill="url(#${uid}-paperTopBevel)" opacity=".50"/>
-          <path d="M372.2 44.6 H381.3 V155.5 H372.2 Z" fill="url(#${uid}-paperRightFaceB)" opacity=".74"/>
-          <path d="M376.1 45.4 C376.7 71.3 377.3 112.0 377.8 154.7" fill="none" stroke="#9b846e" stroke-width=".94" opacity=".48" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M374.9 45.4 C375.5 71.3 376.1 112.0 376.7 154.7" fill="none" stroke="#fffdf9" stroke-width=".44" opacity=".58"/>
+          <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 .90)" fill="none" stroke="#978677" stroke-width="1.26" opacity=".25" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 .48)" fill="none" stroke="#b4babf" stroke-width=".78" opacity=".75" filter="url(#${uid}-paperSeamBlur)"/>
+          <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" fill="none" stroke="#fffdf9" stroke-width=".56" opacity=".93"/>
+          <path d="M241 42 H382 V54 H241 Z" fill="url(#${uid}-paperTopBevel)" opacity=".46"/>
+          <path d="M372.2 44.6 H381.3 V155.5 H372.2 Z" fill="url(#${uid}-paperRightFaceB)" opacity=".68"/>
+          <path d="M376.1 45.4 C376.7 71.3 377.3 112.0 377.8 154.7" fill="none" stroke="#adb0b1" stroke-width=".84" opacity=".60" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M374.9 45.4 C375.5 71.3 376.1 112.0 376.7 154.7" fill="none" stroke="#fffdf9" stroke-width=".40" opacity=".64"/>
         </g>
         <use href="#${uid}-sheet2" fill="url(#${uid}-paperEdge)"/>
         <use href="#${uid}-sheet2" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".52" opacity=".56"/>
@@ -6525,12 +6528,13 @@ function matterFolderShell(){
         <use href="#${uid}-sheet3" fill="url(#${uid}-paperC)"/>
         <g clip-path="url(#${uid}-paperClip3)">
           <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 1.50)" fill="none" stroke="url(#${uid}-paperUnder)" stroke-width="2.55" opacity=".63" filter="url(#${uid}-paperUnderBlur)"/>
-          <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 .82)" fill="none" stroke="#846e5a" stroke-width="1.38" opacity=".35" filter="url(#${uid}-paperTopBlur)"/>
-          <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" fill="none" stroke="#fffdf8" stroke-width=".64" opacity=".95"/>
-          <path d="M257 60 H396 V72 H257 Z" fill="url(#${uid}-paperTopBevel)" opacity=".47"/>
-          <path d="M386.8 63.3 H395.8 V164.2 H386.8 Z" fill="url(#${uid}-paperRightFaceC)" opacity=".76"/>
-          <path d="M390.0 64.2 C390.5 88.4 391.0 123.0 391.4 163.4" fill="none" stroke="#978069" stroke-width=".96" opacity=".50" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M388.9 64.2 C389.4 88.4 389.9 123.0 390.4 163.4" fill="none" stroke="#fffdf8" stroke-width=".42" opacity=".58"/>
+          <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 .88)" fill="none" stroke="#928174" stroke-width="1.24" opacity=".26" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 .48)" fill="none" stroke="#afb5ba" stroke-width=".78" opacity=".78" filter="url(#${uid}-paperSeamBlur)"/>
+          <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" fill="none" stroke="#fffdf8" stroke-width=".54" opacity=".94"/>
+          <path d="M257 60 H396 V72 H257 Z" fill="url(#${uid}-paperTopBevel)" opacity=".43"/>
+          <path d="M386.8 63.3 H395.8 V164.2 H386.8 Z" fill="url(#${uid}-paperRightFaceC)" opacity=".70"/>
+          <path d="M390.0 64.2 C390.5 88.4 391.0 123.0 391.4 163.4" fill="none" stroke="#a8abad" stroke-width=".86" opacity=".62" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M388.9 64.2 C389.4 88.4 389.9 123.0 390.4 163.4" fill="none" stroke="#fffdf8" stroke-width=".38" opacity=".66"/>
         </g>
         <use href="#${uid}-sheet3" fill="url(#${uid}-paperEdge)"/>
         <use href="#${uid}-sheet3" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".50" opacity=".58"/>
@@ -6541,12 +6545,13 @@ function matterFolderShell(){
         <use href="#${uid}-sheet4" fill="url(#${uid}-paperD)"/>
         <g clip-path="url(#${uid}-frontPaperClip)">
           <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 1.48)" fill="none" stroke="url(#${uid}-paperUnder)" stroke-width="2.50" opacity=".65" filter="url(#${uid}-paperUnderBlur)"/>
-          <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 .80)" fill="none" stroke="#7f6854" stroke-width="1.36" opacity=".37" filter="url(#${uid}-paperTopBlur)"/>
-          <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" fill="none" stroke="#fffdf8" stroke-width=".64" opacity=".95"/>
-          <path d="M274 79 H406 V91 H274 Z" fill="url(#${uid}-paperTopBevel)" opacity=".44"/>
-          <path d="M397.2 83.0 H405.8 V169.6 H397.2 Z" fill="url(#${uid}-paperRightFaceD)" opacity=".78"/>
-          <path d="M400.8 84.0 C401.2 105.3 401.5 135.2 401.7 168.8" fill="none" stroke="#947c64" stroke-width=".98" opacity=".52" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M399.8 84.0 C400.1 105.3 400.4 135.2 400.6 168.8" fill="none" stroke="#fffdf8" stroke-width=".40" opacity=".60"/>
+          <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 .86)" fill="none" stroke="#8d7c70" stroke-width="1.22" opacity=".27" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 .48)" fill="none" stroke="#abb1b6" stroke-width=".78" opacity=".80" filter="url(#${uid}-paperSeamBlur)"/>
+          <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" fill="none" stroke="#fffdf8" stroke-width=".52" opacity=".95"/>
+          <path d="M274 79 H406 V91 H274 Z" fill="url(#${uid}-paperTopBevel)" opacity=".40"/>
+          <path d="M397.2 83.0 H405.8 V169.6 H397.2 Z" fill="url(#${uid}-paperRightFaceD)" opacity=".72"/>
+          <path d="M400.8 84.0 C401.2 105.3 401.5 135.2 401.7 168.8" fill="none" stroke="#a3a6a9" stroke-width=".88" opacity=".64" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M399.8 84.0 C400.1 105.3 400.4 135.2 400.6 168.8" fill="none" stroke="#fffdf8" stroke-width=".36" opacity=".68"/>
         </g>
         <use href="#${uid}-sheet4" fill="url(#${uid}-paperEdge)"/>
         <use href="#${uid}-sheet4" fill="none" stroke="url(#${uid}-paperOutline)" stroke-width=".48" opacity=".60"/>
