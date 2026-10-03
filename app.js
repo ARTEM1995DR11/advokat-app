@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.704';
-var APP_BUILD='5704';
+var APP_VERSION='5.0.705';
+var APP_BUILD='5705';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5704',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5705',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6399,17 +6399,19 @@ function matterFolderShell(){
       <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
       <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
 
-      <!-- 5.0.704 paper stack: preserve approved geometry, length and placement of all 4 sheets.
-           Increase only local 3D: each sheet gets its own top highlight, micro-shadow below the top edge,
-           stronger individual right plane and stepped depth from back to front, without increasing the folder-wide shadow. -->
-      <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="154"><stop stop-color="#fbf8f2"/><stop offset=".38" stop-color="#f3eadf"/><stop offset=".78" stop-color="#e4d3bf"/><stop offset="1" stop-color="#cfb89f"/></linearGradient>
-      <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="34" x2="0" y2="160"><stop stop-color="#fffdf9"/><stop offset=".40" stop-color="#f8f0e6"/><stop offset=".80" stop-color="#e9dccb"/><stop offset="1" stop-color="#d8c3ac"/></linearGradient>
-      <linearGradient id="${uid}-paperC" gradientUnits="userSpaceOnUse" x1="0" y1="48" x2="0" y2="166"><stop stop-color="#fffefb"/><stop offset=".42" stop-color="#fbf3e9"/><stop offset=".82" stop-color="#eee1d1"/><stop offset="1" stop-color="#ddc7b0"/></linearGradient>
-      <linearGradient id="${uid}-paperD" gradientUnits="userSpaceOnUse" x1="0" y1="62" x2="0" y2="172"><stop stop-color="#fffefc"/><stop offset=".44" stop-color="#fdf7ef"/><stop offset=".84" stop-color="#f1e5d5"/><stop offset="1" stop-color="#e2ceb7"/></linearGradient>
+      <!-- 5.0.705 paper stack: preserve approved geometry, length and placement of all 4 sheets.
+           Increase only local 3D: each sheet keeps the exact approved silhouette but now has a visible bevel band under the top edge,
+           a stronger individual right-side plane and a clearer back-to-front depth hierarchy, without increasing the folder-wide shadow. -->
+      <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="154"><stop stop-color="#faf6ef"/><stop offset=".34" stop-color="#efe5d9"/><stop offset=".74" stop-color="#dfcdb9"/><stop offset="1" stop-color="#c9af94"/></linearGradient>
+      <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="34" x2="0" y2="160"><stop stop-color="#fffdf9"/><stop offset=".36" stop-color="#f6ede3"/><stop offset=".76" stop-color="#e7d8c6"/><stop offset="1" stop-color="#d4bea5"/></linearGradient>
+      <linearGradient id="${uid}-paperC" gradientUnits="userSpaceOnUse" x1="0" y1="48" x2="0" y2="166"><stop stop-color="#fffefb"/><stop offset=".38" stop-color="#faf1e7"/><stop offset=".78" stop-color="#ecdece"/><stop offset="1" stop-color="#dbc4ac"/></linearGradient>
+      <linearGradient id="${uid}-paperD" gradientUnits="userSpaceOnUse" x1="0" y1="62" x2="0" y2="172"><stop stop-color="#fffefc"/><stop offset=".40" stop-color="#fdf6ed"/><stop offset=".80" stop-color="#f0e2d2"/><stop offset="1" stop-color="#dfcbb3"/></linearGradient>
       <linearGradient id="${uid}-paperEdge" x1="0" y1="0" x2="1" y2="0"><stop offset=".84" stop-color="#a99278" stop-opacity="0"/><stop offset=".93" stop-color="#c1ad98" stop-opacity=".07"/><stop offset=".972" stop-color="#ab947c" stop-opacity=".155"/><stop offset="1" stop-color="#947c65" stop-opacity=".24"/></linearGradient>
       <linearGradient id="${uid}-paperOutline" gradientUnits="userSpaceOnUse" x1="224" y1="22" x2="426" y2="182"><stop stop-color="#eee2d0" stop-opacity=".80"/><stop offset=".56" stop-color="#cfbca3" stop-opacity=".56"/><stop offset="1" stop-color="#9d856b" stop-opacity=".46"/></linearGradient>
       <linearGradient id="${uid}-paperSeat" gradientUnits="userSpaceOnUse" x1="0" y1="92" x2="0" y2="148"><stop stop-color="#7d674f" stop-opacity="0"/><stop offset=".52" stop-color="#7d674f" stop-opacity=".044"/><stop offset="1" stop-color="#6d5742" stop-opacity=".098"/></linearGradient>
       <linearGradient id="${uid}-paperUnder" gradientUnits="userSpaceOnUse" x1="0" y1="22" x2="0" y2="90"><stop stop-color="#5f4937" stop-opacity=".46"/><stop offset=".22" stop-color="#67503c" stop-opacity=".22"/><stop offset=".58" stop-color="#67503c" stop-opacity=".070"/><stop offset="1" stop-color="#67503c" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${uid}-paperDepthBand" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#75604e" stop-opacity=".34"/><stop offset=".22" stop-color="#806a56" stop-opacity=".20"/><stop offset=".55" stop-color="#9a846f" stop-opacity=".075"/><stop offset="1" stop-color="#9a846f" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${uid}-paperSideCore" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ffffff" stop-opacity="0"/><stop offset=".52" stop-color="#f8efe5" stop-opacity=".10"/><stop offset=".78" stop-color="#b99f87" stop-opacity=".30"/><stop offset="1" stop-color="#7a624c" stop-opacity=".52"/></linearGradient>
       <linearGradient id="${uid}-paperTopBevelA" gradientUnits="userSpaceOnUse" x1="0" y1="18" x2="0" y2="34"><stop stop-color="#ffffff" stop-opacity="1"/><stop offset=".26" stop-color="#fff8ee" stop-opacity=".78"/><stop offset=".60" stop-color="#fff8ee" stop-opacity=".20"/><stop offset="1" stop-color="#fff8ee" stop-opacity="0"/></linearGradient>
       <linearGradient id="${uid}-paperTopBevelB" gradientUnits="userSpaceOnUse" x1="0" y1="18" x2="0" y2="34"><stop stop-color="#ffffff" stop-opacity="1"/><stop offset=".26" stop-color="#fff9f0" stop-opacity=".80"/><stop offset=".60" stop-color="#fff9f0" stop-opacity=".21"/><stop offset="1" stop-color="#fff9f0" stop-opacity="0"/></linearGradient>
       <linearGradient id="${uid}-paperTopBevelC" gradientUnits="userSpaceOnUse" x1="0" y1="18" x2="0" y2="34"><stop stop-color="#ffffff" stop-opacity="1"/><stop offset=".26" stop-color="#fffaf2" stop-opacity=".82"/><stop offset=".60" stop-color="#fffaf2" stop-opacity=".22"/><stop offset="1" stop-color="#fffaf2" stop-opacity="0"/></linearGradient>
@@ -6421,10 +6423,10 @@ function matterFolderShell(){
       <linearGradient id="${uid}-paperRightFaceC" gradientUnits="userSpaceOnUse" x1="355" y1="0" x2="405" y2="0"><stop stop-color="#fffdf9" stop-opacity="0"/><stop offset=".42" stop-color="#fbf2e9" stop-opacity=".14"/><stop offset=".70" stop-color="#c7af98" stop-opacity=".40"/><stop offset="1" stop-color="#8f735c" stop-opacity=".54"/></linearGradient>
       <linearGradient id="${uid}-paperRightFaceD" gradientUnits="userSpaceOnUse" x1="355" y1="0" x2="405" y2="0"><stop stop-color="#fffdf9" stop-opacity="0"/><stop offset=".42" stop-color="#fdf6ed" stop-opacity=".12"/><stop offset=".70" stop-color="#d1baa4" stop-opacity=".34"/><stop offset="1" stop-color="#9f8269" stop-opacity=".45"/></linearGradient>
       <clipPath id="${uid}-paperClip"><use href="#${uid}-sheet1"/><use href="#${uid}-sheet2"/><use href="#${uid}-sheet3"/><use href="#${uid}-sheet4"/></clipPath>
-      <filter id="${uid}-paperTopBlur" x="-24%" y="-170%" width="160%" height="430%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".58"/></filter>
+      <filter id="${uid}-paperTopBlur" x="-24%" y="-170%" width="160%" height="430%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".52"/></filter>
       <filter id="${uid}-paperSeamBlur" x="-20%" y="-120%" width="150%" height="320%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".06"/></filter>
       <filter id="${uid}-paperRightBlur" x="-140%" y="-24%" width="360%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".38"/></filter>
-      <filter id="${uid}-paperUnderBlur" x="-24%" y="-80%" width="170%" height="220%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".82"/></filter>
+      <filter id="${uid}-paperUnderBlur" x="-24%" y="-80%" width="170%" height="220%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".72"/></filter>
       ${shadow('paperLiftA',.92,1.62,.76,.34,'#66513e')}
       ${shadow('paperLiftB',1.02,1.74,.80,.36,'#66513e')}
       ${shadow('paperLiftC',1.12,1.86,.84,.38,'#66513e')}
@@ -6501,8 +6503,10 @@ function matterFolderShell(){
           <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 .92)" fill="none" stroke="#756353" stroke-width="1.92" opacity=".58" filter="url(#${uid}-paperTopBlur)"/>
           <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" transform="translate(0 .48)" fill="none" stroke="#766f69" stroke-width="1.42" opacity=".96" filter="url(#${uid}-paperSeamBlur)"/>
           <path d="M226.9 25.9 C275.4 24.5 319.1 22.9 360.1 23.5" fill="none" stroke="#ffffff" stroke-width="1.00" opacity="1"/>
-          <path d="M226 25 H366 V37 H226 Z" fill="url(#${uid}-paperTopBevelA)" opacity=".92"/>
+          <path d="M226 25 H366 V37 H226 Z" fill="url(#${uid}-paperTopBevelA)" opacity=".96"/>
+          <path d="M226 27 H366 V36 H226 Z" fill="url(#${uid}-paperDepthBand)" opacity=".74"/>
           <path d="M357.4 25.0 H366.1 V145.0 H357.4 Z" fill="url(#${uid}-paperRightFaceA)" opacity="1"/>
+          <path d="M359.2 25.0 H366.1 V145.0 H359.2 Z" fill="url(#${uid}-paperSideCore)" opacity=".82"/>
           <path d="M357.4 25.0 H366.1 V145.0 H357.4 Z" fill="url(#${uid}-paperRightHighlight)" opacity=".60"/>
           <path d="M360.3 25.4 C361.0 60.9 361.6 104.0 362.0 144.0" fill="none" stroke="#6e6259" stroke-width="1.42" opacity=".98" filter="url(#${uid}-paperRightBlur)"/>
           <path d="M359.2 25.4 C359.8 60.9 360.4 104.0 360.9 144.0" fill="none" stroke="#fffdf9" stroke-width=".64" opacity=".88"/>
@@ -6519,8 +6523,10 @@ function matterFolderShell(){
           <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 .90)" fill="none" stroke="#716050" stroke-width="1.90" opacity=".60" filter="url(#${uid}-paperTopBlur)"/>
           <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" transform="translate(0 .48)" fill="none" stroke="#7c746e" stroke-width="1.42" opacity=".94" filter="url(#${uid}-paperSeamBlur)"/>
           <path d="M241.8 42.8 C288.8 41.2 334.0 41.9 375.6 43.0" fill="none" stroke="#ffffff" stroke-width="1.00" opacity="1"/>
-          <path d="M241 42 H382 V54 H241 Z" fill="url(#${uid}-paperTopBevelB)" opacity=".94"/>
+          <path d="M241 42 H382 V54 H241 Z" fill="url(#${uid}-paperTopBevelB)" opacity=".98"/>
+          <path d="M241 44 H382 V53 H241 Z" fill="url(#${uid}-paperDepthBand)" opacity=".70"/>
           <path d="M372.2 44.6 H381.3 V155.5 H372.2 Z" fill="url(#${uid}-paperRightFaceB)" opacity="1"/>
+          <path d="M374.1 44.6 H381.3 V155.5 H374.1 Z" fill="url(#${uid}-paperSideCore)" opacity=".76"/>
           <path d="M372.2 44.6 H381.3 V155.5 H372.2 Z" fill="url(#${uid}-paperRightHighlight)" opacity=".56"/>
           <path d="M376.1 45.4 C376.7 71.3 377.3 112.0 377.8 154.7" fill="none" stroke="#736861" stroke-width="1.40" opacity=".96" filter="url(#${uid}-paperRightBlur)"/>
           <path d="M374.9 45.4 C375.5 71.3 376.1 112.0 376.7 154.7" fill="none" stroke="#fffdf9" stroke-width=".64" opacity=".90"/>
@@ -6537,8 +6543,10 @@ function matterFolderShell(){
           <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 .88)" fill="none" stroke="#6e5d4e" stroke-width="1.88" opacity=".62" filter="url(#${uid}-paperTopBlur)"/>
           <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" transform="translate(0 .48)" fill="none" stroke="#827a74" stroke-width="1.40" opacity=".92" filter="url(#${uid}-paperSeamBlur)"/>
           <path d="M257.8 60.9 C303.6 59.6 347.9 60.8 390.1 61.8" fill="none" stroke="#ffffff" stroke-width="1.00" opacity="1"/>
-          <path d="M257 60 H396 V72 H257 Z" fill="url(#${uid}-paperTopBevelC)" opacity=".96"/>
+          <path d="M257 60 H396 V72 H257 Z" fill="url(#${uid}-paperTopBevelC)" opacity="1"/>
+          <path d="M257 62 H396 V71 H257 Z" fill="url(#${uid}-paperDepthBand)" opacity=".66"/>
           <path d="M386.8 63.3 H395.8 V164.2 H386.8 Z" fill="url(#${uid}-paperRightFaceC)" opacity="1"/>
+          <path d="M388.6 63.3 H395.8 V164.2 H388.6 Z" fill="url(#${uid}-paperSideCore)" opacity=".70"/>
           <path d="M386.8 63.3 H395.8 V164.2 H386.8 Z" fill="url(#${uid}-paperRightHighlight)" opacity=".52"/>
           <path d="M390.0 64.2 C390.5 88.4 391.0 123.0 391.4 163.4" fill="none" stroke="#786d65" stroke-width="1.38" opacity=".94" filter="url(#${uid}-paperRightBlur)"/>
           <path d="M388.9 64.2 C389.4 88.4 389.9 123.0 390.4 163.4" fill="none" stroke="#fffdf8" stroke-width=".64" opacity=".92"/>
@@ -6555,8 +6563,10 @@ function matterFolderShell(){
           <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 .86)" fill="none" stroke="#6b5a4b" stroke-width="1.86" opacity=".64" filter="url(#${uid}-paperTopBlur)"/>
           <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" transform="translate(0 .48)" fill="none" stroke="#88807a" stroke-width="1.38" opacity=".90" filter="url(#${uid}-paperSeamBlur)"/>
           <path d="M274.8 80.2 C318.0 79.1 360.0 80.4 400.6 81.4" fill="none" stroke="#ffffff" stroke-width="1.02" opacity="1"/>
-          <path d="M274 79 H406 V91 H274 Z" fill="url(#${uid}-paperTopBevelD)" opacity=".98"/>
+          <path d="M274 79 H406 V91 H274 Z" fill="url(#${uid}-paperTopBevelD)" opacity="1"/>
+          <path d="M274 81 H406 V90 H274 Z" fill="url(#${uid}-paperDepthBand)" opacity=".62"/>
           <path d="M397.2 83.0 H405.8 V169.6 H397.2 Z" fill="url(#${uid}-paperRightFaceD)" opacity="1"/>
+          <path d="M399.0 83.0 H405.8 V169.6 H399.0 Z" fill="url(#${uid}-paperSideCore)" opacity=".64"/>
           <path d="M397.2 83.0 H405.8 V169.6 H397.2 Z" fill="url(#${uid}-paperRightHighlight)" opacity=".48"/>
           <path d="M400.8 84.0 C401.2 105.3 401.5 135.2 401.7 168.8" fill="none" stroke="#7e736b" stroke-width="1.36" opacity=".92" filter="url(#${uid}-paperRightBlur)"/>
           <path d="M399.8 84.0 C400.1 105.3 400.4 135.2 400.6 168.8" fill="none" stroke="#fffdf8" stroke-width=".64" opacity=".94"/>
