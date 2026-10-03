@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.711';
-var APP_BUILD='5711';
+var APP_VERSION='5.0.712';
+var APP_BUILD='5712';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5711',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5712',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.711 — material-only paper refinement. Preserve sheet geometry, placement and clipping. */
+/* 5.0.712 — material-only paper refinement. Preserve sheet geometry, placement and clipping. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6398,22 +6398,22 @@ function matterFolderShell(){
       <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
       <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
 
-      <!-- 5.0.711: shared warm paper material; original sheet paths and clipping retained. -->
+      <!-- 5.0.712: shared warm paper material; original sheet paths and clipping retained. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="23.5" x2="0" y2="144.6"><stop stop-color="#fefcf8"/><stop offset="1" stop-color="#faf6ef"/></linearGradient>
-      <linearGradient id="${uid}-paperRightFaceA" gradientUnits="userSpaceOnUse" x1="357.7" y1="0" x2="365.4" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f7f1e8"/><stop offset=".72" stop-color="#e7ddd0"/><stop offset="1" stop-color="#d8cbbc"/></linearGradient>
+      <linearGradient id="${uid}-paperRightFaceA" gradientUnits="userSpaceOnUse" x1="357.7" y1="0" x2="365.4" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f1e8dc"/><stop offset=".72" stop-color="#d4c3ae"/><stop offset="1" stop-color="#b09a83"/></linearGradient>
       <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="42.8" x2="0" y2="155.2"><stop stop-color="#fffdfa"/><stop offset="1" stop-color="#fbf7f0"/></linearGradient>
-      <linearGradient id="${uid}-paperRightFaceB" gradientUnits="userSpaceOnUse" x1="373.05" y1="0" x2="380.9" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f7f1e8"/><stop offset=".72" stop-color="#e7ddd0"/><stop offset="1" stop-color="#d8cbbc"/></linearGradient>
+      <linearGradient id="${uid}-paperRightFaceB" gradientUnits="userSpaceOnUse" x1="373.05" y1="0" x2="380.9" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f1e8dc"/><stop offset=".72" stop-color="#d4c3ae"/><stop offset="1" stop-color="#b09a83"/></linearGradient>
       <linearGradient id="${uid}-paperC" gradientUnits="userSpaceOnUse" x1="0" y1="60.9" x2="0" y2="163.8"><stop stop-color="#fffdfb"/><stop offset="1" stop-color="#fcf8f2"/></linearGradient>
-      <linearGradient id="${uid}-paperRightFaceC" gradientUnits="userSpaceOnUse" x1="387.55" y1="0" x2="395.2" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f7f1e8"/><stop offset=".72" stop-color="#e7ddd0"/><stop offset="1" stop-color="#d8cbbc"/></linearGradient>
+      <linearGradient id="${uid}-paperRightFaceC" gradientUnits="userSpaceOnUse" x1="387.55" y1="0" x2="395.2" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f1e8dc"/><stop offset=".72" stop-color="#d4c3ae"/><stop offset="1" stop-color="#b09a83"/></linearGradient>
       <linearGradient id="${uid}-paperD" gradientUnits="userSpaceOnUse" x1="0" y1="80.2" x2="0" y2="169.2"><stop stop-color="#fffefc"/><stop offset="1" stop-color="#fdf9f3"/></linearGradient>
-      <linearGradient id="${uid}-paperRightFaceD" gradientUnits="userSpaceOnUse" x1="397.95" y1="0" x2="404.9" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f7f1e8"/><stop offset=".72" stop-color="#e7ddd0"/><stop offset="1" stop-color="#d8cbbc"/></linearGradient>
+      <linearGradient id="${uid}-paperRightFaceD" gradientUnits="userSpaceOnUse" x1="397.95" y1="0" x2="404.9" y2="0"><stop stop-color="#fffdf8"/><stop offset=".28" stop-color="#f1e8dc"/><stop offset=".72" stop-color="#d4c3ae"/><stop offset="1" stop-color="#b09a83"/></linearGradient>
       <clipPath id="${uid}-paperClip"><use href="#${uid}-sheet1"/><use href="#${uid}-sheet2"/><use href="#${uid}-sheet3"/><use href="#${uid}-sheet4"/></clipPath>
-      <filter id="${uid}-paperTopBlur" x="-10%" y="-200%" width="120%" height="500%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.35"/></filter>
-      <filter id="${uid}-paperRightBlur" x="-200%" y="-10%" width="500%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".72"/></filter>
-      ${shadow('paperLiftA',.55,1.15,.95,.085,'#8a7763')}
-      ${shadow('paperLiftB',.55,1.15,.95,.085,'#8a7763')}
-      ${shadow('paperLiftC',.55,1.15,.95,.085,'#8a7763')}
-      ${shadow('paperLiftD',.55,1.15,.95,.085,'#8a7763')}
+      <filter id="${uid}-paperTopBlur" x="-10%" y="-200%" width="120%" height="500%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.05"/></filter>
+      <filter id="${uid}-paperRightBlur" x="-200%" y="-10%" width="500%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".60"/></filter>
+      ${shadow('paperLiftA',.75,1.35,.95,.18,'#8a7763')}
+      ${shadow('paperLiftB',.75,1.35,.95,.18,'#8a7763')}
+      ${shadow('paperLiftC',.75,1.35,.95,.18,'#8a7763')}
+      ${shadow('paperLiftD',.75,1.35,.95,.18,'#8a7763')}
 
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7a470d"/><stop offset=".075" stop-color="#b77518"/><stop offset=".145" stop-color="#f0c95f"/><stop offset=".225" stop-color="#9b5b10"/><stop offset=".40" stop-color="#d8a23a"/><stop offset=".575" stop-color="#ffe28a"/><stop offset=".665" stop-color="#8b5010"/><stop offset=".82" stop-color="#cc8d24"/><stop offset=".91" stop-color="#6d3e08"/><stop offset=".962" stop-color="#e7b84f"/><stop offset=".985" stop-color="#fff0ae"/><stop offset="1" stop-color="#7d4a0f"/></linearGradient>
       <linearGradient id="${uid}-goldBevel" x1="0" y1="0" x2=".12" y2="1"><stop stop-color="#fff5cf"/><stop offset=".24" stop-color="#d3a043"/><stop offset=".47" stop-color="#fff0b6"/><stop offset=".70" stop-color="#995a10"/><stop offset=".88" stop-color="#e1b755"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
@@ -6482,44 +6482,44 @@ function matterFolderShell(){
         <use href="#${uid}-sheet1" fill="url(#${uid}-paperA)"/>
         <g clip-path="url(#${uid}-paperClip1)">
           <!-- Short blurred shadow fades beneath the edge; no outline/border. -->
-          <path d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5" transform="translate(0 2.8)" fill="none" stroke="#96816c" stroke-width="4.2" opacity=".13" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5" transform="translate(0 2.4)" fill="none" stroke="#96816c" stroke-width="4.0" opacity=".32" filter="url(#${uid}-paperTopBlur)"/>
           <!-- Each side plane ends on this sheet's unchanged right boundary. -->
           <path d="M360.8 23.5 Q363.5 23.55 363.7 26.10 C364.2 61.2 364.9 104.5 365.4 144.6" fill="none" stroke="url(#${uid}-paperRightFaceA)" stroke-width="12"/>
-          <path d="M360.8 23.5 Q363.5 23.55 363.7 26.10 C364.2 61.2 364.9 104.5 365.4 144.6" fill="none" stroke="#8c7762" stroke-width="1.2" opacity=".15" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".68"/>
+          <path d="M360.8 23.5 Q363.5 23.55 363.7 26.10 C364.2 61.2 364.9 104.5 365.4 144.6" fill="none" stroke="#8c7762" stroke-width="1.8" opacity=".42" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".86"/>
         </g>
       </g>
       <g data-sheet="2" filter="url(#${uid}-paperLiftB)">
         <use href="#${uid}-sheet2" fill="url(#${uid}-paperB)"/>
         <g clip-path="url(#${uid}-paperClip2)">
           <!-- Short blurred shadow fades beneath the edge; no outline/border. -->
-          <path d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1" transform="translate(0 2.8)" fill="none" stroke="#96816c" stroke-width="4.2" opacity=".13" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1" transform="translate(0 2.4)" fill="none" stroke="#96816c" stroke-width="4.0" opacity=".32" filter="url(#${uid}-paperTopBlur)"/>
           <!-- Each side plane ends on this sheet's unchanged right boundary. -->
           <path d="M376.3 43.1 Q378.9 43.18 379.05 45.75 C379.7 71.5 380.3 112.6 380.9 155.2" fill="none" stroke="url(#${uid}-paperRightFaceB)" stroke-width="12"/>
-          <path d="M376.3 43.1 Q378.9 43.18 379.05 45.75 C379.7 71.5 380.3 112.6 380.9 155.2" fill="none" stroke="#8c7762" stroke-width="1.2" opacity=".15" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".68"/>
+          <path d="M376.3 43.1 Q378.9 43.18 379.05 45.75 C379.7 71.5 380.3 112.6 380.9 155.2" fill="none" stroke="#8c7762" stroke-width="1.8" opacity=".42" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".86"/>
         </g>
       </g>
       <g data-sheet="3" filter="url(#${uid}-paperLiftC)">
         <use href="#${uid}-sheet3" fill="url(#${uid}-paperC)"/>
         <g clip-path="url(#${uid}-paperClip3)">
           <!-- Short blurred shadow fades beneath the edge; no outline/border. -->
-          <path d="M257.3 60.9 C303.4 59.6 348.3 60.8 390.8 61.9" transform="translate(0 2.8)" fill="none" stroke="#96816c" stroke-width="4.2" opacity=".13" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M257.3 60.9 C303.4 59.6 348.3 60.8 390.8 61.9" transform="translate(0 2.4)" fill="none" stroke="#96816c" stroke-width="4.0" opacity=".32" filter="url(#${uid}-paperTopBlur)"/>
           <!-- Each side plane ends on this sheet's unchanged right boundary. -->
           <path d="M390.8 61.9 Q393.4 61.98 393.55 64.55 C394.1 88.6 394.7 123.8 395.2 163.8" fill="none" stroke="url(#${uid}-paperRightFaceC)" stroke-width="12"/>
-          <path d="M390.8 61.9 Q393.4 61.98 393.55 64.55 C394.1 88.6 394.7 123.8 395.2 163.8" fill="none" stroke="#8c7762" stroke-width="1.2" opacity=".15" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M257.3 60.9 C303.4 59.6 348.3 60.8 390.8 61.9" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".68"/>
+          <path d="M390.8 61.9 Q393.4 61.98 393.55 64.55 C394.1 88.6 394.7 123.8 395.2 163.8" fill="none" stroke="#8c7762" stroke-width="1.8" opacity=".42" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M257.3 60.9 C303.4 59.6 348.3 60.8 390.8 61.9" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".86"/>
         </g>
       </g>
       <g data-sheet="4" filter="url(#${uid}-paperLiftD)">
         <use href="#${uid}-sheet4" fill="url(#${uid}-paperD)"/>
         <g clip-path="url(#${uid}-frontPaperClip)">
           <!-- Short blurred shadow fades beneath the edge; no outline/border. -->
-          <path d="M274.2 80.2 C318.0 79.1 360.3 80.4 401.2 81.5" transform="translate(0 2.8)" fill="none" stroke="#96816c" stroke-width="4.2" opacity=".13" filter="url(#${uid}-paperTopBlur)"/>
+          <path d="M274.2 80.2 C318.0 79.1 360.3 80.4 401.2 81.5" transform="translate(0 2.4)" fill="none" stroke="#96816c" stroke-width="4.0" opacity=".32" filter="url(#${uid}-paperTopBlur)"/>
           <!-- Each side plane ends on this sheet's unchanged right boundary. -->
           <path d="M401.2 81.5 Q403.8 81.58 403.95 84.15 C404.3 105.4 404.6 135.6 404.9 169.2" fill="none" stroke="url(#${uid}-paperRightFaceD)" stroke-width="12"/>
-          <path d="M401.2 81.5 Q403.8 81.58 403.95 84.15 C404.3 105.4 404.6 135.6 404.9 169.2" fill="none" stroke="#8c7762" stroke-width="1.2" opacity=".15" filter="url(#${uid}-paperRightBlur)"/>
-          <path d="M274.2 80.2 C318.0 79.1 360.3 80.4 401.2 81.5" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".68"/>
+          <path d="M401.2 81.5 Q403.8 81.58 403.95 84.15 C404.3 105.4 404.6 135.6 404.9 169.2" fill="none" stroke="#8c7762" stroke-width="1.8" opacity=".42" filter="url(#${uid}-paperRightBlur)"/>
+          <path d="M274.2 80.2 C318.0 79.1 360.3 80.4 401.2 81.5" fill="none" stroke="#ffffff" stroke-width="3.6" opacity=".86"/>
         </g>
       </g>
     </g>
