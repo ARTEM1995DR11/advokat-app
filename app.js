@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.669';
-var APP_BUILD='5669';
+var APP_VERSION='5.0.670';
+var APP_BUILD='5670';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5669',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5670',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,8 +6315,8 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.669 — final point 3: preserve the broad ambient cast shadow and add a narrow contact shadow under the complete folder silhouette.
-   The new contact layer is concentrated down/right and fades quickly; geometry, papers, colored layers, cream material and gold trim are unchanged. */
+/* 5.0.670 — point 4: refine the front gold trim only.
+   Keep the rim visually thin while adding a darker metallic base, a narrow bright inner facet and restrained local glints; folder geometry and all other layers remain unchanged. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6337,7 +6337,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="180"><stop stop-color="#b18a46"/><stop offset=".45" stop-color="#936323"/><stop offset="1" stop-color="#754809"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#9a651f"/><stop offset=".34" stop-color="#77470f"/><stop offset=".72" stop-color="#67400c"/><stop offset="1" stop-color="#8d5c17"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--folder-light)" stop-opacity=".20"/><stop offset=".42" stop-color="var(--folder-light)" stop-opacity=".065"/><stop offset=".7" stop-color="var(--folder-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".09"/></linearGradient>
@@ -6400,10 +6400,10 @@ function matterFolderShell(){
       <filter id="${uid}-paperSepBlur" x="-22%" y="-120%" width="160%" height="340%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="0.42"/></filter>
       <filter id="${uid}-paperLip" x="-18%" y="-80%" width="140%" height="260%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.15"/></filter>
 
-      <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a77325"/><stop offset=".06" stop-color="#b27b22"/><stop offset=".13" stop-color="#f9e5a0"/><stop offset=".23" stop-color="#bb8221"/><stop offset=".48" stop-color="#e8c675"/><stop offset=".70" stop-color="#7d4f18"/><stop offset=".88" stop-color="#bf8b2e"/><stop offset=".94" stop-color="#804912"/><stop offset=".972" stop-color="#e9c467"/><stop offset=".988" stop-color="#fff1b8"/><stop offset="1" stop-color="#74480f"/></linearGradient>
-      <linearGradient id="${uid}-goldBevel" x1="0" y1="0" x2=".14" y2="1"><stop stop-color="#fff3c7"/><stop offset=".3" stop-color="#e9bf68"/><stop offset=".58" stop-color="#fce7af"/><stop offset=".85" stop-color="#b78230"/><stop offset=".96" stop-color="#eac777"/><stop offset=".986" stop-color="#fff9df"/><stop offset="1" stop-color="#c49344"/></linearGradient>
-      <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="407"><stop stop-color="#e9c379"/><stop offset=".055" stop-color="#fffbe5"/><stop offset=".14" stop-color="#d3a150"/><stop offset=".29" stop-color="#fff0bd"/><stop offset=".48" stop-color="#aa782c"/><stop offset=".73" stop-color="#f1d28e"/><stop offset=".93" stop-color="#fff7d7"/><stop offset="1" stop-color="#c99745"/></linearGradient>
-      <linearGradient id="${uid}-frontBottomGlint" gradientUnits="userSpaceOnUse" x1="16" y1="0" x2="424" y2="0"><stop stop-color="#fff8dc" stop-opacity="0"/><stop offset=".04" stop-color="#fff8dc" stop-opacity="1"/><stop offset=".13" stop-color="#fff8dc" stop-opacity="0"/><stop offset=".28" stop-color="#fff8dc" stop-opacity=".90"/><stop offset=".42" stop-color="#fff8dc" stop-opacity="0"/><stop offset=".65" stop-color="#fff8dc" stop-opacity="0"/><stop offset=".77" stop-color="#fff8dc" stop-opacity=".82"/><stop offset=".86" stop-color="#fff8dc" stop-opacity="0"/><stop offset=".96" stop-color="#fff8dc" stop-opacity="1"/><stop offset="1" stop-color="#fff8dc" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8e5914"/><stop offset=".075" stop-color="#c58c2b"/><stop offset=".155" stop-color="#f3d783"/><stop offset=".245" stop-color="#a96e19"/><stop offset=".43" stop-color="#e2b85a"/><stop offset=".60" stop-color="#fff0aa"/><stop offset=".70" stop-color="#97621a"/><stop offset=".84" stop-color="#d5a243"/><stop offset=".93" stop-color="#7e4b0d"/><stop offset=".972" stop-color="#f2d17d"/><stop offset=".991" stop-color="#fff6c9"/><stop offset="1" stop-color="#8c5817"/></linearGradient>
+      <linearGradient id="${uid}-goldBevel" x1="0" y1="0" x2=".16" y2="1"><stop stop-color="#fff7d7"/><stop offset=".27" stop-color="#d9ab4e"/><stop offset=".51" stop-color="#fff1bd"/><stop offset=".74" stop-color="#a76d18"/><stop offset=".90" stop-color="#e9c56d"/><stop offset="1" stop-color="#fff6d5"/></linearGradient>
+      <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="407"><stop stop-color="#bd8730"/><stop offset=".055" stop-color="#fff5c7"/><stop offset=".13" stop-color="#d4a348"/><stop offset=".28" stop-color="#ffe7a1"/><stop offset=".47" stop-color="#9d671d"/><stop offset=".72" stop-color="#ebc46a"/><stop offset=".91" stop-color="#fff2b9"/><stop offset="1" stop-color="#b77e28"/></linearGradient>
+      <linearGradient id="${uid}-frontBottomGlint" gradientUnits="userSpaceOnUse" x1="16" y1="0" x2="424" y2="0"><stop stop-color="#fff2b0" stop-opacity="0"/><stop offset=".04" stop-color="#fff5c4" stop-opacity=".98"/><stop offset=".12" stop-color="#fff2b0" stop-opacity="0"/><stop offset=".29" stop-color="#ffe6a0" stop-opacity=".82"/><stop offset=".41" stop-color="#fff2b0" stop-opacity="0"/><stop offset=".65" stop-color="#fff2b0" stop-opacity="0"/><stop offset=".78" stop-color="#ffe7a3" stop-opacity=".76"/><stop offset=".87" stop-color="#fff2b0" stop-opacity="0"/><stop offset=".965" stop-color="#fff6cc" stop-opacity=".96"/><stop offset="1" stop-color="#fff2b0" stop-opacity="0"/></linearGradient>
 
       ${shadow('contact',2,10,10.5,.17,'#74614d')}
       ${shadow('rear',.5,2,3.2,.11,'#40504a')}
@@ -6441,7 +6441,7 @@ function matterFolderShell(){
         <feComposite in="nearColor" in2="nearOffset" operator="in" result="nearShadow"/>
         <feMerge><feMergeNode in="softShadow"/><feMergeNode in="nearShadow"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
-      ${shadow('trimGlow',0,.8,1.3,.13,'#98713d')}
+      ${shadow('trimGlow',0,.55,.72,.105,'#8d642a')}
 
       <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
     </defs>
@@ -6526,13 +6526,16 @@ function matterFolderShell(){
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
-      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="6.35"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="4.72"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="2.05" opacity=".94"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width=".92" opacity=".86"/>
-      <!-- Two fine reflections sit inside the existing 6.35-unit rim. -->
-      <path d="M16 389 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V389" transform="translate(0 -1.1)" stroke="url(#${uid}-frontBottomGlint)" stroke-width="1.15" opacity=".93"/>
-      <path d="M16 399 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V399" transform="translate(0 1.05)" stroke="#8a5410" stroke-width=".65" opacity=".46"/>
+      <!-- Thin metallic rim: darker base, narrow gold body and a bright inner facet. -->
+      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="4.25"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.02"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="1.12" opacity=".96"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width=".46" opacity=".90"/>
+      <!-- Localized reflections strengthen metal character without increasing rim thickness. -->
+      <path d="M16 389 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V389" transform="translate(0 -1.0)" stroke="url(#${uid}-frontBottomGlint)" stroke-width=".78" opacity=".91"/>
+      <path d="M20.5 408 C21.6 424 31.8 433.8 49.6 434.2 H78" stroke="#fff1b0" stroke-width=".52" opacity=".58"/>
+      <path d="M361 434.2 H391.5 C408.5 433.8 418.7 424.7 419.7 408" stroke="#fff1b0" stroke-width=".52" opacity=".54"/>
+      <path d="M16 399 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V399" transform="translate(0 .92)" stroke="#76450b" stroke-width=".48" opacity=".44"/>
     </g>
   </svg>`;
 }
