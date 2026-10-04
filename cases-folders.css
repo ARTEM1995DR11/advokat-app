@@ -40,18 +40,23 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
-/* 5.0.752 — stage 2: production type only.
-   The box is centered over the flat, readable part of the approved inner tab;
-   folder geometry itself is intentionally untouched. */
+/* 5.0.753 — point-2 refinement: production type aligned pixel-closer to the approved mockup.
+   Only the inscription box over the approved inner tab is corrected; folder geometry itself remains untouched. */
 #sc-matters .case-folder-label {
-  position:absolute;left:14%;top:11.2%;width:47%;height:7.5%;
+  position:absolute;left:12.15%;top:10.55%;width:45.5%;height:7.1%;
   display:flex;align-items:center;justify-content:center;
-  box-sizing:border-box;margin:0;padding:0;
-  font:600 calc(26.5 * var(--case-u))/1 Arial,sans-serif;
-  letter-spacing:calc(-.35 * var(--case-u));color:var(--folder-ink);
+  box-sizing:border-box;margin:0;padding:calc(.55 * var(--case-u)) 0 0;
+  font:600 calc(24.6 * var(--case-u))/.96 'Helvetica Neue',Arial,sans-serif;
+  letter-spacing:calc(-.24 * var(--case-u));color:var(--folder-ink);
   text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;
   pointer-events:none;
 }
+#sc-matters .case-folder-admin .case-folder-label{color:#0f6f78}
+#sc-matters .case-folder-criminal .case-folder-label{color:#bf201f}
+#sc-matters .case-folder-civil .case-folder-label{color:#1658d5}
+#sc-matters .case-folder-koap .case-folder-label,
+#sc-matters .case-folder-other .case-folder-label{color:#6f5720}
 #sc-matters .case-folder-content {
   position:absolute;left:9%;right:6.3%;top:20.7%;bottom:5.9%;
   display:flex;flex-direction:column;min-width:0;min-height:0;
