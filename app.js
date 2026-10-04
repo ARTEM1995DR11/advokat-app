@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.733';
-var APP_BUILD='5733';
+var APP_VERSION='5.0.734';
+var APP_BUILD='5734';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -291,7 +291,7 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5733" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5734" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5733',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5734',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6439,13 +6439,13 @@ function matterFolderShell(){
       ${shadow('paperLiftC',.75,1.35,.95,.18,'#8a7763')}
       ${shadow('paperLiftD',.75,1.35,.95,.18,'#8a7763')}
 
-      <!-- 5.0.733 — final depth calibration: denser lower-right contact shadow and stronger target-like metallic trim; geometry and color balance unchanged. -->
-      <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7d4508"/><stop offset=".045" stop-color="#be7918"/><stop offset=".115" stop-color="#f5cf62"/><stop offset=".185" stop-color="#9d5b10"/><stop offset=".31" stop-color="#dda12d"/><stop offset=".46" stop-color="#fff0a0"/><stop offset=".56" stop-color="#d79827"/><stop offset=".66" stop-color="#8a4c0b"/><stop offset=".77" stop-color="#c9821d"/><stop offset=".875" stop-color="#f4c857"/><stop offset=".95" stop-color="#fff0a1"/><stop offset="1" stop-color="#8d510e"/></linearGradient>
-      <linearGradient id="${uid}-goldBevel" x1=".02" y1="0" x2=".17" y2="1"><stop stop-color="#fff9d8"/><stop offset=".12" stop-color="#f8d879"/><stop offset=".31" stop-color="#bc7418"/><stop offset=".49" stop-color="#fff1ad"/><stop offset=".67" stop-color="#a85f10"/><stop offset=".84" stop-color="#e9b348"/><stop offset="1" stop-color="#fff8d3"/></linearGradient>
-      <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="403"><stop stop-color="#9c5e15"/><stop offset=".028" stop-color="#fffbe7"/><stop offset=".072" stop-color="#f2c965"/><stop offset=".15" stop-color="#8a4d0c"/><stop offset=".255" stop-color="#ffe99b"/><stop offset=".34" stop-color="#c27b1d"/><stop offset=".47" stop-color="#7d4308"/><stop offset=".60" stop-color="#e4ab39"/><stop offset=".71" stop-color="#fff1ae"/><stop offset=".82" stop-color="#b56c17"/><stop offset=".91" stop-color="#f4c95b"/><stop offset=".972" stop-color="#fffbea"/><stop offset="1" stop-color="#9e6016"/></linearGradient>
-      <linearGradient id="${uid}-frontBottomGlint" gradientUnits="userSpaceOnUse" x1="16" y1="0" x2="424" y2="0"><stop stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".022" stop-color="#fffef1" stop-opacity="1"/><stop offset=".066" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".18" stop-color="#ffd977" stop-opacity=".92"/><stop offset=".265" stop-color="#fff1b5" stop-opacity=".98"/><stop offset=".34" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".51" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".64" stop-color="#ffd978" stop-opacity=".90"/><stop offset=".73" stop-color="#fff2b9" stop-opacity="1"/><stop offset=".82" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".945" stop-color="#fffef0" stop-opacity="1"/><stop offset="1" stop-color="#ffeaa0" stop-opacity="0"/></linearGradient>
+      <!-- 5.0.734 — final micro-pass: richer lower metallic sparkle, slightly firmer contact depth, and more target-like gold liveliness. Geometry stays locked. -->
+      <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#743f07"/><stop offset=".038" stop-color="#c37f1c"/><stop offset=".098" stop-color="#fff3a8"/><stop offset=".156" stop-color="#9a570f"/><stop offset=".284" stop-color="#e0a432"/><stop offset=".432" stop-color="#fff2aa"/><stop offset=".548" stop-color="#cf9325"/><stop offset=".662" stop-color="#84490a"/><stop offset=".772" stop-color="#cb851f"/><stop offset=".884" stop-color="#ffd46a"/><stop offset=".954" stop-color="#fff6bc"/><stop offset="1" stop-color="#8f5210"/></linearGradient>
+      <linearGradient id="${uid}-goldBevel" x1=".02" y1="0" x2=".17" y2="1"><stop stop-color="#fffce7"/><stop offset=".10" stop-color="#f7d777"/><stop offset=".28" stop-color="#b86f17"/><stop offset=".47" stop-color="#fff4bd"/><stop offset=".65" stop-color="#a45c0f"/><stop offset=".82" stop-color="#ebb84d"/><stop offset="1" stop-color="#fffbe0"/></linearGradient>
+      <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="403"><stop stop-color="#975911"/><stop offset=".024" stop-color="#fffdf0"/><stop offset=".058" stop-color="#f0c65f"/><stop offset=".132" stop-color="#86490b"/><stop offset=".236" stop-color="#ffec9f"/><stop offset=".314" stop-color="#c1781c"/><stop offset=".445" stop-color="#7a4008"/><stop offset=".578" stop-color="#e7af3d"/><stop offset=".675" stop-color="#fff3b7"/><stop offset=".772" stop-color="#af6815"/><stop offset=".884" stop-color="#f6cc60"/><stop offset=".952" stop-color="#fffdf0"/><stop offset="1" stop-color="#9a5c15"/></linearGradient>
+      <linearGradient id="${uid}-frontBottomGlint" gradientUnits="userSpaceOnUse" x1="16" y1="0" x2="424" y2="0"><stop stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".018" stop-color="#fffef4" stop-opacity="1"/><stop offset=".055" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".165" stop-color="#ffd56c" stop-opacity=".96"/><stop offset=".248" stop-color="#fff3bd" stop-opacity="1"/><stop offset=".335" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".50" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".635" stop-color="#ffd66f" stop-opacity=".95"/><stop offset=".726" stop-color="#fff4c0" stop-opacity="1"/><stop offset=".818" stop-color="#ffeaa0" stop-opacity="0"/><stop offset=".94" stop-color="#fffef2" stop-opacity="1"/><stop offset="1" stop-color="#ffeaa0" stop-opacity="0"/></linearGradient>
 
-      ${shadow('contact',2.45,8.7,6.4,.315,'#5d4936')}
+      ${shadow('contact',2.55,8.95,6.55,.332,'#5c4734')}
       ${shadow('rear',.72,2.35,3.25,.135,'#3b4a45')}
       ${shadow('shoulder',.25,1.35,4.7,.060,'#725f4b')}
       ${shadow('rearInner',0,1.12,1.22,.125,'#111111')}
@@ -6456,32 +6456,32 @@ function matterFolderShell(){
       ${shadow('tabShadow',0,.95,2.55,.038,'#40504a')}
       ${shadow('tabLift',0,1.22,1.18,.12,'#111111')}
       <filter id="${uid}-folderAmbientShadow" x="-38%" y="-38%" width="196%" height="210%" color-interpolation-filters="sRGB">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="10.8" result="ambientAlpha"/>
-        <feOffset in="ambientAlpha" dx="4.85" dy="11.6" result="ambientOffset"/>
-        <feFlood flood-color="#6d5944" flood-opacity=".205" result="ambientColor"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="10.9" result="ambientAlpha"/>
+        <feOffset in="ambientAlpha" dx="4.95" dy="11.8" result="ambientOffset"/>
+        <feFlood flood-color="#6a5641" flood-opacity=".214" result="ambientColor"/>
         <feComposite in="ambientColor" in2="ambientOffset" operator="in" result="ambientShadow"/>
-        <feGaussianBlur in="SourceAlpha" stdDeviation="4.25" result="depthAlpha"/>
-        <feOffset in="depthAlpha" dx="3.55" dy="7.35" result="depthOffset"/>
-        <feFlood flood-color="#715b43" flood-opacity=".215" result="depthColor"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4.35" result="depthAlpha"/>
+        <feOffset in="depthAlpha" dx="3.65" dy="7.55" result="depthOffset"/>
+        <feFlood flood-color="#6e5942" flood-opacity=".226" result="depthColor"/>
         <feComposite in="depthColor" in2="depthOffset" operator="in" result="depthShadow"/>
-        <feGaussianBlur in="SourceAlpha" stdDeviation="1.12" result="contactAlpha"/>
-        <feOffset in="contactAlpha" dx="2.15" dy="3.85" result="contactOffset"/>
-        <feFlood flood-color="#5f4935" flood-opacity=".385" result="contactColor"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="1.08" result="contactAlpha"/>
+        <feOffset in="contactAlpha" dx="2.24" dy="3.98" result="contactOffset"/>
+        <feFlood flood-color="#5a4431" flood-opacity=".405" result="contactColor"/>
         <feComposite in="contactColor" in2="contactOffset" operator="in" result="contactShadow"/>
         <feMerge><feMergeNode in="ambientShadow"/><feMergeNode in="depthShadow"/><feMergeNode in="contactShadow"/></feMerge>
       </filter>
       <filter id="${uid}-frontShadow" x="-32%" y="-45%" width="176%" height="200%" color-interpolation-filters="sRGB">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="7.15" result="softAlpha"/>
-        <feOffset in="softAlpha" dx="5.85" dy="9.35" result="softOffset"/>
-        <feFlood flood-color="#796650" flood-opacity=".355" result="softColor"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="7.05" result="softAlpha"/>
+        <feOffset in="softAlpha" dx="5.95" dy="9.55" result="softOffset"/>
+        <feFlood flood-color="#76624c" flood-opacity=".372" result="softColor"/>
         <feComposite in="softColor" in2="softOffset" operator="in" result="softShadow"/>
-        <feGaussianBlur in="SourceAlpha" stdDeviation="2.05" result="nearAlpha"/>
-        <feOffset in="nearAlpha" dx=".95" dy="2.25" result="nearOffset"/>
-        <feFlood flood-color="#705b43" flood-opacity=".135" result="nearColor"/>
+        <feGaussianBlur in="SourceAlpha" stdDeviation="1.96" result="nearAlpha"/>
+        <feOffset in="nearAlpha" dx="1.02" dy="2.34" result="nearOffset"/>
+        <feFlood flood-color="#6d5942" flood-opacity=".148" result="nearColor"/>
         <feComposite in="nearColor" in2="nearOffset" operator="in" result="nearShadow"/>
         <feMerge><feMergeNode in="softShadow"/><feMergeNode in="nearShadow"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
-      ${shadow('trimGlow',0,.58,.70,.19,'#8f5918')}
+      ${shadow('trimGlow',0,.62,.72,.205,'#8b5516')}
 
       <filter id="${uid}-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".034"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
     </defs>
@@ -6604,17 +6604,17 @@ function matterFolderShell(){
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
-      <!-- 5.0.733: final gold + shadow pass. Geometry/material layers above stay locked. -->
-      <use href="#${uid}-face" stroke="#4b2805" stroke-width="6.42" opacity=".66"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="5.92" opacity=".99"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="5.40"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="1.76" opacity="1"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width="1.12" opacity="1"/>
+      <!-- 5.0.734: final micro-pass. Geometry/material layers above stay locked; only gold liveliness and floor contact were tuned. -->
+      <use href="#${uid}-face" stroke="#492705" stroke-width="6.46" opacity=".69"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="5.96" opacity="1"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="5.44"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="1.82" opacity="1"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width="1.18" opacity="1"/>
       <!-- Target-mockup metal facets: warm body, bronze depth and concentrated lower/corner speculars. -->
       <path d="M16 149 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V151" transform="translate(.1 -.78)" stroke="url(#${uid}-frontBottomGlint)" stroke-width="2.02" opacity="1"/>
-      <path d="M17.20 154 V404 C17.20 423.8 29.2 435.8 49.4 435.8 H390.7 C410 435.8 422.55 424.9 422.75 407.1" stroke="#fff1ad" stroke-width=".78" opacity=".84"/>
-      <path d="M19.8 406.6 C21.2 424.2 31.3 434.2 49.7 434.6 H86" stroke="#fffbe4" stroke-width="1.12" opacity="1"/>
-      <path d="M350.0 434.6 H391.0 C408.6 434.0 418.8 424.2 420.1 406.2" stroke="#fffbe4" stroke-width="1.12" opacity="1"/>
+      <path d="M17.20 154 V404 C17.20 423.8 29.2 435.8 49.4 435.8 H390.7 C410 435.8 422.55 424.9 422.75 407.1" stroke="#fff3b7" stroke-width=".84" opacity=".90"/>
+      <path d="M19.8 406.6 C21.2 424.2 31.3 434.2 49.7 434.6 H86" stroke="#fffced" stroke-width="1.18" opacity="1"/>
+      <path d="M350.0 434.6 H391.0 C408.6 434.0 418.8 424.2 420.1 406.2" stroke="#fffced" stroke-width="1.18" opacity="1"/>
       <path d="M16 397 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V397" transform="translate(0 1.30)" stroke="#492606" stroke-width=".82" opacity=".60"/>
       <path d="M18.25 145 V392" stroke="#ffecaa" stroke-width=".62" opacity=".60"/>
       <path d="M421.75 156 V392" stroke="#603006" stroke-width=".62" opacity=".50"/>
