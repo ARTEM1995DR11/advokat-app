@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.737';
-var APP_BUILD='5737';
+var APP_VERSION='5.0.738';
+var APP_BUILD='5738';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -275,14 +275,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5737" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5738" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5737" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5738" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -291,11 +291,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5737" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5738" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5737" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5738" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -723,12 +723,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5737" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5738" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5737" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5738" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2670,7 +2670,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5737" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5738" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2781,7 +2781,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5737" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5738" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5737" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5738" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3916,7 +3916,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5737" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5738" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4651,11 +4651,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5737',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5737',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5737',
-    'qa-task':'quick-card-task-v5100.png?v=5737',
-    'qa-journal':'quick-card-journal-v5100.png?v=5737'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5738',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5738',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5738',
+    'qa-task':'quick-card-task-v5100.png?v=5738',
+    'qa-journal':'quick-card-journal-v5100.png?v=5738'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -4664,7 +4664,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5737':type==='search'?'header-search-premium.png?v=5737':type==='plus'?'fab-plus-square-premium.png?v=5737':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5738':type==='search'?'header-search-premium.png?v=5738':type==='plus'?'fab-plus-square-premium.png?v=5738':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4773,7 +4773,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5737" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5738" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -4815,7 +4815,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5737" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5738" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5146,7 +5146,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5737" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5738" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5160,7 +5160,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5737" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5738" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5737',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5738',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6352,39 +6352,39 @@ function matterFolderShell(){
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
       <!-- Approved folder shell geometry remains unchanged. -->
-      <!-- 5.0.737 — large rear plates made more vivid/saturated, not lighter; small inner tab left unchanged. -->
+      <!-- 5.0.738 — large rear color plates restored to the denser, brighter saturation of the approved screenshot; small inner tab unchanged. -->
       <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".86">
-        <stop offset="0" stop-color="var(--folder)"/>
-        <stop offset=".12" stop-color="var(--folder-mat-top)"/>
-        <stop offset=".34" stop-color="var(--folder)"/>
-        <stop offset=".58" stop-color="var(--folder-mat-mid)"/>
-        <stop offset=".82" stop-color="var(--folder-mat-main)"/>
-        <stop offset="1" stop-color="var(--folder-mat-deep)"/>
+        <stop offset="0" stop-color="var(--folder-light)"/>
+        <stop offset=".10" stop-color="var(--folder-mat-top)"/>
+        <stop offset=".28" stop-color="var(--folder)"/>
+        <stop offset=".56" stop-color="var(--folder-mat-main)"/>
+        <stop offset=".80" stop-color="var(--folder-mat-deep)"/>
+        <stop offset="1" stop-color="var(--folder-mat-edge)"/>
       </linearGradient>
       <linearGradient id="${uid}-shoulderSheen" x1=".03" y1="0" x2=".88" y2=".36">
-        <stop stop-color="#fff" stop-opacity=".18"/>
-        <stop offset=".11" stop-color="var(--folder-mat-glow)" stop-opacity=".16"/>
-        <stop offset=".29" stop-color="var(--folder-light)" stop-opacity=".065"/>
-        <stop offset=".49" stop-color="var(--folder-light)" stop-opacity=".012"/>
+        <stop stop-color="#fff" stop-opacity=".29"/>
+        <stop offset=".105" stop-color="var(--folder-mat-glow)" stop-opacity=".23"/>
+        <stop offset=".27" stop-color="var(--folder-light)" stop-opacity=".10"/>
+        <stop offset=".47" stop-color="var(--folder-light)" stop-opacity=".02"/>
         <stop offset=".74" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".18"/>
+        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".15"/>
       </linearGradient>
       <linearGradient id="${uid}-back" x1=".02" y1="0" x2=".98" y2=".84">
-        <stop offset="0" stop-color="var(--folder)"/>
-        <stop offset=".12" stop-color="var(--folder-mat-top)"/>
-        <stop offset=".34" stop-color="var(--folder)"/>
-        <stop offset=".58" stop-color="var(--folder-mat-mid)"/>
-        <stop offset=".80" stop-color="var(--folder-mat-main)"/>
-        <stop offset=".92" stop-color="var(--folder-mat-deep)"/>
+        <stop offset="0" stop-color="var(--folder-light)"/>
+        <stop offset=".105" stop-color="var(--folder-mat-top)"/>
+        <stop offset=".28" stop-color="var(--folder)"/>
+        <stop offset=".52" stop-color="var(--folder-mat-main)"/>
+        <stop offset=".76" stop-color="var(--folder-mat-deep)"/>
+        <stop offset=".90" stop-color="var(--folder-mat-main)"/>
         <stop offset="1" stop-color="var(--folder-mat-edge)"/>
       </linearGradient>
       <linearGradient id="${uid}-backSheen" x1=".03" y1="0" x2=".86" y2=".36">
-        <stop stop-color="#fff" stop-opacity=".19"/>
-        <stop offset=".11" stop-color="var(--folder-mat-glow)" stop-opacity=".17"/>
-        <stop offset=".29" stop-color="var(--folder-light)" stop-opacity=".065"/>
-        <stop offset=".48" stop-color="var(--folder-light)" stop-opacity=".014"/>
-        <stop offset=".71" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".21"/>
+        <stop stop-color="#fff" stop-opacity=".31"/>
+        <stop offset=".11" stop-color="var(--folder-mat-glow)" stop-opacity=".24"/>
+        <stop offset=".27" stop-color="var(--folder-light)" stop-opacity=".10"/>
+        <stop offset=".46" stop-color="var(--folder-light)" stop-opacity=".025"/>
+        <stop offset=".70" stop-color="var(--folder-light)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".19"/>
       </linearGradient>
       <radialGradient id="${uid}-colorBloom" cx=".27" cy=".10" r=".95">
         <stop stop-color="#fff" stop-opacity=".30"/>
@@ -6439,7 +6439,7 @@ function matterFolderShell(){
       ${shadow('paperLiftC',.75,1.35,.95,.18,'#8a7763')}
       ${shadow('paperLiftD',.75,1.35,.95,.18,'#8a7763')}
 
-      <!-- 5.0.737: local polished-metal reflections on the existing strokes; widths and paths stay locked. -->
+      <!-- 5.0.738: local polished-metal reflections on the existing strokes; widths and paths stay locked. -->
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#704214"/><stop offset=".038" stop-color="#bb7a25"/><stop offset=".09" stop-color="#edcb85"/><stop offset=".103" stop-color="#fff4d0"/><stop offset=".16" stop-color="#985b1a"/><stop offset=".284" stop-color="#d69b3a"/><stop offset=".414" stop-color="#e8bd6d"/><stop offset=".436" stop-color="#fff1c5"/><stop offset=".548" stop-color="#c18a2c"/><stop offset=".654" stop-color="#784614"/><stop offset=".77" stop-color="#c2852b"/><stop offset=".878" stop-color="#e8b653"/><stop offset=".949" stop-color="#fff2cc"/><stop offset=".969" stop-color="#d29a3f"/><stop offset="1" stop-color="#834c16"/></linearGradient>
       <linearGradient id="${uid}-goldBevel" x1=".02" y1="0" x2=".17" y2="1"><stop stop-color="#fff8df"/><stop offset=".10" stop-color="#e9c276"/><stop offset=".28" stop-color="#a86b22"/><stop offset=".45" stop-color="#dfb66d"/><stop offset=".475" stop-color="#fff6d8"/><stop offset=".65" stop-color="#91561c"/><stop offset=".82" stop-color="#dda951"/><stop offset=".94" stop-color="#f5d896"/><stop offset="1" stop-color="#fff9e5"/></linearGradient>
       <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="403"><stop stop-color="#9a6020"/><stop offset=".024" stop-color="#fffaf0"/><stop offset=".058" stop-color="#edc678"/><stop offset=".132" stop-color="#824b17"/><stop offset=".236" stop-color="#f7dfaa"/><stop offset=".314" stop-color="#b97d2c"/><stop offset=".445" stop-color="#744317"/><stop offset=".578" stop-color="#d9a34b"/><stop offset=".675" stop-color="#fff1cf"/><stop offset=".772" stop-color="#a76721"/><stop offset=".884" stop-color="#e8be70"/><stop offset=".952" stop-color="#fffbef"/><stop offset="1" stop-color="#965d21"/></linearGradient>
@@ -6501,8 +6501,8 @@ function matterFolderShell(){
     <!-- Back to front: shoulder → papers → left rear body → inner tab → face. -->
     <g data-layer="rear-shoulder" filter="url(#${uid}-shoulder)">
       <path d="${shoulder}" fill="url(#${uid}-shoulderBack)" filter="url(#${uid}-grain)"/>
-      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".30"/>
-      <path d="${shoulder}" fill="url(#${uid}-colorBloom)" opacity=".14"/>
+      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".34"/>
+      <path d="${shoulder}" fill="url(#${uid}-colorBloom)" opacity=".22"/>
       <path d="${shoulder}" fill="url(#${uid}-shoulderRound)"/>
       <g clip-path="url(#${uid}-shoulderClip)"><path d="${shoulder}" transform="translate(1.2 2.5)" fill="none" stroke="var(--folder-light)" stroke-width=".95" opacity=".18" stroke-linejoin="round"/></g>
     </g>
@@ -6575,8 +6575,8 @@ function matterFolderShell(){
     </g>
     <g data-layer="rear" filter="url(#${uid}-rear)">
       <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
-      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".32"/>
-      <path d="${back}" fill="url(#${uid}-colorBloom)" opacity=".16"/>
+      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".46"/>
+      <path d="${back}" fill="url(#${uid}-colorBloom)" opacity=".29"/>
       <g clip-path="url(#${uid}-backClip)"><path d="${back}" transform="translate(1.6 2)" fill="none" stroke="var(--folder-light)" stroke-width="1.02" opacity=".20" stroke-linejoin="round"/><path d="${back}" transform="translate(-1.1 -.8)" fill="none" stroke="var(--folder-mat-edge)" stroke-width="1.35" opacity=".23" stroke-linejoin="round"/></g>
       <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".82" opacity=".16" stroke-linecap="round"/>
       <path d="M19 139 H333" fill="none" stroke="#111" stroke-width="1" opacity=".072" filter="url(#${uid}-rearInner)"/>
@@ -6608,7 +6608,7 @@ function matterFolderShell(){
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
-      <!-- 5.0.737: local glints follow the original trim; no added stroke width or changed geometry. -->
+      <!-- 5.0.738: local glints follow the original trim; no added stroke width or changed geometry. -->
       <use href="#${uid}-face" stroke="#492705" stroke-width="6.46" opacity=".76"/>
       <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="5.96" opacity="1"/>
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="5.44"/>
