@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.719';
-var APP_BUILD='5719';
+var APP_VERSION='5.0.720';
+var APP_BUILD='5720';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5719',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5720',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.719 — final paper pass: crisp four-sheet top separation without changing geometry. */
+/* 5.0.720 — final paper separation pass: stronger top-edge depth without changing geometry. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6398,7 +6398,7 @@ function matterFolderShell(){
       <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
       <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
 
-      <!-- 5.0.719: final paper material — whiter exposed faces, crisp white lip + warm contact shade on every top edge. -->
+      <!-- 5.0.720: final paper material — stronger upper contour, sharper warm contact shade, geometry unchanged. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="23.5" x2="0" y2="144.6"><stop stop-color="#fffefd"/><stop offset=".085" stop-color="#fcfaf7"/><stop offset=".19" stop-color="#f8f3ee"/><stop offset="1" stop-color="#f4ebe4"/></linearGradient>
       <linearGradient id="${uid}-paperRightFaceA" gradientUnits="userSpaceOnUse" x1="356.7" y1="0" x2="363.7" y2="0" gradientTransform="matrix(1 0 0.014346 1 -0.37443 0)"><stop stop-color="#fffefa"/><stop offset=".20" stop-color="#fcf9f6"/><stop offset=".60" stop-color="#f3ede7"/><stop offset=".88" stop-color="#e5dad1"/><stop offset="1" stop-color="#d4c4b8"/></linearGradient>
       <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="42.8" x2="0" y2="155.2"><stop stop-color="#fffefd"/><stop offset=".075" stop-color="#fcfaf7"/><stop offset=".19" stop-color="#f8f3ee"/><stop offset="1" stop-color="#f3eae3"/></linearGradient>
@@ -6411,8 +6411,8 @@ function matterFolderShell(){
       <linearGradient id="${uid}-paperEdgeFade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#927d6c" stop-opacity="0"/><stop offset=".14" stop-color="#927d6c" stop-opacity=".035"/><stop offset=".30" stop-color="#927d6c" stop-opacity=".27"/><stop offset=".48" stop-color="#927d6c" stop-opacity=".18"/><stop offset=".72" stop-color="#927d6c" stop-opacity=".05"/><stop offset="1" stop-color="#927d6c" stop-opacity="0"/></linearGradient>
       <filter id="${uid}-paperTexture" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" seed="37"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".009"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
       <clipPath id="${uid}-paperClip"><use href="#${uid}-sheet1"/><use href="#${uid}-sheet2"/><use href="#${uid}-sheet3"/><use href="#${uid}-sheet4"/></clipPath>
-      <filter id="${uid}-paperTopBlur" x="-10%" y="-200%" width="120%" height="500%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".48"/></filter>
-      <filter id="${uid}-paperTopShadowBlur" x="-12%" y="-220%" width="124%" height="540%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".52"/></filter>
+      <filter id="${uid}-paperTopBlur" x="-10%" y="-200%" width="120%" height="500%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".42"/></filter>
+      <filter id="${uid}-paperTopShadowBlur" x="-12%" y="-220%" width="124%" height="540%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".44"/></filter>
       <filter id="${uid}-paperSideCastBlur" x="-160%" y="-12%" width="420%" height="124%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".90"/></filter>
       <filter id="${uid}-paperRightBlur" x="-200%" y="-10%" width="500%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".60"/></filter>
       ${shadow('paperLiftA',.75,1.35,.95,.18,'#8a7763')}
@@ -6493,9 +6493,9 @@ function matterFolderShell(){
           <path data-paper-effect="right-face" d="M360.8 23.5 Q363.5 23.55 363.7 26.1 C364.2 61.2 364.9 104.5 365.4 144.6 L358.4 144.6 C357.9 104.5 357.2 61.2 356.7 26.1 Q356.5 23.55 353.8 23.5 Z" fill="url(#${uid}-paperRightFaceA)"/>
           <path data-paper-effect="right-lip" d="M356.7 26.1 C357.2 61.2 357.9 104.5 358.4 144.6" fill="none" stroke="#fffdfa" stroke-width="1.15" opacity=".82"/>
           <path d="M360.8 23.5 Q363.5 23.55 363.7 26.10 C364.2 61.2 364.9 104.5 365.4 144.6" fill="none" stroke="#8b7463" stroke-width="1.5" opacity=".36" filter="url(#${uid}-paperRightBlur)"/>
-          <path data-paper-effect="top-contact" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" transform="translate(0 1.45)" fill="none" stroke="#8f7b6c" stroke-width="2.35" opacity=".38" filter="url(#${uid}-paperTopShadowBlur)"/>
-          <path data-paper-effect="top-hairline" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" transform="translate(0 .58)" fill="none" stroke="#d8d1ca" stroke-width=".92" opacity=".96"/>
-          <path data-paper-effect="top-highlight" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" fill="none" stroke="#ffffff" stroke-width="2.15" opacity=".99" stroke-linecap="round"/>
+          <path data-paper-effect="top-contact" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" transform="translate(0 1.62)" fill="none" stroke="#8e796b" stroke-width="2.55" opacity=".49" filter="url(#${uid}-paperTopShadowBlur)"/>
+          <path data-paper-effect="top-hairline" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" transform="translate(0 .72)" fill="none" stroke="#c9c1ba" stroke-width="1.02" opacity=".98"/>
+          <path data-paper-effect="top-highlight" d="M226 25.8 C274.8 24.4 319.2 22.8 360.8 23.5 Q363.5 23.55 363.7 26.10" fill="none" stroke="#ffffff" stroke-width="1.70" opacity=".99" stroke-linecap="round"/>
         </g>
       </g>
       <g data-sheet="2" filter="url(#${uid}-paperLiftB)">
@@ -6508,9 +6508,9 @@ function matterFolderShell(){
           <path data-paper-effect="right-face" d="M376.3 43.1 Q378.9 43.18 379.05 45.75 C379.7 71.5 380.3 112.6 380.9 155.2 L373.9 155.2 C373.3 112.6 372.7 71.5 372.05 45.75 Q371.9 43.18 369.3 43.1 Z" fill="url(#${uid}-paperRightFaceB)"/>
           <path data-paper-effect="right-lip" d="M372.05 45.75 C372.7 71.5 373.3 112.6 373.9 155.2" fill="none" stroke="#fffdfa" stroke-width="1.15" opacity=".82"/>
           <path d="M376.3 43.1 Q378.9 43.18 379.05 45.75 C379.7 71.5 380.3 112.6 380.9 155.2" fill="none" stroke="#8b7463" stroke-width="1.5" opacity=".36" filter="url(#${uid}-paperRightBlur)"/>
-          <path data-paper-effect="top-contact" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" transform="translate(0 1.45)" fill="none" stroke="#8f7b6c" stroke-width="2.35" opacity=".38" filter="url(#${uid}-paperTopShadowBlur)"/>
-          <path data-paper-effect="top-hairline" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" transform="translate(0 .58)" fill="none" stroke="#d8d1ca" stroke-width=".92" opacity=".96"/>
-          <path data-paper-effect="top-highlight" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" fill="none" stroke="#ffffff" stroke-width="2.15" opacity=".99" stroke-linecap="round"/>
+          <path data-paper-effect="top-contact" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" transform="translate(0 1.62)" fill="none" stroke="#8e796b" stroke-width="2.55" opacity=".49" filter="url(#${uid}-paperTopShadowBlur)"/>
+          <path data-paper-effect="top-hairline" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" transform="translate(0 .72)" fill="none" stroke="#c9c1ba" stroke-width="1.02" opacity=".98"/>
+          <path data-paper-effect="top-highlight" d="M241.4 42.8 C288.6 41.2 334.5 41.9 376.3 43.1 Q378.9 43.18 379.05 45.75" fill="none" stroke="#ffffff" stroke-width="1.70" opacity=".99" stroke-linecap="round"/>
         </g>
       </g>
       <g data-sheet="3" filter="url(#${uid}-paperLiftC)">
@@ -6523,9 +6523,9 @@ function matterFolderShell(){
           <path data-paper-effect="right-face" d="M 400.5 61.9 Q 403.1 61.98 403.25 64.55 C 403.8 88.6 404.4 123.8 404.9 163.8 L 397.9 163.8 C 397.4 123.8 396.8 88.6 396.25 64.55 Q 396.1 61.98 393.5 61.9 Z" fill="url(#${uid}-paperRightFaceC)"/>
           <path data-paper-effect="right-lip" d="M 396.25 64.55 C 396.8 88.6 397.4 123.8 397.9 163.8" fill="none" stroke="#fffdfa" stroke-width="1.15" opacity=".82"/>
           <path d="M 400.5 61.9 Q 403.1 61.98 403.25 64.55 C 403.8 88.6 404.4 123.8 404.9 163.8" fill="none" stroke="#8b7463" stroke-width="1.5" opacity=".36" filter="url(#${uid}-paperRightBlur)"/>
-          <path data-paper-effect="top-contact" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" transform="translate(0 1.45)" fill="none" stroke="#8f7b6c" stroke-width="2.35" opacity=".38" filter="url(#${uid}-paperTopShadowBlur)"/>
-          <path data-paper-effect="top-hairline" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" transform="translate(0 .58)" fill="none" stroke="#d8d1ca" stroke-width=".92" opacity=".96"/>
-          <path data-paper-effect="top-highlight" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" fill="none" stroke="#ffffff" stroke-width="2.15" opacity=".99" stroke-linecap="round"/>
+          <path data-paper-effect="top-contact" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" transform="translate(0 1.62)" fill="none" stroke="#8e796b" stroke-width="2.55" opacity=".49" filter="url(#${uid}-paperTopShadowBlur)"/>
+          <path data-paper-effect="top-hairline" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" transform="translate(0 .72)" fill="none" stroke="#c9c1ba" stroke-width="1.02" opacity=".98"/>
+          <path data-paper-effect="top-highlight" d="M 257.3 60.9 C 303.4 59.6 358 60.8 400.5 61.9 Q 403.1 61.98 403.25 64.55" fill="none" stroke="#ffffff" stroke-width="1.70" opacity=".99" stroke-linecap="round"/>
         </g>
       </g>
       <g clip-path="url(#${uid}-paperClip3)">
@@ -6541,9 +6541,9 @@ function matterFolderShell(){
           <path data-paper-effect="right-face" d="M 388.4 81.5 Q 391 81.58 391.15 84.15 C 391.5 105.4 391.8 135.6 392.1 169.2 L 385.1 169.2 C 384.8 135.6 384.5 105.4 384.15 84.15 Q 384 81.58 381.4 81.5 Z" fill="url(#${uid}-paperRightFaceD)"/>
           <path data-paper-effect="right-lip" d="M 384.15 84.15 C 384.5 105.4 384.8 135.6 385.1 169.2" fill="none" stroke="#fffdfa" stroke-width="1.15" opacity=".82"/>
           <path d="M 388.4 81.5 Q 391 81.58 391.15 84.15 C 391.5 105.4 391.8 135.6 392.1 169.2" fill="none" stroke="#8b7463" stroke-width="1.5" opacity=".36" filter="url(#${uid}-paperRightBlur)"/>
-          <path data-paper-effect="top-contact" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" transform="translate(0 1.45)" fill="none" stroke="#8f7b6c" stroke-width="2.35" opacity=".38" filter="url(#${uid}-paperTopShadowBlur)"/>
-          <path data-paper-effect="top-hairline" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" transform="translate(0 .58)" fill="none" stroke="#d8d1ca" stroke-width=".92" opacity=".96"/>
-          <path data-paper-effect="top-highlight" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" fill="none" stroke="#ffffff" stroke-width="2.15" opacity=".99" stroke-linecap="round"/>
+          <path data-paper-effect="top-contact" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" transform="translate(0 1.62)" fill="none" stroke="#8e796b" stroke-width="2.55" opacity=".49" filter="url(#${uid}-paperTopShadowBlur)"/>
+          <path data-paper-effect="top-hairline" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" transform="translate(0 .72)" fill="none" stroke="#c9c1ba" stroke-width="1.02" opacity=".98"/>
+          <path data-paper-effect="top-highlight" d="M 274.2 80.2 C 318 79.1 347.5 80.4 388.4 81.5 Q 391 81.58 391.15 84.15" fill="none" stroke="#ffffff" stroke-width="1.70" opacity=".99" stroke-linecap="round"/>
         </g>
       </g>
     </g>
