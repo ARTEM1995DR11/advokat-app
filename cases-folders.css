@@ -96,17 +96,17 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 #sc-matters .case-folder-content-stage3 {
-  position:absolute;left:9.7%;top:24.4%;right:auto;bottom:auto;
-  display:block;width:calc(86 * var(--case-u));height:calc(86 * var(--case-u));
+  position:absolute;left:9.7%;top:24.9%;right:auto;bottom:auto;
+  display:block;width:calc(112 * var(--case-u));height:calc(94 * var(--case-u));
   margin:0;padding:0;overflow:visible;pointer-events:none;
 }
 #sc-matters .case-folder-icon-stage3-img {
   display:block;width:100%;height:100%;object-fit:contain;object-position:center;
-  filter:drop-shadow(0 calc(1.1 * var(--case-u)) calc(1.8 * var(--case-u)) rgba(96,61,9,.14));
+  filter:drop-shadow(0 calc(1.3 * var(--case-u)) calc(2.0 * var(--case-u)) rgba(87,54,7,.18));
   image-rendering:auto;
 }
 #sc-matters .case-folder-icon-stage3-img-scale {
-  transform:translate(calc(.2 * var(--case-u)), calc(1.8 * var(--case-u)));
+  transform:translate(calc(.4 * var(--case-u)), calc(1.2 * var(--case-u)));
 }
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
 #sc-matters .case-folder:focus-visible {outline:2px solid #0647d9;outline-offset:-2px;border-radius:8px}
