@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.717';
-var APP_BUILD='5717';
+var APP_VERSION='5.0.718';
+var APP_BUILD='5718';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5717',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5718',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6315,7 +6315,7 @@ function matterFolderTypeIcon(type){
 // Keep all matter data/business logic intact; only suppress inner visual content.
 var MATTER_FOLDER_SHOW_CONTENT=false;
 var MATTER_FOLDER_SHELL_SEQ=0;
-/* 5.0.717 — reference paper tonality; light side planes and receiving cast shadow. */
+/* 5.0.718 — restore stronger upper-sheet separation from 5.0.716; keep 5.0.717 paper material elsewhere. */
 function matterFolderShell(){
   var uid='mfs'+(++MATTER_FOLDER_SHELL_SEQ);
   var front='M48 96 H257 C269 96 276 102 284 111 C292 120 298 121 309 121 H397 C413 121 424 133 424 150 V408 C424 427 412 438 392 438 H49 C28 438 16 426 16 405 V128 C16 109 28 96 48 96 Z';
@@ -6398,7 +6398,7 @@ function matterFolderShell(){
       <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
       <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
 
-      <!-- 5.0.717: white edges on warm paper; side-plane light is separate from cast shadow. -->
+      <!-- 5.0.718: keep 5.0.717 warm paper/side planes, restore 5.0.716 upper-edge separation. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="23.5" x2="0" y2="144.6"><stop stop-color="#fcf9f6"/><stop offset=".09" stop-color="#f8f2ed"/><stop offset=".18" stop-color="#f5ece5"/><stop offset="1" stop-color="#f4ebe4"/></linearGradient>
       <linearGradient id="${uid}-paperRightFaceA" gradientUnits="userSpaceOnUse" x1="356.7" y1="0" x2="363.7" y2="0" gradientTransform="matrix(1 0 0.014346 1 -0.37443 0)"><stop stop-color="#fffefa"/><stop offset=".20" stop-color="#fcf9f6"/><stop offset=".60" stop-color="#f3ede7"/><stop offset=".88" stop-color="#e5dad1"/><stop offset="1" stop-color="#d4c4b8"/></linearGradient>
       <linearGradient id="${uid}-paperB" gradientUnits="userSpaceOnUse" x1="0" y1="42.8" x2="0" y2="155.2"><stop stop-color="#fbf8f4"/><stop offset=".065" stop-color="#f8f2ec"/><stop offset=".18" stop-color="#f5eee8"/><stop offset="1" stop-color="#f3eae3"/></linearGradient>
@@ -6408,7 +6408,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-paperD" gradientUnits="userSpaceOnUse" x1="0" y1="80.2" x2="0" y2="128"><stop stop-color="#fcfaf8"/><stop offset=".16" stop-color="#f9f6f2"/><stop offset=".64" stop-color="#f6efe9"/><stop offset=".85" stop-color="#f2e7dd"/><stop offset="1" stop-color="#e9d9ca"/></linearGradient>
       <linearGradient id="${uid}-paperRightFaceD" gradientUnits="userSpaceOnUse" x1="384.15" y1="0" x2="391.15" y2="0" gradientTransform="matrix(1 0 0.01117 1 -0.939947 0)"><stop stop-color="#fffefa"/><stop offset=".20" stop-color="#fcf9f6"/><stop offset=".60" stop-color="#f3ede7"/><stop offset=".88" stop-color="#e5dad1"/><stop offset="1" stop-color="#d4c4b8"/></linearGradient>
       <linearGradient id="${uid}-paperOverlapCast" gradientUnits="userSpaceOnUse" x1="391.15" y1="0" x2="402.15" y2="0" gradientTransform="matrix(1 0 0.01117 1 -0.939947 0)"><stop stop-color="#7b5f50" stop-opacity=".52"/><stop offset=".15" stop-color="#7b5f50" stop-opacity=".46"/><stop offset=".45" stop-color="#7b5f50" stop-opacity=".23"/><stop offset=".75" stop-color="#7b5f50" stop-opacity=".065"/><stop offset="1" stop-color="#7b5f50" stop-opacity="0"/></linearGradient>
-      <linearGradient id="${uid}-paperEdgeFade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9b8271" stop-opacity="0"/><stop offset=".18" stop-color="#9b8271" stop-opacity=".035"/><stop offset=".34" stop-color="#9b8271" stop-opacity=".15"/><stop offset=".52" stop-color="#9b8271" stop-opacity=".08"/><stop offset=".76" stop-color="#9b8271" stop-opacity=".025"/><stop offset="1" stop-color="#9b8271" stop-opacity="0"/></linearGradient>
+      <linearGradient id="${uid}-paperEdgeFade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9b8271" stop-opacity="0"/><stop offset=".18" stop-color="#9b8271" stop-opacity=".055"/><stop offset=".34" stop-color="#9b8271" stop-opacity=".24"/><stop offset=".52" stop-color="#9b8271" stop-opacity=".13"/><stop offset=".76" stop-color="#9b8271" stop-opacity=".035"/><stop offset="1" stop-color="#9b8271" stop-opacity="0"/></linearGradient>
       <filter id="${uid}-paperTexture" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" seed="37"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".009"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
       <clipPath id="${uid}-paperClip"><use href="#${uid}-sheet1"/><use href="#${uid}-sheet2"/><use href="#${uid}-sheet3"/><use href="#${uid}-sheet4"/></clipPath>
       <filter id="${uid}-paperTopBlur" x="-10%" y="-200%" width="120%" height="500%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation=".65"/></filter>
