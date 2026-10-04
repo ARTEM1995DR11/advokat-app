@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.763';
-var APP_BUILD='5763';
+var APP_VERSION='5.0.764';
+var APP_BUILD='5764';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -275,14 +275,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5763" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5764" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5763" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5764" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -291,11 +291,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5763" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5764" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5763" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5764" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -723,12 +723,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5763" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5764" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5763" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5764" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2670,7 +2670,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5763" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5764" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2781,7 +2781,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5763" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5764" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2940,7 +2940,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5763" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5764" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3916,7 +3916,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5763" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5764" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4651,11 +4651,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5763',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5763',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5763',
-    'qa-task':'quick-card-task-v5100.png?v=5763',
-    'qa-journal':'quick-card-journal-v5100.png?v=5763'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5764',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5764',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5764',
+    'qa-task':'quick-card-task-v5100.png?v=5764',
+    'qa-journal':'quick-card-journal-v5100.png?v=5764'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -4664,7 +4664,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5763':type==='search'?'header-search-premium.png?v=5763':type==='plus'?'fab-plus-square-premium.png?v=5763':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5764':type==='search'?'header-search-premium.png?v=5764':type==='plus'?'fab-plus-square-premium.png?v=5764':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4773,7 +4773,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5763" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5764" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -4815,7 +4815,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5763" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5764" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5146,7 +5146,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5763" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5764" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5160,7 +5160,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5763" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5764" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5763',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5764',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6270,7 +6270,7 @@ function matterApprovedAction(m){
 }
 function matterFolderIcon(kind){
   var bodies={
-    scale:'<path d="M38 6v48M22 55h32M28 60h20M15 18h46M38 9l-6 8h12z"/><path d="M19 19 8 41m11-22 11 22M57 19 46 41m11-22 11 22"/><path d="M5 41h28c-1.7 7-6.5 10.5-14 10.5S6.7 48 5 41zm38 0h28c-1.7 7-6.5 10.5-14 10.5S44.7 48 43 41z"/>',
+    scale:'<circle cx="38" cy="6.6" r="2.2"/><path d="M38 9.5v34.6"/><path d="M29.2 15.2h17.6"/><path d="M17.2 18.6h41.6"/><path d="M22.2 18.6 12.2 36.8m10-18.2 10 18.2M53.8 18.6 43.8 36.8m10-18.2 10 18.2"/><path d="M13.2 36.8h18.2c-1.4 6.2-5.4 9.8-9.1 9.8s-7.7-3.6-9.1-9.8zm31.4 0h18.2c-1.4 6.2-5.4 9.8-9.1 9.8s-7.7-3.6-9.1-9.8z"/><path d="M31.2 43.7h13.6"/><path d="M35.2 43.7v8.7"/><path d="M40.8 43.7v8.7"/><path d="M27.8 53.8h20.4"/><path d="M23.4 59.8h29.2"/>',
     gavel:'<g transform="rotate(-38 34 27)"><rect x="15" y="10" width="38" height="14" rx="3"/><path d="M23 10v14m22-14v14M34 24v35"/></g><path d="M47 49h17M42 57h27"/>',
     people:'<circle cx="38" cy="14" r="7.5"/><circle cx="16" cy="23" r="6"/><circle cx="60" cy="23" r="6"/><path d="M23 58V47c0-10 6-16 15-16s15 6 15 16v11H23z"/><path d="M22 54H6v-8c0-7 4-12 10-12 4 0 7 2 9 5M54 54h16v-8c0-7-4-12-10-12-4 0-7 2-9 5"/>',
     doc:'<path d="M14 6h28l14 14v38H14a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM42 6v15h14M22 31h18M22 40h14"/><circle cx="54" cy="48" r="10"/><path d="M54 42v7m0 5h.01"/>'
@@ -6310,7 +6310,7 @@ function matterFolderTypeIcon(type){
   return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
 }
 
-// Staged reconstruction of folder contents. 5.0.763 keeps only the approved type label
+// Staged reconstruction of folder contents. 5.0.764 keeps only the approved type label
 // plus the first large 3D legal icon: scales for KAS/admin folders. Other inner content
 // remains intentionally suppressed until later stages.
 var MATTER_FOLDER_SHOW_CONTENT=false;
@@ -6656,7 +6656,7 @@ function matterCard(m, idx){
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  // 5.0.763 — stage 2: restore only the production type on the approved inner tab.
+  // 5.0.764 — stage 2: restore only the production type on the approved inner tab.
   // No other content is mounted yet, so the approved folder shell remains the visual baseline.
   var inner='<span class="case-folder-label">'+esc(label)+'</span>';
   if(MATTER_FOLDER_SHOW_ADMIN_SCALE && type==='admin'){
