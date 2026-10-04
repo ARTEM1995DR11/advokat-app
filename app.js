@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.720';
-var APP_BUILD='5720';
+var APP_VERSION='5.0.721';
+var APP_BUILD='5721';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5720',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5721',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6352,46 +6352,58 @@ function matterFolderShell(){
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
       <!-- Approved folder shell geometry remains unchanged. -->
-      <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".72">
-        <stop offset="0" stop-color="var(--folder-deep)"/>
-        <stop offset=".16" stop-color="var(--folder)"/>
-        <stop offset=".40" stop-color="var(--folder-deep)"/>
-        <stop offset=".82" stop-color="var(--folder-deep)"/>
-        <stop offset="1" stop-color="var(--folder)"/>
-      </linearGradient>
-      <linearGradient id="${uid}-shoulderSheen" x1=".04" y1="0" x2=".84" y2=".28">
-        <stop stop-color="var(--folder-light)" stop-opacity=".13"/>
-        <stop offset=".22" stop-color="var(--folder-light)" stop-opacity=".042"/>
-        <stop offset=".58" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".075"/>
-      </linearGradient>
-      <linearGradient id="${uid}-back" x1=".02" y1="0" x2=".98" y2=".72">
-        <stop offset="0" stop-color="var(--folder-deep)"/>
-        <stop offset=".16" stop-color="var(--folder)"/>
-        <stop offset=".40" stop-color="var(--folder-deep)"/>
-        <stop offset=".82" stop-color="var(--folder-deep)"/>
-        <stop offset="1" stop-color="var(--folder)"/>
-      </linearGradient>
-      <linearGradient id="${uid}-backSheen" x1=".04" y1="0" x2=".84" y2=".28">
-        <stop stop-color="var(--folder-light)" stop-opacity=".13"/>
-        <stop offset=".22" stop-color="var(--folder-light)" stop-opacity=".042"/>
-        <stop offset=".58" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".075"/>
-      </linearGradient>
-      <linearGradient id="${uid}-tab" x1=".06" y1="0" x2=".70" y2="1">
+      <!-- 5.0.721 — coloured shell material pass only: brighter enamel, deeper edges and stronger glossy relief. -->
+      <linearGradient id="${uid}-shoulderBack" x1=".04" y1="0" x2=".96" y2=".92">
         <stop offset="0" stop-color="var(--folder-light)"/>
-        <stop offset=".18" stop-color="var(--folder-light)"/>
-        <stop offset=".60" stop-color="var(--folder)"/>
-        <stop offset=".84" stop-color="var(--folder)"/>
-        <stop offset=".96" stop-color="var(--folder)"/>
+        <stop offset=".085" stop-color="var(--folder)"/>
+        <stop offset=".36" stop-color="var(--folder)"/>
+        <stop offset=".72" stop-color="var(--folder-deep)"/>
+        <stop offset=".90" stop-color="var(--folder)"/>
         <stop offset="1" stop-color="var(--folder-deep)"/>
       </linearGradient>
-      <linearGradient id="${uid}-tabSheen" x1=".10" y1="0" x2=".60" y2=".96">
-        <stop stop-color="#fff" stop-opacity=".30"/>
-        <stop offset=".28" stop-color="#fff" stop-opacity=".13"/>
-        <stop offset=".48" stop-color="#fff" stop-opacity=".025"/>
-        <stop offset=".68" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".055"/>
+      <linearGradient id="${uid}-shoulderSheen" x1=".02" y1="0" x2=".88" y2=".48">
+        <stop stop-color="#fff" stop-opacity=".27"/>
+        <stop offset=".16" stop-color="var(--folder-light)" stop-opacity=".17"/>
+        <stop offset=".42" stop-color="var(--folder-light)" stop-opacity=".035"/>
+        <stop offset=".70" stop-color="var(--folder-light)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".13"/>
+      </linearGradient>
+      <linearGradient id="${uid}-back" x1=".03" y1="0" x2=".94" y2=".96">
+        <stop offset="0" stop-color="var(--folder-light)"/>
+        <stop offset=".08" stop-color="var(--folder)"/>
+        <stop offset=".34" stop-color="var(--folder)"/>
+        <stop offset=".70" stop-color="var(--folder-deep)"/>
+        <stop offset=".90" stop-color="var(--folder)"/>
+        <stop offset="1" stop-color="var(--folder-deep)"/>
+      </linearGradient>
+      <linearGradient id="${uid}-backSheen" x1=".02" y1="0" x2=".84" y2=".46">
+        <stop stop-color="#fff" stop-opacity=".24"/>
+        <stop offset=".15" stop-color="var(--folder-light)" stop-opacity=".15"/>
+        <stop offset=".40" stop-color="var(--folder-light)" stop-opacity=".032"/>
+        <stop offset=".68" stop-color="var(--folder-light)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".12"/>
+      </linearGradient>
+      <radialGradient id="${uid}-colorBloom" cx=".30" cy=".13" r=".92">
+        <stop stop-color="#fff" stop-opacity=".18"/>
+        <stop offset=".23" stop-color="#fff" stop-opacity=".065"/>
+        <stop offset=".52" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".80" stop-color="var(--folder-deep)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".15"/>
+      </radialGradient>
+      <linearGradient id="${uid}-tab" x1=".10" y1=".01" x2=".72" y2="1">
+        <stop offset="0" stop-color="var(--folder-light)"/>
+        <stop offset=".16" stop-color="var(--folder-light)"/>
+        <stop offset=".50" stop-color="var(--folder)"/>
+        <stop offset=".78" stop-color="var(--folder)"/>
+        <stop offset=".94" stop-color="var(--folder-deep)"/>
+        <stop offset="1" stop-color="var(--folder-deep)"/>
+      </linearGradient>
+      <linearGradient id="${uid}-tabSheen" x1=".08" y1="0" x2=".64" y2=".98">
+        <stop stop-color="#fff" stop-opacity=".39"/>
+        <stop offset=".22" stop-color="#fff" stop-opacity=".18"/>
+        <stop offset=".44" stop-color="#fff" stop-opacity=".045"/>
+        <stop offset=".66" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".10"/>
       </linearGradient>
 
       <linearGradient id="${uid}-cream" x1=".08" y1=".02" x2=".90" y2="1"><stop stop-color="#fffaf1"/><stop offset=".35" stop-color="#fcf6eb"/><stop offset=".68" stop-color="#f8f0e3"/><stop offset=".90" stop-color="#f5ebdc"/><stop offset="1" stop-color="#efe2ce"/></linearGradient>
@@ -6477,9 +6489,10 @@ function matterFolderShell(){
     <!-- Back to front: shoulder → papers → left rear body → inner tab → face. -->
     <g data-layer="rear-shoulder" filter="url(#${uid}-shoulder)">
       <path d="${shoulder}" fill="url(#${uid}-shoulderBack)" filter="url(#${uid}-grain)"/>
-      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".24"/>
+      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".54"/>
+      <path d="${shoulder}" fill="url(#${uid}-colorBloom)" opacity=".48"/>
       <path d="${shoulder}" fill="url(#${uid}-shoulderRound)"/>
-      <g clip-path="url(#${uid}-shoulderClip)"><path d="${shoulder}" transform="translate(1.2 2.5)" fill="none" stroke="var(--folder-light)" stroke-width=".95" opacity=".10" stroke-linejoin="round"/></g>
+      <g clip-path="url(#${uid}-shoulderClip)"><path d="${shoulder}" transform="translate(1.2 2.5)" fill="none" stroke="var(--folder-light)" stroke-width=".95" opacity=".18" stroke-linejoin="round"/></g>
     </g>
 
     <g data-layer="papers">
@@ -6550,18 +6563,20 @@ function matterFolderShell(){
     </g>
     <g data-layer="rear" filter="url(#${uid}-rear)">
       <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
-      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".26"/>
-      <g clip-path="url(#${uid}-backClip)"><path d="${back}" transform="translate(1.6 2)" fill="none" stroke="var(--folder-light)" stroke-width="1" opacity=".095" stroke-linejoin="round"/></g>
-      <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".72" opacity=".06" stroke-linecap="round"/>
+      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".52"/>
+      <path d="${back}" fill="url(#${uid}-colorBloom)" opacity=".44"/>
+      <g clip-path="url(#${uid}-backClip)"><path d="${back}" transform="translate(1.6 2)" fill="none" stroke="var(--folder-light)" stroke-width="1" opacity=".17" stroke-linejoin="round"/></g>
+      <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".72" opacity=".115" stroke-linecap="round"/>
       <path d="M19 139 H333" fill="none" stroke="#111" stroke-width="1" opacity=".082" filter="url(#${uid}-rearInner)"/>
       <path d="M22 137 V91" fill="none" stroke="rgba(0,0,0,.090)" stroke-width="1.1"/>
     </g>
 
     <g data-layer="tab" filter="url(#${uid}-tabShadow)">
       <path d="${tab}" fill="url(#${uid}-tab)" filter="url(#${uid}-grain)"/>
-      <path d="${tab}" fill="url(#${uid}-tabSheen)" style="opacity:var(--folder-tab-sheen,.38)"/>
-      <g clip-path="url(#${uid}-tabClip)"><path d="${tab}" transform="translate(1.2 1.4)" fill="none" stroke="#fff" stroke-width=".8" opacity=".055" stroke-linecap="round" stroke-linejoin="round"/></g>
-      <g clip-path="url(#${uid}-tabClip)"><path d="${tab}" transform="translate(-.7 -1)" fill="none" stroke="var(--folder-deep)" stroke-width="3.5" style="opacity:var(--folder-inner-shadow,.065)" filter="url(#${uid}-tabInset)" stroke-linejoin="round"/></g>
+      <path d="${tab}" fill="url(#${uid}-tabSheen)" style="opacity:var(--folder-tab-sheen,.56)"/>
+      <path d="${tab}" fill="url(#${uid}-colorBloom)" opacity=".34"/>
+      <g clip-path="url(#${uid}-tabClip)"><path d="${tab}" transform="translate(1.2 1.4)" fill="none" stroke="#fff" stroke-width=".8" opacity=".17" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g clip-path="url(#${uid}-tabClip)"><path d="${tab}" transform="translate(-.7 -1)" fill="none" stroke="var(--folder-deep)" stroke-width="3.5" style="opacity:var(--folder-inner-shadow,.085)" filter="url(#${uid}-tabInset)" stroke-linejoin="round"/></g>
       <path d="M58 153 H313" fill="none" stroke="#111" stroke-width=".88" opacity=".058" filter="url(#${uid}-tabLift)"/>
     </g>
 
