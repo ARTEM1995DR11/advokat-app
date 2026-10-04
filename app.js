@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.730';
-var APP_BUILD='5730';
+var APP_VERSION='5.0.731';
+var APP_BUILD='5731';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -291,7 +291,7 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5730" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5731" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5730',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5731',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6352,7 +6352,7 @@ function matterFolderShell(){
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
       <!-- Approved folder shell geometry remains unchanged. -->
-      <!-- 5.0.730 — screenshot calibration: luminous saturated rear shell; lighter inner tab without the washed white glare. -->
+      <!-- 5.0.731 — screenshot calibration: luminous saturated rear shell; lighter inner tab without the washed white glare. -->
       <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".86">
         <stop offset="0" stop-color="var(--folder-light)"/>
         <stop offset=".10" stop-color="var(--folder-mat-top)"/>
@@ -6409,10 +6409,13 @@ function matterFolderShell(){
         <stop offset="1" stop-color="var(--folder-mat-edge)" stop-opacity=".10"/>
       </linearGradient>
 
-      <!-- 5.0.730 — front face calibration: warmer ivory board, visible but restrained edge depth, geometry unchanged. -->
-      <linearGradient id="${uid}-cream" x1=".08" y1=".02" x2=".90" y2="1"><stop stop-color="#fffaf1"/><stop offset=".24" stop-color="#fdf5e9"/><stop offset=".55" stop-color="#faf0e2"/><stop offset=".82" stop-color="#f6eadb"/><stop offset="1" stop-color="#f1e2d0"/></linearGradient>
-      <radialGradient id="${uid}-creamGlow" cx=".31" cy=".19" r=".98"><stop stop-color="#ffffff" stop-opacity=".31"/><stop offset=".42" stop-color="#fffdf7" stop-opacity=".11"/><stop offset=".76" stop-color="#fffdf7" stop-opacity=".025"/><stop offset="1" stop-color="#fffdf7" stop-opacity="0"/></radialGradient>
-      <radialGradient id="${uid}-frontEdgeDepth" cx=".98" cy="1" r=".82"><stop stop-color="#9d8163" stop-opacity=".092"/><stop offset=".34" stop-color="#a88f72" stop-opacity=".052"/><stop offset=".82" stop-color="#a88f72" stop-opacity="0"/><stop offset="1" stop-color="#a88f72" stop-opacity="0"/></radialGradient>
+      <!-- 5.0.731 — front face material pass: richer ivory board, soft center bloom and delicate matte texture, geometry unchanged. -->
+      <linearGradient id="${uid}-cream" x1=".08" y1=".02" x2=".92" y2="1"><stop stop-color="#fffbf4"/><stop offset=".18" stop-color="#fef7ed"/><stop offset=".46" stop-color="#f9efe2"/><stop offset=".74" stop-color="#f3e7d7"/><stop offset="1" stop-color="#ebddca"/></linearGradient>
+      <radialGradient id="${uid}-creamGlow" cx=".34" cy=".18" r=".96"><stop stop-color="#ffffff" stop-opacity=".34"/><stop offset=".28" stop-color="#fffdf9" stop-opacity=".16"/><stop offset=".64" stop-color="#fffaf4" stop-opacity=".04"/><stop offset="1" stop-color="#fffaf4" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${uid}-frontCenterBloom" cx=".43" cy=".40" r=".78"><stop stop-color="#fffefb" stop-opacity=".24"/><stop offset=".40" stop-color="#fff9ef" stop-opacity=".095"/><stop offset=".78" stop-color="#fff8ee" stop-opacity=".02"/><stop offset="1" stop-color="#fff8ee" stop-opacity="0"/></radialGradient>
+      <linearGradient id="${uid}-frontBoardShade" x1=".02" y1=".03" x2=".98" y2=".98"><stop stop-color="#ffffff" stop-opacity=".055"/><stop offset=".16" stop-color="#ffffff" stop-opacity="0"/><stop offset=".68" stop-color="#c4a88a" stop-opacity=".028"/><stop offset="1" stop-color="#8f745b" stop-opacity=".11"/></linearGradient>
+      <radialGradient id="${uid}-frontEdgeDepth" cx=".98" cy="1" r=".90"><stop stop-color="#9b7e60" stop-opacity=".12"/><stop offset=".28" stop-color="#a68a6f" stop-opacity=".072"/><stop offset=".66" stop-color="#a68a6f" stop-opacity=".016"/><stop offset="1" stop-color="#a68a6f" stop-opacity="0"/></radialGradient>
+      <filter id="${uid}-frontTexture" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".95" numOctaves="2" seed="51"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".0105"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
 
       <!-- 5.0.720: final paper material — stronger upper contour, sharper warm contact shade, geometry unchanged. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="23.5" x2="0" y2="144.6"><stop stop-color="#fffefd"/><stop offset=".085" stop-color="#fcfaf7"/><stop offset=".19" stop-color="#f8f3ee"/><stop offset="1" stop-color="#f4ebe4"/></linearGradient>
@@ -6436,7 +6439,7 @@ function matterFolderShell(){
       ${shadow('paperLiftC',.75,1.35,.95,.18,'#8a7763')}
       ${shadow('paperLiftD',.75,1.35,.95,.18,'#8a7763')}
 
-      <!-- 5.0.730 — final depth calibration: denser lower-right contact shadow and stronger target-like metallic trim; geometry and color balance unchanged. -->
+      <!-- 5.0.731 — final depth calibration: denser lower-right contact shadow and stronger target-like metallic trim; geometry and color balance unchanged. -->
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6f3d07"/><stop offset=".055" stop-color="#b87312"/><stop offset=".126" stop-color="#f2c34c"/><stop offset=".205" stop-color="#8d500d"/><stop offset=".36" stop-color="#d79520"/><stop offset=".515" stop-color="#f6d56d"/><stop offset=".61" stop-color="#b97514"/><stop offset=".71" stop-color="#774309"/><stop offset=".83" stop-color="#d89521"/><stop offset=".945" stop-color="#f3ca59"/><stop offset="1" stop-color="#7c470b"/></linearGradient>
       <linearGradient id="${uid}-goldBevel" x1=".02" y1="0" x2=".16" y2="1"><stop stop-color="#fff6c2"/><stop offset=".14" stop-color="#f6cf66"/><stop offset=".34" stop-color="#b56f15"/><stop offset=".52" stop-color="#ffe9a0"/><stop offset=".74" stop-color="#92520d"/><stop offset="1" stop-color="#fff5c3"/></linearGradient>
       <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="403"><stop stop-color="#ad6f1c"/><stop offset=".03" stop-color="#fff9dd"/><stop offset=".08" stop-color="#ebb94d"/><stop offset=".17" stop-color="#8a5310"/><stop offset=".285" stop-color="#ffefad"/><stop offset=".40" stop-color="#c88423"/><stop offset=".54" stop-color="#84510e"/><stop offset=".69" stop-color="#efc356"/><stop offset=".80" stop-color="#fff4bc"/><stop offset=".90" stop-color="#a46518"/><stop offset=".968" stop-color="#fff9da"/><stop offset="1" stop-color="#995d13"/></linearGradient>
@@ -6587,10 +6590,13 @@ function matterFolderShell(){
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
       <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
-      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".34"/>
-      <use href="#${uid}-face" fill="url(#${uid}-frontEdgeDepth)" opacity=".72"/>
+      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".36"/>
+      <use href="#${uid}-face" fill="url(#${uid}-frontCenterBloom)" opacity=".50"/>
+      <use href="#${uid}-face" fill="url(#${uid}-frontBoardShade)" opacity=".74"/>
+      <use href="#${uid}-face" fill="#d4c0ab" opacity=".20" filter="url(#${uid}-frontTexture)"/>
+      <use href="#${uid}-face" fill="url(#${uid}-frontEdgeDepth)" opacity=".88"/>
       <g clip-path="url(#${uid}-faceClip)">
-        <use href="#${uid}-face" fill="none" stroke="url(#${uid}-faceInnerShade)" stroke-width="6.4" filter="url(#${uid}-faceEdgeSoft)"/>
+        <use href="#${uid}-face" fill="none" stroke="url(#${uid}-faceInnerShade)" stroke-width="6.55" filter="url(#${uid}-faceEdgeSoft)"/>
         <use href="#${uid}-face" transform="translate(1.25 1.25)" fill="none" stroke="#fffef8" stroke-width="1.25" opacity=".34"/>
       </g>
       
@@ -6598,7 +6604,7 @@ function matterFolderShell(){
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
-      <!-- 5.0.730: final trim/depth calibration — slightly stronger metal body, brighter bevel and lower/corner speculars. -->
+      <!-- 5.0.731: final trim/depth calibration — slightly stronger metal body, brighter bevel and lower/corner speculars. -->
       <use href="#${uid}-face" stroke="#482504" stroke-width="6.55" opacity=".75"/>
       <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="5.85" opacity=".98"/>
       <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="5.28"/>
