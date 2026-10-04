@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.724';
-var APP_BUILD='5724';
+var APP_VERSION='5.0.725';
+var APP_BUILD='5725';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -291,7 +291,7 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5724" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5725" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5724',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5725',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6432,7 +6432,7 @@ function matterFolderShell(){
       ${shadow('paperLiftC',.75,1.35,.95,.18,'#8a7763')}
       ${shadow('paperLiftD',.75,1.35,.95,.18,'#8a7763')}
 
-      <!-- 5.0.724 — metallic trim pass only: deeper bronze base, brighter gold body and localized specular facets. -->
+      <!-- 5.0.725 — final metallic trim palette: deeper bronze base, brighter gold body and stronger specular facets. -->
       <linearGradient id="${uid}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5f3306"/><stop offset=".055" stop-color="#a96812"/><stop offset=".125" stop-color="#f3ce66"/><stop offset=".205" stop-color="#85500d"/><stop offset=".36" stop-color="#d79b2c"/><stop offset=".515" stop-color="#fff0a4"/><stop offset=".60" stop-color="#b97717"/><stop offset=".69" stop-color="#754108"/><stop offset=".81" stop-color="#d79a2a"/><stop offset=".90" stop-color="#6b3b07"/><stop offset=".955" stop-color="#e8b84a"/><stop offset=".982" stop-color="#fff5c9"/><stop offset="1" stop-color="#6c3c08"/></linearGradient>
       <linearGradient id="${uid}-goldBevel" x1=".02" y1="0" x2=".16" y2="1"><stop stop-color="#fffbe4"/><stop offset=".16" stop-color="#f2d47c"/><stop offset=".36" stop-color="#b87319"/><stop offset=".49" stop-color="#fff4bf"/><stop offset=".66" stop-color="#8a4d0b"/><stop offset=".84" stop-color="#e2ad42"/><stop offset="1" stop-color="#fff7d7"/></linearGradient>
       <linearGradient id="${uid}-goldGlint" gradientUnits="userSpaceOnUse" x1="16" y1="438" x2="424" y2="405"><stop stop-color="#8a5110"/><stop offset=".036" stop-color="#fff7d1"/><stop offset=".088" stop-color="#dca83c"/><stop offset=".18" stop-color="#6e3c07"/><stop offset=".29" stop-color="#ffe69a"/><stop offset=".40" stop-color="#ad6c13"/><stop offset=".53" stop-color="#694006"/><stop offset=".68" stop-color="#e4b343"/><stop offset=".80" stop-color="#fff0aa"/><stop offset=".90" stop-color="#8b520e"/><stop offset=".968" stop-color="#fff6cf"/><stop offset="1" stop-color="#7a450b"/></linearGradient>
@@ -6594,18 +6594,20 @@ function matterFolderShell(){
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
-      <!-- 5.0.724: more dimensional metal, while preserving the approved front-face path. -->
-      <use href="#${uid}-face" stroke="#4f2a05" stroke-width="5.05" opacity=".78"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="4.35"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="3.32"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="1.18" opacity=".99"/>
-      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width=".52" opacity=".88"/>
-      <!-- Stronger localized reflections on the left/bottom/right facets, as in the approved mockup. -->
-      <path d="M16 149 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V151" transform="translate(.1 -.75)" stroke="url(#${uid}-frontBottomGlint)" stroke-width="1.02" opacity=".94"/>
-      <path d="M17.05 154 V404 C17.05 424 29.1 436.1 49.3 436.1 H390.8 C410.2 436.1 422.7 425.1 422.9 407.2" stroke="#fff2ac" stroke-width=".46" opacity=".50"/>
-      <path d="M20.1 407.5 C21.3 424.1 31.4 434.1 49.5 434.5 H80.5" stroke="#fff6c9" stroke-width=".72" opacity=".83"/>
-      <path d="M356.5 434.5 H391.2 C408.4 434 418.5 424.7 419.8 407.2" stroke="#fff6c9" stroke-width=".72" opacity=".79"/>
-      <path d="M16 397 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V397" transform="translate(0 1.12)" stroke="#542b04" stroke-width=".62" opacity=".60"/>
+      <!-- 5.0.725: final trim-material pass — stronger real-metal width/contrast, no path or folder geometry changes. -->
+      <use href="#${uid}-face" stroke="#432003" stroke-width="6.15" opacity=".82"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-rimDepth)" stroke-width="5.30"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-gold)" stroke-width="4.12"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldBevel)" stroke-width="1.42" opacity="1"/>
+      <use href="#${uid}-face" stroke="url(#${uid}-goldGlint)" stroke-width=".68" opacity=".94"/>
+      <!-- Target-mockup metal facets: clear warm highlight, bronze depth and bright corner glints. -->
+      <path d="M16 149 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V151" transform="translate(.1 -.82)" stroke="url(#${uid}-frontBottomGlint)" stroke-width="1.28" opacity=".98"/>
+      <path d="M17.20 154 V404 C17.20 423.8 29.2 435.8 49.4 435.8 H390.7 C410 435.8 422.55 424.9 422.75 407.1" stroke="#fff0a3" stroke-width=".58" opacity=".60"/>
+      <path d="M20.0 407.2 C21.4 424 31.5 434 49.7 434.45 H83.5" stroke="#fff8d2" stroke-width=".86" opacity=".91"/>
+      <path d="M352.8 434.45 H391.1 C408.5 433.95 418.7 424.5 420.0 407" stroke="#fff8d2" stroke-width=".86" opacity=".89"/>
+      <path d="M16 397 V405 C16 426 28 438 49 438 H392 C412 438 424 427 424 408 V397" transform="translate(0 1.32)" stroke="#3f1f03" stroke-width=".82" opacity=".69"/>
+      <path d="M18.3 145 V392" stroke="#ffe69a" stroke-width=".52" opacity=".48"/>
+      <path d="M421.7 156 V392" stroke="#5a2d04" stroke-width=".64" opacity=".55"/>
     </g>
   </svg>`;
 }
