@@ -27,14 +27,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-host>.empty {grid-column:1/-1}
 #sc-matters .case-folder {
   --folder-deep:#006e79;--folder:#00b8c2;--folder-light:#7ce9ec;--folder-ink:#087c79;
-  --folder-mat-top:#33c9c9;--folder-mat-mid:#0aaeb1;--folder-mat-main:#078f94;--folder-mat-deep:#006f75;--folder-mat-edge:#005c62;--folder-mat-glow:#a1f1ed;
+  --folder-mat-top:#1fc2c9;--folder-mat-mid:#009ba6;--folder-mat-main:#007f89;--folder-mat-deep:#00656e;--folder-mat-edge:#004f58;--folder-mat-glow:#80eef0;
   position:relative;isolation:isolate;display:block;box-sizing:border-box;
   width:100%;height:auto;aspect-ratio:440 / 458;min-width:0;min-height:0;
   margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
   text-align:left;color:#111;cursor:pointer;overflow:visible;-webkit-tap-highlight-color:transparent;
 }
-#sc-matters .case-folder-criminal {--folder-deep:#76050f;--folder:#d20e1b;--folder-light:#ff6960;--folder-ink:#950d14;--folder-tab-sheen:.62;--folder-inner-shadow:.082;--folder-mat-top:#c81d28;--folder-mat-mid:#8f0914;--folder-mat-main:#68010d;--folder-mat-deep:#4c0009;--folder-mat-edge:#340006;--folder-mat-glow:#ef6e74}
-#sc-matters .case-folder-civil {--folder-deep:#0547b9;--folder:#0875f2;--folder-light:#88c9ff;--folder-ink:#075aba;--folder-mat-top:#236eea;--folder-mat-mid:#084dca;--folder-mat-main:#0339a2;--folder-mat-deep:#022a82;--folder-mat-edge:#011f67;--folder-mat-glow:#8db8ff}
+#sc-matters .case-folder-criminal {--folder-deep:#76050f;--folder:#d20e1b;--folder-light:#ff6960;--folder-ink:#950d14;--folder-tab-sheen:.62;--folder-inner-shadow:.082;--folder-mat-top:#ae1520;--folder-mat-mid:#760510;--folder-mat-main:#57000b;--folder-mat-deep:#400007;--folder-mat-edge:#2a0004;--folder-mat-glow:#dd555f}
+#sc-matters .case-folder-civil {--folder-deep:#0547b9;--folder:#0875f2;--folder-light:#88c9ff;--folder-ink:#075aba;--folder-mat-top:#1f62d8;--folder-mat-mid:#043cae;--folder-mat-main:#022f87;--folder-mat-deep:#012468;--folder-mat-edge:#011b50;--folder-mat-glow:#75a8ff}
 #sc-matters .case-folder-koap,#sc-matters .case-folder-other {--folder-deep:#9a6a2b;--folder:#d2a45b;--folder-light:#ffe6b8;--folder-ink:#826023;--folder-mat-top:#e5c58f;--folder-mat-mid:#cf9e5a;--folder-mat-main:#b88643;--folder-mat-deep:#966a30;--folder-mat-edge:#785323;--folder-mat-glow:#fff1d0}
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
