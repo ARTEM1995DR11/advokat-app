@@ -40,23 +40,23 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
-/* 5.0.753 — point-2 refinement: production type aligned pixel-closer to the approved mockup.
+/* 5.0.754 — point-2 readability pass: production type centered more precisely and long labels kept readable.
    Only the inscription box over the approved inner tab is corrected; folder geometry itself remains untouched. */
 #sc-matters .case-folder-label {
-  position:absolute;left:12.15%;top:10.55%;width:45.5%;height:7.1%;
+  position:absolute;left:11.65%;top:10.95%;width:48.4%;height:6.85%;
   display:flex;align-items:center;justify-content:center;
-  box-sizing:border-box;margin:0;padding:calc(.55 * var(--case-u)) 0 0;
-  font:600 calc(24.6 * var(--case-u))/.96 'Helvetica Neue',Arial,sans-serif;
-  letter-spacing:calc(-.24 * var(--case-u));color:var(--folder-ink);
+  box-sizing:border-box;margin:0;padding:calc(.45 * var(--case-u)) calc(3.5 * var(--case-u)) 0;
+  font:600 calc(23.3 * var(--case-u))/.96 'Helvetica Neue',Arial,sans-serif;
+  letter-spacing:calc(-.18 * var(--case-u));color:var(--folder-ink);
   text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;
   pointer-events:none;
 }
 #sc-matters .case-folder-admin .case-folder-label{color:#0f6f78}
-#sc-matters .case-folder-criminal .case-folder-label{color:#bf201f}
-#sc-matters .case-folder-civil .case-folder-label{color:#1658d5}
+#sc-matters .case-folder-criminal .case-folder-label{color:#bf201f;font-size:calc(22.6 * var(--case-u))}
+#sc-matters .case-folder-civil .case-folder-label{color:#1658d5;font-size:calc(20.5 * var(--case-u));letter-spacing:calc(-.28 * var(--case-u))}
 #sc-matters .case-folder-koap .case-folder-label,
-#sc-matters .case-folder-other .case-folder-label{color:#6f5720}
+#sc-matters .case-folder-other .case-folder-label{color:#6f5720;font-size:calc(22.8 * var(--case-u))}
 #sc-matters .case-folder-content {
   position:absolute;left:9%;right:6.3%;top:20.7%;bottom:5.9%;
   display:flex;flex-direction:column;min-width:0;min-height:0;
