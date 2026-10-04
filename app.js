@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.721';
-var APP_BUILD='5721';
+var APP_VERSION='5.0.723';
+var APP_BUILD='5723';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6161,7 +6161,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5721',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5723',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
@@ -6352,36 +6352,36 @@ function matterFolderShell(){
       <filter id="${uid}-tabInset" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1.3"/></filter>
 
       <!-- Approved folder shell geometry remains unchanged. -->
-      <!-- 5.0.721 — coloured shell material pass only: brighter enamel, deeper edges and stronger glossy relief. -->
-      <linearGradient id="${uid}-shoulderBack" x1=".04" y1="0" x2=".96" y2=".92">
-        <stop offset="0" stop-color="var(--folder-light)"/>
-        <stop offset=".085" stop-color="var(--folder)"/>
+      <!-- 5.0.723 — rear shell restored to deeper saturated enamel; inner tab stays deliberately lighter. -->
+      <linearGradient id="${uid}-shoulderBack" x1=".02" y1="0" x2=".98" y2=".80">
+        <stop offset="0" stop-color="var(--folder-deep)"/>
+        <stop offset=".13" stop-color="var(--folder)"/>
         <stop offset=".36" stop-color="var(--folder)"/>
-        <stop offset=".72" stop-color="var(--folder-deep)"/>
-        <stop offset=".90" stop-color="var(--folder)"/>
+        <stop offset=".64" stop-color="var(--folder-deep)"/>
+        <stop offset=".86" stop-color="var(--folder)"/>
         <stop offset="1" stop-color="var(--folder-deep)"/>
       </linearGradient>
-      <linearGradient id="${uid}-shoulderSheen" x1=".02" y1="0" x2=".88" y2=".48">
-        <stop stop-color="#fff" stop-opacity=".27"/>
-        <stop offset=".16" stop-color="var(--folder-light)" stop-opacity=".17"/>
-        <stop offset=".42" stop-color="var(--folder-light)" stop-opacity=".035"/>
-        <stop offset=".70" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".13"/>
-      </linearGradient>
-      <linearGradient id="${uid}-back" x1=".03" y1="0" x2=".94" y2=".96">
-        <stop offset="0" stop-color="var(--folder-light)"/>
-        <stop offset=".08" stop-color="var(--folder)"/>
-        <stop offset=".34" stop-color="var(--folder)"/>
-        <stop offset=".70" stop-color="var(--folder-deep)"/>
-        <stop offset=".90" stop-color="var(--folder)"/>
-        <stop offset="1" stop-color="var(--folder-deep)"/>
-      </linearGradient>
-      <linearGradient id="${uid}-backSheen" x1=".02" y1="0" x2=".84" y2=".46">
-        <stop stop-color="#fff" stop-opacity=".24"/>
-        <stop offset=".15" stop-color="var(--folder-light)" stop-opacity=".15"/>
-        <stop offset=".40" stop-color="var(--folder-light)" stop-opacity=".032"/>
+      <linearGradient id="${uid}-shoulderSheen" x1=".03" y1="0" x2=".86" y2=".34">
+        <stop stop-color="#fff" stop-opacity=".14"/>
+        <stop offset=".18" stop-color="var(--folder-light)" stop-opacity=".085"/>
+        <stop offset=".45" stop-color="var(--folder-light)" stop-opacity=".018"/>
         <stop offset=".68" stop-color="var(--folder-light)" stop-opacity="0"/>
-        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".12"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".11"/>
+      </linearGradient>
+      <linearGradient id="${uid}-back" x1=".02" y1="0" x2=".98" y2=".82">
+        <stop offset="0" stop-color="var(--folder-deep)"/>
+        <stop offset=".14" stop-color="var(--folder)"/>
+        <stop offset=".38" stop-color="var(--folder)"/>
+        <stop offset=".66" stop-color="var(--folder-deep)"/>
+        <stop offset=".86" stop-color="var(--folder)"/>
+        <stop offset="1" stop-color="var(--folder-deep)"/>
+      </linearGradient>
+      <linearGradient id="${uid}-backSheen" x1=".03" y1="0" x2=".84" y2=".34">
+        <stop stop-color="#fff" stop-opacity=".12"/>
+        <stop offset=".18" stop-color="var(--folder-light)" stop-opacity=".075"/>
+        <stop offset=".44" stop-color="var(--folder-light)" stop-opacity=".016"/>
+        <stop offset=".68" stop-color="var(--folder-light)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".10"/>
       </linearGradient>
       <radialGradient id="${uid}-colorBloom" cx=".30" cy=".13" r=".92">
         <stop stop-color="#fff" stop-opacity=".18"/>
@@ -6392,10 +6392,9 @@ function matterFolderShell(){
       </radialGradient>
       <linearGradient id="${uid}-tab" x1=".10" y1=".01" x2=".72" y2="1">
         <stop offset="0" stop-color="var(--folder-light)"/>
-        <stop offset=".16" stop-color="var(--folder-light)"/>
-        <stop offset=".50" stop-color="var(--folder)"/>
-        <stop offset=".78" stop-color="var(--folder)"/>
-        <stop offset=".94" stop-color="var(--folder-deep)"/>
+        <stop offset=".24" stop-color="var(--folder-light)"/>
+        <stop offset=".58" stop-color="var(--folder)"/>
+        <stop offset=".84" stop-color="var(--folder)"/>
         <stop offset="1" stop-color="var(--folder-deep)"/>
       </linearGradient>
       <linearGradient id="${uid}-tabSheen" x1=".08" y1="0" x2=".64" y2=".98">
@@ -6406,9 +6405,10 @@ function matterFolderShell(){
         <stop offset="1" stop-color="var(--folder-deep)" stop-opacity=".10"/>
       </linearGradient>
 
-      <linearGradient id="${uid}-cream" x1=".08" y1=".02" x2=".90" y2="1"><stop stop-color="#fffaf1"/><stop offset=".35" stop-color="#fcf6eb"/><stop offset=".68" stop-color="#f8f0e3"/><stop offset=".90" stop-color="#f5ebdc"/><stop offset="1" stop-color="#efe2ce"/></linearGradient>
-      <radialGradient id="${uid}-creamGlow" cx=".28" cy=".20" r=".95"><stop stop-color="#fffdf6" stop-opacity=".50"/><stop offset=".52" stop-color="#fffdf6" stop-opacity=".16"/><stop offset=".90" stop-color="#fffdf6" stop-opacity="0"/><stop offset="1" stop-color="#fffdf6" stop-opacity="0"/></radialGradient>
-      <radialGradient id="${uid}-frontEdgeDepth" cx=".96" cy=".98" r=".75"><stop stop-color="#ab9479" stop-opacity=".095"/><stop offset=".32" stop-color="#ab9479" stop-opacity=".055"/><stop offset=".86" stop-color="#ab9479" stop-opacity="0"/><stop offset="1" stop-color="#ab9479" stop-opacity="0"/></radialGradient>
+      <!-- 5.0.722 — front ivory material pass only: cleaner warm paperboard, softer edge depth, geometry unchanged. -->
+      <linearGradient id="${uid}-cream" x1=".08" y1=".02" x2=".90" y2="1"><stop stop-color="#fffdf8"/><stop offset=".24" stop-color="#fff9f0"/><stop offset=".55" stop-color="#fbf4e9"/><stop offset=".82" stop-color="#f8efe2"/><stop offset="1" stop-color="#f4e9d9"/></linearGradient>
+      <radialGradient id="${uid}-creamGlow" cx=".31" cy=".19" r=".98"><stop stop-color="#ffffff" stop-opacity=".44"/><stop offset=".42" stop-color="#fffdf7" stop-opacity=".15"/><stop offset=".76" stop-color="#fffdf7" stop-opacity=".035"/><stop offset="1" stop-color="#fffdf7" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${uid}-frontEdgeDepth" cx=".98" cy="1" r=".82"><stop stop-color="#a88f72" stop-opacity=".066"/><stop offset=".34" stop-color="#a88f72" stop-opacity=".035"/><stop offset=".82" stop-color="#a88f72" stop-opacity="0"/><stop offset="1" stop-color="#a88f72" stop-opacity="0"/></radialGradient>
 
       <!-- 5.0.720: final paper material — stronger upper contour, sharper warm contact shade, geometry unchanged. -->
       <linearGradient id="${uid}-paperA" gradientUnits="userSpaceOnUse" x1="0" y1="23.5" x2="0" y2="144.6"><stop stop-color="#fffefd"/><stop offset=".085" stop-color="#fcfaf7"/><stop offset=".19" stop-color="#f8f3ee"/><stop offset="1" stop-color="#f4ebe4"/></linearGradient>
@@ -6489,8 +6489,8 @@ function matterFolderShell(){
     <!-- Back to front: shoulder → papers → left rear body → inner tab → face. -->
     <g data-layer="rear-shoulder" filter="url(#${uid}-shoulder)">
       <path d="${shoulder}" fill="url(#${uid}-shoulderBack)" filter="url(#${uid}-grain)"/>
-      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".54"/>
-      <path d="${shoulder}" fill="url(#${uid}-colorBloom)" opacity=".48"/>
+      <path d="${shoulder}" fill="url(#${uid}-shoulderSheen)" opacity=".34"/>
+      <path d="${shoulder}" fill="url(#${uid}-colorBloom)" opacity=".22"/>
       <path d="${shoulder}" fill="url(#${uid}-shoulderRound)"/>
       <g clip-path="url(#${uid}-shoulderClip)"><path d="${shoulder}" transform="translate(1.2 2.5)" fill="none" stroke="var(--folder-light)" stroke-width=".95" opacity=".18" stroke-linejoin="round"/></g>
     </g>
@@ -6563,8 +6563,8 @@ function matterFolderShell(){
     </g>
     <g data-layer="rear" filter="url(#${uid}-rear)">
       <path d="${back}" fill="url(#${uid}-back)" filter="url(#${uid}-grain)"/>
-      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".52"/>
-      <path d="${back}" fill="url(#${uid}-colorBloom)" opacity=".44"/>
+      <path d="${back}" fill="url(#${uid}-backSheen)" opacity=".30"/>
+      <path d="${back}" fill="url(#${uid}-colorBloom)" opacity=".18"/>
       <g clip-path="url(#${uid}-backClip)"><path d="${back}" transform="translate(1.6 2)" fill="none" stroke="var(--folder-light)" stroke-width="1" opacity=".17" stroke-linejoin="round"/></g>
       <path d="M24 85 C29 70 37 64 49 56 C60 49 68 36 80 31" fill="none" stroke="#fff" stroke-width=".72" opacity=".115" stroke-linecap="round"/>
       <path d="M19 139 H333" fill="none" stroke="#111" stroke-width="1" opacity=".082" filter="url(#${uid}-rearInner)"/>
@@ -6582,14 +6582,14 @@ function matterFolderShell(){
 
     <g data-layer="front" filter="url(#${uid}-frontShadow)">
       <use href="#${uid}-face" fill="url(#${uid}-cream)" filter="url(#${uid}-grain)"/>
-      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".52"/>
-      <use href="#${uid}-face" fill="url(#${uid}-frontEdgeDepth)" opacity=".76"/>
+      <use href="#${uid}-face" fill="url(#${uid}-creamGlow)" opacity=".48"/>
+      <use href="#${uid}-face" fill="url(#${uid}-frontEdgeDepth)" opacity=".58"/>
       <g clip-path="url(#${uid}-faceClip)">
-        <use href="#${uid}-face" fill="none" stroke="url(#${uid}-faceInnerShade)" stroke-width="8" filter="url(#${uid}-faceEdgeSoft)"/>
-        <use href="#${uid}-face" transform="translate(1.25 1.25)" fill="none" stroke="#fffdf4" stroke-width="1.4" opacity=".28"/>
+        <use href="#${uid}-face" fill="none" stroke="url(#${uid}-faceInnerShade)" stroke-width="6.4" filter="url(#${uid}-faceEdgeSoft)"/>
+        <use href="#${uid}-face" transform="translate(1.25 1.25)" fill="none" stroke="#fffef8" stroke-width="1.25" opacity=".34"/>
       </g>
       
-      <path d="M49 99 H257 C269 99 276 105 284 114 C292 123 298 124 309 124 H396" fill="none" stroke="#fffef9" stroke-width="1.2" opacity=".50" stroke-linecap="round"/>
+      <path d="M49 99 H257 C269 99 276 105 284 114 C292 123 298 124 309 124 H396" fill="none" stroke="#fffefb" stroke-width="1.15" opacity=".62" stroke-linecap="round"/>
     </g>
 
     <g data-layer="trim" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#${uid}-trimGlow)">
