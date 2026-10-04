@@ -68,15 +68,17 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   --case-label-center:38.75%;
 }
 #sc-matters .case-folder-criminal .case-folder-label{
+  top:11.10%;
   color:#172536;font-size:calc(27.8 * var(--case-u));letter-spacing:calc(-.14 * var(--case-u));
-  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.11);
+  text-shadow:0 calc(.38 * var(--case-u)) 0 rgba(255,255,255,.30),0 calc(.92 * var(--case-u)) calc(1.22 * var(--case-u)) rgba(9,24,38,.08);
 }
 #sc-matters .case-folder-civil{
   --case-label-center:38.85%;
 }
 #sc-matters .case-folder-civil .case-folder-label{
+  top:11.14%;
   color:#172536;font-size:calc(24.9 * var(--case-u));letter-spacing:calc(-.28 * var(--case-u));
-  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.11);
+  text-shadow:0 calc(.34 * var(--case-u)) 0 rgba(255,255,255,.26),0 calc(.86 * var(--case-u)) calc(1.16 * var(--case-u)) rgba(9,24,38,.07);
 }
 #sc-matters .case-folder-koap,
 #sc-matters .case-folder-other{
