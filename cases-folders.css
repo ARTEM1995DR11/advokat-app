@@ -40,12 +40,17 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
+/* 5.0.752 — stage 2: production type only.
+   The box is centered over the flat, readable part of the approved inner tab;
+   folder geometry itself is intentionally untouched. */
 #sc-matters .case-folder-label {
-  position:absolute;left:12.3%;top:8.3%;width:42%;height:7.3%;
+  position:absolute;left:14%;top:11.2%;width:47%;height:7.5%;
   display:flex;align-items:center;justify-content:center;
-  font:600 calc(23 * var(--case-u))/1 Arial,sans-serif;
-  letter-spacing:calc(-.6 * var(--case-u));color:var(--folder-ink);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  box-sizing:border-box;margin:0;padding:0;
+  font:600 calc(26.5 * var(--case-u))/1 Arial,sans-serif;
+  letter-spacing:calc(-.35 * var(--case-u));color:var(--folder-ink);
+  text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  pointer-events:none;
 }
 #sc-matters .case-folder-content {
   position:absolute;left:9%;right:6.3%;top:20.7%;bottom:5.9%;
