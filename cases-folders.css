@@ -40,8 +40,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
-/* 5.0.756 — point-2 premium-ink pass: keep the centering from 5.0.755 but replace stark white labels with deep premium ink colors.
-   Only label color/rendering changes; folder geometry and label coordinates remain untouched. */
+/* 5.0.787 — lighter medium-weight type labels; existing size and centering retained. */
 #sc-matters .case-folder-label {
   position:absolute;
   left:var(--case-label-center,38.60%);
@@ -51,10 +50,10 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   transform:translateX(-50%);
   display:flex;align-items:center;justify-content:center;
   box-sizing:border-box;margin:0;padding:calc(.35 * var(--case-u)) calc(4.5 * var(--case-u)) 0;
-  font:600 calc(29.1 * var(--case-u))/0.98 'Helvetica Neue',Arial,sans-serif;
+  font:500 calc(29.1 * var(--case-u))/0.98 'Helvetica Neue',Arial,sans-serif;
   letter-spacing:calc(-.16 * var(--case-u));color:var(--folder-ink);
   text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;font-synthesis:none;
   pointer-events:none;
 }
 #sc-matters .case-folder-admin{
@@ -62,7 +61,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-admin .case-folder-label{
   color:#172536;
-  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.11);
+  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.055);
 }
 #sc-matters .case-folder-criminal{
   --case-label-center:38.75%;
@@ -70,7 +69,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-criminal .case-folder-label{
   top:11.10%;
   color:#172536;font-size:calc(27.8 * var(--case-u));letter-spacing:calc(-.14 * var(--case-u));
-  text-shadow:0 calc(.38 * var(--case-u)) 0 rgba(255,255,255,.30),0 calc(.92 * var(--case-u)) calc(1.22 * var(--case-u)) rgba(9,24,38,.08);
+  text-shadow:0 calc(.38 * var(--case-u)) 0 rgba(255,255,255,.30),0 calc(.92 * var(--case-u)) calc(1.22 * var(--case-u)) rgba(9,24,38,.04);
 }
 #sc-matters .case-folder-civil{
   --case-label-center:38.85%;
@@ -78,7 +77,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-civil .case-folder-label{
   top:11.14%;
   color:#172536;font-size:calc(24.9 * var(--case-u));letter-spacing:calc(-.28 * var(--case-u));
-  text-shadow:0 calc(.34 * var(--case-u)) 0 rgba(255,255,255,.26),0 calc(.86 * var(--case-u)) calc(1.16 * var(--case-u)) rgba(9,24,38,.07);
+  text-shadow:0 calc(.34 * var(--case-u)) 0 rgba(255,255,255,.26),0 calc(.86 * var(--case-u)) calc(1.16 * var(--case-u)) rgba(9,24,38,.035);
 }
 #sc-matters .case-folder-koap,
 #sc-matters .case-folder-other{
@@ -87,7 +86,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-koap .case-folder-label,
 #sc-matters .case-folder-other .case-folder-label{
   color:#172536;font-size:calc(28.2 * var(--case-u));letter-spacing:calc(-.14 * var(--case-u));
-  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.11);
+  text-shadow:0 calc(.55 * var(--case-u)) 0 rgba(255,255,255,.42),0 calc(1.15 * var(--case-u)) calc(1.55 * var(--case-u)) rgba(9,24,38,.055);
 }
 #sc-matters .case-folder-content {
   position:absolute;left:9%;right:6.3%;top:20.7%;bottom:5.9%;
@@ -100,12 +99,13 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   display:block;width:calc(86 * var(--case-u));height:calc(72 * var(--case-u));
   margin:0;padding:0;overflow:visible;pointer-events:none;
 }
-/* 5.0.780 — stage-3 pixel alignment pass: icon visual mass and offsets are normalized to the approved mockup,
-   i.e. the same visual size and placement as the icons in the filled card layout. */
-#sc-matters .case-folder-content-stage3-admin{left:9.20%;top:23.65%;width:calc(96 * var(--case-u));height:calc(96 * var(--case-u))}
-#sc-matters .case-folder-content-stage3-criminal{left:9.20%;top:24.10%;width:calc(100 * var(--case-u));height:calc(100 * var(--case-u))}
-#sc-matters .case-folder-content-stage3-civil{left:9.35%;top:23.70%;width:calc(149 * var(--case-u));height:calc(104 * var(--case-u))}
-#sc-matters .case-folder-content-stage3-koap{left:8.35%;top:24.23%;width:calc(105 * var(--case-u));height:calc(99 * var(--case-u))}
+/* 5.0.787 — scale/gavel +7%, document +9%, people +11%.
+   Offsets compensate each original PNG's transparent margins: visible artwork
+   shares one upper line, while the first three right edges retain their pill gap. */
+#sc-matters .case-folder-content-stage3-admin{left:calc(9.20% - 6.30 * var(--case-u));top:calc(23.65% + 4.17 * var(--case-u));width:calc(102.72 * var(--case-u));height:calc(102.72 * var(--case-u))}
+#sc-matters .case-folder-content-stage3-criminal{left:calc(9.20% - 6.78 * var(--case-u));top:calc(23.65% - 2.98 * var(--case-u));width:calc(107 * var(--case-u));height:calc(107 * var(--case-u))}
+#sc-matters .case-folder-content-stage3-civil{left:calc(9.20% - 27.96 * var(--case-u));top:calc(23.65% - 9.47 * var(--case-u));width:calc(165.39 * var(--case-u));height:calc(115.44 * var(--case-u))}
+#sc-matters .case-folder-content-stage3-koap{left:calc(8.35% - 8.22 * var(--case-u));top:calc(23.65% + .58 * var(--case-u));width:calc(114.45 * var(--case-u));height:calc(107.91 * var(--case-u))}
 #sc-matters .case-folder-icon-stage3-img {
   display:block;width:100%;height:100%;object-fit:contain;object-position:center;
   filter:drop-shadow(0 calc(1.15 * var(--case-u)) calc(1.9 * var(--case-u)) rgba(87,54,7,.18));
@@ -116,8 +116,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
 
-/* 5.0.786 — point 4 mockup alignment pass: capsule size/height stay fixed; only X-position is corrected
-   against the approved mockup. Stage-3 icon geometry remains frozen. */
+/* 5.0.787 — capsule styling and Y stay fixed; only civil X gains a small air gap. */
 #sc-matters .case-folder-basis-stage4 {
   position:absolute;
   left:31.8%;
@@ -146,7 +145,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-admin .case-folder-basis-stage4{left:31.3%}
 #sc-matters .case-folder-criminal .case-folder-basis-stage4{left:32.0%}
-#sc-matters .case-folder-civil .case-folder-basis-stage4{left:32.8%}
+#sc-matters .case-folder-civil .case-folder-basis-stage4{left:35.5%}
 #sc-matters .case-folder-koap .case-folder-basis-stage4,
 #sc-matters .case-folder-other .case-folder-basis-stage4{left:31.2%}
 #sc-matters .case-folder-basis-stage4.agreement {
