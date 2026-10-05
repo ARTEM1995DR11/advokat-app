@@ -4,7 +4,7 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.792';
+var APP_VERSION='5.0.793';
 var APP_BUILD='5792';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
@@ -6310,7 +6310,7 @@ function matterFolderTypeIcon(type){
   return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
 }
 
-// Staged reconstruction of folder contents. 5.0.792 keeps the approved type label
+// Staged reconstruction of folder contents. 5.0.793 keeps the approved type label
 // and now mounts the first large 3D icon for every production type, using the
 // standalone rendered assets approved from the mockup.
 var MATTER_FOLDER_SHOW_CONTENT=false;
@@ -6671,9 +6671,9 @@ function matterCard(m, idx){
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  // 5.0.792 — stage 2/3: lighter production type + individual legal-icon scale.
-  // 5.0.792 — stage 4: approved basis pill; civil X adds a small air gap.
-  // 5.0.792 — stage 5: standalone blue chevron added; all lower content remains hidden.
+  // 5.0.793 — stage 2/3: lighter production type + individual legal-icon scale.
+  // 5.0.793 — stage 4: approved basis pill; civil X adds a small air gap.
+  // 5.0.793 — stage 5: standalone blue chevron added; all lower content remains hidden.
   var inner='<span class="case-folder-label">'+esc(label)+'</span>';
   var stage3Kind=matterFolderStage3IconType(type);
   if(stage3Kind && MATTER_FOLDER_SHOW_STAGE3_ICONS){
