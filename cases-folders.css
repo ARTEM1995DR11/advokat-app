@@ -198,7 +198,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.798 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
+/* 5.0.799 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
    A zero-width font strut keeps the baseline fixed for fitted/missing names.
    The folder and all elements of points 1–5 remain unchanged. */
 #sc-matters .case-folder-name-stage6 {
@@ -248,6 +248,47 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   font-weight:400;
   line-height:1.00;
   letter-spacing:calc(-.18 * var(--case-u));
+}
+
+
+/* 5.0.799 — point 7: case subject below the approved point-6 name.
+   Points 1–6 are frozen. The subject uses the real case data, up to two lines. */
+#sc-matters .case-folder-subject-stage7 {
+  position:absolute;
+  left:9.05%;
+  right:6.70%;
+  top:calc(43.45% + 77.5 * var(--case-u));
+  z-index:6;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  max-height:calc(67.0 * var(--case-u));
+  overflow:hidden;
+  color:#202124;
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  font-size:calc(27.6 * var(--case-u));
+  font-weight:400;
+  line-height:1.18;
+  letter-spacing:calc(-.22 * var(--case-u));
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+  pointer-events:none;
+}
+#sc-matters .case-folder-subject-stage7-text {
+  display:-webkit-box;
+  width:100%;
+  overflow:hidden;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  white-space:normal;
+  overflow-wrap:normal;
+  word-break:normal;
+  text-overflow:ellipsis;
+}
+#sc-matters .case-folder-subject-stage7.is-missing {
+  color:#817e78;
+  font-size:calc(24.8 * var(--case-u));
 }
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
