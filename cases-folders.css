@@ -116,24 +116,24 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
 
-/* 5.0.781 — point 4: basis capsule only.  Geometry and stage-3 icons stay frozen. */
+/* 5.0.783 — point 4 micro-pass: basis capsule aligned to approved mockup; stage-3 icons stay frozen. */
 #sc-matters .case-folder-basis-stage4 {
   position:absolute;
-  left:31.8%;
-  top:29.55%;
+  left:34.2%;
+  top:30.35%;
   z-index:5;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   box-sizing:border-box;
-  width:calc(164 * var(--case-u));
-  min-width:calc(164 * var(--case-u));
-  max-width:calc(164 * var(--case-u));
-  height:calc(44 * var(--case-u));
+  width:calc(171 * var(--case-u));
+  min-width:calc(171 * var(--case-u));
+  max-width:calc(171 * var(--case-u));
+  height:calc(45.5 * var(--case-u));
   margin:0;
   padding:calc(.45 * var(--case-u)) calc(7 * var(--case-u)) 0;
-  border-radius:calc(23 * var(--case-u));
-  font:500 calc(25.0 * var(--case-u))/1 'Helvetica Neue',Arial,sans-serif;
+  border-radius:calc(24 * var(--case-u));
+  font:500 calc(25.1 * var(--case-u))/1 'Helvetica Neue',Arial,sans-serif;
   letter-spacing:calc(-.34 * var(--case-u));
   white-space:nowrap;
   overflow:hidden;
