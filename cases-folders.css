@@ -198,23 +198,25 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.797 — point 6 refinement: real client name hierarchy + neutral missing-data fallback. Points 1–5 stay frozen. */
+/* 5.0.798 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
+   A zero-width font strut keeps the baseline fixed for fitted/missing names.
+   The folder and all elements of points 1–5 remain unchanged. */
 #sc-matters .case-folder-name-stage6 {
   position:absolute;
   left:9.05%;
   right:6.70%;
-  top:43.45%;
+  top:calc(43.45% + 26.7 * var(--case-u));
   z-index:6;
-  display:block;
+  display:flex;
+  align-items:baseline;
   box-sizing:border-box;
   margin:0;
   padding:0;
-  overflow:hidden;
+  height:calc(40.8 * var(--case-u));
   white-space:nowrap;
-  text-overflow:ellipsis;
   color:#080808;
   font-family:Georgia,'Times New Roman',Times,serif;
-  font-size:calc(40.8 * var(--case-u));
+  font-size:calc(38.76 * var(--case-u));
   font-weight:700;
   line-height:1.00;
   letter-spacing:calc(-1.12 * var(--case-u));
@@ -223,21 +225,28 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   font-synthesis:none;
   pointer-events:none;
 }
-#sc-matters .case-folder-name-stage6.is-long {
-  font-size:calc(36.7 * var(--case-u));
-  letter-spacing:calc(-1.02 * var(--case-u));
+#sc-matters .case-folder-name-stage6::before {
+  content:'\200b';
+  display:block;
+  width:0;
+  flex:0 0 0;
+  visibility:hidden;
 }
-#sc-matters .case-folder-name-stage6.is-xl {
-  font-size:calc(32.8 * var(--case-u));
-  letter-spacing:calc(-.78 * var(--case-u));
+#sc-matters .case-folder-name-stage6-text {
+  display:block;
+  flex:1 1 0;
+  min-width:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:var(--case-name-size,inherit);
 }
-#sc-matters .case-folder-name-stage6.is-missing {
-  top:44.05%;
-  color:#7a7469;
+#sc-matters .case-folder-name-stage6.is-missing .case-folder-name-stage6-text {
+  color:#77746f;
   font-family:'Helvetica Neue',Arial,sans-serif;
   font-size:calc(25.8 * var(--case-u));
-  font-weight:500;
-  line-height:1.08;
+  font-weight:400;
+  line-height:1.00;
   letter-spacing:calc(-.18 * var(--case-u));
 }
 
