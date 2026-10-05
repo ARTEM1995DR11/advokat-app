@@ -198,7 +198,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.799 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
+/* 5.0.800 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
    A zero-width font strut keeps the baseline fixed for fitted/missing names.
    The folder and all elements of points 1–5 remain unchanged. */
 #sc-matters .case-folder-name-stage6 {
@@ -251,7 +251,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.799 — point 7: case subject below the approved point-6 name.
+/* 5.0.800 — point 7: case subject below the approved point-6 name.
    Points 1–6 are frozen. The subject uses the real case data, up to two lines. */
 #sc-matters .case-folder-subject-stage7 {
   position:absolute;
