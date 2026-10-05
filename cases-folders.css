@@ -164,7 +164,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.795 — point 5 approved final: X/width/container/Y stay fixed;
+/* 5.0.796 — point 5 approved final: X/width/container/Y stay fixed;
    visible vertical opening is reduced in the SVG path and stroke is lightly refined. */
 #sc-matters .case-folder-chevron-stage5 {
   position:absolute;
@@ -195,6 +195,41 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   overflow:visible;
   transform:scale(1.18,1.09);
   transform-origin:center center;
+}
+
+
+/* 5.0.796 — point 6: client / matter name only. Points 1–5 stay frozen. */
+#sc-matters .case-folder-name-stage6 {
+  position:absolute;
+  left:9.05%;
+  right:6.70%;
+  top:42.15%;
+  z-index:6;
+  display:block;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:#080808;
+  font-family:Georgia,'Times New Roman',Times,serif;
+  font-size:calc(41.2 * var(--case-u));
+  font-weight:700;
+  line-height:1.00;
+  letter-spacing:calc(-1.28 * var(--case-u));
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+  font-synthesis:none;
+  pointer-events:none;
+}
+#sc-matters .case-folder-name-stage6.is-long {
+  font-size:calc(36.7 * var(--case-u));
+  letter-spacing:calc(-1.02 * var(--case-u));
+}
+#sc-matters .case-folder-name-stage6.is-xl {
+  font-size:calc(32.8 * var(--case-u));
+  letter-spacing:calc(-.78 * var(--case-u));
 }
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
