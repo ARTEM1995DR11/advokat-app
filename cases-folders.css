@@ -116,11 +116,11 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
 
-/* 5.0.785 — point 4 exacting pass: basis capsules are aligned against each production icon like the approved mockup.
-   The icon blocks remain frozen; only horizontal pill посадка is tuned per visual type so there is a clear air gap. */
+/* 5.0.786 — point 4 mockup alignment pass: capsule size/height stay fixed; only X-position is corrected
+   against the approved mockup. Stage-3 icon geometry remains frozen. */
 #sc-matters .case-folder-basis-stage4 {
   position:absolute;
-  left:35.0%;
+  left:31.8%;
   top:30.35%;
   z-index:5;
   display:inline-flex;
@@ -144,11 +144,11 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
   pointer-events:none;
 }
-#sc-matters .case-folder-admin .case-folder-basis-stage4{left:35.8%}
-#sc-matters .case-folder-criminal .case-folder-basis-stage4{left:34.9%}
-#sc-matters .case-folder-civil .case-folder-basis-stage4{left:37.2%}
+#sc-matters .case-folder-admin .case-folder-basis-stage4{left:31.3%}
+#sc-matters .case-folder-criminal .case-folder-basis-stage4{left:32.0%}
+#sc-matters .case-folder-civil .case-folder-basis-stage4{left:32.8%}
 #sc-matters .case-folder-koap .case-folder-basis-stage4,
-#sc-matters .case-folder-other .case-folder-basis-stage4{left:35.4%}
+#sc-matters .case-folder-other .case-folder-basis-stage4{left:31.2%}
 #sc-matters .case-folder-basis-stage4.agreement {
   color:#147c79;
   border:calc(.45 * var(--case-u)) solid rgba(65,194,187,.24);
