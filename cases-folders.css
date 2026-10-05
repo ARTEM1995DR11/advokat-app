@@ -251,35 +251,50 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.801 — point 7 approved polish: a stable gap below the point-6 name,
-   slightly lighter/smaller body text and a strict two-line box. Points 1–6 stay frozen. */
-#sc-matters .case-folder-subject-stage7 {
+/* 5.0.803 — points 7–8 final pass against the approved mockup.
+   The subject, case number and stage/court now form one natural vertical stack:
+   one-line subjects no longer reserve an empty second line, while long subjects
+   are clamped to exactly two lines. Points 1–6 stay frozen. */
+#sc-matters .case-folder-details-stage78 {
   position:absolute;
   left:9.05%;
   right:6.70%;
-  top:calc(43.45% + 80.5 * var(--case-u));
+  top:calc(43.45% + 79.0 * var(--case-u));
   z-index:6;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
   box-sizing:border-box;
-  width:auto;
-  height:calc(59.4 * var(--case-u));
+  margin:0;
+  padding:0;
+  max-height:calc(121 * var(--case-u));
+  overflow:hidden;
+  pointer-events:none;
+}
+#sc-matters .case-folder-subject-stage7 {
+  position:static;
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  min-height:0;
   margin:0;
   padding:0;
   overflow:hidden;
   color:#202124;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(26.2 * var(--case-u));
+  font-size:calc(25.8 * var(--case-u));
   font-weight:400;
-  line-height:1.12;
+  line-height:1.10;
   letter-spacing:calc(-.20 * var(--case-u));
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
   font-synthesis:none;
-  pointer-events:none;
 }
 #sc-matters .case-folder-subject-stage7-text {
   display:-webkit-box;
   width:100%;
-  max-height:100%;
+  max-height:calc(56.8 * var(--case-u));
   overflow:hidden;
   -webkit-box-orient:vertical;
   -webkit-line-clamp:2;
@@ -294,56 +309,47 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   font-size:calc(23.6 * var(--case-u));
   letter-spacing:calc(-.15 * var(--case-u));
 }
-
-/* 5.0.802 — point 8, first pass: case number and one-line stage/court line.
-   Points 1–7 are frozen. Missing values are simply omitted. */
 #sc-matters .case-folder-number-stage8 {
-  position:absolute;
-  left:9.05%;
-  right:6.70%;
-  top:calc(43.45% + 143.0 * var(--case-u));
-  z-index:6;
+  position:static;
   display:block;
   box-sizing:border-box;
-  height:calc(29.0 * var(--case-u));
-  margin:0;
+  width:100%;
+  min-width:0;
+  height:auto;
+  margin:calc(5.8 * var(--case-u)) 0 0;
   padding:0;
   overflow:hidden;
   color:#202124;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(23.8 * var(--case-u));
+  font-size:calc(24.0 * var(--case-u));
   font-weight:400;
-  line-height:1.08;
+  line-height:1.05;
   letter-spacing:calc(-.18 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
-  pointer-events:none;
 }
 #sc-matters .case-folder-meta-stage8 {
-  position:absolute;
-  left:9.05%;
-  right:6.70%;
-  top:calc(43.45% + 176.0 * var(--case-u));
-  z-index:6;
+  position:static;
   display:block;
   box-sizing:border-box;
-  height:calc(27.0 * var(--case-u));
-  margin:0;
+  width:100%;
+  min-width:0;
+  height:auto;
+  margin:calc(4.1 * var(--case-u)) 0 0;
   padding:0;
   overflow:hidden;
   color:#2f3134;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(20.3 * var(--case-u));
+  font-size:calc(20.7 * var(--case-u));
   font-weight:400;
-  line-height:1.10;
-  letter-spacing:calc(-.24 * var(--case-u));
+  line-height:1.06;
+  letter-spacing:calc(-.22 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
-  pointer-events:none;
 }
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
