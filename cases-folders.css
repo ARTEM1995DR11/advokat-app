@@ -164,7 +164,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.791 — point 5: standalone transition chevron. Points 1–4 stay frozen. */
+/* 5.0.792 — point 5 final polish: chevron enlarged and thickened; points 1–4 remain frozen. */
 #sc-matters .case-folder-chevron-stage5 {
   position:absolute;
   right:6.35%;
@@ -174,7 +174,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   align-items:center;
   justify-content:center;
   box-sizing:border-box;
-  width:calc(31 * var(--case-u));
+  width:calc(40.5 * var(--case-u));
   height:calc(45.5 * var(--case-u));
   margin:0;
   padding:0;
@@ -183,11 +183,13 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-chevron-stage5>svg.ico {
   display:block;
-  width:calc(30 * var(--case-u));
-  height:calc(39 * var(--case-u));
+  width:calc(40.5 * var(--case-u));
+  height:calc(44.2 * var(--case-u));
   color:#0048e8;
   stroke:currentColor;
-  stroke-width:2.85;
+  stroke-width:3.45;
+  stroke-linecap:round;
+  stroke-linejoin:round;
   fill:none;
   overflow:visible;
 }
