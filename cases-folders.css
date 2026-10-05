@@ -102,7 +102,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 /* 5.0.775 — stage-3 icon alignment pass: empty-folder icons must sit exactly like the approved mockup,
    i.e. the same visual size and placement as the icons in the filled card layout. */
-#sc-matters .case-folder-content-stage3-admin{left:8.6%;top:24.2%;width:calc(126 * var(--case-u));height:calc(104 * var(--case-u))}
+#sc-matters .case-folder-content-stage3-admin{left:7.6%;top:22.9%;width:calc(162 * var(--case-u));height:calc(132 * var(--case-u))}
 #sc-matters .case-folder-content-stage3-criminal{left:8.3%;top:24.0%;width:calc(134 * var(--case-u));height:calc(102 * var(--case-u))}
 #sc-matters .case-folder-content-stage3-civil{left:8.6%;top:24.4%;width:calc(126 * var(--case-u));height:calc(88 * var(--case-u))}
 #sc-matters .case-folder-content-stage3-koap{left:8.5%;top:24.1%;width:calc(111 * var(--case-u));height:calc(104 * var(--case-u))}
@@ -111,7 +111,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   filter:drop-shadow(0 calc(1.15 * var(--case-u)) calc(1.9 * var(--case-u)) rgba(87,54,7,.18));
   image-rendering:auto;
 }
-#sc-matters .case-folder-icon-stage3-img-admin {transform:none}
+#sc-matters .case-folder-icon-stage3-img-admin {transform:none;object-position:left top}
 #sc-matters .case-folder-icon-stage3-img-criminal {transform:none}
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
