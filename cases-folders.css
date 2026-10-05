@@ -164,9 +164,8 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.794 — folder-only chevron: narrower path and lighter stroke.
-   The existing SVG/container size, Y, vertical scale and blue stay fixed.
-   X shift is about 3.5 visible px in the supplied 706px-wide iPhone screenshot. */
+/* 5.0.795 — point 5 approved final: X/width/container/Y stay fixed;
+   visible vertical opening is reduced in the SVG path and stroke is lightly refined. */
 #sc-matters .case-folder-chevron-stage5 {
   position:absolute;
   right:calc(6.18% + 4.7 * var(--case-u));
@@ -189,7 +188,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   height:calc(45.0 * var(--case-u));
   color:#0048e8;
   stroke:currentColor;
-  stroke-width:2.91;
+  stroke-width:2.60;
   stroke-linecap:round;
   stroke-linejoin:round;
   fill:none;
