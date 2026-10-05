@@ -198,12 +198,12 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.796 — point 6: client / matter name only. Points 1–5 stay frozen. */
+/* 5.0.797 — point 6 refinement: real client name hierarchy + neutral missing-data fallback. Points 1–5 stay frozen. */
 #sc-matters .case-folder-name-stage6 {
   position:absolute;
   left:9.05%;
   right:6.70%;
-  top:42.15%;
+  top:43.45%;
   z-index:6;
   display:block;
   box-sizing:border-box;
@@ -214,10 +214,10 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   text-overflow:ellipsis;
   color:#080808;
   font-family:Georgia,'Times New Roman',Times,serif;
-  font-size:calc(41.2 * var(--case-u));
+  font-size:calc(40.8 * var(--case-u));
   font-weight:700;
   line-height:1.00;
-  letter-spacing:calc(-1.28 * var(--case-u));
+  letter-spacing:calc(-1.12 * var(--case-u));
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
   font-synthesis:none;
@@ -230,6 +230,15 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-name-stage6.is-xl {
   font-size:calc(32.8 * var(--case-u));
   letter-spacing:calc(-.78 * var(--case-u));
+}
+#sc-matters .case-folder-name-stage6.is-missing {
+  top:44.05%;
+  color:#7a7469;
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  font-size:calc(25.8 * var(--case-u));
+  font-weight:500;
+  line-height:1.08;
+  letter-spacing:calc(-.18 * var(--case-u));
 }
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.796';
-var APP_BUILD='5796';
+var APP_VERSION='5.0.797';
+var APP_BUILD='5797';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6310,7 +6310,7 @@ function matterFolderTypeIcon(type){
   return type==='admin'?'scale':type==='criminal'?'gavel':type==='civil'?'people':'doc';
 }
 
-// Staged reconstruction of folder contents. 5.0.796 keeps the approved type label
+// Staged reconstruction of folder contents. 5.0.797 keeps the approved type label
 // and now mounts the first large 3D icon for every production type, using the
 // standalone rendered assets approved from the mockup.
 var MATTER_FOLDER_SHOW_CONTENT=false;
@@ -6333,7 +6333,6 @@ function matterFolderStage3IconSrc(kind){
     kind==='koap'?'folder-icon-doc-koap-v770.png?v='+APP_BUILD:'';
 }
 function matterFolderStage6Name(m){
-  var client=String((m&&m.client)||'').replace(/\s+/g,' ').trim();
   function compact(text){
     text=String(text||'').replace(/\s+/g,' ').trim();
     if(!text)return '';
@@ -6348,14 +6347,35 @@ function matterFolderStage6Name(m){
     }
     return matterAutoTitlePiece(text,38);
   }
+  function isTechnical(text){
+    var v=String(text||'').replace(/\s+/g,' ').trim();
+    if(!v)return true;
+    if(/^(?:УДО|УД|КОАП|КАС|ГПК|УПК|УК|АПК)$/i.test(v))return true;
+    if(/^(?:дело|материал|производство|уголовн(?:ое|ый)|гражданск(?:ое|ий)|административн(?:ое|ый)|исполнение|удо|ст\.|ч\.|№)/i.test(v))return true;
+    if(v.length<=10 && v===v.toUpperCase() && /[А-ЯЁA-Z]/.test(v))return true;
+    return false;
+  }
+
+  var client=String((m&&m.client)||'').replace(/\s+/g,' ').trim();
   if(client)return compact(client);
+
+  // Older matters can have an empty client field while a linked hearing still
+  // contains the person's name. Prefer that real case data over a technical title.
+  if(m&&m.id){
+    var linked=tasksOf(m.id).map(function(t){return String((t&&t.hearingClient)||'').replace(/\s+/g,' ').trim();})
+      .filter(Boolean)[0]||'';
+    if(linked)return compact(linked);
+  }
+
   var title=String((m&&m.title)||'').replace(/\s+/g,' ').trim();
   if(title){
     var prefix=title.split(/\s+[—–-]\s+/)[0].trim();
-    var fromTitle=compact(prefix);
-    if(fromTitle&&!/^(?:дело|материал|производство|ст\.|ч\.|№)/i.test(fromTitle))return fromTitle;
+    if(!isTechnical(prefix)){
+      var fromTitle=compact(prefix);
+      if(fromTitle&&!isTechnical(fromTitle))return fromTitle;
+    }
   }
-  return 'Без доверителя';
+  return 'Доверитель не указан';
 }
 /* 5.0.796 — final point-5 chevron geometry. X/width and center stay fixed;
    only the vertical opening is reduced by ~9% to match the approved mockup. */
@@ -6702,7 +6722,7 @@ function matterCard(m, idx){
   var fullMeta=[m.stage,m.court].filter(Boolean).join(' · '),meta=matterFolderCompactMeta(m);
   var statusText=badge?(badge.tone==='result'?'Нужно внести результат заседания':badge.tone==='urgent'?'Есть просроченные записи':badge.text):'';
   var accessible=['Открыть дело: '+(m.client||lead),subject,m.number?'№ '+m.number:'',fullMeta,statusText,next.text].filter(Boolean).join('. ');
-  // 5.0.796 — stage 2/3: lighter production type + individual legal-icon scale.
+  // 5.0.797 — points 1–5 frozen; point 6 refined for real client names and neutral missing-data fallback.
   // 5.0.796 — stage 4: approved basis pill; civil X adds a small air gap.
   // 5.0.796 — stage 5: standalone blue chevron added; all lower content remains hidden.
   var inner='<span class="case-folder-label">'+esc(label)+'</span>';
@@ -6721,7 +6741,8 @@ function matterCard(m, idx){
   if(MATTER_FOLDER_SHOW_STAGE6_NAME){
     var stage6Name=matterFolderStage6Name(m);
     var stage6Len=Array.from(stage6Name).length;
-    var stage6Class=stage6Len>24?' is-xl':stage6Len>18?' is-long':'';
+    var stage6Missing=stage6Name==='Доверитель не указан';
+    var stage6Class=stage6Missing?' is-missing':(stage6Len>24?' is-xl':stage6Len>18?' is-long':'');
     inner+= '<span class="case-folder-name-stage6'+stage6Class+'" title="'+esc(stage6Name)+'">'+esc(stage6Name)+'</span>';
   }
   if(MATTER_FOLDER_SHOW_CONTENT){
