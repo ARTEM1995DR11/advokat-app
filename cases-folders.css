@@ -40,7 +40,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
-/* 5.0.790 — regular-weight type labels; approved size, centering and dark ink retained. */
+/* 5.0.791 — regular-weight type labels; approved size, centering and dark ink retained. */
 #sc-matters .case-folder-label {
   position:absolute;
   left:var(--case-label-center,38.60%);
@@ -99,7 +99,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   display:block;width:calc(86 * var(--case-u));height:calc(72 * var(--case-u));
   margin:0;padding:0;overflow:visible;pointer-events:none;
 }
-/* 5.0.790 — the approved scales, gavel and KoAP document stay fixed.
+/* 5.0.791 — the approved scales, gavel and KoAP document stay fixed.
    Civil house + document grows by 14% from 5.0.789. Transparent PNG margins
    are compensated to preserve its visible left edge and align the upper edge. */
 #sc-matters .case-folder-content-stage3-admin{left:calc(9.20% - 6.30 * var(--case-u));top:calc(23.65% + 4.17 * var(--case-u));width:calc(102.72 * var(--case-u));height:calc(102.72 * var(--case-u))}
@@ -116,7 +116,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
 
-/* 5.0.790 — capsule design and Y stay fixed; only civil X is optically refined. */
+/* 5.0.791 — capsule design and Y stay fixed; only civil X is optically refined. */
 #sc-matters .case-folder-basis-stage4 {
   position:absolute;
   left:31.8%;
@@ -161,6 +161,35 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   background:linear-gradient(180deg,rgba(236,233,255,.99) 0%,rgba(205,198,255,.99) 100%);
   box-shadow:inset 0 calc(.8 * var(--case-u)) 0 rgba(255,255,255,.88),
              0 calc(1.0 * var(--case-u)) calc(2.2 * var(--case-u)) rgba(103,81,208,.07);
+}
+
+
+/* 5.0.791 — point 5: standalone transition chevron. Points 1–4 stay frozen. */
+#sc-matters .case-folder-chevron-stage5 {
+  position:absolute;
+  right:6.35%;
+  top:30.35%;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  width:calc(31 * var(--case-u));
+  height:calc(45.5 * var(--case-u));
+  margin:0;
+  padding:0;
+  color:#0048e8;
+  pointer-events:none;
+}
+#sc-matters .case-folder-chevron-stage5>svg.ico {
+  display:block;
+  width:calc(30 * var(--case-u));
+  height:calc(39 * var(--case-u));
+  color:#0048e8;
+  stroke:currentColor;
+  stroke-width:2.85;
+  fill:none;
+  overflow:visible;
 }
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
