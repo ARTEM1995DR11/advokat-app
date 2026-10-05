@@ -40,7 +40,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-shell {
   position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
-/* 5.0.787 — lighter medium-weight type labels; existing size and centering retained. */
+/* 5.0.789 — lighter medium-weight type labels; existing size and centering retained. */
 #sc-matters .case-folder-label {
   position:absolute;
   left:var(--case-label-center,38.60%);
@@ -99,12 +99,12 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   display:block;width:calc(86 * var(--case-u));height:calc(72 * var(--case-u));
   margin:0;padding:0;overflow:visible;pointer-events:none;
 }
-/* 5.0.787 — scale/gavel +7%, document +9%, people +11%.
+/* 5.0.789 — scale/gavel +7%, document +9%, people +11%.
    Offsets compensate each original PNG's transparent margins: visible artwork
    shares one upper line, while the first three right edges retain their pill gap. */
 #sc-matters .case-folder-content-stage3-admin{left:calc(9.20% - 6.30 * var(--case-u));top:calc(23.65% + 4.17 * var(--case-u));width:calc(102.72 * var(--case-u));height:calc(102.72 * var(--case-u))}
 #sc-matters .case-folder-content-stage3-criminal{left:calc(9.20% - 6.78 * var(--case-u));top:calc(23.65% - 2.98 * var(--case-u));width:calc(107 * var(--case-u));height:calc(107 * var(--case-u))}
-#sc-matters .case-folder-content-stage3-civil{left:calc(9.20% - 27.96 * var(--case-u));top:calc(23.65% - 9.47 * var(--case-u));width:calc(165.39 * var(--case-u));height:calc(115.44 * var(--case-u))}
+#sc-matters .case-folder-content-stage3-civil{left:calc(9.20% - 7.10 * var(--case-u));top:calc(23.65% - 2.40 * var(--case-u));width:calc(112 * var(--case-u));height:calc(112 * var(--case-u))}
 #sc-matters .case-folder-content-stage3-koap{left:calc(8.35% - 8.22 * var(--case-u));top:calc(23.65% + .58 * var(--case-u));width:calc(114.45 * var(--case-u));height:calc(107.91 * var(--case-u))}
 #sc-matters .case-folder-icon-stage3-img {
   display:block;width:100%;height:100%;object-fit:contain;object-position:center;
@@ -116,7 +116,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-icon-stage3-img-civil {transform:none}
 #sc-matters .case-folder-icon-stage3-img-koap {transform:none}
 
-/* 5.0.787 — capsule styling and Y stay fixed; only civil X gains a small air gap. */
+/* 5.0.789 — capsule styling and Y stay fixed; only civil X gains a small air gap. */
 #sc-matters .case-folder-basis-stage4 {
   position:absolute;
   left:31.8%;
