@@ -315,22 +315,22 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   width:100%;
   min-width:0;
   height:auto;
-  margin:calc(7.2 * var(--case-u)) 0 0;
+  margin:0;
   padding:0;
   overflow:hidden;
   color:#202124;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(24.1155 * var(--case-u));
+  font-size:calc(25.2 * var(--case-u));
   font-weight:400;
-  line-height:calc(23.999 * var(--case-u));
+  line-height:calc(26.0 * var(--case-u));
   letter-spacing:calc(-.18 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
-/* 5.0.809 — point 8: number +3.5%, stage/court +7%.
-   Keep both original line boxes, coordinates, abbreviations and ellipsis. */
+/* 5.0.811 — point 8: readable service text with complete line boxes.
+   Compact spacing follows the frozen subject without moving it. */
 #sc-matters .case-folder-meta-stage8 {
   position:static;
   display:block;
@@ -338,14 +338,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   width:109.0%;
   min-width:0;
   height:auto;
-  margin:calc(1.95 * var(--case-u)) 0 0;
+  margin:0;
   padding:0;
   overflow:hidden;
   color:#2f3134;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(20.0625 * var(--case-u));
+  font-size:calc(21.2 * var(--case-u));
   font-weight:400;
-  line-height:calc(19.125 * var(--case-u));
+  line-height:calc(22.0 * var(--case-u));
   letter-spacing:calc(-.34 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
@@ -355,27 +355,27 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
 }
 
-/* 5.0.810 — point 9: reserve space for the frozen two-line subject and
-   stage/court block. Use one lower footer baseline for every folder.
-   Calendar/text size, divider material and horizontal spacing stay frozen. */
+/* 5.0.811 — points 9–10: a common, inset footer baseline, lighter blue
+   typography and a calendar aligned with the text column. Keep the divider's
+   approved horizontal endpoints, thickness and opacity. */
 #sc-matters .case-folder-hearing-stage9 {
   position:absolute;
-  left:10.65%;
+  left:9.05%;
   right:5.65%;
-  bottom:calc(9.55% - 18.1 * var(--case-u));
+  bottom:calc(9.55% - 12.1 * var(--case-u));
   z-index:6;
   display:flex;
   align-items:center;
-  gap:calc(7.0 * var(--case-u));
+  gap:calc(8.8 * var(--case-u));
   box-sizing:border-box;
   min-width:0;
   height:calc(50.0 * var(--case-u));
   margin:0;
-  padding:calc(6.6 * var(--case-u) + 1px) 0 0;
+  padding:calc(8.0 * var(--case-u) + 1px) 0 0;
   color:#0348e7;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(23.81125 * var(--case-u));
-  font-weight:700;
+  font-size:calc(25.0 * var(--case-u));
+  font-weight:500;
   line-height:1;
   letter-spacing:calc(-.46 * var(--case-u));
   pointer-events:none;
@@ -385,7 +385,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-hearing-stage9::before {
   content:'';
   position:absolute;
-  left:0;
+  left:1.875732708089%;
   right:0;
   top:calc(7.4 * var(--case-u));
   border-top:1px solid rgba(185,169,143,.28);
@@ -393,8 +393,8 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-hearing-stage9 .case-folder-calendar {
   display:block;
-  width:calc(38.368 * var(--case-u));
-  height:calc(41.42 * var(--case-u));
+  width:calc(39.6 * var(--case-u));
+  height:calc(42.75 * var(--case-u));
   flex:0 0 auto;
   color:#0348e7;
   stroke-width:2.16;
@@ -409,7 +409,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-hearing-stage9.muted,
 #sc-matters .case-folder-hearing-stage9.archive {
   color:#85878a;
-  font-weight:600;
+  font-weight:400;
 }
 #sc-matters .case-folder-hearing-stage9.muted .case-folder-calendar,
 #sc-matters .case-folder-hearing-stage9.archive .case-folder-calendar {color:#95979a}
