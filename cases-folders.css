@@ -355,15 +355,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
 }
 
-/* 5.0.809 — point 9: calendar +9%, text +7.5%, action row ~2 screenshot
-   pixels higher. The divider has its original width/stroke/alpha and moves
-   ~3.5 screenshot pixels lower to add air after the stage/court line.
-   The smaller icon/text gap preserves the full date and time. */
+/* 5.0.810 — point 9: reserve space for the frozen two-line subject and
+   stage/court block. Use one lower footer baseline for every folder.
+   Calendar/text size, divider material and horizontal spacing stay frozen. */
 #sc-matters .case-folder-hearing-stage9 {
   position:absolute;
   left:10.65%;
   right:5.65%;
-  bottom:calc(9.55% + 2.7 * var(--case-u));
+  bottom:calc(9.55% - 18.1 * var(--case-u));
   z-index:6;
   display:flex;
   align-items:center;
