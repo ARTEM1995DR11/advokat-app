@@ -251,14 +251,13 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.803 — points 7–8 final pass against the approved mockup.
-   The subject, case number and stage/court now form one natural vertical stack:
-   one-line subjects no longer reserve an empty second line, while long subjects
-   are clamped to exactly two lines. Points 1–6 stay frozen. */
+/* 5.0.804 — points 7–8 precision pass against the approved mockup.
+   Only subject / case number / stage+court typography and spacing are refined.
+   Points 1–6 stay frozen. */
 #sc-matters .case-folder-details-stage78 {
   position:absolute;
   left:9.05%;
-  right:6.70%;
+  right:5.55%;
   top:calc(43.45% + 79.0 * var(--case-u));
   z-index:6;
   display:flex;
@@ -283,10 +282,10 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   overflow:hidden;
   color:#202124;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(25.8 * var(--case-u));
+  font-size:calc(24.9 * var(--case-u));
   font-weight:400;
-  line-height:1.10;
-  letter-spacing:calc(-.20 * var(--case-u));
+  line-height:1.04;
+  letter-spacing:calc(-.18 * var(--case-u));
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
   font-synthesis:none;
@@ -294,7 +293,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 #sc-matters .case-folder-subject-stage7-text {
   display:-webkit-box;
   width:100%;
-  max-height:calc(56.8 * var(--case-u));
+  max-height:calc(51.8 * var(--case-u));
   overflow:hidden;
   -webkit-box-orient:vertical;
   -webkit-line-clamp:2;
@@ -316,14 +315,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   width:100%;
   min-width:0;
   height:auto;
-  margin:calc(5.8 * var(--case-u)) 0 0;
+  margin:calc(7.2 * var(--case-u)) 0 0;
   padding:0;
   overflow:hidden;
   color:#202124;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(24.0 * var(--case-u));
+  font-size:calc(23.3 * var(--case-u));
   font-weight:400;
-  line-height:1.05;
+  line-height:1.03;
   letter-spacing:calc(-.18 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
@@ -337,15 +336,15 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   width:100%;
   min-width:0;
   height:auto;
-  margin:calc(4.1 * var(--case-u)) 0 0;
+  margin:calc(2.25 * var(--case-u)) 0 0;
   padding:0;
   overflow:hidden;
   color:#2f3134;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(20.7 * var(--case-u));
+  font-size:calc(19.9 * var(--case-u));
   font-weight:400;
-  line-height:1.06;
-  letter-spacing:calc(-.22 * var(--case-u));
+  line-height:1.04;
+  letter-spacing:calc(-.28 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
   text-rendering:geometricPrecision;
