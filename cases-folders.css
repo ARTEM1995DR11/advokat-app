@@ -351,6 +351,72 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
 }
 
+
+
+/* 5.0.805 — point 9: approved lower divider + calendar + nearest hearing.
+   Points 1–8 are frozen; this strip is positioned independently on the folder face. */
+#sc-matters .case-folder-hearing-stage9 {
+  position:absolute;
+  left:9.05%;
+  right:5.55%;
+  top:82.05%;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-width:0;
+  height:calc(61 * var(--case-u));
+  margin:0;
+  padding:calc(11.8 * var(--case-u)) 0 0;
+  border-top:calc(.95 * var(--case-u)) solid rgba(185,169,143,.42);
+  color:#003fe2;
+  pointer-events:none;
+}
+#sc-matters .case-folder-hearing-stage9-icon {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  width:calc(37 * var(--case-u));
+  height:calc(40 * var(--case-u));
+  margin:0 calc(12.2 * var(--case-u)) 0 0;
+  color:#003fe2;
+}
+#sc-matters .case-folder-hearing-stage9-icon svg {
+  display:block;
+  width:calc(31.5 * var(--case-u));
+  height:calc(34.2 * var(--case-u));
+  color:currentColor;
+  stroke-width:2.25;
+  overflow:visible;
+}
+#sc-matters .case-folder-hearing-stage9-text {
+  display:block;
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  color:inherit;
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  font-size:calc(21.4 * var(--case-u));
+  font-weight:700;
+  line-height:1.06;
+  letter-spacing:calc(-.55 * var(--case-u));
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+}
+#sc-matters .case-folder-hearing-stage9.muted,
+#sc-matters .case-folder-hearing-stage9.archive {
+  color:#81858a;
+}
+#sc-matters .case-folder-hearing-stage9.muted .case-folder-hearing-stage9-icon,
+#sc-matters .case-folder-hearing-stage9.archive .case-folder-hearing-stage9-icon {
+  color:#91969b;
+}
+
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
 #sc-matters .case-folder:focus-visible {outline:2px solid #0647d9;outline-offset:-2px;border-radius:8px}
 
