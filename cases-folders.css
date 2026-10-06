@@ -329,7 +329,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
-/* 5.0.812 — point 8: readable service text with complete line boxes.
+/* 5.0.813 — point 8: readable service text with complete line boxes.
    Compact spacing follows the frozen subject without moving it. */
 #sc-matters .case-folder-meta-stage8 {
   position:static;
@@ -355,7 +355,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
 }
 
-/* 5.0.812 — points 9–10: a common, inset footer baseline, lighter blue
+/* 5.0.813 — points 9–10: a common, inset footer baseline, lighter blue
    typography and a calendar aligned with the text column. Keep the divider's
    approved horizontal endpoints, thickness and opacity. */
 #sc-matters .case-folder-hearing-stage9 {
