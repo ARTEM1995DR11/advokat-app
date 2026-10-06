@@ -329,68 +329,67 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
-/* 5.0.807 — point 8 final fit pass. Keep the approved vertical rhythm and
-   number line; only make the stage/court line slightly more compact so the
-   useful court name survives before ellipsis, as in the approved mockup. */
+/* 5.0.808 — point 8 finishing pass. Preserve the approved vertical rhythm;
+   allow a little more useful court text before ellipsis without disturbing 1–7. */
 #sc-matters .case-folder-meta-stage8 {
   position:static;
   display:block;
   box-sizing:border-box;
-  width:106.4%;
+  width:109.0%;
   min-width:0;
   height:auto;
-  margin:calc(2.10 * var(--case-u)) 0 0;
+  margin:calc(1.95 * var(--case-u)) 0 0;
   padding:0;
   overflow:hidden;
   color:#2f3134;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(19.45 * var(--case-u));
+  font-size:calc(18.75 * var(--case-u));
   font-weight:400;
-  line-height:1.03;
-  letter-spacing:calc(-.31 * var(--case-u));
+  line-height:1.02;
+  letter-spacing:calc(-.34 * var(--case-u));
   white-space:nowrap;
   text-overflow:ellipsis;
-  transform:scaleX(.94);
+  transform:scaleX(.92);
   transform-origin:left center;
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
 
-/* 5.0.807 — point 9 precision pass against the approved mockup.
-   The footer row is raised, the calendar/text gain the approved visual weight,
-   and the divider gets the shorter premium inset. Points 1–7 remain frozen. */
+/* 5.0.808 — point 9 finishing pass. 5.0.807 overshot the action-row scale on
+   narrow iPhone cards; retain the raised footer and stronger calendar, but restore
+   the approved readable width so full date/time survives before ellipsis. */
 #sc-matters .case-folder-hearing-stage9 {
   position:absolute;
-  left:11.85%;
-  right:8.25%;
-  bottom:8.85%;
+  left:10.65%;
+  right:5.65%;
+  bottom:9.55%;
   z-index:6;
   display:flex;
   align-items:center;
-  gap:calc(14.25 * var(--case-u));
+  gap:calc(10.6 * var(--case-u));
   box-sizing:border-box;
   min-width:0;
-  height:calc(51.5 * var(--case-u));
+  height:calc(50.0 * var(--case-u));
   margin:0;
-  padding:calc(7.8 * var(--case-u)) 0 0;
-  border-top:1px solid rgba(185,169,143,.34);
+  padding:calc(6.6 * var(--case-u)) 0 0;
+  border-top:1px solid rgba(185,169,143,.28);
   color:#0348e7;
   font-family:'Helvetica Neue',Arial,sans-serif;
-  font-size:calc(25.0 * var(--case-u));
+  font-size:calc(22.15 * var(--case-u));
   font-weight:700;
   line-height:1;
-  letter-spacing:calc(-.50 * var(--case-u));
+  letter-spacing:calc(-.46 * var(--case-u));
   pointer-events:none;
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
 #sc-matters .case-folder-hearing-stage9 .case-folder-calendar {
   display:block;
-  width:calc(38.0 * var(--case-u));
-  height:calc(41.2 * var(--case-u));
+  width:calc(35.2 * var(--case-u));
+  height:calc(38.0 * var(--case-u));
   flex:0 0 auto;
   color:#0348e7;
-  stroke-width:2.18;
+  stroke-width:2.16;
 }
 #sc-matters .case-folder-hearing-stage9-text {
   display:block;
