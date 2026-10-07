@@ -198,14 +198,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.814 — final folder audit: preserve approved type but lift the name/details flow
-   to match the reference vertical rhythm. A zero-width font strut keeps fitted/missing names aligned.
-   Folder shell and points 1–5 remain unchanged. */
+/* 5.0.815 — final micro-pass: after the 5.0.814 lift, the main text flow is lowered
+   by ~4–5 CSS px at iPhone width so the name no longer crowds the legal icon.
+   Relative spacing inside name → subject → number → stage/court remains unchanged. */
 #sc-matters .case-folder-name-stage6 {
   position:absolute;
   left:9.05%;
   right:6.70%;
-  top:calc(43.45% + 10.0 * var(--case-u));
+  top:calc(43.45% + 20.0 * var(--case-u));
   z-index:6;
   display:flex;
   align-items:baseline;
@@ -251,14 +251,13 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.814 — points 7–8 final vertical-rhythm pass against the approved mockup.
-   Only subject / case number / stage+court typography and spacing are refined.
-   Points 1–6 stay frozen. */
+/* 5.0.815 — points 7–8 remain typographically frozen; the whole details flow follows
+   the name down by the same optical amount to preserve the approved internal rhythm. */
 #sc-matters .case-folder-details-stage78 {
   position:absolute;
   left:9.05%;
   right:5.55%;
-  top:calc(43.45% + 62.3 * var(--case-u));
+  top:calc(43.45% + 72.3 * var(--case-u));
   z-index:6;
   display:flex;
   flex-direction:column;
