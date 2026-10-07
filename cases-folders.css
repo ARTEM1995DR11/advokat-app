@@ -198,14 +198,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.800 — point 6: about 20 screenshot pixels lower, 5% smaller serif.
-   A zero-width font strut keeps the baseline fixed for fitted/missing names.
-   The folder and all elements of points 1–5 remain unchanged. */
+/* 5.0.814 — final folder audit: preserve approved type but lift the name/details flow
+   to match the reference vertical rhythm. A zero-width font strut keeps fitted/missing names aligned.
+   Folder shell and points 1–5 remain unchanged. */
 #sc-matters .case-folder-name-stage6 {
   position:absolute;
   left:9.05%;
   right:6.70%;
-  top:calc(43.45% + 26.7 * var(--case-u));
+  top:calc(43.45% + 10.0 * var(--case-u));
   z-index:6;
   display:flex;
   align-items:baseline;
@@ -251,14 +251,14 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 
 
-/* 5.0.804 — points 7–8 precision pass against the approved mockup.
+/* 5.0.814 — points 7–8 final vertical-rhythm pass against the approved mockup.
    Only subject / case number / stage+court typography and spacing are refined.
    Points 1–6 stay frozen. */
 #sc-matters .case-folder-details-stage78 {
   position:absolute;
   left:9.05%;
   right:5.55%;
-  top:calc(43.45% + 79.0 * var(--case-u));
+  top:calc(43.45% + 62.3 * var(--case-u));
   z-index:6;
   display:flex;
   flex-direction:column;
@@ -329,7 +329,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   text-rendering:geometricPrecision;
   -webkit-font-smoothing:antialiased;
 }
-/* 5.0.813 — point 8: readable service text with complete line boxes.
+/* 5.0.814 — point 8: readable service text with complete line boxes.
    Compact spacing follows the frozen subject without moving it. */
 #sc-matters .case-folder-meta-stage8 {
   position:static;
@@ -355,14 +355,13 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   -webkit-font-smoothing:antialiased;
 }
 
-/* 5.0.813 — points 9–10: a common, inset footer baseline, lighter blue
-   typography and a calendar aligned with the text column. Keep the divider's
-   approved horizontal endpoints, thickness and opacity. */
+/* 5.0.814 — point 9 final audit: common blue footer; slightly larger calendar and
+   a little more bottom breathing room. Divider geometry/opacity stays approved. */
 #sc-matters .case-folder-hearing-stage9 {
   position:absolute;
   left:9.05%;
   right:5.65%;
-  bottom:calc(9.55% - 12.1 * var(--case-u));
+  bottom:calc(9.55% - 8.0 * var(--case-u));
   z-index:6;
   display:flex;
   align-items:center;
@@ -393,8 +392,8 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
 }
 #sc-matters .case-folder-hearing-stage9 .case-folder-calendar {
   display:block;
-  width:calc(39.6 * var(--case-u));
-  height:calc(42.75 * var(--case-u));
+  width:calc(43.8 * var(--case-u));
+  height:calc(47.2 * var(--case-u));
   flex:0 0 auto;
   color:#0348e7;
   stroke-width:2.16;
