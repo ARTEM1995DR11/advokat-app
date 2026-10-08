@@ -1,0 +1,31 @@
+/* 5.0.826 / build 5826 — Досье: реестр физических слоёв.
+   This is NOT a redesign. It makes stacking and layer ownership explicit.
+   One step = one named layer, without modifying approved page «Дела».
+
+   00  page background          : #page.dossier-page (outside dossier-book)
+   01  page nav                 : .dossier-nav (outside dossier-book)
+   02  upper colored rear      : [data-dossier-layer="rear-color"]
+   03  neutral body shell      : [data-dossier-layer="shell"]
+   04  upper paper inserts     : [data-dossier-layer="back-sheet/front-sheet"]
+   05  front ivory paper       : [data-dossier-layer="front-cover"]
+   06  metallic clip           : [data-dossier-layer="paperclip"]
+   07  four physical tabs      : [data-dossier-layer="tabs"]
+   08  inner paper tray        : [data-dossier-layer="paper-tray"]
+   09  event/main/recent cards : [data-dossier-layer="sheet-*"]
+   10  bottom buttons          : [data-dossier-layer="actions"]
+*/
+#page.dossier-page .dossier-book {
+  --dossier-z-rear:-2;
+  --dossier-z-shell:-1;
+  --dossier-z-upper-sheets:0;
+  --dossier-z-paper-tray:1;
+  --dossier-z-cover:2;
+  --dossier-z-tabs:3;
+}
+#page.dossier-page [data-dossier-layer="rear-color"] { z-index:var(--dossier-z-rear); }
+#page.dossier-page [data-dossier-layer="shell"] { z-index:var(--dossier-z-shell); }
+#page.dossier-page [data-dossier-layer="back-sheet"],
+#page.dossier-page [data-dossier-layer="front-sheet"] { z-index:var(--dossier-z-upper-sheets); }
+#page.dossier-page [data-dossier-layer="front-cover"] { z-index:var(--dossier-z-cover); }
+#page.dossier-page [data-dossier-layer="tabs"] { z-index:var(--dossier-z-tabs); }
+#page.dossier-page [data-dossier-layer="paper-tray"] { z-index:var(--dossier-z-paper-tray); }
