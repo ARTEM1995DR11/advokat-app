@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background-color:#f8f2e6!important;background-image:url('bg-matters-approved-v487.png?v=5832'),url('bg-matters-marble-strip.png?v=5832')!important;background-position:top center,top center!important;background-size:100% auto,100% auto!important;background-repeat:no-repeat,repeat-y!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5833') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -369,15 +369,5 @@
 }
 
 
-/* 5.0.832 / build 5832 — background repair + temporary text masking for layer 04.
-   The page uses two background layers: the original top hero once, and a marble strip repeated below.
-   Stage 4 keeps the extracted shaped header, but its text regions are masked so we can continue assembling the layout before reintroducing live typography. */
-#page.dossier-page .dossier-stage4-preview .dossier-stage4-mask{
-  position:absolute;display:block;pointer-events:none;z-index:3;
-  background:linear-gradient(180deg, rgba(250,247,239,.98), rgba(244,238,229,.98));
-  box-shadow:inset 0 0 0 1px rgba(214,191,155,.18);
-}
-#page.dossier-page .dossier-stage4-preview .dossier-stage4-mask-name{left:8.2%;top:8.8%;width:52.5%;height:5.6%;border-radius:18px}
-#page.dossier-page .dossier-stage4-preview .dossier-stage4-mask-sub1{left:8.2%;top:14.6%;width:73.4%;height:3.7%;border-radius:14px}
-#page.dossier-page .dossier-stage4-preview .dossier-stage4-mask-sub2{left:8.2%;top:18.7%;width:57.5%;height:3.6%;border-radius:14px}
-#page.dossier-page .dossier-stage4-preview .dossier-stage4-mask-pill{left:63.4%;top:8.8%;width:28.0%;height:5.8%;border-radius:999px}
+
+/* 5.0.833 / build 5833 — the dossier's layer 04 is an entirely blank SVG. All case text will remain editable HTML. */
