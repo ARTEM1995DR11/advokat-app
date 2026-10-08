@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.818';
-var APP_BUILD='5818';
+var APP_VERSION='5.0.819';
+var APP_BUILD='5819';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -277,14 +277,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5818" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5819" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5818" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5819" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -293,11 +293,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5818" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5819" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5819" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -725,12 +725,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5819" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5819" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2099,7 +2099,7 @@ function openSheet(html){
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
-  p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
+  p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open'); var sh=$('#sheet');
@@ -2729,7 +2729,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5819" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2840,7 +2840,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5818" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5819" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2999,7 +2999,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5818" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5819" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3978,7 +3978,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5819" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4450,8 +4450,7 @@ function sheetMatterMore(id){
       row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
       row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок');
   }
-  rows+=(m.archived?'':row('m-position-edit','#A77C32','doc',matterPositionHasContent(m.position)?'Изменить позицию':'Сформировать позицию','Цель, аргументы, доказательства, риски и план'))+
-    row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
+  rows+=row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
     row('m-edit','#728FB0','edit','Изменить карточку','Отредактировать реквизиты дела')+
     row('m-print','#C89A3F','share','Экспорт / печать','Подготовить сводку по делу')+
     row(m.archived?'m-reopen':'m-arch','#8197AF','arch',archiveTitle,archiveSub)+
@@ -4466,57 +4465,126 @@ function sheetMatterMore(id){
   $('#sheet').classList.add('matter-actions-premium');
 }
 
-function openMatter(id){
-  var m = matter(id); if(!m){ closeAll(); return; }
-  var ts = tasksOf(id).sort(sortT);
-  var open = ts.filter(isActiveRecord);
-  var done = ts.filter(function(t){ return t.done || meetingOccurred(t); });
-  var activeDeadlines = open.filter(function(t){ return t.kind==='deadline'; });
-  var activeFlow = open.filter(function(t){ return t.kind!=='deadline'; });
-  var hearings = open.filter(function(t){ return t.kind==='hearing' || t.kind==='meeting'; }).sort(sortT);
-  var nextEvent = m.archived ? null : (hearings[0] || null);
-  var js = journalOf(id).slice().sort(function(a,b){ return (a.date||'')<(b.date||'')?1:-1; });
-  var dossier = matterDossierRows(m);
-  var noteRow = dossier.filter(function(r){ return r[1]==='Суть / рабочая заметка'; })[0] || null;
-  var mainRows = dossier.filter(function(r){ return r[1]!=='Суть / рабочая заметка'; });
-
-  openPage(
-  '<div class="shhead matter-headerbar matter-headerbar-project"><button class="iconbtn" data-act="close">'+ico('left')+'</button>'+
-    '<div class="matter-header-brand">Карточка дела</div>'+
-    '<div class="matter-header-actions"><button class="iconbtn" data-act="m-print">'+ico('share')+'</button><button class="iconbtn" data-act="m-edit">'+ico('edit')+'</button></div></div>'+
-  '<div class="matter-detail-shell matter-detail-shell-project">'+
-    '<div class="matter-project-topcard" id="matter-detail-top">'+
-      '<div class="matter-project-topline"><div class="matter-project-headcopy"><h1>'+matterDisplayTitle(m)+'</h1><p>'+matterDisplaySubtitle(m)+'</p></div><span class="matter-project-status '+matterStatusClass(m)+'">'+esc(matterStatusText(m))+'</span></div>'+
-      '<div class="matter-project-tabs">'+
-        matterSegment('Общее',0,true,'matter-detail-top',false)+
-        matterSegment('Сроки',activeDeadlines.length,false,'matter-sec-deadlines',!activeDeadlines.length)+
-        matterSegment('Задачи',activeFlow.length,false,'matter-sec-flow',false)+
-        matterSegment('Журнал',js.length,false,'matter-sec-journal',false)+
-      '</div>'+
-    '</div>'+
-    matterClosureCard(m)+
-    (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
-    matterNextHearingCard(nextEvent,m)+
-    matterPositionCard(m)+
-    (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2>'+(m.archived?'<span class="matter-section-link static">'+activeDeadlines.length+'</span>':'<button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button>')+'</div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
-    '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2>'+(m.archived?'<span class="matter-section-link static">'+activeFlow.length+'</span>':'<button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button>')+'</div>'+
-      (activeFlow.length?'<div class="matter-events-list matter-events-list-compact">'+activeFlow.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card"><div class="hint">Добавьте по делу первую задачу, заседание или встречу.</div></div>')+
-    '</div>'+
-    '<div class="matter-premium-section" id="matter-sec-journal"><div class="matter-premium-section-head"><h2>Недавние действия</h2><button class="matter-section-link" data-act="m-journal" data-id="'+id+'">Новая запись</button></div>'+
-      (js.length?'<div class="matter-journal-list matter-journal-list-card">'+js.slice(0,8).map(matterJournalRow).join('')+'</div>':'<div class="hint">Записи журнала помогут быстро восстановить ход работы по делу.</div>')+
-    '</div>'+
-    (noteRow&&noteRow[2]?matterNoteCard(noteRow[2]):'')+
-    (done.length?'<div class="matter-premium-section"><div class="matter-premium-section-head"><h2>Выполнено</h2><span class="matter-section-link static">'+done.length+'</span></div><div class="matter-events-list matter-events-list-compact done-list">'+done.slice(0,4).map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div></div>':'')+
-    '<div class="matter-bottom-actions">'+
-      (m.archived
-        ? '<button class="matter-bottom-btn primary" data-act="m-reopen" data-id="'+id+'">'+ico('arch','s')+' <span>Вернуть в работу</span></button>'
-        : '<button class="matter-bottom-btn primary" data-act="m-add" data-id="'+id+'">'+ico('plus','s')+' <span>Добавить задачу</span></button>')+
-      '<button class="matter-bottom-btn" data-act="m-moremenu" data-id="'+id+'">'+ico('more','s')+' <span>Ещё действия</span></button>'+
-    '</div>'+
-    '<div style="height:18px"></div>'+
-  '</div>');
-  $('#page')._mid=id; $('#page')._navType='matter';
+/* 5.0.819: standalone dossier view; all records still live in S.matters, S.tasks and S.journal. */
+var DOSSIER_TABS={general:'Общее',events:'События',tasks:'Задачи',journal:'Журнал'};
+function dossierDate(s){return s?esc(fmtD(s,true)):'';}
+function dossierTitle(m){
+  var v=(m.client||'').trim();
+  if(!v && typeof matterFolderStage6Client==='function')v=matterFolderStage6Client(m).full;
+  return esc(v||'Доверитель не указан');
 }
+function dossierHeading(m){
+  var v=String(matterApprovedSubject(m)||'').replace(/\s+/g,' ').trim();
+  return esc(v||'Предмет дела не указан');
+}
+function dossierCaseLine(m){
+  var type=matterFolderTypeLabel(m.type||'');
+  return esc([type,m.number?'№ '+String(m.number).replace(/^№\s*/,''):'',m.stage||''].filter(Boolean).join(' · '));
+}
+function dossierTab(key,count,current,id){
+  return '<button type="button" class="dossier-tab'+(current===key?' selected':'')+'" role="tab" aria-selected="'+(current===key)+'" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'"><span>'+DOSSIER_TABS[key]+'</span>'+(count>0?'<em>'+count+'</em>':'')+'</button>';
+}
+function dossierSection(title,content,right){
+  return '<section class="dossier-section"><div class="dossier-section-head"><h2>'+esc(title)+'</h2>'+(right||'')+'</div>'+content+'</section>';
+}
+function dossierEventIcon(t){
+  return ico(t&&t.kind==='hearing'?'gavel':t&&t.kind==='meeting'?'user':t&&t.kind==='deadline'?'clock':'cal');
+}
+function dossierNextEvent(t,m){
+  var body='';
+  if(t){
+    var isH=t.kind==='hearing';
+    var place=isH?hearingPlace(t,m).replace(/<br\s*\/?\s*>/g,' · '):String(t.place||'');
+    var judge=isH?hearingJudgeName(t,m):'';
+    body='<button type="button" class="dossier-next-link" data-act="'+(isH&&hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+esc(t.id)+'">'+
+      '<span class="dossier-next-stamp">'+dossierEventIcon(t)+'</span><span class="dossier-next-content">'+
+      '<strong>'+dossierDate(t.due)+(t.time?', '+esc(t.time):'')+'</strong>'+
+      (place?'<span>'+esc(place)+'</span>':'')+(judge?'<small>Судья: '+esc(judge)+'</small>':'')+
+      (!place&&!judge?'<span>'+esc(t.title||'Событие')+'</span>':'')+'</span><span class="dossier-round-chevron">'+ico('chev')+'</span></button>';
+  }else body='<div class="dossier-empty-event">'+ico('cal')+'<span>Предстоящих событий нет</span></div>';
+  return dossierSection('Ближайшее событие',body);
+}
+function dossierInfoRows(m){
+  var src=matterDossierRows(m).filter(function(r){return r[1]!=='Суть / рабочая заметка';});
+  if(!src.length)return '<div class="dossier-empty-note">Основная информация ещё не заполнена.</div>';
+  return '<div class="dossier-info-list">'+src.map(function(r){
+    return '<button type="button" class="dossier-info-row" data-act="m-edit" data-id="'+esc(m.id)+'" aria-label="Изменить: '+esc(r[1])+'">'+
+    '<span class="dossier-info-icon">'+ico(r[0])+'</span><span class="dossier-info-label">'+esc(r[1])+'</span>'+
+    '<strong>'+esc(r[2])+'</strong><span class="dossier-info-chevron">'+ico('chev','s')+'</span></button>';
+  }).join('')+'</div>';
+}
+function dossierJournalList(js,limit){
+  if(!js.length)return '<p class="dossier-empty-note">Записей по делу пока нет.</p>';
+  var rows=(typeof limit==='number')?js.slice(0,limit):js;
+  return '<div class="dossier-timeline">'+rows.map(function(j){
+    return '<div class="dossier-timeline-item"><span class="dossier-time-dot"></span><div class="dossier-time-date">'+dossierDate(j.date||today())+'</div>'+ 
+      '<p>'+esc(j.text||'Запись')+'</p><span class="dossier-time-ico">'+ico('doc','s')+'</span></div>';
+  }).join('')+'</div>';
+}
+function dossierEventRows(arr,m){
+  if(!arr.length)return '<p class="dossier-empty-note">Событий пока нет.</p>';
+  return '<div class="dossier-working-list">'+arr.map(function(t){
+    var past=t.due&&dd(t.due)<0, confirmed=t.done||(t.kind==='hearing'&&hearingHasResult(t));
+    var state=confirmed?'Результат указан':(past?'Дата прошла · результат не указан':'Назначено');
+    return '<button class="dossier-working-row" data-act="'+(t.kind==='hearing'&&hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+esc(t.id)+'"><span class="dossier-work-icon">'+dossierEventIcon(t)+'</span><span class="dossier-work-copy"><b>'+esc(t.title||'Событие')+'</b><small>'+dossierDate(t.due)+(t.time?' · '+esc(t.time):'')+'</small><em>'+esc(state)+'</em></span>'+ico('chev','s')+'</button>';
+  }).join('')+'</div>';
+}
+function dossierTaskRows(arr,m){
+  if(!arr.length)return '<p class="dossier-empty-note">В этом разделе задач нет.</p>';
+  return '<div class="dossier-working-list">'+arr.map(function(t){return matterPremiumTaskRow(t,m);}).join('')+'</div>';
+}
+function openMatter(id,tab){
+  var m=matter(id);if(!m){closeAll();return;}
+  var p=$('#page');
+  if(!DOSSIER_TABS[tab])tab=(p.classList.contains('open')&&sameRecordId(p._mid,id)&&DOSSIER_TABS[p._matterTab])?p._matterTab:'general';
+  var ts=tasksOf(id).slice().sort(sortT);
+  var events=ts.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
+  var future=events.filter(function(t){return !t.done && t.due && t.due>=today();});
+  var past=events.filter(function(t){return t.done || (t.due&&t.due<today());});
+  var nextEvent=m.archived?null:future.slice().sort(sortT)[0]||null;
+  var work=ts.filter(function(t){return !t.kind||t.kind==='task';});
+  var active=work.filter(function(t){return !t.done;});
+  var completed=work.filter(function(t){return !!t.done;});
+  var js=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'') || (b.created||'').localeCompare(a.created||'');});
+  var data='';
+  var menu='<button class="dossier-ellipsis" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Действия">•••</button>';
+  var addLog=m.archived?'':'<button class="dossier-new-log" data-act="m-journal" data-id="'+esc(id)+'">Новая запись <span>+</span></button>';
+  if(tab==='general'){
+    data=dossierNextEvent(nextEvent,m)+
+      dossierSection('Основная информация',dossierInfoRows(m),menu)+
+      dossierSection('Недавние действия',dossierJournalList(js,3),addLog);
+    if(m.archived)data+=matterClosureCard(m);
+  }else if(tab==='events'){
+    data=dossierNextEvent(nextEvent,m)+
+      dossierSection('Предстоящие события',dossierEventRows(future,m),menu)+
+      dossierSection('Прошедшие события',dossierEventRows(past,m));
+  }else if(tab==='tasks'){
+    data=dossierSection('Актуальные задачи',dossierTaskRows(active,m),menu)+
+      dossierSection('Выполнено',dossierTaskRows(completed,m));
+  }else{
+    data=dossierSection('Журнал действий',dossierJournalList(js),addLog);
+  }
+  var bottomLabel=tab==='events'?'Добавить событие':tab==='journal'?'Добавить запись':'Добавить задачу';
+  var bottomAct=tab==='events'?'m-hearing':tab==='journal'?'m-journal':'m-add';
+  var bottom='<div class="dossier-actions">'+
+    (m.archived?'<button class="dossier-action-primary" data-act="m-reopen" data-id="'+esc(id)+'">'+ico('arch')+' Вернуть в работу</button>':
+    '<button class="dossier-action-primary" data-act="'+bottomAct+'" data-id="'+esc(id)+'">'+ico('plus')+' '+bottomLabel+'</button>')+
+    '<button class="dossier-action-more" data-act="m-moremenu" data-id="'+esc(id)+'">'+ico('more')+' Ещё действия</button></div>';
+  var html='<div class="dossier-screen">'+
+    '<header class="dossier-nav"><button class="dossier-iconbtn" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+ 
+    '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
+    '<button class="dossier-iconbtn" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+ 
+    '<button class="dossier-iconbtn" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+ 
+    '<div class="dossier-book"><div class="dossier-blueback"></div><div class="dossier-sheetsback"></div>'+ 
+    '<div class="dossier-front"><div class="dossier-paperclip"></div><div class="dossier-client-row"><h1>'+dossierTitle(m)+'</h1><span class="dossier-status'+(m.archived?' archived':'')+'"><i></i>'+esc(matterStatusText(m))+'</span></div>'+ 
+    '<p class="dossier-subject">'+dossierHeading(m)+'</p><p class="dossier-meta">'+dossierCaseLine(m)+'</p></div>'+ 
+    '<div class="dossier-tabs" role="tablist" aria-label="Разделы дела">'+
+    dossierTab('general',0,tab,id)+dossierTab('events',0,tab,id)+dossierTab('tasks',active.length,tab,id)+dossierTab('journal',js.length,tab,id)+'</div>'+ 
+    '<main class="dossier-paper" role="tabpanel">'+data+'</main>'+bottom+'</div></div>';
+  openPage(html);
+  p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
+}
+
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
 
 function matterEditorSectionHead(icon,title,num){
@@ -4540,7 +4608,6 @@ function editMatter(m){
     '<div class="fld"><label>Основание ведения <span class="required-star">*</span></label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+ 
   '</section>'+ 
   '<div id="matter-dynamic"></div>'+ 
-  '<section class="matter-editor-card matter-editor-position"><details'+(matterPositionHasContent(MED.position)?' open':'')+'><summary>'+ico('doc','s')+'<span><b>Позиция по делу</b><small>Необязательно · можно заполнить позднее</small></span>'+ico('chev','s')+'</summary><div class="matter-editor-position-fields">'+matterPositionFieldsHTML(MED.position,'m-position-')+'</div></details></section>'+
   '<div class="matter-editor-motto"><i></i><span>ПРАВО&nbsp;&nbsp;•&nbsp;&nbsp;ОПЫТ&nbsp;&nbsp;•&nbsp;&nbsp;РЕЗУЛЬТАТ</span><i></i></div>'+ 
   '<button class="btn matter-editor-save" data-act="m-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить дело</span></button>');
   $('#sheet').classList.add('matter-editor-sheet','full');
@@ -4807,11 +4874,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5818',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5818',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5818',
-    'qa-task':'quick-card-task-v5100.png?v=5818',
-    'qa-journal':'quick-card-journal-v5100.png?v=5818'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5819',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5819',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5819',
+    'qa-task':'quick-card-task-v5100.png?v=5819',
+    'qa-journal':'quick-card-journal-v5100.png?v=5819'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -4820,7 +4887,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5818':type==='search'?'header-search-premium.png?v=5818':type==='plus'?'fab-plus-square-premium.png?v=5818':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5819':type==='search'?'header-search-premium.png?v=5819':type==='plus'?'fab-plus-square-premium.png?v=5819':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4929,7 +4996,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5818" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5819" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -4971,7 +5038,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5818" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5819" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5302,7 +5369,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5818" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5819" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5316,7 +5383,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5818" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5819" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -5683,6 +5750,7 @@ document.addEventListener('click', function(ev){
     case 'new-matter': closeSheet();editMatter(null);break;
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
+    case 'm-view': openMatter(id||$('#page')._mid,v);break;
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
     case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
     case 'm-position-edit': sheetMatterPosition(id||$('#page')._mid);break;
@@ -6427,7 +6495,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5818',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5819',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
