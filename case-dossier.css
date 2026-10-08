@@ -1,5 +1,5 @@
-/* 5.0.823 / build 5823 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5823') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+/* 5.0.824 / build 5824 — isolated premium matter dossier. No changes to «Дела». */
+#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5824') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -31,7 +31,7 @@
 #page.dossier-page .dossier-tabs{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 8px 0 13px;gap:1px;align-items:end;min-height:47px}
 #page.dossier-page .dossier-tab{position:relative;min-width:0;display:flex;gap:3px;align-items:center;justify-content:center;padding:10px 3px 8px;min-height:39px;border:1px solid #bb9674;border-bottom:none;border-radius:12px 12px 0 0;background:linear-gradient(160deg,#fffcf4,#eddac1);box-shadow:inset 0 2px 2px #fff,0 -2px 4px #99724127;transform:translateY(2px);font:600 clamp(12px,3.3vw,16px)/1.1 Georgia,serif;color:#132957;text-align:center;white-space:nowrap}
 #page.dossier-page .dossier-tab.selected{background:linear-gradient(165deg,#fff8e8,#f3deb5 75%,#ecd0a4);border-color:#a97734;border-bottom:1px solid #ecd0a4;min-height:46px;transform:translateY(3px);box-shadow:inset 0 1px 0 #fff9e5,0 -3px 7px #9c6e3b57,0 0 0 1px #d7af64;z-index:2;font-weight:700}
-#page.dossier-page .dossier-tab.selected:after{content:"";position:absolute;bottom:7px;width:30px;height:2px;left:calc(50% - 15px);background:#b58236;border-radius:10px}
+#page.dossier-page .dossier-tab.selected:after{content:"";position:absolute;bottom:7px;width:30px;height:2px;left:calc(50% - 15px);background:#b58246;border-radius:10px}
 #page.dossier-page .dossier-tab em{font:700 11px/1 -apple-system,sans-serif;border-radius:50%;padding:4px 5px;background:#ead3b0;color:#102653;min-width:22px;display:inline-flex;justify-content:center}
 #page.dossier-page .dossier-paper{margin:-1px 2px 0;padding:8px 3px 3px;position:relative;z-index:1;border:1px solid #a47742;border-radius:13px 9px 13px 13px;background:linear-gradient(95deg,#e1ad6b 0%,#f3dbb2 2%,#f6e2c1 94%,#c39358 100%);box-shadow:inset 0 0 0 2px #fbe8c7,0 2px 4px #7c4d2270}
 #page.dossier-page .dossier-paper:before{content:"";position:absolute;z-index:-1;left:8px;right:11px;top:0;height:14px;border:1px solid #c7ab81;border-radius:4px 8px 0 0;background:#fff7e8;transform:rotate(-.3deg)}
@@ -113,7 +113,7 @@
 }
 
 
-/* 5.0.823 / build 5823 — construction study based on approved dossier mockup.
+/* 5.0.824 / build 5824 — construction study based on approved dossier mockup.
    All rules scoped to open case dossier; approved folders on page «Дела» untouched.
    The same paper stack can be reused when real case content is restored. */
 #page.dossier-page .dossier-nav{margin-bottom:4px}
@@ -229,3 +229,84 @@
   #page.dossier-page .dossier-layout-only .dossier-front{min-height:67px}
   #page.dossier-page .dossier-tab{font-size:11px}
 }
+
+
+/* 5.0.824: top folder silhouette — decorative geometry only; record data stays hidden. */
+#page.dossier-page .dossier-blueback{
+  left:20px;right:63px;top:0;height:43px;border-radius:15px 20px 4px 3px;
+  background:linear-gradient(109deg,var(--dossier-spine-top),var(--dossier-rear-bright) 22%,var(--dossier-rear-mid) 52%,var(--dossier-spine-deep) 89%,var(--dossier-rear-edge));
+  box-shadow:0 3px 5px #5636193f,inset 0 1px 1px #ffffff6b;
+}
+/* Secondary visible top shoulder from the same case-type palette. */
+#page.dossier-page .dossier-blueback::before{
+  content:"";position:absolute;z-index:-1;left:14%;right:-24px;top:9px;height:32px;
+  border:1px solid var(--dossier-rear-edge);border-radius:13px 15px 3px 3px;
+  background:linear-gradient(110deg,var(--dossier-rear-bright),var(--dossier-rear-mid) 39%,var(--dossier-rear-deep) 88%,var(--dossier-rear-edge));
+  box-shadow:inset 0 1px #ffffff24;
+}
+#page.dossier-page .dossier-blueback::after{left:28%;right:-15px;top:11px;height:17px;border-radius:7px 12px 0 0;opacity:.85}
+/* The ivory cover has a sculpted pair of shoulders, not a box radius. */
+#page.dossier-page .dossier-front{
+  margin:0 -4px 0 -4px;padding:10px 22px 10px 35px;
+  border:0;border-radius:0;background:none;box-shadow:none;
+  isolation:isolate;overflow:visible;
+}
+#page.dossier-page .dossier-front::before{content:none;display:none}
+#page.dossier-page .dossier-front-board{
+  position:absolute;z-index:-1;inset:-7px -7px -5px -8px;
+  width:calc(100% + 15px);height:calc(100% + 12px);
+  pointer-events:none;filter:drop-shadow(0 3px 2px #77522f4d);
+}
+#page.dossier-page .dossier-front>*:not(.dossier-front-board){position:relative;z-index:1}
+#page.dossier-page .dossier-paperclip{
+  position:absolute!important;top:19px;left:16px;width:12px;height:50px;
+  border:2px solid #a36a27;border-radius:10px;
+  background:linear-gradient(90deg,#f5cf81,#fff6cc 24%,#ad7122 55%,#ffe1a5 74%,#976324);
+  box-shadow:inset 1px 0 #fff9d6,1px 1px 2px #633c1680;
+  transform:rotate(-7deg);z-index:2;
+}
+/* Flared physical paper index labels, joined to the next sheet. */
+#page.dossier-page .dossier-tabs{gap:0;min-height:43px;margin:0 1px 0 16px}
+#page.dossier-page .dossier-tab{
+  border-radius:15px 15px 0 0;min-height:35px;padding:8px 2px 7px;
+  transform:translateY(2px);font-weight:500;
+  background:linear-gradient(152deg,#fffdf8,#fff9ee 36%,#e8d1b1 100%);
+  -webkit-clip-path:polygon(16% 0,78% 0,85% 3%,90% 15%,98% 57%,100% 100%,0 100%,3% 58%,9% 12%);
+  clip-path:polygon(16% 0,78% 0,85% 3%,90% 15%,98% 57%,100% 100%,0 100%,3% 58%,9% 12%);
+  border:1px solid #cbb392;box-shadow:inset 0 2px 2px #fffef9;
+}
+#page.dossier-page .dossier-tab.selected{
+  min-height:45px;transform:translateY(3px);border-radius:15px 15px 0 0;
+  background:linear-gradient(164deg,#fff9eb,#fce9c8 74%,#efd5aa);
+  border-color:#ad7f42;box-shadow:inset 0 2px #fff7e6,inset 0 0 0 1px #d5a15e;
+}
+#page.dossier-page .dossier-layout-only .dossier-front{min-height:69px}
+#page.dossier-page .dossier-paper{margin:-1px -5px 0 -3px}
+#page.dossier-page .dossier-paper::after{
+  content:"";position:absolute;pointer-events:none;left:17%;right:4%;top:-6px;height:10px;
+  border-radius:6px 15px 0 0;border:1px solid #cfb38a;
+  background:linear-gradient(105deg,#fff7e9,#fffcf3 63%,#ead1a9);
+  box-shadow:inset 0 1px #fffefb,0 -1px 2px #7e542233;z-index:-1;
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-front{padding-left:32px;padding-right:14px}
+ #page.dossier-page .dossier-paperclip{left:15px}
+ #page.dossier-page .dossier-tabs{margin-left:15px}
+}
+
+/* Vector outlined index tabs; avoids clipped borders on sloping shoulders. */
+#page.dossier-page .dossier-tab,#page.dossier-page .dossier-tab.selected{
+  -webkit-clip-path:none;clip-path:none;background:transparent;border:0;
+  box-shadow:none;overflow:visible;border-radius:0;
+}
+#page.dossier-page .dossier-tab-board{
+  position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;
+  pointer-events:none;filter:drop-shadow(0 -1px 1px #85623b29);
+}
+#page.dossier-page .dossier-tab.selected .dossier-tab-board{
+  filter:drop-shadow(0 -2px 2px #8b60275c);
+}
+#page.dossier-page .dossier-tab>span,#page.dossier-page .dossier-tab>em{
+  position:relative;z-index:1;
+}
+#page.dossier-page .dossier-tab.selected:after{z-index:2}
