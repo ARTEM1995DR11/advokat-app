@@ -1,5 +1,5 @@
-/* 5.0.826 / build 5826 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5826') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+/* 5.0.827 / build 5827 — isolated premium matter dossier. No changes to «Дела». */
+#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5827') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -31,7 +31,7 @@
 #page.dossier-page .dossier-tabs{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 8px 0 13px;gap:1px;align-items:end;min-height:47px}
 #page.dossier-page .dossier-tab{position:relative;min-width:0;display:flex;gap:3px;align-items:center;justify-content:center;padding:10px 3px 8px;min-height:39px;border:1px solid #bb9674;border-bottom:none;border-radius:12px 12px 0 0;background:linear-gradient(160deg,#fffcf4,#eddac1);box-shadow:inset 0 2px 2px #fff,0 -2px 4px #99724127;transform:translateY(2px);font:600 clamp(12px,3.3vw,16px)/1.1 Georgia,serif;color:#132957;text-align:center;white-space:nowrap}
 #page.dossier-page .dossier-tab.selected{background:linear-gradient(165deg,#fff8e8,#f3deb5 75%,#ecd0a4);border-color:#a97734;border-bottom:1px solid #ecd0a4;min-height:46px;transform:translateY(3px);box-shadow:inset 0 1px 0 #fff9e5,0 -3px 7px #9c6e3b57,0 0 0 1px #d7af64;z-index:2;font-weight:700}
-#page.dossier-page .dossier-tab.selected:after{content:"";position:absolute;bottom:7px;width:30px;height:2px;left:calc(50% - 15px);background:#b58266;border-radius:10px}
+#page.dossier-page .dossier-tab.selected:after{content:"";position:absolute;bottom:7px;width:30px;height:2px;left:calc(50% - 15px);background:#b58276;border-radius:10px}
 #page.dossier-page .dossier-tab em{font:700 11px/1 -apple-system,sans-serif;border-radius:50%;padding:4px 5px;background:#ead3b0;color:#102653;min-width:22px;display:inline-flex;justify-content:center}
 #page.dossier-page .dossier-paper{margin:-1px 2px 0;padding:8px 3px 3px;position:relative;z-index:1;border:1px solid #a47742;border-radius:13px 9px 13px 13px;background:linear-gradient(95deg,#e1ad6b 0%,#f3dbb2 2%,#f6e2c1 94%,#c39358 100%);box-shadow:inset 0 0 0 2px #fbe8c7,0 2px 4px #7c4d2270}
 #page.dossier-page .dossier-paper:before{content:"";position:absolute;z-index:-1;left:8px;right:11px;top:0;height:14px;border:1px solid #c7ab81;border-radius:4px 8px 0 0;background:#fff7e8;transform:rotate(-.3deg)}
@@ -113,7 +113,7 @@
 }
 
 
-/* 5.0.826 / build 5826 — construction study based on approved dossier mockup.
+/* 5.0.827 / build 5827 — construction study based on approved dossier mockup.
    All rules scoped to open case dossier; approved folders on page «Дела» untouched.
    The same paper stack can be reused when real case content is restored. */
 #page.dossier-page .dossier-nav{margin-bottom:4px}
@@ -231,7 +231,7 @@
 }
 
 
-/* 5.0.826: top folder silhouette — decorative geometry only; record data stays hidden. */
+/* 5.0.827: top folder silhouette — decorative geometry only; record data stays hidden. */
 #page.dossier-page .dossier-blueback{
   left:20px;right:63px;top:0;height:43px;border-radius:15px 20px 4px 3px;
   background:linear-gradient(109deg,var(--dossier-spine-top),var(--dossier-rear-bright) 22%,var(--dossier-rear-mid) 52%,var(--dossier-spine-deep) 89%,var(--dossier-rear-edge));
@@ -312,10 +312,25 @@
 #page.dossier-page .dossier-tab.selected:after{z-index:2}
 
 
-/* 5.0.826 / build 5826 — stage 1 mockup reconstruction.
+/* 5.0.827 / build 5827 — stage 1 mockup reconstruction.
    Only the colored rear top folder layer is shown on an empty dossier page. */
 #page.dossier-page .dossier-stage1-preview{min-height:calc(100vh - 96px)}
 #page.dossier-page .dossier-stage1-canvas{position:relative;min-height:200px;margin:8px 2px 0}
 #page.dossier-page .dossier-stage1-book{padding:0;margin:0;min-height:90px;isolation:isolate}
 #page.dossier-page .dossier-stage1-rear{position:relative;top:0;left:auto;right:auto;display:block;width:calc(100% - 70px);height:56px;margin:0 47px 0 13px;border-radius:20px 20px 7px 7px;border-width:1px;box-shadow:0 4px 9px rgba(56,39,21,.28), inset 0 1px 1px rgba(255,255,255,.18)}
 #page.dossier-page .dossier-stage1-rear:after{display:none}
+
+/* 5.0.827 / build 5827 — correction: original target mockup layer 02 only.
+   Image is the *unmodified* visible area of the approved blue rear top,
+   cropped vertically to y=120..179 from the 711x1536 master mockup. */
+#page.dossier-page .dossier-stage1-preview{min-height:calc(100vh - 96px)}
+#page.dossier-page .dossier-stage1-preview .dossier-nav{margin-bottom:4px}
+#page.dossier-page .dossier-stage1-reference{
+  display:block;position:relative;width:calc(100% + 8px);
+  margin:0 -4px;aspect-ratio:711/60;overflow:visible;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+}
+#page.dossier-page .dossier-stage1-extracted{
+  display:block;width:100%;height:auto;aspect-ratio:711/60;
+  max-width:none;pointer-events:none;user-select:none;
+}
