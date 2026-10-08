@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5829') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5831') top center / 100% auto repeat-y!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -356,6 +356,14 @@
 /* 5.0.829 / build 5829 — exact approved mockup stage 3.
    Adds original layer 03: upper paper stack behind the shaped header. */
 #page.dossier-page .dossier-stage3-preview .dossier-stage3-papers{
+  display:block;position:absolute;inset:0;width:100%;height:auto;
+  aspect-ratio:711/1416;max-width:none;pointer-events:none;user-select:none;
+}
+
+
+/* 5.0.831 / build 5831 — exact approved mockup stage 4.
+   Adds original layer 04: shaped dossier header from the approved layered archive. */
+#page.dossier-page .dossier-stage4-preview .dossier-stage4-header{
   display:block;position:absolute;inset:0;width:100%;height:auto;
   aspect-ratio:711/1416;max-width:none;pointer-events:none;user-select:none;
 }
