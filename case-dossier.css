@@ -1,5 +1,5 @@
-/* 5.0.822 / build 5822 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5822') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+/* 5.0.823 / build 5823 — isolated premium matter dossier. No changes to «Дела». */
+#page.dossier-page{background:#f8f2e6 url('bg-matters-approved-v487.png?v=5823') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -110,4 +110,122 @@
 #page.dossier-page .dossier-layout-only .dossier-design-sheet-three{min-height:157px}
 @media (max-width:479px){
   #page.dossier-page .dossier-layout-only .dossier-front{min-height:93px}
+}
+
+
+/* 5.0.823 / build 5823 — construction study based on approved dossier mockup.
+   All rules scoped to open case dossier; approved folders on page «Дела» untouched.
+   The same paper stack can be reused when real case content is restored. */
+#page.dossier-page .dossier-nav{margin-bottom:4px}
+#page.dossier-page .dossier-book{padding:15px 9px 6px;margin:0 0 0;}
+/* Rear type-color is restricted to the upper tab. Material of the main case is neutral. */
+#page.dossier-page .dossier-blueback{
+  top:0;left:18px;right:57px;height:39px;
+  border-radius:15px 22px 3px 3px;
+  background:linear-gradient(102deg,var(--dossier-spine-top) 0%,var(--dossier-rear-bright) 16%,var(--dossier-rear-mid) 43%,var(--dossier-spine-deep) 85%,var(--dossier-rear-edge) 100%);
+  border:1px solid var(--dossier-rear-edge);
+  box-shadow:inset 0 1px 1px #ffffff40,0 3px 6px #48290840;
+}
+#page.dossier-page .dossier-blueback:after{
+  left:31%;right:-19px;top:11px;height:19px;
+  border-radius:5px 11px 0 0;transform:rotate(.65deg);
+  background:linear-gradient(172deg,#fff8e6 0%,#f7e8d1 41%,#ead0a4 100%);
+  box-shadow:0 -1px #fff9e1 inset;
+}
+#page.dossier-page .dossier-sheetsback{
+  inset:15px 6px 2px;border-radius:18px 18px 16px 16px;
+  background:linear-gradient(90deg,#bc8d55 0%,#f4d1a0 1.35%,#e6c293 2.5%,#f7e5c7 4%,#f3dfbc 96%,#ba8952 99.4%,#946331);
+  border:1px solid #af7e45;
+  box-shadow:inset 0 1px 1px #fff8e5b0,inset 1px 0 2px #fff0d0b0,0 5px 10px #65401d70,0 0 0 1px #fce8c492;
+}
+#page.dossier-page .dossier-sheetsback:before{
+  left:20px;right:17px;top:0;height:16px;border-color:#cfac7f;
+  transform:rotate(.15deg);
+  background:linear-gradient(#f6e5c7,#fff8eb);
+}
+#page.dossier-page .dossier-upper-sheet{
+  pointer-events:none;position:absolute;display:block;z-index:0;
+  border:1px solid #c49d69;border-radius:9px 17px 1px 1px;
+  background:linear-gradient(180deg,#fff9ec,#ecd0a7);
+  box-shadow:0 1px 3px #65402132,inset 0 1px #fffef4;
+}
+#page.dossier-page .dossier-upper-sheet-back{
+  left:18%;right:10%;top:13px;height:21px;transform:rotate(.38deg);
+}
+#page.dossier-page .dossier-upper-sheet-front{
+  left:9%;right:5.5%;top:17px;height:18px;transform:rotate(-.20deg);
+  background:linear-gradient(180deg,#fffdf2,#f7e6cd);
+}
+#page.dossier-page .dossier-front{
+  min-height:83px;margin:0 -2px 0 2px;padding:10px 14px 9px 29px;
+  border-radius:19px 20px 2px 2px;
+  background:radial-gradient(ellipse at 39% -25%,#fffefa 0%,#fffbf3 44%,#f5e8d2 100%);
+  border:1px solid #b58c56;
+  box-shadow:0 3px 6px #63401e46,0 1px 2px #fff9e6 inset;
+}
+#page.dossier-page .dossier-front:before{
+  top:-3px;left:20px;right:11px;height:8px;
+  border-radius:5px 11px 0 0;
+  background:linear-gradient(#fffaf0,#f8ebd6);box-shadow:0 -1px #d2ae78;
+}
+#page.dossier-page .dossier-paperclip{
+  top:20px;left:7px;width:12px;height:52px;
+  border-color:#a97931;
+  box-shadow:inset 1px 0 #fffae5,1px 1px 3px #80532082;
+}
+/* Physical index-tabs: broad foot, softened shoulders, active index raised. */
+#page.dossier-page .dossier-tabs{
+  margin:0 0 0 16px;gap:2px;min-height:39px;
+}
+#page.dossier-page .dossier-tab{
+  border-radius:18px 20px 0 0;
+  min-height:34px;
+  padding:8px 3px 6px;
+  font-weight:500;
+  background:linear-gradient(151deg,#fffdf7 0%,#f9efe1 52%,#e9cfad 100%);
+  border-color:#c39f74;
+  box-shadow:inset 0 2px 1px #fffcf5,0 -1px 3px #65401f24;
+  transform:perspective(280px) rotateX(-5deg) translateY(2px);
+}
+#page.dossier-page .dossier-tab.selected{
+  min-height:39px;
+  border-radius:19px 20px 1px 1px;
+  background:linear-gradient(168deg,#fff9ec,#fae9cb 70%,#ebcca0);
+  transform:perspective(280px) rotateX(-5deg) translateY(2px);
+  border-color:#a8793d;
+  box-shadow:inset 0 1px 0 #fffdf4,0 -3px 6px #9c6e3b45,0 0 0 1px #dab36d;
+}
+/* Top page lip and board lie under the index tabs, not over them. */
+#page.dossier-page .dossier-paper{
+  margin:-1px -8px 0 0;padding:7px 4px 3px;
+  border-color:#af8754;border-radius:12px 10px 14px 13px;
+  background:linear-gradient(90deg,#daa66c 0%,#f6e1be 1.4%,#f8e5c9 97%,#cb9960 100%);
+  box-shadow:inset 0 0 0 1px #fff4df,0 3px 5px #86542472;
+}
+#page.dossier-page .dossier-paper:before{
+  left:10px;right:15px;top:-4px;height:13px;transform:rotate(-.14deg);
+  background:linear-gradient(#fffaf0,#f1ddbb);border-color:#d7b68b;
+}
+/* A small outward irregular paper lip, not flat rectangular cards. */
+#page.dossier-page .dossier-design-sheet{
+  border-radius:14px 12px 13px 14px;
+  margin-bottom:7px;
+  border:1px solid #d9bea0;
+  background:radial-gradient(ellipse at 32% 4%,#fffefa 0%,#fffaf4 64%,#f7ecde 100%);
+  box-shadow:inset 0 0 0 2px #fff8ed,0 3px 6px #79502a52;
+}
+#page.dossier-page .dossier-design-sheet:before{
+  left:11px;right:18px;top:-5px;height:7px;
+  background:linear-gradient(90deg,#f9ead1,#fff8ea 30%,#f1debf);
+  border-color:#e0c9a9;
+  border-radius:7px 12px 0 0;
+}
+#page.dossier-page .dossier-layout-only .dossier-front{min-height:68px}
+#page.dossier-page .dossier-layout-only .dossier-design-paper{padding:7px 3px 3px}
+#page.dossier-page .dossier-layout-only .dossier-design-sheet-one{min-height:89px}
+#page.dossier-page .dossier-layout-only .dossier-design-sheet-two{min-height:224px}
+#page.dossier-page .dossier-layout-only .dossier-design-sheet-three{min-height:144px}
+@media(max-width:365px){
+  #page.dossier-page .dossier-layout-only .dossier-front{min-height:67px}
+  #page.dossier-page .dossier-tab{font-size:11px}
 }
