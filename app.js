@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.817';
-var APP_BUILD='5817';
+var APP_VERSION='5.0.818';
+var APP_BUILD='5818';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -277,14 +277,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5817" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5818" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5817" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5818" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -293,11 +293,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5817" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5818" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5817" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -725,12 +725,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5817" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5817" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -1715,6 +1715,7 @@ function pullMatterDraft(){
   Object.keys(map).forEach(function(k){ var e=$(map[k]); if(!e)return; MED[k]=(k==='dayRate'?(+e.value||0):e.value.trim()); });
   MED.phone=formatRussianPhone(MED.phone||'');
   MED.article=normalizeMatterArticle(MED.type||'other',MED.article||'');
+  MED.position=readMatterPosition('m-position-',MED.position);
   // Поля редактора динамические: часть из них исчезает при смене типа/стадии.
   // После чтения формы сразу очищаем значения, которые больше не относятся
   // к текущему контексту, чтобы скрытые старые данные не возвращались позже.
@@ -2728,7 +2729,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5817" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5818" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2839,7 +2840,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5817" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5818" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2998,7 +2999,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5817" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5818" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3977,7 +3978,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5817" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5818" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4298,8 +4299,92 @@ function matterPremiumTaskRow(t,m){
     '<span class="matter-event-chevron">'+ico('chev','s')+'</span>'+
   '</div>';
 }
+/* 5.0.818: единое структурированное поле позиции внутри записи дела.
+   Значения сохраняются в том же шифрованном хранилище, что и реквизиты дела. */
+var MATTER_POSITION_FIELDS=[
+  ['goal','Цель поручения','Желаемый правовой результат'],
+  ['arguments','Правовая позиция и аргументы','Нормы права, обстоятельства, доводы'],
+  ['evidence','Доказательства','Имеющиеся и необходимые доказательства'],
+  ['risks','Риски и слабые стороны','Уязвимые факты, возражения другой стороны'],
+  ['plan','Дальнейшие действия','План работы адвоката']
+];
+function normalizeMatterPosition(src){
+  if(!src||typeof src!=='object'||Array.isArray(src))src={};
+  var out={};
+  MATTER_POSITION_FIELDS.forEach(function(f){out[f[0]]=typeof src[f[0]]==='string'?src[f[0]].trim():'';});
+  if(src.updatedAt&&typeof src.updatedAt==='string')out.updatedAt=src.updatedAt;
+  return out;
+}
+function matterPositionHasContent(src){
+  var obj=normalizeMatterPosition(src);
+  return MATTER_POSITION_FIELDS.some(function(f){return !!obj[f[0]];});
+}
+function matterPositionFieldsHTML(src,prefix){
+  var pos=normalizeMatterPosition(src);
+  return MATTER_POSITION_FIELDS.map(function(f){
+    var fid=prefix+f[0];
+    return '<div class="fld matter-position-field"><label for="'+fid+'">'+f[1]+'</label>'+
+      '<textarea id="'+fid+'" rows="3" placeholder="'+esc(f[2])+'">'+esc(pos[f[0]])+'</textarea></div>';
+  }).join('');
+}
+function readMatterPosition(prefix,existing){
+  var obj=normalizeMatterPosition(existing);
+  MATTER_POSITION_FIELDS.forEach(function(f){var el=$('#'+prefix+f[0]);if(el)obj[f[0]]=el.value.trim();});
+  return obj;
+}
+function matterPositionCard(m){
+  var pos=normalizeMatterPosition(m.position),filled=matterPositionHasContent(pos),archived=!!m.archived;
+  var preview=filled?MATTER_POSITION_FIELDS.filter(function(f){return !!pos[f[0]];}).slice(0,2).map(function(f){
+    return '<div class="matter-position-preview-row"><b>'+esc(f[1])+'</b><p>'+esc(pos[f[0]])+'</p></div>';
+  }).join(''):'<p class="matter-position-empty">Позиция по делу пока не сформирована.</p>';
+  var action=archived?(filled?'<button type="button" class="matter-position-action" data-act="m-position-view" data-id="'+esc(m.id)+'">'+ico('doc','s')+'<span>Просмотреть позицию</span></button>':'')
+    :('<button type="button" class="matter-position-action" data-act="m-position-edit" data-id="'+esc(m.id)+'">'+
+      ico(filled?'edit':'plus','s')+'<span>'+(filled?'Редактировать позицию':'Сформировать позицию')+'</span></button>');
+  return '<section class="matter-premium-section matter-position-card" id="matter-sec-position">'+
+    '<div class="matter-premium-section-head"><h2>Позиция по делу</h2>'+ (filled?'<span class="matter-position-state">Сформирована</span>':'') +'</div>'+
+    '<div class="matter-position-inside">'+preview+action+(archived&&!filled?'<small>Архивное дело доступно только для просмотра.</small>':'')+'</div></section>';
+}
+function sheetMatterPositionView(id){
+  var m=matter(id);if(!m)return;
+  var pos=normalizeMatterPosition(m.position);
+  var fields=MATTER_POSITION_FIELDS.filter(function(f){return !!pos[f[0]];});
+  openSheet('<div class="matter-position-editor-head"><small>РАБОЧЕЕ ДОСЬЕ АДВОКАТА</small><h2>Позиция по делу</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+
+    '<div class="matter-position-readonly">'+(fields.length?fields.map(function(f){return '<section><b>'+esc(f[1])+'</b><p>'+esc(pos[f[0]])+'</p></section>';}).join(''):'<p>Позиция не сформирована.</p>')+'</div>');
+  $('#sheet').classList.add('matter-position-sheet');
+}
+function sheetMatterPosition(id){
+  var m=matter(id);if(!m)return;
+  if(m.archived){toast('Для изменения позиции верните дело в производство');return;}
+  var has=matterPositionHasContent(m.position);
+  openSheet('<div class="matter-position-editor-head"><small>РАБОЧЕЕ ДОСЬЕ АДВОКАТА</small><h2>'+
+    (has?'Редактировать позицию':'Сформировать позицию')+'</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+
+    '<div class="matter-position-editor-note">Внутренние рабочие сведения адвоката. Можно заполнить только нужные разделы и вернуться к остальным позднее.</div>'+
+    '<div class="matter-position-editor-fields">'+matterPositionFieldsHTML(m.position,'p-')+'</div>'+
+    '<button type="button" class="btn matter-position-save" data-act="m-position-save" data-id="'+esc(id)+'">'+ico('check','s')+' Сохранить позицию</button>');
+  $('#sheet').classList.add('matter-position-sheet');
+}
+function saveMatterPosition(id){
+  var m=matter(id);if(!m)return;
+  if(m.archived){toast('Архивное дело доступно только для просмотра');return;}
+  var prior=normalizeMatterPosition(m.position);
+  var next=readMatterPosition('p-',prior);
+  if(!matterPositionHasContent(next)){
+    if(!matterPositionHasContent(prior)){toast('Заполните хотя бы одно поле позиции');return;}
+    if(!confirm('Очистить всю позицию по делу? История изменений останется в журнале.'))return;
+  }
+  var changed=MATTER_POSITION_FIELDS.filter(function(f){return prior[f[0]]!==next[f[0]];});
+  if(!changed.length){closeSheet();toast('Изменений нет');return;}
+  next.updatedAt=new Date().toISOString();
+  m.position=next;
+  var description=changed.map(function(f){return f[1].toLowerCase();}).join(', ');
+  addJournal(id,!matterPositionHasContent(prior)?'Сформирована позиция по делу ('+description+')':
+    (!matterPositionHasContent(next)?'Позиция по делу очищена ('+description+')':'Изменена позиция по делу ('+description+')'),today(),'system',true);
+  save();closeSheet();if($('#page').classList.contains('open')&&sameRecordId($('#page')._mid,id))openMatter(id);
+  render();toast('Позиция сохранена');
+}
 function matterJournalRow(j){
-  return '<div class="matter-jline"><i></i><div class="matter-jcopy"><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div><button class="matter-jdel" data-act="journal-del" data-id="'+j.id+'">'+ico('trash','s')+'</button></div>';
+  var canDelete=j.type!=='system'&&j.type!=='closure'&&!(matter(j.mid)||{}).archived;
+  return '<div class="matter-jline"><i></i><div class="matter-jcopy"><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div>'+(canDelete?'<button class="matter-jdel" data-act="journal-del" data-id="'+esc(j.id)+'">'+ico('trash','s')+'</button>':'')+'</div>';
 }
 
 
@@ -4365,7 +4450,8 @@ function sheetMatterMore(id){
       row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
       row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок');
   }
-  rows+=row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
+  rows+=(m.archived?'':row('m-position-edit','#A77C32','doc',matterPositionHasContent(m.position)?'Изменить позицию':'Сформировать позицию','Цель, аргументы, доказательства, риски и план'))+
+    row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
     row('m-edit','#728FB0','edit','Изменить карточку','Отредактировать реквизиты дела')+
     row('m-print','#C89A3F','share','Экспорт / печать','Подготовить сводку по делу')+
     row(m.archived?'m-reopen':'m-arch','#8197AF','arch',archiveTitle,archiveSub)+
@@ -4411,6 +4497,7 @@ function openMatter(id){
     matterClosureCard(m)+
     (mainRows.length?'<div class="matter-dossier-panel matter-dossier-panel-project">'+mainRows.map(function(r){ return matterPanelRow(r[0],r[1],r[2],{chev:false}); }).join('')+'</div>':'')+
     matterNextHearingCard(nextEvent,m)+
+    matterPositionCard(m)+
     (activeDeadlines.length?'<div class="matter-premium-section" id="matter-sec-deadlines"><div class="matter-premium-section-head"><h2>Процессуальные сроки</h2>'+(m.archived?'<span class="matter-section-link static">'+activeDeadlines.length+'</span>':'<button class="matter-section-link" data-act="m-deadline" data-id="'+id+'">Добавить</button>')+'</div><div class="matter-deadline-list">'+activeDeadlines.slice(0,6).map(matterCompactDeadlineRow).join('')+'</div></div>':'')+
     '<div class="matter-premium-section" id="matter-sec-flow"><div class="matter-premium-section-head"><h2>Задачи и события</h2>'+(m.archived?'<span class="matter-section-link static">'+activeFlow.length+'</span>':'<button class="matter-section-link" data-act="m-add" data-id="'+id+'">'+activeFlow.length+'</button>')+'</div>'+
       (activeFlow.length?'<div class="matter-events-list matter-events-list-compact">'+activeFlow.map(function(t){ return matterPremiumTaskRow(t,m); }).join('')+'</div>':'<div class="card"><div class="hint">Добавьте по делу первую задачу, заседание или встречу.</div></div>')+
@@ -4453,6 +4540,7 @@ function editMatter(m){
     '<div class="fld"><label>Основание ведения <span class="required-star">*</span></label><select id="m-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(MED.basis===k?' selected':'')+'>'+MATTER_BASIS[k].n+'</option>';}).join('')+'</select></div>'+ 
   '</section>'+ 
   '<div id="matter-dynamic"></div>'+ 
+  '<section class="matter-editor-card matter-editor-position"><details'+(matterPositionHasContent(MED.position)?' open':'')+'><summary>'+ico('doc','s')+'<span><b>Позиция по делу</b><small>Необязательно · можно заполнить позднее</small></span>'+ico('chev','s')+'</summary><div class="matter-editor-position-fields">'+matterPositionFieldsHTML(MED.position,'m-position-')+'</div></details></section>'+
   '<div class="matter-editor-motto"><i></i><span>ПРАВО&nbsp;&nbsp;•&nbsp;&nbsp;ОПЫТ&nbsp;&nbsp;•&nbsp;&nbsp;РЕЗУЛЬТАТ</span><i></i></div>'+ 
   '<button class="btn matter-editor-save" data-act="m-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">Сохранить дело</span></button>');
   $('#sheet').classList.add('matter-editor-sheet','full');
@@ -4466,12 +4554,17 @@ function saveMatter(){
   if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
   if(MED.type==='criminal'&&MED.stage==='Исполнение приговора'&&!MED.executionIssue){toast('Выберите вопрос исполнения приговора');return;}
   var notes=(($('#m-notes')&&$('#m-notes').value)||MED.notes||'').trim();
-  var o={title:'',type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:notes};
+  var o={title:'',type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:notes,position:normalizeMatterPosition(MED.position)};
   o=sanitizeMatterByType(o);
   o.title=matterAutoTitle(o);
   var wasNew=!MED.id;
+  var oldPosition=MED.id?normalizeMatterPosition((matter(MED.id)||{}).position):normalizeMatterPosition({});
+  var positionChanged=MATTER_POSITION_FIELDS.some(function(f){return oldPosition[f[0]]!==o.position[f[0]];});
+  if(positionChanged)o.position.updatedAt=new Date().toISOString();
+  else if(MED.id)o.position.updatedAt=oldPosition.updatedAt;
   if(MED.id) Object.assign(matter(MED.id),o); else {o.id=uid();o.archived=false;o.created=new Date().toISOString();S.matters.unshift(o);MED.id=o.id;}
   addJournal(MED.id,wasNew?'Досье создано':'Досье обновлено',today(),'system',true);
+  if(positionChanged)addJournal(MED.id,wasNew||!matterPositionHasContent(oldPosition)?'Сформирована позиция по делу':'Изменена позиция по делу',today(),'system',true);
   /* If a case is moved back to a pre-trial stage, linked "hearing" records
      cannot remain judicial hearings. Convert them to ordinary tasks. */
   var savedMatter=matter(MED.id);
@@ -4714,11 +4807,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5817',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5817',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5817',
-    'qa-task':'quick-card-task-v5100.png?v=5817',
-    'qa-journal':'quick-card-journal-v5100.png?v=5817'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5818',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5818',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5818',
+    'qa-task':'quick-card-task-v5100.png?v=5818',
+    'qa-journal':'quick-card-journal-v5100.png?v=5818'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -4727,7 +4820,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5817':type==='search'?'header-search-premium.png?v=5817':type==='plus'?'fab-plus-square-premium.png?v=5817':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5818':type==='search'?'header-search-premium.png?v=5818':type==='plus'?'fab-plus-square-premium.png?v=5818':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -4836,7 +4929,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5817" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5818" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -4878,7 +4971,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5817" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5818" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5209,7 +5302,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5817" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5818" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5223,7 +5316,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5817" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5818" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -5381,12 +5474,23 @@ function loadCompleteDemoCases(){
       entries:[[-58,'Заключено соглашение.'],[-38,'Административный иск принят судом.'],[-16,'Исследованы доказательства.'],[-5,'Получена резолютивная часть решения, обсуждены дальнейшие действия.']],
       tasks:[['hearing','Судебное заседание',-8,'10:00','Заречный районный суд',true],['task','Подготовить письменные объяснения',-15,'','',true],['task','Обсудить обжалование с доверителем',-5,'','',true]]}
   ];
+  // Демонстрационный набор: проверяем заполненное и незаполненное досье без пользовательских данных.
+  var demoPositionSamples=[
+    ['Отменить отказ администрации','Оспорить законность отказа и проверить мотивировку.','Решение органа, заявление, переписка.','Возражения органа по срокам.','Подготовить объяснения и запросить документы.'],
+    ['Проверить обоснованность подозрения','Проверка алиби и допустимости доказательств.','Видеозаписи, свидетели, протоколы.','Не все материалы переданы защите.','Добиться получения записи и провести допросы.'],
+    ['Защитить имущественные интересы доверителя','Определение состава имущества и размера долей.','ЕГРН, оценка, кредитные документы.','Необходима дополнительная оценка.','Получить заключение и подготовить возражения.'],
+    null,
+    ['Добиться возмещения убытков','Нарушение обязательств по ремонту подтверждается документами.','Договор, переписка, чеки и заключения.','Оценить возможность исполнения решения.','Получить исполнительный лист.'],
+    ['Прекращение уголовного преследования','Отсутствуют достаточные признаки состава преступления.','Заключение эксперта, объяснения свидетелей.','Проверить вступление постановления в силу.','Выдать итоговые документы подзащитному.'],
+    ['Оценить законность административного решения','Проверить основания решения и перспективы обжалования.','Решение и материалы административного производства.','Суд отказал в требованиях.','Разъяснить доверителю последствия и сроки.']
+  ];
   var created=[];
   specs.forEach(function(x,i){
     var id='demo816-'+uid()+'-'+i;
     var m={id:id,type:x.type,basis:x.basis,client:x.client,number:x.number,court:x.court||'',judge:x.judge||'',investigator:x.investigator||'',
       article:x.article||'',role:x.role||'',opponent:x.opponent||'',restraint:x.restraint||'',stage:x.stage,notes:x.notes,phone:'',dayRate:0,
       archived:!!x.close,isDemo816:true,created:new Date().toISOString()};
+    if(demoPositionSamples[i]){var sample=demoPositionSamples[i];m.position={goal:sample[0],arguments:sample[1],evidence:sample[2],risks:sample[3],plan:sample[4],updatedAt:new Date().toISOString()};}
     m.title=matterAutoTitle(m);
     if(x.close)m.closure={outcome:x.close[0],date:addD(today(),x.close[1]),summary:x.close[2],recordedAt:new Date().toISOString()};
     created.push(m);
@@ -5580,6 +5684,9 @@ document.addEventListener('click', function(ev){
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
+    case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
+    case 'm-position-edit': sheetMatterPosition(id||$('#page')._mid);break;
+    case 'm-position-save': saveMatterPosition(id||$('#page')._mid);break;
     case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
     case 'm-save': saveMatter();break;
     case 'm-add': {var ma=matter(id);if(ma&&ma.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,due:today()});break;}
@@ -5604,7 +5711,7 @@ document.addEventListener('click', function(ev){
     /* journal + participation */
     case 'j-clear': {var jtxt=$('#j-text');if(jtxt){jtxt.value='';jtxt.dispatchEvent(new Event('input',{bubbles:true}));jtxt.focus();}break;}
     case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var jt=$('#j-text').value.trim();if(!jm){toast('Выберите дело');break;}if(!jt){toast('Введите запись');break;}addJournal(jm,jt,$('#j-date').value||today(),'note',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
-    case 'journal-del': {S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
+    case 'journal-del': {var toDelete=S.journal.filter(function(j){return j.id===id;})[0];if(!toDelete||toDelete.type==='system'||toDelete.type==='closure'||(matter(toDelete.mid)||{}).archived){toast('Системная история и записи архива не удаляются');break;}S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
     case 'pt-new': closeSheet();sheetParticipation('');break;
     case 'participation-log': sheetParticipationLog();break;
     case 'pt-save': {var pm=$('#pt-mid').value,pd=$('#pt-date').value||today();if(!pm){toast('Выберите дело');break;}var dup=S.participation.some(function(e){return e.mid===pm&&e.date===pd;});if(dup){toast('По этому делу день участия на эту дату уже учтён');break;}var rec={id:uid(),mid:pm,date:pd,kind:$('#pt-kind').value||'other',place:$('#pt-place').value.trim(),desc:$('#pt-desc').value.trim(),rate:+$('#pt-rate').value||0,created:new Date().toISOString()};S.participation.unshift(rec);addJournal(pm,'День участия: '+(PART_KINDS[rec.kind]||'участие')+(rec.place?' · '+rec.place:''),pd,'participation',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(pm);render();toast('Учтён 1 день участия');break;}
@@ -6320,7 +6427,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5817',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5818',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
