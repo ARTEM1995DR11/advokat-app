@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5836') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5837') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -384,12 +384,12 @@
 }
 
 
-/* 5.0.836 / build 5836 — empty dossier design stage. */
+/* 5.0.837 / build 5837 — empty dossier design stage. */
 #page.dossier-page .dossier-clean-base{min-height:calc(100dvh - 48px);padding-bottom:0}
 #page.dossier-page .dossier-clean-canvas{background:transparent;border:0;box-shadow:none;min-height:calc(100dvh - 160px);margin:0;padding:0;pointer-events:none}
 
 
-/* 5.0.836 / build 5836 — independent top color strip, no dossier reconstruction layers.
+/* 5.0.837 / build 5837 — independent top color strip, no dossier reconstruction layers.
    All four assets share one silhouette; production category selects the actual PNG. */
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas{position:relative;overflow:visible}
 #page.dossier-page .dossier-colored-rear-strip{
