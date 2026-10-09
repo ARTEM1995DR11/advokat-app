@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5841') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5852') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -384,12 +384,12 @@
 }
 
 
-/* 5.0.838 / build 5841 — empty dossier design stage. */
+/* 5.0.838 / build 5839 — empty dossier design stage. */
 #page.dossier-page .dossier-clean-base{min-height:calc(100dvh - 48px);padding-bottom:0}
 #page.dossier-page .dossier-clean-canvas{background:transparent;border:0;box-shadow:none;min-height:calc(100dvh - 160px);margin:0;padding:0;pointer-events:none}
 
 
-/* 5.0.838 / build 5841 — independent top color strip, no dossier reconstruction layers.
+/* 5.0.838 / build 5839 — independent top color strip, no dossier reconstruction layers.
    All four assets share one silhouette; production category selects the actual PNG. */
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas{position:relative;overflow:visible}
 #page.dossier-page .dossier-colored-rear-strip{
@@ -399,7 +399,7 @@
 }
 
 
-/* 5.0.838 / build 5841 — second, clean decorative layer.
+/* 5.0.838 / build 5839 — second, clean decorative layer.
    Separate blank paper stack and large front writing sheet. No UI, data or typography baked into images. */
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas{isolation:isolate;padding-bottom:26px}
 #page.dossier-page .dossier-rear-stage .dossier-colored-rear-strip{z-index:3}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5840.webp?v=5841') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5852') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -428,71 +428,23 @@
 @media(max-width:365px){#page.dossier-page .dossier-paper-front-blank{min-height:max(560px,calc(100dvh - 175px));}}
 
 
-/* 5.0.841 — independently layered artwork from the approved blank-paper reference.
+/* 5.0.839 — independently layered artwork from the approved blank-paper reference.
    The colorful strip remains its own image and stays selected by the real production type;
    all new sheets have transparent areas and no baked-in labels or UI controls. */
 #page.dossier-page .dossier-rear-stage .dossier-colored-rear-strip{z-index:1}
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage{
-  z-index:2;margin:-6vw 0 0; /* Layer alignment: stack slips just behind the rear tab */
+  /* Fit approved paper stack directly behind the colored tab. The ivory face stays untouched. */
+  z-index:2;margin:-17px 0 0;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-art{
   aspect-ratio:1086/255;width:100%;height:auto;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
-  z-index:3;margin:-18vw 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5840.png?v=5841') center top / 100% 100% no-repeat transparent;
+  z-index:3;margin:-8px 0 0;min-height:max(620px,calc(100dvh - 178px));
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5852') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
 @media(max-width:365px){
  #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{min-height:max(560px,calc(100dvh - 175px))}
-}
-
-/* 5.0.841 / build 5841 — approved compact 3D overlap: only top paper edges remain visible.
-   Negative margins use viewport width to preserve proportions on iPhone 353–430px.
-   No new layers or text; colored rear strip remains data-driven by matter type. */
-
-
-/* 5.0.841 — align separate folder layers to the approved reference.
-   Crucially, the front is the shallow shaped TITLE COVER, not a full-height marble sheet. */
-#page.dossier-page .dossier-rear-stage .dossier-clean-canvas{
- position:relative;isolation:isolate;padding-bottom:0;
-}
-#page.dossier-page .dossier-rear-stage .dossier-colored-rear-strip{z-index:1;}
-#page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage{z-index:2;margin:-5.7vw 0 0;}
-#page.dossier-page .dossier-rear-stage .dossier-paper-stack-art{width:100%;aspect-ratio:1086/255;height:auto;}
-#page.dossier-page .dossier-rear-stage .dossier-ivory-head{
- position:relative;z-index:3;width:100%;height:clamp(90px,30vw,116px);
- margin:-17vw 0 0;padding:0;pointer-events:none;
- filter:drop-shadow(0 3px 3px rgba(95,60,30,.23));
-}
-#page.dossier-page .dossier-rear-stage .dossier-ivory-head .dossier-front-board{
- width:100%;height:100%;display:block;position:static;inset:auto;
-}
-#page.dossier-page .dossier-rear-stage .dossier-empty-base{
- position:relative;z-index:0;margin:-7px 5px 0;
- min-height:calc(100dvh - 240px);
- border:1px solid rgba(183,134,74,.72);border-radius:12px 12px 18px 18px;
- background:linear-gradient(90deg,#d3a774 0%,#f4dfba 1.8%,#fff7e8 5%,#fff9ee 96%,#dfb981 99%,#bf8b50 100%);
- box-shadow:0 7px 10px rgba(79,50,24,.19),inset 0 1px rgba(255,255,255,.87);
- pointer-events:none;
-}
-
-/* 5.0.841: mockup-aligned proportions after comparison at 711px reference width.
-   Ivory face occupies only the case's top header (approx. 70 CSS px on iPhone).
-   Body shell below is a narrow outer spine, NOT an enormous front writing sheet. */
-#page.dossier-page .dossier-rear-stage .dossier-ivory-head{
- height:clamp(72px,19.3vw,88px);
- margin-top:-18.4vw;
-}
-#page.dossier-page .dossier-rear-stage .dossier-empty-base{
- margin:-4px 4px 0;
- min-height:calc(100dvh - 195px);
- border:0;
- border-radius:6px 6px 17px 17px;
- background:linear-gradient(90deg,
-   rgba(123,75,32,.92) 0%,rgba(211,156,85,.98) .8%,rgba(254,235,197,.96) 1.8%,
-   rgba(252,246,234,.29) 2.7%,rgba(252,246,234,.24) 97.3%,
-   rgba(253,230,189,.95) 98.3%,rgba(194,129,62,.95) 99.2%,rgba(125,76,31,.90) 100%);
- box-shadow:2px 3px 8px rgba(106,68,31,.16),-2px 3px 8px rgba(106,68,31,.14);
 }
