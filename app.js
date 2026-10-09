@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.859';
-var APP_BUILD='5859';
+var APP_VERSION='5.0.860';
+var APP_BUILD='5860';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4481,24 +4481,29 @@ function dossierFrontBoard(){
   </svg>`;
 }
 var DOSSIER_TABS={general:'Общее',events:'События',tasks:'Задачи',journal:'Журнал'};
-/* 5.0.859 — clean dossier design stage. Stored case/task/journal data remains intact. */
+/* 5.0.860 — staged dossier assembly continues.
+   Preserved approved top buttons and paper stack, then adds the next live layer:
+   the фигурная шапка дела with real text values instead of a baked screenshot. */
 var DOSSIER_LAYOUT_ONLY=true;
 function dossierLayoutPreview(m,id,tab,p){
-  // 5.0.859 / build 5859: approved paper-stack shape, separate from the dynamic colored rear strip.
-  // The image variant is chosen from the SAME production type used by page «Дела».
-  // It contains no static labels or controls; real case data is not modified.
   var visualType=matterFolderVisualType(m)||'koap';
   var stripImage='dossier-top-strip-'+visualType+'.png?v='+APP_BUILD;
-  var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-type="'+esc(visualType)+'">'+
+  var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="hero-head" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
     '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
     '<button class="dossier-iconbtn" type="button" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+
     '<button class="dossier-iconbtn" type="button" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+
-    '<main class="dossier-clean-canvas" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
-    '<img class="dossier-colored-rear-strip" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="1993" height="133">'+
-    '<div class="dossier-paper-stack-stage" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-upper-paper-v5839.png?v=5859" alt="" width="1086" height="255" draggable="false"></div>'+
-    '<div class="dossier-paper-front-blank" aria-hidden="true"></div>'+
+    '<main class="dossier-clean-canvas" aria-label="Макет карточки дела: верхушка, бумага и шапка">'+
+      '<img class="dossier-colored-rear-strip" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="1993" height="133">'+
+      '<div class="dossier-paper-stack-stage" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-upper-paper-v5839.png?v='+APP_BUILD+'" alt="" width="1086" height="255" draggable="false"></div>'+
+      '<section class="dossier-front-head-stage" aria-label="Шапка дела">'+
+        '<div class="dossier-front dossier-front-live">'+dossierFrontBoard()+'<div class="dossier-paperclip"></div>'+
+          '<div class="dossier-client-row"><h1>'+dossierTitle(m)+'</h1><span class="dossier-status'+(m.archived?' archived':'')+'"><i></i>'+esc(matterStatusText(m))+'</span></div>'+
+          '<p class="dossier-subject">'+dossierHeading(m)+'</p><p class="dossier-meta">'+dossierCaseLine(m)+'</p>'+
+        '</div>'+
+      '</section>'+
+      '<div class="dossier-paper-front-blank" aria-hidden="true"></div>'+
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;

@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5859') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5860') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5859') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5860') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5859') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5860') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -450,7 +450,7 @@
 }
 
 
-/* 5.0.859 / build 5859 — dossier navigation buttons: real premium header button material,
+/* 5.0.860 / build 5860 — dossier navigation buttons: real premium header button material,
    visually matched to Today/Tasks, without the heavy gilded double frame.
    Folder artwork, position and spacing of the paper layers are preserved. */
 #page.dossier-page .dossier-rear-stage .dossier-nav{
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5859') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5860.png?v=5860') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -493,7 +493,7 @@
   font-size:clamp(15.5px,4.5vw,19px);padding-top:2px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-nav-title i{margin-top:6px}
-/* Keep the already approved layer overlap exactly as in 5.0.859. */
+/* Keep the already approved layer overlap exactly as in 5.0.860. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage{margin-top:-21px}
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:-16px}
 @media(max-width:365px){
@@ -503,5 +503,117 @@
   }
   #page.dossier-page .dossier-rear-stage .dossier-iconbtn{
     width:46px;height:46px;min-width:46px;min-height:46px;
+  }
+}
+
+/* 5.0.860 / build 5860 — stage 3 of dossier assembly.
+   Keep the approved 5.0.859 upper navigation and paper stack.
+   Add the next live layer: the figured dossier header with dynamic text.
+   This is intentionally only the top head; tabs and cards will be added later. */
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage{
+  position:relative;
+  z-index:4;
+  margin:-63px 7px 0 3px;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-front-live{
+  min-height:112px;
+  margin:0;
+  padding:15px 18px 12px 42px;
+  border:0;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+  isolation:isolate;
+  overflow:visible;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-front-live::before{content:none;display:none}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-front-board{
+  position:absolute;
+  z-index:-1;
+  inset:-8px -5px -5px -8px;
+  width:calc(100% + 13px);
+  height:calc(100% + 13px);
+  filter:drop-shadow(0 3px 3px rgba(117,82,47,.28));
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-front-live>*:not(.dossier-front-board){
+  position:relative;z-index:1;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-paperclip{
+  position:absolute!important;
+  top:17px;left:15px;width:11px;height:69px;
+  border:2px solid #a36a27;border-radius:10px;
+  background:linear-gradient(90deg,#f5cf81,#fff6cc 24%,#ad7122 55%,#ffe1a5 74%,#976324);
+  box-shadow:inset 1px 0 #fff9d6,1px 1px 2px #633c1680;
+  transform:rotate(-7deg);z-index:2;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-client-row{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:9px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-client-row h1{
+  margin:0;min-width:0;flex:1;
+  font:700 clamp(21px,8vw,33px)/1.02 Georgia,serif;
+  letter-spacing:-.04em;color:#102653;
+  overflow-wrap:anywhere;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-status{
+  flex:none;display:flex;align-items:center;gap:7px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#d8f2e3 0%,#c7ebd8 100%);
+  border:1px solid #a4d3b7;
+  color:#177b57;
+  font:700 11px/1 Georgia,serif;
+  padding:8px 12px 8px 11px;
+  white-space:nowrap;
+  box-shadow:0 1px 0 rgba(255,255,255,.65) inset;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-status i{
+  width:10px;height:10px;background:#0f9560;border-radius:50%;
+  box-shadow:0 0 0 1px rgba(12,123,84,.10);
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-status.archived{
+  background:linear-gradient(180deg,#efe8dc 0%,#e4d8c4 100%);
+  border-color:#cbbda6;color:#6f604c;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-status.archived i{background:#8a806b}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-subject{
+  margin:4px 0 0;
+  font:500 13.6px/1.18 Georgia,serif;
+  color:#1b3059;
+  overflow-wrap:anywhere;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-meta{
+  margin:5px 0 0;
+  color:#62748d;
+  font:12.6px/1.16 Georgia,serif;
+  overflow-wrap:anywhere;
+}
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
+  z-index:3;
+  margin:-26px 0 0;
+  min-height:max(570px,calc(100dvh - 290px));
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage{
+    margin:-58px 4px 0 1px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-front-live{
+    min-height:103px;
+    padding:13px 13px 10px 37px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-paperclip{
+    left:12px;top:16px;height:64px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-client-row h1{
+    font-size:19px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-status{
+    font-size:9.5px;padding:7px 9px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-subject{
+    font-size:12.6px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-front-head-stage .dossier-meta{
+    font-size:11.7px;
   }
 }
