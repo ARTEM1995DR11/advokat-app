@@ -1,12 +1,12 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5852') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5853') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
-#page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
-#page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
-#page.dossier-page .dossier-iconbtn .ico{width:21px;height:21px;stroke-width:2}
-#page.dossier-page .dossier-nav-title{text-align:center;font:700 18px/1.2 Georgia,serif;white-space:nowrap;min-width:0;color:#102452;padding-top:7px}
-#page.dossier-page .dossier-nav-title i{height:2px;width:24px;display:block;background:#a36d22;box-shadow:0 1px #f6dca4;margin:6px auto 0;border-radius:2px}
-#page.dossier-page .dossier-nav-actions{display:flex;justify-content:flex-end;gap:9px}
+#page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
+#page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
+#page.dossier-page .dossier-iconbtn .ico{width:21px;height:21px;stroke-width:1.9}
+#page.dossier-page .dossier-nav-title{text-align:center;font:700 18.5px/1.2 Georgia,serif;white-space:nowrap;min-width:0;color:#102452;padding-top:6px;letter-spacing:-.01em}
+#page.dossier-page .dossier-nav-title i{height:3px;width:28px;display:block;background:#b27a2d;box-shadow:0 1px #f6dca4;margin:7px auto 0;border-radius:3px}
+#page.dossier-page .dossier-nav-actions{display:flex;justify-content:flex-end;gap:10px}
 #page.dossier-page .dossier-book{--dossier-rear-top:#28d7d4;--dossier-rear-bright:#00c6d0;--dossier-rear-mid:#00a8b3;--dossier-rear-deep:#006a74;--dossier-rear-edge:#004b54;--dossier-rear-glow:#70f2ed;--dossier-spine-top:#1fc2c9;--dossier-spine-mid:#009ba6;--dossier-spine-main:#007f89;--dossier-spine-deep:#00656e;--dossier-spine-edge:#004f58;position:relative;isolation:isolate;padding:20px 8px 7px;margin:0 1px}
 
 #page.dossier-page .dossier-book.dossier-type-admin{--dossier-rear-top:#28d7d4;--dossier-rear-bright:#00c6d0;--dossier-rear-mid:#00a8b3;--dossier-rear-deep:#006a74;--dossier-rear-edge:#004b54;--dossier-rear-glow:#70f2ed;--dossier-spine-top:#1fc2c9;--dossier-spine-mid:#009ba6;--dossier-spine-main:#007f89;--dossier-spine-deep:#00656e;--dossier-spine-edge:#004f58}
@@ -92,7 +92,7 @@
 @media(max-width:365px){#page.dossier-page{padding-left:5px!important;padding-right:5px!important}#page.dossier-page .dossier-front{padding-left:28px;padding-right:9px}#page.dossier-page .dossier-client-row h1{font-size:19px}#page.dossier-page .dossier-status{font-size:9px;padding:6px}#page.dossier-page .dossier-tab{font-size:11px}#page.dossier-page .dossier-info-row{grid-template-columns:26px minmax(74px,1fr) minmax(0,1.5fr) 8px;gap:5px}#page.dossier-page .dossier-timeline-item{grid-template-columns:78px minmax(0,1fr) 14px;gap:5px}#page.dossier-page .dossier-next-stamp{width:64px}}
 /* Fit the title, status badge and upper folder within 390–430 pt without altering the folder grid. */
 @media (min-width:366px) and (max-width:479px){
- #page.dossier-page .dossier-nav{height:50px;margin-bottom:7px}
+ #page.dossier-page .dossier-nav{height:54px;margin-bottom:7px;grid-template-columns:48px 1fr 108px;gap:10px}
  #page.dossier-page .dossier-front{padding:9px 9px 9px 28px;min-height:93px}
  #page.dossier-page .dossier-client-row h1{font-size:20px;letter-spacing:-.045em;white-space:normal}
  #page.dossier-page .dossier-status{padding:6px 7px;font-size:9.5px;gap:4px}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5852') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5853') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -440,8 +440,8 @@
   aspect-ratio:1086/255;width:100%;height:auto;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
-  z-index:3;margin:-8px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5852') center top / 100% 100% no-repeat transparent;
+  z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5853') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
