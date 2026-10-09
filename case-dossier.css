@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5865') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5866') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5865') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5866') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5865') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5866') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -450,28 +450,7 @@
 }
 
 
-
-
-/* 5.0.865 / build 5865 — blank sculpted dossier header panel installed as the next independent layer.
-   The new image adds only the form of the title card; no text is baked into the artwork. */
-#page.dossier-page .dossier-rear-stage .dossier-header-layer-stage{
-  position:relative;z-index:4;display:block;box-sizing:border-box;width:100%;height:auto;
-  margin:-12px 0 -20px;padding:0;pointer-events:none;user-select:none;
-}
-#page.dossier-page .dossier-rear-stage .dossier-header-layer-art{
-  display:block;width:100%;height:auto;aspect-ratio:2048/748;max-width:none;
-  pointer-events:none;user-select:none;-webkit-user-drag:none;
-  filter:drop-shadow(0 4px 7px rgba(92,62,28,.18));
-}
-#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
-  margin:-74px 0 0;min-height:max(620px,calc(100dvh - 178px));
-}
-@media(max-width:365px){
- #page.dossier-page .dossier-rear-stage .dossier-header-layer-stage{margin:-10px 0 -16px}
- #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin:-62px 0 0;min-height:max(560px,calc(100dvh - 175px))}
-}
-
-/* 5.0.865 / build 5865 — dossier navigation buttons: real premium header button material,
+/* 5.0.866 / build 5866 — dossier navigation buttons: real premium header button material,
    visually matched to Today/Tasks, without the heavy gilded double frame.
    Folder artwork, position and spacing of the paper layers are preserved. */
 #page.dossier-page .dossier-rear-stage .dossier-nav{
@@ -490,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5865') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5866') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -514,7 +493,7 @@
   font-size:clamp(15.5px,4.5vw,19px);padding-top:2px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-nav-title i{margin-top:6px}
-/* Keep the already approved layer overlap exactly as in 5.0.865. */
+/* Keep the already approved layer overlap exactly as in 5.0.866. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage{margin-top:-21px}
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:-16px}
 @media(max-width:365px){
@@ -526,3 +505,39 @@
     width:46px;height:46px;min-width:46px;min-height:46px;
   }
 }
+
+/* 5.0.866 / build 5866 — Approved EMPTY title card, integrated with the existing paper.
+   The decorative PNG is only the visible single top card, with no fixed labels.
+   No additional document/flow height, no gaps. 1–6, buttons and background unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas{
+  position:relative;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{
+  position:absolute;
+  left:3px;right:3px;top:10px;
+  height:82px;
+  z-index:4;
+  overflow:visible;
+  pointer-events:none;
+  user-select:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-figure-layer img{
+  width:100%;height:100%;display:block;
+  object-fit:fill;
+  max-width:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 3px rgba(73,44,18,.14));
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{
+   top:12px;height:90px;
+ }
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{
+   top:9px;height:80px;
+ }
+}
+
+/* Align the blank writing area directly under the new header's bottom edge. */
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:-19px}
