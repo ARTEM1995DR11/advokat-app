@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5833') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5834') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:46px 1fr 101px;gap:8px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:38px;height:39px;border:1px solid rgba(129,90,47,.26);border-radius:10px;background:linear-gradient(155deg,#fffefa,#f8eee5);box-shadow:0 4px 8px #73513545,0 1px 1px #fff inset;color:#09245c;display:flex;align-items:center;justify-content:center}
@@ -371,3 +371,14 @@
 
 
 /* 5.0.833 / build 5833 — the dossier's layer 04 is an entirely blank SVG. All case text will remain editable HTML. */
+
+/* 5.0.834 / build 5834 — approved layer 05, temporary full-image option.
+   Source crop: (27,289)..(685,385) on the 711x1536 master.
+   The existing artboard begins at master y=120 and is 711x1416.
+   Position and size use that same scale; layers 01–04 remain untouched. */
+#page.dossier-page .dossier-stage5-preview .dossier-stage5-tabs{
+  display:block;position:absolute;
+  left:3.7974683544%;top:11.9350282486%;width:92.5457102672%;height:auto;
+  aspect-ratio:658/96;max-width:none;z-index:1;
+  pointer-events:none;user-select:none;
+}
