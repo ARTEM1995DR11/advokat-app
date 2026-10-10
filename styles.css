@@ -13340,7 +13340,7 @@ body.light #sc-today .today-quote{
 .notify-sheet-status.ok{background:rgba(121,198,144,.22)!important;color:#247345!important}
 .notify-sheet-status.off{background:rgba(212,183,126,.20)!important;color:#8A6725!important}
 .notify-sheet-status.warn{background:rgba(225,168,91,.20)!important;color:#94621B!important}
-.notify-sheet-status.muted{background:rgba(130,145,164,.16)!important;color:#586677!important}
+.notify-sheet-status.muted{background:rgba(130,145,164,.16)!important;color:#586777!important}
 .notify-sheet-toggle{
   width:100%!important;
   min-height:66px!important;
