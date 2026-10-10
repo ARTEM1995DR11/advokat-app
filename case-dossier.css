@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5867') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5872') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5867') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5872') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5867') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5872') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -450,7 +450,7 @@
 }
 
 
-/* 5.0.867 / build 5867 — dossier navigation buttons: real premium header button material,
+/* 5.0.872 / build 5872 — dossier navigation buttons: real premium header button material,
    visually matched to Today/Tasks, without the heavy gilded double frame.
    Folder artwork, position and spacing of the paper layers are preserved. */
 #page.dossier-page .dossier-rear-stage .dossier-nav{
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5867') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5872') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -493,7 +493,7 @@
   font-size:clamp(15.5px,4.5vw,19px);padding-top:2px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-nav-title i{margin-top:6px}
-/* Keep the already approved layer overlap exactly as in 5.0.867. */
+/* Keep the already approved layer overlap exactly as in 5.0.872. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage{margin-top:-21px}
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:-16px}
 @media(max-width:365px){
@@ -506,7 +506,7 @@
   }
 }
 
-/* 5.0.867 / build 5867 — Approved EMPTY title card, integrated with the existing paper.
+/* 5.0.872 / build 5872 — Approved EMPTY title card, integrated with the existing paper.
    The decorative PNG is only the visible single top card, with no fixed labels.
    No additional document/flow height, no gaps. 1–6, buttons and background unchanged. */
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas{
@@ -541,3 +541,401 @@
 
 /* Align the blank writing area directly under the new header's bottom edge. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:-19px}
+
+
+/* 5.0.872 — four separate interactive paper index tabs BELOW the preserved title sheet.
+   All letterforms and badges are DOM elements; only shapes/material are CSS and vector. */
+#page.dossier-page .dossier-rear-stage .dossier-design-index{
+  position:absolute;
+  top:79px;
+  left:11px;
+  right:10px;
+  height:53px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:end;
+  gap:0;
+  z-index:6;
+  pointer-events:auto;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  min-width:0;
+  height:41px;
+  color:#122651;
+  background:none;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  margin:0;
+  padding:0 3px 0;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(11.1px,3.27vw,16px);
+  font-weight:500;
+  white-space:nowrap;
+  text-align:center;
+  touch-action:manipulation;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{
+  height:53px;
+  z-index:3;
+  font-weight:700;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-shape{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+  filter:drop-shadow(0 -1px 2px rgba(122,76,31,.24));
+}
+#page.dossier-page .dossier-rear-stage .index-shadow{
+  fill:#be9868;
+  stroke:#a77c48;
+  stroke-width:1.8;
+}
+#page.dossier-page .dossier-rear-stage .index-surface{
+  fill:#faf6ee;
+  stroke:#cbb08e;
+  stroke-width:1.5;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-shadow{
+  fill:#bd8f53;
+  stroke:#a97836;
+  stroke-width:2.4;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-surface{
+  fill:#f8e7c9;
+  stroke:#b68543;
+  stroke-width:2.2;
+}
+#page.dossier-page .dossier-rear-stage .index-glint{
+  fill:none;
+  stroke:#fffdf7;
+  stroke-width:1.4;
+  opacity:.93;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-name,
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  position:relative;
+  z-index:2;
+  transform:translateY(4px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  min-width:18px;
+  height:18px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:4px;
+  padding:0 3px;
+  background:linear-gradient(150deg,#f8e8cc,#e3c499);
+  box-shadow:0 1px 1px rgba(145,105,54,.24),0 0 0 1px rgba(178,137,88,.18);
+  color:#172a50;
+  font:700 10.5px/1 -apple-system,BlinkMacSystemFont,sans-serif;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-marker{
+  position:absolute;
+  bottom:7px;
+  left:34%;
+  right:34%;
+  height:2px;
+  border-radius:4px;
+  background:#aa762e;
+  box-shadow:0 1px 1px rgba(255,255,255,.8);
+  z-index:2;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab:focus-visible{
+  outline:2px solid #116ec1;
+  outline-offset:2px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab:active{
+  filter:brightness(.96);
+}
+/* Only move the unapproved blank writing panel down to make space for the new indexes.
+   Navigation, colored strip, existing paper and header coordinates stay unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
+  margin-top:24px;
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:76px;left:10px;right:9px;height:50px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:39px;font-size:11px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:50px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:21px}
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:89px;left:16px;right:16px;height:60px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:47px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:60px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:32px}
+}
+
+
+/* 5.0.872 — calibrated to the approved index-tab silhouettes.
+   Shorter fingers, smaller badges, no hard cartoon frames or wide V-shaped gaps.
+   These are buttons, not decorative images. Other accepted layers are frozen. */
+#page.dossier-page .dossier-rear-stage .dossier-design-index{
+  left:22px;
+  right:11px;
+  height:53px;
+  gap:0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab{
+  height:33px;
+  padding:0 1px;
+  font-size:clamp(10.5px,3.05vw,14px);
+  color:#142752;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{
+  height:45px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-shape{
+  filter:drop-shadow(0 -1px 1.2px rgba(106,73,40,.14));
+}
+#page.dossier-page .dossier-rear-stage .index-shadow{
+  fill:#dbc5a9;
+  stroke:#d0ad83;
+  stroke-width:1.1;
+}
+#page.dossier-page .dossier-rear-stage .index-surface{
+  fill:#fbf8f1;
+  stroke:#d6bea0;
+  stroke-width:1.1;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-shadow{
+  fill:#b98c54;
+  stroke:#b4874d;
+  stroke-width:1.3;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-surface{
+  fill:#f8e8cb;
+  stroke:#b98c53;
+  stroke-width:1.45;
+}
+#page.dossier-page .dossier-rear-stage .index-glint{
+  stroke:#fffcf5;
+  stroke-width:1;
+  opacity:.78;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-name,
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  transform:translateY(2px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  min-width:16px;
+  width:16px;
+  height:16px;
+  margin-left:3px;
+  padding:0;
+  font-size:10px;
+  background:linear-gradient(145deg,#f3e3c7,#e6ceb0);
+  box-shadow:0 1px 1px rgba(116,79,37,.12),0 0 0 1px rgba(194,162,119,.2);
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-marker{
+  bottom:5px;
+  left:36%;
+  right:36%;
+  height:2px;
+  background:#af7a2c;
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{left:19px;right:9px;height:50px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:32px;font-size:10.5px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:43px}
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{left:30px;right:17px;height:60px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:39px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:52px}
+}
+/* 5.0.872 — join tab row to the existing title panel; no stand-alone gap. */
+#page.dossier-page .dossier-rear-stage .dossier-design-index{top:68px}
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:12px}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:65px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:10px}
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:78px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:19px}
+}
+
+
+/* 5.0.872: carefully joined paper indexes; fixes the independent-row look.
+   All previously accepted header, colored tab, rear paper and buttons are unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-design-index{
+  top:63px;
+  left:20px;
+  right:16px;
+  height:53px;
+  grid-template-columns:1.12fr .95fr 1fr 1fr;
+  align-items:end;
+  gap:0;
+  isolation:isolate;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab{
+  height:33px;
+  font-size:clamp(11px,3.12vw,13.4px);
+  padding:0 1px;
+  z-index:1;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{
+  height:44px;
+  z-index:4;
+  font-size:clamp(12px,3.5vw,15px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-shape{
+  filter:drop-shadow(0 -1px 1px rgba(97,63,31,.16));
+}
+#page.dossier-page .dossier-rear-stage .index-shadow{
+  fill:#ead9c3;
+  stroke:#c8a77d;
+  stroke-width:1.1;
+}
+#page.dossier-page .dossier-rear-stage .index-surface{
+  fill:#fcf9f4;
+  stroke:#d6c1a8;
+  stroke-width:1.1;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-shadow{
+  fill:#b88644;
+  stroke:#a97836;
+  stroke-width:1.45;
+}
+#page.dossier-page .dossier-rear-stage .is-active .index-surface{
+  fill:#f8e9d0;
+  stroke:#bd935f;
+  stroke-width:1.3;
+}
+#page.dossier-page .dossier-rear-stage .index-glint{
+  stroke:#fffefb;
+  opacity:.92;
+  stroke-width:1.1;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-name,
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  transform:translateY(2px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-count{
+  height:15px;width:15px;min-width:15px;
+  background:linear-gradient(145deg,#f6e8d0,#e6c9a1);
+  margin-left:3px;
+  font-size:10px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-index-marker{
+  bottom:5px;left:35%;right:35%;height:2px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
+  margin-top:12px;
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:60px;left:18px;right:12px;height:49px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:31px;font-size:10.6px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:41px;font-size:12px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:10px}
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:70px;left:23px;right:19px;height:61px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab{height:39px}
+ #page.dossier-page .dossier-rear-stage .dossier-index-tab.is-active{height:52px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:19px}
+}
+
+
+/* 5.0.872 — live dossier header on the EXISTING approved blank front sheet.
+   Does not draw a second panel or move the top navigation or rear color tab.
+   Layout scales with width and gracefully truncates pathological text. */
+#page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{
+  top:-5px;
+  height:115px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-data{
+  position:absolute;
+  z-index:5;
+  top:27px;
+  left:clamp(30px,10.8%,49px);
+  right:clamp(15px,4.6%,23px);
+  pointer-events:none;
+  color:#112c56;
+  text-shadow:0 1px 0 rgba(255,255,255,.42);
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-heading{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  min-width:0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-heading h1{
+  color:#112c56;
+  font:700 clamp(17.5px,5.75vw,25px)/1.08 Georgia,'Times New Roman',serif;
+  letter-spacing:-.035em;
+  margin:0;
+  min-width:0;
+  flex:1 1 auto;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#page.dossier-page .dossier-rear-stage .dossier-data-long .dossier-front-heading h1{
+  font-size:clamp(14px,4.35vw,19px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-live-status{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  border-radius:999px;
+  min-height:24px;
+  padding:2px 7px;
+  background:linear-gradient(160deg,#e2f7ec,#c1e8d9);
+  border:1px solid rgba(116,198,160,.65);
+  box-shadow:0 1px 1px rgba(45,105,69,.10),inset 0 1px rgba(255,255,255,.8);
+  color:#157451;
+  white-space:nowrap;
+  font:700 clamp(9px,2.5vw,11.5px)/1 Georgia,serif;
+}
+#page.dossier-page .dossier-rear-stage .dossier-live-status i{
+  width:7px;height:7px;border-radius:50%;background:#04945e;
+}
+#page.dossier-page .dossier-rear-stage .dossier-live-status.is-archived{
+  background:#ebe8df;color:#685b4b;border-color:#cbc0b0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-live-status.is-archived i{background:#898073}
+#page.dossier-page .dossier-rear-stage .dossier-front-subject,
+#page.dossier-page .dossier-rear-stage .dossier-front-meta{
+  margin:2px 0 0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-subject{
+  font:500 clamp(12px,3.6vw,16px)/1.2 Georgia,serif;
+  color:#16305a;
+}
+#page.dossier-page .dossier-rear-stage .dossier-front-meta{
+  font:400 clamp(10.5px,2.9vw,13px)/1.23 Georgia,serif;
+  color:#637c99;
+}
+#page.dossier-page .dossier-rear-stage .dossier-design-index{
+  top:78px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
+  margin-top:27px;
+}
+@media(max-width:365px){
+ #page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{top:-5px;height:112px}
+ #page.dossier-page .dossier-rear-stage .dossier-front-data{top:26px;left:36px;right:18px}
+ #page.dossier-page .dossier-rear-stage .dossier-live-status{min-height:21px;padding:2px 6px}
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:76px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:25px}
+}
+@media(min-width:480px){
+ #page.dossier-page .dossier-rear-stage .dossier-front-figure-layer{top:-3px;height:128px}
+ #page.dossier-page .dossier-rear-stage .dossier-front-data{top:33px;left:11%;right:5%}
+ #page.dossier-page .dossier-rear-stage .dossier-design-index{top:92px}
+ #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{margin-top:40px}
+}
