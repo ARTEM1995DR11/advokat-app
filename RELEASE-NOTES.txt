@@ -101,4 +101,6 @@
 - Tested 80 structured scenarios, 120 random combinations and five live viewport resizes in Chromium.
 - Impossible-length text can still receive a final ellipsis at the minimum legible font size.
 
-5.0.899 / build 5899: rollback of 5.0.898 index tabs. App interface is restored exactly to approved 5.0.897 header without tab strip. Standalone tab-layer artwork is prepared as a separate preview outside this deployable archive and is not installed in the app. Existing data model and dynamic client name display unchanged. Cache and version identifiers refreshed.
+5.0.900 / build 5900: rollback of 5.0.898 index tabs. App interface is restored exactly to approved 5.0.897 header without tab strip. Standalone tab-layer artwork is prepared as a separate preview outside this deployable archive and is not installed in the app. Existing data model and dynamic client name display unchanged. Cache and version identifiers refreshed.
+
+5.0.900 / build 5900 — Added approved single graphic layer with four tabs below the fixed dossier header; dynamic tasks/journal counters supplied by real case data. Upper header and 52 original images unchanged. Content switching deliberately deferred.
