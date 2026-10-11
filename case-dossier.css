@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5901') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5902') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5901') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5902') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5901') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5902') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5901') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5902') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -604,8 +604,8 @@
    No changes to the name/pill grid or the folder PNGs. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
   display:block;flex:none;width:100%;min-width:0;min-height:0;
-  margin:clamp(7px,2.2vw,10px) 0 0;padding:0;
-  font:500 clamp(10.4px,2.95vw,13px)/1.12 Georgia,'Times New Roman',serif;
+  margin:clamp(3.5px,1.05vw,4.6px) 0 0;padding:0;
+  font:500 clamp(11px,3.13vw,13.4px)/1.12 Georgia,'Times New Roman',serif;
   letter-spacing:-.005em;color:#1b3057;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
@@ -618,8 +618,8 @@
    the client title, subject or status. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
   display:block;flex:none;width:100%;min-width:0;min-height:0;
-  margin:clamp(2px,.65vw,3px) 0 0;padding:0;
-  font:400 clamp(10px,2.88vw,12.65px)/1.04 Georgia,'Times New Roman',serif;
+  margin:clamp(1.4px,.44vw,2px) 0 0;padding:0;
+  font:400 clamp(9.85px,2.84vw,12.35px)/1.04 Georgia,'Times New Roman',serif;
   letter-spacing:-.012em;color:#697b96;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
@@ -685,3 +685,10 @@
 #page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
   top:var(--dossier-ivory-front-origin);
 }
+
+/* 5.0.902 / build 5902 — TYPOGRAPHY stage 2. Comparison normalized by the
+   immutable 2172x724 cover artwork. At 390 CSS px, keep the approved name
+   size/position, reduce the one-line name-to-subject gap by ~4.5 CSS px,
+   restore ~6% subject glyph scale, then move metadata with the subject while
+   retaining its restrained colour and the safe lower gold-rim clearance.
+   Both exceptionally long names and subject lines retain JS measurement. */
