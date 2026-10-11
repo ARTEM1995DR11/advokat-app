@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.875';
-var APP_BUILD='5875';
+var APP_VERSION='5.0.876';
+var APP_BUILD='5876';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -277,14 +277,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5875" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5876" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5875" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5876" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -293,11 +293,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5875" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5876" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5875" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5876" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -725,12 +725,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5875" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5876" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5875" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5876" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2729,7 +2729,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5875" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5876" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2840,7 +2840,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5875" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5876" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2999,7 +2999,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5875" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5876" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3978,7 +3978,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5875" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5876" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4483,9 +4483,9 @@ function dossierFrontBoard(){
   </svg>`;
 }
 var DOSSIER_TABS={general:'Общее',events:'События',tasks:'Задачи',journal:'Журнал'};
-/* 5.0.875 — base layers remain frozen; empty foreground dossier header is absolutely overlaid. Stored case/task/journal data remains intact. */
+/* 5.0.876 — base layers remain frozen; empty foreground dossier header is absolutely overlaid. Stored case/task/journal data remains intact. */
 var DOSSIER_LAYOUT_ONLY=true;
-/* 5.0.875: refined paper index tabs; genuine working controls with real counters. */
+/* 5.0.876: refined paper index tabs; genuine working controls with real counters. */
 function dossierDesignIndexTab(key,selected,id,count){
   var sel=selected===key;
   return '<button type="button" class="dossier-index-tab'+(sel?' is-active':'')+'" role="tab" aria-selected="'+(sel?'true':'false')+'" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'">'+
@@ -4498,41 +4498,20 @@ function dossierDesignIndexTab(key,selected,id,count){
     (sel?'<span class="dossier-index-marker" aria-hidden="true"></span>':'')+'</button>';
 }
 function dossierLayoutPreview(m,id,tab,p){
-  // 5.0.875 / build 5875: approved paper-stack shape, separate from the dynamic colored rear strip.
+  // 5.0.876 / build 5876: approved paper-stack shape, separate from the dynamic colored rear strip.
   // The image variant is chosen from the SAME production type used by page «Дела».
   // It contains no static labels or controls; real case data is not modified.
   var visualType=matterFolderVisualType(m)||'koap';
   var stripImage='dossier-top-strip-'+visualType+'.png?v='+APP_BUILD;
-  var indexKey=DOSSIER_TABS[tab]?tab:'general';
-  var tasks=tasksOf(id)||[], journal=journalOf(id)||[];
-  var taskCount=tasks.filter(function(t){return (!t.kind||t.kind==='task')&&!t.done;}).length;
-  // Header text is real, escaped case data; artwork contains NO text.
-  var namePlain=String(m.client||'').trim();
-  if(!namePlain && typeof matterFolderStage6Client==='function')namePlain=String(matterFolderStage6Client(m).full||'').trim();
-  var nameLong=namePlain.length>23?' dossier-data-long':'';
-  var archived=!!m.archived;
-  var headerHtml='<section class="dossier-front-data'+nameLong+'" aria-label="Сведения о деле">'+
-    '<div class="dossier-front-heading"><h1 title="'+esc(namePlain||'Доверитель не указан')+'">'+dossierTitle(m)+'</h1>'+
-    '<span class="dossier-live-status'+(archived?' is-archived':'')+'"><i aria-hidden="true"></i>'+esc(matterStatusText(m))+'</span></div>'+
-    '<p class="dossier-front-subject" title="'+dossierHeading(m)+'">'+dossierHeading(m)+'</p>'+
-    '<p class="dossier-front-meta">'+dossierCaseLine(m)+'</p></section>';
-
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
     '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
     '<button class="dossier-iconbtn" type="button" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+
     '<button class="dossier-iconbtn" type="button" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+
-    '<main class="dossier-clean-canvas'+(nameLong?' is-name-long':'')+'" aria-label="Карточка дела: сведения и разделы">'+
+    '<main class="dossier-clean-canvas" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
     '<img class="dossier-colored-rear-strip" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="1993" height="133">'+
-    '<div class="dossier-paper-stack-stage" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-upper-paper-v5839.png?v=5875" alt="" width="1086" height="255" draggable="false"></div>'+
-    '<div class="dossier-front-figure-layer" aria-hidden="true">'+dossierFrontBoard()+'</div>'+
-    '<svg class="dossier-front-clip" viewBox="0 0 24 84" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="dossier-clip-gold" x1="0" x2="1"><stop stop-color="#98651d"/><stop offset=".25" stop-color="#f8dc93"/><stop offset=".6" stop-color="#cc9d42"/><stop offset="1" stop-color="#8c5b1f"/></linearGradient></defs><path d="M15 75 V15 C15 5 6 5 6 15 V66 C6 76 20 76 20 66 V12 C20 -1 2 -1 2 12 V69" fill="none" stroke="rgba(70,45,19,.36)" stroke-width="5" stroke-linecap="round" transform="translate(1 1)"/><path d="M15 75 V15 C15 5 6 5 6 15 V66 C6 76 20 76 20 66 V12 C20 -1 2 -1 2 12 V69" fill="none" stroke="url(#dossier-clip-gold)" stroke-width="3.2" stroke-linecap="round"/><path d="M13.8 75 V15 C13.8 7 7.2 7 7.2 15 V65" fill="none" stroke="#fff5cb" stroke-width=".85" stroke-linecap="round"/></svg>'+
-    headerHtml+
-    '<div class="dossier-design-index" role="tablist" aria-label="Разделы дела">'+
-    dossierDesignIndexTab('general',indexKey,id,0)+dossierDesignIndexTab('events',indexKey,id,0)+
-    dossierDesignIndexTab('tasks',indexKey,id,taskCount)+dossierDesignIndexTab('journal',indexKey,id,journal.length)+'</div>'+
-    '<div class="dossier-paper-front-blank" aria-hidden="true"></div>'+
+    '<div class="dossier-paper-stack-stage" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-upper-paper-v5839.png?v=5876" alt="" width="1086" height="255" draggable="false"></div>'+
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
@@ -4957,11 +4936,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5875',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5875',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5875',
-    'qa-task':'quick-card-task-v5100.png?v=5875',
-    'qa-journal':'quick-card-journal-v5100.png?v=5875'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5876',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5876',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5876',
+    'qa-task':'quick-card-task-v5100.png?v=5876',
+    'qa-journal':'quick-card-journal-v5100.png?v=5876'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -4970,7 +4949,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5875':type==='search'?'header-search-premium.png?v=5875':type==='plus'?'fab-plus-square-premium.png?v=5875':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5876':type==='search'?'header-search-premium.png?v=5876':type==='plus'?'fab-plus-square-premium.png?v=5876':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -5079,7 +5058,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5875" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5876" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -5121,7 +5100,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5875" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5876" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5452,7 +5431,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5875" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5876" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5466,7 +5445,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5875" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5876" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -6578,7 +6557,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5875',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5876',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
