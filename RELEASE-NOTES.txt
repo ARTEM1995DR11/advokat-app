@@ -82,7 +82,7 @@
 5.0.892 / build 5892 — Этап 6: контрольный аудит всей верхней текстовой композиции; небольшое повышение контрастности служебной строки и её читабельности при длинном ФИО; перевычисление переноса ФИО при изменении ширины листа через ResizeObserver. Графика и ранее утверждённые слои без изменений.
 
 
-5.0.894 / build 5894 — Adaptive text inside the fixed dossier front leaf
+5.0.895 / build 5895 — Adaptive text inside the fixed dossier front leaf
 - Measured FIO layout tries multiple safe two-line word splits and progressively smaller type before truncation.
 - Subject and case stage/number line scale independently by actual content length and measured width.
 - Vertical overflow is corrected by tightening only optional gaps and, in extreme cases, text sizes.

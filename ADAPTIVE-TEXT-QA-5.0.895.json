@@ -1,0 +1,128 @@
+{
+  "version": "5.0.895",
+  "fixed_scenarios": 80,
+  "random_scenarios": 36,
+  "resize_checks": 6,
+  "total": 122,
+  "unexpected_issues": [],
+  "natural_ellipsis": 30,
+  "resize": [
+    {
+      "w": 353,
+      "font": 9.65,
+      "meta": 9.9,
+      "nameRows": 2,
+      "subjectVisible": true
+    },
+    {
+      "w": 430,
+      "font": 11.163,
+      "meta": 11.696,
+      "nameRows": 2,
+      "subjectVisible": true
+    },
+    {
+      "w": 375,
+      "font": 9.735,
+      "meta": 10.2,
+      "nameRows": 2,
+      "subjectVisible": true
+    },
+    {
+      "w": 390,
+      "font": 10.124,
+      "meta": 10.608,
+      "nameRows": 2,
+      "subjectVisible": true
+    },
+    {
+      "w": 353,
+      "font": 9.65,
+      "meta": 9.9,
+      "nameRows": 2,
+      "subjectVisible": true
+    },
+    {
+      "w": 390,
+      "font": 10.124,
+      "meta": 10.608,
+      "nameRows": 2,
+      "subjectVisible": true
+    }
+  ],
+  "key_metrics": [
+    {
+      "width": 390,
+      "code": "semenov",
+      "name": "Семенов Дмитрий",
+      "titleFont": 21.06,
+      "subjectFont": 11.505,
+      "metaFont": 11.232,
+      "subjectClipped": false,
+      "metaClipped": false,
+      "nameRows": 1,
+      "issues": []
+    },
+    {
+      "width": 390,
+      "code": "orlova",
+      "name": "Орлова Наталья Сергеевна",
+      "titleFont": 21.06,
+      "subjectFont": 10.124,
+      "metaFont": 10.608,
+      "subjectClipped": true,
+      "metaClipped": false,
+      "nameRows": 2,
+      "issues": []
+    },
+    {
+      "width": 390,
+      "code": "vorontsov",
+      "name": "Воронцов Пётр Александрович",
+      "titleFont": 21.06,
+      "subjectFont": 11.505,
+      "metaFont": 10.608,
+      "subjectClipped": false,
+      "metaClipped": false,
+      "nameRows": 2,
+      "issues": []
+    },
+    {
+      "width": 390,
+      "code": "koap",
+      "name": "Селиванов Артём Борисович",
+      "titleFont": 21.06,
+      "subjectFont": 11.505,
+      "metaFont": 10.608,
+      "subjectClipped": false,
+      "metaClipped": false,
+      "nameRows": 2,
+      "issues": []
+    },
+    {
+      "width": 390,
+      "code": "long-name",
+      "name": "Александрова-Васильева Александра Александровна",
+      "titleFont": 14.75,
+      "subjectFont": 11.505,
+      "metaFont": 10.608,
+      "subjectClipped": false,
+      "metaClipped": false,
+      "nameRows": 2,
+      "issues": []
+    },
+    {
+      "width": 390,
+      "code": "long-num",
+      "name": "Иванова Марина Сергеевна",
+      "titleFont": 21.06,
+      "subjectFont": 11.505,
+      "metaFont": 9.335,
+      "subjectClipped": false,
+      "metaClipped": true,
+      "nameRows": 2,
+      "issues": []
+    }
+  ],
+  "limitation": "Extreme strings beyond a readable minimum use CSS ellipsis. Source data unchanged."
+}
