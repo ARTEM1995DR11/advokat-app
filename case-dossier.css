@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5886') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5887') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5886') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5887') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5886') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5887') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5886') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5887') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -520,16 +520,33 @@
 }
 
 
-/* 5.0.886 / build 5886 — live text only; every approved decorative pixel is fixed.
+/* 5.0.887 / build 5887 — live text only; every approved decorative pixel is fixed.
    The name is laid out as two separately measured rows. ONLY its first row
    shares vertical space with the status pill; second row can use the page width. */
-#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{top:0;z-index:4}
+/* 5.0.887 / build 5887 — STAGE 1, normalized content coordinate system.
+   Artwork is immutable. All measurements below use its 2172x724 intrinsic
+   aspect ratio (3:1), rather than the screen, browser chrome or rear folder.
+   The approved mockup is a composition reference. This stage locks the left
+   text origin and pill X, corrects ONLY their shared vertical position, and
+   reserves a safe bottom region for the later typography stage.
+   At 390px viewport the header artwork is 372x124px. The name starts at
+   x=42.9px (11.53% of art width), y≈30.4px (24.5% of art height).
+   Pill starts x≈244.6px from art left; its y≈32.4px. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
+  top:0;z-index:4;
+  --dossier-grid-name-x:clamp(42px,11vw,47px);
+  --dossier-grid-name-y:clamp(27px,7.8vw,34px);
+  --dossier-grid-text-right:clamp(14px,4.1vw,19px);
+  --dossier-grid-pill-right:clamp(12px,3.68vw,16px);
+  --dossier-grid-pill-y:calc(var(--dossier-grid-name-y) + 2px);
+  --dossier-grid-safe-bottom:82%;
+}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   filter:brightness(1.06) saturate(.92) contrast(.98);
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
   position:absolute;inset:0;box-sizing:border-box;z-index:5;
-  padding:clamp(21px,6.25vw,25px) clamp(14px,4.1vw,19px) 0 clamp(42px,11vw,47px);
+  padding:var(--dossier-grid-name-y) var(--dossier-grid-text-right) 0 var(--dossier-grid-name-x);
   display:flex;flex-direction:column;align-items:stretch;
   overflow:hidden;pointer-events:none;
 }
@@ -553,7 +570,8 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status{
   box-sizing:border-box;position:absolute;
-  top:0;right:clamp(12px,3.68vw,16px);
+  top:calc(var(--dossier-grid-pill-y) - var(--dossier-grid-name-y));
+  right:var(--dossier-grid-pill-right);
   display:inline-flex;align-items:center;justify-content:center;
   width:clamp(88px,24.9vw,107px);height:22px;min-height:22px;
   margin:0;padding:4px 7px;gap:5px;
