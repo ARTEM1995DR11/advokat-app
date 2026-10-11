@@ -1,3 +1,11 @@
+5.0.903 / build 5903 — повторная типографическая корректировка этапа 2 после сравнения с макетом на iPhone.
+- Базовое ФИО увеличено с clamp(19px,5.4vw,23px) до clamp(20.5px,5.82vw,25.3px) и приведено к насыщенному темно-синему #102859.
+- Предмет увеличен с clamp(11px,3.13vw,13.4px) до clamp(12.3px,3.52vw,14.9px), цвет уточнен на #142c59.
+- Служебная строка увеличена с clamp(9.85px,2.84vw,12.35px) до clamp(10.95px,3.12vw,13.1px), оттенок #627899. Для двухстрочных имен сохранена отдельная компактная ветка.
+- Никаких изменений размера, расположения или состава графики папки, шапки, верхних кнопок и статусной плашки. Динамическая автоподгонка действующих данных сохранена.
+- 37 браузерных проверок: 8 типов данных × ширины 353/375/390/430 + 5 смен размеров; 0 пересечений и ошибок. 52 графических ресурса сохранены побайтово.
+- Версия, build, cache-busting и Service Worker обновлены.
+
 5.0.901 / build 5901: Stage 1 — normalized geometry audit of existing case-folder layers. The previously approved colored rear strip, upper paper stack and figurative ivory front retain identical rendered coordinates. Folder offsets are now consolidated as CSS canvas variables for controlled future adjustment. The navigation heading, premium header buttons, approved graphics, dynamic data and dossier typography are untouched. No tab strip or content panels installed. Cache-busting and Service Worker updated.
 5.0.897 / build 5897 — лицевая карточка дела: только фамилия и имя для физического лица; отчество и исходное ФИО сохранены в данных и редакторе. Полные названия организаций не сокращаются. Обновлён SW/cache. Другие элементы не изменены.
 
