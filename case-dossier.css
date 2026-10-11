@@ -609,11 +609,14 @@
   letter-spacing:-.005em;color:#1b3057;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+/* 5.0.891 / build 5891 — STAGE 5: metadata is restrained and readable.
+   Adjust its own glyph metrics only; do not move the approved folder,
+   the client title, subject or status. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
-  display:block;flex:none;width:100%;min-height:0;
+  display:block;flex:none;width:100%;min-width:0;min-height:0;
   margin:clamp(2px,.65vw,3px) 0 0;padding:0;
-  font:400 clamp(10px,2.95vw,13px)/1.1 Georgia,'Times New Roman',serif;
-  letter-spacing:0;color:#71829b;
+  font:400 clamp(10px,2.88vw,12.65px)/1.04 Georgia,'Times New Roman',serif;
+  letter-spacing:-.012em;color:#71829b;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 #page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-subject{
@@ -621,7 +624,11 @@
   margin-top:clamp(1px,.25vw,1.2px);
 }
 #page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-meta{
+  /* Two-line titles occupy more height; restore breathing space above the
+     immutable gold rim without compressing the title or subject. */
   margin-top:1px;
+  font-size:clamp(9.7px,2.68vw,12px);
+  line-height:1;
 }
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
