@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5884') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5885') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5884') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5885') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5884') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5885') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5884') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5885') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -520,38 +520,39 @@
 }
 
 
-/* 5.0.884 / build 5884 — one measured text grid on the already approved front artwork.
-   DO NOT move, recolor or replace the folder graphics, background or header buttons.
-   Coordinates are relative to the face image; status is anchored at the same x/y
-   for both short and long client names. The lower two rows fit above the gilt lip. */
+/* 5.0.885 / build 5885 — typography only; all approved dossier artwork is frozen.
+   The image establishes the coordinate system. Name gets its own reserved status
+   lane; the subject and case metadata use the whole printable width. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-layer{top:0;z-index:4}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   filter:brightness(1.06) saturate(.92) contrast(.98);
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
   position:absolute;inset:0;box-sizing:border-box;z-index:5;
-  padding:clamp(28px,8vw,34px) clamp(16px,4.7vw,20px) 0 clamp(42px,11vw,47px);
-  display:block;overflow:hidden;pointer-events:none;
+  padding:clamp(21px,6.25vw,25px) clamp(14px,4.1vw,19px) 0 clamp(42px,11vw,47px);
+  display:flex;flex-direction:column;align-items:stretch;
+  overflow:hidden;pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-top{
-  position:relative;display:block;height:auto;min-height:0;margin:0;padding:0;
+  position:relative;display:block;flex:none;min-height:0;margin:0;padding:0;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
-  box-sizing:border-box;display:block;position:relative;
-  margin:0;padding:0;min-width:0;max-width:none;
-  width:calc(100% - clamp(112px,30vw,128px));
-  font:700 clamp(19px,5.55vw,23px)/.99 Georgia,'Times New Roman',serif;
-  letter-spacing:-.026em;color:#142b57;
-  overflow:hidden;max-height:2em;
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
-  white-space:normal;overflow-wrap:normal;word-break:normal;
+  box-sizing:border-box;display:-webkit-box;position:relative;
+  margin:0;padding:0;min-width:0;
+  width:calc(100% - clamp(98px,27.75vw,116px));
+  max-width:none;
+  font:700 clamp(20px,6.25vw,25px)/.99 Georgia,'Times New Roman',serif;
+  letter-spacing:-.025em;color:#142b57;
+  -webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
+  overflow:hidden;max-height:1.98em;
+  white-space:normal;overflow-wrap:anywhere;word-break:normal;
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status{
   box-sizing:border-box;position:absolute;
-  top:0;right:clamp(12px,3.7vw,16px);
+  top:0;right:clamp(12px,3.68vw,16px);
   display:inline-flex;align-items:center;justify-content:center;
-  width:clamp(91px,24vw,104px);min-height:25px;
-  margin:0;padding:6px 9px;gap:5px;
+  width:clamp(88px,24.9vw,107px);height:22px;min-height:22px;
+  margin:0;padding:4px 7px;gap:5px;
   border-radius:999px;border:1px solid #a7d9bf;
   background:linear-gradient(180deg,#dff7eb 0%,#caeddc 100%);
   color:#197f5a;font:700 clamp(10px,2.85vw,12px)/1 Georgia,'Times New Roman',serif;
@@ -559,7 +560,7 @@
   box-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 2px 6px rgba(41,108,78,.08);
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status i{
-  flex:none;width:9px;height:9px;border-radius:50%;background:#11a36a;
+  flex:none;width:8px;height:8px;border-radius:50%;background:#11a36a;
   box-shadow:0 1px 3px rgba(7,74,44,.18) inset,0 1px 2px rgba(0,0,0,.12);
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete{
@@ -567,36 +568,36 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete i{background:#9b8f7b}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
-  display:block;max-width:100%;min-height:0;
-  margin:4px 0 0;padding:0;
-  font:500 clamp(11.4px,3.3vw,14px)/1.08 Georgia,'Times New Roman',serif;
+  display:block;flex:none;width:100%;min-height:0;
+  margin:clamp(3px,.95vw,5px) 0 0;padding:0;
+  font:500 clamp(11px,3.25vw,15px)/1.12 Georgia,'Times New Roman',serif;
   letter-spacing:-.005em;color:#1b3057;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
-  display:block;max-width:100%;min-height:0;
-  margin:2px 0 0;padding:0;
-  font:400 clamp(10px,2.98vw,12.4px)/1.08 Georgia,'Times New Roman',serif;
+  display:block;flex:none;width:100%;min-height:0;
+  margin:clamp(2px,.65vw,3px) 0 0;padding:0;
+  font:400 clamp(10px,2.95vw,13px)/1.1 Georgia,'Times New Roman',serif;
   letter-spacing:0;color:#71829b;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-/* On two-line names the first row is compacted rather than moving the leaf. */
-#page.dossier-page .dossier-rear-stage .dossier-new-header-copy.dossier-two-line-name{
-  padding-top:clamp(25px,7.2vw,31px);
-}
+/* Long full names may use two lines, but do not change the position or size of
+   the decorative sheet. Only the title typography is moderately tightened. */
 #page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{
-  font-size:clamp(18px,5.05vw,21px);line-height:.92;max-height:1.9em;
+  font-size:clamp(19px,5.86vw,23.5px);line-height:.88;letter-spacing:-.03em;
+  max-height:2em;
 }
-#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-subject{margin-top:2px}
-#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-meta{margin-top:1px}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-subject{
+  margin-top:1px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-meta{
+  margin-top:1px;
+}
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-    padding-top:28px;padding-left:42px;padding-right:16px;
+    padding-left:42px;padding-right:14px;
   }
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{font-size:19.1px}
-  #page.dossier-page .dossier-rear-stage .dossier-two-line-name{padding-top:25px}
-  #page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{font-size:18px;line-height:.93}
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{font-size:11.2px}
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{font-size:10px}
-  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:10px;min-height:24px}
+  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{
+    font-size:10px;height:21px;min-height:21px;
+  }
 }
