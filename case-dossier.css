@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5885') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5886') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5885') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5886') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5885') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5886') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5885') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5886') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -520,9 +520,9 @@
 }
 
 
-/* 5.0.885 / build 5885 — typography only; all approved dossier artwork is frozen.
-   The image establishes the coordinate system. Name gets its own reserved status
-   lane; the subject and case metadata use the whole printable width. */
+/* 5.0.886 / build 5886 — live text only; every approved decorative pixel is fixed.
+   The name is laid out as two separately measured rows. ONLY its first row
+   shares vertical space with the status pill; second row can use the page width. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-layer{top:0;z-index:4}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   filter:brightness(1.06) saturate(.92) contrast(.98);
@@ -537,15 +537,19 @@
   position:relative;display:block;flex:none;min-height:0;margin:0;padding:0;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
-  box-sizing:border-box;display:-webkit-box;position:relative;
-  margin:0;padding:0;min-width:0;
-  width:calc(100% - clamp(98px,27.75vw,116px));
-  max-width:none;
-  font:700 clamp(20px,6.25vw,25px)/.99 Georgia,'Times New Roman',serif;
-  letter-spacing:-.025em;color:#142b57;
-  -webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
-  overflow:hidden;max-height:1.98em;
-  white-space:normal;overflow-wrap:anywhere;word-break:normal;
+  box-sizing:border-box;display:block;position:relative;
+  width:100%;max-width:100%;min-width:0;
+  margin:0;padding:0;
+  font:700 clamp(20px,6.15vw,25px)/1.025 Georgia,'Times New Roman',serif;
+  letter-spacing:-.022em;color:#142b57;
+  white-space:normal;overflow:visible;
+}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{
+  line-height:.90;
+}
+#page.dossier-page .dossier-rear-stage .dossier-name-line{
+  display:block;box-sizing:border-box;max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status{
   box-sizing:border-box;position:absolute;
@@ -569,7 +573,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete i{background:#9b8f7b}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
   display:block;flex:none;width:100%;min-height:0;
-  margin:clamp(3px,.95vw,5px) 0 0;padding:0;
+  margin:clamp(2px,.7vw,3px) 0 0;padding:0;
   font:500 clamp(11px,3.25vw,15px)/1.12 Georgia,'Times New Roman',serif;
   letter-spacing:-.005em;color:#1b3057;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -580,12 +584,6 @@
   font:400 clamp(10px,2.95vw,13px)/1.1 Georgia,'Times New Roman',serif;
   letter-spacing:0;color:#71829b;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-/* Long full names may use two lines, but do not change the position or size of
-   the decorative sheet. Only the title typography is moderately tightened. */
-#page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{
-  font-size:clamp(19px,5.86vw,23.5px);line-height:.88;letter-spacing:-.03em;
-  max-height:2em;
 }
 #page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-subject{
   margin-top:1px;
