@@ -1,10 +1,12 @@
-5.0.906 / build 5906 — single calibrated ink palette for all dossier cards at 402 CSS px.
+5.0.907 / build 5907 — Этап 2: окончательная цветовая настройка предмета дела (#111C66) и служебной строки (#5774A2) по макету. ФИО, размеры, координаты, графика, статус и верхняя панель без изменений. Основной эталон — iPhone 16 Pro, 402 CSS px.
+
+5.0.907 / build 5907 — single calibrated ink palette for all dossier cards at 402 CSS px.
 Based on samples from iPhone 16 Pro screenshot and approved mockup. No font-size, layout, folder artwork, status badge, header or navigation changes.
 
-5.0.906 / build 5906 — iPhone 16 Pro 402 CSS px typography calibration.
+5.0.907 / build 5907 — iPhone 16 Pro 402 CSS px typography calibration.
 Short single-line names: subject and metadata vertical rhythm calibrated against approved 1206px reference. Long-name fallback preserved. No graphics, header or status altered.
 
-5.0.906 / build 5906 — повторная типографическая корректировка этапа 2 после сравнения с макетом на iPhone.
+5.0.907 / build 5907 — повторная типографическая корректировка этапа 2 после сравнения с макетом на iPhone.
 - Базовое ФИО увеличено с clamp(19px,5.4vw,23px) до clamp(20.5px,5.82vw,25.3px) и приведено к насыщенному темно-синему #102859.
 - Предмет увеличен с clamp(11px,3.13vw,13.4px) до clamp(12.3px,3.52vw,14.9px), цвет уточнен на #142c59.
 - Служебная строка увеличена с clamp(9.85px,2.84vw,12.35px) до clamp(10.95px,3.12vw,13.1px), оттенок #627899. Для двухстрочных имен сохранена отдельная компактная ветка.
