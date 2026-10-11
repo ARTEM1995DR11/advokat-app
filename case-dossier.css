@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5905') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5906') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5905') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5906') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5905') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5906') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5905') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5906') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -686,14 +686,14 @@
   top:var(--dossier-ivory-front-origin);
 }
 
-/* 5.0.902 / build 5905 — TYPOGRAPHY stage 2. Comparison normalized by the
+/* 5.0.902 / build 5906 — TYPOGRAPHY stage 2. Comparison normalized by the
    immutable 2172x724 cover artwork. At 390 CSS px, keep the approved name
    size/position, reduce the one-line name-to-subject gap by ~4.5 CSS px,
    restore ~6% subject glyph scale, then move metadata with the subject while
    retaining its restrained colour and the safe lower gold-rim clearance.
    Both exceptionally long names and subject lines retain JS measurement. */
 
-/* 5.0.905 / build 5905 — typography correction after direct user review.
+/* 5.0.906 / build 5906 — typography correction after direct user review.
    The reference screenshot is normalized to the approved PAPER WIDTH (not the
    whole image resolution). Match the navy typographic hierarchy by increasing
    the baseline type, never by scaling the decorative folder or moving the
@@ -725,7 +725,7 @@
 }
 
 
-/* 5.0.905 / build 5905 — typography calibrated from the user's reference.
+/* 5.0.906 / build 5906 — typography calibrated from the user's reference.
    Reference artwork normalized by the folder width (1106px => 710px render).
    A dark ink sample from the original reference is ~#0A1152 for the name,
    versus the previous #102859. High-contrast classic Times-style serif
@@ -767,7 +767,7 @@
    Keep the name optically dominant, never apply a shared shrink transform. */
 
 
-/* 5.0.905 / build 5905 — iPhone 16 Pro (402 CSS px) reference calibration.
+/* 5.0.906 / build 5906 — iPhone 16 Pro (402 CSS px) reference calibration.
    Reference glyph measurements were performed at native 1206px width (3x).
    With front art edges normalized to the same scale, the name glyphs already
    agree closely with the mockup; the subject and metadata ink started approx.
@@ -783,4 +783,22 @@
   #page.dossier-page .dossier-rear-stage .dossier-new-header-copy:not(.dossier-two-line-name) .dossier-new-header-meta{
     margin-top:1.7px;
   }
+}
+
+
+/* 5.0.906 / build 5906 — iPhone 16 Pro screenshot-vs-mockup ink palette audit.
+   Preserve the approved typography metrics, artwork and status placement.
+   Actual iPhone screenshot name ink sampled about #131949 whereas the approved
+   mockup name ink is around #0c1254 (JPEG samples, approximate).
+   Colour is ONE shared rule across admin/civil/criminal/KOAP; there are no
+   per-name/per-type special cases. Keep optical hierarchy: dark navy heading,
+   somewhat softer blue subject, readable slate blue metadata. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
+  color:#0a115b;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
+  color:#14245d;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
+  color:#5e7197;
 }
