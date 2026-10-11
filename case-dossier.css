@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5879') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5880') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5879') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5880') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5879') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5880') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5879') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5880') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -586,4 +586,61 @@
     padding-left:43px;padding-right:23px;
   }
   #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:10px;padding:7px 10px}
+}
+
+
+/* 5.0.880 — typography-only correction on the approved foreground title leaf.
+   Its raster geometry, height, position, material and surrounding folder layers are frozen.
+   Real case data uses compact text flow; no row can be pushed onto the lower golden edge. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
+  position:absolute;inset:0;z-index:5;
+  display:block;overflow:hidden;pointer-events:none;
+  box-sizing:border-box;
+  padding:clamp(22px,6.15vw,25px) clamp(16px,4.9vw,20px) 0 clamp(38px,10.85vw,43px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-top{
+  display:block;position:relative;margin:0;padding:0;
+  min-height:0;height:auto;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
+  box-sizing:border-box;display:block;position:relative;
+  margin:0;padding:0;
+  width:calc(100% - 89px);max-width:none;min-width:0;
+  font:700 clamp(17.5px,5.15vw,21px)/1.01 Georgia,'Times New Roman',serif;
+  letter-spacing:-.018em;color:#142c57;
+  white-space:normal;overflow:hidden;overflow-wrap:normal;word-break:normal;
+  max-height:2.08em;
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status{
+  position:absolute;right:0;top:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:5px;margin:0;padding:6px 8px;min-height:25px;
+  border-radius:999px;
+  font:700 clamp(9px,2.72vw,11px)/1 Georgia,serif;
+  white-space:nowrap;
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status i{
+  flex:0 0 auto;width:8px;height:8px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
+  display:block;max-width:100%;margin:5px 0 0;padding:0;
+  font:500 clamp(10.7px,3.05vw,12.5px)/1.12 Georgia,'Times New Roman',serif;
+  color:#18315f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
+  display:block;max-width:100%;margin:3px 0 0;padding:0;
+  font:400 clamp(9.7px,2.85vw,11.5px)/1.12 Georgia,'Times New Roman',serif;
+  color:#72849a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
+    padding-top:21px;padding-left:39px;padding-right:17px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{width:calc(100% - 81px);font-size:18px}
+  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:9px;padding:5px 7px;min-height:24px}
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{margin-top:4px;font-size:11px}
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{margin-top:3px;font-size:10px}
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
+  -webkit-line-clamp:unset;line-clamp:unset;
 }
