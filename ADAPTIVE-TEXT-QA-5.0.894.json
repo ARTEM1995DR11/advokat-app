@@ -1,0 +1,31 @@
+{
+  "version": "5.0.894",
+  "build": 5894,
+  "origin": "5.0.893",
+  "structured_tests": 80,
+  "random_tests": 120,
+  "resize_tests": 5,
+  "unexpected_collisions": 0,
+  "expected_meta_truncations": [
+    [
+      353,
+      "longmeta"
+    ],
+    [
+      375,
+      "longmeta"
+    ],
+    [
+      390,
+      "longmeta"
+    ],
+    [
+      430,
+      "longmeta"
+    ]
+  ],
+  "random_cases_with_natural_ellipsis": 37,
+  "graphic_assets_unchanged": 54,
+  "browser": "Chromium mobile emulation, 353 375 390 430 px; native Safari pending",
+  "limitations": "Very long content beyond a readable minimum font size uses a final CSS ellipsis; data values remain unchanged."
+}

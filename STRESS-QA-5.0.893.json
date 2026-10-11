@@ -1,0 +1,78 @@
+{
+  "app_version": "5.0.893",
+  "build": 5893,
+  "base": "5.0.892",
+  "environment": "Chromium mobile viewport 353/375/390/430 deviceScaleFactor 2, PWA source",
+  "structured_cases": 20,
+  "structured_checks": 80,
+  "fuzz_checks": 120,
+  "viewport_live_resize_checks": 5,
+  "fatal_layout_issues": 0,
+  "name_status_collisions": 0,
+  "subject_meta_overlaps": 0,
+  "bottom_gold_border_intrusions": 0,
+  "expected_name_ellipses_in_extreme_organization_labels": [
+    {
+      "width": 353,
+      "test": "company"
+    },
+    {
+      "width": 353,
+      "test": "longorg"
+    },
+    {
+      "width": 375,
+      "test": "company"
+    },
+    {
+      "width": 375,
+      "test": "longorg"
+    },
+    {
+      "width": 390,
+      "test": "longorg"
+    }
+  ],
+  "expected_meta_ellipses_with_extremely_long_numbers_stages": [
+    {
+      "width": 353,
+      "test": "long_name_2"
+    },
+    {
+      "width": 353,
+      "test": "article"
+    },
+    {
+      "width": 353,
+      "test": "longmeta"
+    },
+    {
+      "width": 375,
+      "test": "article"
+    },
+    {
+      "width": 375,
+      "test": "longmeta"
+    },
+    {
+      "width": 390,
+      "test": "article"
+    },
+    {
+      "width": 390,
+      "test": "longmeta"
+    },
+    {
+      "width": 430,
+      "test": "article"
+    },
+    {
+      "width": 430,
+      "test": "longmeta"
+    }
+  ],
+  "fuzz_cases_with_expected_overflow": 77,
+  "unchanged_graphics": 54,
+  "changed_graphics": [],
+  "notes": "Only high-length labels that cannot geometrically fit the fixed front leaf are ellipsized; original strings remain in text and accessible title attributes. Tests in Chromium, not native iOS Safari."
+}

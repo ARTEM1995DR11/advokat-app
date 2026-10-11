@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.891';
-var APP_BUILD='5891';
+var APP_VERSION='5.0.894';
+var APP_BUILD='5894';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -277,14 +277,14 @@ function materializeUseIcons(){
 }
 materializeUseIcons();
 function headerBell(){
-  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5891" alt=""></button>';
+  return '<button class="today-bell app-header-bell premium-action-image" style="appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important" data-act="notify-sheet" aria-label="Уведомления"><img class="premium-action-art" src="header-bell-premium.png?v=5894" alt=""></button>';
 }
 function headerSearch(action,active,label){
   action=action||'global-search';
   label=label||'Поиск';
   var cls='app-header-search premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5891" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="'+esc(action)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'" type="button"><img class="premium-action-art" src="header-search-premium.png?v=5894" alt=""></button>';
 }
 function matterHeaderAction(action,icon,active,label,extraClass){
   label=label||'';
@@ -293,11 +293,11 @@ function matterHeaderAction(action,icon,active,label,extraClass){
 function headerMatterFilter(active){
   var cls='today-bell app-header-filter premium-action-image'+(active?' on':'');
   var style='appearance:none!important;-webkit-appearance:none!important;position:absolute!important;top:0!important;right:2px!important;left:auto!important;bottom:auto!important;box-sizing:border-box!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;max-width:50px!important;max-height:50px!important;margin:0!important;padding:0!important;border:0!important;border-radius:15px!important;background:transparent!important;box-shadow:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;transform:none!important;filter:none!important;z-index:20!important;overflow:visible!important';
-  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5891" alt=""></button>';
+  return '<button class="'+cls+'" style="'+style+'" data-act="matter-filter-sheet" title="Фильтры и сортировка" aria-label="Фильтры и сортировка" type="button"><img class="premium-action-art" src="header-filter-premium.png?v=5894" alt=""></button>';
 }
 function mainBrandHeader(withBell,rightAction){
   var bell = rightAction || (withBell===false ? '' : headerBell());
-  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5891" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
+  return '<div class="today-brand main-brand-fixed app-main-brand" style="position:relative!important;box-sizing:border-box!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;margin:0 0 8px!important;padding:0 2px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;transform:none!important"><div class="today-brand-left"><span class="today-logo"><img src="scale-gold.webp?v=5894" alt="Весы правосудия"></span><div><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+bell+'</div>';
 }
 function brandLine(){ return '<div class="brandline">'+ico('scale','s')+'<span>Ежедневник адвоката</span><i>OFFLINE</i></div>'; }
 function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -725,12 +725,12 @@ function renderPremiumListPicker(){
   // спокойной командой и не смешивается с реальными делами и их категориями.
   var canClear=isMatterPicker&&LIST_PICKER.target==='e-mid'&&!!String(LIST_PICKER.selected||'').trim();
   var clearMatter=canClear?'<button type="button" class="premium-matter-clear" data-act="list-matter-clear">'+ico('xmark','s')+'<span>Снять привязку к делу</span></button>':'';
-  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5891" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
+  var headIconHtml=isCourtPicker?'<span class="premium-list-head-icon premium-court-head-scales"><img src="scale-gold.webp?v=5894" alt="Весы правосудия"></span>':'<span class="premium-list-head-icon">'+ico(LIST_PICKER.meta.icon||'list')+'</span>';
   modal.innerHTML='<div class="premium-list-grab"></div>'+ 
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5891" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5894" alt="Весы правосудия"></span><i></i></div>';
 }
 
 function syncPremiumSelectButton(id){
@@ -2729,7 +2729,7 @@ function drawHearingResultSheet(){
     '<div class="fld hearing-result-note-field"><label>Итог / примечание</label><div class="hearing-result-note-shell"><textarea id="hr-note" rows="4" maxlength="1000" placeholder="Например: допрошен свидетель, исследованы материалы, суд отложил рассмотрение…">'+esc(noteValue)+'</textarea></div></div>'+ 
     '<div class="hint hearing-result-hint"><span class="hearing-result-hint-icon">'+ico('info','s')+'</span><p>После сохранения заседание уйдёт с главной страницы и останется в истории. Для связанного дела результат автоматически попадёт в журнал.</p></div>'+ 
     '<div class="hearing-result-v355-action"><button class="btn hearing-result-save" data-act="hearing-result-save"><span>Сохранить результат</span>'+ico('chev','s')+'</button></div>'+ 
-    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5891" alt="Весы правосудия"></span><i></i></div>');
+    '<div class="hearing-result-v355-sign" aria-hidden="true"><i></i><span><img src="scale-gold.webp?v=5894" alt="Весы правосудия"></span><i></i></div>');
   var sheet=$('#sheet');
   sheet.classList.add('hearing-result-sheet','hearing-result-v355');
   sheet.scrollTop=oldScroll;
@@ -2840,7 +2840,7 @@ function sheetTaskTypeFilters(){
 
   openSheet(
     '<div class="filter-premium-head task-filter-premium-head">'+
-      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5891" alt=""></span>'+
+      '<span class="task-filter-brand-mark"><img src="scale-gold.webp?v=5894" alt=""></span>'+
       '<div class="task-filter-head-copy"><h2>Фильтр записей</h2><p>Выберите тип записи</p></div>'+
       '<button type="button" class="task-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+
     '</div>'+
@@ -2999,7 +2999,7 @@ function sheetMatterFilters(){
     row('m-sort','stage','flag','По стадии','По этапу производства',sortCount,'#7D5CE4',S.ui.matterSort==='stage');
   openSheet(
     '<div class="matter-filter-premium-head">'+
-      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5891" alt=""></span>'+ 
+      '<span class="matter-filter-brand-mark"><img src="scale-gold.webp?v=5894" alt=""></span>'+ 
       '<div class="matter-filter-head-copy"><h2>Фильтр дел</h2><p>Состояние, тип, основание, стадия и сортировка</p></div>'+ 
       '<button type="button" class="matter-filter-close" data-act="close" aria-label="Закрыть">'+ico('xmark','s')+'</button>'+ 
     '</div>'+ 
@@ -3978,7 +3978,7 @@ function renderQuickEntryTop190(title,currentKind){
   var longTitle=title.length>20?' qe190-title-long':'';
   if(editTitle) longTitle+=' qe190-title-edit';
   return '<section class="qe190-top qe190-kind-'+esc(currentKind)+(editTitle?' qe190-mode-edit':' qe190-mode-create')+'">'+
-    '<div class="qe190-brand"><img src="scale-gold.webp?v=5891" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
+    '<div class="qe190-brand"><img src="scale-gold.webp?v=5894" alt="Весы правосудия"><div class="qe190-brand-copy"><b>Ежедневник адвоката</b><small>Больше, чем календарь</small></div></div>'+
     '<div class="qe190-brand-rule" aria-hidden="true"><i></i><span></span><i></i></div>'+
     '<div class="qe190-heading">'+
       '<button type="button" class="qe190-back" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4520,11 +4520,11 @@ function dossierLayoutPreview(m,id,tab,p){
       '<img class="dossier-new-header-art" src="dossier-header-panel-5877.png?v='+APP_BUILD+'" alt="" width="2172" height="724" draggable="false">'+
       '<div class="dossier-new-header-copy" aria-label="Предварительное расположение текста на верхнем слое">'+
         '<div class="dossier-new-header-top">'+
-          '<h1>'+title+'</h1>'+
+          '<h1 title="'+title+'">'+title+'</h1>'+
           '<span class="'+statusClass+'"><i></i>'+statusText+'</span>'+
         '</div>'+
-        '<p class="dossier-new-header-subject">'+subject+'</p>'+
-        '<p class="dossier-new-header-meta">'+meta+'</p>'+
+        '<p class="dossier-new-header-subject" title="'+subject+'">'+subject+'</p>'+
+        '<p class="dossier-new-header-meta" title="'+meta+'">'+meta+'</p>'+
       '</div>'+
     '</div>'+
     '</main></div>';
@@ -4591,7 +4591,79 @@ function dossierLayoutPreview(m,id,tab,p){
           if(layout)break;
         }
       }
-      if(!layout){layout=[fullName];chosen=Math.max(16,baseSize*.78);}
+      if(!layout){
+        // Stress-case fallback: do not collapse a multiword client into a
+        // clipped single row. Keep the largest readable first-row prefix and
+        // put the remainder on row two (ellipsized only if genuinely too long).
+        if(words.length>1){
+          chosen=Math.max(14.75,Math.min(baseSize,15));
+          titleNode.style.fontSize=chosen+'px';
+          var bestSplit=1;
+          for(var wi=1;wi<words.length;wi++){
+            if(fits(words.slice(0,wi).join(' '),firstSafe))bestSplit=wi;
+            else break;
+          }
+          layout=[words.slice(0,bestSplit).join(' '),words.slice(bestSplit).join(' ')];
+        } else {
+          // A rare single, very long surname/identifier may need two rows.
+          // Split Unicode code points instead of silently losing the end.
+          chosen=Math.min(baseSize,19);
+          titleNode.style.fontSize=chosen+'px';
+          var glyphs=Array.from(fullName);
+          for(var ci=glyphs.length-1;ci>=1;ci--){
+            var leftPart=glyphs.slice(0,ci).join('');
+            var rightPart=glyphs.slice(ci).join('');
+            if(fits(leftPart,firstSafe)&&fits(rightPart,secondSafe)){
+              layout=[leftPart,rightPart];break;
+            }
+          }
+          if(!layout){layout=[fullName];chosen=Math.max(14.5,baseSize*.68);}
+        }
+      }
+      // Adaptive two-row rebalance: the previous stress fallback could clip
+      // an entire long organization name even when a slightly smaller font
+      // and a different word boundary would fit both rows. Attempt all
+      // sensible word breaks before allowing the last-resort ellipsis.
+      if(layout && layout.length===2 && words.length>1){
+        titleNode.style.fontSize=chosen+'px';
+        if(!fits(layout[0],firstSafe)||!fits(layout[1],secondSafe)){
+          var fullFit=null;
+          for(var candidateSize=chosen;candidateSize>=12.25;candidateSize-=.25){
+            titleNode.style.fontSize=candidateSize+'px';
+            for(var candidateSplit=words.length-1;candidateSplit>=1;candidateSplit--){
+              var head=words.slice(0,candidateSplit).join(' ');
+              var tail=words.slice(candidateSplit).join(' ');
+              if(fits(head,firstSafe)&&fits(tail,secondSafe)){
+                fullFit=[head,tail];chosen=candidateSize;break;
+              }
+            }
+            if(fullFit)break;
+          }
+          if(fullFit)layout=fullFit;
+        }
+      }
+      // Prefer two compact, balanced rows over inserting a large blank gap
+      // below the status pill. For difficult names first try to let BOTH
+      // lines stay in the badge-free lane; only impossible cases use the
+      // lower full-width line with optical badge clearance.
+      if(layout && layout.length===2 && words.length>1){
+        titleNode.style.fontSize=chosen+'px';
+        if(!fits(layout[1],firstSafe)){
+          var compactName=null;
+          for(var compactSize=chosen;compactSize>=11.75;compactSize-=.25){
+            titleNode.style.fontSize=compactSize+'px';
+            for(var compactSplit=words.length-1;compactSplit>=1;compactSplit--){
+              var partOne=words.slice(0,compactSplit).join(' ');
+              var partTwo=words.slice(compactSplit).join(' ');
+              if(fits(partOne,firstSafe)&&fits(partTwo,firstSafe)){
+                compactName=[partOne,partTwo];chosen=compactSize;break;
+              }
+            }
+            if(compactName)break;
+          }
+          if(compactName)layout=compactName;
+        }
+      }
       probe.remove();
       titleNode.style.fontSize=chosen+'px';
       titleNode.textContent='';
@@ -4603,12 +4675,155 @@ function dossierLayoutPreview(m,id,tab,p){
         titleNode.appendChild(line);
       });
       copyNode.classList.toggle('dossier-two-line-name',layout.length===2);
+      // Stress fix: row two is full-width, but must not visually cross the
+      // independently fixed status badge. If its ink reaches the badge's X,
+      // place its ink below the badge using only local row spacing. Normal
+      // short/medium client names retain their approved coordinates.
+      if(layout.length===2){
+        var secondLine=titleNode.lastElementChild;
+        var secondInk=document.createRange();secondInk.selectNodeContents(secondLine);
+        var secondBox=secondInk.getBoundingClientRect();
+        var pillBox=statusNode.getBoundingClientRect();
+        if(secondBox.right>pillBox.left-2 && secondBox.top<pillBox.bottom+2){
+          var clearance=Math.ceil(pillBox.bottom-secondBox.top+3);
+          secondLine.style.marginTop=clearance+'px';
+          copyNode.classList.add('dossier-name-clears-pill');
+        }else{
+          copyNode.classList.remove('dossier-name-clears-pill');
+        }
+      }else{
+        copyNode.classList.remove('dossier-name-clears-pill');
+      }
+      // The fixed art is only 1/3 as tall as it is wide. Whenever a long
+      // second line must clear the status, remeasure the bottom metadata ink
+      // and reduce ONLY this exceptional name until the gold safety zone is
+      // free. The normal title, subject and badge stay untouched.
+      if(layout.length===2 && copyNode.classList.contains('dossier-name-clears-pill')){
+        var artNode=p.querySelector('.dossier-new-header-art');
+        var metaNode=p.querySelector('.dossier-new-header-meta');
+        if(artNode && metaNode){
+          var artBounds=artNode.getBoundingClientRect();
+          var safeMetaBottom=artBounds.top+artBounds.height*.82-2;
+          var secondLine=titleNode.lastElementChild;
+          var inkRange=document.createRange();
+          inkRange.selectNodeContents(secondLine);
+          var pillBounds=statusNode.getBoundingClientRect();
+          // Safety only applies to the stress configuration; shrink stops as
+          // soon as metadata and the lower rim have appropriate clearance.
+          for(var opt=chosen;opt>=14.5 && metaNode.getBoundingClientRect().bottom>safeMetaBottom+.2;opt-=.25){
+            titleNode.style.fontSize=opt+'px';
+            secondLine.style.marginTop='0px';
+            var freshInk=inkRange.getBoundingClientRect();
+            var freshSpace=Math.max(0,Math.ceil(pillBounds.bottom-freshInk.top+3));
+            if(freshInk.right>pillBounds.left-2)secondLine.style.marginTop=freshSpace+'px';
+            else {copyNode.classList.remove('dossier-name-clears-pill');break;}
+          }
+        }
+      }
+      // 5.0.894: automatic content-driven typography, not a predefined list
+      // of client names or matters.  The paper, clip, decorative artwork,
+      // status coordinates and normal-size type remain untouched.  Only the
+      // text within the existing areas can scale to available space.
+      var subjectNode=p.querySelector('.dossier-new-header-subject');
+      var metaNode=p.querySelector('.dossier-new-header-meta');
+      var frontArt=p.querySelector('.dossier-new-header-art');
+      if(subjectNode && metaNode && frontArt){
+        // Always reset previous measurements when Safari changes orientation,
+        // browser text metrics, or when fonts finish loading.
+        subjectNode.style.removeProperty('font-size');
+        metaNode.style.removeProperty('font-size');
+        subjectNode.style.removeProperty('margin-top');
+        metaNode.style.removeProperty('margin-top');
+        function fitOneLine(node,lowerLimit){
+          var current=parseFloat(getComputedStyle(node).fontSize)||12;
+          var original=current;
+          var available=node.clientWidth;
+          // Reserve 2 device-independent pixels: fractional CSS pixels and
+          // Georgia glyph width differ slightly in Safari.
+          for(var i=0;i<65 && node.scrollWidth>available-2 && current>lowerLimit+.01;i++){
+            current=Math.max(lowerLimit,current-.25);
+            node.style.fontSize=current.toFixed(2)+'px';
+          }
+          return {natural:original,chosen:current,trimmed:node.scrollWidth>node.clientWidth+1};
+        }
+        var subjectFit=fitOneLine(subjectNode,9.15);
+        var metaFit=fitOneLine(metaNode,8.85);
+        var artBox=frontArt.getBoundingClientRect();
+        var maximumBottom=artBox.top+artBox.height*.82-2;
+        // If a large client needs two name lines, all three text components
+        // must share the fixed vertical budget. Prefer removing optional
+        // gaps, then decrease fonts progressively, never shifting the art.
+        var subjectDefaultMargin=parseFloat(getComputedStyle(subjectNode).marginTop)||0;
+        var metaDefaultMargin=parseFloat(getComputedStyle(metaNode).marginTop)||0;
+        var minimalGap=copyNode.classList.contains('dossier-two-line-name') ? 0 : 2.5;
+        for(var fitStep=0;fitStep<95 && metaNode.getBoundingClientRect().bottom>maximumBottom+.15;fitStep++){
+          var currentGap=parseFloat(getComputedStyle(subjectNode).marginTop)||0;
+          var currentMetaGap=parseFloat(getComputedStyle(metaNode).marginTop)||0;
+          var currentMetaSize=parseFloat(getComputedStyle(metaNode).fontSize)||9;
+          var currentSubjectSize=parseFloat(getComputedStyle(subjectNode).fontSize)||9;
+          var currentTitleSize=parseFloat(getComputedStyle(titleNode).fontSize)||18;
+          if(currentGap>minimalGap+.1){
+            subjectNode.style.marginTop=Math.max(minimalGap,currentGap-.5)+'px';
+          }else if(currentMetaGap>.1){
+            metaNode.style.marginTop=Math.max(0,currentMetaGap-.5)+'px';
+          }else if(currentMetaSize>8.85+.01){
+            metaNode.style.fontSize=Math.max(8.85,currentMetaSize-.25)+'px';
+          }else if(currentSubjectSize>9.15+.01){
+            subjectNode.style.fontSize=Math.max(9.15,currentSubjectSize-.25)+'px';
+          }else if(currentTitleSize>13.5+.01){
+            titleNode.style.fontSize=Math.max(13.5,currentTitleSize-.25)+'px';
+            // Avoid stale clearance measured with the previous name size.
+            var nameParts=titleNode.querySelectorAll('.dossier-name-line');
+            if(nameParts.length===2){
+              var last=nameParts[1];
+              last.style.marginTop='0px';
+              var rng=document.createRange();rng.selectNodeContents(last);
+              var ink=rng.getBoundingClientRect();
+              var badge=statusNode.getBoundingClientRect();
+              if(ink.right>badge.left-3 && ink.top<badge.bottom+3){
+                last.style.marginTop=Math.ceil(badge.bottom-ink.top+3)+'px';
+                copyNode.classList.add('dossier-name-clears-pill');
+              }else copyNode.classList.remove('dossier-name-clears-pill');
+            }
+          }else break;
+        }
+        // Preserve originals in DOM title attributes; shrinking never changes
+        // any case field. In impossible-length strings the CSS ellipsis is a
+        // last resort after reaching a readable minimum font size.
+        copyNode.dataset.autofit='1';
+        copyNode.dataset.subjectTruncated=String(subjectNode.scrollWidth>subjectNode.clientWidth+1);
+        copyNode.dataset.metaTruncated=String(metaNode.scrollWidth>metaNode.clientWidth+1);
+      }
     }
     layoutName();
     // Re-run after browser fonts become available; avoids differing first
     // paint vs final iOS text wrapping while preserving data and fixed art.
     if(document.fonts && document.fonts.ready){
       document.fonts.ready.then(layoutName).catch(function(){});
+    }
+    // 5.0.892: remeasure on real viewport/artwork resizing (rotation, split
+    // screen, text zoom). The old geometry is not changed; this only prevents
+    // stale text spans from running into the fixed status badge after resize.
+    if(p._dossierNameResizeObserver){
+      p._dossierNameResizeObserver.disconnect();
+      p._dossierNameResizeObserver=null;
+    }
+    if(typeof ResizeObserver==='function'){
+      var observedArt=p.querySelector('.dossier-new-header-art');
+      if(observedArt){
+        var lastArtWidth=0;
+        var resizeObserver=new ResizeObserver(function(entries){
+          if(!titleNode.isConnected || p._mid!==id){resizeObserver.disconnect();return;}
+          var measuredWidth=entries[0] && entries[0].contentRect.width;
+          if(Math.abs(measuredWidth-lastArtWidth)<.25)return;
+          lastArtWidth=measuredWidth;
+          window.requestAnimationFrame(function(){
+            if(titleNode.isConnected && p._mid===id)layoutName();
+          });
+        });
+        resizeObserver.observe(observedArt);
+        p._dossierNameResizeObserver=resizeObserver;
+      }
     }
   }
 
@@ -5033,11 +5248,11 @@ function quickItem(i,t,act,tone){
      восстановленным по утверждённому макету 5.100. Иконка и золотая дуга больше
      не собираются из двух независимых фрагментов, поэтому стык не может разойтись. */
   var art={
-    'qa-hearing':'quick-card-hearing-v5100.png?v=5891',
-    'qa-meeting':'quick-card-meeting-v5100.png?v=5891',
-    'qa-deadline':'quick-card-deadline-v5100.png?v=5891',
-    'qa-task':'quick-card-task-v5100.png?v=5891',
-    'qa-journal':'quick-card-journal-v5100.png?v=5891'
+    'qa-hearing':'quick-card-hearing-v5100.png?v=5894',
+    'qa-meeting':'quick-card-meeting-v5100.png?v=5894',
+    'qa-deadline':'quick-card-deadline-v5100.png?v=5894',
+    'qa-task':'quick-card-task-v5100.png?v=5894',
+    'qa-journal':'quick-card-journal-v5100.png?v=5894'
   }[act]||'';
   if(art){
     return '<button class="quickitem quickitem-v5100 q-'+(tone||'slate')+'" data-act="'+act+'" aria-label="'+esc(t)+'"><img class="quickcard-v5100" src="'+art+'" alt=""></button>';
@@ -5046,7 +5261,7 @@ function quickItem(i,t,act,tone){
 }
 function premiumActionIcon(type,cls){
   cls=cls||'premium-sheet-action-icon';
-  var src=type==='bell'?'header-bell-premium.png?v=5891':type==='search'?'header-search-premium.png?v=5891':type==='plus'?'fab-plus-square-premium.png?v=5891':'';
+  var src=type==='bell'?'header-bell-premium.png?v=5894':type==='search'?'header-search-premium.png?v=5894':type==='plus'?'fab-plus-square-premium.png?v=5894':'';
   if(src) return '<span class="'+cls+'"><img src="'+src+'" alt=""></span>';
   return '<span class="filter-premium-head-icon">'+ico(type)+'</span>';
 }
@@ -5155,7 +5370,7 @@ function sheetGlobalSearch(){
   openSheet('<section class="gs166 gs153">'+
     '<header class="gs166-head gs153-head">'+
       '<div class="gs166-head-copy gs153-head-copy"><h2>Глобальный поиск</h2><p><span>Доверители, номера дел, суды, статьи,</span><span>задачи и журнал.</span></p></div>'+
-      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5891" alt="" aria-hidden="true">'+
+      '<img class="gs166-head-motif" src="global-search-head-motif-v173.png?v=5894" alt="" aria-hidden="true">'+
     '</header>'+
     '<div class="gs166-searchwrap">'+
       '<label class="gs166-search gs153-search" for="gq">'+
@@ -5197,7 +5412,7 @@ function sheetGlobalSearch(){
         '<button type="button" class="gs153-close" data-act="global-search-clear-tip" aria-label="Закрыть подсказку">'+ico('xmark','s')+'</button>'+
       '</div>'+
     '</div>'+
-    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5891" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
+    '<footer class="gs166-footer gs153-footer"><span></span><img src="reminder-footer-scales-exact.png?v=5894" alt=""><span></span><b>ПРАВО И ПОРЯДОК</b></footer>'+
   '</section>');
   $('#sheet').classList.add('global-search-premium-v166-sheet');
   renderGlobalSearch();
@@ -5528,7 +5743,7 @@ function sheetNotify(){
   openSheet('<section class="rem116">'+
     '<header class="rem116-head">'+
       '<div class="rem116-head-copy"><h2>Напоминания</h2><p><span>Локальное напоминание за 10 минут</span><span>до задачи и за час до заседания.</span></p></div>'+
-      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5891" alt="">'+
+      '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5894" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
@@ -5542,7 +5757,7 @@ function sheetNotify(){
     '</article>'+
     '<button class="rem116-toggle" data-act="notify" type="button" aria-label="'+toggleText+'"><span class="rem116-toggle-bell">'+ico('bell','s')+'</span><span class="rem116-toggle-text">'+toggleText+'</span><span class="rem116-toggle-chevron">'+ico('chev','s')+'</span></button>'+
     '<p class="rem116-note">Вы всегда сможете включить их снова в настройках.</p>'+
-    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5891" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
+    '<footer class="rem116-footer"><span></span><img class="rem116-footer-scale" src="reminder-footer-scales-exact.png?v=5894" alt=""><span></span><b>ДЕЛА В ПОРЯДКЕ</b></footer>'+
   '</section>');
   $('#sheet').classList.add('reminders-approved-v117-sheet');
 }
@@ -6654,7 +6869,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5891',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5894',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
