@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5908') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5910') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5908') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5910') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5908') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5910') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5908') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5910') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -820,4 +820,35 @@
    transform:translateY(-.45px) scaleY(1.065);
    transform-origin:left top;
  }
+}
+
+/* 5.0.910 / build 5910 — STAGE 3: approved mint status pill.
+   Use the existing fixed pill anchor and outer box (the iPhone 16 Pro artwork
+   and verified name/pill clearance remain immutable). Tweak ONLY its surface,
+   lettering and dot to match the user's reference. Dynamic completed state
+   remains visually distinct and uses the same geometric box. */
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status{
+  font-family:"Times New Roman",Times,serif;
+  font-size:clamp(10px,2.73vw,11.9px);
+  font-weight:700;line-height:1;letter-spacing:-.016em;
+  gap:5px;padding:3px 6px;
+  color:#197f60;
+  border:1px solid #acd9c5;
+  background:linear-gradient(180deg,#e2f7ec 0%,#d5f3e4 52%,#caebda 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.86),
+             inset 0 -1px 0 rgba(110,185,150,.10),
+             0 2px 5px rgba(37,107,79,.09);
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status i{
+  width:8px;height:8px;
+  background:radial-gradient(circle at 30% 27%,#29bb86 0%,#14a575 40%,#07885e 85%);
+  box-shadow:inset 0 1px 1px rgba(233,255,246,.35),
+             0 1px 2px rgba(25,96,63,.24);
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete{
+  color:#716653;border-color:#cec5b4;
+  background:linear-gradient(180deg,#f7f1e6 0%,#e8e1d4 100%);
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete i{
+  background:radial-gradient(circle at 30% 27%,#ada18c,#887962 87%);
 }
