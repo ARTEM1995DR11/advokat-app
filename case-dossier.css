@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5882') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5884') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5882') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5884') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5882') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5884') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5882') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5884') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -520,127 +520,83 @@
 }
 
 
-/* 5.0.879 / build 5879 — foreground title data geometry, without changing
-   the approved upper paper, front figure, shadow, colour tab, or top buttons.
-   The three text rows are constrained to the actual face of the current image.
-   In particular, long subject lines must NEVER flow below its bottom rim. */
-#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
-  top:0;z-index:4;
-}
+/* 5.0.884 / build 5884 — one measured text grid on the already approved front artwork.
+   DO NOT move, recolor or replace the folder graphics, background or header buttons.
+   Coordinates are relative to the face image; status is anchored at the same x/y
+   for both short and long client names. The lower two rows fit above the gilt lip. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{top:0;z-index:4}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   filter:brightness(1.06) saturate(.92) contrast(.98);
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-  position:absolute;inset:0;z-index:5;pointer-events:none;
-  display:flex;flex-direction:column;
-  padding:clamp(25px,7vw,28px) clamp(22px,6.6vw,26px) clamp(22px,6.1vw,24px) clamp(43px,12.2vw,52px);
-  min-height:0;overflow:hidden;
+  position:absolute;inset:0;box-sizing:border-box;z-index:5;
+  padding:clamp(28px,8vw,34px) clamp(16px,4.7vw,20px) 0 clamp(42px,11vw,47px);
+  display:block;overflow:hidden;pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-top{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:7px;min-height:0;flex:0 0 auto;
+  position:relative;display:block;height:auto;min-height:0;margin:0;padding:0;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
-  margin:0;min-width:0;flex:1;
-  font:700 clamp(18px,5.45vw,23px)/.96 Georgia,serif;
-  letter-spacing:-.033em;color:#142c57;
-  overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
-  line-clamp:2;max-height:2em;overflow-wrap:break-word;
-}
-#page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
-  margin:auto 0 0;min-height:0;
-  font:500 clamp(11.5px,3.35vw,13.5px)/1.1 Georgia,serif;
-  color:#18315f;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-#page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
-  margin:3px 0 0;min-height:0;
-  font:500 clamp(10.5px,2.95vw,12px)/1.1 Georgia,serif;
-  color:#6e7e99;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  box-sizing:border-box;display:block;position:relative;
+  margin:0;padding:0;min-width:0;max-width:none;
+  width:calc(100% - clamp(112px,30vw,128px));
+  font:700 clamp(19px,5.55vw,23px)/.99 Georgia,'Times New Roman',serif;
+  letter-spacing:-.026em;color:#142b57;
+  overflow:hidden;max-height:2em;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
+  white-space:normal;overflow-wrap:normal;word-break:normal;
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status{
-  flex:none;display:inline-flex;align-items:center;gap:6px;
-  margin-top:1px;padding:8px 12px;border-radius:999px;
-  border:1px solid #a7d9bf;background:linear-gradient(180deg,#dff7eb 0%,#caeddc 100%);
-  color:#197f5a;font:700 clamp(10px,3.1vw,13px)/1 Georgia,serif;
-  white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.65) inset, 0 2px 6px rgba(41,108,78,.08);
+  box-sizing:border-box;position:absolute;
+  top:0;right:clamp(12px,3.7vw,16px);
+  display:inline-flex;align-items:center;justify-content:center;
+  width:clamp(91px,24vw,104px);min-height:25px;
+  margin:0;padding:6px 9px;gap:5px;
+  border-radius:999px;border:1px solid #a7d9bf;
+  background:linear-gradient(180deg,#dff7eb 0%,#caeddc 100%);
+  color:#197f5a;font:700 clamp(10px,2.85vw,12px)/1 Georgia,'Times New Roman',serif;
+  white-space:nowrap;
+  box-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 2px 6px rgba(41,108,78,.08);
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status i{
-  width:11px;height:11px;border-radius:50%;background:#11a36a;display:block;
-  box-shadow:0 1px 3px rgba(7,74,44,.18) inset, 0 1px 2px rgba(0,0,0,.12);
+  flex:none;width:9px;height:9px;border-radius:50%;background:#11a36a;
+  box-shadow:0 1px 3px rgba(7,74,44,.18) inset,0 1px 2px rgba(0,0,0,.12);
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete{
   border-color:#c8c2b4;background:linear-gradient(180deg,#f0ece2 0%,#e2dbcd 100%);color:#786c58;
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete i{background:#9b8f7b}
-@media(max-width:390px){
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-    padding-left:clamp(43px,12.2vw,52px);padding-right:clamp(22px,6.6vw,26px);
-  }
-  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{padding:7px 10px;gap:5px}
-  #page.dossier-page .dossier-rear-stage .dossier-overlay-status i{width:10px;height:10px}
-}
-@media(max-width:365px){
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-    padding-left:43px;padding-right:23px;
-  }
-  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:10px;padding:7px 10px}
-}
-
-
-/* 5.0.880 — typography-only correction on the approved foreground title leaf.
-   Its raster geometry, height, position, material and surrounding folder layers are frozen.
-   Real case data uses compact text flow; no row can be pushed onto the lower golden edge. */
-#page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-  position:absolute;inset:0;z-index:5;
-  display:block;overflow:hidden;pointer-events:none;
-  box-sizing:border-box;
-  padding:clamp(22px,6.15vw,25px) clamp(16px,4.9vw,20px) 0 clamp(38px,10.85vw,43px);
-}
-#page.dossier-page .dossier-rear-stage .dossier-new-header-top{
-  display:block;position:relative;margin:0;padding:0;
-  min-height:0;height:auto;
-}
-#page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
-  box-sizing:border-box;display:block;position:relative;
-  margin:0;padding:0;
-  width:calc(100% - 89px);max-width:none;min-width:0;
-  font:700 clamp(17.5px,5.15vw,21px)/1.01 Georgia,'Times New Roman',serif;
-  letter-spacing:-.018em;color:#142c57;
-  white-space:normal;overflow:hidden;overflow-wrap:normal;word-break:normal;
-  max-height:2.08em;
-}
-#page.dossier-page .dossier-rear-stage .dossier-overlay-status{
-  position:absolute;right:0;top:0;
-  display:inline-flex;align-items:center;justify-content:center;
-  gap:5px;margin:0;padding:6px 8px;min-height:25px;
-  border-radius:999px;
-  font:700 clamp(9px,2.72vw,11px)/1 Georgia,serif;
-  white-space:nowrap;
-}
-#page.dossier-page .dossier-rear-stage .dossier-overlay-status i{
-  flex:0 0 auto;width:8px;height:8px;
-}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{
-  display:block;max-width:100%;margin:5px 0 0;padding:0;
-  font:500 clamp(10.7px,3.05vw,12.5px)/1.12 Georgia,'Times New Roman',serif;
-  color:#18315f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  display:block;max-width:100%;min-height:0;
+  margin:4px 0 0;padding:0;
+  font:500 clamp(11.4px,3.3vw,14px)/1.08 Georgia,'Times New Roman',serif;
+  letter-spacing:-.005em;color:#1b3057;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{
-  display:block;max-width:100%;margin:3px 0 0;padding:0;
-  font:400 clamp(9.7px,2.85vw,11.5px)/1.12 Georgia,'Times New Roman',serif;
-  color:#72849a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  display:block;max-width:100%;min-height:0;
+  margin:2px 0 0;padding:0;
+  font:400 clamp(10px,2.98vw,12.4px)/1.08 Georgia,'Times New Roman',serif;
+  letter-spacing:0;color:#71829b;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+/* On two-line names the first row is compacted rather than moving the leaf. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-copy.dossier-two-line-name{
+  padding-top:clamp(25px,7.2vw,31px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{
+  font-size:clamp(18px,5.05vw,21px);line-height:.92;max-height:1.9em;
+}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-subject{margin-top:2px}
+#page.dossier-page .dossier-rear-stage .dossier-two-line-name .dossier-new-header-meta{margin-top:1px}
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-new-header-copy{
-    padding-top:21px;padding-left:39px;padding-right:17px;
+    padding-top:28px;padding-left:42px;padding-right:16px;
   }
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{width:calc(100% - 81px);font-size:18px}
-  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:9px;padding:5px 7px;min-height:24px}
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{margin-top:4px;font-size:11px}
-  #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{margin-top:3px;font-size:10px}
-}
-#page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{
-  -webkit-line-clamp:unset;line-clamp:unset;
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-copy h1{font-size:19.1px}
+  #page.dossier-page .dossier-rear-stage .dossier-two-line-name{padding-top:25px}
+  #page.dossier-page .dossier-rear-stage .dossier-two-line-name h1{font-size:18px;line-height:.93}
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-subject{font-size:11.2px}
+  #page.dossier-page .dossier-rear-stage .dossier-new-header-meta{font-size:10px}
+  #page.dossier-page .dossier-rear-stage .dossier-overlay-status{font-size:10px;min-height:24px}
 }
