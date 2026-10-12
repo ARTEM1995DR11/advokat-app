@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5910') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5911') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5910') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5911') center top / 100% 100% no-repeat,#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -441,7 +441,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5910') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5911') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -469,7 +469,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5910') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=5911') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -851,4 +851,46 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete i{
   background:radial-gradient(circle at 30% 27%,#ada18c,#887962 87%);
+}
+
+
+/* 5.0.911 / build 5911 — STAGE 3 FINAL, redesigned «В работе» mockup
+   1536x576 reference normalized to the iPhone 16 Pro width (402 CSS px).
+   Mint badge bounding box in mockup: x=991..1307, y=145..227.
+   Its target viewport width ≈82.7 CSS px and height ≈21.5 CSS px.
+   Keep the user's approved FIO/title/subject/meta and folder art immutable.
+   Update ONLY the pill's own geometry/material/label; JS keeps its clearance
+   calculations coupled to the real measured badge rectangle. */
+@media (min-width:390px) and (max-width:414px){
+ #page.dossier-page .dossier-rear-stage .dossier-new-header-layer {
+   --dossier-grid-pill-y:clamp(24px,6.45vw,28px);
+   --dossier-grid-pill-right:clamp(27px,7.65vw,35px);
+ }
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status {
+  width:clamp(79px,20.75vw,92px);
+  height:clamp(20.5px,5.44vw,23px);
+  padding:2px 5px;
+  gap:5.5px;
+  font-family:"Times New Roman",Times,serif;
+  font-size:clamp(11.3px,3.2vw,13.3px);
+  font-weight:700;
+  letter-spacing:-.018em;
+  line-height:1;
+  color:#087c4d;
+  border:1px solid #83cfb0;
+  border-radius:999px;
+  background:linear-gradient(180deg,#d6f4e5 0%,#c6eedb 49%,#cfefdc 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76),
+             0 1.5px 4px rgba(33,111,79,.09);
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status i {
+  width:8px;height:8px;
+  background:radial-gradient(circle at 30% 27%,#20ae75 0%,#09945f 55%,#087d4c 100%);
+  box-shadow:inset 0 1px 1px rgba(216,255,234,.36),0 1px 2px rgba(5,95,56,.18);
+}
+#page.dossier-page .dossier-rear-stage .dossier-overlay-status.is-complete {
+  font-size:clamp(10px,2.83vw,11.7px);
+  color:#716653;border-color:#cec5b4;
+  background:linear-gradient(180deg,#f7f1e6 0%,#e8e1d4 100%);
 }
