@@ -1,94 +1,109 @@
-const CACHE = 'advokat-iphone-offline-v157-premium-5925';
+const CACHE = 'advokat-iphone-offline-v158-premium-5926';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=5925',
-  './cases-folders.css?v=5925',
-  './case-lifecycle.css?v=5925',
-  './case-dossier.css?v=5925',
-  './bg-matters-approved-v487.png?v=5925',
-  './bg-dossier-continuous-v5833.webp?v=5925',
-  './dossier-layer1-koap-v5925.png?v=5925',
-  './dossier-layer1-civil-v5925.png?v=5925',
-  './dossier-layer1-criminal-v5925.png?v=5925',
-  './dossier-layer1-admin-v5925.png?v=5925',
-  './dossier-top-strip-admin.png?v=5925',
-  './dossier-top-strip-criminal.png?v=5925',
-  './dossier-top-strip-civil.png?v=5925',
-  './dossier-crest-koap-v5921.png?v=5925',
-  './dossier-crest-civil-v5921.png?v=5925',
-  './dossier-crest-criminal-v5921.png?v=5925',
-  './dossier-crest-kas-v5921.png?v=5925',
-  './dossier-blue-crest-v5920.png?v=5925',
-  './dossier-top-strip-koap.png?v=5925',
-  './dossier-upper-paper-v5839.png?v=5925',
-  './dossier-header-panel-5877.png?v=5925',
-  './dossier-front-parchment-v5839.png?v=5925',
-  './dossier-header-button-premium-v5859.png?v=5925',
-  './new-matter-client.css?v=5925',
-  './new-matter-stage.css?v=5925',
-  './new-matter-values.css?v=5925',
-  './new-matter-save.css?v=5925',
-  './app.js?v=5925',
-  './manifest.webmanifest?v=5925',
+  './styles.css?v=5926',
+  './cases-folders.css?v=5926',
+  './case-lifecycle.css?v=5926',
+  './case-dossier.css?v=5926',
+  './bg-matters-approved-v487.png?v=5926',
+  './bg-dossier-continuous-v5833.webp?v=5926',
+  './app.js?v=5926',
+  './manifest.webmanifest?v=5926',
   './VERSION.txt',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
-  './premium-icon-180.png?v=5925',
-  './premium-icon-192.png?v=5925',
   './bg-today-desk.webp',
   './bg-tasks-planner.webp',
   './bg-matters-folders.webp',
-  './bg-matters-approved-v487.png',
-  './scale-gold.webp?v=5925',
+  './scale-gold.webp?v=5926',
   './bg-cal-marble-calendar.webp',
   './bg-more-marble-office.webp',
-  './premium-gold-type-v5249.webp?v=5925',
-  './premium-gold-save-v5249.webp?v=5925',
-  './quick-sheet-mobile-approved-v5211.webp?v=5925',
-  './quick-sheet-marble-approved.webp?v=5925',
-  './columns-light.png?v=5925',
-  './header-bell-premium.png?v=5925',
-  './header-search-premium.png?v=5925',
-  './header-filter-premium.png?v=5925',
-  './bg-new-matter-approved.webp?v=5925',
-  './nm-folder-mockup.png?v=5925',
-  './nm-scale-mockup.png?v=5925',
-  './nm-doc-mockup.png?v=5925',
-  './global-search-head-motif-v173.png?v=5925',
-  './fab-plus-square-premium.png?v=5925',
+  './header-bell-premium.png?v=5926',
+  './header-search-premium.png?v=5926',
+  './header-filter-premium.png?v=5926',
+  './fab-plus-square-premium.png?v=5926',
   './nav-panel-light.png',
-  './nav-panel-light.png?v=5925',
-  './nav-active-base.png?v=5925',
-  './nav-active-today.png?v=5925',
-  './nav-active-tasks.png?v=5925',
-  './nav-active-cases.png?v=5925',
-  './nav-active-calendar.png?v=5925',
-  './nav-active-more.png?v=5925',
-  './reminder-head-motif-exact.png?v=5925',
-  './reminder-footer-scales-exact.png?v=5925',
-  './quick-card-task-v5100.png?v=5925',
-  './quick-card-hearing-v5100.png?v=5925',
-  './quick-card-meeting-v5100.png?v=5925',
-  './quick-card-deadline-v5100.png?v=5925',
-  './quick-card-journal-v5100.png?v=5925',
-  './folder-icon-scale-kas-v779.png?v=5925',
-  './folder-icon-gavel-criminal-v770.png?v=5925',
-  './folder-icon-house-document-civil-v789.png?v=5925',
-  './folder-icon-doc-koap-v770.png?v=5925'
+  './nav-panel-light.png?v=5926',
+  './nav-active-today.png?v=5926',
+  './nav-active-tasks.png?v=5926',
+  './nav-active-cases.png?v=5926',
+  './nav-active-calendar.png?v=5926',
+  './nav-active-more.png?v=5926',
+  './folder-icon-scale-kas-v779-fast5926.webp?v=5926',
+  './folder-icon-gavel-criminal-v770-fast5926.webp?v=5926',
+  './folder-icon-house-document-civil-v789-fast5926.webp?v=5926',
+  './folder-icon-doc-koap-v770-fast5926.webp?v=5926'
+];
+const OPTIONAL = [
+  './dossier-layer1-koap-v5925.png?v=5926',
+  './dossier-layer1-civil-v5925.png?v=5926',
+  './dossier-layer1-criminal-v5925.png?v=5926',
+  './dossier-layer1-admin-v5925.png?v=5926',
+  './dossier-top-strip-admin.png?v=5926',
+  './dossier-top-strip-criminal.png?v=5926',
+  './dossier-top-strip-civil.png?v=5926',
+  './dossier-crest-koap-v5921.png?v=5926',
+  './dossier-crest-civil-v5921.png?v=5926',
+  './dossier-crest-criminal-v5921.png?v=5926',
+  './dossier-crest-kas-v5921.png?v=5926',
+  './dossier-blue-crest-v5920.png?v=5926',
+  './dossier-top-strip-koap.png?v=5926',
+  './dossier-upper-paper-v5839.png?v=5926',
+  './dossier-header-panel-5877.png?v=5926',
+  './dossier-front-parchment-v5839.png?v=5926',
+  './dossier-header-button-premium-v5859.png?v=5926',
+  './new-matter-client.css?v=5926',
+  './new-matter-stage.css?v=5926',
+  './new-matter-values.css?v=5926',
+  './new-matter-save.css?v=5926',
+  './premium-icon-180.png?v=5926',
+  './premium-icon-192.png?v=5926',
+  './bg-matters-approved-v487.png',
+  './premium-gold-type-v5249.webp?v=5926',
+  './premium-gold-save-v5249.webp?v=5926',
+  './quick-sheet-mobile-approved-v5211.webp?v=5926',
+  './quick-sheet-marble-approved.webp?v=5926',
+  './columns-light.png?v=5926',
+  './bg-new-matter-approved.webp?v=5926',
+  './nm-folder-mockup.png?v=5926',
+  './nm-scale-mockup.png?v=5926',
+  './nm-doc-mockup.png?v=5926',
+  './global-search-head-motif-v173.png?v=5926',
+  './nav-active-base.png?v=5926',
+  './reminder-head-motif-exact.png?v=5926',
+  './reminder-footer-scales-exact.png?v=5926',
+  './quick-card-task-v5100.png?v=5926',
+  './quick-card-hearing-v5100.png?v=5926',
+  './quick-card-meeting-v5100.png?v=5926',
+  './quick-card-deadline-v5100.png?v=5926',
+  './quick-card-journal-v5100.png?v=5926'
 ];
 
 self.addEventListener('install', event => {
+  // Fast, small offline shell first; avoid dozens of simultaneous heavy images.
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache => Promise.all(
-        CORE.map(url => cache.add(url).catch(() => null))
-      ))
+      .then(cache => Promise.all(CORE.map(url => cache.add(url).catch(() => null))))
       .then(() => self.skipWaiting())
   );
 });
+
+async function cacheOptionalAtLowPriority(){
+  const cache = await caches.open(CACHE);
+  let cursor = 0;
+  const worker = async () => {
+    while(cursor < OPTIONAL.length){
+      const url = OPTIONAL[cursor++];
+      try{ if(!(await cache.match(url))) await cache.add(url); }
+      catch(_e){} // Offline or optional resource absent: do not block main application.
+    }
+  };
+  await Promise.all([worker(), worker()]);
+}
+
 
 self.addEventListener('activate', event => {
   event.waitUntil(
@@ -149,4 +164,5 @@ self.addEventListener('fetch', event => {
 
 self.addEventListener('message', event => {
   if(event.data === 'SKIP_WAITING') self.skipWaiting();
+  if(event.data === 'WARM_OFFLINE_ASSETS') event.waitUntil(cacheOptionalAtLowPriority());
 });
