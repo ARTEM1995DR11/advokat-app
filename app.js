@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.924';
-var APP_BUILD='5924';
+var APP_VERSION='5.0.925';
+var APP_BUILD='5925';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,7 +4535,7 @@ function dossierLayoutPreview(m,id,tab,p){
   // 5.0.878 / build 5878: the added figurative title layer is moved higher, made visually lighter than the rear paper,
   // and temporarily populated with live matter data so the placement can be checked directly in the app.
   var visualType=matterFolderVisualType(m)||'koap';
-  var stripByType={koap:'dossier-leather-ridge-koap-v5924.png',civil:'dossier-leather-ridge-civil-v5924.png',criminal:'dossier-leather-ridge-criminal-v5924.png',admin:'dossier-leather-ridge-admin-v5924.png'};
+  var stripByType={koap:'dossier-layer1-koap-v5925.png',civil:'dossier-layer1-civil-v5925.png',criminal:'dossier-layer1-criminal-v5925.png',admin:'dossier-layer1-admin-v5925.png'};
   var stripImage=(stripByType[visualType]||stripByType.koap)+'?v='+APP_BUILD;
   // Stage 4.1, first approved rear-blue crest: do not replace any other graphical layer.
   var title=dossierTitle(m);
@@ -6935,7 +6935,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5924',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=5925',{updateViaCache:'none'})
         .then(function(reg){ return reg.update().catch(function(){}); })
         .catch(function(){});
     },1400);
