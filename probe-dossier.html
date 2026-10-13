@@ -2,24 +2,32 @@
 <html lang="ru"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Probe</title>
-<link rel="stylesheet" href="styles.css?v=5920">
-<link rel="stylesheet" href="new-matter-client.css?v=5920">
-<link rel="stylesheet" href="new-matter-stage.css?v=5920">
-<link rel="stylesheet" href="new-matter-values.css?v=5920">
-<link rel="stylesheet" href="new-matter-save.css?v=5920">
-<link rel="stylesheet" href="cases-folders.css?v=5920">
-<link rel="stylesheet" href="case-lifecycle.css?v=5920">
-<link rel="stylesheet" href="case-dossier.css?v=5920">
+<link rel="stylesheet" href="styles.css?v=5921">
+<link rel="stylesheet" href="new-matter-client.css?v=5921">
+<link rel="stylesheet" href="new-matter-stage.css?v=5921">
+<link rel="stylesheet" href="new-matter-values.css?v=5921">
+<link rel="stylesheet" href="new-matter-save.css?v=5921">
+<link rel="stylesheet" href="cases-folders.css?v=5921">
+<link rel="stylesheet" href="case-lifecycle.css?v=5921">
+<link rel="stylesheet" href="case-dossier.css?v=5921">
 </head>
 <body class="light">
 <div id="app"><div class="screen" id="sc-today"></div><div class="screen hide" id="sc-tasks"></div><div class="screen hide" id="sc-matters"></div><div class="screen hide" id="sc-cal"></div><div class="screen hide" id="sc-more"></div></div>
 <button class="fab" id="fab"></button><nav class="tabbar premium-nav" id="tabbar"></nav>
 <div class="scrim" id="scrim"></div><div class="sheet" id="sheet"></div><div class="sheet full" id="page"></div><div class="toast premium-toast" id="toast"></div>
 <div class="premium-date-scrim" id="date-scrim"></div><div class="premium-date-modal" id="premium-date-modal"></div><div class="premium-time-scrim" id="time-scrim"></div><div class="premium-time-modal" id="premium-time-modal"></div>
-<script src="app.js?v=5920"></script>
+<script src="app.js?v=5921"></script>
 <script>
 window.addEventListener('load',()=>{
-  const m={type:'civil',basis:'agreement',client:'Орлова Наталья',number:'2-2104/2026',court:'Иск КАС',stage:'Первая инстанция',notes:'Раздел совместного имущества: квартира, автомобиль и долговые обязательства'};
+  const qs=new URLSearchParams(location.search);
+  const type=qs.get('type')||'civil';
+  const samples={
+    koap:{type:'koap',basis:'agreement',client:'Селиванов Артём',number:'5-846/2026',court:'КОАП',stage:'Первая инстанция',article:'ч. 1 ст. 12.8 КоАП РФ'},
+    civil:{type:'civil',basis:'agreement',client:'Орлова Наталья',number:'2-2104/2026',court:'ГРАЖДАНСКОЕ',stage:'Первая инстанция',notes:'Раздел совместного имущества: квартира, автомобиль и долговые обязательства'},
+    criminal:{type:'criminal',basis:'agreement',client:'Воронцов Пётр',number:'120260000000089',court:'УГОЛОВНОЕ',stage:'Первая инстанция',article:'ч. 2 ст. 158 УК РФ'},
+    admin:{type:'admin',basis:'agreement',client:'Семенов Дмитрий',number:'2-1864/2026',court:'ИСК КАС',stage:'Первая инстанция',notes:'Оспаривание 2х решений о признании нарушителем'}
+  };
+  const m=samples[type]||samples.civil;
   const p=document.getElementById('page');
   dossierLayoutPreview(m,'probe','overview',p);
   setTimeout(()=>document.body.setAttribute('data-ready','1'),600);
