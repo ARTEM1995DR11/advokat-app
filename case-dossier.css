@@ -1108,3 +1108,51 @@
   object-fit: fill;
   z-index: 1;
 }
+
+
+/* 5.0.923 / build 5923 — Stage 1 correction after direct audit against the approved mockup.
+   Only the isolated first coloured layer is visible right now; text stays live.
+   Fix the three noted defects of 5.0.922: (1) stop clipping the top rim,
+   (2) stop stretching the crest across the whole width, (3) restore the
+   reference placement/proportions and slightly cleaner per-type colour. */
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas{
+  overflow:visible !important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-colored-rear-strip,
+#page.dossier-page .dossier-rear-stage[data-dossier-type="civil"] .dossier-colored-rear-strip{
+  display:block !important;
+  position:absolute !important;
+  top:6px !important;
+  left:8.6% !important;
+  width:79.2% !important;
+  height:auto !important;
+  margin:0 !important;
+  aspect-ratio:2148 / 249 !important;
+  max-width:none !important;
+  object-fit:contain !important;
+  clip-path:none !important;
+  transform:none !important;
+  transform-origin:left top !important;
+  z-index:1 !important;
+  filter:drop-shadow(0 1px 1.25px rgba(38,28,18,.18)) !important;
+}
+#page.dossier-page .dossier-rear-stage[data-dossier-type="civil"] .dossier-colored-rear-strip{
+  filter:saturate(1.05) brightness(1.01) contrast(1.03) drop-shadow(0 1px 1.25px rgba(22,35,76,.18)) !important;
+}
+#page.dossier-page .dossier-rear-stage[data-dossier-type="criminal"] .dossier-colored-rear-strip{
+  filter:saturate(1.06) brightness(1.00) contrast(1.03) drop-shadow(0 1px 1.25px rgba(64,20,28,.18)) !important;
+}
+#page.dossier-page .dossier-rear-stage[data-dossier-type="admin"] .dossier-colored-rear-strip{
+  filter:saturate(1.04) brightness(1.01) contrast(1.02) drop-shadow(0 1px 1.25px rgba(20,73,78,.16)) !important;
+}
+#page.dossier-page .dossier-rear-stage[data-dossier-type="koap"] .dossier-colored-rear-strip{
+  filter:saturate(1.01) brightness(1.00) contrast(1.03) drop-shadow(0 1px 1.25px rgba(69,48,19,.18)) !important;
+}
+@media (max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-colored-rear-strip,
+  #page.dossier-page .dossier-rear-stage[data-dossier-type="civil"] .dossier-colored-rear-strip{
+    left:8.2% !important;
+    width:80.4% !important;
+    top:7px !important;
+  }
+}
