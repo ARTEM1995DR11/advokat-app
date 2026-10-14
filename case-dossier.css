@@ -1250,3 +1250,14 @@
    locked Layer 1 styles and every live text coordinate are unchanged. */
 
 /* 5.0.945 / build 5945 — Layer 2 Step 3: material depth only; layer geometry, Layer 1 and live content untouched. */
+
+/* 5.0.946 / build 5946 — STAGE 4.2 / STEP 4 — LAYER 2 ACCEPTANCE FREEZE.
+   Approved after checking four 402 CSS px renders and four real iPhone screenshots
+   for type koap / civil / criminal / admin. Do NOT adjust the Layer 2 geometry,
+   material, shadow, or file resource without a new explicit user request.
+   Authoritative selectors are the existing .dossier-paper-stack-stage and
+   .dossier-paper-stack-art rules above; this acceptance adds NO CSS overrides.
+   Layer 1 remains locked as originally accepted; Live text and header remain fixed.
+   When installing Layer 3+ keep transparent layers correctly ordered and
+   inspect the final visible rim together with the future ivory front face.
+*/
