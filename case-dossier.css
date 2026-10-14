@@ -1270,14 +1270,14 @@
    Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   visibility:visible !important;
-  /* 5.0.949 / build 5949 — Layer 4, step 2 optical registration.
+  /* 5.0.950 / build 5950 — Layer 4, step 2 optical registration after iPhone capture.
      Keep Layer 1, Layer 2, live HTML text/status and the app shell frozen.
-     Nudge only the ivory raster slightly left and a touch upward so the
-     right termination and paper-clip breathing room register closer to
+     Keep the approved horizontal registration; lower the ivory raster 4 CSS px so the
+     leather/kraft reveal and top paperclip-to-name spacing approach
      the approved mock without changing any text coordinates. */
   width:calc(100% + 2px);
   aspect-ratio:1408 / 405;
   object-fit:contain;
   object-position:center center;
-  transform:translate(-6px,14px);
+  transform:translate(-6px,18px);
 }

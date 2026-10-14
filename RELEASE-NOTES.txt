@@ -1,3 +1,5 @@
-5.0.949 / build 5949 — Layer 4 / Step 2 optical registration.
-Only the front ivory raster was nudged slightly left and upward to better match the approved mock.
-Layer 1, Layer 2, live header text, status badge, shell and all other dossier geometry remain frozen.
+5.0.950 / build 5950 — Layer 4 / step 2 (follow-up iPhone review)
+Lower ONLY the ivory front raster by 4 CSS px relative to 5.0.949; horizontal position unchanged.
+Layer 1 / Layer 2 graphics and CSS, live client/title/status text, header and other pages unchanged.
+Layer 3 remains intentionally absent; pending separate approval.
+Viewport: 402 CSS px. Service Worker cache v178, app build 5950.
