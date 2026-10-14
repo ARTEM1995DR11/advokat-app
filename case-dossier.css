@@ -1213,7 +1213,7 @@
    Subsequent folds and paper remain separate and temporarily hidden. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage {
   position:absolute; display:block; visibility:visible !important;
-  top:16px; left:2.1%; width:97.5%; height:auto; margin:0; padding:0;
+  top:14px; left:2.1%; width:96.7%; height:auto; margin:0; padding:0;
   z-index:var(--dossier-stack-z-kraft-paper);
   pointer-events:none; user-select:none; filter:none;
 }
@@ -1238,4 +1238,10 @@
    align the landscape kraft upper edge in the common canvas. Keep Layer 1 CSS, 
    graphic resources, text, and dossier header untouched. */
 
-/* 5.0.943: verified 402px viewport layer2 offset and width, keeps all other layers locked. */
+/* 5.0.944: verified 402px viewport layer2 offset and width, keeps all other layers locked. */
+
+/* 5.0.944 / build 5944 — final Stage 4.2 / Step 2 optical registration.
+   Source 5.0.944 aligned against 864px full mock scaled to 706px iPhone capture.
+   Keep left edge 2.1% fixed; lift upper fold by 2 CSS px, trim right
+   extension by 0.8% of parent width. Assets, aspect ratio, z-stack, all
+   locked Layer 1 styles and every live text coordinate are unchanged. */
