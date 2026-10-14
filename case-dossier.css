@@ -515,7 +515,7 @@
   pointer-events:none;user-select:none;overflow:visible;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
-  display:block;width:100%;height:auto;max-width:none;aspect-ratio:2172/724;
+  display:block;width:100%;height:auto;max-width:none;aspect-ratio:1408/405;
   object-fit:contain;pointer-events:none;-webkit-user-drag:none;
 }
 
@@ -1005,7 +1005,7 @@
   width: 100%;
   height: auto;
   max-width: none;
-  aspect-ratio: 2172/724;
+  aspect-ratio:1408/405;
   object-fit: contain;
   filter: brightness(1.025) saturate(.99) contrast(1.035) drop-shadow(0 2px 2px rgba(84,50,22,.17));
 }
@@ -1262,13 +1262,20 @@
    inspect the final visible rim together with the future ivory front face.
 */
 
-/* 5.0.947 / build 5947 — Layer 4, initial COMPOSITING only.
+/* 5.0.948 / build 5948 — Layer 4, optical geometry and composite step 2.
+   The initial compositing was introduced in build 5947.
    User-supplied light ivory front artwork (transparent-margin trim only).
    Leave all Layer 1 + Layer 2 CSS, live text positioning, status and app shell frozen.
    Restore the front art whose display was intentionally hidden for earlier layers.
    Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   visibility:visible !important;
+  /* Aspect and pixel geometry track the real trimmed 1408 × 405 asset.
+     Translate the RASTER alone: live text/status positions are frozen.
+     This reveals the leather right shoulder and covers surplus kraft bottom. */
+  width:calc(100% + 2px);
+  aspect-ratio:1408 / 405;
   object-fit:contain;
   object-position:center center;
+  transform:translate(-2px,15px);
 }

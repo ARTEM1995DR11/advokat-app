@@ -1,4 +1,5 @@
-5.0.947 / build 5947 — Layer 4 installed (initial positioning).
-From 5.0.946, added user-provided ivory paper face, alpha-only crop, no regeneration.
-Layers 1/2 assets and CSS positions unchanged, Layer 3 pending.
-Four real browser controls required; Layer 4 steps 2-4 pending approval.
+5.0.948 / build 5948 — Layer 4 / Step 2 optical geometry.
+Correct intrinsic aspect ratio 1408/405 of existing user-supplied front panel.
+Move only visible raster by x=-2 CSS px, y=+15 CSS px at 402 CSS px viewport;
+keep live title, subject, metadata, status, leather and kraft source files untouched.
+No Layer 3 yet. Browser screenshots and functional checks accompany ZIP.
