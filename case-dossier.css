@@ -1270,12 +1270,14 @@
    Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   visibility:visible !important;
-  /* Aspect and pixel geometry track the real trimmed 1408 × 405 asset.
-     Translate the RASTER alone: live text/status positions are frozen.
-     This reveals the leather right shoulder and covers surplus kraft bottom. */
+  /* 5.0.949 / build 5949 — Layer 4, step 2 optical registration.
+     Keep Layer 1, Layer 2, live HTML text/status and the app shell frozen.
+     Nudge only the ivory raster slightly left and a touch upward so the
+     right termination and paper-clip breathing room register closer to
+     the approved mock without changing any text coordinates. */
   width:calc(100% + 2px);
   aspect-ratio:1408 / 405;
   object-fit:contain;
   object-position:center center;
-  transform:translate(-2px,15px);
+  transform:translate(-6px,14px);
 }
