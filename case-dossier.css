@@ -1261,3 +1261,14 @@
    When installing Layer 3+ keep transparent layers correctly ordered and
    inspect the final visible rim together with the future ivory front face.
 */
+
+/* 5.0.947 / build 5947 — Layer 4, initial COMPOSITING only.
+   User-supplied light ivory front artwork (transparent-margin trim only).
+   Leave all Layer 1 + Layer 2 CSS, live text positioning, status and app shell frozen.
+   Restore the front art whose display was intentionally hidden for earlier layers.
+   Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-art{
+  visibility:visible !important;
+  object-fit:contain;
+  object-position:center center;
+}
