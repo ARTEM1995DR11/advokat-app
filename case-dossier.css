@@ -1213,12 +1213,12 @@
    Subsequent folds and paper remain separate and temporarily hidden. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage {
   position:absolute; display:block; visibility:visible !important;
-  top:16px; left:2.5%; width:98.3%; height:auto; margin:0; padding:0;
+  top:16px; left:2.1%; width:97.5%; height:auto; margin:0; padding:0;
   z-index:var(--dossier-stack-z-kraft-paper);
   pointer-events:none; user-select:none; filter:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-art {
-  display:block; width:100%; height:auto; aspect-ratio:1383 / 322;
+  display:block; width:100%; height:auto; aspect-ratio:2084 / 641;
   max-width:none; object-fit:contain;
   filter:drop-shadow(0 1px 1px rgba(78,46,19,.13));
 }
@@ -1234,4 +1234,8 @@
 
 /* 5.0.940 — Layer 2 approved asset replaces oversized kraft folder. First-layer styling unchanged. */
 
-/* 5.0.941 — Layer 2 step 2: geometry only, final sprite 1383:322; leather layer unchanged. */
+/* 5.0.942 / build 5942 — Layer 2 steps 1-2: replace approved kraft asset; 
+   align the landscape kraft upper edge in the common canvas. Keep Layer 1 CSS, 
+   graphic resources, text, and dossier header untouched. */
+
+/* 5.0.943: verified 402px viewport layer2 offset and width, keeps all other layers locked. */
