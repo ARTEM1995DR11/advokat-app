@@ -1213,15 +1213,21 @@
    Subsequent folds and paper remain separate and temporarily hidden. */
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-stage {
   position:absolute; display:block; visibility:visible !important;
-  top:10px; left:0; width:100%; height:auto; margin:0; padding:0;
+  top:6px; left:0.4%; width:99.1%; height:auto; margin:0; padding:0;
   z-index:var(--dossier-stack-z-kraft-paper);
   pointer-events:none; user-select:none; filter:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-art {
   display:block; width:100%; height:auto; aspect-ratio:1337 / 805;
   max-width:none; object-fit:contain;
-  filter:drop-shadow(0 1px 1px rgba(78,46,19,.14));
+  filter:drop-shadow(0 1px 1px rgba(78,46,19,.13));
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art {
   visibility:hidden !important;
 }
+
+/* 5.0.937 / build 5937 — Stage 4.2 / Step 2: adjust Layer 2 registration only.
+   Keep the approved kraft artwork byte-identical. Refine only placement: lift the
+   kraft base slightly, reduce width a touch, and nudge it right so the left shoulder,
+   right termination and top reveal sit closer to the approved mock while Layer 1 and
+   all live text remain unchanged. */
