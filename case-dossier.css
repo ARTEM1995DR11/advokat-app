@@ -1220,7 +1220,10 @@
 #page.dossier-page .dossier-rear-stage .dossier-paper-stack-art {
   display:block; width:100%; height:auto; aspect-ratio:2084 / 641;
   max-width:none; object-fit:contain;
-  filter:drop-shadow(0 1px 1px rgba(78,46,19,.13));
+  /* Layer 2, Step 3: low-radius contact shadow under the kraft rim and
+     a broader, faint separation from marble; texture/color remain the original raster. */
+  filter: drop-shadow(0 1.1px .7px rgba(74,45,22,.20))
+          drop-shadow(0 2.4px 2.2px rgba(95,60,33,.09));
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art {
   visibility:hidden !important;
@@ -1245,3 +1248,5 @@
    Keep left edge 2.1% fixed; lift upper fold by 2 CSS px, trim right
    extension by 0.8% of parent width. Assets, aspect ratio, z-stack, all
    locked Layer 1 styles and every live text coordinate are unchanged. */
+
+/* 5.0.945 / build 5945 — Layer 2 Step 3: material depth only; layer geometry, Layer 1 and live content untouched. */
