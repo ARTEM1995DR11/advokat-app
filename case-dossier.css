@@ -1297,7 +1297,7 @@
 /* 5.0.956: constrain the narrow strip even if an asset is unexpectedly unavailable.
    This prevents iOS Safari from inflating a broken <img> into a giant square. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
-  /* 5.0.957 / build 5957 — Layer 3, Step 1: optical registration against four
+  /* 5.0.959 / build 5959 — Layer 3, Step 1: optical registration against four
      actual iPhone screenshots. Retain existing layer-3 SVG, leather, kraft, ivory
      front and dynamic text byte-for-byte. Shift the exposed inner paper toward
      the right and gently compress the visible span around its right anchor.
@@ -1311,7 +1311,30 @@
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims img{
   display:block;width:100%;height:100%;max-width:none;aspect-ratio:402/26;
   object-fit:contain;pointer-events:none;-webkit-user-drag:none;
-  filter:drop-shadow(0 .45px .35px rgba(86,70,49,.11));
+  filter:drop-shadow(0 .35px .38px rgba(97,79,56,.085));
 }
 
 /* 5.0.955 / build 5955 — continue Layer 3 installation in-app. Existing Layer 3 rim asset is preserved; Layer 4 is lowered slightly so the exposed paper reveal reads closer to the approved mock. No new art assets are introduced. */
+
+/* 5.0.959 / step 2: existing SVG supplies warmed ivory gradients and softer contact
+   separators only. All geometry from layer 3 step 1 is preserved. */
+
+/* 5.0.959 / build 5959 — Layer 3, Steps 3–4: final compositing in the existing
+   card. Keep the approved Layer 3 shape and Step 1 placement, and keep all
+   artwork files, layers 1, 2, 4, copy/status, navigation and the app shell
+   byte-identical. Layer 3 sits in its own lower plane; the ivory face is
+   explicitly above it, so only the top staggered paper edge remains visible.
+   Two ultra-soft localized contact shadows distinguish the sheets without
+   doubling the border of the Layer 4 card. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
+  z-index:3;
+  isolation:isolate;
+}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
+  z-index:4;
+}
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims img{
+  filter:drop-shadow(0 .55px .38px rgba(91,67,44,.115))
+         drop-shadow(0 1.20px .90px rgba(103,79,53,.055));
+}
+
