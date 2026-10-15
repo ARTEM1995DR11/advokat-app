@@ -1297,8 +1297,15 @@
 /* 5.0.956: constrain the narrow strip even if an asset is unexpectedly unavailable.
    This prevents iOS Safari from inflating a broken <img> into a giant square. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
-  position:absolute;z-index:3;left:0;top:18px;width:100%;height:auto;
+  /* 5.0.957 / build 5957 — Layer 3, Step 1: optical registration against four
+     actual iPhone screenshots. Retain existing layer-3 SVG, leather, kraft, ivory
+     front and dynamic text byte-for-byte. Shift the exposed inner paper toward
+     the right and gently compress the visible span around its right anchor.
+     A 1px downward adjustment reduces excess exposure over the front edge. */
+  position:absolute;z-index:3;left:0;top:19px;width:100%;height:auto;
   aspect-ratio:402 / 26;
+  transform:translateX(-2px) scaleX(.94);
+  transform-origin:right center;
   overflow:hidden;pointer-events:none;user-select:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims img{
