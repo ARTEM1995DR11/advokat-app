@@ -1,4 +1,5 @@
-5.0.955 / build 5955 — layer 3 in-app installation continuation.
-Layer 3 asset remains the same; no new image was generated.
-Layer 4 ivory front is lowered slightly in CSS so the visible Layer 3 reveal sits closer to the approved mock.
-All Layer 1, Layer 2, live text, controls and app shell remain unchanged.
+5.0.956 / build 5956 — HOTFIX: Layer 3 failed to load in 5.0.955.
+Cause: app.js and SW referenced nonexistent dossier-layer3-paper-v5955.svg.
+Fix: point to existing approved dossier-layer3-paper-v5954.svg with ?v=5956; cache it as essential CORE.
+Added fixed aspect-ratio bounding box to keep narrow rim from inflating into a broken-image square on iPhone.
+No graphic assets recreated, no adjustments to Layers 1/2/4 or dynamic case text.
