@@ -1,5 +1,4 @@
-5.0.950 / build 5950 — Layer 4 / step 2 (follow-up iPhone review)
-Lower ONLY the ivory front raster by 4 CSS px relative to 5.0.949; horizontal position unchanged.
-Layer 1 / Layer 2 graphics and CSS, live client/title/status text, header and other pages unchanged.
-Layer 3 remains intentionally absent; pending separate approval.
-Viewport: 402 CSS px. Service Worker cache v178, app build 5950.
+5.0.952 / build 5952 — Layer 4 / step 4 final audit and geometry/material freeze.
+No new visual overrides or artwork edits; preserves approval from step 3.
+Layer 1 / Layer 2 frozen, Layer 3 still pending; next revisit composition after Layer 3.
+Service Worker cache v180 and cache-busting 5952.

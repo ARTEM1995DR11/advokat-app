@@ -1040,9 +1040,12 @@
   filter: none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art {
-  /* Finish and metallic contour remain part of the original illustration. */
+  /* 5.0.952 layer 4 / step 3: keep untouched ivory/gold pixels and approved
+     x/y/scale. Restrained paper-to-kraft contact depth with a narrow local
+     shadow plus soft global lift; avoid a dark halo on the white edge. */
   filter: brightness(1.025) saturate(.99) contrast(1.035)
-          drop-shadow(0 1.5px 2px rgba(84,50,22,.16));
+          drop-shadow(0 .65px .55px rgba(107,71,43,.11))
+          drop-shadow(0 1.7px 1.8px rgba(84,50,22,.14));
 }
 
 /* Stage 4.1 layering refinement, verified with 402px Chromium control.
@@ -1270,7 +1273,7 @@
    Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   visibility:visible !important;
-  /* 5.0.950 / build 5950 — Layer 4, step 2 optical registration after iPhone capture.
+  /* 5.0.952 / build 5952 — Layer 4, step 2 optical registration after iPhone capture.
      Keep Layer 1, Layer 2, live HTML text/status and the app shell frozen.
      Keep the approved horizontal registration; lower the ivory raster 4 CSS px so the
      leather/kraft reveal and top paperclip-to-name spacing approach
@@ -1281,3 +1284,10 @@
   object-position:center center;
   transform:translate(-6px,18px);
 }
+
+/* 5.0.952 / build 5952 — LAYER 4 / STEP 4 ACCEPTANCE FREEZE.
+   Four case types tested at 402 CSS px, 2x DPR, with live DOM text.
+   Authoritative Layer 4 position is the .dossier-new-header-art transform
+   above. No further geometry, text, status, image or shadow overrides.
+   Layer 1 + 2 remain locked; Layer 3 remains uninstalled pending approval.
+   Revalidate the final exposed rim once Layer 3 is inserted. */
