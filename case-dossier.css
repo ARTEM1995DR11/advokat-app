@@ -1302,9 +1302,9 @@
      front and dynamic text byte-for-byte. Shift the exposed inner paper toward
      the right and gently compress the visible span around its right anchor.
      A 1px downward adjustment reduces excess exposure over the front edge. */
-  position:absolute;z-index:3;left:0;top:19px;width:100%;height:auto;
+  position:absolute;z-index:3;left:0;top:16px;width:100%;height:auto;
   aspect-ratio:402 / 26;
-  transform:translateX(-2px) scaleX(.94);
+  transform:translateX(-2px) scaleX(.985);
   transform-origin:right center;
   overflow:hidden;pointer-events:none;user-select:none;
 }
@@ -1338,3 +1338,5 @@
          drop-shadow(0 1.20px .90px rgba(103,79,53,.055));
 }
 
+
+/* 5.0.960: layer 3 geometric overlap at leather-paper seam; front and other layers fixed. */

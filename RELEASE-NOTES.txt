@@ -1,6 +1,6 @@
-5.0.959 / build 5959 — Layer 3, steps 3 and 4.
+5.0.960 / build 5960 — Layer 3, steps 3 and 4.
 Step 3: preserve accepted placement and warm ivory SVG from previous steps; explicitly put Layer 3 behind Layer 4 and tune only the micro-contact shadows of the paper.
 Step 4: audit in a browser at 402 CSS px for all four case categories; compare exposed sheet rims with the approved mock. No claim of exact pixel identity across dissimilar mock/device scales.
 Layers 1, 2, 4, their image sources and coordinates, data, navigation, live text and status are unchanged.
-Existing SVG filename is not renamed; assets remain the same; only references' query parameters change to 5959.
-Service Worker and cache are bumped to 5959 for a clean GitHub Pages update.
+Existing SVG filename is not renamed; assets remain the same; only references' query parameters change to 5960.
+Service Worker and cache are bumped to 5960 for a clean GitHub Pages update.
