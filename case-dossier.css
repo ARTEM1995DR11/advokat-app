@@ -1302,9 +1302,9 @@
      front and dynamic text byte-for-byte. Shift the exposed inner paper toward
      the right and gently compress the visible span around its right anchor.
      A 1px downward adjustment reduces excess exposure over the front edge. */
-  position:absolute;z-index:3;left:0;top:16px;width:100%;height:auto;
+  position:absolute;z-index:3;left:0;top:19px;width:100%;height:auto;
   aspect-ratio:402 / 26;
-  transform:translateX(-2px) scaleX(.985);
+  transform:translateX(-2px) scaleX(.94);
   transform-origin:right center;
   overflow:hidden;pointer-events:none;user-select:none;
 }
@@ -1339,4 +1339,9 @@
 }
 
 
-/* 5.0.960: layer 3 geometric overlap at leather-paper seam; front and other layers fixed. */
+/* 5.0.960 / build 5960 — Layer 3 continuity only. The existing SVG's left paper shoulder
+   now tucks under the Layer 2 kraft fold and meets the leather crest naturally.
+   Geometry and material rules of Layer 1, Layer 2, Layer 4 and live copy are unchanged. */
+
+/* 5.0.961 / build 5961 — close the layer-3 to kraft visual gap by editing only
+   the existing SVG rear-sheet shoulder. Do not move/repaint layers 1, 2 or 4. */

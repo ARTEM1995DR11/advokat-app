@@ -1,26 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
-<!-- 5.0.958 / build 5958, layer 3 step 2: warm paper materials and softened contact separation.
-     Shape coordinates, number of leaves, and SVG viewBox from accepted Step 1 are unchanged.
-     No clip, front cover, or kraft is present in this asset. -->
+<!-- 5.0.961 / build 5961. Layer 3 left lip: a tapered, naturally curved ivory rear shoulder is tucked under the kraft fold. This removes the exposed color gap without producing a harsh vertical paper border. Existing assets, paper colors, front panel and outer architecture remain unchanged. -->
 <defs>
   <linearGradient id="p1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F3ECDD"/><stop offset=".55" stop-color="#EEE6D9"/><stop offset="1" stop-color="#DDD2C1"/></linearGradient>
   <linearGradient id="p2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F5EFE4"/><stop offset=".5" stop-color="#ECE5D9"/><stop offset="1" stop-color="#DED4C7"/></linearGradient>
   <linearGradient id="p3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F9F4EA"/><stop offset=".5" stop-color="#EEE7DE"/><stop offset="1" stop-color="#E1D7CA"/></linearGradient>
   <linearGradient id="p4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F8F2E8"/><stop offset=".54" stop-color="#F0E8DD"/><stop offset="1" stop-color="#E1D5C6"/></linearGradient>
 </defs>
-<!-- One coordinate frame: an optical shift of +16px from the first working prototype. -->
+<!-- A continuous rear paper shoulder now extends left beneath the kraft fold.
+     The right endpoints, palette, right-side staggering and the Layer-4 face stay unchanged. -->
 <g transform="translate(16 0.9)">
   <!-- Rear sheet: a long, gently changing incline and a subtle warm right end. -->
-  <path d="M207 4.9 Q210 3.2 219 3.2 C238 3.2 262 3.6 286 3.7 Q309 4.1 319 5.3 Q324 6.2 328 8.5 L331 11.3 L331 25 H207 Z" fill="url(#p1)" stroke="#CBBBA8" stroke-width=".33"/>
+  <path d="M111 25 Q125 21 141 12.8 Q151 6.1 169 3.2 C190 3.0 202 3.2 219 3.2 C238 3.2 262 3.6 286 3.7 Q309 4.1 319 5.3 Q324 6.2 328 8.5 L331 11.3 L331 25 H111 Z" fill="url(#p1)" stroke="#CBBBA8" stroke-width=".33"/>
   <path d="M212 5.4 Q263 4.6 315 6.7" stroke="#AB967D" stroke-width=".50" stroke-linecap="round" opacity=".19"/>
   <path d="M211 4.5 Q263 3.8 316 5.8" stroke="#FFF9EF" stroke-width=".40" stroke-linecap="round" opacity=".52"/>
-  <path d="M198 7.5 Q204 6.2 212 6.2 C244 6 271 6.8 304 7.3 Q324 7.4 332 10 L336 12.8 V25 H198 Z" fill="url(#p2)" stroke="#CEC0AE" stroke-width=".33"/>
+  <path d="M154 10.1 Q165 8.4 186 7.2 Q204 6.2 212 6.2 C244 6 271 6.8 304 7.3 Q324 7.4 332 10 L336 12.8 V25 H154 Z" fill="url(#p2)" stroke="#CEC0AE" stroke-width=".33"/>
   <path d="M203 8.25 C245 7.65 284 8.24 323 9.75" stroke="#AD9981" stroke-width=".48" stroke-linecap="round" opacity=".18"/>
   <path d="M201 7.35 C247 6.9 282 7.4 321 8.9" stroke="#FCF6ED" stroke-width=".38" stroke-linecap="round" opacity=".54"/>
-  <path d="M189 10 Q194 8.9 204 8.9 C244 9.2 288 9.7 326 10.7 Q338 11 343 13.4 L346 16 V25 H189 Z" fill="url(#p3)" stroke="#CFC1B0" stroke-width=".31"/>
+  <path d="M165 12.5 Q178 10.4 190 9.6 Q194 8.9 204 8.9 C244 9.2 288 9.7 326 10.7 Q338 11 343 13.4 L346 16 V25 H165 Z" fill="url(#p3)" stroke="#CFC1B0" stroke-width=".31"/>
   <path d="M194 10.85 Q251 10.2 329 12.3" stroke="#B19D84" stroke-width=".47" stroke-linecap="round" opacity=".16"/>
   <path d="M192 9.9 Q251 9.1 328 11.5" stroke="#FFF8EF" stroke-width=".33" stroke-linecap="round" opacity=".46"/>
-  <path d="M181 12.5 Q186 11.5 196 11.6 C244 11.9 289 12.4 330 13.4 Q344 13.9 351 16.2 L355 18.8 V26 H181 Z" fill="url(#p4)" stroke="#CFC0AF" stroke-width=".29"/>
+  <path d="M178 12.9 Q186 11.5 196 11.6 C244 11.9 289 12.4 330 13.4 Q344 13.9 351 16.2 L355 18.8 V26 H181 Z" fill="url(#p4)" stroke="#CFC0AF" stroke-width=".29"/>
   <path d="M185 13.55 Q250 12.85 336 14.9" stroke="#B39B7F" stroke-width=".46" stroke-linecap="round" opacity=".14"/>
   <path d="M183 12.7 Q251 11.8 337 14.1" stroke="#FFF7EE" stroke-width=".32" stroke-linecap="round" opacity=".42"/>
 </g>
