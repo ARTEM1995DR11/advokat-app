@@ -1,4 +1,2 @@
-5.0.952 / build 5952 — Layer 4 / step 4 final audit and geometry/material freeze.
-No new visual overrides or artwork edits; preserves approval from step 3.
-Layer 1 / Layer 2 frozen, Layer 3 still pending; next revisit composition after Layer 3.
-Service Worker cache v180 and cache-busting 5952.
+5.0.953 / build 5953
+Installed SVG layer 3 paper rims (four slim ivory sheets), behind approved ivory panel and above locked kraft. No duplication of panel/clip/kraft. Layer 1/2/4 art and styles unchanged. Await iPhone approval.

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none">
+<!-- 5.0.953: real layer 3; PAPER RIMS ONLY; no kraft, clip, or cover panel. -->
+<defs><linearGradient id="warm" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FDFBF5"/><stop offset="0.56" stop-color="#F3F0E8"/><stop offset="1" stop-color="#E5DFD4"/></linearGradient><linearGradient id="cream" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFFCF5"/><stop offset=".62" stop-color="#F5F2EA"/><stop offset="1" stop-color="#E6DFD4"/></linearGradient><filter id="edge" x="-5%" y="-130%" width="110%" height="360%"><feGaussianBlur stdDeviation=".42"/></filter></defs>
+<!-- Each leaf is a narrow visible upper edge, with the lower width deliberately hidden beneath layer 4. -->
+<g transform="translate(64 0) scale(.68 1)">
+<path d="M212 2.7 Q218 1.4 227 1.7 L302 2 Q307 2 310 3.9 L319 6.4 L352 6.4 Q359 7 360 11.5 L360 22 L211 22 Z" fill="url(#warm)" stroke="#D1C9BA" stroke-width=".65"/>
+<path d="M212 3 Q253 2.8 303 3.6" stroke="#FFFFFF" stroke-width=".68" opacity=".95"/>
+<path d="M186 5.7 Q193 4.6 202 4.6 L320 5.5 Q328 5.7 332 7.5 L358 9 Q363 10 363 14 L363 24 L185 24 Z" fill="url(#cream)" stroke="#D4CFC5" stroke-width=".72"/>
+<path d="M187 6 Q253 5.8 323 6.3" stroke="#FFFFFF" stroke-width=".75" opacity=".9"/>
+<path d="M167 8.4 Q171 7.7 181 7.7 L333 9 Q341 9.2 344 11 L365 12 Q368 12.4 369 15.2 L369 25.4 L166 25.4 Z" fill="url(#warm)" stroke="#DCD5CA" stroke-width=".72"/>
+<path d="M167 8.5 Q256 8 333 9.5" stroke="#FFFDFC" stroke-width=".85" opacity=".95"/>
+<path d="M149 11 Q154 10.2 159 10.1 L349 11.6 Q356 11.8 362 13.7 L375 15.3 L375 26 L148 26 Z" fill="url(#cream)" stroke="#DCD5C9" stroke-width=".7"/>
+<path d="M149 11.2 Q258 10.5 350 12" stroke="white" stroke-width=".8" opacity=".86"/>
+</g>
+</svg>
