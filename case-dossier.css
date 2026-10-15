@@ -1273,16 +1273,14 @@
    Layer 3 remains uninstalled until its exposed slivers are validated in-context. */
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{
   visibility:visible !important;
-  /* 5.0.953 / build 5953 — Layer 4, step 2 optical registration after iPhone capture.
-     Keep Layer 1, Layer 2, live HTML text/status and the app shell frozen.
-     Keep the approved horizontal registration; lower the ivory raster 4 CSS px so the
-     leather/kraft reveal and top paperclip-to-name spacing approach
-     the approved mock without changing any text coordinates. */
+  /* 5.0.955 / build 5955 — Layer 4 is nudged slightly lower while Layer 3 stays
+     in the existing canvas. Keep Layer 1, Layer 2, live HTML text/status and the
+     app shell frozen. This is an in-app placement correction only; no artwork is regenerated. */
   width:calc(100% + 2px);
   aspect-ratio:1408 / 405;
   object-fit:contain;
   object-position:center center;
-  transform:translate(-6px,18px);
+  transform:translate(-6px,20px);
 }
 
 /* 5.0.953 / build 5953 — LAYER 4 / STEP 4 ACCEPTANCE FREEZE.
@@ -1306,4 +1304,4 @@
   filter:drop-shadow(0 .45px .35px rgba(86,70,49,.11));
 }
 
-/* 5.0.954 / build 5954: only the Layer 3 SVG paper rim art is refined; all layer placement, text, tab and shell selectors stay unchanged. */
+/* 5.0.955 / build 5955 — continue Layer 3 installation in-app. Existing Layer 3 rim asset is preserved; Layer 4 is lowered slightly so the exposed paper reveal reads closer to the approved mock. No new art assets are introduced. */

@@ -1,3 +1,4 @@
-5.0.954 / build 5954 — layer 3 paper-rim refinement.
-Four tapered warm-ivory sheet edges replace the straight white step, with subdued outlines, thin localized highlights and per-sheet separation.
-Only dossier-layer3-paper-v5954.svg changed visually. Previously installed layers 1, 2, 4, header and live text remain untouched.
+5.0.955 / build 5955 — layer 3 in-app installation continuation.
+Layer 3 asset remains the same; no new image was generated.
+Layer 4 ivory front is lowered slightly in CSS so the visible Layer 3 reveal sits closer to the approved mock.
+All Layer 1, Layer 2, live text, controls and app shell remain unchanged.
