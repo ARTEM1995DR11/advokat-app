@@ -1,3 +1,11 @@
+5.0.962 / build 5962 — layer 3 contact registration; layer 4 image lowered slightly.
+
+Layer 3 (the existing SVG): rear paper lip starts earlier and the entire narrow rim
+is raised 2 CSS px and gently extended toward the left to cover the gap
+between the kraft shoulder and the visible paper stack. No new image or layer.
+Layer 4: only the decorative raster goes down 3 CSS px; live text remains fixed.
+Other locked layers, UI, and user data logic are unchanged.
+
 5.0.961 / build 5961 — доработка существующего слоя 3.
 Соединён стык между крафтовой складкой слоя 2 и светлыми листами слоя 3: плавный заход заднего листа под складку вместо зазора и вертикальной границы. Слои 1/2/4, текст, фон и навигация не менялись. Поменялся только один путь внутри существующего SVG слоя 3; добавлены пояснения в CSS.
 Кэш и параметры версии обновлены. Контроль: 402 CSS px / 2x для 4 типов дела, успешная загрузка всех 4 слоёв, целостность ZIP.

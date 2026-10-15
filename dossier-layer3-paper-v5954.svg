@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
-<!-- 5.0.961 / build 5961. Layer 3 left lip: a tapered, naturally curved ivory rear shoulder is tucked under the kraft fold. This removes the exposed color gap without producing a harsh vertical paper border. Existing assets, paper colors, front panel and outer architecture remain unchanged. -->
+<!-- 5.0.962 / build 5962. Layer 3 left lip: a tapered, naturally curved ivory rear shoulder is tucked under the kraft fold. This removes the exposed color gap without producing a harsh vertical paper border. Existing assets, paper colors, front panel and outer architecture remain unchanged. -->
 <defs>
   <linearGradient id="p1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F3ECDD"/><stop offset=".55" stop-color="#EEE6D9"/><stop offset="1" stop-color="#DDD2C1"/></linearGradient>
   <linearGradient id="p2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F5EFE4"/><stop offset=".5" stop-color="#ECE5D9"/><stop offset="1" stop-color="#DED4C7"/></linearGradient>
@@ -10,7 +10,7 @@
      The right endpoints, palette, right-side staggering and the Layer-4 face stay unchanged. -->
 <g transform="translate(16 0.9)">
   <!-- Rear sheet: a long, gently changing incline and a subtle warm right end. -->
-  <path d="M111 25 Q125 21 141 12.8 Q151 6.1 169 3.2 C190 3.0 202 3.2 219 3.2 C238 3.2 262 3.6 286 3.7 Q309 4.1 319 5.3 Q324 6.2 328 8.5 L331 11.3 L331 25 H111 Z" fill="url(#p1)" stroke="#CBBBA8" stroke-width=".33"/>
+  <path d="M105 25 Q119 20.5 137 12.2 Q148 5.5 165 2.7 C190 3.0 202 3.2 219 3.2 C238 3.2 262 3.6 286 3.7 Q309 4.1 319 5.3 Q324 6.2 328 8.5 L331 11.3 L331 25 H111 Z" fill="url(#p1)" stroke="#CBBBA8" stroke-width=".33"/>
   <path d="M212 5.4 Q263 4.6 315 6.7" stroke="#AB967D" stroke-width=".50" stroke-linecap="round" opacity=".19"/>
   <path d="M211 4.5 Q263 3.8 316 5.8" stroke="#FFF9EF" stroke-width=".40" stroke-linecap="round" opacity=".52"/>
   <path d="M154 10.1 Q165 8.4 186 7.2 Q204 6.2 212 6.2 C244 6 271 6.8 304 7.3 Q324 7.4 332 10 L336 12.8 V25 H154 Z" fill="url(#p2)" stroke="#CEC0AE" stroke-width=".33"/>
