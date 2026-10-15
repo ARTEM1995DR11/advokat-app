@@ -1305,3 +1305,5 @@
   object-fit:contain;pointer-events:none;-webkit-user-drag:none;
   filter:drop-shadow(0 .45px .35px rgba(86,70,49,.11));
 }
+
+/* 5.0.954 / build 5954: only the Layer 3 SVG paper rim art is refined; all layer placement, text, tab and shell selectors stay unchanged. */

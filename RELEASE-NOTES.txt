@@ -1,2 +1,3 @@
-5.0.953 / build 5953
-Installed SVG layer 3 paper rims (four slim ivory sheets), behind approved ivory panel and above locked kraft. No duplication of panel/clip/kraft. Layer 1/2/4 art and styles unchanged. Await iPhone approval.
+5.0.954 / build 5954 — layer 3 paper-rim refinement.
+Four tapered warm-ivory sheet edges replace the straight white step, with subdued outlines, thin localized highlights and per-sheet separation.
+Only dossier-layer3-paper-v5954.svg changed visually. Previously installed layers 1, 2, 4, header and live text remain untouched.
