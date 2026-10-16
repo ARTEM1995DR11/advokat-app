@@ -1,21 +1,15 @@
-5.0.962 / build 5962 — layer 3 contact registration; layer 4 image lowered slightly.
+5.0.964 / build 5964 — Шаг 1 по слою 3.
 
-Layer 3 (the existing SVG): rear paper lip starts earlier and the entire narrow rim
-is raised 2 CSS px and gently extended toward the left to cover the gap
-between the kraft shoulder and the visible paper stack. No new image or layer.
-Layer 4: only the decorative raster goes down 3 CSS px; live text remains fixed.
-Other locked layers, UI, and user data logic are unchanged.
+Что изменено:
+- Исправлен только слой 3 (бумажные кромки) с использованием существующего SVG-ресурса dossier-layer3-paper-v5954.svg.
+- Убран чрезмерно широкий белый клин слева/по центру.
+- Сформированы более короткие и естественно перекрывающиеся бумажные кромки справа.
+- Палитра, общая архитектура карточки, слои 1, 2 и 4, live-текст, плашка статуса, шапка и остальная оболочка приложения не изменялись.
 
-5.0.961 / build 5961 — доработка существующего слоя 3.
-Соединён стык между крафтовой складкой слоя 2 и светлыми листами слоя 3: плавный заход заднего листа под складку вместо зазора и вертикальной границы. Слои 1/2/4, текст, фон и навигация не менялись. Поменялся только один путь внутри существующего SVG слоя 3; добавлены пояснения в CSS.
-Кэш и параметры версии обновлены. Контроль: 402 CSS px / 2x для 4 типов дела, успешная загрузка всех 4 слоёв, целостность ZIP.
+Технически:
+- Обновлена геометрия путей внутри dossier-layer3-paper-v5954.svg.
+- Версия приложения повышена до 5.0.964.
+- Build/cache-busting/service worker повышены до 5964.
 
-5.0.960 / build 5960 — Устранён видимый разрыв между кожаной вкладкой и светлой стопкой бумаги.
-Существующий SVG слоя 3 продлён влево под крафтовую складку. Правые кромки, слои 1/2/4, текст и элементы интерфейса без изменений. Версии ресурсов и Service Worker обновлены.
-
-5.0.959 / build 5959 — Layer 3, steps 3 and 4.
-Step 3: preserve accepted placement and warm ivory SVG from previous steps; explicitly put Layer 3 behind Layer 4 and tune only the micro-contact shadows of the paper.
-Step 4: audit in a browser at 402 CSS px for all four case categories; compare exposed sheet rims with the approved mock. No claim of exact pixel identity across dissimilar mock/device scales.
-Layers 1, 2, 4, their image sources and coordinates, data, navigation, live text and status are unchanged.
-Existing SVG filename is not renamed; assets remain the same; only references' query parameters change to 5959.
-Service Worker and cache are bumped to 5959 for a clean GitHub Pages update.
+Следующий шаг:
+- Совместная регистрация слоя 3 и слоя 4: проверка контакта кромок с лицевой панелью и устранение остаточных расхождений без порчи текущей формы листов.
