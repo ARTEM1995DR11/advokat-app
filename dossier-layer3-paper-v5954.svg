@@ -1,32 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
-<!-- 5.0.964 / build 5964. Layer 3, Step 1: keep the same SVG resource and warm ivory palette,
-     but remove the overly broad white wedge. The exposed sheets now begin later,
-     read as short staggered paper edges, and overlap more naturally beneath the ivory face. -->
+<!-- Build 5965. Existing Layer 3 SVG: short, separate staggered paper lips instead
+     of one long continuous diagonal white wedge. Layer order / registration unchanged. -->
 <defs>
-  <linearGradient id="p1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F4EEE2"/><stop offset=".54" stop-color="#EDE5D9"/><stop offset="1" stop-color="#DED3C4"/></linearGradient>
-  <linearGradient id="p2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F8F3E8"/><stop offset=".52" stop-color="#EFE7DC"/><stop offset="1" stop-color="#E1D6C8"/></linearGradient>
-  <linearGradient id="p3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FBF7EE"/><stop offset=".5" stop-color="#F2EADF"/><stop offset="1" stop-color="#E4DACC"/></linearGradient>
-  <linearGradient id="p4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FCF9F1"/><stop offset=".5" stop-color="#F4ECDF"/><stop offset="1" stop-color="#E7DDCF"/></linearGradient>
+  <linearGradient id="paperA" x1="0" y1="0" x2="0" y2="1">
+    <stop stop-color="#F3EDE2"/><stop offset=".56" stop-color="#ECE3D5"/><stop offset="1" stop-color="#DDD0BD"/>
+  </linearGradient>
+  <linearGradient id="paperB" x1="0" y1="0" x2="0" y2="1">
+    <stop stop-color="#F8F2E8"/><stop offset=".57" stop-color="#F0E7D9"/><stop offset="1" stop-color="#DFD1BE"/>
+  </linearGradient>
+  <linearGradient id="paperC" x1="0" y1="0" x2="0" y2="1">
+    <stop stop-color="#FAF6EE"/><stop offset=".55" stop-color="#F3EBDD"/><stop offset="1" stop-color="#E1D4C0"/>
+  </linearGradient>
+  <linearGradient id="paperD" x1="0" y1="0" x2="0" y2="1">
+    <stop stop-color="#FCF9F2"/><stop offset=".55" stop-color="#F5EEDF"/><stop offset="1" stop-color="#E5D7C4"/>
+  </linearGradient>
 </defs>
 <g transform="translate(16 1.05)">
-  <!-- Longest rear sheet: starts later and climbs gently so only a modest right-side edge shows. -->
-  <path d="M144 25 Q156 21.8 173 15.1 Q187 9.2 204 5.7 C233 5.1 263 5.2 291 5.6 Q313 6 327 7.4 Q337 8.3 345 11.8 L351 14.9 V25 H149 Z" fill="url(#p1)" stroke="#CCBBA7" stroke-width=".34"/>
-  <path d="M212 7.2 C254 6.4 299 7.0 341 9.7" stroke="#FFF9EF" stroke-width=".42" stroke-linecap="round" opacity=".54"/>
-  <path d="M214 8.1 C256 7.5 300 8.2 341 10.6" stroke="#AB967D" stroke-width=".46" stroke-linecap="round" opacity=".17"/>
-
-  <!-- Sheet 2 -->
-  <path d="M181 25 Q192 21.9 205 17.0 Q217 12.7 230 10.1 C260 9.6 288 9.9 316 10.5 Q334 10.9 347 12.8 Q355 14 361 16.7 L365 19.1 V25 H185 Z" fill="url(#p2)" stroke="#D1C3B0" stroke-width=".32"/>
-  <path d="M229 10.9 C268 10.6 314 11.7 355 14.1" stroke="#FFF9F0" stroke-width=".38" stroke-linecap="round" opacity=".48"/>
-  <path d="M229 11.8 C270 11.2 313 12.3 354 14.9" stroke="#B29A80" stroke-width=".43" stroke-linecap="round" opacity=".15"/>
-
-  <!-- Sheet 3 -->
-  <path d="M212 25 Q221 22.5 231 18.8 Q241 15.2 251 13.6 C280 13.1 309 13.5 335 14.4 Q350 14.9 360 16.2 Q367 17.3 372 19.5 L375 21.6 V25 H215 Z" fill="url(#p3)" stroke="#D2C3B1" stroke-width=".30"/>
-  <path d="M249 14.4 C287 14.1 331 15.2 366 17.2" stroke="#FFF9F0" stroke-width=".34" stroke-linecap="round" opacity=".44"/>
-  <path d="M249 15.1 C288 14.7 331 15.8 366 17.9" stroke="#B69F84" stroke-width=".40" stroke-linecap="round" opacity=".13"/>
-
-  <!-- Front-most narrow rim -->
-  <path d="M234 25 Q241 22.9 249 20.1 Q257 17.8 265 16.7 C292 16.3 320 16.7 343 17.5 Q357 18 367 19.1 Q374 20 379 21.9 L382 23.4 V26 H237 Z" fill="url(#p4)" stroke="#D2C2B0" stroke-width=".28"/>
-  <path d="M264 17.6 C299 17.4 340 18.3 372 20.0" stroke="#FFF9F0" stroke-width=".30" stroke-linecap="round" opacity=".40"/>
-  <path d="M264 18.2 C299 18.0 339 18.9 371 20.7" stroke="#B59B7F" stroke-width=".36" stroke-linecap="round" opacity=".12"/>
+  <!-- Short rear paper lip; front edge retreats beneath the ivory cover. -->
+  <path d="M219 26 Q238 22 248 15.6 Q254 11.2 260 10.1 C270 9.8 280 10.0 288 10.5 Q297 11.6 305 17.5 L312 26 Z"
+        fill="url(#paperA)" stroke="#CBB8A1" stroke-width=".35"/>
+  <path d="M260 10.6 Q273 10.2 288 11.0" stroke="#FFF9F0" stroke-width=".48" opacity=".48" stroke-linecap="round"/>
+  <!-- A second offset lip, overlapping the rear sheet but not tracing it. -->
+  <path d="M251 26 Q267 21.1 278 15.3 Q284 11.2 290 9.6 C301 9.2 313 9.5 323 10.2 Q332 11.3 339 17.1 L345 26 Z"
+        fill="url(#paperB)" stroke="#CFBEA9" stroke-width=".34"/>
+  <path d="M291 10.2 Q306 9.8 322 10.8" stroke="#FFFAF2" stroke-width=".44" opacity=".49" stroke-linecap="round"/>
+  <!-- Third staggered sheet: a narrow, slightly brighter edge. -->
+  <path d="M285 26 Q299 21.4 309 15.5 Q315 11.3 320 9.7 C331 9.4 342 9.7 354 10.4 Q361 11.4 368 17.8 L375 26 Z"
+        fill="url(#paperC)" stroke="#D0C1AD" stroke-width=".34"/>
+  <path d="M322 10.4 Q336 10.1 353 11.1" stroke="#FFFBF2" stroke-width=".42" opacity=".5" stroke-linecap="round"/>
+  <!-- Fourth, most forward lip; terminates beneath the cover's right shoulder. -->
+  <path d="M314 26 Q325 21 335 16.0 Q340 12.8 346 11.6 C354 11.3 363 11.5 368 12.6 Q372 15 375 20.2 L378 26 Z"
+        fill="url(#paperD)" stroke="#D1C2B0" stroke-width=".32"/>
+  <path d="M346 12.4 Q355 12.0 368 13.1" stroke="#FFFCF6" stroke-width=".4" opacity=".48" stroke-linecap="round"/>
 </g>
 </svg>

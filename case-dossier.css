@@ -1346,7 +1346,7 @@
 /* 5.0.961 / build 5961 — close the layer-3 to kraft visual gap by editing only
    the existing SVG rear-sheet shoulder. Do not move/repaint layers 1, 2 or 4. */
 
-/* 5.0.964 / build 5964 — Layer 3 / Layer 4 contact registration.
+/* 5.0.965 / build 5965 — Layer 3 / Layer 4 contact registration.
    Layer 3 is raised by 2 CSS px and extended left within the existing narrow SVG;
    Layer 4 raster (ONLY) is lowered 3 CSS px. Layer 1, Layer 2, approved
    live text, status, shell, buttons and all other geometry are unchanged.
