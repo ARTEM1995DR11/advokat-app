@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
-<!-- Build 5965. Existing Layer 3 SVG: short, separate staggered paper lips instead
-     of one long continuous diagonal white wedge. Layer order / registration unchanged. -->
+<!-- Build 5966. Geometry correction in the SAME Layer 3 asset:
+     four short, non-collinear paper lips; the long arc has been removed.
+     No changes to layer 1, 2, 4, image registration or dynamic content. -->
 <defs>
   <linearGradient id="paperA" x1="0" y1="0" x2="0" y2="1">
     <stop stop-color="#F3EDE2"/><stop offset=".56" stop-color="#ECE3D5"/><stop offset="1" stop-color="#DDD0BD"/>
@@ -16,21 +17,27 @@
   </linearGradient>
 </defs>
 <g transform="translate(16 1.05)">
-  <!-- Short rear paper lip; front edge retreats beneath the ivory cover. -->
-  <path d="M219 26 Q238 22 248 15.6 Q254 11.2 260 10.1 C270 9.8 280 10.0 288 10.5 Q297 11.6 305 17.5 L312 26 Z"
-        fill="url(#paperA)" stroke="#CBB8A1" stroke-width=".35"/>
-  <path d="M260 10.6 Q273 10.2 288 11.0" stroke="#FFF9F0" stroke-width=".48" opacity=".48" stroke-linecap="round"/>
-  <!-- A second offset lip, overlapping the rear sheet but not tracing it. -->
-  <path d="M251 26 Q267 21.1 278 15.3 Q284 11.2 290 9.6 C301 9.2 313 9.5 323 10.2 Q332 11.3 339 17.1 L345 26 Z"
-        fill="url(#paperB)" stroke="#CFBEA9" stroke-width=".34"/>
-  <path d="M291 10.2 Q306 9.8 322 10.8" stroke="#FFFAF2" stroke-width=".44" opacity=".49" stroke-linecap="round"/>
-  <!-- Third staggered sheet: a narrow, slightly brighter edge. -->
-  <path d="M285 26 Q299 21.4 309 15.5 Q315 11.3 320 9.7 C331 9.4 342 9.7 354 10.4 Q361 11.4 368 17.8 L375 26 Z"
-        fill="url(#paperC)" stroke="#D0C1AD" stroke-width=".34"/>
-  <path d="M322 10.4 Q336 10.1 353 11.1" stroke="#FFFBF2" stroke-width=".42" opacity=".5" stroke-linecap="round"/>
-  <!-- Fourth, most forward lip; terminates beneath the cover's right shoulder. -->
-  <path d="M314 26 Q325 21 335 16.0 Q340 12.8 346 11.6 C354 11.3 363 11.5 368 12.6 Q372 15 375 20.2 L378 26 Z"
-        fill="url(#paperD)" stroke="#D1C2B0" stroke-width=".32"/>
-  <path d="M346 12.4 Q355 12.0 368 13.1" stroke="#FFFCF6" stroke-width=".4" opacity=".48" stroke-linecap="round"/>
+  <!-- Leaf A: the rear page exposes only a short, left-hand folded crest. -->
+  <path d="M245 26 L252 20.7 L263 13.5 Q267 11.5 271 11.45 L282 11.6 Q287 12.1 293 17.8 L300 26 Z"
+        fill="url(#paperA)" stroke="#CBB8A1" stroke-width=".34"/>
+  <path d="M268 12.05 L282 12.22" stroke="#FFF9F0" stroke-width=".37" opacity=".50" stroke-linecap="round"/>
+  <path d="M268 12.82 L282 12.99" stroke="#AA9177" stroke-width=".32" opacity=".20" stroke-linecap="round"/>
+
+  <!-- Leaf B: a higher, narrow overlap that hides the A tail rather than extending it. -->
+  <path d="M271 26 L278 21.0 L289 12.4 Q293 10.3 297 10.25 L308 10.42 Q313 11 319 17.8 L327 26 Z"
+        fill="url(#paperB)" stroke="#CAB9A5" stroke-width=".32"/>
+  <path d="M293.7 10.99 L307.6 11.17" stroke="#FFFAF2" stroke-width=".37" opacity=".55" stroke-linecap="round"/>
+  <path d="M293.7 11.75 L307 11.9" stroke="#AD947C" stroke-width=".30" opacity=".22" stroke-linecap="round"/>
+
+  <!-- Leaf C: a lower stagger; discrete lip, not an unbroken ridge. -->
+  <path d="M297 26 L305 21.4 L317 14.2 Q321 12.1 326 12.0 L338 12.2 Q344 12.9 349 18.7 L355 26 Z"
+        fill="url(#paperC)" stroke="#CFBEAA" stroke-width=".30"/>
+  <path d="M322.1 12.74 L337.8 12.9" stroke="#FFFBF2" stroke-width=".34" opacity=".51" stroke-linecap="round"/>
+  <path d="M323 13.48 L337.5 13.61" stroke="#AB9078" stroke-width=".28" opacity=".17" stroke-linecap="round"/>
+
+  <!-- Leaf D: a final right-hand shorter corner, tucked beneath layer 4's shoulder. -->
+  <path d="M322 26 L332 21.8 L344 15.8 Q349 13.4 353 13.35 L365 13.6 Q369 14.2 374 21 L379 26 Z"
+        fill="url(#paperD)" stroke="#D1C0AB" stroke-width=".29"/>
+  <path d="M349 14.05 L364 14.28" stroke="#FFF9F0" stroke-width=".30" opacity=".50" stroke-linecap="round"/>
 </g>
 </svg>
