@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+  <!-- Layer 3, 5.0.973: one unrounded ivory sheet behind the ochre kraft folder.
+       Geometric contract: flat uninterrupted top, 90-degree right corner,
+       light natural paper, no separate steps or protruding white wedge. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="6" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFCF7"/>
+      <stop offset=".27" stop-color="#FFFEFA"/>
+      <stop offset=".74" stop-color="#F9F4EC"/>
+      <stop offset="1" stop-color="#F0E8DC"/>
+    </linearGradient>
+    <linearGradient id="upperLight" x1="0" y1="6" x2="0" y2="9" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".94"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M 26 6.5 H 358 V 26 H 26 Z"
+    fill="url(#paper)" stroke="#D4C6B3" stroke-width=".55" stroke-linejoin="miter"/>
+  <path d="M 27 7.25 H 357 V 9.3 H 27 Z" fill="url(#upperLight)"/>
+  <path d="M 357.4 6.5 V 26" stroke="#C9BBA6" stroke-opacity=".4" stroke-width=".45"/>
+</svg>

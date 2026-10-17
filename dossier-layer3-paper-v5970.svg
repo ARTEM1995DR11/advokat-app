@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+<!-- 5.0.970: layer 3 must read as paper tucked BEHIND the kraft layer.
+     The visible reveal is reduced, shifted right, and the left white shoulder is removed.
+     Only a restrained rear sheet band plus three subtle stepped rims remain. -->
+<defs>
+  <linearGradient id="rearMain" x1="0" y1="8" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F7F4ED"/>
+    <stop offset=".52" stop-color="#EEE9DE"/>
+    <stop offset="1" stop-color="#DCCFBE"/>
+  </linearGradient>
+  <linearGradient id="rimA" x1="0" y1="15" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FBF8F1"/>
+    <stop offset=".62" stop-color="#EFE6D8"/>
+    <stop offset="1" stop-color="#D8C8B4"/>
+  </linearGradient>
+  <linearGradient id="rimB" x1="0" y1="17" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FAF6EF"/>
+    <stop offset=".62" stop-color="#EEE3D3"/>
+    <stop offset="1" stop-color="#D8C6B1"/>
+  </linearGradient>
+  <linearGradient id="rimC" x1="0" y1="19" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F7F3EC"/>
+    <stop offset=".62" stop-color="#ECE1D3"/>
+    <stop offset="1" stop-color="#D5C2AE"/>
+  </linearGradient>
+</defs>
+
+<!-- Main rear sheet: starts later and stays flatter so it visually tucks under kraft. -->
+<path d="M202 26 L219 14.9 Q223.4 11.8 231.8 11.1 L316.5 10.9 Q324.4 10.95 329.7 11.8 L345.2 26 Z"
+      fill="url(#rearMain)" stroke="#CBBEAC" stroke-width=".30" stroke-linejoin="round"/>
+<path d="M232.5 11.88 L316 11.8" stroke="#FFFDF8" stroke-opacity=".70" stroke-width=".35"/>
+<path d="M234.2 12.45 L314.8 12.38" stroke="#A29A8E" stroke-opacity=".18" stroke-width=".26"/>
+
+<!-- Step 1 rim -->
+<path d="M243 26 L257.8 20.4 Q266.7 16.95 278.8 16.2 L324 16.05 Q330.2 16.1 335.4 18.25 L345.8 26 Z"
+      fill="url(#rimA)" stroke="#CEBFAC" stroke-width=".28" stroke-linejoin="round"/>
+<path d="M278.8 16.72 L323.3 16.62" stroke="#FFFDF7" stroke-opacity=".60" stroke-width=".32"/>
+
+<!-- Step 2 rim -->
+<path d="M274.2 26 L287.7 21.85 Q295.1 19.45 304.6 19.2 L341.3 19.18 Q346.2 19.3 350 21.0 L358.2 26 Z"
+      fill="url(#rimB)" stroke="#CDBAA7" stroke-width=".27" stroke-linejoin="round"/>
+<path d="M304.7 19.72 L340.8 19.68" stroke="#FFF9F0" stroke-opacity=".56" stroke-width=".31"/>
+
+<!-- Step 3 rim -->
+<path d="M300.4 26 L311.8 23.25 Q318.2 21.72 325.6 21.62 L347.8 21.64 Q351.8 21.78 355.6 22.9 L362.6 26 Z"
+      fill="url(#rimC)" stroke="#CCB9A7" stroke-width=".27" stroke-linejoin="round"/>
+<path d="M325.8 22.04 L347.4 22.06" stroke="#FFF8EF" stroke-opacity=".52" stroke-width=".30"/>
+</svg>

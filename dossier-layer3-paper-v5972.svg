@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+<!-- 5.0.972: layer 3 stays a single sheet, but is lighter and ends with a sharper 90-degree paper corner on the right. -->
+<defs>
+  <linearGradient id="sheetFill" x1="0" y1="10" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FCFBF7"/>
+    <stop offset=".58" stop-color="#F3EEE6"/>
+    <stop offset="1" stop-color="#E5D9CA"/>
+  </linearGradient>
+  <linearGradient id="sheetShadow" x1="0" y1="14" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#D9CCBC" stop-opacity="0"/>
+    <stop offset="1" stop-color="#C3B29F" stop-opacity=".25"/>
+  </linearGradient>
+</defs>
+
+<!-- Single sheet tucked behind the kraft layer -->
+<path d="M198.2 26 L218.4 14.2 Q223.8 11.05 232.0 10.55 L346.6 10.55 L346.6 26 Z"
+      fill="url(#sheetFill)" stroke="#D8CAB9" stroke-width=".34" stroke-linejoin="miter"/>
+
+<!-- top highlight -->
+<path d="M230.8 11.38 L345.6 11.38" stroke="#FFFDF9" stroke-opacity=".82" stroke-width=".36"/>
+<!-- lower soft body shadow -->
+<path d="M214.5 26 L346.6 26" stroke="url(#sheetShadow)" stroke-width="1.05"/>
+
+<!-- crisp right paper edge / bevel -->
+<path d="M344.8 10.85 L344.8 26" stroke="#EFE7DC" stroke-opacity=".9" stroke-width=".34"/>
+<path d="M346.2 10.85 L346.2 26" stroke="#BCAA95" stroke-opacity=".20" stroke-width=".44"/>
+</svg>

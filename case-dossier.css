@@ -1302,9 +1302,9 @@
      front and dynamic text byte-for-byte. Shift the exposed inner paper toward
      the right and gently compress the visible span around its right anchor.
      A 1px downward adjustment reduces excess exposure over the front edge. */
-  position:absolute;z-index:3;left:0;top:15px;width:100%;height:auto;
+  position:absolute;z-index:2;left:0;top:18px;width:100%;height:auto;
   aspect-ratio:402 / 26;
-  transform:translateX(-2px) scaleX(.985);
+  transform:translateX(0) scaleX(.978);
   transform-origin:right center;
   overflow:hidden;pointer-events:none;user-select:none;
 }
@@ -1346,8 +1346,30 @@
 /* 5.0.961 / build 5961 — close the layer-3 to kraft visual gap by editing only
    the existing SVG rear-sheet shoulder. Do not move/repaint layers 1, 2 or 4. */
 
-/* 5.0.967 / build 5967 — Layer 3 / Layer 4 contact registration.
+/* 5.0.969 / build 5969 — Layer 3 / Layer 4 contact registration.
    Layer 3 is raised by 2 CSS px and extended left within the existing narrow SVG;
    Layer 4 raster (ONLY) is lowered 3 CSS px. Layer 1, Layer 2, approved
    live text, status, shell, buttons and all other geometry are unchanged.
    This note is documentation, authoritative selectors remain above. */
+
+/* 5.0.969 / 5969 — layer 3 optical overlap: unlike a white wedge pasted on kraft,
+   the upper white sheet belongs BEHIND kraft and IN FRONT OF the leather crest.
+   Only the standalone paper SVG changes plane; preserve all other stage geometry. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims { z-index:2; }
+/* 5.0.972 / build 5972 — layer 3 remains a single tucked sheet, with a lighter tone and a sharper right 90-degree paper corner to better match the mockup. */
+
+/* 5.0.973 / build 5973 — user-approved one-sheet treatment on the case card.
+   Layer 3 is BEHIND the existing kraft layer (z=2) and IN FRONT OF
+   the coloured rear tab (z=1); it is NEVER pasted over kraft.
+   Source SVG has a square, unrounded right corner and an uninterrupted
+   pale-ivory top. Layers 1,2,4, typography and shell remain unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims {
+  z-index: 1;
+  top: 18px;
+  transform: none;
+  transform-origin: center top;
+  isolation: auto;
+}
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims img {
+  filter: drop-shadow(0 0.65px 0.6px rgba(110,83,57,.10));
+}

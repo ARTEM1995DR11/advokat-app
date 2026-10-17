@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+  <!-- Reference: approved 1536x576 close-up, visible layer-3 only.
+       Projected 402px canvas landmarks, uncertainty ~2px due to raster/occlusion:
+       rear white paper shoulder x≈206..286, y≈10..13;
+       staggered lower paper rims x≈236..342, y≈15..22;
+       terminate all paper by x≈357; NO opaque fill to x402.
+       Original mock conceals most sheet geometry; concealed edges are interpolated. -->
+  <defs>
+    <linearGradient id="rear" x1="0" y1="9" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBFAF5"/><stop offset=".55" stop-color="#F1EEE6"/><stop offset="1" stop-color="#DED7CB"/>
+    </linearGradient>
+    <linearGradient id="sheet2" x1="0" y1="14" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F5EB"/><stop offset=".55" stop-color="#F2ECE1"/><stop offset="1" stop-color="#DFD3C1"/>
+    </linearGradient>
+    <linearGradient id="sheet3" x1="0" y1="17" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9F5EE"/><stop offset=".55" stop-color="#F0E8DA"/><stop offset="1" stop-color="#DECFBC"/>
+    </linearGradient>
+    <linearGradient id="sheet4" x1="0" y1="19" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FAF6EF"/><stop offset=".55" stop-color="#F3EBDD"/><stop offset="1" stop-color="#E4D5C3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1: broad rearmost paper behind the kraft fold: straight top shoulder + right cutoff. -->
+  <path d="M196 26 C201 21.7 204 17.3 208 14.0 Q211 12.45 216 12.35 L266 12.30 Q272 12.31 275 13.0 L280 17.3 Q283 19.5 289 21.4 L299 26 Z"
+        fill="url(#rear)" stroke="#C7C0B3" stroke-width=".38" stroke-linejoin="round"/>
+  <path d="M214 13.12 L265.5 13.02" stroke="#FFFFFF" stroke-width=".46" stroke-linecap="round" opacity=".58"/>
+  <path d="M218 13.85 L265.0 13.72" stroke="#A5A095" stroke-width=".32" opacity=".23" stroke-linecap="round"/>
+
+  <!-- 2: slightly longer upper rim placed lower and farther right; tucks under cover. -->
+  <path d="M227 26 C235 21.1 243 17.1 254 15.7 Q258 15.0 263 14.9 L315 14.75 Q322 14.77 325 16.0 C328 17.8 331 20.25 339 22.4 L348 26 Z"
+        fill="url(#sheet2)" stroke="#CCBCAB" stroke-width=".35" stroke-linejoin="round"/>
+  <path d="M263 15.55 L314.2 15.43" stroke="#FFFCF7" stroke-width=".42" opacity=".56" stroke-linecap="round"/>
+  <path d="M267 16.2 L313.6 16.08" stroke="#B8A997" stroke-width=".30" opacity=".19"/>
+
+  <!-- 3: natural inset, 2px below sheet 2. -->
+  <path d="M250 26 C258 22.5 266 19.5 274 18.2 Q279 17.55 283 17.45 L324 17.35 Q330 17.35 334 18.5 Q340 21.3 349 23.0 L353 26 Z"
+        fill="url(#sheet3)" stroke="#CDBEAD" stroke-width=".31" stroke-linejoin="round"/>
+  <path d="M283 18.16 L322.6 18.11" stroke="#FFFDF9" stroke-width=".36" opacity=".52" stroke-linecap="round"/>
+
+  <!-- 4: last narrow rim, fully separate from ivory cover artwork. -->
+  <path d="M274 26 Q286 21.8 297 20.45 Q304 19.8 310 19.8 L334 19.7 Q341 19.7 345 20.8 Q349 22.15 354 23.2 L357 26 Z"
+        fill="url(#sheet4)" stroke="#D1C4B3" stroke-width=".28" stroke-linejoin="round"/>
+  <path d="M308 20.4 L333.8 20.3" stroke="#FFFEFA" stroke-width=".30" opacity=".48" stroke-linecap="round"/>
+</svg>

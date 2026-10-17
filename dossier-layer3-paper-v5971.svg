@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+<!-- 5.0.971: layer 3 simplified to read as ONE paper sheet tucked behind the kraft layer,
+     closer to the approved mockup. No stepped multi-sheet rims. -->
+<defs>
+  <linearGradient id="sheetFill" x1="0" y1="9" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F7F4EC"/>
+    <stop offset=".56" stop-color="#EEE7DC"/>
+    <stop offset="1" stop-color="#D9CBB9"/>
+  </linearGradient>
+  <linearGradient id="sheetShadow" x1="0" y1="14" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#CFC1AE" stop-opacity="0"/>
+    <stop offset="1" stop-color="#BEAE98" stop-opacity=".33"/>
+  </linearGradient>
+</defs>
+
+<!-- Single tucked sheet -->
+<path d="M198.5 26 L216.8 14.35 Q221.6 11.05 229.8 10.55 L325.8 10.45 Q333.2 10.55 339.1 11.9 L359.4 26 Z"
+      fill="url(#sheetFill)" stroke="#CDBEAB" stroke-width=".34" stroke-linejoin="round"/>
+
+<!-- top highlight -->
+<path d="M231.3 11.38 L325.3 11.32" stroke="#FFFEFA" stroke-opacity=".76" stroke-width=".36"/>
+<!-- lower soft body shadow to give sheet thickness without implying multiple sheets -->
+<path d="M214.2 26 L359.4 26" stroke="url(#sheetShadow)" stroke-width="1.2"/>
+
+<!-- restrained right bevel / folded edge -->
+<path d="M338.1 12.15 Q344.8 15.6 350.7 20.1" stroke="#E9DECF" stroke-opacity=".9" stroke-width=".44" stroke-linecap="round"/>
+<path d="M339.1 12.2 Q346.5 16.2 352.2 21.25" stroke="#BDAF9D" stroke-opacity=".25" stroke-width=".6" stroke-linecap="round"/>
+</svg>
