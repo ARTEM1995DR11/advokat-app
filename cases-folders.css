@@ -410,7 +410,7 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   font-weight:400;
 }
 #sc-matters .case-folder-hearing-stage9.muted .case-folder-calendar,
-#sc-matters .case-folder-hearing-stage9.archive .case-folder-calendar {color:#95979a}
+#sc-matters .case-folder-hearing-stage9.archive .case-folder-calendar {color:#95980a}
 
 #sc-matters .case-folder:active .case-folder-shell {filter:brightness(.985)}
 #sc-matters .case-folder:focus-visible {outline:2px solid #0647d9;outline-offset:-2px;border-radius:8px}

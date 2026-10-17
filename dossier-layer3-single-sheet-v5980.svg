@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
+  <!-- 5.0.979: one inset paper leaf. Subtle warm-neutral gray, thin optical edge,
+       shorter right-hand termination and a localized contact shadow at the kraft overlap.
+       All geometry remains confined behind approved layers 2 and 4. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="6.5" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FAF9F6"/>
+      <stop offset=".23" stop-color="#FFFEFB"/>
+      <stop offset=".62" stop-color="#FAF8F3"/>
+      <stop offset="1" stop-color="#F1EDE6"/>
+    </linearGradient>
+    <linearGradient id="edgeLight" x1="0" y1="6.6" x2="0" y2="8.1" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".58"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="kraftContact" x1="170" y1="6.8" x2="192" y2="6.8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#736958" stop-opacity=".29"/>
+      <stop offset=".56" stop-color="#827866" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#827866" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Right end reduced by ~39 CSS px compared with 5976, matching the mock's
+       shorter visible section; miter joints keep ordinary square paper corners. -->
+  <path d="M153 26 L173 10.2 L179 9.0 L229 9.0 L229 26 Z"
+        fill="url(#paper)" stroke="#D3D1CD" stroke-width=".30" stroke-linejoin="miter"/>
+  <path d="M179 9.1 H228.7 V10.3 H177.6 Z" fill="url(#edgeLight)"/>
+  <path d="M179 9.1 H229" stroke="#FFFEFC" stroke-opacity=".56" stroke-width=".31"/>
+  <path d="M179 9.5 H229" stroke="#AAB0B1" stroke-opacity=".26" stroke-width=".30"/>
+  <path d="M229 9 L229 13" stroke="#BBBEC0" stroke-opacity=".32" stroke-width=".31" stroke-linejoin="miter"/>
+  <!-- Very fine occlusion at the emerging left edge, not a second sheet. -->
+  <path d="M173 10.2 L179 9.1 L192 9.1" stroke="url(#kraftContact)" stroke-width=".67" stroke-linecap="round"/>
+</svg>

@@ -1396,7 +1396,7 @@
 /* 5.0.978 / build 5978 — historical optical contact shadow for the one inset paper leaf only;
    all art placement and other layer geometry remain locked. */
 
-/* 5.0.979 / build 5979 — measured 4-layer registration from real iPhone capture.
+/* 5.0.980 / build 5980 — measured 4-layer registration from real iPhone capture.
    Layer 1 and Layer 2 artwork, their positions, header, status, and live
    typography remain untouched. The ivory FRONT RASTER alone moves +4 CSS px;
    that reveals the authentic kraft rim at the upper-right without moving copy.
@@ -1407,4 +1407,13 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
   top:20.5px;
+}
+
+/* 5.0.980: single square-corner sheet, reduced reveal; ivory face and live text
+   registered together without altering approved rear leather or kraft assets. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims{top:22px;}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-art{transform:translate(-6px,28px);}
+#page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
+  --dossier-grid-name-y:clamp(30px,8.55vw,37px);
+  --dossier-grid-pill-y:clamp(32px,9.05vw,39px);
 }
