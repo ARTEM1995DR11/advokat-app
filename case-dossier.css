@@ -1373,3 +1373,12 @@
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims img {
   filter: drop-shadow(0 0.65px 0.6px rgba(110,83,57,.10));
 }
+
+/* 5.0.974 / build 5974 — measured optical registration ONLY for Layer 3.
+   The single paper sheet has a compact straight upper edge in the central-right
+   blue-tab opening and a short angled right termination, as in the reference.
+   The SVG is entirely behind fixed kraft layer 2 and fixed ivory layer 4.
+   Locked Layers 1, 2, 4, typography, header and navigation unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims {
+  z-index:1; top:18px; left:0; width:100%; transform:none;
+}

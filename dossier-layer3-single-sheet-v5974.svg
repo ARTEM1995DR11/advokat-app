@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="402" height="26" viewBox="0 0 402 26" fill="none" aria-hidden="true">
+  <!-- 5.0.974: measured single sheet behind kraft. The visible upper edge is
+       LIMITED to the exposed blue-tab span, not across the entire folder. -->
+  <defs>
+    <linearGradient id="paper974" x1="0" y1="2" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FDFDF9"/>
+      <stop offset=".31" stop-color="#F8F8F5"/>
+      <stop offset=".72" stop-color="#F4F2EC"/>
+      <stop offset="1" stop-color="#E9E1D7"/>
+    </linearGradient>
+    <linearGradient id="bevel974" x1="0" y1="3" x2="0" y2="7" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- One flat-edged paper insert. Left shoulder disappears BELOW kraft;
+       upper paper edge is straight; angled right cut ends behind the cover. -->
+  <path d="M 154 26 L 174 3.6 Q 175.2 3.05 177.4 3.05 L 271.8 3.05 L 282.9 14.4 L 282.9 26 Z"
+        fill="url(#paper974)" stroke="#C9C8C1" stroke-width=".45" stroke-linejoin="miter" />
+  <path d="M 177.6 3.8 H 271.5 L 277 8.6 H 173.4 Z" fill="url(#bevel974)"/>
+  <path d="M 178 4.15 H 271.25" stroke="#FFFFFF" stroke-opacity=".72" stroke-width=".4"/>
+  <path d="M 272 3.7 L 282.2 14.1" stroke="#B9B4A9" stroke-opacity=".28" stroke-width=".4"/>
+</svg>
