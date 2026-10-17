@@ -1393,5 +1393,18 @@
   filter: drop-shadow(0 .30px .55px rgba(86,77,67,.10));
 }
 
-/* 5.0.978 / build 5978 — optical contact shadow for the one inset paper leaf only;
+/* 5.0.978 / build 5978 — historical optical contact shadow for the one inset paper leaf only;
    all art placement and other layer geometry remain locked. */
+
+/* 5.0.979 / build 5979 — measured 4-layer registration from real iPhone capture.
+   Layer 1 and Layer 2 artwork, their positions, header, status, and live
+   typography remain untouched. The ivory FRONT RASTER alone moves +4 CSS px;
+   that reveals the authentic kraft rim at the upper-right without moving copy.
+   The single inset paper (L3) is tucked +2.5px lower to avoid an oversized
+   white triangle as layer 4 is lowered. No duplicated edge is painted. */
+#page.dossier-page .dossier-rear-stage .dossier-new-header-art{
+  transform:translate(-6px,26px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
+  top:20.5px;
+}
