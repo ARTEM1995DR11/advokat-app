@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
+<!-- Build 5967. Layer 3 rebuilt as a broad staggered paper stack matching the
+     approved mock more closely: long calm sheet shoulders, short stepped
+     overlaps, no central white wave, no oversized isolated bumps. -->
+<defs>
+  <linearGradient id="sheetA" x1="0" y1="9" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F9F6EF"/>
+    <stop offset=".6" stop-color="#F2EBDD"/>
+    <stop offset="1" stop-color="#E4D8C5"/>
+  </linearGradient>
+  <linearGradient id="sheetB" x1="0" y1="10" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F7F2EA"/>
+    <stop offset=".62" stop-color="#EFE7D9"/>
+    <stop offset="1" stop-color="#DFD1BF"/>
+  </linearGradient>
+  <linearGradient id="sheetC" x1="0" y1="12" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F4EEE4"/>
+    <stop offset=".64" stop-color="#EBE1D1"/>
+    <stop offset="1" stop-color="#DCCCB7"/>
+  </linearGradient>
+  <linearGradient id="sheetD" x1="0" y1="14" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FBF8F2"/>
+    <stop offset=".64" stop-color="#F3EBDE"/>
+    <stop offset="1" stop-color="#E5D7C4"/>
+  </linearGradient>
+</defs>
+
+<!-- Rear broad sheet -->
+<path d="M202 26 L220 19.2 Q231 14.5 244 12.4 L366 12.0 Q385 12.2 396 15.4 L402 18.2 L402 26 Z"
+      fill="url(#sheetA)" stroke="#D1C1AE" stroke-width=".36"/>
+<path d="M243 13.05 L365 12.75" stroke="#FFFDF8" stroke-width=".46" opacity=".62" stroke-linecap="round"/>
+<path d="M244 13.8 L364 13.55" stroke="#A89377" stroke-width=".30" opacity=".18" stroke-linecap="round"/>
+
+<!-- Sheet 2 -->
+<path d="M228 26 L245 19.9 Q255 15.8 267 14.0 L368 13.8 Q382 13.95 392 16.5 L402 19.1 L402 26 Z"
+      fill="url(#sheetB)" stroke="#CCBBA6" stroke-width=".34"/>
+<path d="M266.5 14.72 L367.2 14.58" stroke="#FFFCF5" stroke-width=".42" opacity=".58" stroke-linecap="round"/>
+<path d="M267.6 15.4 L366.6 15.26" stroke="#A58F75" stroke-width=".28" opacity=".18" stroke-linecap="round"/>
+
+<!-- Sheet 3 -->
+<path d="M255 26 L271 20.8 Q281 17.25 293 15.6 L369 15.5 Q380 15.65 390 17.7 L400 20.0 L400 26 Z"
+      fill="url(#sheetC)" stroke="#CDBBA4" stroke-width=".31"/>
+<path d="M292.4 16.28 L368.2 16.16" stroke="#FFFDF8" stroke-width=".38" opacity=".55" stroke-linecap="round"/>
+<path d="M293.2 16.95 L367.8 16.86" stroke="#A48E72" stroke-width=".25" opacity=".17" stroke-linecap="round"/>
+
+<!-- Front-most exposed top sheet -->
+<path d="M283 26 L298 21.7 Q307 18.9 317 17.7 L369 17.65 Q378 17.75 386 19.3 L395 21.3 L402 23.0 L402 26 Z"
+      fill="url(#sheetD)" stroke="#D5C6B1" stroke-width=".29"/>
+<path d="M316.8 18.26 L368.6 18.22" stroke="#FFFEFA" stroke-width=".34" opacity=".53" stroke-linecap="round"/>
+</svg>
