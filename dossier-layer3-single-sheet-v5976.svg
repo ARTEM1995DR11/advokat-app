@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
+  <!-- Build 5976: one low, warm-white sheet behind the kraft folder; no raised trapezoid. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="5.8" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCFBF6"/>
+      <stop offset=".55" stop-color="#F7F5EF"/>
+      <stop offset="1" stop-color="#EAE3D7"/>
+    </linearGradient>
+    <linearGradient id="topLight" x1="0" y1="5.8" x2="0" y2="9.8" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Lower the one exposed top edge approximately 6px at 402px width.
+       The short right diagonal ends beneath the fixed front leaf. -->
+  <path d="M 151 26 L 172 8.0 L 177 5.8 L 264.8 5.8 L 270.4 10.8 L 274 26 Z"
+        fill="url(#paper)" stroke="#D5D0C6" stroke-width=".34" stroke-linejoin="miter" />
+  <path d="M 176.8 6.3 H 264.7 L 268 9.0 H 171.8 Z" fill="url(#topLight)" />
+  <path d="M 177 6.35 H 264.3" stroke="#FFFFFF" stroke-opacity=".53" stroke-width=".36"/>
+  <path d="M 264.9 6.3 L 270.0 10.7" stroke="#C5BDAF" stroke-opacity=".24" stroke-width=".30" />
+</svg>

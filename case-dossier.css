@@ -416,7 +416,7 @@
   margin:-35px 0 0;min-height:max(620px,calc(100dvh - 178px));
   border-radius:14px 15px 3px 3px;
   border:1px solid rgba(198,161,116,.40);
-  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),url('dossier-blank-paper-v5839.webp?v=5936') center top / 100% 100% no-repeat,#fcf4e7;
+  background:linear-gradient(180deg,rgba(255,253,247,.45) 0%,rgba(255,248,236,.07) 45%,rgba(248,236,216,.09) 100%),#fcf4e7;
   box-shadow:0 -3px 7px rgba(126,89,46,.17),inset 0 2px 4px rgba(255,254,246,.82),inset 1px 0 rgba(255,255,255,.65);
   pointer-events:none;
 }
@@ -1381,4 +1381,14 @@
    Locked Layers 1, 2, 4, typography, header and navigation unchanged. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims {
   z-index:1; top:18px; left:0; width:100%; transform:none;
+}
+
+/* 5.0.976 / 5976 — Layer 3 only: quiet single inset sheet.
+   The image is behind the fixed kraft stage z=2 and front cover z=4;
+   geometry tuned against the approved mock at 402 CSS px. */
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims {
+  top:18px; left:0; width:100%; transform:none; z-index:1;
+}
+#page.dossier-page .dossier-rear-stage .dossier-layer3-rims img {
+  filter: drop-shadow(0 .35px .45px rgba(90,73,52,.07));
 }
