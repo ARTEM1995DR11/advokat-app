@@ -1390,5 +1390,8 @@
   top:18px; left:0; width:100%; transform:none; z-index:1;
 }
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims img {
-  filter: drop-shadow(0 .35px .45px rgba(90,73,52,.07));
+  filter: drop-shadow(0 .30px .55px rgba(86,77,67,.10));
 }
+
+/* 5.0.978 / build 5978 — optical contact shadow for the one inset paper leaf only;
+   all art placement and other layer geometry remain locked. */

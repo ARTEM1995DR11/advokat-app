@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 26" width="402" height="26" fill="none" aria-hidden="true">
+  <!-- 5.0.978: one inset paper leaf. Subtle warm-neutral gray, thin optical edge,
+       shorter right-hand termination and a localized contact shadow at the kraft overlap.
+       All geometry remains confined behind approved layers 2 and 4. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="5.8" x2="0" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F4F5F5"/>
+      <stop offset=".23" stop-color="#F7F7F4"/>
+      <stop offset=".62" stop-color="#F3F1ED"/>
+      <stop offset="1" stop-color="#E8E2D9"/>
+    </linearGradient>
+    <linearGradient id="edgeLight" x1="0" y1="5.9" x2="0" y2="7.6" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".58"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="kraftContact" x1="170" y1="6.1" x2="192" y2="6.1" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#736958" stop-opacity=".29"/>
+      <stop offset=".56" stop-color="#827866" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#827866" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Right end reduced by ~39 CSS px compared with 5976, matching the mock's
+       shorter visible section; miter joints keep ordinary square paper corners. -->
+  <path d="M151 26 L172 8.1 L177 5.8 L225.8 5.8 L230.9 10.9 L234 26 Z"
+        fill="url(#paper)" stroke="#D3D1CD" stroke-width=".30" stroke-linejoin="miter"/>
+  <path d="M177 6.00 H225.5 L229.1 9.3 H172.9 Z" fill="url(#edgeLight)"/>
+  <path d="M177.4 6.15 H225.5" stroke="#FFFEFC" stroke-opacity=".56" stroke-width=".31"/>
+  <path d="M178.1 6.55 H224.8" stroke="#AAB0B1" stroke-opacity=".26" stroke-width=".30"/>
+  <path d="M225.9 5.95 L230.7 10.8" stroke="#BBBEC0" stroke-opacity=".32" stroke-width=".31" stroke-linejoin="miter"/>
+  <!-- Very fine occlusion at the emerging left edge, not a second sheet. -->
+  <path d="M171.8 8.42 L177.5 6.18 L190 6.18" stroke="url(#kraftContact)" stroke-width=".67" stroke-linecap="round"/>
+</svg>
