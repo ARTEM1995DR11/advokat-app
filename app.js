@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1000';
-var APP_BUILD='6000';
+var APP_VERSION='5.0.1001';
+var APP_BUILD='6001';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,17 +4535,22 @@ function dossierCoverClientName(m){
    No images contain labels or data values; the two count markers are live.
    Active task count is uncompleted ordinary tasks; journal shows actual entries.
    Events and General never show number markers. */
+/* 5.0.1001: each tab has one independent surface. Selection switches both the
+   active artwork and (only for General) the raised left crest of Layer 5.
+   Never leave a permanently embossed selected tab beneath another selection. */
 function dossierIndex996(key,selected,id,count){
   var active=key===selected;
   var marker=(key==='tasks'||key==='journal')&&count>0;
-  var art=active&&key==='general'?'dossier-tab-active-v5996.webp':(marker?'dossier-tab-count-v5996.webp':'dossier-tab-plain-v5996.webp');
+  var art=active?(key==='general'?'dossier-tab-active-left-v6001.webp':'dossier-tab-active-standard-v6001.svg'):
+    'dossier-tab-inactive-v6001.webp';
   return '<button type="button" class="dossier-idx996-btn dossier-idx996-'+key+(active?' is-selected':'')+(marker?' has-count':'')+'" role="tab" id="dossier-tab996-'+key+'" aria-selected="'+active+'" aria-controls="dossier-content996" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'" aria-label="'+DOSSIER_TABS[key]+(marker?', '+count:'')+'">'+
-   '<img class="dossier-idx996-art" src="'+art+'?v='+APP_BUILD+'" alt="" draggable="false" aria-hidden="true">'+
-   '<span class="dossier-idx996-label">'+DOSSIER_TABS[key]+'</span>'+
-   (marker?'<span class="dossier-idx996-count">'+count+'</span>':'')+
-   (active&&key!=='general'?'<span class="dossier-idx996-underline" aria-hidden="true"></span>':'')+
-   '</button>';
+    '<img class="dossier-idx996-art" src="'+art+'?v='+APP_BUILD+'" alt="" draggable="false" aria-hidden="true">'+
+    '<span class="dossier-idx996-label">'+DOSSIER_TABS[key]+'</span>'+
+    (marker?'<span class="dossier-idx996-disc" aria-hidden="true"></span><span class="dossier-idx996-count">'+count+'</span>':'')+
+    (active&&key!=='general'?'<span class="dossier-idx996-underline" aria-hidden="true"></span>':'')+
+    '</button>';
 }
+
 function dossierIndexContent996(m,id,tab,tasks,events,logs){
   // Existing real task/event/journal handlers are reused; the full parchment
   // presentation follows in the next stage (5.0.999).
@@ -4614,7 +4619,7 @@ function dossierLayoutPreview(m,id,tab,p){
       dossierIndex996('tasks',tab,id,dossierOpenTasks.length)+dossierIndex996('journal',tab,id,dossierLogs.length)+
     '</nav>'+
     '<div class="dossier-layer5-stage" data-dossier-layer="sheet-five" aria-hidden="true">'+
-      '<img class="dossier-layer5-art" src="dossier-layer5-sheet-v5998.png?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
+      '<img class="dossier-layer5-art" src="'+(tab==='general'?'dossier-layer5-sheet-v5998.png':'dossier-layer5-flat-v6001.png')+'?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
     '</div>'+
     dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';
@@ -5912,7 +5917,7 @@ function schedule(){
   var now = new Date();
   S.tasks.filter(function(t){ return matterTaskVisible(t) && !t.done && t.due===today() && t.time; }).forEach(function(t){
     var at = new Date(today()+'T'+t.time+':00'); var lead = t.kind==='hearing' ? 60 : 10;
-    var when = at.getTime() - lead*60000 - now.getTime();
+    var when = at.getTime() - lead*60010 - now.getTime();
     if(when>0 && when<86400000){
       timers.push(setTimeout(function(){
         var title = KIND[t.kind].n+' через '+lead+' мин';
@@ -6009,7 +6014,7 @@ function loadCompleteDemoCases(){
       stage:'Первая инстанция',notes:'Оспаривание отказа администрации в согласовании перепланировки. Цель — признать отказ незаконным.',
       entries:[[-15,'Изучены причины отказа и получена копия решения органа.'],[-10,'Подано административное исковое заявление.'],[-6,'Суд принял иск к производству.'],[-1,'Получены письменные возражения административного ответчика.']],
       tasks:[['hearing','Судебное заседание',11,'10:30','Северный городской суд',false],['deadline','Представить письменные объяснения',6,'','',false],['task','Подготовить вопросы представителю органа',4,'','',false],['task','Проверить доказательства направления документов',-2,'','',true]]},
-    {type:'criminal',basis:'assigned',client:'Воронцов Пётр Александрович',number:'120260000000089',
+    {type:'criminal',basis:'assigned',client:'Воронцов Пётр Александрович',number:'120260010000089',
       court:'Следственное подразделение ОМВД по Северному району',investigator:'Старший следователь Громов С. В.',
       article:'ч. 2 ст. 158 УК РФ',role:'подозреваемый',stage:'Следствие МВД',restraint:'Подписка о невыезде',
       notes:'Защита на предварительном следствии: проверка алиби, показаний очевидцев и записей камер.',
@@ -6032,7 +6037,7 @@ function loadCompleteDemoCases(){
       close:['favorable',-12,'Суд удовлетворил заявленные требования. Решение получено и передано доверителю.'],
       entries:[[-65,'Приняты документы и составлен иск.'],[-50,'Иск поступил в суд.'],[-18,'Состоялось рассмотрение по существу.'],[-12,'Получено решение. Поручение завершено.']],
       tasks:[['hearing','Судебное заседание',-18,'12:00','Приозёрский городской суд',true],['task','Подготовить исковое заявление',-55,'','',true],['task','Получить заверенную копию решения',-12,'','',true]]},
-    {type:'criminal',basis:'assigned',client:'Сафонов Максим Игоревич',number:'126000000000044',
+    {type:'criminal',basis:'assigned',client:'Сафонов Максим Игоревич',number:'126001000000044',
       court:'Следственный отдел по Центральному району',investigator:'Следователь Котова Н. В.',
       article:'ч. 1 ст. 167 УК РФ',role:'подозреваемый',stage:'Следствие СК',restraint:'Не избиралась',
       notes:'Дело прекращено в связи с отсутствием состава преступления; постановление вручено и разъяснено.',
@@ -6960,7 +6965,7 @@ boot();
 document.addEventListener('visibilitychange',function(){
   if(document.hidden){hiddenAt=Date.now();flushSave();return;}
   var awayMs=hiddenAt?Date.now()-hiddenAt:0;
-  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&awayMs>60000){
+  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&awayMs>60010){
     S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){

@@ -1573,3 +1573,59 @@
   #page.dossier-page .dossier-rear-stage .dossier-idx996-btn{font-size:12px}
   #page.dossier-page .dossier-rear-stage .dossier-idx996-count{font-size:12px}
 }
+
+/* 5.0.1001 / build 6001: 6A — active selected tab independently over the parchment.
+   Zero permanent gold graphics on inactive tabs. Readable labels for all widths. */
+#page.dossier-page .dossier-rear-stage .dossier-stage996-tabs{isolation:isolate;z-index:8}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn{
+  box-sizing:border-box;top:9px;height:42px;font-size:clamp(11.6px,3.12vw,13.7px);
+  font-weight:600;overflow:visible;outline-offset:2px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-general{left:1.7%;width:26.3%;z-index:1}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-events{left:26.5%;width:25.2%;z-index:2}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-tasks{left:51.2%;width:25%;z-index:3}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-journal{left:75.8%;width:24%;z-index:4}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected{
+  top:0;height:51px;z-index:10;font-weight:700;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-art{
+  inset:0;width:100%;height:100%;object-fit:fill;
+  filter:drop-shadow(0 -1px 1px rgba(95,63,33,.10));
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-art{
+  filter:drop-shadow(0 -1px 1px rgba(88,54,21,.24));
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-label{
+  box-sizing:border-box;left:3%;width:94%;top:49%;
+  text-align:center;letter-spacing:-.035em;font-size:inherit;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.has-count .dossier-idx996-label{
+  left:3%;width:66%;white-space:nowrap;letter-spacing:-.055em;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-label{top:46%}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-disc{
+  display:block;position:absolute;z-index:2;left:81%;top:47%;transform:translate(-50%,-50%);
+  width:25px;height:25px;background:url('dossier-tab-disc-v6001.webp?v=6001') center / contain no-repeat;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-count{
+  left:81%;top:47%;font-size:clamp(11px,3.2vw,14px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-count,
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-disc{top:44%}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-underline{
+  left:calc(50% - 13px);bottom:4px;width:26px;height:3px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-idx996-general.is-selected .dossier-idx996-underline{
+  bottom:6px;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-idx996-btn{font-size:11.3px}
+  #page.dossier-page .dossier-rear-stage .dossier-idx996-disc{width:22px;height:22px}
+}
+
+/* 5.0.1001 final finishing: the General icon already has a baked gold dash;
+   other active tabs get one inset dash, not a second dash below the folder. */
+#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-underline{
+  bottom:11px;z-index:4;width:26px;left:calc(50% - 13px);
+}
