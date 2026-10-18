@@ -1425,8 +1425,14 @@
 /* 5.0.989 / build 5989 — Layer 3 only. Lower the paper by ~5 CSS px and
    refine the SVG silhouette per audit: longer left hidden shoulder, slightly
    longer right end, one thin almost-horizontal paper sheet. */
+/* 5.0.990 / build 5990 — Layer 3 only. Keep the 5.0.989 thin-sheet silhouette,
+   but reveal it a bit more by lifting the placement upward after 5.0.989 hid it too much. */
+/* 5.0.991 / build 5991 — Layer 3 only. Keep the thin-sheet silhouette from 5.0.990,
+   but lift it a touch higher so the visible paper edge is slightly more readable. */
+/* 5.0.992 / build 5992 — Layer 3 only. Keep the thin-sheet silhouette from 5.0.991,
+   but lift it a little more so the visible paper edge is slightly more readable. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
-  top:21.1px;
+  top:16.6px;
   left:-0.2%;
   width:98.7%;
   aspect-ratio:402 / 50;
