@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 50" width="402" height="50" fill="none" aria-hidden="true">
+  <!-- 5.0.984 / build 5984. Layer 3 only. Keep the original 5.0.982 container
+       and CSS geometry, but refine the internal silhouette to better match the
+       approved mockup: a slightly shorter sheet with a calmer left rise and a
+       shorter diagonal right end inside the blue rear tab. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="10.4" x2="0" y2="42" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBFCFA"/>
+      <stop offset=".24" stop-color="#FAF9F5"/>
+      <stop offset=".60" stop-color="#F4F0EA"/>
+      <stop offset="1" stop-color="#E8E2D8"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="10.9" x2="0" y2="14.3" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".74"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="leftShade" x1="162" y1="25.5" x2="188" y2="12.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B7A67" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#8B7A67" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M162 50 L164.6 27.2 Q166.0 21.7 173.7 18.0 L186.8 12.1 Q190.9 10.35 196.1 10.35 L260.9 10.25 L266.2 10.45 L271.6 10.9 L279.1 18.15 L279.1 50 Z"
+        fill="url(#paper)" stroke="#CFCEC8" stroke-width=".5" stroke-linejoin="miter"/>
+  <path d="M187.4 12.0 Q192.2 10.95 196.5 10.92 L260.8 10.8 L266.0 11.0 L271.1 11.42 L278.4 18.15"
+        stroke="#FFFFFF" stroke-opacity=".66" stroke-width=".74" stroke-linecap="round"/>
+  <path d="M196.0 10.85 L261.0 10.8 L265.8 11.0 L271.0 11.4 L278.4 18.15" stroke="url(#rim)" stroke-width="1.6"/>
+  <path d="M187.0 12.9 Q191.7 11.95 196.5 11.85 L260.8 11.75 L265.9 11.95" stroke="#B0B6B2" stroke-opacity=".18" stroke-width=".34"/>
+  <path d="M271.2 11.15 L278.8 18.15" stroke="#D5D2CB" stroke-opacity=".53" stroke-width=".44"/>
+  <path d="M165.8 27.1 Q167.0 22.0 173.9 18.3 L186.5 12.4" stroke="url(#leftShade)" stroke-width=".75" stroke-linecap="round"/>
+</svg>
