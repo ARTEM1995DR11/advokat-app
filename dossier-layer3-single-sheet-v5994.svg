@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 50" width="402" height="50" fill="none" aria-hidden="true">
+  <!-- 5.0.994: Final fine-tuning of the single sheet against the reference:
+       the thin sheet starts emerging earlier from under the left kraft fold,
+       runs nearly horizontal, and ends slightly farther right while staying inside
+       the rear colored folder. -->
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="12.6" x2="0" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCFCF9"/>
+      <stop offset=".36" stop-color="#F8F7F2"/>
+      <stop offset=".74" stop-color="#F0EEE8"/>
+      <stop offset="1" stop-color="#E8E4DD"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="12.8" x2="0" y2="17" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".64"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Gently lengthened visible left transition and shortened the right bevel: one continuous thin sheet. -->
+  <path d="M90 50 L99.8 29.4 Q107.2 19.2 121.0 15.0 C135.4 12.55 147.5 11.90 167.0 11.78 C203.5 11.58 247.2 11.86 271.0 12.55 L277.0 13.02 L285.0 19.55 L285.0 50 Z"
+        fill="url(#leaf)" stroke="#D5D0C9" stroke-width=".44" stroke-linejoin="round"/>
+  <path d="M121.4 15.28 C136.0 12.95 148.0 12.18 167.2 12.14 C203.7 11.95 247.3 12.18 271.2 12.89 L276.8 13.36 L284.5 19.55"
+        fill="none" stroke="#FFFFFF" stroke-opacity=".61" stroke-width=".72" stroke-linecap="round"/>
+  <path d="M167.0 12.50 C203.5 12.35 247.3 12.54 271.0 13.19 L276.4 13.69 L284.2 19.55"
+        fill="none" stroke="url(#edge)" stroke-width="1.28" stroke-linecap="round"/>
+  <path d="M165.8 13.06 C203.0 12.90 247.0 13.19 276.0 13.98" fill="none" stroke="#B4B7B4" stroke-opacity=".14" stroke-width=".32"/>
+</svg>
