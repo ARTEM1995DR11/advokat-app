@@ -310,6 +310,27 @@
   position:relative;z-index:1;
 }
 #page.dossier-page .dossier-tab.selected:after{z-index:2}
+#page.dossier-page .dossier-tabs{gap:2px;align-items:end;min-height:52px;margin:0 4px 0 16px}
+#page.dossier-page .dossier-tab{
+  min-height:37px;padding:9px 3px 8px;transform:translateY(7px);
+  color:#14305d;font-weight:600;
+}
+#page.dossier-page .dossier-tab.selected{
+  min-height:49px;padding:7px 4px 10px;transform:translateY(1px);
+  color:#102957;font-weight:700;z-index:4;
+}
+#page.dossier-page .dossier-tab.selected:after{
+  bottom:8px;width:32px;left:calc(50% - 16px);height:3px;
+  background:linear-gradient(180deg,#cb9a47,#9b6424);box-shadow:0 1px 0 #ffe5ad;
+}
+#page.dossier-page .dossier-tab em{
+  background:#ead7bc;border:1px solid #d2b58a;color:#18305a;
+  min-width:24px;height:24px;align-items:center;padding:0 6px;font:700 11px/1 Georgia,serif;
+  box-shadow:inset 0 1px 0 #fff8ef;
+}
+#page.dossier-page .dossier-tab.selected em{background:#e8d2af;border-color:#c59e68}
+#page.dossier-page .dossier-tab .dossier-tab-board{filter:drop-shadow(0 -1px 1px #85623b22)}
+#page.dossier-page .dossier-tab.selected .dossier-tab-board{filter:drop-shadow(0 1px 2px #8a61304a) drop-shadow(0 -2px 2px #b37d3e52)}
 
 
 /* 5.0.829 / build 5829 — stage 1 mockup reconstruction.

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.998';
-var APP_BUILD='5998';
+var APP_VERSION='5.0.1000';
+var APP_BUILD='6000';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4531,7 +4531,7 @@ function dossierCoverClientName(m){
   // tokens are preserved in storage but omitted visually on the title leaf.
   return parts.slice(0,surnameEnd+1).join(' ');
 }
-/* 5.0.998: approved pre-rendered index art converted to individual clickable buttons.
+/* 5.0.999: approved pre-rendered index art converted to individual clickable buttons.
    No images contain labels or data values; the two count markers are live.
    Active task count is uncompleted ordinary tasks; journal shows actual entries.
    Events and General never show number markers. */
@@ -4548,7 +4548,7 @@ function dossierIndex996(key,selected,id,count){
 }
 function dossierIndexContent996(m,id,tab,tasks,events,logs){
   // Existing real task/event/journal handlers are reused; the full parchment
-  // presentation follows in the next stage (5.0.998).
+  // presentation follows in the next stage (5.0.999).
   var upcoming=events.filter(function(t){return !t.done&&t.due&&t.due>=today();}).sort(sortT);
   var previous=events.filter(function(t){return t.done||(t.due&&t.due<today());}).sort(sortT);
   var work=tasks.filter(function(t){return !t.kind||t.kind==='task';});
@@ -4962,11 +4962,25 @@ function dossierCaseLine(m){
 }
 /* Sculpted paper index tab with a visible edge on angled shoulders. */
 function dossierTabBoard(key,active){
-  var id='doss-index-'+key;
+  var gid='doss-index-'+key;
+  if(active){
+    return '<svg class="dossier-tab-board" viewBox="0 0 100 58" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+
+      '<defs>'+ 
+      '<linearGradient id="'+gid+'-outer" x1="0" y1="0" x2=".72" y2="1">'+
+      '<stop offset="0" stop-color="#d9ad6e"/><stop offset=".45" stop-color="#c89251"/><stop offset="1" stop-color="#b67c3b"/></linearGradient>'+ 
+      '<linearGradient id="'+gid+'-inner" x1=".04" y1="0" x2=".9" y2="1">'+
+      '<stop offset="0" stop-color="#fffaf0"/><stop offset=".55" stop-color="#fff6e6"/><stop offset="1" stop-color="#f2dfbe"/></linearGradient>'+ 
+      '</defs>'+
+      '<path d="M10 2.2 H90 C93.8 2.2 96.1 3.3 97.7 5.4 C99 7.2 99.4 8.6 99.4 10.8 V49.4 H.6 V10.8 C.6 8.6 1 7.2 2.3 5.4 C3.9 3.3 6.2 2.2 10 2.2 Z" fill="url(#'+gid+'-outer)" stroke="#a66e2c" stroke-width="1.5"/>'+
+      '<path d="M16 7.2 H84 C87.2 7.2 89.2 8 90.7 9.7 C91.9 11 92.6 12.6 93.2 14.9 L97 39.5 H3 L6.8 14.9 C7.4 12.6 8.1 11 9.3 9.7 C10.8 8 12.8 7.2 16 7.2 Z" fill="url(#'+gid+'-inner)" stroke="#dfc094" stroke-width="1"/>'+
+      '<path d="M15.5 9.5 H84.5" stroke="#fffef8" stroke-width="1.3" opacity=".95"/>'+
+      '<path d="M12 49.3 H88" stroke="#b07a32" stroke-width="1" opacity=".55"/>'+
+      '</svg>';
+  }
   return '<svg class="dossier-tab-board" viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+
-    '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2=".65" y2="1">'+
-    '<stop offset="0" stop-color="'+(active?'#fff7e5':'#fffdf7')+'"/><stop offset=".55" stop-color="'+(active?'#fff1d8':'#fbf4e9')+'"/><stop offset="1" stop-color="'+(active?'#eac99b':'#e6d1b8')+'"/></linearGradient></defs>'+
-    '<path d="M25 1.6 L75 1.6 Q84 1.6 87 12 L96.5 40 Q98.5 45 99.5 49 L.5 49 Q2 45 3.5 40 L13 12 Q16 1.6 25 1.6Z" fill="url(#'+id+')" stroke="'+(active?'#aa7735':'#d0b598')+'" stroke-width="'+(active?'2.1':'1.3')+'" />'+
+    '<defs><linearGradient id="'+gid+'-plain" x1="0" y1="0" x2=".65" y2="1">'+
+    '<stop offset="0" stop-color="#fffdf9"/><stop offset=".56" stop-color="#fbf4e9"/><stop offset="1" stop-color="#e8d6bf"/></linearGradient></defs>'+
+    '<path d="M25 1.6 L75 1.6 Q84 1.6 87 12 L96.5 40 Q98.5 45 99.5 49 L.5 49 Q2 45 3.5 40 L13 12 Q16 1.6 25 1.6Z" fill="url(#'+gid+'-plain)" stroke="#d0b598" stroke-width="1.35" />'+
     '<path d="M24 4 Q17 4 15 14 L7 39 M76 4 Q83 4 85 14 L93 39" fill="none" stroke="#fffef5" stroke-width="1" opacity=".88" />'+
     '</svg>';
 }
