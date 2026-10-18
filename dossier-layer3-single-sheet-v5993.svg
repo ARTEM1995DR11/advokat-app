@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 50" width="402" height="50" fill="none" aria-hidden="true">
+  <!-- 5.0.993: Layer 3 final contour correction against the reference:
+       the thin sheet starts emerging earlier from under the left kraft fold,
+       runs nearly horizontal, and ends slightly farther right while staying inside
+       the rear colored folder. -->
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="12.6" x2="0" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCFCF9"/>
+      <stop offset=".36" stop-color="#F8F7F2"/>
+      <stop offset=".74" stop-color="#F0EEE8"/>
+      <stop offset="1" stop-color="#E8E4DD"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="12.8" x2="0" y2="17" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".64"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Left shoulder extended about 23 units; right end extended about 11-12 units. -->
+  <path d="M90 50 L101.5 29.4 Q109.5 19.2 125.5 14.8 C140 12.3 157.5 11.65 178.5 11.58 C214.5 11.47 256.0 11.7 276.0 12.75 L282.4 13.25 L290.7 20.0 L290.7 50 Z"
+        fill="url(#leaf)" stroke="#D5D0C9" stroke-width=".44" stroke-linejoin="round"/>
+  <path d="M126.0 15.08 C140.5 12.7 158.0 12.0 178.8 11.95 C214.8 11.84 256.2 12.03 276.2 13.04 L282.1 13.52 L290.2 20.0"
+        fill="none" stroke="#FFFFFF" stroke-opacity=".61" stroke-width=".72" stroke-linecap="round"/>
+  <path d="M178.5 12.30 C214.5 12.19 256.0 12.38 276.0 13.27 L281.7 13.78 L290.0 20.0"
+        fill="none" stroke="url(#edge)" stroke-width="1.28" stroke-linecap="round"/>
+  <path d="M176.9 12.96 C214.0 12.85 256.0 13.03 281.0 14.08" fill="none" stroke="#B4B7B4" stroke-opacity=".14" stroke-width=".32"/>
+</svg>
