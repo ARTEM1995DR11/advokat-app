@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1001';
-var APP_BUILD='6001';
+var APP_VERSION='5.0.1002';
+var APP_BUILD='6002';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,9 +4535,8 @@ function dossierCoverClientName(m){
    No images contain labels or data values; the two count markers are live.
    Active task count is uncompleted ordinary tasks; journal shows actual entries.
    Events and General never show number markers. */
-/* 5.0.1001: each tab has one independent surface. Selection switches both the
-   active artwork and (only for General) the raised left crest of Layer 5.
-   Never leave a permanently embossed selected tab beneath another selection. */
+/* 5.0.1002: selection applies only to independent tab surfaces (layer 6).
+   The common neutral layer 5 never changes between tabs. */
 function dossierIndex996(key,selected,id,count){
   var active=key===selected;
   var marker=(key==='tasks'||key==='journal')&&count>0;
@@ -4619,7 +4618,7 @@ function dossierLayoutPreview(m,id,tab,p){
       dossierIndex996('tasks',tab,id,dossierOpenTasks.length)+dossierIndex996('journal',tab,id,dossierLogs.length)+
     '</nav>'+
     '<div class="dossier-layer5-stage" data-dossier-layer="sheet-five" aria-hidden="true">'+
-      '<img class="dossier-layer5-art" src="'+(tab==='general'?'dossier-layer5-sheet-v5998.png':'dossier-layer5-flat-v6001.png')+'?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
+      '<img class="dossier-layer5-art" src="dossier-layer5-neutral-v6002.png?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
     '</div>'+
     dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';

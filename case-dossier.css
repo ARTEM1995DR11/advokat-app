@@ -1605,7 +1605,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-label{top:46%}
 #page.dossier-page .dossier-rear-stage .dossier-idx996-disc{
   display:block;position:absolute;z-index:2;left:81%;top:47%;transform:translate(-50%,-50%);
-  width:25px;height:25px;background:url('dossier-tab-disc-v6001.webp?v=6001') center / contain no-repeat;
+  width:25px;height:25px;background:url('dossier-tab-disc-v6001.webp?v=6002') center / contain no-repeat;
   pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-idx996-count{
@@ -1629,3 +1629,6 @@
 #page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-underline{
   bottom:11px;z-index:4;width:26px;left:calc(50% - 13px);
 }
+
+/* 5.0.1002 — Fixed layer 5: a single neutral parchment for all four tabs.
+   No selected-state-dependent image swap; all tab visual states live in layer 6. */
