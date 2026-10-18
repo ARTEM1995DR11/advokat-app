@@ -1530,11 +1530,14 @@
 #page.dossier-page .dossier-rear-stage .dossier-idx996-btn:focus-visible{
   outline:2px solid #235b9a;outline-offset:1px;border-radius:12px;
 }
-/* 5.0.997 — temporary true layer 5: a single large blank parchment board
-   replaces the previous plain section block while tabs remain interactive. */
+/* 5.0.998 / build 5998 — match the approved mockup:
+   layer 5 belongs directly UNDER the interactive tab row, not as a separate
+   folder below it. Match the top offset to the responsive tab-row anchor;
+   leave width/artwork and all frozen layers 1–4 intact. */
 #page.dossier-page .dossier-rear-stage .dossier-layer5-stage{
   position:absolute;z-index:5;pointer-events:none;
-  top:129px;left:-5px;right:-7px;
+  top:calc(clamp(95px,25.05vw,108px) - 15px);
+  left:-5px;right:-7px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-layer5-art{
   display:block;width:100%;height:auto;max-width:none;

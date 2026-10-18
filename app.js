@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.997';
-var APP_BUILD='5997';
+var APP_VERSION='5.0.998';
+var APP_BUILD='5998';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4531,14 +4531,14 @@ function dossierCoverClientName(m){
   // tokens are preserved in storage but omitted visually on the title leaf.
   return parts.slice(0,surnameEnd+1).join(' ');
 }
-/* 5.0.997: approved pre-rendered index art converted to individual clickable buttons.
+/* 5.0.998: approved pre-rendered index art converted to individual clickable buttons.
    No images contain labels or data values; the two count markers are live.
    Active task count is uncompleted ordinary tasks; journal shows actual entries.
    Events and General never show number markers. */
 function dossierIndex996(key,selected,id,count){
   var active=key===selected;
   var marker=(key==='tasks'||key==='journal')&&count>0;
-  var art=active&&key==='general'?'dossier-tab-active-v5997.webp':(marker?'dossier-tab-count-v5997.webp':'dossier-tab-plain-v5997.webp');
+  var art=active&&key==='general'?'dossier-tab-active-v5996.webp':(marker?'dossier-tab-count-v5996.webp':'dossier-tab-plain-v5996.webp');
   return '<button type="button" class="dossier-idx996-btn dossier-idx996-'+key+(active?' is-selected':'')+(marker?' has-count':'')+'" role="tab" id="dossier-tab996-'+key+'" aria-selected="'+active+'" aria-controls="dossier-content996" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'" aria-label="'+DOSSIER_TABS[key]+(marker?', '+count:'')+'">'+
    '<img class="dossier-idx996-art" src="'+art+'?v='+APP_BUILD+'" alt="" draggable="false" aria-hidden="true">'+
    '<span class="dossier-idx996-label">'+DOSSIER_TABS[key]+'</span>'+
@@ -4548,7 +4548,7 @@ function dossierIndex996(key,selected,id,count){
 }
 function dossierIndexContent996(m,id,tab,tasks,events,logs){
   // Existing real task/event/journal handlers are reused; the full parchment
-  // presentation follows in the next stage (5.0.997).
+  // presentation follows in the next stage (5.0.998).
   var upcoming=events.filter(function(t){return !t.done&&t.due&&t.due>=today();}).sort(sortT);
   var previous=events.filter(function(t){return t.done||(t.due&&t.due<today());}).sort(sortT);
   var work=tasks.filter(function(t){return !t.kind||t.kind==='task';});
@@ -4614,7 +4614,7 @@ function dossierLayoutPreview(m,id,tab,p){
       dossierIndex996('tasks',tab,id,dossierOpenTasks.length)+dossierIndex996('journal',tab,id,dossierLogs.length)+
     '</nav>'+
     '<div class="dossier-layer5-stage" data-dossier-layer="sheet-five" aria-hidden="true">'+
-      '<img class="dossier-layer5-art" src="dossier-layer5-sheet-v5997.png?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
+      '<img class="dossier-layer5-art" src="dossier-layer5-sheet-v5998.png?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
     '</div>'+
     dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';
