@@ -1530,20 +1530,21 @@
 #page.dossier-page .dossier-rear-stage .dossier-idx996-btn:focus-visible{
   outline:2px solid #235b9a;outline-offset:1px;border-radius:12px;
 }
-/* Stage 996: live tab content, intentionally plain. The matching layered parchment
-   and illustrated nearest-event block will be installed separately in 5.0.997. */
-#page.dossier-page .dossier-rear-stage .dossier-stage996-content{
-  position:absolute;z-index:6;pointer-events:auto;
-  top:150px;left:7px;right:7px;margin:0;
-  padding:10px 6px 18px;
-  background:rgba(255,250,241,.93);
-  border:1px solid rgba(176,126,67,.32);
-  border-radius:12px;
-  box-shadow:0 2px 5px rgba(93,62,32,.09);
+/* 5.0.997 — temporary true layer 5: a single large blank parchment board
+   replaces the previous plain section block while tabs remain interactive. */
+#page.dossier-page .dossier-rear-stage .dossier-layer5-stage{
+  position:absolute;z-index:5;pointer-events:none;
+  top:129px;left:-5px;right:-7px;
 }
-#page.dossier-page .dossier-rear-stage .dossier-stage996-content .dossier-section{
-  margin:0 0 10px;
+#page.dossier-page .dossier-rear-stage .dossier-layer5-art{
+  display:block;width:100%;height:auto;max-width:none;
+  object-fit:contain;user-select:none;-webkit-user-drag:none;
+  filter:drop-shadow(0 3px 4px rgba(113,77,37,.20));
 }
+/* Stage 996 content is deliberately hidden in 5.0.997 until the new layered
+   interior sheets are rebuilt on top of the approved blank layer 5. */
+#page.dossier-page .dossier-rear-stage .dossier-stage996-content{position:absolute !important;left:-99999px !important;top:auto !important;width:1px !important;height:1px !important;overflow:hidden !important;opacity:0 !important;pointer-events:none !important;}
+#page.dossier-page .dossier-rear-stage .dossier-stage996-content .dossier-section{margin:0;}
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-idx996-btn{font-size:12px}
   #page.dossier-page .dossier-rear-stage .dossier-idx996-count{font-size:12px}
