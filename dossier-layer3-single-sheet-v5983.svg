@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 50" width="402" height="50" fill="none" aria-hidden="true">
+  <!-- Official 5.0.983 / build 5983: ONE inset paper leaf. The original 5.0.982
+       container, layering and dimensions are retained. Only the silhouette is
+       optically shortened to the middle-right blue opening seen in the mockup. -->
+  <defs>
+    <linearGradient id="paper" x1="0" y1="10" x2="0" y2="42" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBFCFA"/>
+      <stop offset=".22" stop-color="#FAF9F5"/>
+      <stop offset=".62" stop-color="#F4F1EB"/>
+      <stop offset="1" stop-color="#E9E3DA"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="10.8" x2="0" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Left section disappears under original layer-2 kraft. On the right the
+       sheet ends INSIDE the leather tab, leaving a conspicuous blue shoulder. -->
+  <path d="M152 50 L155 26 Q157 20 166 16.5 L180 11.7 Q184 10.6 189 10.6 L268.8 10.5 L273.5 10.7 L282.0 19.0 L282.0 50 Z"
+        fill="url(#paper)" stroke="#CFCFCA" stroke-width=".5" stroke-linejoin="miter"/>
+  <path d="M180.5 11.7 Q185 11.05 189.5 11.05 L269 10.98 L273.1 11.17 L281.4 19.0"
+        stroke="#FFFFFF" stroke-opacity=".66" stroke-width=".75" stroke-linecap="round"/>
+  <path d="M189 11.05 L268.9 10.98 L273.1 11.17 L281.4 19.0" stroke="url(#rim)" stroke-width="1.65"/>
+  <path d="M180 12.6 Q185 11.7 190 11.7 L269 11.65 L273.0 11.86" stroke="#AEB4B1" stroke-opacity=".20" stroke-width=".34"/>
+  <path d="M273.3 11.1 L281.7 19.0" stroke="#D4D2CB" stroke-opacity=".53" stroke-width=".45"/>
+</svg>
