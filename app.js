@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.995';
-var APP_BUILD='5995';
+var APP_VERSION='5.0.996';
+var APP_BUILD='5996';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4531,6 +4531,44 @@ function dossierCoverClientName(m){
   // tokens are preserved in storage but omitted visually on the title leaf.
   return parts.slice(0,surnameEnd+1).join(' ');
 }
+/* 5.0.996: approved pre-rendered index art converted to individual clickable buttons.
+   No images contain labels or data values; the two count markers are live.
+   Active task count is uncompleted ordinary tasks; journal shows actual entries.
+   Events and General never show number markers. */
+function dossierIndex996(key,selected,id,count){
+  var active=key===selected;
+  var marker=(key==='tasks'||key==='journal')&&count>0;
+  var art=active&&key==='general'?'dossier-tab-active-v5996.webp':(marker?'dossier-tab-count-v5996.webp':'dossier-tab-plain-v5996.webp');
+  return '<button type="button" class="dossier-idx996-btn dossier-idx996-'+key+(active?' is-selected':'')+(marker?' has-count':'')+'" role="tab" id="dossier-tab996-'+key+'" aria-selected="'+active+'" aria-controls="dossier-content996" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'" aria-label="'+DOSSIER_TABS[key]+(marker?', '+count:'')+'">'+
+   '<img class="dossier-idx996-art" src="'+art+'?v='+APP_BUILD+'" alt="" draggable="false" aria-hidden="true">'+
+   '<span class="dossier-idx996-label">'+DOSSIER_TABS[key]+'</span>'+
+   (marker?'<span class="dossier-idx996-count">'+count+'</span>':'')+
+   (active&&key!=='general'?'<span class="dossier-idx996-underline" aria-hidden="true"></span>':'')+
+   '</button>';
+}
+function dossierIndexContent996(m,id,tab,tasks,events,logs){
+  // Existing real task/event/journal handlers are reused; the full parchment
+  // presentation follows in the next stage (5.0.997).
+  var upcoming=events.filter(function(t){return !t.done&&t.due&&t.due>=today();}).sort(sortT);
+  var previous=events.filter(function(t){return t.done||(t.due&&t.due<today());}).sort(sortT);
+  var work=tasks.filter(function(t){return !t.kind||t.kind==='task';});
+  var openWork=work.filter(function(t){return !t.done;});
+  var doneWork=work.filter(function(t){return t.done;});
+  var section='';
+  if(tab==='general'){
+    section=dossierNextEvent(m.archived?null:upcoming[0]||null,m)+
+      dossierSection('Основная информация',dossierInfoRows(m));
+  }else if(tab==='events'){
+    section=dossierSection('Предстоящие события',dossierEventRows(upcoming,m))+
+      dossierSection('Прошедшие события',dossierEventRows(previous,m));
+  }else if(tab==='tasks'){
+    section=dossierSection('Актуальные задачи',dossierTaskRows(openWork,m))+
+      dossierSection('Выполнено',dossierTaskRows(doneWork,m));
+  }else{
+    section=dossierSection('Журнал действий',dossierJournalList(logs));
+  }
+  return '<div class="dossier-stage996-content" role="tabpanel" id="dossier-content996" aria-labelledby="dossier-tab996-'+tab+'">'+section+'</div>';
+}
 function dossierLayoutPreview(m,id,tab,p){
   // 5.0.878 / build 5878: the added figurative title layer is moved higher, made visually lighter than the rear paper,
   // and temporarily populated with live matter data so the placement can be checked directly in the app.
@@ -4546,6 +4584,10 @@ function dossierLayoutPreview(m,id,tab,p){
   // Active matter: «В работе»; completed/archived matter: «Завершено».
   var statusText=esc(matterStatusText(m));
   var statusClass='dossier-overlay-status '+(m&&(m.archived||m.stage==='Завершено')?'is-complete':'is-active');
+  var dossierTasks=tasksOf(id).slice().sort(sortT);
+  var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
+  var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
+  var dossierOpenTasks=dossierTasks.filter(function(t){return (!t.kind||t.kind==='task')&&!t.done;});
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-stack="layer1-locked" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -4567,6 +4609,11 @@ function dossierLayoutPreview(m,id,tab,p){
         '<p class="dossier-new-header-meta" title="'+meta+'">'+meta+'</p>'+
       '</div>'+
     '</div>'+
+    '<nav class="dossier-stage996-tabs" role="tablist" aria-label="Разделы дела">'+
+      dossierIndex996('general',tab,id,0)+dossierIndex996('events',tab,id,0)+
+      dossierIndex996('tasks',tab,id,dossierOpenTasks.length)+dossierIndex996('journal',tab,id,dossierLogs.length)+
+    '</nav>'+
+    dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
