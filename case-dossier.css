@@ -1415,9 +1415,16 @@
    The prior 26px wedge was too small and, combined with the later downward shift,
    visually disappeared behind Layer 4. Keep Layers 1, 2 and live typography frozen;
    only replace the paper silhouette and raise its final placement back into view. */
+/* 5.0.985 / build 5985 — same Layer 3 silhouette, but lowered so a smaller
+   portion of the paper stays visible above Layer 4, closer to the approved mockup. */
+/* 5.0.986 / build 5986 — lower Layer 3 a bit more so only a smaller strip
+   of the paper remains visible above Layer 4, without changing the silhouette. */
+/* 5.0.988 / build 5988 — Layer 3 alone: long tucked left shoulder
+   emerging from behind the kraft, with a thin paper lip above the ivory cover.
+   Fixed Layers 1, 2, 4, live copy and navigation remain unchanged. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
-  top:9.5px;
-  left:.8%;
+  top:16.1px;
+  left:-0.2%;
   width:98.7%;
   aspect-ratio:402 / 50;
   transform:none;
@@ -1430,8 +1437,8 @@
   max-width:none;
   aspect-ratio:402 / 50;
   object-fit:contain;
-  filter:drop-shadow(0 .55px .52px rgba(96,77,56,.12))
-         drop-shadow(0 1.35px 1.15px rgba(112,88,61,.06));
+  filter:drop-shadow(0 .26px .28px rgba(96,77,56,.09))
+         drop-shadow(0 .68px .66px rgba(112,88,61,.04));
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{transform:translate(-6px,28px);}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-layer{

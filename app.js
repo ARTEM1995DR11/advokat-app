@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.984';
-var APP_BUILD='5984';
+var APP_VERSION='5.0.988';
+var APP_BUILD='5988';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4555,7 +4555,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '<main class="dossier-clean-canvas" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
     '<img class="dossier-colored-rear-strip" data-dossier-layer="leather-back" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="2172" height="724">'+    
     '<div class="dossier-paper-stack-stage" data-dossier-layer="kraft-paper" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-kraft-layer2-v5942.webp?v='+APP_BUILD+'" alt="" width="2084" height="641" draggable="false"></div>'+
-    '<div class="dossier-layer3-rims" data-dossier-layer="paper-rims" aria-hidden="true"><img src="dossier-layer3-single-sheet-v5984.svg?v='+APP_BUILD+'" alt="" width="402" height="50" draggable="false"></div>'+
+    '<div class="dossier-layer3-rims" data-dossier-layer="paper-rims" aria-hidden="true"><img src="dossier-layer3-single-sheet-v5988.svg?v='+APP_BUILD+'" alt="" width="402" height="50" draggable="false"></div>'+
     '<div class="dossier-new-header-layer" data-dossier-layer="ivory-cover">'+
       '<img class="dossier-new-header-art" src="dossier-layer4-front-v5947.webp?v='+APP_BUILD+'" alt="" width="1408" height="405" draggable="false">'+
       '<div class="dossier-new-header-copy" data-dossier-layer="live-details" aria-label="Данные дела">'+
