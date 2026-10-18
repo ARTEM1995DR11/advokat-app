@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 50" width="402" height="50" fill="none" aria-hidden="true">
+  <!-- 5.0.995: micro-finishing only. Keep the approved 5.0.994 placement,
+       but make the left emergence earlier and smoother, while keeping a single
+       thin nearly horizontal sheet and a slightly calmer right ending. -->
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="12.5" x2="0" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCFCF9"/>
+      <stop offset=".36" stop-color="#F8F7F2"/>
+      <stop offset=".74" stop-color="#F0EEE8"/>
+      <stop offset="1" stop-color="#E8E4DD"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="12.8" x2="0" y2="17.1" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".66"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M88.9 50 L98.4 29.8 Q105.9 19.6 119.6 14.85 C134.1 12.42 146.7 11.77 166.9 11.70 C203.5 11.52 247.1 11.83 271.1 12.52 L277.1 12.98 L284.7 19.42 L284.7 50 Z"
+        fill="url(#leaf)" stroke="#D5D0C9" stroke-width=".44" stroke-linejoin="round"/>
+  <path d="M120.0 15.12 C134.8 12.80 147.0 12.09 167.1 12.05 C203.6 11.87 247.2 12.13 271.2 12.83 L276.9 13.29 L284.2 19.42"
+        fill="none" stroke="#FFFFFF" stroke-opacity=".63" stroke-width=".72" stroke-linecap="round"/>
+  <path d="M166.8 12.43 C203.3 12.29 247.1 12.48 271.0 13.12 L276.5 13.60 L284.0 19.42"
+        fill="none" stroke="url(#edge)" stroke-width="1.28" stroke-linecap="round"/>
+  <path d="M165.7 12.98 C202.9 12.83 246.9 13.12 276.0 13.90"
+        fill="none" stroke="#B4B7B4" stroke-opacity=".14" stroke-width=".32"/>
+</svg>
