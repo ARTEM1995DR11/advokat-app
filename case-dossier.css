@@ -1422,8 +1422,11 @@
 /* 5.0.988 / build 5988 — Layer 3 alone: long tucked left shoulder
    emerging from behind the kraft, with a thin paper lip above the ivory cover.
    Fixed Layers 1, 2, 4, live copy and navigation remain unchanged. */
+/* 5.0.989 / build 5989 — Layer 3 only. Lower the paper by ~5 CSS px and
+   refine the SVG silhouette per audit: longer left hidden shoulder, slightly
+   longer right end, one thin almost-horizontal paper sheet. */
 #page.dossier-page .dossier-rear-stage .dossier-layer3-rims{
-  top:16.1px;
+  top:21.1px;
   left:-0.2%;
   width:98.7%;
   aspect-ratio:402 / 50;
@@ -1437,8 +1440,8 @@
   max-width:none;
   aspect-ratio:402 / 50;
   object-fit:contain;
-  filter:drop-shadow(0 .26px .28px rgba(96,77,56,.09))
-         drop-shadow(0 .68px .66px rgba(112,88,61,.04));
+  filter:drop-shadow(0 .22px .24px rgba(96,77,56,.08))
+         drop-shadow(0 .58px .56px rgba(112,88,61,.035));
 }
 #page.dossier-page .dossier-rear-stage .dossier-new-header-art{transform:translate(-6px,28px);}
 #page.dossier-page .dossier-rear-stage .dossier-new-header-layer{
