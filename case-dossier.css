@@ -1476,159 +1476,46 @@
   --dossier-grid-pill-y:clamp(32px,9.05vw,39px);
 }
 
+/* 5.0.1007 / build 6007 — Stage 7.1: old layer 5 & legacy tab strip removed.
+   The existing data-dependent section rendering remains as a hidden placeholder,
+   awaiting integration of the new approved 5–8 image states.
+   Graphics, layout and typography of layers 1–4 are unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-stage996-content{
+  position:absolute!important;left:-99999px!important;top:auto!important;
+  width:1px!important;height:1px!important;overflow:hidden!important;
+  opacity:0!important;pointer-events:none!important;
+}
 
-/* 5.0.996 — interactive index tabs, approved artwork. This block is new;
-   none of the frozen geometry/selectors for layers 1-4 or typography change.
-   The original clean canvas disables pointer events for decoration only.
-   Buttons and their temporary real-data panel explicitly restore them. */
-#page.dossier-page .dossier-rear-stage .dossier-stage996-tabs{
-  position:absolute;
-  top:clamp(95px,25.05vw,108px);
-  left:0;
-  right:0;
-  height:51px;
-  z-index:7;
-  pointer-events:auto;
-  isolation:isolate;
-  user-select:none;
-  -webkit-user-select:none;
+/* 5.0.1008 / build 6008 — Stage 7.2, mount approved art above layer 4.
+   PNGs are exact unmodified RGBA assets. No legacy visual tab buttons.
+   Anchored in the existing 402-CSS-px canvas; all four states share coordinates. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7{
+  position:absolute;top:clamp(54px,14.9vw,66px);left:0;width:100%;
+  aspect-ratio:1448 / 1086;height:auto;z-index:6;
+  pointer-events:none;isolation:isolate;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn{
-  position:absolute;
-  top:5px;
-  height:46px;
-  border:0;
-  padding:0;
-  margin:0;
-  appearance:none;
-  -webkit-appearance:none;
-  background:transparent;
-  color:#102659;
-  font-family:Georgia,'Times New Roman',serif;
-  font-size:clamp(12.8px,3.45vw,15px);
-  font-weight:600;
-  display:block;
-  cursor:pointer;
-  touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-  pointer-events:auto;
-  overflow:visible;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-general {left:2.4%;width:30.6%;z-index:4}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-events  {left:27.9%;width:25.9%;z-index:3}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-tasks   {left:50.5%;width:25.9%;z-index:2}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-journal {left:73%;width:25%;z-index:1}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected{z-index:5;top:0;height:51px;font-weight:700}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected:not(.dossier-idx996-general) .dossier-idx996-art{
-  filter:brightness(1.045) saturate(1.09) drop-shadow(0 -2px 2px rgba(147,100,39,.20));
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-art{
-  position:absolute;
-  left:0;top:0;width:100%;height:100%;
-  object-fit:fill;display:block;max-width:none;
+#page.dossier-page .dossier-rear-stage .dossier-stage7-art{
+  display:block;width:100%;height:100%;max-width:none;object-fit:fill;
   pointer-events:none;user-select:none;-webkit-user-drag:none;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-label{
-  position:absolute;z-index:1;left:4%;top:48%;transform:translateY(-50%);
-  width:92%;text-align:center;white-space:nowrap;pointer-events:none;
-  text-shadow:0 1px 0 rgba(255,255,255,.65);
+#page.dossier-page .dossier-rear-stage .dossier-stage7-actions{
+  position:absolute;inset:0;pointer-events:none;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.has-count .dossier-idx996-label{
-  left:0;width:65%;
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit{
+  position:absolute;top:11.8%;height:15.5%;padding:0;margin:0;
+  border:0;box-shadow:none;background:transparent;border-radius:0;
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  pointer-events:auto;touch-action:manipulation;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-count{
-  position:absolute;z-index:2;top:43%;left:77%;transform:translate(-50%,-50%);
-  min-width:18px;text-align:center;
-  font:700 clamp(12px,3.55vw,16px)/1 Georgia,serif;
-  color:#142a54;pointer-events:none;
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit-general{left:3.5%;width:27.4%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit-events{left:30.9%;width:20.9%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit-tasks{left:51.8%;width:20.6%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit-journal{left:72.4%;width:24.4%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-hit:focus-visible{
+  outline:2px solid #173a66;outline-offset:-4px;border-radius:8px;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-underline{
-  position:absolute;z-index:2;left:calc(50% - 14px);bottom:6px;
-  width:28px;height:3px;border-radius:5px;
-  background:linear-gradient(#d8a655,#a97019);
-  box-shadow:0 1px 1px rgba(91,50,7,.30);pointer-events:none;
+#page.dossier-page .dossier-rear-stage .dossier-stage7-task-count{
+  position:absolute;left:67.9%;top:19.4%;transform:translate(-50%,-50%);
+  min-width:1.4em;text-align:center;font:700 clamp(11px,3.0vw,16px)/1 Georgia,serif;
+  color:#142b52;pointer-events:none;z-index:2;font-variant-numeric:tabular-nums;
 }
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn:focus-visible{
-  outline:2px solid #235b9a;outline-offset:1px;border-radius:12px;
-}
-/* 5.0.998 / build 5998 — match the approved mockup:
-   layer 5 belongs directly UNDER the interactive tab row, not as a separate
-   folder below it. Match the top offset to the responsive tab-row anchor;
-   leave width/artwork and all frozen layers 1–4 intact. */
-#page.dossier-page .dossier-rear-stage .dossier-layer5-stage{
-  position:absolute;z-index:5;pointer-events:none;
-  top:calc(clamp(95px,25.05vw,108px) - 15px);
-  left:-5px;right:-7px;
-}
-#page.dossier-page .dossier-rear-stage .dossier-layer5-art{
-  display:block;width:100%;height:auto;max-width:none;
-  object-fit:contain;user-select:none;-webkit-user-drag:none;
-  filter:drop-shadow(0 3px 4px rgba(113,77,37,.20));
-}
-/* Stage 996 content is deliberately hidden in 5.0.997 until the new layered
-   interior sheets are rebuilt on top of the approved blank layer 5. */
-#page.dossier-page .dossier-rear-stage .dossier-stage996-content{position:absolute !important;left:-99999px !important;top:auto !important;width:1px !important;height:1px !important;overflow:hidden !important;opacity:0 !important;pointer-events:none !important;}
-#page.dossier-page .dossier-rear-stage .dossier-stage996-content .dossier-section{margin:0;}
-@media(max-width:365px){
-  #page.dossier-page .dossier-rear-stage .dossier-idx996-btn{font-size:12px}
-  #page.dossier-page .dossier-rear-stage .dossier-idx996-count{font-size:12px}
-}
-
-/* 5.0.1001 / build 6001: 6A — active selected tab independently over the parchment.
-   Zero permanent gold graphics on inactive tabs. Readable labels for all widths. */
-#page.dossier-page .dossier-rear-stage .dossier-stage996-tabs{isolation:isolate;z-index:8}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn{
-  box-sizing:border-box;top:9px;height:42px;font-size:clamp(11.6px,3.12vw,13.7px);
-  font-weight:600;overflow:visible;outline-offset:2px;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-general{left:1.7%;width:26.3%;z-index:1}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-events{left:26.5%;width:25.2%;z-index:2}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-tasks{left:51.2%;width:25%;z-index:3}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-journal{left:75.8%;width:24%;z-index:4}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected{
-  top:0;height:51px;z-index:10;font-weight:700;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-art{
-  inset:0;width:100%;height:100%;object-fit:fill;
-  filter:drop-shadow(0 -1px 1px rgba(95,63,33,.10));
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-art{
-  filter:drop-shadow(0 -1px 1px rgba(88,54,21,.24));
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-label{
-  box-sizing:border-box;left:3%;width:94%;top:49%;
-  text-align:center;letter-spacing:-.035em;font-size:inherit;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.has-count .dossier-idx996-label{
-  left:3%;width:66%;white-space:nowrap;letter-spacing:-.055em;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-label{top:46%}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-disc{
-  display:block;position:absolute;z-index:2;left:81%;top:47%;transform:translate(-50%,-50%);
-  width:25px;height:25px;background:url('dossier-tab-disc-v6001.webp?v=6002') center / contain no-repeat;
-  pointer-events:none;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-count{
-  left:81%;top:47%;font-size:clamp(11px,3.2vw,14px);
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-count,
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-disc{top:44%}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-underline{
-  left:calc(50% - 13px);bottom:4px;width:26px;height:3px;
-}
-#page.dossier-page .dossier-rear-stage .dossier-idx996-general.is-selected .dossier-idx996-underline{
-  bottom:6px;
-}
-@media(max-width:365px){
-  #page.dossier-page .dossier-rear-stage .dossier-idx996-btn{font-size:11.3px}
-  #page.dossier-page .dossier-rear-stage .dossier-idx996-disc{width:22px;height:22px}
-}
-
-/* 5.0.1001 final finishing: the General icon already has a baked gold dash;
-   other active tabs get one inset dash, not a second dash below the folder. */
-#page.dossier-page .dossier-rear-stage .dossier-idx996-btn.is-selected .dossier-idx996-underline{
-  bottom:11px;z-index:4;width:26px;left:calc(50% - 13px);
-}
-
-/* 5.0.1002 — Fixed layer 5: a single neutral parchment for all four tabs.
-   No selected-state-dependent image swap; all tab visual states live in layer 6. */

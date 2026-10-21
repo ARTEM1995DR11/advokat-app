@@ -1,0 +1,18 @@
+{
+  "version": "5.0.1008",
+  "build": "6008",
+  "stage": "7.2",
+  "tab_states": [
+    "dossier-layer-05-general.png",
+    "dossier-layer-06-events.png",
+    "dossier-layer-07-tasks.png",
+    "dossier-layer-08-journal.png"
+  ],
+  "pixel_identical_common_base_from_y": 330,
+  "alpha": "RGBA, transparent background, opaque paper",
+  "sw_resources_checked": 74,
+  "approved_layers_1_4_SHA256_unchanged": true,
+  "old_index_assets_absent": true,
+  "test": "isolated Chromium preview at 402 CSS px: all 4 clicks via real pointer; task count 2 for 2 open +1 completed; journal no own counter",
+  "note": "Static graphic integration only: contents of individual sections remain hidden intentionally pending the next stage of case-card design."
+}

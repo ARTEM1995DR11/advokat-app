@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1002';
-var APP_BUILD='6002';
+var APP_VERSION='5.0.1008';
+var APP_BUILD='6008';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4531,23 +4531,31 @@ function dossierCoverClientName(m){
   // tokens are preserved in storage but omitted visually on the title leaf.
   return parts.slice(0,surnameEnd+1).join(' ');
 }
-/* 5.0.999: approved pre-rendered index art converted to individual clickable buttons.
-   No images contain labels or data values; the two count markers are live.
-   Active task count is uncompleted ordinary tasks; journal shows actual entries.
-   Events and General never show number markers. */
-/* 5.0.1002: selection applies only to independent tab surfaces (layer 6).
-   The common neutral layer 5 never changes between tabs. */
-function dossierIndex996(key,selected,id,count){
-  var active=key===selected;
-  var marker=(key==='tasks'||key==='journal')&&count>0;
-  var art=active?(key==='general'?'dossier-tab-active-left-v6001.webp':'dossier-tab-active-standard-v6001.svg'):
-    'dossier-tab-inactive-v6001.webp';
-  return '<button type="button" class="dossier-idx996-btn dossier-idx996-'+key+(active?' is-selected':'')+(marker?' has-count':'')+'" role="tab" id="dossier-tab996-'+key+'" aria-selected="'+active+'" aria-controls="dossier-content996" data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'" aria-label="'+DOSSIER_TABS[key]+(marker?', '+count:'')+'">'+
-    '<img class="dossier-idx996-art" src="'+art+'?v='+APP_BUILD+'" alt="" draggable="false" aria-hidden="true">'+
-    '<span class="dossier-idx996-label">'+DOSSIER_TABS[key]+'</span>'+
-    (marker?'<span class="dossier-idx996-disc" aria-hidden="true"></span><span class="dossier-idx996-count">'+count+'</span>':'')+
-    (active&&key!=='general'?'<span class="dossier-idx996-underline" aria-hidden="true"></span>':'')+
-    '</button>';
+/* 5.0.1008: index tab state is one transparent graphic, not four independent
+   visual buttons. Hit targets and the outstanding-task badge are HTML overlays. */
+function dossierIndexStage1008(id,current,openCount){
+  var stateArt={
+    general:'dossier-layer-05-general.png',
+    events:'dossier-layer-06-events.png',
+    tasks:'dossier-layer-07-tasks.png',
+    journal:'dossier-layer-08-journal.png'
+  };
+  var state=stateArt[current]?current:'general';
+  var count=Math.max(0,Number(openCount)||0);
+  var buttons=['general','events','tasks','journal'].map(function(key){
+    var selected=key===state;
+    return '<button type="button" class="dossier-stage7-hit dossier-stage7-hit-'+key+'"'+
+      ' role="tab" aria-selected="'+selected+'" aria-controls="dossier-content996"'+
+      ' data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'"'+
+      ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', невыполненных задач: '+count:'')+'"'+
+      ' tabindex="0"></button>';
+  }).join('');
+  var badge=count>0?'<span class="dossier-stage7-task-count" aria-hidden="true">'+count+'</span>':'';
+  return '<div class="dossier-stage7" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
+    '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
+    ' alt="" aria-hidden="true" draggable="false" width="1448" height="1086">'+
+    '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
+    '</div>';
 }
 
 function dossierIndexContent996(m,id,tab,tasks,events,logs){
@@ -4613,13 +4621,9 @@ function dossierLayoutPreview(m,id,tab,p){
         '<p class="dossier-new-header-meta" title="'+meta+'">'+meta+'</p>'+
       '</div>'+
     '</div>'+
-    '<nav class="dossier-stage996-tabs" role="tablist" aria-label="Разделы дела">'+
-      dossierIndex996('general',tab,id,0)+dossierIndex996('events',tab,id,0)+
-      dossierIndex996('tasks',tab,id,dossierOpenTasks.length)+dossierIndex996('journal',tab,id,dossierLogs.length)+
-    '</nav>'+
-    '<div class="dossier-layer5-stage" data-dossier-layer="sheet-five" aria-hidden="true">'+
-      '<img class="dossier-layer5-art" src="dossier-layer5-neutral-v6002.png?v='+APP_BUILD+'" alt="" width="1448" height="1086" draggable="false">'+
-    '</div>'+
+    // Stage 7.2: four approved transparent PNG states; only the state asset changes.
+    // Actual tab actions remain real buttons, invisibly positioned above the artwork.
+    dossierIndexStage1008(id,tab,dossierOpenTasks.length)+
     dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';
   openPage(html);
@@ -7005,7 +7009,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=5966',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6008',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
