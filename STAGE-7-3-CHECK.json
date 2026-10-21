@@ -1,0 +1,18 @@
+{
+  "version": "5.0.1009",
+  "build": 6009,
+  "stage": "7.3",
+  "responsive_paper": true,
+  "upper_tabs_unstretched": true,
+  "bottom_corners_unstretched": true,
+  "common_paper_middle_and_bottom": true,
+  "layer_1_to_4_bytes_unchanged": true,
+  "sw_link_targets_checked": 76,
+  "max_pixel_canvas_width": 1448,
+  "chromium_viewport_css": {
+    "width": 402,
+    "height": 874
+  },
+  "visual_check": "isolated browser rendering using the app HTML/CSS/JS and original asset data URIs",
+  "notes": "Blank layout only. Section contents deliberately remain hidden pending the next design stage."
+}

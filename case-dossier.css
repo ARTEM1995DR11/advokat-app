@@ -1519,3 +1519,51 @@
   min-width:1.4em;text-align:center;font:700 clamp(11px,3.0vw,16px)/1 Georgia,serif;
   color:#142b52;pointer-events:none;z-index:2;font-variant-numeric:tabular-nums;
 }
+
+
+/* 5.0.1009 / Stage 7.3 — responsive height WITHOUT stretching tab shapes or corners.
+   Upper 540 source rows and lower 375 source rows keep native proportions.
+   One identical paper texture fills the variable middle for every tab state. */
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas{
+  --dossier-stage7-top:clamp(54px,14.9vw,66px);
+  --dossier-stage7-min-height:max(620px,calc(100dvh - 240px));
+  min-height:max(calc(100dvh - 160px),calc(var(--dossier-stage7-min-height) + var(--dossier-stage7-top) + 12px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7.dossier-stage7-adaptive{
+  top:var(--dossier-stage7-top);
+  display:flex;
+  flex-direction:column;
+  aspect-ratio:auto;
+  height:auto;
+  min-height:var(--dossier-stage7-min-height);
+  width:100%;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head{
+  display:block;position:relative;flex:0 0 auto;width:100%;aspect-ratio:1448 / 540;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage7-art{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:fill;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
+  flex:1 1 auto;min-height:10px;width:100%;
+  background-image:url('dossier-paper-middle-v6009.png?v=6009');
+  background-position:center top;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-foot{
+  display:block;flex:0 0 auto;width:100%;height:auto;aspect-ratio:1448 / 375;
+  max-width:none;object-fit:fill;user-select:none;-webkit-user-drag:none;pointer-events:none;
+}
+/* Tab hotspots & numeric badge are registered to the UNSTRETCHED 540-row head. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage7-hit{
+  top:23.73%;height:31.17%;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage7-task-count{
+  top:39.01%;
+}
+/* Subpixel antialias protection where paper swath meets the movable footer. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-adaptive .dossier-stage7-foot{
+  transform:translateY(-2px);
+}

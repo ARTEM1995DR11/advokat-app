@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1008';
-var APP_BUILD='6008';
+var APP_VERSION='5.0.1009';
+var APP_BUILD='6009';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4531,14 +4531,15 @@ function dossierCoverClientName(m){
   // tokens are preserved in storage but omitted visually on the title leaf.
   return parts.slice(0,surnameEnd+1).join(' ');
 }
-/* 5.0.1008: index tab state is one transparent graphic, not four independent
-   visual buttons. Hit targets and the outstanding-task badge are HTML overlays. */
+/* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
+   Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
+   and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
 function dossierIndexStage1008(id,current,openCount){
   var stateArt={
-    general:'dossier-layer-05-general.png',
-    events:'dossier-layer-06-events.png',
-    tasks:'dossier-layer-07-tasks.png',
-    journal:'dossier-layer-08-journal.png'
+    general:'dossier-index-top-general-v6009.png',
+    events:'dossier-index-top-events-v6009.png',
+    tasks:'dossier-index-top-tasks-v6009.png',
+    journal:'dossier-index-top-journal-v6009.png'
   };
   var state=stateArt[current]?current:'general';
   var count=Math.max(0,Number(openCount)||0);
@@ -4551,10 +4552,15 @@ function dossierIndexStage1008(id,current,openCount){
       ' tabindex="0"></button>';
   }).join('');
   var badge=count>0?'<span class="dossier-stage7-task-count" aria-hidden="true">'+count+'</span>':'';
-  return '<div class="dossier-stage7" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
-    '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
-    ' alt="" aria-hidden="true" draggable="false" width="1448" height="1086">'+
-    '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
+    '<div class="dossier-stage7-head">'+
+      '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
+      ' alt="" aria-hidden="true" draggable="false" width="1448" height="540">'+
+      '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
+    '</div>'+
+    '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
+    '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.png?v='+APP_BUILD+'"'+
+      ' alt="" aria-hidden="true" draggable="false" width="1448" height="375">'+
     '</div>';
 }
 
@@ -7009,7 +7015,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6008',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6009',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
