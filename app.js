@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1009';
-var APP_BUILD='6009';
+var APP_VERSION='5.0.1011';
+var APP_BUILD='6011';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4536,10 +4536,10 @@ function dossierCoverClientName(m){
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
 function dossierIndexStage1008(id,current,openCount){
   var stateArt={
-    general:'dossier-index-top-general-v6009.png',
-    events:'dossier-index-top-events-v6009.png',
-    tasks:'dossier-index-top-tasks-v6009.png',
-    journal:'dossier-index-top-journal-v6009.png'
+    general:'dossier-index-top-general-v6011.png',
+    events:'dossier-index-top-events-v6011.png',
+    tasks:'dossier-index-top-tasks-v6011.png',
+    journal:'dossier-index-top-journal-v6011.png'
   };
   var state=stateArt[current]?current:'general';
   var count=Math.max(0,Number(openCount)||0);
@@ -4551,7 +4551,7 @@ function dossierIndexStage1008(id,current,openCount){
       ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', невыполненных задач: '+count:'')+'"'+
       ' tabindex="0"></button>';
   }).join('');
-  var badge=count>0?'<span class="dossier-stage7-task-count" aria-hidden="true">'+count+'</span>':'';
+  var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
@@ -7015,7 +7015,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6009',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6011',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

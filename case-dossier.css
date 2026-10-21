@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.png?v=6009');
+  background-image:url('dossier-paper-middle-v6009.png?v=6011');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -1566,4 +1566,31 @@
 /* Subpixel antialias protection where paper swath meets the movable footer. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-adaptive .dossier-stage7-foot{
   transform:translateY(-2px);
+}
+
+
+/* 5.0.1011 / Stage 7.4 — counters aligned to the ACTUAL circles
+   of four independent tab-state images (source dimensions 1448 x 540).
+   The font is flex-centered inside the fixed round badge, rather than
+   absolutely positioning its baseline with a single shared offset. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage7-task-count{
+  top:42.41%;left:67.89%;width:3.75%;height:10.19%;
+  padding:0;margin:0;box-sizing:border-box;min-width:0;min-height:0;
+  display:grid;place-items:center;white-space:nowrap;
+  transform:translate(-50%,-50%);
+  font:700 clamp(9px,2.7vw,12px)/1 Georgia,"Times New Roman",serif;
+  color:#132650;text-align:center;pointer-events:none;
+  font-variant-numeric:tabular-nums;z-index:4;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"] .dossier-stage7-task-count{left:67.89%;top:42.04%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-task-count{left:67.68%;top:38.52%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="journal"] .dossier-stage7-task-count{left:66.78%;top:42.04%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-task-number{
+  display:block;line-height:1;transform:translateY(.2px);letter-spacing:0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-task-count[data-digits="2"]{
+  font-size:clamp(8px,2.35vw,10px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-task-count[data-digits="3"]{
+  font-size:clamp(7px,2vw,9px);
 }

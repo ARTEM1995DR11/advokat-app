@@ -1,0 +1,19 @@
+{
+  "root_files": 75,
+  "index_in_root": true,
+  "app_js_in_root": true,
+  "sw_in_root": true,
+  "new_tabs": [
+    "general",
+    "events",
+    "tasks",
+    "journal"
+  ],
+  "old_tabs_removed": true,
+  "sw_refs_checked": 76,
+  "sw_missing": [],
+  "sw_new_cache": true,
+  "version_all": true,
+  "badge_state_positions": true,
+  "unchanged_approved_layers": true
+}
