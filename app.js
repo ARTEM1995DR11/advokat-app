@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1013';
-var APP_BUILD='6013';
+var APP_VERSION='5.0.1014';
+var APP_BUILD='6014';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4536,10 +4536,10 @@ function dossierCoverClientName(m){
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
 function dossierIndexStage1008(id,current,openCount){
   var stateArt={
-    general:'dossier-index-top-general-v6013.png',
-    events:'dossier-index-top-events-v6013.png',
-    tasks:'dossier-index-top-tasks-v6013.png',
-    journal:'dossier-index-top-journal-v6013.png'
+    general:'dossier-index-top-general-v6014.png',
+    events:'dossier-index-top-events-v6014.png',
+    tasks:'dossier-index-top-tasks-v6014.png',
+    journal:'dossier-index-top-journal-v6014.png'
   };
   var state=stateArt[current]?current:'general';
   var count=Math.max(0,Number(openCount)||0);
@@ -7015,7 +7015,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6013',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6014',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
