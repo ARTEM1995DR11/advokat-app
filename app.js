@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1014';
-var APP_BUILD='6014';
+var APP_VERSION='5.0.1015';
+var APP_BUILD='6015';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4587,6 +4587,18 @@ function dossierIndexContent996(m,id,tab,tasks,events,logs){
   }
   return '<div class="dossier-stage996-content sr-only" role="tabpanel" id="dossier-content996" aria-labelledby="dossier-tab996-'+tab+'" aria-hidden="true">'+section+'</div>';
 }
+// Stage 8.1: live content mounted over the approved full-height parchment, no changes to layers 1–7.
+function dossierStage8General(m,id,tab,tasks,events,logs){
+  if(tab!=='general')return '';
+  var future=events.filter(function(t){return !t.done&&t.due&&t.due>=today();}).sort(sortT);
+  var menu='<button class="dossier-ellipsis" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Действия">•••</button>';
+  var add=m.archived?'':'<button class="dossier-new-log" data-act="m-journal" data-id="'+esc(id)+'">Новая запись <span>+</span></button>';
+  var content=dossierNextEvent(m.archived?null:future[0]||null,m)+
+    dossierSection('Основная информация',dossierInfoRows(m),menu)+
+    dossierSection('Позиция по делу',m.notes?'<p class="dossier-stage8-notes">'+esc(m.notes)+'</p>':'<p class="dossier-empty-note">Позиция по делу пока не заполнена.</p>')+
+    dossierSection('Недавние действия',dossierJournalList(logs,3),add);
+  return '<div class="dossier-stage8-content" role="tabpanel" aria-label="Общее">'+content+'</div>';
+}
 function dossierLayoutPreview(m,id,tab,p){
   // 5.0.878 / build 5878: the added figurative title layer is moved higher, made visually lighter than the rear paper,
   // and temporarily populated with live matter data so the placement can be checked directly in the app.
@@ -4630,7 +4642,7 @@ function dossierLayoutPreview(m,id,tab,p){
     // Stage 7.2: four approved transparent PNG states; only the state asset changes.
     // Actual tab actions remain real buttons, invisibly positioned above the artwork.
     dossierIndexStage1008(id,tab,dossierOpenTasks.length)+
-    dossierIndexContent996(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
+    dossierStage8General(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
