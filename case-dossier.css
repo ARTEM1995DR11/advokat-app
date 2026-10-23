@@ -1596,78 +1596,27 @@
 }
 
 
-/* 5.0.1021 — stage 8 foundation only: empty decorative top shells, without text or icons. */
-#page.dossier-page .dossier-blank-shell{
-  position:relative;
-  margin:0 1px 10px;
-  padding-top:13px;
-  min-height:122px;
-}
-#page.dossier-page .dossier-blank-shell-summary{
-  min-height:104px;
-  padding-top:12px;
-}
-#page.dossier-page .dossier-blank-layer{
+/* 5.0.1022 — Stage 8.1: an EMPTY paper card physically mounted in the
+   ACTUAL Layer 7 head. Layers 1–7 are not restyled. This asset carries no
+   headline, icon, text or control. Future content will overlay separately. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-blank{
   position:absolute;
-  display:block;
+  z-index:5;
+  top:60.2%;
+  left:2.05%;
+  width:95.90%;
+  height:auto;
+  aspect-ratio:1000 / 302;
   pointer-events:none;
-  background:linear-gradient(180deg,#fffaf1 0%,#f8eedf 100%);
-  border:1px solid #dbc19e;
-  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 2px 3px rgba(125,84,39,.16);
+  overflow:visible;
+  filter:drop-shadow(0 1.9px 1.9px rgba(105,69,32,.23));
 }
-#page.dossier-page .dossier-blank-layer-back{
-  left:24px;right:14px;top:0;height:20px;
-  border-radius:6px 10px 0 0;
-  transform:rotate(-.2deg);
+#page.dossier-page .dossier-rear-stage .dossier-stage8-blank img{
+  display:block;width:100%;height:100%;max-width:none;object-fit:fill;
+  user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
-#page.dossier-page .dossier-blank-layer-mid{
-  left:14px;right:26px;top:4px;height:18px;
-  border-radius:8px 8px 0 0;
-  transform:rotate(.15deg);
-}
-#page.dossier-page .dossier-blank-layer-front{
-  right:8px;top:2px;width:102px;height:18px;
-  border-radius:0 9px 0 0;
-  clip-path:polygon(0 0,84% 0,100% 44%,100% 100%,0 100%);
-  background:linear-gradient(180deg,#fffdf8 0%,#f9f0e4 100%);
-}
-#page.dossier-page .dossier-blank-shell-sheet{
-  position:relative;
-  height:108px;
-  border:1px solid #cfb18a;
-  border-radius:12px 10px 13px 12px;
-  background:
-    radial-gradient(ellipse at 20% 0%,rgba(255,255,255,.92) 0%,rgba(255,255,255,.42) 36%,rgba(255,255,255,0) 70%),
-    linear-gradient(180deg,#fffdfa 0%,#fcf5ea 72%,#f3e6d3 100%);
-  box-shadow:0 3px 5px rgba(128,86,47,.35), inset 0 0 0 2px #fff4e1;
-  overflow:hidden;
-}
-#page.dossier-page .dossier-blank-shell-sheet:before,
-#page.dossier-page .dossier-blank-shell-sheet:after{
-  content:"";
-  position:absolute;
-  inset:9px;
-  border-radius:10px;
-  border:1px solid rgba(219,194,159,.72);
-}
-#page.dossier-page .dossier-blank-shell-sheet:after{
-  inset:0;
-  border:none;
-  background:
-    radial-gradient(circle at 12% 18%,rgba(228,183,124,.14),transparent 28%),
-    radial-gradient(circle at 82% 72%,rgba(201,160,102,.10),transparent 24%),
-    radial-gradient(circle at 35% 86%,rgba(222,185,133,.08),transparent 24%);
-  mix-blend-mode:multiply;
-  opacity:.95;
-}
-#page.dossier-page .dossier-blank-shell-sheet-summary{height:86px;}
-#page.dossier-page .dossier-blank-shell-sheet-summary:before{inset:10px 12px;}
-@media(max-width:390px){
-  #page.dossier-page .dossier-blank-shell{min-height:116px;margin-bottom:9px;}
-  #page.dossier-page .dossier-blank-shell-summary{min-height:98px;}
-  #page.dossier-page .dossier-blank-layer-back{left:20px;right:12px;height:18px;}
-  #page.dossier-page .dossier-blank-layer-mid{left:12px;right:22px;height:16px;}
-  #page.dossier-page .dossier-blank-layer-front{width:88px;height:16px;}
-  #page.dossier-page .dossier-blank-shell-sheet{height:102px;}
-  #page.dossier-page .dossier-blank-shell-sheet-summary{height:82px;}
+/* Task dashboard has a shallower summary-card footprint, made from the same
+   editable decorative base without any text or icons. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-blank-tasks{
+  aspect-ratio:1000 / 270;
 }

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 302" width="1000" height="302" preserveAspectRatio="none" aria-hidden="true">
+<defs>
+ <linearGradient id="back" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff9eb"/><stop offset=".58" stop-color="#f8ebd8"/><stop offset="1" stop-color="#ead4b5"/></linearGradient>
+ <linearGradient id="paper" x1=".05" y1="0" x2=".84" y2="1"><stop stop-color="#fffdfa"/><stop offset=".41" stop-color="#fffaf1"/><stop offset=".82" stop-color="#fbf2e5"/><stop offset="1" stop-color="#f2dfca"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="1" y2=".65"><stop stop-color="#a87d4b"/><stop offset=".17" stop-color="#e5c699"/><stop offset=".6" stop-color="#c79b69"/><stop offset=".9" stop-color="#efd5aa"/><stop offset="1" stop-color="#9a6c37"/></linearGradient>
+ <radialGradient id="light" cx=".32" cy=".10" r=".92"><stop stop-color="#fff" stop-opacity=".70"/><stop offset=".56" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#c79f6a" stop-opacity=".06"/></radialGradient>
+ <filter id="shade" x="-10%" y="-18%" width="120%" height="139%"><feGaussianBlur stdDeviation="5"/></filter>
+ <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence baseFrequency=".018 .085" type="fractalNoise" numOctaves="3" seed="16" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".065"/></feComponentTransfer></filter>
+ <clipPath id="frontClip"><path d="M35 35 Q37 19 58 19 L679 19 Q699 19 704 24 L725 35 H941 Q977 37 980 69 L980 264 Q979 288 952 290 H43 Q17 287 16 260 V65 Q16 45 35 35Z"/></clipPath>
+</defs>
+<!-- flat sheet silhouettes sit entirely above the established parchment background -->
+<path d="M56 3 H830 Q850 3 859 13 L892 24 H954 Q970 24 976 43 L974 260 Q975 289 944 292 H52 Q25 292 23 262 V37 Q26 8 56 3Z" fill="#8a5933" opacity=".19" filter="url(#shade)"/>
+<path d="M59 3 H830 Q851 3 860 13 L892 24 H949 Q966 24 972 43 L969 260 Q969 286 941 287 H52 Q26 286 26 260 V36 Q26 3 59 3Z" fill="url(#back)" stroke="#b79469" stroke-width="2.2"/>
+<path d="M56 9 H824 Q843 9 852 19 L884 30 H938 Q953 30 960 45" fill="none" stroke="#fffaf0" stroke-width="3" opacity=".90"/>
+<path d="M53 17 H730 L760 32 H931 Q957 34 964 55 V267 Q960 284 934 283 H48 Q28 280 28 254 V56 Q27 19 53 17Z" fill="#fff7eb" stroke="#d6ba91" stroke-width="2"/>
+<path d="M50 22 H694 Q711 22 724 37 H930 Q963 39 969 61 V260 Q965 284 947 285 H42 Q24 284 23 257 V65 Q24 29 50 22Z" fill="#f6e7d2" stroke="#c3a17b" stroke-width="2"/>
+<!-- no text, icons, buttons or decorative stationery objects: only empty paper -->
+<path d="M35 35 Q37 19 58 19 L679 19 Q699 19 704 24 L725 35 H941 Q977 37 980 69 L980 264 Q979 288 952 290 H43 Q17 287 16 260 V65 Q16 45 35 35Z" fill="url(#paper)" stroke="url(#edge)" stroke-width="3.2"/>
+<g clip-path="url(#frontClip)">
+ <path d="M26 44 H964 V282 H24Z" fill="url(#light)"/>
+ <path d="M26 44 H964 V282 H24Z" filter="url(#grain)" opacity=".22"/>
+ <path d="M43 37 H678 Q700 37 715 52 H946 Q963 53 967 74" fill="none" stroke="#fffefb" stroke-width="2.8" opacity=".93"/>
+ <path d="M28 71 V255 Q29 277 47 279 H944" fill="none" stroke="#e4cda9" stroke-width="1.8" opacity=".60"/>
+ <path d="M45 282 H949" stroke="#caa675" stroke-width="1" opacity=".52"/>
+</g>
+</svg>

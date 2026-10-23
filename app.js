@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1021';
-var APP_BUILD='6021';
+var APP_VERSION='5.0.1022';
+var APP_BUILD='6022';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4557,6 +4557,10 @@ function dossierIndexStage1008(id,current,openCount){
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" width="1448" height="540">'+
       '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
+      // Stage 8 foundation: the only new visible layer, a universal empty paper sheet.
+      '<div class="dossier-stage8-blank dossier-stage8-blank-'+state+'" data-dossier-layer="stage8-blank-paper" aria-hidden="true">'+
+        '<img src="dossier-stage8-blank-top-v6022.svg?v='+APP_BUILD+'" alt="" width="1000" height="302" draggable="false">'+
+      '</div>'+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.png?v='+APP_BUILD+'"'+
@@ -5017,16 +5021,6 @@ function dossierTab(key,count,current,id){
 function dossierSection(title,content,right){
   return '<section class="dossier-section"><div class="dossier-section-head"><h2>'+esc(title)+'</h2>'+(right||'')+'</div>'+content+'</section>';
 }
-function dossierBlankTopShell(kind){
-  var shellClass=kind==='summary'?' dossier-blank-shell-summary':' dossier-blank-shell-hero';
-  var sheetClass=kind==='summary'?' dossier-blank-shell-sheet-summary':'';
-  return '<section class="dossier-blank-shell'+shellClass+'" aria-hidden="true">'+
-    '<span class="dossier-blank-layer dossier-blank-layer-back"></span>'+
-    '<span class="dossier-blank-layer dossier-blank-layer-mid"></span>'+
-    '<span class="dossier-blank-layer dossier-blank-layer-front"></span>'+
-    '<div class="dossier-blank-shell-sheet'+sheetClass+'"></div>'+
-  '</section>';
-}
 function dossierEventIcon(t){
   return ico(t&&t.kind==='hearing'?'gavel':t&&t.kind==='meeting'?'user':t&&t.kind==='deadline'?'clock':'cal');
 }
@@ -5092,21 +5086,19 @@ function openMatter(id,tab){
   var menu='<button class="dossier-ellipsis" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Действия">•••</button>';
   var addLog=m.archived?'':'<button class="dossier-new-log" data-act="m-journal" data-id="'+esc(id)+'">Новая запись <span>+</span></button>';
   if(tab==='general'){
-    data=dossierBlankTopShell('hero')+
+    data=dossierNextEvent(nextEvent,m)+
       dossierSection('Основная информация',dossierInfoRows(m),menu)+
       dossierSection('Недавние действия',dossierJournalList(js,3),addLog);
     if(m.archived)data+=matterClosureCard(m);
   }else if(tab==='events'){
-    data=dossierBlankTopShell('hero')+
+    data=dossierNextEvent(nextEvent,m)+
       dossierSection('Предстоящие события',dossierEventRows(future,m),menu)+
       dossierSection('Прошедшие события',dossierEventRows(past,m));
   }else if(tab==='tasks'){
-    data=dossierBlankTopShell('summary')+
-      dossierSection('Актуальные задачи',dossierTaskRows(active,m),menu)+
+    data=dossierSection('Актуальные задачи',dossierTaskRows(active,m),menu)+
       dossierSection('Выполнено',dossierTaskRows(completed,m));
   }else{
-    data=dossierBlankTopShell('hero')+
-      dossierSection('Журнал действий',dossierJournalList(js),addLog);
+    data=dossierSection('Журнал действий',dossierJournalList(js),addLog);
   }
   var bottomLabel=tab==='events'?'Добавить событие':tab==='journal'?'Добавить запись':'Добавить задачу';
   var bottomAct=tab==='events'?'m-hearing':tab==='journal'?'m-journal':'m-add';
