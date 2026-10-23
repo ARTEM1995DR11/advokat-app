@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1026';
-var APP_BUILD='6026';
+var APP_VERSION='5.0.1028';
+var APP_BUILD='6028';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4560,8 +4560,8 @@ function dossierIndexStage1008(id,current,openCount){
       // 5.0.1025: use the user's approved TEXT-FREE calendar-paper visual on General only.
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
-        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated" data-dossier-layer="stage8-general-decor" aria-hidden="true">'+
-          '<img src="dossier-general-nearest-decor-v6025.png?v='+APP_BUILD+'" alt="" width="1710" height="628" draggable="false">'+
+        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only" aria-hidden="true">'+
+          '<img src="dossier-general-nearest-card-v6027.png?v='+APP_BUILD+'" alt="" width="1672" height="941" draggable="false">'+
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
