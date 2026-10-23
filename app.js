@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1023';
-var APP_BUILD='6023';
+var APP_VERSION='5.0.1025';
+var APP_BUILD='6025';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4557,11 +4557,11 @@ function dossierIndexStage1008(id,current,openCount){
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" width="1448" height="540">'+
       '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
-      // Stage 8.1 / 5.0.1023: first empty paper card is approved for evaluation ONLY on General.
-      // Other tabs retain the previously approved empty lower parchment until separately designed.
+      // 5.0.1025: use the user's approved TEXT-FREE calendar-paper visual on General only.
+      // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
-        '<div class="dossier-stage8-blank dossier-stage8-blank-general" data-dossier-layer="stage8-general-paper" aria-hidden="true">'+
-          '<img src="dossier-stage8-general-blank-v6023.svg?v='+APP_BUILD+'" alt="" width="1000" height="324" draggable="false">'+
+        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated" data-dossier-layer="stage8-general-decor" aria-hidden="true">'+
+          '<img src="dossier-general-nearest-decor-v6025.png?v='+APP_BUILD+'" alt="" width="1710" height="628" draggable="false">'+
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+

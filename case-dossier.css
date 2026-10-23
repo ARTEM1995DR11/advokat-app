@@ -1615,3 +1615,20 @@
   width:100%;height:100%;max-width:none;object-fit:fill;
   user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
+
+/* 5.0.1025 — Original generated empty calendar illustration, without baked-in text.
+   Only stage-8 image sizing changes; frozen dossier header and tab coordinates preserved. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-blank-general.dossier-stage8-illustrated{
+  aspect-ratio:1710 / 628;
+  left:1.75%;
+  width:96.50%;
+  top:60.1%;
+  filter:none; /* rasterized illustration already has its own soft drop shadow */
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
+  display:block;
+  aspect-ratio:1710 / 628;
+  width:100%;
+  height:auto;
+  object-fit:fill;
+}
