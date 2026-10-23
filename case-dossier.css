@@ -1620,9 +1620,9 @@
    Only stage-8 image sizing changes; frozen dossier header and tab coordinates preserved. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-blank-general.dossier-stage8-illustrated{
   aspect-ratio:1710 / 628;
-  left:1.75%;
-  width:96.50%;
-  top:60.1%;
+  left:1.0%;
+  width:98.0%;
+  top:55.0%;
   filter:none; /* rasterized illustration already has its own soft drop shadow */
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
@@ -1632,3 +1632,6 @@
   height:auto;
   object-fit:fill;
 }
+
+/* Stage 8.1 / 5.0.1026: ONLY coordinate alignment of the existing PNG.
+   The approved header / tabs and PNG pixels remain byte-identical to 5.0.1025. */
