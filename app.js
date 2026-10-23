@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1029';
-var APP_BUILD='6029';
+var APP_VERSION='5.0.1030';
+var APP_BUILD='6030';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4561,7 +4561,7 @@ function dossierIndexStage1008(id,current,openCount){
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
         '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only" aria-hidden="true">'+
-          '<img src="dossier-general-nearest-card-v6027.png?v='+APP_BUILD+'" alt="" width="1672" height="941" draggable="false">'+
+          '<img src="dossier-general-nearest-card-v6030.png?v='+APP_BUILD+'" alt="" width="2159" height="728" draggable="false">'+
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
