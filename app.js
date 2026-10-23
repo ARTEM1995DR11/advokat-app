@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1017';
-var APP_BUILD='6017';
+var APP_VERSION='5.0.1021';
+var APP_BUILD='6021';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5017,6 +5017,16 @@ function dossierTab(key,count,current,id){
 function dossierSection(title,content,right){
   return '<section class="dossier-section"><div class="dossier-section-head"><h2>'+esc(title)+'</h2>'+(right||'')+'</div>'+content+'</section>';
 }
+function dossierBlankTopShell(kind){
+  var shellClass=kind==='summary'?' dossier-blank-shell-summary':' dossier-blank-shell-hero';
+  var sheetClass=kind==='summary'?' dossier-blank-shell-sheet-summary':'';
+  return '<section class="dossier-blank-shell'+shellClass+'" aria-hidden="true">'+
+    '<span class="dossier-blank-layer dossier-blank-layer-back"></span>'+
+    '<span class="dossier-blank-layer dossier-blank-layer-mid"></span>'+
+    '<span class="dossier-blank-layer dossier-blank-layer-front"></span>'+
+    '<div class="dossier-blank-shell-sheet'+sheetClass+'"></div>'+
+  '</section>';
+}
 function dossierEventIcon(t){
   return ico(t&&t.kind==='hearing'?'gavel':t&&t.kind==='meeting'?'user':t&&t.kind==='deadline'?'clock':'cal');
 }
@@ -5082,19 +5092,21 @@ function openMatter(id,tab){
   var menu='<button class="dossier-ellipsis" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Действия">•••</button>';
   var addLog=m.archived?'':'<button class="dossier-new-log" data-act="m-journal" data-id="'+esc(id)+'">Новая запись <span>+</span></button>';
   if(tab==='general'){
-    data=dossierNextEvent(nextEvent,m)+
+    data=dossierBlankTopShell('hero')+
       dossierSection('Основная информация',dossierInfoRows(m),menu)+
       dossierSection('Недавние действия',dossierJournalList(js,3),addLog);
     if(m.archived)data+=matterClosureCard(m);
   }else if(tab==='events'){
-    data=dossierNextEvent(nextEvent,m)+
+    data=dossierBlankTopShell('hero')+
       dossierSection('Предстоящие события',dossierEventRows(future,m),menu)+
       dossierSection('Прошедшие события',dossierEventRows(past,m));
   }else if(tab==='tasks'){
-    data=dossierSection('Актуальные задачи',dossierTaskRows(active,m),menu)+
+    data=dossierBlankTopShell('summary')+
+      dossierSection('Актуальные задачи',dossierTaskRows(active,m),menu)+
       dossierSection('Выполнено',dossierTaskRows(completed,m));
   }else{
-    data=dossierSection('Журнал действий',dossierJournalList(js),addLog);
+    data=dossierBlankTopShell('hero')+
+      dossierSection('Журнал действий',dossierJournalList(js),addLog);
   }
   var bottomLabel=tab==='events'?'Добавить событие':tab==='journal'?'Добавить запись':'Добавить задачу';
   var bottomAct=tab==='events'?'m-hearing':tab==='journal'?'m-journal':'m-add';
