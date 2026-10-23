@@ -1596,7 +1596,7 @@
 }
 
 
-/* Stage 8.1 (5.0.1028) — single paper-only graphic on «Общее».
+/* Stage 8.1 (5.0.1029) — single paper-only graphic on «Общее».
    The old multi-layer illustration has been removed from the project.
    Do not add another card underneath this artwork. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single{
@@ -1606,7 +1606,7 @@
   pointer-events:none;
   overflow:visible;
 }
-/* 5.0.1028 — Replacement paper-only calendar illustration, without baked-in text.
+/* 5.0.1029 — Replacement paper-only calendar illustration, without baked-in text.
    Only stage-8 image sizing changes; frozen dossier header and tab coordinates preserved. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single.dossier-stage8-illustrated{
   aspect-ratio:1672 / 941;
