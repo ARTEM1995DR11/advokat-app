@@ -1595,29 +1595,3 @@
   font-size:clamp(7px,2vw,9px);
 }
 
-/* 5.0.1015 — Stage 8.1. Cards are live HTML over the existing parchment artwork. */
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content{position:relative;z-index:8;margin:clamp(-470px,calc(-1 * (100dvh - 330px)),-310px) 20px 32px;padding:0 0 16px;pointer-events:auto;display:flex;flex-direction:column;gap:10px}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-section{margin:0;padding:12px 13px 13px;border-radius:13px;background:linear-gradient(145deg,rgba(255,253,247,.97),rgba(250,240,224,.96));border:1px solid #d3b58c;box-shadow:0 3px 7px #926b3b55,0 0 0 2px #fff8eb inset}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-section-head h2{font-size:11px;letter-spacing:.16em}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-notes{font:14px/1.45 Georgia,serif;color:#19315c;white-space:pre-wrap;margin:3px 0}
-@media(min-width:520px){#page.dossier-page .dossier-rear-stage .dossier-stage8-content{margin-top:-470px}}
-
-/* 5.0.1016: content is anchored BELOW the tab crest, never pulled over navigation.
-   The artwork's middle parchment grows with actual content height. */
-#page.dossier-page .dossier-rear-stage .dossier-clean-canvas{--dossier-content-top:clamp(171px,45vw,207px);}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content{
- position:relative;z-index:8;margin:var(--dossier-content-top) 20px 0;
- padding:0 0 32px;gap:9px;min-width:0;
-}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-section{
- padding:11px 12px 12px;border-radius:13px;min-width:0;
- background:linear-gradient(155deg,#fffaf1 0%,#fff8ed 65%,#f7e9d3 100%);
- box-shadow:0 3px 6px #865e3652,0 0 0 2px #fffdf5 inset;
-}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-info-row{min-width:0;}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-info-row strong,
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-timeline-item p{overflow-wrap:anywhere;word-break:normal;}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-timeline-item p{font-size:12px;line-height:1.35;}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-time-date{font-size:11px;}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-content .dossier-stage8-notes{font-size:13px;line-height:1.4;}
-#page.dossier-page .dossier-rear-stage .dossier-stage7-adaptive{min-height:var(--dossier-stage7-min-height);}

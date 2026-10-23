@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1016';
-var APP_BUILD='6016';
+var APP_VERSION='5.0.1017';
+var APP_BUILD='6017';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4642,28 +4642,11 @@ function dossierLayoutPreview(m,id,tab,p){
     // Stage 7.2: four approved transparent PNG states; only the state asset changes.
     // Actual tab actions remain real buttons, invisibly positioned above the artwork.
     dossierIndexStage1008(id,tab,dossierOpenTasks.length)+
-    dossierStage8General(m,id,tab,dossierTasks,dossierEvents,dossierLogs)+
+    ''+ // Stage 8 cards removed: independent layer design pending
+    
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
-  // Size the stretchable parchment to the rendered cards, keeping its original head/foot geometry.
-  var canvas8=p.querySelector('.dossier-clean-canvas');
-  var content8=p.querySelector('.dossier-stage8-content');
-  var paper8=p.querySelector('.dossier-stage7-adaptive');
-  if(canvas8&&content8&&paper8){
-    var syncPaper8=function(){
-      if(!content8.isConnected)return;
-      var contentBottom=content8.offsetTop+content8.offsetHeight+18;
-      var paperTop=paper8.offsetTop;
-      var desired=Math.max(window.innerHeight-240,620,contentBottom-paperTop);
-      paper8.style.minHeight=Math.ceil(desired)+'px';
-      canvas8.style.minHeight=Math.ceil(paperTop+desired+12)+'px';
-    };
-    syncPaper8();
-    requestAnimationFrame(syncPaper8);
-    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(syncPaper8);
-  }
-
   // Stage 2 (5.0.890): typography fitted against the actual rendered status
   // boundary, with additional reserve for iOS/Safari font metric differences.
   // Use the original dynamic client name, never a raster image or a test label.
