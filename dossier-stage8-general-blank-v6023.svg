@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 324" width="1000" height="324" preserveAspectRatio="none" aria-hidden="true">
+  <!-- Этап 8.1: ТОЛЬКО многослойная бумага, без текста, скрепки, значков и кнопок. -->
+  <defs>
+    <linearGradient id="rearPaper" x1="0%" y1="0%" x2="10%" y2="100%">
+      <stop offset="0" stop-color="#fffcf5"/><stop offset=".46" stop-color="#f9eedf"/><stop offset="1" stop-color="#e9ceb0"/>
+    </linearGradient>
+    <linearGradient id="sheetEdge" x1="0%" y1="0%" x2="96%" y2="100%">
+      <stop offset="0" stop-color="#d1aa7e"/><stop offset=".28" stop-color="#f5e3c6"/><stop offset=".58" stop-color="#e2c29d"/><stop offset="1" stop-color="#c29a70"/>
+    </linearGradient>
+    <linearGradient id="cremeSheet" x1="12%" y1="0%" x2="72%" y2="100%">
+      <stop offset="0" stop-color="#fffefa"/><stop offset=".27" stop-color="#fffaf2"/><stop offset=".62" stop-color="#faf1e6"/><stop offset=".87" stop-color="#f9eee0"/><stop offset="1" stop-color="#f0dec8"/>
+    </linearGradient>
+    <radialGradient id="warmVeil" cx="26%" cy="4%" r="100%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".64"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".15"/><stop offset="1" stop-color="#b98956" stop-opacity=".085"/>
+    </radialGradient>
+    <linearGradient id="goldEdge" x1="0%" y1="0%" x2="100%" y2="15%">
+      <stop offset="0" stop-color="#b8946b"/><stop offset=".14" stop-color="#e6d0ad"/><stop offset=".55" stop-color="#d0aa7b"/><stop offset=".79" stop-color="#efdbb9"/><stop offset="1" stop-color="#b88e60"/>
+    </linearGradient>
+    <linearGradient id="shadowBottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset=".75" stop-color="#a47848" stop-opacity="0"/><stop offset="1" stop-color="#b0885b" stop-opacity=".13"/>
+    </linearGradient>
+    <filter id="softDrop" x="-6%" y="-15%" width="112%" height="133%"><feGaussianBlur stdDeviation="5.8"/></filter>
+    <filter id="paperFiber" x="-12%" y="-25%" width="124%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency=".018 .065" numOctaves="3" seed="23" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".075"/></feComponentTransfer>
+    </filter>
+    <clipPath id="faceClip">
+      <path d="M58 41 Q65 34 82 34 H688 Q701 34 715 43 L738 51 H934 Q972 51 977 81 L977 268 Q974 302 937 303 H53 Q17 302 16 268 V91 Q16 64 37 55 Q51 50 58 41Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Soft undercast shadow hidden below the paper; not a heavy gold frame. -->
+  <path d="M46 29 Q47 11 72 11 H827 Q850 11 869 25 L896 38 H943 Q994 45 994 89 L992 268 Q991 318 940 319 H48 Q2 317 2 269 V76 Q3 43 46 29Z" fill="#71471f" opacity=".20" filter="url(#softDrop)"/>
+
+  <!-- Three stepped sheet edges — subtle different silhouettes and highlights. -->
+  <path d="M69 7 H821 Q849 7 861 19 L897 30 H938 Q976 30 982 62 L982 271 Q977 307 940 311 H49 Q18 309 17 279 V54 Q18 23 48 18 Q63 15 69 7Z" fill="url(#rearPaper)" stroke="#b8966e" stroke-width="1.65"/>
+  <path d="M69 12 H824 Q850 12 860 24 L894 35 H935 Q966 36 975 61" fill="none" stroke="#fffdf4" stroke-width="2.3" opacity=".90"/>
+
+  <path d="M55 17 H766 Q785 17 796 27 L827 39 H941 Q969 41 974 67 L974 271 Q970 302 939 305 H51 Q24 305 23 278 V61 Q25 28 55 17Z" fill="#fff8ea" stroke="#d5b38b" stroke-width="1.65"/>
+  <path d="M56 22 H764 Q781 22 792 32 L819 44 H942 Q962 45 968 68" fill="none" stroke="#fffef9" stroke-width="2.2" opacity=".94"/>
+
+  <path d="M45 27 H724 Q738 27 750 35 L780 48 H937 Q968 51 971 76 L970 270 Q967 299 937 300 H48 Q24 300 22 271 V83 Q23 43 45 27Z" fill="#fbefdf" stroke="url(#sheetEdge)" stroke-width="1.65"/>
+  <path d="M40 32 H702 Q720 32 733 42 L756 53 H935 Q958 54 964 75" fill="none" stroke="#fffaf1" stroke-width="2.1" opacity=".90"/>
+
+  <!-- Inner ivory face with a characteristic right shoulder and gently curved corners. -->
+  <path d="M58 41 Q65 34 82 34 H688 Q701 34 715 43 L738 51 H934 Q972 51 977 81 L977 268 Q974 302 937 303 H53 Q17 302 16 268 V91 Q16 64 37 55 Q51 50 58 41Z"
+        fill="url(#cremeSheet)" stroke="url(#goldEdge)" stroke-width="2.5"/>
+  <g clip-path="url(#faceClip)">
+    <path d="M16 34 H980 V310 H16Z" fill="url(#warmVeil)"/>
+    <path d="M16 34 H980 V310 H16Z" filter="url(#paperFiber)" opacity=".42"/>
+    <path d="M16 34 H980 V310 H16Z" fill="url(#shadowBottom)"/>
+    <path d="M43 67 Q55 47 83 47 H685 Q707 47 734 65 H935 Q960 65 965 91" fill="none" stroke="#fffefa" stroke-width="2.3" opacity=".76"/>
+    <path d="M27 96 L27 263 Q27 292 58 292 H936" fill="none" stroke="#e7d0b0" stroke-width="1.8" opacity=".42"/>
+    <path d="M36 281 Q41 294 61 295 H935 Q956 295 961 278" fill="none" stroke="#c8aa82" stroke-width="1.1" opacity=".25"/>
+  </g>
+
+  <!-- Dotted highlights at real overlaps; avoid extra inner rectangular border. -->
+  <path d="M55 36 H694 Q705 36 717 44" fill="none" stroke="#fff" stroke-width="1.7" opacity=".67"/>
+  <path d="M738 51 H933 Q968 51 977 78" fill="none" stroke="#fffefa" stroke-width="1.6" opacity=".76"/>
+</svg>

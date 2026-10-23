@@ -1596,27 +1596,22 @@
 }
 
 
-/* 5.0.1022 — Stage 8.1: an EMPTY paper card physically mounted in the
-   ACTUAL Layer 7 head. Layers 1–7 are not restyled. This asset carries no
-   headline, icon, text or control. Future content will overlay separately. */
-#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-blank{
+/* 5.0.1023 — Stage 8.1: refined EMPTY parchment silhouette only on «Общее».
+   Upper dossier layers 1–7, their dimensions and tab hotspots stay frozen. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-blank-general{
   position:absolute;
   z-index:5;
-  top:60.2%;
+  top:59.8%;
   left:2.05%;
   width:95.90%;
+  aspect-ratio:1000 / 324;
   height:auto;
-  aspect-ratio:1000 / 302;
   pointer-events:none;
   overflow:visible;
-  filter:drop-shadow(0 1.9px 1.9px rgba(105,69,32,.23));
+  filter:drop-shadow(0 2px 2px rgba(96,63,33,.20));
 }
-#page.dossier-page .dossier-rear-stage .dossier-stage8-blank img{
-  display:block;width:100%;height:100%;max-width:none;object-fit:fill;
+#page.dossier-page .dossier-rear-stage .dossier-stage8-blank-general img{
+  display:block;
+  width:100%;height:100%;max-width:none;object-fit:fill;
   user-select:none;-webkit-user-drag:none;pointer-events:none;
-}
-/* Task dashboard has a shallower summary-card footprint, made from the same
-   editable decorative base without any text or icons. */
-#page.dossier-page .dossier-rear-stage .dossier-stage8-blank-tasks{
-  aspect-ratio:1000 / 270;
 }

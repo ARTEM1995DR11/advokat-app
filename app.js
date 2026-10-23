@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1022';
-var APP_BUILD='6022';
+var APP_VERSION='5.0.1023';
+var APP_BUILD='6023';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4557,10 +4557,12 @@ function dossierIndexStage1008(id,current,openCount){
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" width="1448" height="540">'+
       '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
-      // Stage 8 foundation: the only new visible layer, a universal empty paper sheet.
-      '<div class="dossier-stage8-blank dossier-stage8-blank-'+state+'" data-dossier-layer="stage8-blank-paper" aria-hidden="true">'+
-        '<img src="dossier-stage8-blank-top-v6022.svg?v='+APP_BUILD+'" alt="" width="1000" height="302" draggable="false">'+
-      '</div>'+ 
+      // Stage 8.1 / 5.0.1023: first empty paper card is approved for evaluation ONLY on General.
+      // Other tabs retain the previously approved empty lower parchment until separately designed.
+      (state==='general' ?
+        '<div class="dossier-stage8-blank dossier-stage8-blank-general" data-dossier-layer="stage8-general-paper" aria-hidden="true">'+
+          '<img src="dossier-stage8-general-blank-v6023.svg?v='+APP_BUILD+'" alt="" width="1000" height="324" draggable="false">'+
+        '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.png?v='+APP_BUILD+'"'+
@@ -4592,17 +4594,6 @@ function dossierIndexContent996(m,id,tab,tasks,events,logs){
   return '<div class="dossier-stage996-content sr-only" role="tabpanel" id="dossier-content996" aria-labelledby="dossier-tab996-'+tab+'" aria-hidden="true">'+section+'</div>';
 }
 // Stage 8.1: live content mounted over the approved full-height parchment, no changes to layers 1–7.
-function dossierStage8General(m,id,tab,tasks,events,logs){
-  if(tab!=='general')return '';
-  var future=events.filter(function(t){return !t.done&&t.due&&t.due>=today();}).sort(sortT);
-  var menu='<button class="dossier-ellipsis" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Действия">•••</button>';
-  var add=m.archived?'':'<button class="dossier-new-log" data-act="m-journal" data-id="'+esc(id)+'">Новая запись <span>+</span></button>';
-  var content=dossierNextEvent(m.archived?null:future[0]||null,m)+
-    dossierSection('Основная информация',dossierInfoRows(m),menu)+
-    dossierSection('Позиция по делу',m.notes?'<p class="dossier-stage8-notes">'+esc(m.notes)+'</p>':'<p class="dossier-empty-note">Позиция по делу пока не заполнена.</p>')+
-    dossierSection('Недавние действия',dossierJournalList(logs,3),add);
-  return '<div class="dossier-stage8-content" role="tabpanel" aria-label="Общее">'+content+'</div>';
-}
 function dossierLayoutPreview(m,id,tab,p){
   // 5.0.878 / build 5878: the added figurative title layer is moved higher, made visually lighter than the rear paper,
   // and temporarily populated with live matter data so the placement can be checked directly in the app.
