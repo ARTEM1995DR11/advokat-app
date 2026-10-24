@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1034';
-var APP_BUILD='6034';
+var APP_VERSION='5.0.1036';
+var APP_BUILD='6036';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4536,10 +4536,10 @@ function dossierCoverClientName(m){
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
 function dossierIndexStage1008(id,current,openCount){
   var stateArt={
-    general:'dossier-index-top-general-v6014.png',
-    events:'dossier-index-top-events-v6014.png',
-    tasks:'dossier-index-top-tasks-v6014.png',
-    journal:'dossier-index-top-journal-v6014.png'
+    general:'dossier-index-top-general-v6014.webp',
+    events:'dossier-index-top-events-v6014.webp',
+    tasks:'dossier-index-top-tasks-v6014.webp',
+    journal:'dossier-index-top-journal-v6014.webp'
   };
   var state=stateArt[current]?current:'general';
   var count=Math.max(0,Number(openCount)||0);
@@ -4555,18 +4555,21 @@ function dossierIndexStage1008(id,current,openCount){
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
-      ' alt="" aria-hidden="true" draggable="false" width="1448" height="540">'+
+      ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
       '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
       // 5.0.1025: use the user's approved TEXT-FREE calendar-paper visual on General only.
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
-        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only" aria-hidden="true">'+
-          '<img src="dossier-general-nearest-card-v6030.png?v='+APP_BUILD+'" alt="" width="2159" height="728" draggable="false">'+
+        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only">'+
+          '<img src="dossier-general-nearest-card-v6030.webp?v='+APP_BUILD+'" alt="" width="2159" height="728" draggable="false">'+
+          // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
+          // Only decoration is rasterized. Information and typography remain in the DOM.
+          '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
-    '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.png?v='+APP_BUILD+'"'+
-      ' alt="" aria-hidden="true" draggable="false" width="1448" height="375">'+
+    '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.webp?v='+APP_BUILD+'"'+
+      ' alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async" width="1448" height="375">'+
     '</div>';
 }
 
@@ -7023,7 +7026,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6034',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6036',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

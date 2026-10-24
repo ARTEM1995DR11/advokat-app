@@ -1,91 +1,106 @@
-const CACHE = 'advokat-iphone-offline-v184-premium-6034';
+const CACHE = 'advokat-iphone-offline-v184-premium-6036';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=6034',
-  './cases-folders.css?v=6034',
-  './case-lifecycle.css?v=6034',
-  './case-dossier.css?v=6034',
-  './bg-matters-approved-v487.png?v=6034',
-  './bg-dossier-continuous-v5833.webp?v=6034',
-  './app.js?v=6034',
-  './manifest.webmanifest?v=6034',
+  './styles.css?v=6036',
+  './cases-folders.css?v=6036',
+  './case-lifecycle.css?v=6036',
+  './case-dossier.css?v=6036',
+  './bg-matters-approved-v487.png?v=6036',
+  './bg-dossier-continuous-v5833.webp?v=6036',
+  './app.js?v=6036',
+  './manifest.webmanifest?v=6036',
   './VERSION.txt',
-  './dossier-layer3-single-sheet-v5995.svg?v=6034',
-  './dossier-index-top-general-v6014.png?v=6034',
-  './dossier-index-top-events-v6014.png?v=6034',
-  './dossier-index-top-tasks-v6014.png?v=6034',
-  './dossier-index-top-journal-v6014.png?v=6034',
-  './dossier-general-nearest-card-v6030.png?v=6034',
-  './dossier-paper-middle-v6009.png?v=6034',
-  './dossier-paper-foot-v6009.png?v=6034',
+  './dossier-layer3-single-sheet-v5995.svg?v=6036',
+  './dossier-index-top-general-v6014.webp?v=6036',
+  './dossier-index-top-events-v6014.webp?v=6036',
+  './dossier-index-top-tasks-v6014.webp?v=6036',
+  './dossier-index-top-journal-v6014.webp?v=6036',
+  './dossier-general-nearest-card-v6030.webp?v=6036',
+  './dossier-paper-middle-v6009.webp?v=6036',
+  './dossier-paper-foot-v6009.webp?v=6036',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
   './bg-today-desk.webp',
   './bg-tasks-planner.webp',
   './bg-matters-folders.webp',
-  './scale-gold.webp?v=6034',
+  './scale-gold.webp?v=6036',
   './bg-cal-marble-calendar.webp',
   './bg-more-marble-office.webp',
-  './header-bell-premium.png?v=6034',
-  './header-search-premium.png?v=6034',
-  './header-filter-premium.png?v=6034',
-  './fab-plus-square-premium.png?v=6034',
+  './header-bell-premium.png?v=6036',
+  './header-search-premium.png?v=6036',
+  './header-filter-premium.png?v=6036',
+  './fab-plus-square-premium.png?v=6036',
   './nav-panel-light.png',
-  './nav-panel-light.png?v=6034',
-  './nav-active-today.png?v=6034',
-  './nav-active-tasks.png?v=6034',
-  './nav-active-cases.png?v=6034',
-  './nav-active-calendar.png?v=6034',
-  './nav-active-more.png?v=6034',
-  './folder-icon-scale-kas-v779-fast5926.webp?v=6034',
-  './folder-icon-gavel-criminal-v770-fast5926.webp?v=6034',
-  './folder-icon-house-document-civil-v789-fast5926.webp?v=6034',
-  './folder-icon-doc-koap-v770-fast5926.webp?v=6034'
+  './nav-panel-light.png?v=6036',
+  './nav-active-today.png?v=6036',
+  './nav-active-tasks.png?v=6036',
+  './nav-active-cases.png?v=6036',
+  './nav-active-calendar.png?v=6036',
+  './nav-active-more.png?v=6036',
+  './folder-icon-scale-kas-v779-fast5926.webp?v=6036',
+  './folder-icon-gavel-criminal-v770-fast5926.webp?v=6036',
+  './folder-icon-house-document-civil-v789-fast5926.webp?v=6036',
+  './folder-icon-doc-koap-v770-fast5926.webp?v=6036'
 ];
 const OPTIONAL = [
-  './dossier-layer1-koap-v5925.png?v=6034',
-  './dossier-layer1-civil-v5925.png?v=6034',
-  './dossier-layer1-criminal-v5925.png?v=6034',
-  './dossier-layer1-admin-v5925.png?v=6034',
-  './dossier-kraft-layer2-v5942.webp?v=6034',
-  './dossier-layer4-front-v5947.webp?v=6034',
-  './dossier-front-parchment-v5839.png?v=6034',
-  './dossier-header-button-premium-v5859.png?v=6034',
-  './new-matter-client.css?v=6034',
-  './new-matter-stage.css?v=6034',
-  './new-matter-values.css?v=6034',
-  './new-matter-save.css?v=6034',
-  './premium-icon-180.png?v=6034',
-  './premium-icon-192.png?v=6034',
+  './dossier-layer1-koap-v5925.png?v=6036',
+  './dossier-layer1-civil-v5925.png?v=6036',
+  './dossier-layer1-criminal-v5925.png?v=6036',
+  './dossier-layer1-admin-v5925.png?v=6036',
+  './dossier-kraft-layer2-v5942.webp?v=6036',
+  './dossier-layer4-front-v5947.webp?v=6036',
+  './dossier-front-parchment-v5839.png?v=6036',
+  './dossier-header-button-premium-v5859.png?v=6036',
+  './new-matter-client.css?v=6036',
+  './new-matter-stage.css?v=6036',
+  './new-matter-values.css?v=6036',
+  './new-matter-save.css?v=6036',
+  './premium-icon-180.png?v=6036',
+  './premium-icon-192.png?v=6036',
   './bg-matters-approved-v487.png',
-  './premium-gold-type-v5249.webp?v=6034',
-  './premium-gold-save-v5249.webp?v=6034',
-  './quick-sheet-mobile-approved-v5211.webp?v=6034',
-  './quick-sheet-marble-approved.webp?v=6034',
-  './columns-light.png?v=6034',
-  './bg-new-matter-approved.webp?v=6034',
-  './nm-folder-mockup.png?v=6034',
-  './nm-scale-mockup.png?v=6034',
-  './nm-doc-mockup.png?v=6034',
-  './global-search-head-motif-v173.png?v=6034',
-  './nav-active-base.png?v=6034',
-  './reminder-head-motif-exact.png?v=6034',
-  './reminder-footer-scales-exact.png?v=6034',
-  './quick-card-task-v5100.png?v=6034',
-  './quick-card-hearing-v5100.png?v=6034',
-  './quick-card-meeting-v5100.png?v=6034',
-  './quick-card-deadline-v5100.png?v=6034',
-  './quick-card-journal-v5100.png?v=6034'
+  './premium-gold-type-v5249.webp?v=6036',
+  './premium-gold-save-v5249.webp?v=6036',
+  './quick-sheet-mobile-approved-v5211.webp?v=6036',
+  './quick-sheet-marble-approved.webp?v=6036',
+  './columns-light.png?v=6036',
+  './bg-new-matter-approved.webp?v=6036',
+  './nm-folder-mockup.png?v=6036',
+  './nm-scale-mockup.png?v=6036',
+  './nm-doc-mockup.png?v=6036',
+  './global-search-head-motif-v173.png?v=6036',
+  './nav-active-base.png?v=6036',
+  './reminder-head-motif-exact.png?v=6036',
+  './reminder-footer-scales-exact.png?v=6036',
+  './quick-card-task-v5100.png?v=6036',
+  './quick-card-hearing-v5100.png?v=6036',
+  './quick-card-meeting-v5100.png?v=6036',
+  './quick-card-deadline-v5100.png?v=6036',
+  './quick-card-journal-v5100.png?v=6036'
 ];
 
+// 5.0.1036: reuse identical image paths from the previous app cache.
+// The build query is intentionally different on every version; without ignoreSearch
+// it forces large approved illustrations to be downloaded again unnecessarily.
+// JS/CSS/HTML are ALWAYS fetched fresh and never reused across builds here.
+function isReusableAsset(url) {
+  return /\.(?:png|webp|svg)(?:\?|$)/i.test(url);
+}
+async function cacheCoreResource(cache, url) {
+  try {
+    if (isReusableAsset(url)) {
+      const existing = await caches.match(new Request(new URL(url, self.registration.scope)), {ignoreSearch:true});
+      if (existing && existing.ok) { await cache.put(url, existing.clone()); return; }
+    }
+    await cache.add(url);
+  } catch (_) { /* A single offline asset must not abort the entire install. */ }
+}
 self.addEventListener('install', event => {
-  // Fast, small offline shell first; avoid dozens of simultaneous heavy images.
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache => Promise.all(CORE.map(url => cache.add(url).catch(() => null))))
+      .then(cache => Promise.all(CORE.map(url => cacheCoreResource(cache, url))))
       .then(() => self.skipWaiting())
   );
 });
@@ -96,7 +111,7 @@ async function cacheOptionalAtLowPriority(){
   const worker = async () => {
     while(cursor < OPTIONAL.length){
       const url = OPTIONAL[cursor++];
-      try{ if(!(await cache.match(url))) await cache.add(url); }
+      try { if (!(await cache.match(url))) await cacheCoreResource(cache, url); }
       catch(_e){} // Offline or optional resource absent: do not block main application.
     }
   };

@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=5936') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6036') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=5936') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6036') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=5936') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6036') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.png?v=6014');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6036');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -1617,7 +1617,7 @@
   /* 5.0.1032 — alignment to the «Общее» mockup, using the original PNG.
      The card sits directly below the four tabs and fills the inner paper
      nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
-  /* 5.0.1034 — point adjustment only: slightly narrower and higher.
+  /* 5.0.1036 — point adjustment only: slightly narrower and higher.
      Equalize the side margins without touching the approved image or tabs. */
   left:0.9%;
   width:99.0%;
@@ -1638,3 +1638,43 @@
 }
 
 
+
+/* 5.0.1036 / Stage 8.1.2 — the nearest-event header and hairline, DOM text only.
+   Anchored INSIDE the approved stage-8 illustration, never onto the tab
+   bar or the entire dossier. Do not alter the artwork or tab geometry. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-titlebar{
+  position:absolute;
+  top:15%;
+  left:4.3%;
+  right:4.3%;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  pointer-events:none;
+  white-space:nowrap;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-title{
+  display:block;
+  margin:0;
+  width:max-content;
+  max-width:100%;
+  padding:0 4px 0 0;
+  background:linear-gradient(180deg,rgba(255,249,238,.92),rgba(255,249,238,.87));
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(9.3px,2.74vw,11.6px);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:clamp(1.0px,.38vw,1.65px);
+  color:#8a581f;
+  text-transform:uppercase;
+  text-shadow:0 .5px 0 rgba(255,255,255,.85);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-title-rule{
+  display:block;
+  flex:none;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,rgba(164,119,64,.5),rgba(180,147,108,.35) 65%,rgba(174,136,83,.16));
+  box-shadow:0 1px 0 rgba(255,255,255,.65);
+}
