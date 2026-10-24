@@ -1628,6 +1628,11 @@
   width:100%;
   height:auto;
   object-fit:contain;
+  /* 5.0.1033: extend the existing approved artwork vertically by 10.5%,
+     approx. 11–12 CSS px at iPhone width. Its top edge and width stay fixed.
+     No separate backdrop/duplicate is added; only «Общее» is affected. */
+  transform:scaleY(1.105);
+  transform-origin:center top;
 }
 
 
