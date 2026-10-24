@@ -1614,11 +1614,12 @@
      mockup: full card width with margins and a lower top offset to leave
      room for the future section heading above the card. */
   aspect-ratio:2159 / 728;
-  left:2.35%;
-  width:95.35%;
-  /* 5.0.1031: place the visible edge beneath the FULL tabs, without
-     covering the three inactive tab titles or their touch areas. */
-  top:58.5%;
+  /* 5.0.1032 — alignment to the «Общее» mockup, using the original PNG.
+     The card sits directly below the four tabs and fills the inner paper
+     nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
+  left:-0.8%;
+  width:102.5%;
+  top:48.6%;
   filter:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
