@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1036';
-var APP_BUILD='6036';
+var APP_VERSION='5.0.1037';
+var APP_BUILD='6037';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4534,7 +4534,35 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
-function dossierIndexStage1008(id,current,openCount){
+/* 5.0.1037 / stage 8.1.3 — read-only live event summary. No changes to the approved artwork. */
+function dossierNearestLiveInfo(m,items){
+  var nearest=!m.archived?items.filter(function(t){
+    return t && !t.done && t.due && t.due>=today() &&
+      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
+  }).sort(sortT)[0]:null;
+  if(!nearest){
+    return '<div class="dossier-stage8-event-info is-empty" aria-label="Ближайшее событие">'+
+      '<span class="dossier-stage8-empty-title">Предстоящих событий нет</span>'+ 
+      '<span class="dossier-stage8-empty-note">Добавьте событие во вкладке «События»</span></div>';
+  }
+  var when=dossierDate(nearest.due)+(nearest.time?', '+esc(nearest.time):'');
+  var isH=nearest.kind==='hearing';
+  var location=isH?hearingPlace(nearest,m):String(nearest.place||'');
+  var label=location||(nearest.title||'Событие');
+  var judge=isH?hearingJudgeName(nearest,m):'';
+  var rawHall=String(nearest.hall||nearest.room||nearest.courtroom||'').trim();
+  // The existing task editor stores a courtroom mainly in the notes field.
+  // Show the hall only when a recognisable value is explicitly recorded.
+  if(!rawHall && isH){var mm=String(nearest.note||'').match(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?([0-9А-Яа-яA-Za-z-]+)/iu);if(mm)rawHall='№ '+mm[1];}
+  var hall=rawHall?( /^зал\b/iu.test(rawHall)?rawHall:'Зал '+rawHall ):'';
+  var details=[judge?'Судья: '+judge:'',hall].filter(Boolean).map(esc).join(' · ');
+  return '<div class="dossier-stage8-event-info" aria-label="Ближайшее событие">'+
+    '<strong class="dossier-stage8-event-date">'+when+'</strong>'+ 
+    '<span class="dossier-stage8-event-place">'+esc(label)+'</span>'+ 
+    (details?'<span class="dossier-stage8-event-details">'+details+'</span>':'')+
+    '</div>';
+}
+function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
     events:'dossier-index-top-events-v6014.webp',
@@ -4565,6 +4593,7 @@ function dossierIndexStage1008(id,current,openCount){
           // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
           // Only decoration is rasterized. Information and typography remain in the DOM.
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
+          dossierNearestLiveInfo(m,events||[])+
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
@@ -4639,7 +4668,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '</div>'+
     // Stage 7.2: four approved transparent PNG states; only the state asset changes.
     // Actual tab actions remain real buttons, invisibly positioned above the artwork.
-    dossierIndexStage1008(id,tab,dossierOpenTasks.length)+
+    dossierIndexStage1008(id,tab,dossierOpenTasks.length,m,dossierEvents)+
     ''+ // Stage 8 cards removed: independent layer design pending
     
     '</main></div>';
