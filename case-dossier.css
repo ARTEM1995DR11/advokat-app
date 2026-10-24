@@ -1617,9 +1617,11 @@
   /* 5.0.1032 — alignment to the «Общее» mockup, using the original PNG.
      The card sits directly below the four tabs and fills the inner paper
      nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
-  left:-0.8%;
-  width:102.5%;
-  top:48.6%;
+  /* 5.0.1034 — point adjustment only: slightly narrower and higher.
+     Equalize the side margins without touching the approved image or tabs. */
+  left:0.9%;
+  width:99.0%;
+  top:46.4%;
   filter:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
