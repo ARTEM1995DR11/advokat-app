@@ -1736,3 +1736,34 @@
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-date{font-size:11.2px;}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-place{font-size:10.6px;}
 }
+
+/* 5.0.1038 / stage 8.1.4: tap-target on the decorative right arrow.
+   Artwork and upper dossier layers are unchanged.  Positions follow the
+   arrow center in the existing 2159x728 illustration (including scaleY). */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-event-arrow-hit{
+  position:absolute;
+  left:90.65%;
+  top:58.25%;
+  transform:translate(-50%, -50%);
+  z-index:7;
+  width:44px;
+  height:44px;
+  padding:0;
+  margin:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  pointer-events:auto;
+  appearance:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-event-arrow-hit:focus-visible{
+  outline:2px solid #9f6b27;
+  outline-offset:0;
+  background:rgba(255,245,221,.14);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-event-arrow-hit:active{
+  background:rgba(171,119,47,.10);
+}

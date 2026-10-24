@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1037';
-var APP_BUILD='6037';
+var APP_VERSION='5.0.1038';
+var APP_BUILD='6038';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4534,12 +4534,17 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
-/* 5.0.1037 / stage 8.1.3 — read-only live event summary. No changes to the approved artwork. */
-function dossierNearestLiveInfo(m,items){
-  var nearest=!m.archived?items.filter(function(t){
+/* 5.0.1038 / stage 8.1.4 — use ONE event selection for the text and arrow. */
+function dossierNearestRecord(m,items){
+  if(!m || m.archived)return null;
+  return (items||[]).filter(function(t){
     return t && !t.done && t.due && t.due>=today() &&
       (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
-  }).sort(sortT)[0]:null;
+  }).sort(sortT)[0]||null;
+}
+/* 5.0.1037 / stage 8.1.3 — live event summary. No changes to the approved artwork. */
+function dossierNearestLiveInfo(m,items){
+  var nearest=dossierNearestRecord(m,items);
   if(!nearest){
     return '<div class="dossier-stage8-event-info is-empty" aria-label="Ближайшее событие">'+
       '<span class="dossier-stage8-empty-title">Предстоящих событий нет</span>'+ 
@@ -4594,6 +4599,12 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           // Only decoration is rasterized. Information and typography remain in the DOM.
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
           dossierNearestLiveInfo(m,events||[])+
+          // Transparent HTML hit area over the arrow already drawn in the WebP.
+          // Only a future event gets a button; archived/empty cases stay inert.
+          (function(){
+            var next=dossierNearestRecord(m,events||[]);
+            return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
+          })()+
         '</div>' : '')+ 
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
