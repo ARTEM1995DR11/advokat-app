@@ -1633,14 +1633,15 @@
   /* 5.0.1033: extend the existing approved artwork vertically by 10.5%,
      approx. 11–12 CSS px at iPhone width. Its top edge and width stay fixed.
      No separate backdrop/duplicate is added; only «Общее» is affected. */
-  transform:scaleY(1.118);
+  transform:scaleY(1.145);
   transform-origin:center top;
 }
 
 
 
-/* 5.0.1041 / stage 8.1 typography: heading lowered 4 CSS px, larger lined date,
-   stronger blue metadata; the paper illustration, layout and arrow are untouched. */
+/* 5.0.1042 / stage 8.1 follow-up: the approved event card stays the same width
+   but becomes slightly taller; live content and the invisible arrow hit-area move
+   down to keep optical registration with the mockup. The heading position is frozen. */
 /* 5.0.1036 / Stage 8.1.2 — the nearest-event header and hairline, DOM text only.
    Anchored INSIDE the approved stage-8 illustration, never onto the tab
    bar or the entire dossier. Do not alter the artwork or tab geometry. */
@@ -1690,7 +1691,7 @@
   position:absolute;
   left:34.5%;
   right:13.0%;
-  top:38.1%; /* 5.0.1041: lowered together with the corrected paper card proportions */
+  top:40.1%; /* 5.0.1042: content block moved down to follow the taller approved paper card. */
   z-index:3;
   display:flex;
   flex-direction:column;
@@ -1768,7 +1769,7 @@
 }
 @media (max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info{
-    left:34%;right:13.6%;top:39.2%;gap:1px;
+    left:34%;right:13.6%;top:41.0%;gap:1px;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-date{font-size:clamp(11.35px,3.54vw,12.75px);}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-place{font-size:clamp(10.4px,3.18vw,11.5px);}
@@ -1780,7 +1781,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-event-arrow-hit{
   position:absolute;
   left:90.65%;
-  top:59.35%;
+  top:61.15%;
   transform:translate(-50%, -50%);
   z-index:7;
   width:44px;
