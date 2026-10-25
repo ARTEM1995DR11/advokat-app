@@ -1619,9 +1619,9 @@
      nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
   /* 5.0.1036 — point adjustment only: slightly narrower and higher.
      Equalize the side margins without touching the approved image or tabs. */
-  left:0.9%;
-  width:99.0%;
-  top:46.4%;
+  left:0.55%;
+  width:99.25%;
+  top:46.2%;
   filter:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
@@ -1633,20 +1633,20 @@
   /* 5.0.1033: extend the existing approved artwork vertically by 10.5%,
      approx. 11–12 CSS px at iPhone width. Its top edge and width stay fixed.
      No separate backdrop/duplicate is added; only «Общее» is affected. */
-  transform:scaleY(1.105);
+  transform:scaleY(1.118);
   transform-origin:center top;
 }
 
 
 
-/* 5.0.1040 / stage 8.1 typography: heading lowered 4 CSS px, larger lined date,
+/* 5.0.1041 / stage 8.1 typography: heading lowered 4 CSS px, larger lined date,
    stronger blue metadata; the paper illustration, layout and arrow are untouched. */
 /* 5.0.1036 / Stage 8.1.2 — the nearest-event header and hairline, DOM text only.
    Anchored INSIDE the approved stage-8 illustration, never onto the tab
    bar or the entire dossier. Do not alter the artwork or tab geometry. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-titlebar{
   position:absolute;
-  top:20.4%; /* 5.0.1040: 4px lower, clear of upper gold contour */
+  top:21.0%; /* 5.0.1041: slightly lower to match the approved card after vertical correction */
   left:4.3%;
   right:4.3%;
   z-index:2;
@@ -1690,7 +1690,7 @@
   position:absolute;
   left:34.5%;
   right:13.0%;
-  top:37.0%; /* 5.0.1040: align copy with heading and the lower paper line */
+  top:38.1%; /* 5.0.1041: lowered together with the corrected paper card proportions */
   z-index:3;
   display:flex;
   flex-direction:column;
@@ -1749,7 +1749,7 @@
   color:#496486;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info.is-empty{
-  top:42%;
+  top:43.1%;
   gap:5px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-empty-title{
@@ -1768,7 +1768,7 @@
 }
 @media (max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info{
-    left:34%;right:13.8%;top:38%;gap:1px;
+    left:34%;right:13.6%;top:39.2%;gap:1px;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-date{font-size:clamp(11.35px,3.54vw,12.75px);}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-place{font-size:clamp(10.4px,3.18vw,11.5px);}
@@ -1780,7 +1780,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-event-arrow-hit{
   position:absolute;
   left:90.65%;
-  top:58.25%;
+  top:59.35%;
   transform:translate(-50%, -50%);
   z-index:7;
   width:44px;
