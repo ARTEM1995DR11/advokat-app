@@ -1613,7 +1613,7 @@
      The old white-backed layer is removed. Placement follows the approved
      mockup: full card width with margins and a lower top offset to leave
      room for the future section heading above the card. */
-  aspect-ratio:2159 / 904;
+  aspect-ratio:2159 / 848;
   /* 5.0.1032 — alignment to the «Общее» mockup, using the original PNG.
      The card sits directly below the four tabs and fills the inner paper
      nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
@@ -1626,7 +1626,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
   display:block;
-  aspect-ratio:2159 / 904;
+  aspect-ratio:2159 / 848;
   width:100%;
   height:auto;
   object-fit:contain;
@@ -1646,7 +1646,7 @@
    bar or the entire dossier. Do not alter the artwork or tab geometry. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-titlebar{
   position:absolute;
-  top:16.9%; /* 5.0.1043: identical absolute heading Y, normalized for the taller, non-distorted paper layer. */
+  top:18.05%; /* 5.0.1043: identical absolute heading Y, normalized for the taller, non-distorted paper layer. */
   left:4.3%;
   right:4.3%;
   z-index:2;
@@ -1690,7 +1690,7 @@
   position:absolute;
   left:34.5%;
   right:13.0%;
-  top:35.6%; /* 5.0.1043: copy is shifted by the artwork paper extension; source calendar/arrow geometry is preserved. */
+  top:37.95%; /* 5.0.1043: copy is shifted by the artwork paper extension; source calendar/arrow geometry is preserved. */
   z-index:3;
   display:flex;
   flex-direction:column;
@@ -1749,7 +1749,7 @@
   color:#496486;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info.is-empty{
-  top:36.6%;
+  top:38.95%;
   gap:5px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-empty-title{
@@ -1768,7 +1768,7 @@
 }
 @media (max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info{
-    left:34%;right:13.6%;top:36.2%;gap:1px;
+    left:34%;right:13.6%;top:38.55%;gap:1px;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-date{font-size:clamp(11.35px,3.54vw,12.75px);}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-place{font-size:clamp(10.4px,3.18vw,11.5px);}
@@ -1780,7 +1780,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-event-arrow-hit{
   position:absolute;
   left:90.65%;
-  top:44.0%;
+  top:47.0%;
   transform:translate(-50%, -50%);
   z-index:7;
   width:44px;

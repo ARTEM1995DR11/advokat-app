@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1043';
-var APP_BUILD='6043';
+var APP_VERSION='5.0.1044';
+var APP_BUILD='6044';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4594,7 +4594,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
         '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only">'+
-          '<img src="dossier-general-nearest-card-v6043.webp?v='+APP_BUILD+'" alt="" width="2159" height="904" draggable="false">'+
+          '<img src="dossier-general-nearest-card-v6044.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false">'+
           // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
           // Only decoration is rasterized. Information and typography remain in the DOM.
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
