@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1038';
-var APP_BUILD='6038';
+var APP_VERSION='5.0.1039';
+var APP_BUILD='6039';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4534,7 +4534,7 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
-/* 5.0.1038 / stage 8.1.4 — use ONE event selection for the text and arrow. */
+/* 5.0.1039 / stage 8.1.4 — use ONE event selection for the text and arrow. */
 function dossierNearestRecord(m,items){
   if(!m || m.archived)return null;
   return (items||[]).filter(function(t){
