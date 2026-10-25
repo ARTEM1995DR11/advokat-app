@@ -1613,7 +1613,7 @@
      The old white-backed layer is removed. Placement follows the approved
      mockup: full card width with margins and a lower top offset to leave
      room for the future section heading above the card. */
-  aspect-ratio:2159 / 728;
+  aspect-ratio:2159 / 904;
   /* 5.0.1032 — alignment to the «Общее» mockup, using the original PNG.
      The card sits directly below the four tabs and fills the inner paper
      nearly edge-to-edge. Only coordinates/scale change; no artwork edits. */
@@ -1626,28 +1626,27 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-illustrated img{
   display:block;
-  aspect-ratio:2159 / 728;
+  aspect-ratio:2159 / 904;
   width:100%;
   height:auto;
   object-fit:contain;
-  /* 5.0.1033: extend the existing approved artwork vertically by 10.5%,
-     approx. 11–12 CSS px at iPhone width. Its top edge and width stay fixed.
-     No separate backdrop/duplicate is added; only «Общее» is affected. */
-  transform:scaleY(1.145);
+  /* 5.0.1043: the original image was extended in empty paper bands only.
+     No vertical image transform; calendar, clip and arrow retain natural proportions. */
+  transform:none;
   transform-origin:center top;
 }
 
 
 
-/* 5.0.1042 / stage 8.1 follow-up: the approved event card stays the same width
-   but becomes slightly taller; live content and the invisible arrow hit-area move
-   down to keep optical registration with the mockup. The heading position is frozen. */
+/* 5.0.1043 / stage 8.1 precision pass: extend blank parchment regions instead
+   of vertically scaling the embedded calendar and arrow. Freeze existing width,
+   upper-left anchor and absolute heading position. */
 /* 5.0.1036 / Stage 8.1.2 — the nearest-event header and hairline, DOM text only.
    Anchored INSIDE the approved stage-8 illustration, never onto the tab
    bar or the entire dossier. Do not alter the artwork or tab geometry. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-titlebar{
   position:absolute;
-  top:21.0%; /* 5.0.1041: slightly lower to match the approved card after vertical correction */
+  top:16.9%; /* 5.0.1043: identical absolute heading Y, normalized for the taller, non-distorted paper layer. */
   left:4.3%;
   right:4.3%;
   z-index:2;
@@ -1691,7 +1690,7 @@
   position:absolute;
   left:34.5%;
   right:13.0%;
-  top:40.1%; /* 5.0.1042: content block moved down to follow the taller approved paper card. */
+  top:35.6%; /* 5.0.1043: copy is shifted by the artwork paper extension; source calendar/arrow geometry is preserved. */
   z-index:3;
   display:flex;
   flex-direction:column;
@@ -1750,7 +1749,7 @@
   color:#496486;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info.is-empty{
-  top:43.1%;
+  top:36.6%;
   gap:5px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-empty-title{
@@ -1769,7 +1768,7 @@
 }
 @media (max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-info{
-    left:34%;right:13.6%;top:41.0%;gap:1px;
+    left:34%;right:13.6%;top:36.2%;gap:1px;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-date{font-size:clamp(11.35px,3.54vw,12.75px);}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-event-place{font-size:clamp(10.4px,3.18vw,11.5px);}
@@ -1777,11 +1776,11 @@
 
 /* 5.0.1038 / stage 8.1.4: tap-target on the decorative right arrow.
    Artwork and upper dossier layers are unchanged.  Positions follow the
-   arrow center in the existing 2159x728 illustration (including scaleY). */
+   native arrow center in the extended 2159x904 parchment illustration. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-single .dossier-stage8-event-arrow-hit{
   position:absolute;
   left:90.65%;
-  top:61.15%;
+  top:44.0%;
   transform:translate(-50%, -50%);
   z-index:7;
   width:44px;
