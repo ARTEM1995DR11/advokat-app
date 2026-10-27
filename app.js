@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1058';
-var APP_BUILD='6058';
+var APP_VERSION='5.0.1059';
+var APP_BUILD='6059';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4734,6 +4734,36 @@ function dossierMainInfoLive(m){
    }).join('')+'</div></section>';
 }
 
+/* Stage 8.3 / 5.0.1059: actual three latest journal entries in the approved
+   empty recent-actions leaf. No hardcoded entries, timestamps or clickable rows.
+   Activity date is journal.date, never inferred from record creation timestamp. */
+function dossierRecentActionsLive(entries){
+  var records=(Array.isArray(entries)?entries:[]).slice().sort(function(a,b){
+    return String(b.date||'').localeCompare(String(a.date||'')) ||
+           String(b.created||'').localeCompare(String(a.created||''));
+  }).slice(0,3);
+  var body=records.length?'<ol class="dossier-stage8-recent-list is-count-'+records.length+'">'+records.map(function(j){
+    var date=String(j.date||'').trim();
+    // A journal creation timestamp is not necessarily the event time. Only
+    // show a time if explicitly provided for the entry, never guess it.
+    var clock=/^([01]?\d|2[0-3]):[0-5]\d$/.test(String(j.time||''))?String(j.time):'';
+    var readableDate=date?fmtD(date,true):'Дата не указана';
+    var entry=String(j.text||'').trim()||'Запись в журнале';
+    var closed=(j.type==='closure');
+    return '<li class="dossier-stage8-recent-item'+(closed?' is-closure':'')+'" aria-label="'+esc(readableDate+(clock?', '+clock:'')+'. '+entry)+'">'+
+      '<span class="dossier-stage8-recent-node" aria-hidden="true">'+(closed?'✓':'')+'</span>'+
+      '<div class="dossier-stage8-recent-when"><span class="dossier-stage8-recent-date">'+esc(readableDate)+'</span>'+
+        (clock?'<span class="dossier-stage8-recent-clock">'+esc(clock)+'</span>':'')+'</div>'+
+      '<p class="dossier-stage8-recent-text" title="'+esc(entry)+'">'+esc(entry)+'</p>'+
+      '</li>';
+  }).join('')+'</ol>':
+   '<p class="dossier-stage8-recent-empty">Записей по делу пока нет.'+
+   '<span>Добавьте запись во вкладке «Журнал».</span></p>';
+  return '<section class="dossier-stage8-recent-live" aria-label="Недавние действия по делу">'+
+    '<h2 class="dossier-stage8-recent-title">НЕДАВНИЕ ДЕЙСТВИЯ</h2>'+
+    '<span class="dossier-stage8-recent-heading-rule" aria-hidden="true"></span>'+body+'</section>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4783,8 +4813,9 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '</div>'+ dossierMainInfoLive(m)+
           // 5.0.1056: approved standalone empty parchment card (stage 8.3).
           // Future title, journal timeline and actions are DOM content, not baked pixels.
-          '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-blank">'+
+          '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-with-live-journal">'+
             '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false">'+
+            dossierRecentActionsLive(journalOf(id))+
           '</div>'+
         '</div>' : '')+
     '</div>'+
