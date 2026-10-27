@@ -1932,3 +1932,46 @@
  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value{font-size:clamp(8.2px,2.65vw,10px);}
  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-icon{width:clamp(20px,7.6vw,26px);height:clamp(20px,7.6vw,26px);}
 }
+
+/* 5.0.1052 — approved layer 8.2 is purely informational.
+   Header edit pencil remains the sole edit affordance; paper art is unchanged.
+   Text positions / Times-like font weight calibrated against the «Общее» mockup. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-live{pointer-events:none;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-title{left:6.2%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-rows{left:5.85%;right:5.0%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-row{
+  grid-template-columns:clamp(23px,8.1vw,31px) minmax(0,29%) minmax(0,1fr);
+  column-gap:clamp(4px,1.95vw,8px);
+  pointer-events:auto;cursor:text;user-select:text;-webkit-user-select:text;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-row:active{background:transparent;border-radius:0;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-row:focus-visible{outline:none;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label{
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(9.4px,3.08vw,13.3px);
+  line-height:1.07;letter-spacing:-.013em;color:#567094;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value{
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(10.5px,3.46vw,14.8px);
+  line-height:1.08;letter-spacing:-.009em;color:#152956;font-weight:700;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-row{
+    grid-template-columns:clamp(20px,7.8vw,27px) minmax(0,28.5%) minmax(0,1fr);
+    column-gap:clamp(3px,1.75vw,7px);
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label{font-size:clamp(7.9px,2.8vw,10.4px);}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value{font-size:clamp(9px,3.23vw,11.6px);}
+}
+
+/* Long row captions remain within their column without colliding with values. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label.is-long{
+  font-size:clamp(9px,2.79vw,11.9px);letter-spacing:-.02em;
+  overflow-wrap:anywhere;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label.is-long{
+    font-size:clamp(7.65px,2.58vw,9.4px);
+  }
+}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1051';
-var APP_BUILD='6051';
+var APP_VERSION='5.0.1053';
+var APP_BUILD='6053';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4636,19 +4636,27 @@ function dossierMainInfoIcon(name){
   };
   return '<svg class="dossier-stage8-info-svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+(pictograms[name]||pictograms.document)+'</svg>';
 }
+/* 5.0.1053 — Uppercase the first letter of each visible information entry.
+   Presentation-only: original data, abbreviations and case-sensitive field logic
+   stay unchanged. A multi-line entry is handled line by line. */
+function dossierMainInfoDisplayCase(value){
+  return String(value == null ? '' : value).split('\n').map(function(line){
+    return line.replace(/\p{L}/u,function(ch){return ch.toLocaleUpperCase('ru-RU');});
+  }).join('\n');
+}
 function dossierMainInfoLive(m){
   return '<section class="dossier-stage8-main-info-live" aria-label="Основная информация о деле">'+
    '<h2 class="dossier-stage8-main-info-title">ОСНОВНАЯ ИНФОРМАЦИЯ</h2>'+
    '<div class="dossier-stage8-main-info-rows">'+dossierMainInfoRows(m).map(function(r,i){
-     var value=String(r.value||'').trim(),missing=!value;
-     return '<button type="button" class="dossier-stage8-main-info-row" data-act="m-edit" data-id="'+esc(m.id)+'"'+
-       ' aria-label="'+esc(r.label+': '+(value||'не заполнено')+'. Редактировать')+'"'+
-       ' title="'+esc(value||'Не заполнено')+'">'+
-       '<span class="dossier-stage8-main-info-icon">'+dossierMainInfoIcon(r.icon)+'</span>'+
-       '<span class="dossier-stage8-main-info-label">'+esc(r.label)+'</span>'+
+     var rawValue=String(r.value||'').trim(),missing=!rawValue;
+     var value=dossierMainInfoDisplayCase(rawValue);
+     // Static facts only: edit actions belong exclusively to the header pencil.
+     // Keep the original full value in DOM text; no action attributes, buttons or chevrons.
+     return '<div class="dossier-stage8-main-info-row" aria-label="'+esc(dossierMainInfoDisplayCase(r.label)+': '+(value||'Не указано'))+'">'+
+       '<span class="dossier-stage8-main-info-icon" aria-hidden="true">'+dossierMainInfoIcon(r.icon)+'</span>'+
+       '<span class="dossier-stage8-main-info-label'+(r.label.length>=16?' is-long':'')+'">'+esc(dossierMainInfoDisplayCase(r.label))+'</span>'+
        '<span class="dossier-stage8-main-info-value'+(missing?' is-missing':'')+'">'+esc(value||'Не указано').replace(/\n/g,'<span class="dossier-stage8-main-info-newline"></span>')+'</span>'+
-       '<span class="dossier-stage8-main-info-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 5 6 7-6 7"/></svg></span>'+ 
-       '</button>';
+       '</div>';
    }).join('')+'</div></section>';
 }
 
