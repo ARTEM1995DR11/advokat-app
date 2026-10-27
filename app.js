@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1050';
-var APP_BUILD='6050';
+var APP_VERSION='5.0.1051';
+var APP_BUILD='6051';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4567,6 +4567,91 @@ function dossierNearestLiveInfo(m,items){
     (details?'<span class="dossier-stage8-event-details">'+details+'</span>':'')+
     '</div>';
 }
+/* 5.0.1051 — Stage 8.2: real per-matter information over approved empty paper.
+   Always eight visible slots on the 402px approved artwork; only values and
+   pictograms respond to type, procedural stage and entered dossier data. */
+function dossierMainInfoCompactName(s){
+  s=String(s||'').trim().replace(/\s+/g,' ');
+  if(!s||/^(?:ООО|АО|ПАО|ИП|ФКУ|ФКУЗ|МВД|СК|УФСИН|ОМВД|ГУ|ФССП|УФИЦ)(?:\s|$)/i.test(s))return s;
+  var w=s.split(' ');
+  if(w.length>=2&&w.length<=3&&w.every(function(x){return /^[А-ЯЁA-Z][А-Яа-яЁёA-Za-z'’\-]+$/u.test(x);})){
+    return w[0]+' '+w.slice(1).map(function(x){return x[0]+'.';}).join('');
+  }
+  return s;
+}
+function dossierMainInfoParties(m,compact){
+  var typ=m.type||'other', role=String(m.role||'').toLowerCase();
+  var client=String(m.client||'').trim(), opponent=String(m.opponent||'').trim();
+  if(compact){client=dossierMainInfoCompactName(client);opponent=dossierMainInfoCompactName(opponent);}
+  // Do not infer or invent the litigation role from an empty status field.
+  var first='Доверитель',second='Другая сторона';
+  if(typ==='admin'){
+    first=role.indexOf('ответчик')>=0?'Ответчик':role.indexOf('истец')>=0?'Истец':'Доверитель';
+    second=role.indexOf('ответчик')>=0?'Истец':'Ответчик';
+  }else if(typ==='civil'){
+    first=role.indexOf('ответчик')>=0?'Ответчик':role.indexOf('истец')>=0?'Истец':'Доверитель';
+    second=role.indexOf('ответчик')>=0?'Истец':'Ответчик';
+  }else if(typ==='criminal'){
+    first='Подзащитный';second='Другой участник';
+  }else if(typ==='koap'){
+    first='Доверитель';second='Орган / потерпевший';
+  }
+  return [client?first+': '+client:'',opponent?second+': '+opponent:''].filter(Boolean).join('\n');
+}
+function dossierMainInfoRows(m){
+  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  var judicial=(ctx.mode==='judicial'||(ctx.mode==='execution'&&m.type==='criminal'));
+  var investigating=(ctx.mode==='investigation');
+  var actor=judicial?'Судья':investigating?matterInvestigatorLabel(m.stage):'Должностное лицо';
+  var actorValue=judicial?m.judge:(investigating?m.investigator:'');
+  var catLabel=(m.type==='criminal')?'Статья УК РФ':(m.type==='koap')?'Статья КоАП РФ':'Категория';
+  var catValue=(m.type==='criminal'||m.type==='koap')?m.article:matterApprovedSubject(m);
+  if(m.type==='criminal'&&m.stage==='Исполнение приговора'){
+    catLabel='Вопрос исполнения';
+    var issue=criminalExecutionIssue(m.executionIssue||'');
+    catValue=(issue&&issue.short)||m.article||'';
+  }
+  return [
+    {label:'Номер дела',value:m.number, icon:'folder'},
+    {label:ctx.label,value:m.court,icon:judicial?'court':'agency'},
+    {label:actor,value:actorValue,icon:judicial?'gavel':'person'},
+    {label:'Стороны',value:dossierMainInfoParties(m,true),full:dossierMainInfoParties(m,false),icon:'people'},
+    {label:'Статус доверителя',value:matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role),icon:'person'},
+    {label:catLabel,value:catValue,icon:'category'},
+    {label:'Основание ведения',value:matterBasisLabel(m.basis),icon:'document'},
+    {label:'Стадия',value:m.stage,icon:'clock'}
+  ];
+}
+function dossierMainInfoIcon(name){
+  var pictograms={
+    folder:'<path d="M3.6 8.2V6.5c0-1.2.9-2 2-2h5.1l2.1 2.5h5.8c1.2 0 2 .9 2 2v9.7c0 1.1-.9 2-2 2H5.6c-1.1 0-2-.9-2-2z"/><path d="M3.7 10.4h16.8"/>',
+    court:'<path d="M2.8 8.5 12 3.6l9.2 4.9v1.6H2.8zM4.2 20.3h15.6M2.7 22h18.6M5.5 10.2v9.8M9.8 10.2v9.8M14.2 10.2v9.8M18.5 10.2v9.8"/>',
+    agency:'<path d="M4 21V6l8-3 8 3v15M2.8 21h18.4M8 8h1M15 8h1M8 12h1M15 12h1M10 21v-5h4v5"/>',
+    gavel:'<path d="m13.7 3.4 6.8 6.8-2.4 2.4-6.8-6.8zM10.1 7.1l-4 4 2.8 2.8 4-4M8.9 14l7.8 7.7M3.5 21h11.8M5.5 18.6h7.8"/>',
+    person:'<circle cx="12" cy="7.2" r="3.1"/><path d="M4.5 20.5c.8-4.3 3.3-6.5 7.5-6.5s6.7 2.2 7.5 6.5z"/>',
+    people:'<circle cx="9" cy="7.5" r="3"/><circle cx="17.3" cy="9" r="2.1"/><path d="M3.1 20.5c.6-4.6 2.9-7 6.1-7 3.5 0 5.8 2.4 6.1 7zM15.5 14.4c3.6-.3 5.6 1.9 5.7 5.6"/>',
+    category:'<path d="M7 3.3h7l4.4 4.5v12.8H7zM14 3.4v4.8h4.4M10 13.4h5.1M10 16.3h4.3"/><path d="m9.5 10.4 1.5 1.5 2.6-2.6"/>',
+    document:'<path d="M6.5 3h8l4 4.4V21h-12zM14.5 3v4.9h4M9.5 12h6.7M9.5 15.2h6.7M9.5 18.4h4.5"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6.8v5.7l3.6 2.2"/>'
+  };
+  return '<svg class="dossier-stage8-info-svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+(pictograms[name]||pictograms.document)+'</svg>';
+}
+function dossierMainInfoLive(m){
+  return '<section class="dossier-stage8-main-info-live" aria-label="Основная информация о деле">'+
+   '<h2 class="dossier-stage8-main-info-title">ОСНОВНАЯ ИНФОРМАЦИЯ</h2>'+
+   '<div class="dossier-stage8-main-info-rows">'+dossierMainInfoRows(m).map(function(r,i){
+     var value=String(r.value||'').trim(),missing=!value;
+     return '<button type="button" class="dossier-stage8-main-info-row" data-act="m-edit" data-id="'+esc(m.id)+'"'+
+       ' aria-label="'+esc(r.label+': '+(value||'не заполнено')+'. Редактировать')+'"'+
+       ' title="'+esc(value||'Не заполнено')+'">'+
+       '<span class="dossier-stage8-main-info-icon">'+dossierMainInfoIcon(r.icon)+'</span>'+
+       '<span class="dossier-stage8-main-info-label">'+esc(r.label)+'</span>'+
+       '<span class="dossier-stage8-main-info-value'+(missing?' is-missing':'')+'">'+esc(value||'Не указано').replace(/\n/g,'<span class="dossier-stage8-main-info-newline"></span>')+'</span>'+
+       '<span class="dossier-stage8-main-info-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 5 6 7-6 7"/></svg></span>'+ 
+       '</button>';
+   }).join('')+'</div></section>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4609,11 +4694,11 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?
-        '<div class="dossier-stage8-main-info-paper" data-dossier-layer="stage8-main-information-paper-only" aria-hidden="true">'+
-          '<img src="dossier-general-main-information-v6049.webp?v='+APP_BUILD+'" alt="" width="1644" height="1569" draggable="false">'+
+        '<div class="dossier-stage8-main-info-paper" data-dossier-layer="stage8-main-information-with-live-data">'+
+          '<img src="dossier-general-main-information-v6049.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1644" height="1569" draggable="false">'+
           '<div class="dossier-stage8-main-info-guides" aria-hidden="true">'+
             Array.from({length:8},function(){return '<span class="dossier-stage8-main-info-guide"></span>';}).join('')+
-          '</div>'+
+          '</div>'+ dossierMainInfoLive(m)+
         '</div>' : '')+
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
