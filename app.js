@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1055';
-var APP_BUILD='6055';
+var APP_VERSION='5.0.1056';
+var APP_BUILD='6056';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4781,6 +4781,11 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-stage8-main-info-guides" aria-hidden="true">'+
             Array.from({length:8},function(){return '<span class="dossier-stage8-main-info-guide"></span>';}).join('')+
           '</div>'+ dossierMainInfoLive(m)+
+          // 5.0.1056: approved standalone empty parchment card (stage 8.3).
+          // Future title, journal timeline and actions are DOM content, not baked pixels.
+          '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-blank">'+
+            '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false">'+
+          '</div>'+
         '</div>' : '')+
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
