@@ -1975,3 +1975,18 @@
     font-size:clamp(7.65px,2.58vw,9.4px);
   }
 }
+
+/* 5.0.1054 — one semantic counterparty, concise category, softer serif typography.
+   The paper, row track positions, gilding and top dossier remain unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value{
+  font-size:clamp(10px,3.26vw,14px);font-weight:600;
+  color:#22355a;line-height:1.11;letter-spacing:-.008em;
+  -webkit-line-clamp:2;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value.is-long-value{
+  font-size:clamp(9.6px,3.0vw,12.9px);line-height:1.1;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value{font-size:clamp(8.4px,2.96vw,10.6px);}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value.is-long-value{font-size:clamp(8.1px,2.78vw,10.1px);}
+}

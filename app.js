@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1053';
-var APP_BUILD='6053';
+var APP_VERSION='5.0.1054';
+var APP_BUILD='6054';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4579,24 +4579,87 @@ function dossierMainInfoCompactName(s){
   }
   return s;
 }
-function dossierMainInfoParties(m,compact){
-  var typ=m.type||'other', role=String(m.role||'').toLowerCase();
-  var client=String(m.client||'').trim(), opponent=String(m.opponent||'').trim();
-  if(compact){client=dossierMainInfoCompactName(client);opponent=dossierMainInfoCompactName(opponent);}
-  // Do not infer or invent the litigation role from an empty status field.
-  var first='Доверитель',second='Другая сторона';
+/* 5.0.1054 — Section 8.2: client identity and role are already visible above.
+   Display only the OTHER recorded side; do not guess a legal status where no
+   procedural role is provided. Keep the complete original party in the record. */
+function dossierMainInfoOpposingLabel(m){
+  var typ=String(m.type||'other');
+  var role=String(m.role||'').toLocaleLowerCase('ru-RU');
   if(typ==='admin'){
-    first=role.indexOf('ответчик')>=0?'Ответчик':role.indexOf('истец')>=0?'Истец':'Доверитель';
-    second=role.indexOf('ответчик')>=0?'Истец':'Ответчик';
-  }else if(typ==='civil'){
-    first=role.indexOf('ответчик')>=0?'Ответчик':role.indexOf('истец')>=0?'Истец':'Доверитель';
-    second=role.indexOf('ответчик')>=0?'Истец':'Ответчик';
-  }else if(typ==='criminal'){
-    first='Подзащитный';second='Другой участник';
-  }else if(typ==='koap'){
-    first='Доверитель';second='Орган / потерпевший';
+    if(role.indexOf('ответчик')>=0)return 'Адм. истец';
+    if(role.indexOf('истец')>=0)return 'Адм. ответчик';
+    return 'Другая сторона';
   }
-  return [client?first+': '+client:'',opponent?second+': '+opponent:''].filter(Boolean).join('\n');
+  if(typ==='civil'){
+    if(role.indexOf('ответчик')>=0)return 'Истец';
+    if(role.indexOf('истец')>=0)return 'Ответчик';
+    return 'Другая сторона';
+  }
+  if(typ==='criminal'||typ==='koap')return 'Другой участник';
+  return 'Другая сторона';
+}
+function dossierMainInfoOpponentName(m){
+  var original=String(m.opponent||'').replace(/\s+/g,' ').trim();
+  if(!original)return '';
+  var value=dossierMainInfoCompactName(original);
+  // For establishments the identifying institution / unit and its number are
+  // more useful on the small screen than the redundant territorial suffix.
+  if(/^(?:УФИЦ\s*№?\s*\d+|ФКУ\s+ИК\s*[-№]?\s*\d+|ФКУ\s+СИЗО\s*[-№]?\s*\d+)/iu.test(value)){
+    value=value.replace(/\s+(?:УФСИН|ГУФСИН)(?:\s+России)?(?:\s+по\s+.+)?$/iu,'').trim();
+  }
+  // Preserve the substantive institution names. Shorten only long Russian
+  // regional suffixes where a complete shorter description remains.
+  if(value.length>48){
+    value=value.replace(/\s+России\s+по\s+Ивановской\s+области$/iu,' по Ивановской обл.')
+               .replace(/\s+по\s+Ивановской\s+области$/iu,' по Ивановской обл.');
+  }
+  return value;
+}
+/* Conservative, descriptive classification: do not substitute a guessed
+   specific claim for whatever the advocate actually saved in the dossier. */
+function dossierMainInfoCompactPlace(place,judicial){
+  var value=String(place||'').replace(/\s+/g,' ').trim();
+  if(judicial || !value)return value;
+  // Keep the type of office, its location and identifying unit. Do not invent
+  // any official abbreviation where the entered source is ambiguous.
+  value=value.replace(/Следственного комитета Российской Федерации/giu,'СК РФ')
+             .replace(/Следственного комитета России/giu,'СК России')
+             .replace(/Министерства внутренних дел Российской Федерации/giu,'МВД России')
+             .replace(/Министерства внутренних дел России/giu,'МВД России')
+             .replace(/по особо важным делам/giu,'по ОВД')
+             .replace(/по Кинешемскому району/giu,'по Кинешемскому р-ну')
+             .replace(/Ивановской области/giu,'Ивановской обл.');
+  return value;
+}
+function dossierMainInfoCategory(m){
+  var explicit=String(m.category||m.caseCategory||'').replace(/\s+/g,' ').trim();
+  if(explicit)return explicit;
+  var typ=String(m.type||'other');
+  var subject=String(matterApprovedSubject(m)||'').replace(/\s+/g,' ').trim();
+  var t=subject.toLocaleLowerCase('ru-RU');
+  if(typ==='admin'){
+    if(/бездейств/u.test(t))return 'Оспаривание бездействия';
+    if(/оспарив|обжалован|признани.+незаконн|отмен[аыу].+решени/u.test(t)){
+      if(/действи[йяе]|действий/u.test(t)&&!/решени|постановлен|приказ/u.test(t))return 'Оспаривание действий';
+      if(/решени|постановлен|приказ|акт|нарушител/u.test(t))return 'Оспаривание решений';
+      return 'Оспаривание';
+    }
+    if(/пенси|пенсион/u.test(t))return 'Пенсионный спор';
+    if(/выплат|пособи|компенсаци/u.test(t))return 'Социальные выплаты';
+    return 'Административный спор';
+  }
+  if(typ==='civil'){
+    if(/раздел.+имуществ/u.test(t))return 'Раздел имущества';
+    if(/алимент/u.test(t))return 'Алименты';
+    if(/порядок.+общени|общени.+реб[её]н/u.test(t))return 'Порядок общения с ребёнком';
+    if(/взыскани.+(?:долг|задолжен|денежн)/u.test(t))return 'Взыскание задолженности';
+    if(/наследств|наследствен/u.test(t))return 'Наследственный спор';
+    if(/трудов|увольнен|восстановлен.+работ/u.test(t))return 'Трудовой спор';
+    if(/дтп|возмещени.+вред/u.test(t))return 'Возмещение вреда';
+    if(/выплат|пособи|компенсаци/u.test(t))return 'Спор о выплатах';
+    return 'Гражданский спор';
+  }
+  return subject||'Категория не указана';
 }
 function dossierMainInfoRows(m){
   var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
@@ -4605,7 +4668,7 @@ function dossierMainInfoRows(m){
   var actor=judicial?'Судья':investigating?matterInvestigatorLabel(m.stage):'Должностное лицо';
   var actorValue=judicial?m.judge:(investigating?m.investigator:'');
   var catLabel=(m.type==='criminal')?'Статья УК РФ':(m.type==='koap')?'Статья КоАП РФ':'Категория';
-  var catValue=(m.type==='criminal'||m.type==='koap')?m.article:matterApprovedSubject(m);
+  var catValue=(m.type==='criminal'||m.type==='koap')?m.article:dossierMainInfoCategory(m);
   if(m.type==='criminal'&&m.stage==='Исполнение приговора'){
     catLabel='Вопрос исполнения';
     var issue=criminalExecutionIssue(m.executionIssue||'');
@@ -4613,9 +4676,9 @@ function dossierMainInfoRows(m){
   }
   return [
     {label:'Номер дела',value:m.number, icon:'folder'},
-    {label:ctx.label,value:m.court,icon:judicial?'court':'agency'},
-    {label:actor,value:actorValue,icon:judicial?'gavel':'person'},
-    {label:'Стороны',value:dossierMainInfoParties(m,true),full:dossierMainInfoParties(m,false),icon:'people'},
+    {label:ctx.label,value:dossierMainInfoCompactPlace(m.court,judicial),full:m.court||'',icon:judicial?'court':'agency'},
+    {label:actor,value:dossierMainInfoCompactName(actorValue),full:actorValue||'',icon:judicial?'gavel':'person'},
+    {label:dossierMainInfoOpposingLabel(m),value:dossierMainInfoOpponentName(m),full:m.opponent||'',icon:'people'},
     {label:'Статус доверителя',value:matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role),icon:'person'},
     {label:catLabel,value:catValue,icon:'category'},
     {label:'Основание ведения',value:matterBasisLabel(m.basis),icon:'document'},
@@ -4650,12 +4713,14 @@ function dossierMainInfoLive(m){
    '<div class="dossier-stage8-main-info-rows">'+dossierMainInfoRows(m).map(function(r,i){
      var rawValue=String(r.value||'').trim(),missing=!rawValue;
      var value=dossierMainInfoDisplayCase(rawValue);
+     var complete=dossierMainInfoDisplayCase(String(r.full||r.value||'').trim());
+     var longText=value.length>45;
      // Static facts only: edit actions belong exclusively to the header pencil.
      // Keep the original full value in DOM text; no action attributes, buttons or chevrons.
-     return '<div class="dossier-stage8-main-info-row" aria-label="'+esc(dossierMainInfoDisplayCase(r.label)+': '+(value||'Не указано'))+'">'+
+     return '<div class="dossier-stage8-main-info-row" aria-label="'+esc(dossierMainInfoDisplayCase(r.label)+': '+(complete||'Не указано'))+'">'+
        '<span class="dossier-stage8-main-info-icon" aria-hidden="true">'+dossierMainInfoIcon(r.icon)+'</span>'+
        '<span class="dossier-stage8-main-info-label'+(r.label.length>=16?' is-long':'')+'">'+esc(dossierMainInfoDisplayCase(r.label))+'</span>'+
-       '<span class="dossier-stage8-main-info-value'+(missing?' is-missing':'')+'">'+esc(value||'Не указано').replace(/\n/g,'<span class="dossier-stage8-main-info-newline"></span>')+'</span>'+
+       '<span class="dossier-stage8-main-info-value'+(missing?' is-missing':'')+(longText?' is-long-value':'')+'" title="'+esc(complete||'Не указано')+'">'+esc(value||'Не указано').replace(/\n/g,'<span class="dossier-stage8-main-info-newline"></span>')+'</span>'+
        '</div>';
    }).join('')+'</div></section>';
 }
