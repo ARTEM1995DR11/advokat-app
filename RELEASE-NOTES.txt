@@ -1,3 +1,6 @@
+5.0.1049 / build 6049
+- Stage 8.2 cosmetic refinement: stronger upper paper lips, slightly more expressive gold contour, and a slightly larger gap below the nearest-event block.
+
 Ежедневник адвоката · 5.0.1048 (build 6048)
 
 — Слой 8.2 «Основная информация»: устранены разрывы и двойные участки разделителей, линии вынесены из графики в CSS.
