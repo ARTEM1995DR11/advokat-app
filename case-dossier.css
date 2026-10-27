@@ -1991,11 +1991,11 @@
   #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value.is-long-value{font-size:clamp(8.1px,2.78vw,10.1px);}
 }
 
-/* Stage 8.3 / build 6057: exact-reference light paper-only layer.
+/* Stage 8.3 / build 6058: exact-reference light paper-only layer.
    Place relative to the APPROVED stage 8.2 so no viewport-dependent guesswork.
    Artwork contains no text, timeline, or icons; later DOM data sits above it. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-paper .dossier-stage8-recent-paper{
-  position:absolute;top:calc(100% + 5px);left:0;width:100%;height:auto;
+  position:absolute;top:calc(100% - 3px);left:0;width:100%;height:auto;
   aspect-ratio:1370 / 835;z-index:5;pointer-events:none;overflow:visible;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-paper img{
@@ -2003,8 +2003,11 @@
   user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
 
-/* 5.0.1057 / Step 8.3: On real iPhone viewport heights (~874 CSS px),
+/* 5.0.1058 / Step 8.3: On real iPhone viewport heights (~874 CSS px),
    the third empty leaf formerly extended below the existing folder's paper body.
    The +80px applies to GENERAL only, creating enough middle-page room to
    contain the recent-actions leaf and a paper margin underneath. 8.1/8.2
    and the actual 8.3 art/positions are unchanged. */
+
+/* 5.0.1058: Move ONLY 8.3 recent-actions blank paper up by 8 CSS px.
+   Main information (8.2), nearest event (8.1), illustration size, and paper background are unchanged. */
