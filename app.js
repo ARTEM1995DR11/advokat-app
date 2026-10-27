@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1044';
-var APP_BUILD='6044';
+var APP_VERSION='5.0.1046';
+var APP_BUILD='6046';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4594,7 +4594,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
         '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only">'+
-          '<img src="dossier-general-nearest-card-v6044.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false">'+
+          '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false">'+
           // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
           // Only decoration is rasterized. Information and typography remain in the DOM.
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
@@ -4605,7 +4605,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             var next=dossierNearestRecord(m,events||[]);
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
-        '</div>' : '')+ 
+        '</div>' : '')+
+      // 5.0.1046 / stage 8.2: one standalone TEXT-FREE paper card, directly
+      // below the finished 8.1 block. No previous 8.2 layer is retained.
+      (state==='general' ?
+        '<div class="dossier-stage8-main-info-paper" data-dossier-layer="stage8-main-information-paper-only" aria-hidden="true">'+
+          '<img src="dossier-general-main-information-v6046.webp?v='+APP_BUILD+'" alt="" width="1074" height="1284" draggable="false">'+
+        '</div>' : '')+
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.webp?v='+APP_BUILD+'"'+
@@ -4662,7 +4668,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
     '<button class="dossier-iconbtn" type="button" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+
     '<button class="dossier-iconbtn" type="button" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+
-    '<main class="dossier-clean-canvas" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
+    '<main class="dossier-clean-canvas'+(tab==='general'?' dossier-clean-canvas-general':'')+'" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
     '<img class="dossier-colored-rear-strip" data-dossier-layer="leather-back" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="2172" height="724">'+    
     '<div class="dossier-paper-stack-stage" data-dossier-layer="kraft-paper" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-kraft-layer2-v5942.webp?v='+APP_BUILD+'" alt="" width="2084" height="641" draggable="false"></div>'+
     '<div class="dossier-layer3-rims" data-dossier-layer="paper-rims" aria-hidden="true"><img src="dossier-layer3-single-sheet-v5995.svg?v='+APP_BUILD+'" alt="" width="402" height="50" draggable="false"></div>'+

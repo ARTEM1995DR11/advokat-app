@@ -1804,3 +1804,35 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-event-arrow-hit:active{
   background:rgba(171,119,47,.10);
 }
+
+/* 5.0.1046 — STAGE 8.2: new standalone approved blank main information layer.
+   One asset only, no old second card, no title/icons/labels baked into HTML.
+   Anchored to the unscaled stage-7 header to follow the existing 8.1 card;
+   no change to approved stage-1–5 geometries. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
+  --dossier-stage7-min-height:max(620px,183vw,calc(100dvh - 240px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
+  position:absolute;
+  top:145%;
+  left:2.4%;
+  width:95.2%;
+  aspect-ratio:1.045 / 1;
+  height:auto;
+  pointer-events:none;
+  z-index:6;
+  overflow:visible;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-paper img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  max-width:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
+  --dossier-stage7-min-height:max(620px,183vw,calc(100dvh - 240px));
+}
