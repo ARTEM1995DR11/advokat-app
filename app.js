@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1047';
-var APP_BUILD='6047';
+var APP_VERSION='5.0.1048';
+var APP_BUILD='6048';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4606,11 +4606,14 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
         '</div>' : '')+
-      // 5.0.1047 / stage 8.2: one standalone TEXT-FREE paper card, directly
+      // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?
         '<div class="dossier-stage8-main-info-paper" data-dossier-layer="stage8-main-information-paper-only" aria-hidden="true">'+
-          '<img src="dossier-general-main-information-v6047.webp?v='+APP_BUILD+'" alt="" width="1644" height="1569" draggable="false">'+
+          '<img src="dossier-general-main-information-v6048.webp?v='+APP_BUILD+'" alt="" width="1644" height="1569" draggable="false">'+
+          '<div class="dossier-stage8-main-info-guides" aria-hidden="true">'+
+            Array.from({length:8},function(){return '<span class="dossier-stage8-main-info-guide"></span>';}).join('')+
+          '</div>'+
         '</div>' : '')+
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
@@ -7072,7 +7075,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6036',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6048',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

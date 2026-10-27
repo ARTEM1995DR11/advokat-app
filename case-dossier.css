@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6047') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6048') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6047') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6048') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=6047') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6048') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6047');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6048');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -1805,7 +1805,7 @@
   background:rgba(171,119,47,.10);
 }
 
-/* 5.0.1047 — Stage 8.2: faithful empty paper leaf from the approved
+/* 5.0.1048 — Stage 8.2: faithful empty paper leaf from the approved
    «Общее» reference. The former thick, tall layer is removed entirely.
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
@@ -1838,3 +1838,23 @@
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
   --dossier-stage7-min-height:max(620px,183vw,calc(100dvh - 240px));
 }
+
+/* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
+   Guides are crisp, unobtrusive DOM decoration and can later be replaced
+   by borders on adaptive-height rows without changing the approved paper. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guides{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide{
+  position:absolute;left:14.2%;right:4.65%;height:1px;
+  background:linear-gradient(90deg,rgba(170,145,110,.05),rgba(167,138,105,.24) 10%,rgba(173,147,110,.19) 85%,rgba(173,147,110,.07));
+  box-shadow:0 1px 0 rgba(255,253,246,.42);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(1){top:9.43%;left:4.3%;right:4.65%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(2){top:20.52%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(3){top:32.06%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(4){top:42.38%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(5){top:53.86%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(6){top:64.05%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(7){top:74.95%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-guide:nth-child(8){top:85.40%;}
