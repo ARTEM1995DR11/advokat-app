@@ -1810,7 +1810,7 @@
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
-  --dossier-stage7-min-height:max(620px,183vw,calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 80px),calc(100dvh - 240px));
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
   position:absolute;
@@ -1836,7 +1836,7 @@
 }
 
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
-  --dossier-stage7-min-height:max(620px,183vw,calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 80px),calc(100dvh - 240px));
 }
 
 /* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
@@ -1991,7 +1991,7 @@
   #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value.is-long-value{font-size:clamp(8.1px,2.78vw,10.1px);}
 }
 
-/* Stage 8.3 / build 6056: exact-reference light paper-only layer.
+/* Stage 8.3 / build 6057: exact-reference light paper-only layer.
    Place relative to the APPROVED stage 8.2 so no viewport-dependent guesswork.
    Artwork contains no text, timeline, or icons; later DOM data sits above it. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-paper .dossier-stage8-recent-paper{
@@ -2002,3 +2002,9 @@
   display:block;width:100%;height:100%;max-width:none;object-fit:contain;
   user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
+
+/* 5.0.1057 / Step 8.3: On real iPhone viewport heights (~874 CSS px),
+   the third empty leaf formerly extended below the existing folder's paper body.
+   The +80px applies to GENERAL only, creating enough middle-page room to
+   contain the recent-actions leaf and a paper margin underneath. 8.1/8.2
+   and the actual 8.3 art/positions are unchanged. */
