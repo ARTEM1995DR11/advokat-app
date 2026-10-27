@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1054';
-var APP_BUILD='6054';
+var APP_VERSION='5.0.1055';
+var APP_BUILD='6055';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4702,8 +4702,17 @@ function dossierMainInfoIcon(name){
 /* 5.0.1053 — Uppercase the first letter of each visible information entry.
    Presentation-only: original data, abbreviations and case-sensitive field logic
    stay unchanged. A multi-line entry is handled line by line. */
+/* 5.0.1055: typography of official institution identifiers is normalized
+   exclusively for display. Source party/court strings and stored data remain intact.
+   Examples: 'УФИЦ №1 ФКУ ИК 3' -> 'УФИЦ № 1 ФКУ ИК-3'. */
+function dossierMainInfoInstitutionTypography(value){
+  return String(value == null ? '' : value)
+    .replace(/№\s*(\d+)/gu,'№ $1')
+    .replace(/(^|[\s«(])ИК\s*(?:[-–—]\s*)?(\d+)(?=$|[\s»,;.)])/giu,
+      function(match,lead,number){return lead+'ИК-'+number;});
+}
 function dossierMainInfoDisplayCase(value){
-  return String(value == null ? '' : value).split('\n').map(function(line){
+  return dossierMainInfoInstitutionTypography(value).split('\n').map(function(line){
     return line.replace(/\p{L}/u,function(ch){return ch.toLocaleUpperCase('ru-RU');});
   }).join('\n');
 }
