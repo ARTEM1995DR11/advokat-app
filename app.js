@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1059';
-var APP_BUILD='6059';
+var APP_VERSION='5.0.1060';
+var APP_BUILD='6060';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4734,27 +4734,66 @@ function dossierMainInfoLive(m){
    }).join('')+'</div></section>';
 }
 
-/* Stage 8.3 / 5.0.1059: actual three latest journal entries in the approved
-   empty recent-actions leaf. No hardcoded entries, timestamps or clickable rows.
-   Activity date is journal.date, never inferred from record creation timestamp. */
+/* Stage 8.3 / 5.0.1060: truthful, concise journal overview.
+   Date is the saved journal date; timestamp is displayed only if explicitly
+   recorded or the entry was actually CREATED on that same local day. */
+function dossierRecentClock(j){
+  var explicit=String(j.time||'').trim();
+  if(/^([01]?\d|2[0-3]):[0-5]\d$/.test(explicit))return explicit.padStart(5,'0');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(j.date||'')))return '';
+  var c=String(j.created||'');
+  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})$/.test(c))return '';
+  var when=new Date(c);
+  if(!Number.isFinite(when.getTime())||iso(when)!==j.date)return '';
+  return String(when.getHours()).padStart(2,'0')+':'+String(when.getMinutes()).padStart(2,'0');
+}
+function dossierRecentSummary(j){
+  var full=String(j.text||'').replace(/\s+/g,' ').trim();
+  if(!full)return 'Запись в журнале';
+  // A recorded occurrence is NOT a judicial outcome on the merits.
+  var hearing=full.match(/^Результат заседания\s+.+?:\s+(.+)$/iu);
+  if(hearing){
+    var outcome=hearing[1].split(/\.\s+(?=[А-ЯЁ])/u)[0].trim().replace(/\.$/,'');
+    var note=hearing[1].slice(outcome.length).replace(/^\.\s*/,'').trim();
+    var lead=/^состоял/iu.test(outcome)?'Заседание состоялось':
+      /^отложен/iu.test(outcome)?'Заседание отложено':
+      /^перерыв/iu.test(outcome)?'Объявлен перерыв в заседании':
+      'Записано о заседании: '+outcome;
+    if(note&&!/^Следующее заседание\b/iu.test(note)&&note.length<=65)lead+='. '+note;
+    return lead.replace(/\.+$/,'')+'.';
+  }
+  var scheduled=full.match(/^Назначено\s+(?:судебное\s+)?заседание\s*[—–-]\s*(\d{1,2})\s+([А-ЯЁа-яё]+)\s+(\d{4})\s+в\s+([0-2]\d:[0-5]\d)/iu);
+  if(scheduled)return 'Назначено заседание на '+scheduled[1]+' '+scheduled[2]+', '+scheduled[4]+'.';
+  if(/^Назначено\s+(?:судебное\s+)?заседание\b/iu.test(full))return 'Назначено судебное заседание.';
+  if(/^Досье обновлено\.?$/iu.test(full))return 'Обновлена карточка дела.';
+  if(/^Досье создано\.?$/iu.test(full))return 'Создана карточка дела.';
+  return full;
+}
+function dossierRecentConfirmed(j){
+  var type=String(j.type||'');
+  // Checkmark reserved for genuinely completed/recorded actions, never for
+  // generic journal entries or inferred results.
+  return type==='closure'||type==='hearing-result'||
+    (type==='task'&&/^Выполнено\s*:/iu.test(String(j.text||'')));
+}
 function dossierRecentActionsLive(entries){
   var records=(Array.isArray(entries)?entries:[]).slice().sort(function(a,b){
     return String(b.date||'').localeCompare(String(a.date||'')) ||
            String(b.created||'').localeCompare(String(a.created||''));
   }).slice(0,3);
   var body=records.length?'<ol class="dossier-stage8-recent-list is-count-'+records.length+'">'+records.map(function(j){
-    var date=String(j.date||'').trim();
-    // A journal creation timestamp is not necessarily the event time. Only
-    // show a time if explicitly provided for the entry, never guess it.
-    var clock=/^([01]?\d|2[0-3]):[0-5]\d$/.test(String(j.time||''))?String(j.time):'';
-    var readableDate=date?fmtD(date,true):'Дата не указана';
-    var entry=String(j.text||'').trim()||'Запись в журнале';
-    var closed=(j.type==='closure');
-    return '<li class="dossier-stage8-recent-item'+(closed?' is-closure':'')+'" aria-label="'+esc(readableDate+(clock?', '+clock:'')+'. '+entry)+'">'+
-      '<span class="dossier-stage8-recent-node" aria-hidden="true">'+(closed?'✓':'')+'</span>'+
+    var date=String(j.date||'').trim(),clock=dossierRecentClock(j);
+    var readableDate=/^\d{4}-\d{2}-\d{2}$/.test(date)?fmtD(date,true):'Дата не указана';
+    var weekday=clock&&/^\d{4}-\d{2}-\d{2}$/.test(date)?DOW[parseD(date).getDay()]+', '+clock:'';
+    var full=String(j.text||'').trim()||'Запись в журнале';
+    var brief=dossierRecentSummary(j),done=dossierRecentConfirmed(j);
+    var hasId=!!String(j.id||'').trim();
+    return '<li class="dossier-stage8-recent-item'+(done?' is-closure':'')+'" aria-label="'+esc(readableDate+(clock?', '+clock:'')+'. '+brief)+'">'+
+      '<span class="dossier-stage8-recent-node" aria-hidden="true">'+(done?'✓':'')+'</span>'+
       '<div class="dossier-stage8-recent-when"><span class="dossier-stage8-recent-date">'+esc(readableDate)+'</span>'+
-        (clock?'<span class="dossier-stage8-recent-clock">'+esc(clock)+'</span>':'')+'</div>'+
-      '<p class="dossier-stage8-recent-text" title="'+esc(entry)+'">'+esc(entry)+'</p>'+
+        (weekday?'<span class="dossier-stage8-recent-clock">'+esc(weekday)+'</span>':'')+'</div>'+
+      '<p class="dossier-stage8-recent-text" title="'+esc(full)+'">'+esc(brief)+'</p>'+
+      (hasId?'<button type="button" class="dossier-stage8-recent-arrow" data-act="dossier-recent-entry" data-id="'+esc(String(j.id))+'" aria-label="Открыть запись журнала за '+esc(readableDate)+'" title="Открыть запись">›</button>':'<span class="dossier-stage8-recent-arrow-placeholder" aria-hidden="true"></span>')+
       '</li>';
   }).join('')+'</ol>':
    '<p class="dossier-stage8-recent-empty">Записей по делу пока нет.'+
@@ -4762,6 +4801,23 @@ function dossierRecentActionsLive(entries){
   return '<section class="dossier-stage8-recent-live" aria-label="Недавние действия по делу">'+
     '<h2 class="dossier-stage8-recent-title">НЕДАВНИЕ ДЕЙСТВИЯ</h2>'+
     '<span class="dossier-stage8-recent-heading-rule" aria-hidden="true"></span>'+body+'</section>';
+}
+/* Only the arrow opens the selected, exact journal record in read-only form.
+   The Journal tab's graphic layout is being developed separately. */
+function sheetDossierRecentEntry(id){
+  var j=(S.journal||[]).find(function(x){return String(x.id)===String(id);});
+  if(!j||!matter(j.mid)||!sameRecordId($('#page')._mid,j.mid)){
+    toast('Запись журнала не найдена');return;
+  }
+  var date=/^\d{4}-\d{2}-\d{2}$/.test(String(j.date||''))?fmtD(j.date,true):'Дата не указана';
+  var when=dossierRecentClock(j);
+  openSheet('<div class="dossier-recent-detail">'+
+    '<div class="dossier-recent-detail-eyebrow">ЖУРНАЛ ДЕЛА</div>'+
+    '<h2>Запись журнала</h2>'+
+    '<p class="dossier-recent-detail-date">'+esc(date)+(when?' · '+esc(when):'')+'</p>'+
+    '<div class="dossier-recent-detail-text">'+esc(String(j.text||'')||'Запись в журнале')+'</div>'+
+    '<button type="button" class="btn dossier-recent-detail-close" data-act="dossier-recent-close">Закрыть</button>'+
+    '</div>');
 }
 
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -6457,6 +6513,8 @@ document.addEventListener('click', function(ev){
     case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
     case 'list-matter-clear': clearPremiumMatterChoice();break;
     case 'list-close': closePremiumListPicker();break;
+    case 'dossier-recent-entry': sheetDossierRecentEntry(id); break;
+    case 'dossier-recent-close': closeSheet(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return matterTaskVisible(t)&&!t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;

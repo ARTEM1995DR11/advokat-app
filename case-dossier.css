@@ -1991,7 +1991,7 @@
   #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-value.is-long-value{font-size:clamp(8.1px,2.78vw,10.1px);}
 }
 
-/* Stage 8.3 / build 6059: exact-reference light paper-only layer.
+/* Stage 8.3 / build 6060: exact-reference light paper-only layer.
    Place relative to the APPROVED stage 8.2 so no viewport-dependent guesswork.
    Artwork contains no text, timeline, or icons; later DOM data sits above it. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-paper .dossier-stage8-recent-paper{
@@ -2003,16 +2003,16 @@
   user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
 
-/* 5.0.1059 / Step 8.3: On real iPhone viewport heights (~874 CSS px),
+/* 5.0.1060 / Step 8.3: On real iPhone viewport heights (~874 CSS px),
    the third empty leaf formerly extended below the existing folder's paper body.
    The +80px applies to GENERAL only, creating enough middle-page room to
    contain the recent-actions leaf and a paper margin underneath. 8.1/8.2
    and the actual 8.3 art/positions are unchanged. */
 
-/* 5.0.1059: Move ONLY 8.3 recent-actions blank paper up by 8 CSS px.
+/* 5.0.1060: Move ONLY 8.3 recent-actions blank paper up by 8 CSS px.
    Main information (8.2), nearest event (8.1), illustration size, and paper background are unchanged. */
 
-/* 5.0.1059 / Stage 8.3: dynamic journal summary OVER the approved light
+/* 5.0.1060 / Stage 8.3: dynamic journal summary OVER the approved light
    parchment artwork. All positions are relative to its existing dimensions.
    No rasterized typography, date, timeline or filler entries. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-live{
@@ -2104,3 +2104,53 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-1::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-2::before{top:16.7%;height:33.3%;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-3::before{top:16.7%;height:66.6%;}
+
+/* 5.0.1060 — stage 8.3 final typography, honest journal times, semantic
+   completion markers and REAL per-entry open arrow. Artwork unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list{
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
+  grid-template-columns:6.2% 30.5% minmax(0,1fr) 5.1%;
+  gap:1.35%;padding-right:.8%;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-date{
+  font-size:clamp(9px,2.8vw,11.6px);line-height:1.14;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-clock{
+  color:#81715f;font-size:clamp(8.8px,2.58vw,10.6px);line-height:1.12;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{
+  color:#2d4d79;font-size:clamp(9.1px,2.98vw,12.45px);
+  line-height:1.15;-webkit-line-clamp:3;
+  overflow-wrap:normal;word-break:normal;hyphens:auto;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item:not(:last-child)::after{right:5.7%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow{
+  appearance:none;-webkit-appearance:none;align-self:stretch;justify-self:stretch;
+  display:flex;align-items:center;justify-content:center;min-width:0;
+  margin:0;padding:0;border:0;background:transparent;
+  font:normal 24px/1 Georgia,serif;color:#94723a;
+  cursor:pointer;pointer-events:auto;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow:focus-visible{
+  outline:2px solid #986a23;outline-offset:-1px;border-radius:5px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow-placeholder{display:block;}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
+    grid-template-columns:6.2% 29.7% minmax(0,1fr) 5.1%;gap:1.1%;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-date{font-size:clamp(8px,2.8vw,10px);}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{font-size:clamp(8.4px,2.93vw,10.6px);}
+}
+/* Read-only detail; visually distinct from the header's Edit action. */
+.dossier-recent-detail{font-family:Georgia,'Times New Roman',serif;color:#172b50;}
+.dossier-recent-detail-eyebrow{font-size:12px;letter-spacing:.15em;font-weight:700;color:#946b31;}
+.dossier-recent-detail h2{margin:10px 0 5px;color:#1d3156;}
+.dossier-recent-detail-date{color:#796045;font-size:14px;margin:0 0 15px;}
+.dossier-recent-detail-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.48;
+ background:rgba(250,243,229,.8);border:1px solid rgba(174,135,74,.34);
+ border-radius:12px;padding:14px;font-size:16px;}
+.dossier-recent-detail-close{width:100%;margin-top:16px;}
