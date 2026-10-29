@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1062';
-var APP_BUILD='6062';
+var APP_VERSION='5.0.1063';
+var APP_BUILD='6063';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4737,6 +4737,40 @@ function dossierMainInfoLive(m){
 /* Stage 8.3 / 5.0.1061: truthful, concise journal overview.
    Date is the saved journal date; timestamp is displayed only if explicitly
    recorded or the entry was actually CREATED on that same local day. */
+
+var DOSSIER_ASSETS_WARMED=false;
+function warmImageAsset(src){
+  try{
+    var img=new Image();
+    img.decoding='async';
+    img.fetchPriority='high';
+    img.src=src;
+    if(typeof img.decode==='function') img.decode().catch(function(){});
+  }catch(e){}
+}
+function warmDossierAssets(){
+  if(DOSSIER_ASSETS_WARMED) return;
+  DOSSIER_ASSETS_WARMED=true;
+  [
+    'dossier-index-top-general-v6014.webp?v='+APP_BUILD,
+    'dossier-index-top-events-v6014.webp?v='+APP_BUILD,
+    'dossier-index-top-tasks-v6014.webp?v='+APP_BUILD,
+    'dossier-index-top-journal-v6014.webp?v='+APP_BUILD,
+    'dossier-general-nearest-card-v6045.webp?v='+APP_BUILD,
+    'dossier-general-main-information-v6049.webp?v='+APP_BUILD,
+    'dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD,
+    'dossier-paper-foot-v6009.webp?v='+APP_BUILD,
+    'dossier-layer1-koap-v5925.png?v='+APP_BUILD,
+    'dossier-layer1-civil-v5925.png?v='+APP_BUILD,
+    'dossier-layer1-criminal-v5925.png?v='+APP_BUILD,
+    'dossier-layer1-admin-v5925.png?v='+APP_BUILD,
+    'dossier-kraft-layer2-v5942.webp?v='+APP_BUILD,
+    'dossier-layer4-front-v5947.webp?v='+APP_BUILD
+  ].forEach(function(src,idx){
+    setTimeout(function(){warmImageAsset(src);},idx*90);
+  });
+}
+
 function dossierRecentClock(j){
   var explicit=String(j.time||'').trim();
   if(/^([01]?\d|2[0-3]):[0-5]\d$/.test(explicit))return explicit.padStart(5,'0');
@@ -4789,7 +4823,7 @@ function dossierRecentActionsLive(entries){
     var brief=dossierRecentSummary(j),done=dossierRecentConfirmed(j);
     var hasId=!!String(j.id||'').trim();
     return '<li class="dossier-stage8-recent-item'+(done?' is-closure':'')+'" aria-label="'+esc(readableDate+(clock?', '+clock:'')+'. '+brief)+'">'+
-      '<span class="dossier-stage8-recent-node" aria-hidden="true">'+(done?'✓':'')+'</span>'+
+      '<span class="dossier-stage8-recent-node" aria-hidden="true"></span>'+
       '<div class="dossier-stage8-recent-when"><span class="dossier-stage8-recent-date">'+esc(readableDate)+'</span>'+
         (weekday?'<span class="dossier-stage8-recent-clock">'+esc(weekday)+'</span>':'')+'</div>'+
       '<p class="dossier-stage8-recent-text" title="'+esc(full)+'">'+esc(brief)+'</p>'+
@@ -4847,7 +4881,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
         '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only">'+
-          '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false">'+
+          '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
           // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
           // Only decoration is rasterized. Information and typography remain in the DOM.
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+ 
@@ -4863,14 +4897,14 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?
         '<div class="dossier-stage8-main-info-paper" data-dossier-layer="stage8-main-information-with-live-data">'+
-          '<img src="dossier-general-main-information-v6049.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1644" height="1569" draggable="false">'+
+          '<img src="dossier-general-main-information-v6049.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1644" height="1569" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
           '<div class="dossier-stage8-main-info-guides" aria-hidden="true">'+
             Array.from({length:8},function(){return '<span class="dossier-stage8-main-info-guide"></span>';}).join('')+
           '</div>'+ dossierMainInfoLive(m)+
           // 5.0.1056: approved standalone empty parchment card (stage 8.3).
           // Future title, journal timeline and actions are DOM content, not baked pixels.
           '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-with-live-journal">'+
-            '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false">'+
+            '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
             dossierRecentActionsLive(journalOf(id))+
           '</div>'+
         '</div>' : '')+
@@ -5371,6 +5405,7 @@ function dossierTaskRows(arr,m){
 }
 function openMatter(id,tab){
   var m=matter(id);if(!m){closeAll();return;}
+  warmDossierAssets();
   var p=$('#page');
   if(!DOSSIER_TABS[tab])tab=(p.classList.contains('open')&&sameRecordId(p._mid,id)&&DOSSIER_TABS[p._matterTab])?p._matterTab:'general';
   if(DOSSIER_LAYOUT_ONLY){dossierLayoutPreview(m,id,tab,p);return;}
@@ -7259,6 +7294,8 @@ function afterUnlock(){
   }
   render();schedule();
   refreshFixedChrome();
+  if(typeof requestIdleCallback==='function') requestIdleCallback(warmDossierAssets,{timeout:1800});
+  else setTimeout(warmDossierAssets,900);
   if(!APP_STARTED){
     APP_STARTED=true;setInterval(schedule,15*60*1000);
     var hearingSig=S.tasks.filter(function(t){return matterTaskVisible(t)&&hearingNeedsResult(t);}).map(function(t){return t.id;}).sort().join('|');
@@ -7336,7 +7373,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6062',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6063',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
