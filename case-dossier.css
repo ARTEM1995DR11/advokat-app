@@ -2043,7 +2043,12 @@
 }
 /* 5.0.1069: keep the fixed paper, but balance the available space for 1 or 2 activities. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-1{grid-template-rows:minmax(0,1fr);}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-2{grid-template-rows:repeat(2,minmax(0,1fr));}
+/* 5.0.1071 / final stage 8.3: only two journal rows.  Preserve their
+   midpoint (54.35% of paper height) while reducing center-to-center distance
+   by ~16%; the approved three-row, one-row and empty layouts do not move. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-2{
+  top:20.5%;bottom:11.8%;grid-template-rows:repeat(2,minmax(0,1fr));
+}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
   position:relative;display:grid;
