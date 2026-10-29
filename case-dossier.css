@@ -2044,7 +2044,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
   position:relative;display:grid;
-  grid-template-columns:var(--recent-node-col) minmax(90px,30.5%) minmax(0,1fr) 5.1%;
+  grid-template-columns:var(--recent-node-col) minmax(90px,30.5%) minmax(0,1fr);
   gap:1.35%;align-items:center;min-width:0;min-height:0;
   padding:0 .8% 0 0;margin:0;color:#1e365f;
 }
@@ -2130,34 +2130,13 @@
   overflow-wrap:break-word;word-break:normal;
   -webkit-hyphens:none;hyphens:none;
 }
-#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow{
-  appearance:none;-webkit-appearance:none;align-self:stretch;justify-self:stretch;
-  display:flex;align-items:center;justify-content:center;min-width:0;
-  margin:0;padding:0;border:0;background:transparent;
-  font:normal 24px/1 Georgia,serif;color:#94723a;
-  cursor:pointer;pointer-events:auto;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow:focus-visible{
-  outline:2px solid #986a23;outline-offset:-1px;border-radius:5px;
-}
-#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow-placeholder{display:block;}
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
-    grid-template-columns:var(--recent-node-col) minmax(82px,29.7%) minmax(0,1fr) 5.1%;gap:1.1%;
+    grid-template-columns:var(--recent-node-col) minmax(82px,29.7%) minmax(0,1fr);gap:1.1%;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-date{font-size:clamp(8px,2.8vw,10px);}
   #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{font-size:clamp(8.7px,3.02vw,11.25px);}
 }
-/* Read-only detail; visually distinct from the header's Edit action. */
-.dossier-recent-detail{font-family:Georgia,'Times New Roman',serif;color:#172b50;}
-.dossier-recent-detail-eyebrow{font-size:12px;letter-spacing:.15em;font-weight:700;color:#946b31;}
-.dossier-recent-detail h2{margin:10px 0 5px;color:#1d3156;}
-.dossier-recent-detail-date{color:#796045;font-size:14px;margin:0 0 15px;}
-.dossier-recent-detail-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.48;
- background:rgba(250,243,229,.8);border:1px solid rgba(174,135,74,.34);
- border-radius:12px;padding:14px;font-size:16px;}
-.dossier-recent-detail-close{width:100%;margin-top:16px;}
 
 /* 5.0.1064: iPhone PWA status bar clear zone while the dossier is scrolled.
    Content can keep its existing natural scrolling coordinates; the overlay is

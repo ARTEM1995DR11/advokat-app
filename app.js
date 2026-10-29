@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1066';
-var APP_BUILD='6066';
+var APP_VERSION='5.0.1067';
+var APP_BUILD='6067';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4814,13 +4814,11 @@ function dossierRecentActionsLive(entries){
     var weekday=clock&&/^\d{4}-\d{2}-\d{2}$/.test(date)?DOW[parseD(date).getDay()]+', '+clock:'';
     var full=String(j.text||'').trim()||'Запись в журнале';
     var brief=dossierRecentSummary(j),done=dossierRecentConfirmed(j);
-    var hasId=!!String(j.id||'').trim();
     return '<li class="dossier-stage8-recent-item'+(done?' is-closure':'')+'" aria-label="'+esc(readableDate+(clock?', '+clock:'')+'. '+brief)+'">'+
       '<span class="dossier-stage8-recent-node" aria-hidden="true"></span>'+
       '<div class="dossier-stage8-recent-when"><span class="dossier-stage8-recent-date">'+esc(readableDate)+'</span>'+
         (weekday?'<span class="dossier-stage8-recent-clock">'+esc(weekday)+'</span>':'')+'</div>'+
       '<p class="dossier-stage8-recent-text" title="'+esc(full)+'">'+esc(brief)+'</p>'+
-      (hasId?'<button type="button" class="dossier-stage8-recent-arrow" data-act="dossier-recent-entry" data-id="'+esc(String(j.id))+'" aria-label="Открыть запись журнала за '+esc(readableDate)+'" title="Открыть запись">›</button>':'<span class="dossier-stage8-recent-arrow-placeholder" aria-hidden="true"></span>')+
       '</li>';
   }).join('')+'</ol>':
    '<p class="dossier-stage8-recent-empty">Записей по делу пока нет.'+
@@ -4829,24 +4827,6 @@ function dossierRecentActionsLive(entries){
     '<h2 class="dossier-stage8-recent-title">НЕДАВНИЕ ДЕЙСТВИЯ</h2>'+
     '<span class="dossier-stage8-recent-heading-rule" aria-hidden="true"></span>'+body+'</section>';
 }
-/* Only the arrow opens the selected, exact journal record in read-only form.
-   The Journal tab's graphic layout is being developed separately. */
-function sheetDossierRecentEntry(id){
-  var j=(S.journal||[]).find(function(x){return String(x.id)===String(id);});
-  if(!j||!matter(j.mid)||!sameRecordId($('#page')._mid,j.mid)){
-    toast('Запись журнала не найдена');return;
-  }
-  var date=/^\d{4}-\d{2}-\d{2}$/.test(String(j.date||''))?fmtD(j.date,true):'Дата не указана';
-  var when=dossierRecentClock(j);
-  openSheet('<div class="dossier-recent-detail">'+
-    '<div class="dossier-recent-detail-eyebrow">ЖУРНАЛ ДЕЛА</div>'+
-    '<h2>Запись журнала</h2>'+
-    '<p class="dossier-recent-detail-date">'+esc(date)+(when?' · '+esc(when):'')+'</p>'+
-    '<div class="dossier-recent-detail-text">'+esc(String(j.text||'')||'Запись в журнале')+'</div>'+
-    '<button type="button" class="btn dossier-recent-detail-close" data-act="dossier-recent-close">Закрыть</button>'+
-    '</div>');
-}
-
 
 function dossierGeneralBottomActions(id,m){
   var primary=m&&m.archived
@@ -6553,8 +6533,6 @@ document.addEventListener('click', function(ev){
     case 'list-search-clear': if(LIST_PICKER){LIST_PICKER.query='';renderPremiumListPicker();var ls=$('#premium-list-search');if(ls)ls.focus({preventScroll:true});}break;
     case 'list-matter-clear': clearPremiumMatterChoice();break;
     case 'list-close': closePremiumListPicker();break;
-    case 'dossier-recent-entry': sheetDossierRecentEntry(id); break;
-    case 'dossier-recent-close': closeSheet(); break;
     case 'journal-open': closeSheet(); if(matter(id))openMatter(id); break;
     case 'reschedule': {var ov=S.tasks.filter(function(t){return matterTaskVisible(t)&&!t.done&&t.kind==='task'&&t.due&&dd(t.due)<0;});if(!ov.length)break;if(confirm('Перенести '+ov.length+' просроченных задач на сегодня?')){ov.forEach(function(t){t.due=today();});save();render();toast('Перенесено задач: '+ov.length);}break;}
     case 'f-late': go('tasks');S.ui.taskSeg='open';S.ui.taskChip='late';S.ui.taskType='';save();renderTasks();break;
@@ -7401,7 +7379,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6066',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6067',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
