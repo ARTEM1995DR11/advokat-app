@@ -2035,7 +2035,7 @@
   box-shadow:0 1px 0 rgba(255,253,246,.55);
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list{
-  position:absolute;left:5.3%;right:5.1%;top:20.3%;bottom:5.3%;
+  position:absolute;left:5.3%;right:5.1%;top:17.0%;bottom:5.3%;
   display:grid;grid-template-rows:repeat(3,minmax(0,1fr));
   padding:0;margin:0;list-style:none;min-width:0;
 }
@@ -2120,10 +2120,13 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-clock{
   color:#81715f;font-size:clamp(8.8px,2.58vw,10.6px);line-height:1.12;
 }
+/* 5.0.1061: no splitting Russian words (e.g. «октября»), slightly
+   richer ink and better readability; retain the approved 8.3 paper. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{
-  color:#2d4d79;font-size:clamp(9.1px,2.98vw,12.45px);
-  line-height:1.15;-webkit-line-clamp:3;
-  overflow-wrap:normal;word-break:normal;hyphens:auto;
+  color:#294a77;font-size:clamp(9.4px,3.12vw,13px);
+  line-height:1.17;-webkit-line-clamp:3;
+  overflow-wrap:break-word;word-break:normal;
+  -webkit-hyphens:none;hyphens:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item:not(:last-child)::after{right:5.7%;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-arrow{
@@ -2143,7 +2146,7 @@
     grid-template-columns:6.2% 29.7% minmax(0,1fr) 5.1%;gap:1.1%;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-date{font-size:clamp(8px,2.8vw,10px);}
-  #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{font-size:clamp(8.4px,2.93vw,10.6px);}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{font-size:clamp(8.7px,3.02vw,11.25px);}
 }
 /* Read-only detail; visually distinct from the header's Edit action. */
 .dossier-recent-detail{font-family:Georgia,'Times New Roman',serif;color:#172b50;}
