@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1064';
-var APP_BUILD='6064';
+var APP_VERSION='5.0.1066';
+var APP_BUILD='6066';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4847,6 +4847,15 @@ function sheetDossierRecentEntry(id){
     '</div>');
 }
 
+
+function dossierGeneralBottomActions(id,m){
+  var primary=m&&m.archived
+    ? '<button type="button" class="dossier-stage8-bottom-action is-primary" data-act="m-reopen" data-id="'+esc(id)+'" aria-label="Вернуть дело в работу"><span class="dossier-stage8-bottom-icon" aria-hidden="true">'+ico('arch')+'</span><span class="dossier-stage8-bottom-label">Вернуть в работу</span></button>'
+    : '<button type="button" class="dossier-stage8-bottom-action is-primary" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу"><span class="dossier-stage8-bottom-icon" aria-hidden="true">'+ico('plus')+'</span><span class="dossier-stage8-bottom-label">Добавить задачу</span></button>';
+  var secondary='<button type="button" class="dossier-stage8-bottom-action is-secondary" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия"><span class="dossier-stage8-bottom-icon" aria-hidden="true">'+ico('more')+'</span><span class="dossier-stage8-bottom-label">Ещё действия</span></button>';
+  return '<div class="dossier-stage8-bottom-actions" aria-label="Быстрые действия">'+primary+secondary+'</div>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4900,6 +4909,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
             dossierRecentActionsLive(journalOf(id))+
           '</div>'+
+          dossierGeneralBottomActions(id,m)+
         '</div>' : '')+
     '</div>'+
     '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
@@ -7391,7 +7401,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6064',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6066',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

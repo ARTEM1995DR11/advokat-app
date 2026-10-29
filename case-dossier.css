@@ -1810,7 +1810,7 @@
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 80px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 168px),calc(100dvh - 240px));
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
   position:absolute;
@@ -1836,7 +1836,7 @@
 }
 
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 80px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 168px),calc(100dvh - 240px));
 }
 
 /* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
@@ -2023,14 +2023,14 @@
   font-synthesis:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-title{
-  position:absolute;left:5.8%;top:5.3%;right:5%;margin:0;
+  position:absolute;left:5.3%;top:4.8%;right:5%;margin:0;
   color:#80511e;font-family:Georgia,"Times New Roman",serif;
   font-size:clamp(9.4px,2.88vw,12.3px);line-height:1.1;
   font-weight:700;letter-spacing:.12em;white-space:nowrap;
   text-shadow:0 1px 0 rgba(255,253,243,.88);
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-heading-rule{
-  position:absolute;left:5.2%;right:5.2%;top:19.2%;height:1px;
+  position:absolute;left:4.2%;right:4.2%;top:12.6%;height:1px;
   background:linear-gradient(90deg,rgba(155,116,70,.30),rgba(164,131,92,.18) 80%,transparent);
   box-shadow:0 1px 0 rgba(255,253,246,.55);
 }
@@ -2175,3 +2175,52 @@ body.dossier-status-masked::before{
 body.dossier-status-masked:has(#sheet.open)::before,
 body.dossier-status-masked:has(#lock.on)::before{display:none;}
 @media(min-width:601px){body.dossier-status-masked::before{display:none;}}
+
+
+/* 5.0.1065 — bottom actions installed on the approved General layout only.
+   They sit below the finished 8.3 recent-actions card and above the folder foot,
+   using live buttons and keeping the raster paper layers unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-actions{
+  position:absolute;left:2.3%;right:2.2%;top:calc(164.2% + 12px);
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:3.3%;
+  z-index:7;pointer-events:auto;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action{
+  min-width:0;min-height:52px;padding:0 12px;border-radius:13px;appearance:none;
+  -webkit-appearance:none;display:flex;align-items:center;justify-content:flex-start;gap:11px;
+  border:1px solid rgba(167,123,64,.72);
+  box-shadow:0 3px 8px rgba(131,83,32,.28), inset 0 1px 0 rgba(255,252,243,.92), inset 0 -1px 0 rgba(186,145,88,.18);
+  font:700 clamp(11.8px,3.25vw,14px)/1.08 Georgia,'Times New Roman',serif;
+  color:#17325b;letter-spacing:-.01em;white-space:nowrap;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action.is-primary{
+  background:linear-gradient(180deg,#f9e9c8 0%,#f1d39f 52%,#e7c186 100%);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action.is-secondary{
+  background:linear-gradient(180deg,#fffaf2 0%,#fbf1e4 58%,#f4e7d7 100%);
+  border-color:rgba(181,154,124,.82);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action:focus-visible{
+  outline:2px solid rgba(149,103,41,.88);outline-offset:1px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action .dossier-stage8-bottom-icon{
+  flex:none;display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;padding-right:9px;border-right:1px solid rgba(156,117,61,.38);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action.is-secondary .dossier-stage8-bottom-icon{
+  border-right-color:rgba(168,143,115,.42);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action .dossier-stage8-bottom-icon .ico{
+  width:22px;height:22px;color:#8e6427;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action .dossier-stage8-bottom-label{
+  display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-actions{left:2.1%;right:2.0%;top:calc(164.2% + 10px);gap:2.7%;}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action{min-height:50px;padding:0 10px;font-size:clamp(10.8px,3.15vw,12.7px);}
+  #page.dossier-page .dossier-rear-stage .dossier-stage8-bottom-action .dossier-stage8-bottom-icon{width:31px;height:31px;padding-right:8px;}
+}
+
+/* 5.0.1066: heading-to-rule distance exactly corrected to the approved reference.
+   Only stage 8.3 underline top changed (18.9% -> 12.6%); headings, rows, paper and actions are unchanged. */
