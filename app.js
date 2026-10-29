@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1069';
-var APP_BUILD='6069';
+var APP_VERSION='5.0.1070';
+var APP_BUILD='6070';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4778,15 +4778,34 @@ function dossierRecentSummary(j){
   var full=String(j.text||'').replace(/\s+/g,' ').trim();
   if(!full)return 'Запись в журнале';
   // A recorded occurrence is NOT a judicial outcome on the merits.
-  var hearing=full.match(/^Результат заседания(?:\s+[^:]+)?:\s*(.+)$/iu);
+  // The generated journal heading may contain HH:MM before the result:
+  // «Результат заседания 27 октября 2026 в 09:00: Состоялось».
+  // Require the result delimiter to have a space after the colon, so the
+  // colon inside 09:00 is NOT mistaken for the result delimiter.
+  var hearing=full.match(/^Результат заседания(?:\s+.*?)?:\s+(.+)$/iu);
   if(hearing){
-    var outcome=hearing[1].split(/\.\s+(?=[А-ЯЁ])/u)[0].trim().replace(/\.$/,'');
-    var note=hearing[1].slice(outcome.length).replace(/^\.\s*/,'').trim();
-    var lead=/^состоял/iu.test(outcome)?'Заседание состоялось':
+    var result=hearing[1].trim();
+    // Prefer known hearing outcomes: unlike a generic period split, this also
+    // preserves punctuation and any optional note after «Состоялось».
+    var known=result.match(/^(Не состоялось(?:\s*\/\s*снято)?|Состоялось|Отложено|Объявлен перерыв|Перерыв|Рассмотрение завершено)(?=$|[.!?,;] |[.!?,;]$|\s)/iu);
+    var outcome,note;
+    if(known){
+      outcome=known[1];
+      note=result.slice(known[0].length).replace(/^[.!?,;]+\s*/u,'').trim();
+    }else{
+      var parts=result.match(/^(.+?)(?:\.\s+(?=[А-ЯЁ])|$)/u);
+      outcome=(parts?parts[1]:result).trim().replace(/\.$/u,'');
+      note=parts?result.slice(parts[0].length).trim():'';
+    }
+    var lead=/^Не состоялось/iu.test(outcome)?'Заседание не состоялось':
+      /^состоял/iu.test(outcome)?'Заседание состоялось':
       /^отложен/iu.test(outcome)?'Заседание отложено':
-      /^перерыв/iu.test(outcome)?'Объявлен перерыв в заседании':
+      /^(?:Объявлен перерыв|Перерыв)/iu.test(outcome)?'Объявлен перерыв в заседании':
+      /^Рассмотрение завершено/iu.test(outcome)?'Рассмотрение завершено':
       'Записано о заседании: '+outcome;
-    if(note&&!/^Следующее заседание\b/iu.test(note)&&note.length<=65)lead+='. '+note;
+    // Follow-up appointment is displayed in Events, not in this short preview.
+    note=note.replace(/(?:\.\s+)?Следующее заседание(?=\s|$|[—:-]).*$/iu,'').trim().replace(/\.\s*$/u,'');
+    if(note&&note.length<=65)lead+='. '+note;
     return /[.!?…]$/u.test(lead)?lead:lead+'.';
   }
   var scheduled=full.match(/^Назначено\s+(?:судебное\s+)?заседание\s*[—–-]\s*(\d{1,2})\s+([А-ЯЁа-яё]+)\s+(\d{4})\s+в\s+([0-2]\d:[0-5]\d)/iu);
@@ -7371,7 +7390,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6069',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6070',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
