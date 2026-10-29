@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1063';
-var APP_BUILD='6063';
+var APP_VERSION='5.0.1064';
+var APP_BUILD='6064';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2100,7 +2100,8 @@ function openSheet(html){
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
-function closeAll(){ if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+function closeAll(){
+  document.body.classList.remove('dossier-status-masked'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
 function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
@@ -4751,23 +4752,15 @@ function warmImageAsset(src){
 function warmDossierAssets(){
   if(DOSSIER_ASSETS_WARMED) return;
   DOSSIER_ASSETS_WARMED=true;
+  // Prioritize the four actual General papers. Other tabs and case-type PNGs
+  // remain available from the normal request path and the offline SW cache.
   [
     'dossier-index-top-general-v6014.webp?v='+APP_BUILD,
-    'dossier-index-top-events-v6014.webp?v='+APP_BUILD,
-    'dossier-index-top-tasks-v6014.webp?v='+APP_BUILD,
-    'dossier-index-top-journal-v6014.webp?v='+APP_BUILD,
     'dossier-general-nearest-card-v6045.webp?v='+APP_BUILD,
     'dossier-general-main-information-v6049.webp?v='+APP_BUILD,
-    'dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD,
-    'dossier-paper-foot-v6009.webp?v='+APP_BUILD,
-    'dossier-layer1-koap-v5925.png?v='+APP_BUILD,
-    'dossier-layer1-civil-v5925.png?v='+APP_BUILD,
-    'dossier-layer1-criminal-v5925.png?v='+APP_BUILD,
-    'dossier-layer1-admin-v5925.png?v='+APP_BUILD,
-    'dossier-kraft-layer2-v5942.webp?v='+APP_BUILD,
-    'dossier-layer4-front-v5947.webp?v='+APP_BUILD
+    'dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD
   ].forEach(function(src,idx){
-    setTimeout(function(){warmImageAsset(src);},idx*90);
+    setTimeout(function(){warmImageAsset(src);},idx*110);
   });
 }
 
@@ -4987,6 +4980,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
+  updateDossierStatusMask();
   // Stage 2 (5.0.890): typography fitted against the actual rendered status
   // boundary, with additional reserve for iOS/Safari font metric differences.
   // Use the original dynamic client name, never a raster image or a test label.
@@ -5456,6 +5450,7 @@ function openMatter(id,tab){
     '<main class="dossier-paper" role="tabpanel">'+data+'</main>'+bottom+'</div></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
+  updateDossierStatusMask();
 }
 
 function infoRow(i,l,v){ return '<div class="row">'+ico(i)+'<span class="rl">'+l+'<small>'+esc(v)+'</small></span></div>'; }
@@ -7263,6 +7258,29 @@ if(window.visualViewport){
   window.visualViewport.addEventListener('scroll',refreshFixedChrome,{passive:true});
 }
 
+/* Status-bar protection: #page is a scroll container inside a fullscreen PWA.
+   A top padding alone cannot prevent scrolled content from passing beneath
+   iOS' translucent status indicators. Overlay the safe strip only on scroll. */
+function updateDossierStatusMask(){
+  var page=document.getElementById('page');
+  var isOpen=!!(page && page.classList.contains('open') &&
+    page.classList.contains('dossier-page') && page.scrollTop>6);
+  document.body.classList.toggle('dossier-status-masked',isOpen);
+}
+var dossierScrollMaskFrame=0;
+var dossierScrollTarget=document.getElementById('page');
+if(dossierScrollTarget){
+  dossierScrollTarget.addEventListener('scroll',function(){
+    if(dossierScrollMaskFrame)return;
+    dossierScrollMaskFrame=requestAnimationFrame(function(){
+      dossierScrollMaskFrame=0;updateDossierStatusMask();
+    });
+  },{passive:true});
+}
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden)updateDossierStatusMask();
+},{passive:true});
+
 /* =====================================================================
    BOOT
    ===================================================================== */
@@ -7373,7 +7391,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6063',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6064',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

@@ -2050,8 +2050,16 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item:not(:last-child)::after{
   content:"";position:absolute;left:calc((var(--recent-node-col) / 2) - .5px);
-  top:calc(50% + (var(--recent-node-size) / 2) - 1px);bottom:-1px;width:1px;
+  top:calc(50% + (var(--recent-node-size) / 2) - 1px);
+  bottom:calc(-50% + (var(--recent-node-size) / 2) - 1px);width:1px;
   background:linear-gradient(180deg,rgba(181,139,75,.95),rgba(146,102,38,.92),rgba(181,139,75,.95));
+}
+/* 5.0.1064: light separators have a dedicated layer independent from the rail. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item:not(:last-child)::before{
+  content:"";position:absolute;left:calc(var(--recent-node-col) + 6px);
+  right:4%;bottom:0;height:1px;
+  background:linear-gradient(90deg,rgba(157,125,82,.15),rgba(156,123,82,.30) 52%,rgba(157,125,82,.10));
+  box-shadow:0 1px 0 rgba(255,253,246,.35);pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-node{
   position:relative;z-index:2;align-self:center;justify-self:center;
@@ -2150,3 +2158,20 @@
  background:rgba(250,243,229,.8);border:1px solid rgba(174,135,74,.34);
  border-radius:12px;padding:14px;font-size:16px;}
 .dossier-recent-detail-close{width:100%;margin-top:16px;}
+
+/* 5.0.1064: iPhone PWA status bar clear zone while the dossier is scrolled.
+   Content can keep its existing natural scrolling coordinates; the overlay is
+   fixed to the screen, translucent, and visible only once scrollTop > 6.
+   Never covers controls (pointer-events:none) and never changes folder geometry. */
+body.dossier-status-masked::before{
+  content:"";position:fixed;z-index:1200;top:0;left:0;right:0;
+  height:max(env(safe-area-inset-top,0px),44px);
+  background:linear-gradient(180deg,rgba(250,246,238,.98) 0%,rgba(251,245,231,.96) 100%);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(166,118,53,.13);
+  pointer-events:none;
+}
+/* Keep the safe-area veil out of the way of PIN lock and edit/detail sheets. */
+body.dossier-status-masked:has(#sheet.open)::before,
+body.dossier-status-masked:has(#lock.on)::before{display:none;}
+@media(min-width:601px){body.dossier-status-masked::before{display:none;}}
