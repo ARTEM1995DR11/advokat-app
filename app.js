@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1068';
-var APP_BUILD='6068';
+var APP_VERSION='5.0.1069';
+var APP_BUILD='6069';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4778,7 +4778,7 @@ function dossierRecentSummary(j){
   var full=String(j.text||'').replace(/\s+/g,' ').trim();
   if(!full)return 'Запись в журнале';
   // A recorded occurrence is NOT a judicial outcome on the merits.
-  var hearing=full.match(/^Результат заседания\s+.+?:\s+(.+)$/iu);
+  var hearing=full.match(/^Результат заседания(?:\s+[^:]+)?:\s*(.+)$/iu);
   if(hearing){
     var outcome=hearing[1].split(/\.\s+(?=[А-ЯЁ])/u)[0].trim().replace(/\.$/,'');
     var note=hearing[1].slice(outcome.length).replace(/^\.\s*/,'').trim();
@@ -4787,7 +4787,7 @@ function dossierRecentSummary(j){
       /^перерыв/iu.test(outcome)?'Объявлен перерыв в заседании':
       'Записано о заседании: '+outcome;
     if(note&&!/^Следующее заседание\b/iu.test(note)&&note.length<=65)lead+='. '+note;
-    return lead.replace(/\.+$/,'')+'.';
+    return /[.!?…]$/u.test(lead)?lead:lead+'.';
   }
   var scheduled=full.match(/^Назначено\s+(?:судебное\s+)?заседание\s*[—–-]\s*(\d{1,2})\s+([А-ЯЁа-яё]+)\s+(\d{4})\s+в\s+([0-2]\d:[0-5]\d)/iu);
   if(scheduled)return 'Назначено заседание на '+scheduled[1]+' '+scheduled[2]+', '+scheduled[4]+'.';
@@ -7371,7 +7371,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6068',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6069',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

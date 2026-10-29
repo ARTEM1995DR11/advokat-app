@@ -2037,10 +2037,13 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list{
   --recent-node-size:clamp(14px,4.45vw,18px);
   --recent-node-col:calc(var(--recent-node-size) + 8px);
-  position:absolute;left:5.3%;right:5.1%;top:17.0%;bottom:5.3%;
+  position:absolute;left:5.3%;right:5.1%;top:14.0%;bottom:5.3%;
   display:grid;grid-template-rows:repeat(3,minmax(0,1fr));
   padding:0;margin:0;list-style:none;min-width:0;pointer-events:none;
 }
+/* 5.0.1069: keep the fixed paper, but balance the available space for 1 or 2 activities. */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-1{grid-template-rows:minmax(0,1fr);}
+#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list.is-count-2{grid-template-rows:repeat(2,minmax(0,1fr));}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-list::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item{
   position:relative;display:grid;
