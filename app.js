@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1076';
-var APP_BUILD='6076';
+var APP_VERSION='5.0.1077';
+var APP_BUILD='6077';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4893,6 +4893,25 @@ function dossierStage9EmptyButtonArt(){
   </svg>`;
 }
 
+
+/* 5.0.1077: Layer 9 follows the finished folder and kraft paper, rather than
+   being positioned inside the last 8.3 paper leaf. Preserve approved art
+   and existing data-act handlers; change compositing order only. */
+function dossierStage9Actions(id){
+  return ''+
+            '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-bottom-actions" role="group" aria-label="Действия по делу">'+
+              dossierStage9EmptyButtonArt()+
+              '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
+                '<span class="dossier-stage9-label">Добавить задачу</span>'+
+              '</button>'+
+              '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия">'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="12" cy="19" r="1.55"/></svg></span>'+
+                '<span class="dossier-stage9-label">Ещё действия</span>'+
+              '</button>'+
+            '</div>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4945,17 +4964,6 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-with-live-journal">'+
             '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
             dossierRecentActionsLive(journalOf(id))+
-            '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-bottom-actions" role="group" aria-label="Действия по делу">'+
-              dossierStage9EmptyButtonArt()+
-              '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
-                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
-                '<span class="dossier-stage9-label">Добавить задачу</span>'+
-              '</button>'+
-              '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия">'+
-                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="12" cy="19" r="1.55"/></svg></span>'+
-                '<span class="dossier-stage9-label">Ещё действия</span>'+
-              '</button>'+
-            '</div>'+ 
           '</div>'+
         '</div>' : '')+
     '</div>'+
@@ -5032,6 +5040,7 @@ function dossierLayoutPreview(m,id,tab,p){
     // Stage 7.2: four approved transparent PNG states; only the state asset changes.
     // Actual tab actions remain real buttons, invisibly positioned above the artwork.
     dossierIndexStage1008(id,tab,dossierOpenTasks.length,m,dossierEvents)+
+    (tab==='general'?dossierStage9Actions(id):'')+
     ''+ // Stage 8 cards removed: independent layer design pending
     
     '</main></div>';
@@ -7446,7 +7455,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6076',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6077',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

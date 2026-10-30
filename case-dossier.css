@@ -1810,7 +1810,7 @@
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 137px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 53px));
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
   position:absolute;
@@ -1836,7 +1836,7 @@
 }
 
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 137px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 53px));
 }
 
 /* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
@@ -2171,10 +2171,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 /* 5.0.1073 / layer 9: approved clean visual foundation for the pair of
    bottom actions. Intentionally inert; lettering, icons and handlers are
    reserved for a later approved step. Only the General tab is affected. */
-#page.dossier-page .dossier-rear-stage .dossier-stage8-recent-paper .dossier-stage9-blank-buttons{
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas-general > .dossier-stage9-blank-buttons{
   position:absolute;
-  top:calc(100% - 7px);
-  left:1.6%;width:96.8%;height:auto;
+  /* The folder's gilded foot now ends directly after the approved 8.3 leaf.
+     Buttons begin OUTSIDE the kraft/folder (as in the reference), with an
+     independent stacking layer; no part of their existing art is redrawn. */
+  top:calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + 2px);
+  left:3.63%;width:92.73%;height:auto;
   aspect-ratio:380 / 70;
   z-index:8;
   pointer-events:none;
@@ -2230,4 +2233,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     font-size:clamp(9.1px,3.05vw,11px);letter-spacing:-.03em;
   }
   #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-label{padding:0 2px 0 0;}
+}
+
+/* 5.0.1077 — bottom action row lives AFTER the finished kraft folder.
+   The canvas reserves its painted height below the folder foot rather than
+   trapping the buttons between its paper and golden border. */
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
+  min-height:max(calc(100dvh - 160px),calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + 94px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas-general > .dossier-stage9-blank-buttons{
+  z-index:9;pointer-events:none;
 }
