@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6084') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6085') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6084') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6085') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=6084') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6085') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6084');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6085');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -2146,7 +2146,7 @@
   #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-text{font-size:clamp(8.7px,3.02vw,11.25px);}
 }
 
-/* 5.0.1084 — seamless marble continuation under iPhone system indicators.
+/* 5.0.1085 — seamless marble continuation under iPhone system indicators.
    As on the approved «Дела» screen, use the screen's *existing* marble image
    rather than a cream-colored status-bar plate. The fixed cover extends below
    the safe area and feathers out over the next 20px: the underlying marble
@@ -2157,7 +2157,7 @@ body.dossier-status-masked::before{
   content:"";position:fixed;z-index:1200;top:0;left:0;right:0;
   height:calc(max(env(safe-area-inset-top,0px),44px) + 20px);
   background-color:#f8f2e6;
-  background-image:url('bg-dossier-continuous-v5833.webp?v=6084');
+  background-image:url('bg-dossier-continuous-v5833.webp?v=6085');
   background-position:center top;
   background-size:100% auto;
   background-repeat:no-repeat;
@@ -2260,7 +2260,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 /* 5.0.1080 — final cosmetic polish only: clearer button symbols, softened
    journal separators, no word-hyphenation on long captions. Geometry fixed. */
 
-/* 5.0.1084 — Events / layer 1. Only a separate parchment and calendar graphic.
+/* 5.0.1085 — Events / layer 1. Only a separate parchment and calendar graphic.
    Reuse approved General card artwork; no new raster resource or text.
    Leave 46 CSS px under the tabs for the later live category filters.
    Do not change the existing tab art, General geometry or other layers. */
@@ -2288,15 +2288,15 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   -webkit-user-drag:none;
 }
 
-/* 5.0.1084 / Events: four live category filters in the reserved 46px strip.
+/* 5.0.1085 / Events: four live category filters in the reserved 46px strip.
    No raster panel; zero layout changes to the approved tabs or nearest card. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"]
 .dossier-stage7-head .dossier-events-filter-row{
   position:absolute;
-  top:calc(46.2% + 2px);
-  left:2.7%;width:94.6%;height:36px;
-  display:grid;grid-template-columns:.96fr 1.29fr .97fr 1.02fr;
-  gap:clamp(3px,.85vw,7px);
+  top:calc(46.2% + 20px);
+  left:4%;width:93.6%;height:29px;
+  display:grid;grid-template-columns:.96fr 1.16fr .94fr 1.03fr;
+  gap:clamp(5px,2.0vw,8px);
   z-index:9;
   pointer-events:auto;
 }
@@ -2304,11 +2304,11 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   display:flex;min-width:0;width:100%;height:100%;padding:0 clamp(4px,.9vw,7px);
   justify-content:center;align-items:center;gap:clamp(2px,.65vw,5px);
   appearance:none;-webkit-appearance:none;
-  border:1px solid #e4c9a0;border-radius:999px;
-  background:linear-gradient(180deg,#fff9ef 0%,#f8ecdb 76%,#f2dfc4 100%);
+  border:1px solid rgba(191,150,100,.34);border-radius:999px;
+  background:linear-gradient(180deg,#fffaf0 0%,#f9f0e4 68%,#f4e6d2 100%);
   color:#152d52;
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.94),0 1px 2px rgba(125,79,27,.15);
-  font:600 clamp(10px,2.74vw,13px)/1.1 Georgia,'Times New Roman',serif;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 1px 1.3px rgba(125,79,27,.10);
+  font:600 clamp(9.8px,2.70vw,12.3px)/1.1 Georgia,'Times New Roman',serif;
   text-shadow:0 1px rgba(255,255,255,.65);
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;cursor:pointer;
@@ -2327,8 +2327,8 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 #page.dossier-page .dossier-rear-stage .dossier-events-filter.is-active{
   background:linear-gradient(180deg,#213e72,#0c2755 78%,#10294e);
-  border-color:#c19b60;color:#fff8ed;
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 2px 4px rgba(61,47,31,.19);
+  border-color:#b58d55;color:#fff8ed;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.20),0 1px 2px rgba(61,47,31,.14);
   text-shadow:0 1px 1px rgba(0,0,0,.28);
 }
 #page.dossier-page .dossier-rear-stage .dossier-events-filter.is-active .dossier-events-filter-count{
@@ -2339,5 +2339,8 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-events-filter{font-size:clamp(9.2px,2.98vw,10.8px);padding-inline:2px;gap:2px;}
-  #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-events-filter-row{left:2.3%;width:95.4%;}
+  #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-events-filter-row{left:3.0%;width:94.4%;gap:4px;}
 }
+
+/* 5.0.1085: compact filter alignment under the already approved Events tabs.
+   Preserve the separate parchment and the approved General tab. */
