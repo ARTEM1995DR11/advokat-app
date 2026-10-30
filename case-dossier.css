@@ -1565,7 +1565,7 @@
 }
 /* Subpixel antialias protection where paper swath meets the movable footer. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7-adaptive .dossier-stage7-foot{
-  transform:translateY(-6px);
+  transform:translateY(-5px);
 }
 
 
@@ -1810,7 +1810,7 @@
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 154px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 148px),calc(100dvh - 240px));
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
   position:absolute;
@@ -1836,7 +1836,7 @@
 }
 
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 154px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 148px),calc(100dvh - 240px));
 }
 
 /* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
@@ -2172,7 +2172,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
    reserved for a later approved step. Only the General tab is affected. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-paper .dossier-stage9-blank-buttons{
   position:absolute;
-  top:calc(100% - 2px);
+  top:calc(100% + 4px);
   left:1.6%;width:96.8%;height:auto;
   aspect-ratio:380 / 70;
   z-index:8;

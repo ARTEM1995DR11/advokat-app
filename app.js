@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1073';
-var APP_BUILD='6073';
+var APP_VERSION='5.0.1074';
+var APP_BUILD='6074';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4848,7 +4848,7 @@ function dossierRecentActionsLive(entries){
 }
 
 
-/* Stage 9 / 5.0.1073: approved EMPTY pair of paper-button foundations.
+/* Stage 9 / 5.0.1074: approved EMPTY pair of paper-button foundations.
    Inline SVG gradients/contours only; no PNG, lettering, icons or tap targets.
    An independent visual layer installed below the already approved stage 8.3. */
 function dossierStage9EmptyButtonArt(){
@@ -4861,13 +4861,13 @@ function dossierStage9EmptyButtonArt(){
         <stop offset="0" stop-color="#fffdf7"/><stop offset=".52" stop-color="#fcf6ed"/><stop offset="1" stop-color="#f3e7d8"/>
       </linearGradient>
       <linearGradient id="dossier9rim1072" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f2daa7"/><stop offset=".30" stop-color="#d7a45a"/><stop offset=".56" stop-color="#f5e2ba"/><stop offset="1" stop-color="#ac7539"/>
+        <stop offset="0" stop-color="#f5e1b7"/><stop offset=".30" stop-color="#dcb06a"/><stop offset=".56" stop-color="#f6e7c7"/><stop offset="1" stop-color="#b48148"/>
       </linearGradient>
       <linearGradient id="dossier9divider1072" x1="0" y1="0" x2="1" y2="0">
-        <stop stop-color="#fff6df"/><stop offset=".55" stop-color="#b2874f"/><stop offset="1" stop-color="#fbebc9"/>
+        <stop stop-color="#fff7e4"/><stop offset=".55" stop-color="#bc9056"/><stop offset="1" stop-color="#fcefd4"/>
       </linearGradient>
-      <filter id="dossier9shadow1072" x="-10%" y="-20%" width="120%" height="150%">
-        <feDropShadow dx="0" dy="2.15" stdDeviation="1.55" flood-color="#684015" flood-opacity=".22"/>
+      <filter id="dossier9shadow1072" x="-10%" y="-18%" width="120%" height="145%">
+        <feDropShadow dx="0" dy="1.55" stdDeviation="1.05" flood-color="#684015" flood-opacity=".16"/>
       </filter>
       <pattern id="dossier9grain1072" width="13" height="11" patternUnits="userSpaceOnUse">
         <circle cx="2" cy="3" r=".42" fill="#b78744" opacity=".14"/>
@@ -4877,20 +4877,20 @@ function dossierStage9EmptyButtonArt(){
     </defs>
     <!-- The two foundations share one quiet contour geometry; 195:170 ≈ 1.15. -->
     <g filter="url(#dossier9shadow1072)">
-      <rect x="3.5" y="5.5" width="195" height="53" rx="11.2" fill="#b17e43" opacity=".50"/>
-      <rect x="206.5" y="5.5" width="170" height="53" rx="11.2" fill="#ae8352" opacity=".38"/>
+      <rect x="3.5" y="5.8" width="195" height="52.4" rx="10.9" fill="#b9894f" opacity=".34"/>
+      <rect x="206.5" y="5.8" width="170" height="52.4" rx="10.9" fill="#b69064" opacity=".26"/>
     </g>
-    <rect x="2.5" y="3.2" width="195" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#a56f2e" stroke-width=".62"/>
-    <rect x="205.5" y="3.2" width="172" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#b08b60" stroke-width=".62"/>
-    <rect x="4.7" y="5.3" width="190.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff1cf" stroke-width=".95"/>
-    <rect x="207.7" y="5.3" width="167.5" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#fffdf8" stroke-width=".95"/>
-    <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#c4934f" stroke-width=".5"/>
-    <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#d1ba98" stroke-width=".5"/>
+    <rect x="2.5" y="3.2" width="195" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#ae7a39" stroke-width=".48"/>
+    <rect x="205.5" y="3.2" width="172" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#bc966d" stroke-width=".48"/>
+    <rect x="4.7" y="5.3" width="190.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff4d9" stroke-width=".78"/>
+    <rect x="207.7" y="5.3" width="167.5" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#fffefa" stroke-width=".78"/>
+    <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#c99c61" stroke-width=".36"/>
+    <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#d8c5aa" stroke-width=".36"/>
     <path d="M8 10 Q9 8 12 8 H189" fill="none" stroke="#fffae8" stroke-opacity=".86" stroke-width=".8"/>
     <path d="M211 10 Q212 8 215 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".88" stroke-width=".8"/>
-    <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#a57438" stroke-opacity=".18" stroke-width=".8"/>
-    <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#b79a74" stroke-opacity=".15" stroke-width=".8"/>
-    <rect x="51.1" y="13.1" width="1.15" height="34" rx=".58" fill="url(#dossier9divider1072)" opacity=".72"/>
+    <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#a57438" stroke-opacity=".12" stroke-width=".7"/>
+    <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#b79a74" stroke-opacity=".10" stroke-width=".7"/>
+    <rect x="51.1" y="13.1" width="1" height="34" rx=".5" fill="url(#dossier9divider1072)" opacity=".58"/>
   </svg>`;
 }
 
@@ -7439,7 +7439,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6073',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6074',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
