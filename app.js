@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1074';
-var APP_BUILD='6074';
+var APP_VERSION='5.0.1075';
+var APP_BUILD='6075';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4848,7 +4848,7 @@ function dossierRecentActionsLive(entries){
 }
 
 
-/* Stage 9 / 5.0.1074: approved EMPTY pair of paper-button foundations.
+/* Stage 9 / 5.0.1075: approved EMPTY pair of paper-button foundations.
    Inline SVG gradients/contours only; no PNG, lettering, icons or tap targets.
    An independent visual layer installed below the already approved stage 8.3. */
 function dossierStage9EmptyButtonArt(){
@@ -7439,7 +7439,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6074',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6075',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

@@ -1810,7 +1810,7 @@
    Do not stretch the artwork or overlay a second parchment panel.
    Heading, variable rows, icons and transitions will be DOM content later. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="general"]{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 148px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 137px),calc(100dvh - 240px));
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage8-main-info-paper{
   position:absolute;
@@ -1836,7 +1836,7 @@
 }
 
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
-  --dossier-stage7-min-height:max(620px,calc(183vw + 148px),calc(100dvh - 240px));
+  --dossier-stage7-min-height:max(620px,calc(183vw + 137px),calc(100dvh - 240px));
 }
 
 /* 5.0.1048 — Stage 8.2: clean paper has no baked-in broken separators.
@@ -2167,12 +2167,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 /* 5.0.1066: heading-to-rule distance exactly corrected to the approved reference.
    Only stage 8.3 underline top changed (18.9% -> 12.6%); headings, rows, paper and actions are unchanged. */
 
+/* 5.0.1075: final layer 9 alignment and approved empty art. */
 /* 5.0.1073 / layer 9: approved clean visual foundation for the pair of
    bottom actions. Intentionally inert; lettering, icons and handlers are
    reserved for a later approved step. Only the General tab is affected. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-paper .dossier-stage9-blank-buttons{
   position:absolute;
-  top:calc(100% + 4px);
+  top:calc(100% - 7px);
   left:1.6%;width:96.8%;height:auto;
   aspect-ratio:380 / 70;
   z-index:8;
