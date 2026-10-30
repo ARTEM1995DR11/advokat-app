@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1083';
-var APP_BUILD='6083';
+var APP_VERSION='5.0.1084';
+var APP_BUILD='6084';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4912,6 +4912,35 @@ function dossierStage9Actions(id){
             '</div>';
 }
 
+/* 5.0.1084: category filters for the Events tab, generated from this case's
+   existing event records. Never bake counts into an image or demo data. */
+var DOSSIER_EVENT_FILTER_STATE = Object.create(null);
+function dossierEventFilterOf(id){
+  var key=String(id||'');
+  var value=DOSSIER_EVENT_FILTER_STATE[key]||'all';
+  return ['all','hearing','deadline','meeting'].indexOf(value)>=0?value:'all';
+}
+function dossierFilteredEventsOf(id,events){
+  var kind=dossierEventFilterOf(id);
+  var source=events||tasksOf(id).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+  return kind==='all'?source:source.filter(function(t){return t.kind===kind;});
+}
+function dossierEventsFiltersRow(id,events){
+  var types=[['all','Все'],['hearing','Заседания'],['deadline','Сроки'],['meeting','Встречи']];
+  var source=(events||[]).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+  var current=dossierEventFilterOf(id);
+  return '<div class="dossier-events-filter-row" role="group" aria-label="Фильтры событий по виду" data-events-filter="'+current+'">'+
+    types.map(function(pair){
+      var key=pair[0],qty=key==='all'?source.length:source.filter(function(t){return t.kind===key;}).length;
+      var selected=key===current;
+      return '<button type="button" class="dossier-events-filter'+(selected?' is-active':'')+'" data-act="dossier-events-filter" data-id="'+esc(id)+'" data-v="'+key+'"'+
+        ' aria-pressed="'+(selected?'true':'false')+'" aria-label="'+esc(pair[1])+', событий: '+qty+'">'+
+        '<span class="dossier-events-filter-label">'+esc(pair[1])+'</span>'+
+        '<span class="dossier-events-filter-count" aria-hidden="true">'+qty+'</span></button>';
+    }).join('')+
+    '</div>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4951,10 +4980,11 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
         '</div>' : '')+
-      // 5.0.1083 / Events, layer 1: the approved calendar-paper foundation only.
+      // 5.0.1084 / Events, layer 1: the approved calendar-paper foundation only.
       // Leave the 46px row between the tabs and this card for live category filters.
       // Heading, dates, action tiles and event handlers are separate approved steps.
       (state==='events' ?
+        dossierEventsFiltersRow(id,events||[])+
         '<div class="dossier-events-nearest-paper" data-dossier-layer="events-nearest-paper-only" aria-hidden="true">'+
           '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
         '</div>' : '')+
@@ -6691,6 +6721,25 @@ document.addEventListener('click', function(ev){
     case 'new-matter': closeSheet();editMatter(null);break;
     case 'matter': if(matter(id)){closeSheet();openMatter(id);}break;
     case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
+    case 'dossier-events-filter': {
+      var efid=id||$('#page')._mid, efkind=v||'all';
+      if(['all','hearing','deadline','meeting'].indexOf(efkind)<0)break;
+      DOSSIER_EVENT_FILTER_STATE[String(efid)]=efkind;
+      var row=el.closest('.dossier-events-filter-row');
+      if(row){
+        row.dataset.eventsFilter=efkind;
+        row.querySelectorAll('.dossier-events-filter').forEach(function(b){
+          var selected=b.dataset.v===efkind;
+          b.classList.toggle('is-active',selected);
+          b.setAttribute('aria-pressed',selected?'true':'false');
+        });
+      }
+      // Event rows are a subsequent approved layer; keep selection ready for
+      // dossierFilteredEventsOf() without altering the approved empty card.
+      var stage=$('#page').querySelector('.dossier-stage7[data-active-tab="events"]');
+      if(stage)stage.dataset.eventsFilter=efkind;
+      break;
+    }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;
     case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
     case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
@@ -7336,7 +7385,7 @@ function updateDossierStatusMask(){
   var page=document.getElementById('page');
   var active=!!(page && page.classList.contains('open') && page.classList.contains('dossier-page'));
   var scroll=active?Math.max(0,page.scrollTop||0):0;
-  // 5.0.1083: softly reveal the continuous marble as the page scrolls,
+  // 5.0.1084: softly reveal the continuous marble as the page scrolls,
   // avoiding the sudden fixed band caused by toggling a fully opaque overlay.
   var strength=Math.min(1,scroll/36);
   document.body.style.setProperty('--dossier-status-marble-opacity',strength.toFixed(3));
@@ -7466,7 +7515,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6083',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6084',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
