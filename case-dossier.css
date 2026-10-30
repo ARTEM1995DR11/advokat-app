@@ -2196,9 +2196,9 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   box-sizing:border-box;appearance:none;-webkit-appearance:none;
   display:grid;align-items:center;justify-items:stretch;
   margin:0;padding:0;border:0;border-radius:11px;background:transparent;
-  color:#18345f;cursor:pointer;pointer-events:auto;touch-action:manipulation;
+  color:#102b56;cursor:pointer;pointer-events:auto;touch-action:manipulation;
   font:700 clamp(10.7px,3.12vw,13px)/1 Georgia,'Times New Roman',serif;
-  letter-spacing:-.023em;text-shadow:0 1px 0 rgba(255,254,249,.78);
+  letter-spacing:-.023em;text-shadow:0 .3px 0 rgba(255,254,249,.18);
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action-add{
   left:.66%;width:51.32%;grid-template-columns:25.4% minmax(0,1fr);
@@ -2208,7 +2208,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-icon{
   min-width:0;display:flex;justify-content:center;align-items:center;
-  color:#94682a;
+  color:#87551c;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-icon svg{
   display:block;width:clamp(16px,4.65vw,23px);height:clamp(16px,4.65vw,23px);
@@ -2244,3 +2244,5 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas-general > .dossier-stage9-blank-buttons{
   z-index:9;pointer-events:none;
 }
+
+/* 5.0.1079 — only visual contrast of layer 9 strengthened; all sizes, positions and tap targets unchanged. */

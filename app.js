@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1078';
-var APP_BUILD='6078';
+var APP_VERSION='5.0.1079';
+var APP_BUILD='6079';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4854,42 +4854,42 @@ function dossierStage9EmptyButtonArt(){
   return `<svg class="dossier-stage9-blank-svg" viewBox="0 0 380 70" role="img" aria-label="Две чистые бумажные основы будущих кнопок" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="dossier9gold1072" x1="0" y1="0" x2="0.16" y2="1">
-        <stop offset="0" stop-color="#fff2d5"/><stop offset=".26" stop-color="#f5ddad"/><stop offset=".65" stop-color="#eecb90"/><stop offset="1" stop-color="#dfb376"/>
+        <stop offset="0" stop-color="#fff0bf"/><stop offset=".22" stop-color="#f9d997"/><stop offset=".65" stop-color="#eab96d"/><stop offset="1" stop-color="#cf9650"/>
       </linearGradient>
       <linearGradient id="dossier9ivory1072" x1="0" y1="0" x2=".15" y2="1">
-        <stop offset="0" stop-color="#fffdf7"/><stop offset=".52" stop-color="#fcf6ed"/><stop offset="1" stop-color="#f3e7d8"/>
+        <stop offset="0" stop-color="#ffffff"/><stop offset=".47" stop-color="#fffdf7"/><stop offset="1" stop-color="#eddfcb"/>
       </linearGradient>
       <linearGradient id="dossier9rim1072" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f5e1b7"/><stop offset=".30" stop-color="#dcb06a"/><stop offset=".56" stop-color="#f6e7c7"/><stop offset="1" stop-color="#b48148"/>
+        <stop offset="0" stop-color="#f7dfa7"/><stop offset=".30" stop-color="#c69249"/><stop offset=".56" stop-color="#ffebbe"/><stop offset="1" stop-color="#a16d35"/>
       </linearGradient>
       <linearGradient id="dossier9divider1072" x1="0" y1="0" x2="1" y2="0">
-        <stop stop-color="#fff7e4"/><stop offset=".55" stop-color="#bc9056"/><stop offset="1" stop-color="#fcefd4"/>
+        <stop stop-color="#fff5d8"/><stop offset=".55" stop-color="#aa7535"/><stop offset="1" stop-color="#ffedc2"/>
       </linearGradient>
       <filter id="dossier9shadow1072" x="-10%" y="-18%" width="120%" height="145%">
-        <feDropShadow dx="0" dy="1.55" stdDeviation="1.05" flood-color="#684015" flood-opacity=".16"/>
+        <feDropShadow dx="0" dy="2.05" stdDeviation="1.3" flood-color="#644016" flood-opacity=".29"/>
       </filter>
       <pattern id="dossier9grain1072" width="13" height="11" patternUnits="userSpaceOnUse">
-        <circle cx="2" cy="3" r=".42" fill="#b78744" opacity=".14"/>
-        <circle cx="10" cy="9" r=".32" fill="#fff9e9" opacity=".32"/>
-        <path d="M5 7h1" stroke="#a77e50" stroke-opacity=".075" stroke-width=".5"/>
+        <circle cx="2" cy="3" r=".42" fill="#a56f34" opacity=".19"/>
+        <circle cx="10" cy="9" r=".32" fill="#ffffff" opacity=".35"/>
+        <path d="M5 7h1" stroke="#9b6830" stroke-opacity=".12" stroke-width=".5"/>
       </pattern>
     </defs>
     <!-- The two foundations share one quiet contour geometry; 195:170 ≈ 1.15. -->
     <g filter="url(#dossier9shadow1072)">
-      <rect x="3.5" y="5.8" width="195" height="52.4" rx="10.9" fill="#b9894f" opacity=".34"/>
-      <rect x="206.5" y="5.8" width="170" height="52.4" rx="10.9" fill="#b69064" opacity=".26"/>
+      <rect x="3.5" y="5.8" width="195" height="52.4" rx="10.9" fill="#9e672c" opacity=".56"/>
+      <rect x="206.5" y="5.8" width="170" height="52.4" rx="10.9" fill="#a47b48" opacity=".46"/>
     </g>
-    <rect x="2.5" y="3.2" width="195" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#ae7a39" stroke-width=".48"/>
-    <rect x="205.5" y="3.2" width="172" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#bc966d" stroke-width=".48"/>
-    <rect x="4.7" y="5.3" width="190.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff4d9" stroke-width=".78"/>
-    <rect x="207.7" y="5.3" width="167.5" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#fffefa" stroke-width=".78"/>
-    <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#c99c61" stroke-width=".36"/>
-    <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#d8c5aa" stroke-width=".36"/>
+    <rect x="2.5" y="3.2" width="195" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#94652c" stroke-width=".74"/>
+    <rect x="205.5" y="3.2" width="172" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#a67a48" stroke-width=".71"/>
+    <rect x="4.7" y="5.3" width="190.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff2cf" stroke-width=".85"/>
+    <rect x="207.7" y="5.3" width="167.5" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#ffffff" stroke-width=".86"/>
+    <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#bd873c" stroke-width=".6"/>
+    <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#ccb18d" stroke-width=".56"/>
     <path d="M8 10 Q9 8 12 8 H189" fill="none" stroke="#fffae8" stroke-opacity=".86" stroke-width=".8"/>
     <path d="M211 10 Q212 8 215 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".88" stroke-width=".8"/>
-    <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#a57438" stroke-opacity=".12" stroke-width=".7"/>
-    <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#b79a74" stroke-opacity=".10" stroke-width=".7"/>
-    <rect x="51.1" y="13.1" width="1" height="34" rx=".5" fill="url(#dossier9divider1072)" opacity=".58"/>
+    <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#8f5c29" stroke-opacity=".27" stroke-width=".85"/>
+    <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#99734d" stroke-opacity=".20" stroke-width=".8"/>
+    <rect x="51.1" y="13.1" width="1" height="34" rx=".5" fill="url(#dossier9divider1072)" opacity=".82"/>
   </svg>`;
 }
 
@@ -7455,7 +7455,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6078',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6079',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
