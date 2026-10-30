@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1077';
-var APP_BUILD='6077';
+var APP_VERSION='5.0.1078';
+var APP_BUILD='6078';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4894,7 +4894,7 @@ function dossierStage9EmptyButtonArt(){
 }
 
 
-/* 5.0.1077: Layer 9 follows the finished folder and kraft paper, rather than
+/* 5.0.1078: Layer 9 follows the finished folder and kraft paper, rather than
    being positioned inside the last 8.3 paper leaf. Preserve approved art
    and existing data-act handlers; change compositing order only. */
 function dossierStage9Actions(id){
@@ -7455,7 +7455,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6077',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6078',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

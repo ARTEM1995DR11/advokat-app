@@ -2176,7 +2176,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   /* The folder's gilded foot now ends directly after the approved 8.3 leaf.
      Buttons begin OUTSIDE the kraft/folder (as in the reference), with an
      independent stacking layer; no part of their existing art is redrawn. */
-  top:calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + 2px);
+  top:calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) - 7px);
   left:3.63%;width:92.73%;height:auto;
   aspect-ratio:380 / 70;
   z-index:8;
@@ -2235,7 +2235,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-label{padding:0 2px 0 0;}
 }
 
-/* 5.0.1077 — bottom action row lives AFTER the finished kraft folder.
+/* 5.0.1078 — bottom action row lives AFTER the finished kraft folder.
    The canvas reserves its painted height below the folder foot rather than
    trapping the buttons between its paper and golden border. */
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-general{
