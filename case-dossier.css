@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6051') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6080') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6051') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6080') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=6051') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6080') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6073');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6080');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -1968,7 +1968,7 @@
 /* Long row captions remain within their column without colliding with values. */
 #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label.is-long{
   font-size:clamp(9px,2.79vw,11.9px);letter-spacing:-.02em;
-  overflow-wrap:anywhere;
+  overflow-wrap:anywhere;hyphens:none;-webkit-hyphens:none;
 }
 @media(max-width:365px){
   #page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-label.is-long{
@@ -2066,7 +2066,7 @@
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-item:not(:last-child)::before{
   content:"";position:absolute;left:calc(var(--recent-node-col) + 6px);
   right:4%;bottom:0;height:1px;
-  background:linear-gradient(90deg,rgba(157,125,82,.15),rgba(156,123,82,.30) 52%,rgba(157,125,82,.10));
+  background:linear-gradient(90deg,rgba(157,125,82,.13),rgba(156,123,82,.265) 52%,rgba(157,125,82,.09));
   box-shadow:0 1px 0 rgba(255,253,246,.35);pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage8-recent-node{
@@ -2211,7 +2211,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   color:#87551c;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-icon svg{
-  display:block;width:clamp(16px,4.65vw,23px);height:clamp(16px,4.65vw,23px);
+  display:block;width:clamp(17px,4.95vw,24px);height:clamp(17px,4.95vw,24px);
   fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action-more .dossier-stage9-icon svg{
@@ -2246,3 +2246,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 /* 5.0.1079 — only visual contrast of layer 9 strengthened; all sizes, positions and tap targets unchanged. */
+
+/* 5.0.1080 — final cosmetic polish only: clearer button symbols, softened
+   journal separators, no word-hyphenation on long captions. Geometry fixed. */

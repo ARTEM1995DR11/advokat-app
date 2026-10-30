@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1079';
-var APP_BUILD='6079';
+var APP_VERSION='5.0.1080';
+var APP_BUILD='6080';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4854,10 +4854,10 @@ function dossierStage9EmptyButtonArt(){
   return `<svg class="dossier-stage9-blank-svg" viewBox="0 0 380 70" role="img" aria-label="Две чистые бумажные основы будущих кнопок" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="dossier9gold1072" x1="0" y1="0" x2="0.16" y2="1">
-        <stop offset="0" stop-color="#fff0bf"/><stop offset=".22" stop-color="#f9d997"/><stop offset=".65" stop-color="#eab96d"/><stop offset="1" stop-color="#cf9650"/>
+        <stop offset="0" stop-color="#fff0bf"/><stop offset=".22" stop-color="#f9d997"/><stop offset=".65" stop-color="#e6b164"/><stop offset="1" stop-color="#cf9650"/>
       </linearGradient>
       <linearGradient id="dossier9ivory1072" x1="0" y1="0" x2=".15" y2="1">
-        <stop offset="0" stop-color="#ffffff"/><stop offset=".47" stop-color="#fffdf7"/><stop offset="1" stop-color="#eddfcb"/>
+        <stop offset="0" stop-color="#fffdf9"/><stop offset=".47" stop-color="#fffbf4"/><stop offset="1" stop-color="#eddfcb"/>
       </linearGradient>
       <linearGradient id="dossier9rim1072" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#f7dfa7"/><stop offset=".30" stop-color="#c69249"/><stop offset=".56" stop-color="#ffebbe"/><stop offset="1" stop-color="#a16d35"/>
@@ -4886,7 +4886,7 @@ function dossierStage9EmptyButtonArt(){
     <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#bd873c" stroke-width=".6"/>
     <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#ccb18d" stroke-width=".56"/>
     <path d="M8 10 Q9 8 12 8 H189" fill="none" stroke="#fffae8" stroke-opacity=".86" stroke-width=".8"/>
-    <path d="M211 10 Q212 8 215 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".88" stroke-width=".8"/>
+    <path d="M211 10 Q212 8 215 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".64" stroke-width=".8"/>
     <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#8f5c29" stroke-opacity=".27" stroke-width=".85"/>
     <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#99734d" stroke-opacity=".20" stroke-width=".8"/>
     <rect x="51.1" y="13.1" width="1" height="34" rx=".5" fill="url(#dossier9divider1072)" opacity=".82"/>
@@ -4906,7 +4906,7 @@ function dossierStage9Actions(id){
                 '<span class="dossier-stage9-label">Добавить задачу</span>'+
               '</button>'+
               '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия">'+
-                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="12" cy="19" r="1.55"/></svg></span>'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.69"/><circle cx="12" cy="12" r="1.69"/><circle cx="12" cy="19" r="1.69"/></svg></span>'+
                 '<span class="dossier-stage9-label">Ещё действия</span>'+
               '</button>'+
             '</div>';
@@ -7455,7 +7455,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6079',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6080',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
