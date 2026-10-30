@@ -2184,3 +2184,50 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-blank-svg{
   display:block;width:100%;height:100%;overflow:visible;pointer-events:none;
 }
+
+
+/* 5.0.1076 / stage 9.2. Only the LIVE content over the approved SVG paper.
+   Foundation sizes, positions, shading and divider (stage 9.1) are immutable. */
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action{
+  position:absolute;z-index:2;top:4.57%;height:77.15%;
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;
+  display:grid;align-items:center;justify-items:stretch;
+  margin:0;padding:0;border:0;border-radius:11px;background:transparent;
+  color:#18345f;cursor:pointer;pointer-events:auto;touch-action:manipulation;
+  font:700 clamp(10.7px,3.12vw,13px)/1 Georgia,'Times New Roman',serif;
+  letter-spacing:-.023em;text-shadow:0 1px 0 rgba(255,254,249,.78);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action-add{
+  left:.66%;width:51.32%;grid-template-columns:25.4% minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action-more{
+  left:54.08%;width:45.26%;grid-template-columns:22% minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-icon{
+  min-width:0;display:flex;justify-content:center;align-items:center;
+  color:#94682a;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-icon svg{
+  display:block;width:clamp(16px,4.65vw,23px);height:clamp(16px,4.65vw,23px);
+  fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action-more .dossier-stage9-icon svg{
+  width:clamp(17px,4.5vw,21px);height:clamp(17px,4.5vw,21px);
+  fill:currentColor;stroke:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-label{
+  display:block;min-width:0;white-space:nowrap;overflow:visible;
+  text-align:center;padding:0 4px 0 1px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action:focus-visible{
+  outline:2px solid #9c752e;outline-offset:-2px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action:active{
+  transform:translateY(1px);
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-action{
+    font-size:clamp(9.1px,3.05vw,11px);letter-spacing:-.03em;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-stage9-blank-buttons .dossier-stage9-label{padding:0 2px 0 0;}
+}

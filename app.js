@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1075';
-var APP_BUILD='6075';
+var APP_VERSION='5.0.1076';
+var APP_BUILD='6076';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4848,9 +4848,8 @@ function dossierRecentActionsLive(entries){
 }
 
 
-/* Stage 9 / 5.0.1075: approved EMPTY pair of paper-button foundations.
-   Inline SVG gradients/contours only; no PNG, lettering, icons or tap targets.
-   An independent visual layer installed below the already approved stage 8.3. */
+/* Stage 9 / 5.0.1076: approved paper-button foundations left unchanged.
+   Text, gold SVG icons and live hit targets are separate overlays. */
 function dossierStage9EmptyButtonArt(){
   return `<svg class="dossier-stage9-blank-svg" viewBox="0 0 380 70" role="img" aria-label="Две чистые бумажные основы будущих кнопок" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -4946,8 +4945,16 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-with-live-journal">'+
             '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
             dossierRecentActionsLive(journalOf(id))+
-            '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-empty-bottom-button-paper" aria-hidden="true">'+
+            '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-bottom-actions" role="group" aria-label="Действия по делу">'+
               dossierStage9EmptyButtonArt()+
+              '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
+                '<span class="dossier-stage9-label">Добавить задачу</span>'+
+              '</button>'+
+              '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия">'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="12" cy="19" r="1.55"/></svg></span>'+
+                '<span class="dossier-stage9-label">Ещё действия</span>'+
+              '</button>'+
             '</div>'+ 
           '</div>'+
         '</div>' : '')+
@@ -7439,7 +7446,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6075',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6076',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
