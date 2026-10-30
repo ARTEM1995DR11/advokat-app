@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1089';
-var APP_BUILD='6089';
+var APP_VERSION='5.0.1090';
+var APP_BUILD='6090';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4912,7 +4912,7 @@ function dossierStage9Actions(id){
             '</div>';
 }
 
-/* 5.0.1089: category filters for the Events tab, generated from this case's
+/* 5.0.1090: category filters for the Events tab, generated from this case's
    existing event records. Never bake counts into an image or demo data. */
 var DOSSIER_EVENT_FILTER_STATE = Object.create(null);
 function dossierEventFilterOf(id){
@@ -4939,6 +4939,42 @@ function dossierEventsFiltersRow(id,events){
         '<span class="dossier-events-filter-count" aria-hidden="true">'+qty+'</span></button>';
     }).join('')+
     '</div>';
+}
+
+/* 5.0.1090 — dynamic body of the Events tab's approved nearest-event paper.
+   The image, calendar, arrow artwork and all previously approved layers remain
+   untouched. The active category applies to the nearest-event preview. */
+function dossierEventsNearestLiveBody(m,id,events){
+  var current=dossierEventFilterOf(id);
+  var source=dossierFilteredEventsOf(id,events||[]);
+  var nearest=dossierNearestRecord(m,source);
+  if(!nearest){
+    var empty={all:'Предстоящих событий нет',hearing:'Предстоящих заседаний нет',deadline:'Предстоящих сроков нет',meeting:'Предстоящих встреч нет'};
+    var note=current==='all'?'Добавьте событие по этому делу':'Выберите другую категорию событий';
+    return '<div class="dossier-stage8-event-info dossier-events-nearest-info is-empty" aria-label="Ближайшее событие">'+
+      '<span class="dossier-stage8-empty-title">'+empty[current]+'</span>'+
+      '<span class="dossier-stage8-empty-note">'+note+'</span></div>';
+  }
+  var when=dossierDate(nearest.due)+(nearest.time?', '+esc(nearest.time):'');
+  var isH=nearest.kind==='hearing';
+  var label=isH?(hearingPlace(nearest,m)||nearest.title||'Судебное заседание'):
+    (nearest.title||(nearest.kind==='deadline'?'Процессуальный срок':'Встреча'));
+  var details='';
+  if(isH){
+    var judge=hearingJudgeName(nearest,m);
+    var hall=String(nearest.hall||nearest.room||nearest.courtroom||'').trim();
+    if(!hall){var match=String(nearest.note||'').match(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?([0-9А-Яа-яA-Za-z-]+)/iu);if(match)hall='№ '+match[1];}
+    if(hall&&!/^зал\b/iu.test(hall))hall='Зал '+hall;
+    details=[judge?'Судья: '+judge:'',hall].filter(Boolean).join(' · ');
+  }else if(nearest.place){details='Место: '+String(nearest.place);}
+  var info='<div class="dossier-stage8-event-info dossier-events-nearest-info" aria-label="Ближайшее событие">'+
+    '<strong class="dossier-stage8-event-date">'+when+'</strong>'+
+    '<span class="dossier-stage8-event-place">'+esc(label)+'</span>'+
+    (details?'<span class="dossier-stage8-event-details">'+esc(details)+'</span>':'')+'</div>';
+  var button='<button type="button" class="dossier-stage8-event-arrow-hit dossier-events-arrow-hit"'+
+    ' data-act="task" data-id="'+esc(nearest.id)+'"'+
+    ' aria-label="Открыть событие: '+esc(nearest.title||'Событие')+'" title="Открыть событие"></button>';
+  return info+button;
 }
 
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -4980,13 +5016,14 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
         '</div>' : '')+
-      // 5.0.1089 / Events, layer 1: the approved calendar-paper foundation only.
-      // Leave the 46px row between the tabs and this card for live category filters.
-      // Heading, dates, action tiles and event handlers are separate approved steps.
+      // 5.0.1090 / Events: live title, nearest-event details and transparent
+      // arrow hotspot over the existing approved calendar-paper foundation.
       (state==='events' ?
         dossierEventsFiltersRow(id,events||[])+
-        '<div class="dossier-events-nearest-paper" data-dossier-layer="events-nearest-paper-only" aria-hidden="true">'+
-          '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
+        '<div class="dossier-events-nearest-paper" data-dossier-layer="events-nearest-paper-live">'+
+          '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
+          '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+
+          '<div class="dossier-events-nearest-output" data-events-nearest-output>'+dossierEventsNearestLiveBody(m,id,events||[])+'</div>'+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -6734,10 +6771,18 @@ document.addEventListener('click', function(ev){
           b.setAttribute('aria-pressed',selected?'true':'false');
         });
       }
-      // Event rows are a subsequent approved layer; keep selection ready for
-      // dossierFilteredEventsOf() without altering the approved empty card.
+      // Refresh the nearest-event preview without recreating the tab or
+      // moving the scroll position. Future list layers use the same filter.
       var stage=$('#page').querySelector('.dossier-stage7[data-active-tab="events"]');
-      if(stage)stage.dataset.eventsFilter=efkind;
+      if(stage){
+        stage.dataset.eventsFilter=efkind;
+        var out=stage.querySelector('[data-events-nearest-output]');
+        var selectedMatter=matter(efid);
+        if(out&&selectedMatter){
+          var related=tasksOf(efid).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+          out.innerHTML=dossierEventsNearestLiveBody(selectedMatter,efid,related);
+        }
+      }
       break;
     }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;
@@ -7385,7 +7430,7 @@ function updateDossierStatusMask(){
   var page=document.getElementById('page');
   var active=!!(page && page.classList.contains('open') && page.classList.contains('dossier-page'));
   var scroll=active?Math.max(0,page.scrollTop||0):0;
-  // 5.0.1089: softly reveal the continuous marble as the page scrolls,
+  // 5.0.1090: softly reveal the continuous marble as the page scrolls,
   // avoiding the sudden fixed band caused by toggling a fully opaque overlay.
   var strength=Math.min(1,scroll/36);
   document.body.style.setProperty('--dossier-status-marble-opacity',strength.toFixed(3));
@@ -7515,7 +7560,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6089',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6090',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
