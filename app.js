@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1081';
-var APP_BUILD='6081';
+var APP_VERSION='5.0.1082';
+var APP_BUILD='6082';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -7327,9 +7327,13 @@ if(window.visualViewport){
    iOS' translucent status indicators. Overlay the safe strip only on scroll. */
 function updateDossierStatusMask(){
   var page=document.getElementById('page');
-  var isOpen=!!(page && page.classList.contains('open') &&
-    page.classList.contains('dossier-page') && page.scrollTop>6);
-  document.body.classList.toggle('dossier-status-masked',isOpen);
+  var active=!!(page && page.classList.contains('open') && page.classList.contains('dossier-page'));
+  var scroll=active?Math.max(0,page.scrollTop||0):0;
+  // 5.0.1082: softly reveal the continuous marble as the page scrolls,
+  // avoiding the sudden fixed band caused by toggling a fully opaque overlay.
+  var strength=Math.min(1,scroll/36);
+  document.body.style.setProperty('--dossier-status-marble-opacity',strength.toFixed(3));
+  document.body.classList.toggle('dossier-status-masked',active && scroll>0);
 }
 var dossierScrollMaskFrame=0;
 var dossierScrollTarget=document.getElementById('page');
@@ -7455,7 +7459,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6081',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6082',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
