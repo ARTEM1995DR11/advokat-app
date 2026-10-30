@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1088';
-var APP_BUILD='6088';
+var APP_VERSION='5.0.1089';
+var APP_BUILD='6089';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4912,7 +4912,7 @@ function dossierStage9Actions(id){
             '</div>';
 }
 
-/* 5.0.1088: category filters for the Events tab, generated from this case's
+/* 5.0.1089: category filters for the Events tab, generated from this case's
    existing event records. Never bake counts into an image or demo data. */
 var DOSSIER_EVENT_FILTER_STATE = Object.create(null);
 function dossierEventFilterOf(id){
@@ -4980,7 +4980,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
         '</div>' : '')+
-      // 5.0.1088 / Events, layer 1: the approved calendar-paper foundation only.
+      // 5.0.1089 / Events, layer 1: the approved calendar-paper foundation only.
       // Leave the 46px row between the tabs and this card for live category filters.
       // Heading, dates, action tiles and event handlers are separate approved steps.
       (state==='events' ?
@@ -7385,7 +7385,7 @@ function updateDossierStatusMask(){
   var page=document.getElementById('page');
   var active=!!(page && page.classList.contains('open') && page.classList.contains('dossier-page'));
   var scroll=active?Math.max(0,page.scrollTop||0):0;
-  // 5.0.1088: softly reveal the continuous marble as the page scrolls,
+  // 5.0.1089: softly reveal the continuous marble as the page scrolls,
   // avoiding the sudden fixed band caused by toggling a fully opaque overlay.
   var strength=Math.min(1,scroll/36);
   document.body.style.setProperty('--dossier-status-marble-opacity',strength.toFixed(3));
@@ -7515,7 +7515,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6088',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6089',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
