@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1071';
-var APP_BUILD='6071';
+var APP_VERSION='5.0.1072';
+var APP_BUILD='6072';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4848,6 +4848,52 @@ function dossierRecentActionsLive(entries){
 }
 
 
+/* Stage 9 / 5.0.1072: approved EMPTY pair of paper-button foundations.
+   Inline SVG gradients/contours only; no PNG, lettering, icons or tap targets.
+   An independent visual layer installed below the already approved stage 8.3. */
+function dossierStage9EmptyButtonArt(){
+  return `<svg class="dossier-stage9-blank-svg" viewBox="0 0 380 70" role="img" aria-label="Две чистые бумажные основы будущих кнопок" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="dossier9gold1072" x1="0" y1="0" x2="0.16" y2="1">
+        <stop offset="0" stop-color="#fff2d5"/><stop offset=".26" stop-color="#f5ddad"/><stop offset=".65" stop-color="#eecb90"/><stop offset="1" stop-color="#dfb376"/>
+      </linearGradient>
+      <linearGradient id="dossier9ivory1072" x1="0" y1="0" x2=".15" y2="1">
+        <stop offset="0" stop-color="#fffdf7"/><stop offset=".52" stop-color="#fcf6ed"/><stop offset="1" stop-color="#f3e7d8"/>
+      </linearGradient>
+      <linearGradient id="dossier9rim1072" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f3d89e"/><stop offset=".28" stop-color="#d19b49"/><stop offset=".53" stop-color="#f5dfad"/><stop offset="1" stop-color="#9b6229"/>
+      </linearGradient>
+      <linearGradient id="dossier9divider1072" x1="0" y1="0" x2="1" y2="0">
+        <stop stop-color="#fef5da"/><stop offset=".55" stop-color="#a87a3e"/><stop offset="1" stop-color="#f8e6bf"/>
+      </linearGradient>
+      <filter id="dossier9shadow1072" x="-10%" y="-25%" width="120%" height="160%">
+        <feDropShadow dx="0" dy="3" stdDeviation="2.3" flood-color="#684015" flood-opacity=".33"/>
+      </filter>
+      <pattern id="dossier9grain1072" width="13" height="11" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="3" r=".42" fill="#b78744" opacity=".14"/>
+        <circle cx="10" cy="9" r=".32" fill="#fff9e9" opacity=".32"/>
+        <path d="M5 7h1" stroke="#a77e50" stroke-opacity=".075" stroke-width=".5"/>
+      </pattern>
+    </defs>
+    <!-- The two foundations share one quiet contour geometry; 195:170 ≈ 1.15. -->
+    <g filter="url(#dossier9shadow1072)">
+      <rect x="3.5" y="5" width="195" height="54" rx="11.5" fill="#a8793e" opacity=".80"/>
+      <rect x="206.5" y="5" width="170" height="54" rx="11.5" fill="#a8793e" opacity=".80"/>
+    </g>
+    <rect x="2.5" y="3.2" width="195" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#996322" stroke-width=".8"/>
+    <rect x="205.5" y="3.2" width="172" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#a37b50" stroke-width=".8"/>
+    <rect x="4.7" y="5.3" width="190.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff0cb" stroke-width="1.1"/>
+    <rect x="207.7" y="5.3" width="167.5" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#fffdf7" stroke-width="1.1"/>
+    <rect x="6.7" y="7.3" width="186.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#bc8d4b" stroke-width=".65"/>
+    <rect x="209.7" y="7.3" width="163.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#ccb28f" stroke-width=".65"/>
+    <path d="M8 10 Q9 8 12 8 H189" fill="none" stroke="#fffae8" stroke-opacity=".86" stroke-width=".8"/>
+    <path d="M211 10 Q212 8 215 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".88" stroke-width=".8"/>
+    <path d="M8 49 Q8 52 13 52 H189" fill="none" stroke="#a57438" stroke-opacity=".27" stroke-width="1"/>
+    <path d="M211 49 Q211 52 216 52 H369" fill="none" stroke="#b79a74" stroke-opacity=".20" stroke-width="1"/>
+    <rect x="51.1" y="13.1" width="1.4" height="34" rx=".7" fill="url(#dossier9divider1072)" opacity=".86"/>
+  </svg>`;
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -4900,6 +4946,9 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-stage8-recent-paper" data-dossier-layer="stage8-recent-actions-with-live-journal">'+
             '<img src="dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="1370" height="835" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
             dossierRecentActionsLive(journalOf(id))+
+            '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-empty-bottom-button-paper" aria-hidden="true">'+
+              dossierStage9EmptyButtonArt()+
+            '</div>'+ 
           '</div>'+
         '</div>' : '')+
     '</div>'+
@@ -7390,7 +7439,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6071',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6072',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
