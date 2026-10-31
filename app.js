@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1102';
-var APP_BUILD='6102';
+var APP_VERSION='5.0.1106';
+var APP_BUILD='6106';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5001,7 +5001,7 @@ function dossierEventsHeadline(t){
 
 function dossierEventsIconKey(t,past){
   if(past)return 'doc';
-  if(!t||t.kind==='hearing')return 'scale';
+  if(!t||t.kind==='hearing')return 'event-scales';
   if(t.kind==='deadline')return 'doc';
   if(t.kind==='meeting')return 'user';
   return 'doc';
@@ -5011,9 +5011,40 @@ function dossierEventsIconTone(t,past){
   if(!t||t.kind==='hearing')return 'warm';
   return 'cool';
 }
+/* 5.0.1103: past entries describe what is actually saved, never infer
+   an outcome merely from a date that has passed. Keep free-form details. */
 function dossierEventsMetaLines(t,m,past){
   if(!t)return {top:'',bottom:''};
-  var top='', bottom='';
+  var top='',bottom='';
+  var note=String(t.note||t.desc||t.description||'').replace(/\s+/g,' ').trim();
+  var title=String(t.title||'').replace(/\s+/g,' ').trim();
+  if(past){
+    if(t.kind==='hearing'){
+      var ri=hearingResultInfo(t);
+      if(ri&&ri.label){
+        top='Результат: '+ri.label.replace(/[.!?]+$/,'').replace(/^./,function(ch){return ch.toLocaleLowerCase('ru');})+'.';
+        bottom=String(t.hearingResultText||'').replace(/\s+/g,' ').trim();
+      }else if(t.done){
+        // A legacy completed flag confirms closure, but not a court outcome.
+        top='Отмечено завершённым.';
+        bottom=note;
+      }else{
+        top='Результат заседания не указан.';
+        bottom=note;
+      }
+    }else if(t.kind==='deadline'){
+      top=t.done?'Срок выполнен.':'Срок истёк, исполнение не подтверждено.';
+      bottom=note||(!/^процессуальный\s+срок\.?$/iu.test(title)?title:'');
+    }else if(t.kind==='meeting'){
+      top=t.done?'Встреча отмечена завершённой.':'Дата встречи прошла, итог не указан.';
+      bottom=note;
+    }else{
+      top=t.done?'Отмечено завершённым.':'Срок записи истёк.';
+      bottom=note;
+    }
+    if(bottom && bottom.toLocaleLowerCase('ru')===top.toLocaleLowerCase('ru'))bottom='';
+    return {top:top,bottom:bottom};
+  }
   if(t.kind==='hearing'){
     top=dossierEventsShortPlace(hearingPlace(t,m));
     var judge=hearingJudgeName(t,m);
@@ -5025,16 +5056,9 @@ function dossierEventsMetaLines(t,m,past){
     var hall=rawHall?( /^зал\b/iu.test(rawHall)?rawHall:'Зал '+rawHall ):'';
     bottom=[judge?'Судья: '+judge:'',hall].filter(Boolean).join(' · ');
   }else if(t.kind==='deadline' || t.kind==='meeting'){
-    top=String(t.note||t.desc||t.description||'').replace(/\s+/g,' ').trim();
-    if(!top)top=String(t.place||'').replace(/\s+/g,' ').trim();
+    top=note||String(t.place||'').replace(/\s+/g,' ').trim();
   }else{
-    top=String(t.note||t.desc||t.description||t.place||'').replace(/\s+/g,' ').trim();
-  }
-  if(past && t.kind==='hearing'){
-    var result='';
-    if(typeof hearingResultLabel==='function' && hearingHasResult(t)) result=hearingResultLabel(t);
-    if(!result && t.done) result='Заседание завершено';
-    if(result){top=(result==='Заседание завершено'?'Заседание завершено.':'Результат: '+result.replace(/\.+$/,'')+'.');bottom='';}
+    top=note||String(t.place||'').replace(/\s+/g,' ').trim();
   }
   return {top:top,bottom:bottom};
 }
@@ -5098,7 +5122,11 @@ function dossierEventsPreviewDate(t){
   return {date:fmtD(t.due,true),meta:DOW[parseD(t.due).getDay()] + (t.time?', '+String(t.time):'')};
 }
 function dossierEventActionName(t){
-  return (t&&t.kind==='hearing'&&hearingNeedsResult(t))?'hearing-result':'task';
+  if(t&&t.kind==='hearing'){
+    if(hearingHasResult(t))return 'dossier-hearing-result-view';
+    if(hearingNeedsResult(t))return 'hearing-result';
+  }
+  return 'task';
 }
 function dossierEventsTimelineItem(t,m,past){
   var meta=dossierEventsMetaLines(t,m,past), dt=dossierEventsPreviewDate(t), title=dossierEventsHeadline(t);
@@ -5112,12 +5140,12 @@ function dossierEventsTimelineItem(t,m,past){
   var description=upcoming?upcomingText:
     (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
     (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'');
-  var accessibility=upcoming?[title].concat(upcoming.details).join('. '):title;
+  var accessibility=upcoming?[title].concat(upcoming.details).join('. '):[title,meta.top,meta.bottom].filter(Boolean).join('. ');
   return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+(confirmed?' is-confirmed':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
     '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="dossier-events-datebox"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
-      '<span class="dossier-events-iconbox is-'+tone+'">'+ico(icon,'s')+'</span>'+
+      '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'&&!past?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
       '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button></li>';
@@ -6947,6 +6975,7 @@ document.addEventListener('click', function(ev){
     case 'hearing-result': sheetHearingResult(id); break;
     case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
     case 'hearing-result-save': saveHearingResult();break;
+    case 'dossier-hearing-result-view': sheetHearingResultSummary(id); break;
     case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
     case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
     case 'task-action-delete': deleteTaskById(id); break;
@@ -7807,7 +7836,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6102',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6106',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
