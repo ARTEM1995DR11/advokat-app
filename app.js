@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1090';
-var APP_BUILD='6090';
+var APP_VERSION='5.0.1091';
+var APP_BUILD='6091';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4544,12 +4544,12 @@ function dossierNearestRecord(m,items){
   }).sort(sortT)[0]||null;
 }
 /* 5.0.1037 / stage 8.1.3 — live event summary. No changes to the approved artwork. */
-function dossierNearestLiveInfo(m,items){
+function dossierNearestLiveInfo(m,items,emptyTitle,emptyNote){
   var nearest=dossierNearestRecord(m,items);
   if(!nearest){
     return '<div class="dossier-stage8-event-info is-empty" aria-label="Ближайшее событие">'+
-      '<span class="dossier-stage8-empty-title">Предстоящих событий нет</span>'+ 
-      '<span class="dossier-stage8-empty-note">Добавьте событие во вкладке «События»</span></div>';
+      '<span class="dossier-stage8-empty-title">'+esc(emptyTitle||'Предстоящих событий нет')+'</span>'+ 
+      '<span class="dossier-stage8-empty-note">'+esc(emptyNote||'Добавьте событие во вкладке «События»')+'</span></div>';
   }
   var when=dossierDate(nearest.due)+(nearest.time?', '+esc(nearest.time):'');
   var isH=nearest.kind==='hearing';
@@ -4912,7 +4912,7 @@ function dossierStage9Actions(id){
             '</div>';
 }
 
-/* 5.0.1090: category filters for the Events tab, generated from this case's
+/* 5.0.1091: category filters for the Events tab, generated from this case's
    existing event records. Never bake counts into an image or demo data. */
 var DOSSIER_EVENT_FILTER_STATE = Object.create(null);
 function dossierEventFilterOf(id){
@@ -4941,40 +4941,24 @@ function dossierEventsFiltersRow(id,events){
     '</div>';
 }
 
-/* 5.0.1090 — dynamic body of the Events tab's approved nearest-event paper.
+/* 5.0.1091 — dynamic body of the Events tab's approved nearest-event paper.
    The image, calendar, arrow artwork and all previously approved layers remain
    untouched. The active category applies to the nearest-event preview. */
+/* 5.0.1091 — single source of truth for the two nearest-event cards.
+   The Events tab keeps category filtering, while the data lines, date formatting,
+   courthouse/judge/hall details and empty state use the approved General renderer.
+   Identical paper assets and identical local CSS geometry are intentionally shared. */
 function dossierEventsNearestLiveBody(m,id,events){
   var current=dossierEventFilterOf(id);
   var source=dossierFilteredEventsOf(id,events||[]);
   var nearest=dossierNearestRecord(m,source);
-  if(!nearest){
-    var empty={all:'Предстоящих событий нет',hearing:'Предстоящих заседаний нет',deadline:'Предстоящих сроков нет',meeting:'Предстоящих встреч нет'};
-    var note=current==='all'?'Добавьте событие по этому делу':'Выберите другую категорию событий';
-    return '<div class="dossier-stage8-event-info dossier-events-nearest-info is-empty" aria-label="Ближайшее событие">'+
-      '<span class="dossier-stage8-empty-title">'+empty[current]+'</span>'+
-      '<span class="dossier-stage8-empty-note">'+note+'</span></div>';
-  }
-  var when=dossierDate(nearest.due)+(nearest.time?', '+esc(nearest.time):'');
-  var isH=nearest.kind==='hearing';
-  var label=isH?(hearingPlace(nearest,m)||nearest.title||'Судебное заседание'):
-    (nearest.title||(nearest.kind==='deadline'?'Процессуальный срок':'Встреча'));
-  var details='';
-  if(isH){
-    var judge=hearingJudgeName(nearest,m);
-    var hall=String(nearest.hall||nearest.room||nearest.courtroom||'').trim();
-    if(!hall){var match=String(nearest.note||'').match(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?([0-9А-Яа-яA-Za-z-]+)/iu);if(match)hall='№ '+match[1];}
-    if(hall&&!/^зал\b/iu.test(hall))hall='Зал '+hall;
-    details=[judge?'Судья: '+judge:'',hall].filter(Boolean).join(' · ');
-  }else if(nearest.place){details='Место: '+String(nearest.place);}
-  var info='<div class="dossier-stage8-event-info dossier-events-nearest-info" aria-label="Ближайшее событие">'+
-    '<strong class="dossier-stage8-event-date">'+when+'</strong>'+
-    '<span class="dossier-stage8-event-place">'+esc(label)+'</span>'+
-    (details?'<span class="dossier-stage8-event-details">'+esc(details)+'</span>':'')+'</div>';
-  var button='<button type="button" class="dossier-stage8-event-arrow-hit dossier-events-arrow-hit"'+
+  var empty={all:'Предстоящих событий нет',hearing:'Предстоящих заседаний нет',deadline:'Предстоящих сроков нет',meeting:'Предстоящих встреч нет'};
+  var note=current==='all'?'Добавьте событие по этому делу':'Выберите другую категорию событий';
+  var info=dossierNearestLiveInfo(m,source,empty[current],note);
+  if(!nearest)return info;
+  return info+'<button type="button" class="dossier-stage8-event-arrow-hit dossier-events-arrow-hit"'+
     ' data-act="task" data-id="'+esc(nearest.id)+'"'+
     ' aria-label="Открыть событие: '+esc(nearest.title||'Событие')+'" title="Открыть событие"></button>';
-  return info+button;
 }
 
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -5003,7 +4987,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // 5.0.1025: use the user's approved TEXT-FREE calendar-paper visual on General only.
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
-        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single" data-dossier-layer="stage8-general-paper-only">'+
+        '<div class="dossier-stage8-blank dossier-stage8-blank-general dossier-stage8-illustrated dossier-stage8-single dossier-nearest-shared" data-dossier-layer="stage8-general-paper-only">'+
           '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
           // 5.0.1036 / Stage 8.1.2: live HTML heading and fine line above the approved artwork.
           // Only decoration is rasterized. Information and typography remain in the DOM.
@@ -5016,11 +5000,11 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             return next?'<button type="button" class="dossier-stage8-event-arrow-hit" data-act="task" data-id="'+esc(next.id)+'" aria-label="Открыть ближайшее событие: '+esc(next.title||'Событие')+'" title="Открыть событие"></button>':'';
           })()+
         '</div>' : '')+
-      // 5.0.1090 / Events: live title, nearest-event details and transparent
+      // 5.0.1091 / Events: live title, nearest-event details and transparent
       // arrow hotspot over the existing approved calendar-paper foundation.
       (state==='events' ?
         dossierEventsFiltersRow(id,events||[])+
-        '<div class="dossier-events-nearest-paper" data-dossier-layer="events-nearest-paper-live">'+
+        '<div class="dossier-events-nearest-paper dossier-nearest-shared" data-dossier-layer="events-nearest-paper-live">'+
           '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+
           '<div class="dossier-events-nearest-output" data-events-nearest-output>'+dossierEventsNearestLiveBody(m,id,events||[])+'</div>'+
@@ -7430,7 +7414,7 @@ function updateDossierStatusMask(){
   var page=document.getElementById('page');
   var active=!!(page && page.classList.contains('open') && page.classList.contains('dossier-page'));
   var scroll=active?Math.max(0,page.scrollTop||0):0;
-  // 5.0.1090: softly reveal the continuous marble as the page scrolls,
+  // 5.0.1091: softly reveal the continuous marble as the page scrolls,
   // avoiding the sudden fixed band caused by toggling a fully opaque overlay.
   var strength=Math.min(1,scroll/36);
   document.body.style.setProperty('--dossier-status-marble-opacity',strength.toFixed(3));
@@ -7560,7 +7544,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6090',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6091',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
