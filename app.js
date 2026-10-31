@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1092';
-var APP_BUILD='6092';
+var APP_VERSION='5.0.1093';
+var APP_BUILD='6093';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4961,6 +4961,120 @@ function dossierEventsNearestLiveBody(m,id,events){
     ' aria-label="Открыть событие: '+esc(nearest.title||'Событие')+'" title="Открыть событие"></button>';
 }
 
+
+function dossierEventsShortPlace(text){
+  var value=String(text||'').replace(/\s+/g,' ').trim();
+  if(!value)return '';
+  value=value.replace(/,?\s*Ивановской\s+области/giu,'')
+             .replace(/городской\s+суд/giu,'горсуд')
+             .replace(/областной\s+суд/giu,'облсуд')
+             .replace(/районный\s+суд/giu,'райсуд')
+             .replace(/\s{2,}/g,' ').trim();
+  return value;
+}
+function dossierEventsHeadline(t){
+  var title=String((t&&t.title)||'').replace(/\s+/g,' ').trim();
+  if(title)return title;
+  if(t&&t.kind==='hearing')return 'Судебное заседание';
+  if(t&&t.kind==='deadline')return 'Процессуальный срок';
+  if(t&&t.kind==='meeting')return 'Встреча с доверителем';
+  return 'Событие';
+}
+function dossierEventsIconKey(t,past){
+  if(past)return 'doc';
+  if(!t||t.kind==='hearing')return 'scale';
+  if(t.kind==='deadline')return 'doc';
+  if(t.kind==='meeting')return 'user';
+  return 'doc';
+}
+function dossierEventsIconTone(t,past){
+  if(past)return 'cool';
+  if(!t||t.kind==='hearing')return 'warm';
+  return 'cool';
+}
+function dossierEventsMetaLines(t,m,past){
+  if(!t)return {top:'',bottom:''};
+  var top='', bottom='';
+  if(t.kind==='hearing'){
+    top=dossierEventsShortPlace(hearingPlace(t,m));
+    var judge=hearingJudgeName(t,m);
+    var rawHall=String(t.hall||t.room||t.courtroom||'').trim();
+    if(!rawHall){
+      var mm=String(t.note||'').match(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?([0-9А-Яа-яA-Za-z-]+)/iu);
+      if(mm)rawHall='№ '+mm[1];
+    }
+    var hall=rawHall?( /^зал\b/iu.test(rawHall)?rawHall:'Зал '+rawHall ):'';
+    bottom=[judge?'Судья: '+judge:'',hall].filter(Boolean).join(' · ');
+  }else if(t.kind==='deadline' || t.kind==='meeting'){
+    top=String(t.note||t.desc||t.description||'').replace(/\s+/g,' ').trim();
+    if(!top)top=String(t.place||'').replace(/\s+/g,' ').trim();
+  }else{
+    top=String(t.note||t.desc||t.description||t.place||'').replace(/\s+/g,' ').trim();
+  }
+  if(past && !bottom && t.kind==='hearing'){
+    var result='';
+    if(typeof hearingResultLabel==='function' && hearingHasResult(t)) result=hearingResultLabel(t);
+    if(!result && t.done) result='Результат указан';
+    if(result)bottom='Результат: '+result+'.';
+  }
+  return {top:top,bottom:bottom};
+}
+function dossierEventsPreviewDate(t){
+  if(!t||!t.due)return {date:'Дата не указана',meta:''};
+  return {date:fmtD(t.due,true),meta:DOW[parseD(t.due).getDay()] + (t.time?', '+String(t.time):'')};
+}
+function dossierEventActionName(t){
+  return (t&&t.kind==='hearing'&&hearingNeedsResult(t))?'hearing-result':'task';
+}
+function dossierEventsTimelineItem(t,m,past){
+  var meta=dossierEventsMetaLines(t,m,past), dt=dossierEventsPreviewDate(t), title=dossierEventsHeadline(t);
+  var icon=dossierEventsIconKey(t,past), tone=dossierEventsIconTone(t,past);
+  return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+'">'+
+    '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
+    '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(title)+'">'+
+      '<span class="dossier-events-datebox"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
+      '<span class="dossier-events-iconbox is-'+tone+'">'+ico(icon,'s')+'</span>'+
+      '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+
+        (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
+        (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'')+
+      '</span>'+
+      '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
+    '</button></li>';
+}
+function dossierEventsEmptySection(text){
+  return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
+}
+function dossierEventsSection(title,kind,items,m,limit,showMenu){
+  var list=(items||[]).slice(0,limit||items.length);
+  return '<section class="dossier-events-paper-section dossier-events-paper-section-'+esc(kind)+'">'+
+    '<div class="dossier-events-paper-heading"><h2>'+esc(title)+'</h2><span class="dossier-events-paper-rule" aria-hidden="true"></span>'+(showMenu?'<span class="dossier-events-paper-menu" aria-hidden="true">•••</span>':'')+'</div>'+
+    (list.length ? '<ol class="dossier-events-timeline">'+list.map(function(t){return dossierEventsTimelineItem(t,m,kind==='past');}).join('')+'</ol>' : dossierEventsEmptySection(kind==='upcoming'?'Событий пока нет.':'Прошедших событий пока нет.'))+
+  '</section>';
+}
+function dossierEventsBottomActions(id){
+  return '<div class="dossier-events-bottom-actions">'+
+    '<button type="button" class="dossier-events-bottom-btn is-primary" data-act="m-hearing" data-id="'+esc(id)+'">'+
+      '<span class="dossier-events-bottom-icon">'+ico('plus','s')+'</span><span>Добавить событие</span></button>'+
+    '<button type="button" class="dossier-events-bottom-btn is-secondary" data-act="dossier-events-focus-filter" data-id="'+esc(id)+'">'+
+      '<span>Фильтр</span></button>'+
+  '</div>';
+}
+function dossierEventsListsBody(m,id,events){
+  var current=dossierEventFilterOf(id);
+  var source=dossierFilteredEventsOf(id,events||[]);
+  var upcoming=source.filter(function(t){return !t.done && t.due && t.due>=today();}).sort(sortT);
+  var past=source.filter(function(t){return t.done || (t.due&&t.due<today());}).sort(function(a,b){
+    if(!!a.due!==!!b.due)return a.due?-1:1;
+    if((a.due||'')!==(b.due||''))return (a.due||'')>(b.due||'')?-1:1;
+    if((a.time||'')!==(b.time||''))return (a.time||'')>(b.time||'')?-1:1;
+    return 0;
+  });
+  var emptyMap={all:'Событий пока нет.',hearing:'Заседаний пока нет.',deadline:'Сроков пока нет.',meeting:'Встреч пока нет.'};
+  var upcomingSection=upcoming.length ? dossierEventsSection('ПРЕДСТОЯЩИЕ СОБЫТИЯ','upcoming',upcoming,m,3,false) : '<section class="dossier-events-paper-section dossier-events-paper-section-upcoming"><div class="dossier-events-paper-heading"><h2>ПРЕДСТОЯЩИЕ СОБЫТИЯ</h2><span class="dossier-events-paper-rule" aria-hidden="true"></span></div>'+dossierEventsEmptySection(emptyMap[current]||emptyMap.all)+'</section>';
+  var pastSection=dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,2,true);
+  return '<div class="dossier-events-lists-live">'+upcomingSection+pastSection+dossierEventsBottomActions(id)+'</div>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -5010,7 +5124,9 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-events-nearest-output" data-events-nearest-output>'+dossierEventsNearestLiveBody(m,id,events||[])+'</div>'+
           // Standalone blank layer, anchored to the BOTTOM of this approved
           // paper so its spacing stays exact at every iPhone width.
-          '<div class="dossier-events-upcoming-blank" data-dossier-layer="events-upcoming-blank-paper" aria-hidden="true"></div>'+
+          '<div class="dossier-events-upcoming-blank" data-dossier-layer="events-upcoming-blank-paper">'+
+            '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
+          '</div>'+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -5083,7 +5199,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
     '<button class="dossier-iconbtn" type="button" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+
     '<button class="dossier-iconbtn" type="button" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+
-    '<main class="dossier-clean-canvas'+(tab==='general'?' dossier-clean-canvas-general':'')+'" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
+    '<main class="dossier-clean-canvas'+(tab==='general'?' dossier-clean-canvas-general':'')+(tab==='events'?' dossier-clean-canvas-events':'')+'" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
     '<img class="dossier-colored-rear-strip" data-dossier-layer="leather-back" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="2172" height="724">'+    
     '<div class="dossier-paper-stack-stage" data-dossier-layer="kraft-paper" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-kraft-layer2-v5942.webp?v='+APP_BUILD+'" alt="" width="2084" height="641" draggable="false"></div>'+
     '<div class="dossier-layer3-rims" data-dossier-layer="paper-rims" aria-hidden="true"><img src="dossier-layer3-single-sheet-v5995.svg?v='+APP_BUILD+'" alt="" width="402" height="50" draggable="false"></div>'+
@@ -6765,10 +6881,21 @@ document.addEventListener('click', function(ev){
         stage.dataset.eventsFilter=efkind;
         var out=stage.querySelector('[data-events-nearest-output]');
         var selectedMatter=matter(efid);
-        if(out&&selectedMatter){
+        if(selectedMatter){
           var related=tasksOf(efid).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
-          out.innerHTML=dossierEventsNearestLiveBody(selectedMatter,efid,related);
+          if(out)out.innerHTML=dossierEventsNearestLiveBody(selectedMatter,efid,related);
+          var listOut=stage.querySelector('[data-events-lists-output]');
+          if(listOut)listOut.innerHTML=dossierEventsListsBody(selectedMatter,efid,related);
         }
+      }
+      break;
+    }
+    case 'dossier-events-focus-filter': {
+      var filterRow=$('#page').querySelector('.dossier-events-filter-row');
+      if(filterRow){
+        filterRow.scrollIntoView({behavior:'smooth',block:'nearest'});
+        var activeBtn=filterRow.querySelector('.dossier-events-filter.is-active')||filterRow.querySelector('.dossier-events-filter');
+        if(activeBtn && typeof activeBtn.focus==='function') setTimeout(function(){activeBtn.focus();},120);
       }
       break;
     }
@@ -7547,7 +7674,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6092',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6093',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
