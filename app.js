@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1094';
-var APP_BUILD='6094';
+var APP_VERSION='5.0.1095';
+var APP_BUILD='6095';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -6945,9 +6945,11 @@ document.addEventListener('click', function(ev){
     case 'dossier-events-focus-filter': {
       var filterRow=$('#page').querySelector('.dossier-events-filter-row');
       if(filterRow){
-        filterRow.scrollIntoView({behavior:'smooth',block:'nearest'});
+        filterRow.scrollIntoView({behavior:'smooth',block:'start'});
         var activeBtn=filterRow.querySelector('.dossier-events-filter.is-active')||filterRow.querySelector('.dossier-events-filter');
-        if(activeBtn && typeof activeBtn.focus==='function') setTimeout(function(){activeBtn.focus();},120);
+        if(activeBtn && typeof activeBtn.focus==='function') setTimeout(function(){
+          try{activeBtn.focus({preventScroll:true});}catch(_){activeBtn.focus();}
+        },120);
       }
       break;
     }
@@ -7726,7 +7728,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6094',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6095',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
