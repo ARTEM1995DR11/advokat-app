@@ -3047,3 +3047,63 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     height:24px;
   }
 }
+
+
+/* 5.0.1107 — point 4: past-event date fit and vertical rhythm only.
+   No geometry or styling changes to approved filters, nearest, upcoming,
+   folder background or lower action buttons. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-datebox b{
+  white-space:nowrap;
+  text-wrap:nowrap;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-datebox.is-long-date b{
+  font-size:clamp(9.2px,2.52vw,10.5px);
+  letter-spacing:-.018em;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row{
+  min-height:70px;
+  padding-top:9px;
+  padding-bottom:10px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-timeline-item.has-detailed-result .dossier-events-row{
+  min-height:88px;
+  padding-top:12px;
+  padding-bottom:12px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-copy{
+  gap:2px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-copy span,
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-copy small{
+  line-height:1.21;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-datebox.is-long-date b{
+    font-size:clamp(8.6px,2.68vw,9.3px);
+    letter-spacing:-.025em;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-row{
+    min-height:72px;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-timeline-item.has-detailed-result .dossier-events-row{
+    min-height:92px;
+  }
+}
+
+/* Variable-length past-event notes: connect actual marker positions instead
+   of assuming that adjacent rows have equal heights. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-timeline-item:not(:last-child)::after{
+  bottom:auto;
+  height:var(--dossier-past-connector-length,0px);
+}

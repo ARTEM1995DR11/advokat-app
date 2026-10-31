@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1106';
-var APP_BUILD='6106';
+var APP_VERSION='5.0.1107';
+var APP_BUILD='6107';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5134,6 +5134,12 @@ function dossierEventsTimelineItem(t,m,past){
   if(upcoming)title=upcoming.title;
   var icon=dossierEventsIconKey(t,past), tone=dossierEventsIconTone(t,past);
   var confirmed=!!(t.done||(t.kind==='hearing'&&hearingHasResult(t)));
+  // The past-events date column is deliberately fixed. Only dates with long
+  // month names receive compact lettering; other rows retain approved type.
+  var longPastDate=!!(past && dt.date.length>=16);
+  // Give lengthy factual outcomes their own breathing room, without
+  // changing the approved upcoming-event row sizing.
+  var detailedPast=!!(past && (meta.bottom || meta.top.length>53));
   var upcomingText=upcoming?upcoming.details.map(function(line,i){
     return '<span class="dossier-events-upcoming-detail" title="'+esc(line)+'">'+esc(line)+'</span>';
   }).join(''):'';
@@ -5141,10 +5147,10 @@ function dossierEventsTimelineItem(t,m,past){
     (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
     (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'');
   var accessibility=upcoming?[title].concat(upcoming.details).join('. '):[title,meta.top,meta.bottom].filter(Boolean).join('. ');
-  return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+(confirmed?' is-confirmed':'')+'">'+
+  return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
     '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
-      '<span class="dossier-events-datebox"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
+      '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'&&!past?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
       '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
@@ -5192,6 +5198,23 @@ function dossierEventsListsBody(m,id,events){
     dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,true,'Прошедших событий пока нет.')+
   '</div>';
 }
+/* Align every connector with the actual next marker. Past-event rows may
+   have different heights because their recorded court outcomes vary in length. */
+function dossierEventsAlignPastTimeline(stage){
+  if(!stage)return;
+  var items=stage.querySelectorAll('.dossier-events-paper-section-past .dossier-events-timeline-item');
+  for(var i=0;i<items.length-1;i++){
+    var li=items[i];
+    var next=items[i+1].querySelector('.dossier-events-timeline-node');
+    if(!next)continue;
+    var from=li.getBoundingClientRect();
+    var to=next.getBoundingClientRect();
+    // The line starts just below the current 17px check marker.
+    var start=from.top+from.height/2+9;
+    var length=Math.max(0,Math.round((to.top-start)*10)/10);
+    li.style.setProperty('--dossier-past-connector-length',length+'px');
+  }
+}
 function dossierEventsFitToContent(){
   var page=document.getElementById('page');
   if(!page||!page.classList.contains('dossier-page')||page._matterTab!=='events')return;
@@ -5199,6 +5222,7 @@ function dossierEventsFitToContent(){
   var paper=stage&&stage.querySelector('.dossier-events-upcoming-blank');
   var canvas=stage&&stage.closest('.dossier-clean-canvas-events');
   if(!stage||!paper||!canvas)return;
+  dossierEventsAlignPastTimeline(stage);
   var bottom=paper.getBoundingClientRect().bottom;
   var stageTop=stage.getBoundingClientRect().top;
   // The approved tabs, nearest paper and graphical footer retain their own
@@ -5216,6 +5240,10 @@ function dossierEventsFitToContent(){
 function dossierEventsFitSoon(){
   requestAnimationFrame(function(){requestAnimationFrame(dossierEventsFitToContent);});
 }
+window.addEventListener('resize',function(){
+  var page=document.getElementById('page');
+  if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
+},{passive:true});
 
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
@@ -7836,7 +7864,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6106',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6107',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
