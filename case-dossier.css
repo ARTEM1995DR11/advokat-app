@@ -3107,3 +3107,96 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   bottom:auto;
   height:var(--dossier-past-connector-length,0px);
 }
+
+
+/* 5.0.1108 — Stage 9 / Events buttons: same approved gold/ivory button
+   ART, slightly broader outside the folder (as in the reference). Only
+   Events footer positioning/icon/text gets refined; General remains frozen. */
+#page.dossier-page .dossier-rear-stage
+.dossier-clean-canvas-events > .dossier-events-stage9-actions{
+  left:2.0%;
+  width:95.8%;
+  top:calc(var(--dossier-stage7-top) + var(--dossier-events-stage-height,700px) - 7px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-add{
+  font-size:clamp(10.2px,2.93vw,12.5px);
+  letter-spacing:-.018em;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-more{
+  font-size:clamp(10.4px,2.97vw,12.7px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-more .dossier-stage9-icon svg{
+  fill:none;
+  stroke:#8a5a24;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  width:clamp(17px,4.9vw,21px);
+  height:clamp(17px,4.9vw,21px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-icon{
+  align-self:center;
+}
+
+/* One icon column for future AND past, exactly the already approved
+   upcoming event grid. Only the past grid is moved; the future is frozen.
+   The column is independent of title length, event type and completion. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row{
+  grid-template-columns:minmax(75px,calc(31% + 7px)) 40px minmax(0,1fr) 10px;
+  column-gap:8px;
+  padding-left:28px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-iconbox{
+  width:39px;
+  height:41px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-iconbox img.dossier-event-scales-exact{
+  display:block;
+  flex:none;
+  width:29px;
+  height:28px;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-iconbox.is-cool .ico{
+  width:22px;
+  height:22px;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-row{
+    grid-template-columns:minmax(67px,calc(31% + 4px)) 35px minmax(0,1fr) 9px;
+    column-gap:5px;
+    padding-left:25px;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-iconbox{
+    width:34px;
+    height:37px;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-paper-section-past .dossier-events-iconbox img.dossier-event-scales-exact{
+    width:25px;
+    height:24px;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-iconbox.is-cool .ico{
+    width:20px;height:20px;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions .dossier-stage9-action-add,
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions .dossier-stage9-action-more{
+    font-size:clamp(9.2px,3.05vw,10.6px);
+  }
+}

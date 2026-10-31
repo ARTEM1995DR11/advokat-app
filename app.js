@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1107';
-var APP_BUILD='6107';
+var APP_VERSION='5.0.1108';
+var APP_BUILD='6108';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4999,17 +4999,16 @@ function dossierEventsHeadline(t){
   return 'Событие';
 }
 
+/* 5.0.1108: event icon reflects the event TYPE, never whether it is past.
+   This ensures that a hearing keeps the same scales in both timeline sections. */
 function dossierEventsIconKey(t,past){
-  if(past)return 'doc';
   if(!t||t.kind==='hearing')return 'event-scales';
   if(t.kind==='deadline')return 'doc';
-  if(t.kind==='meeting')return 'user';
+  if(t.kind==='meeting')return 'events-people';
   return 'doc';
 }
 function dossierEventsIconTone(t,past){
-  if(past)return 'cool';
-  if(!t||t.kind==='hearing')return 'warm';
-  return 'cool';
+  return (!t||t.kind==='hearing')?'warm':'cool';
 }
 /* 5.0.1103: past entries describe what is actually saved, never infer
    an outcome merely from a date that has passed. Keep free-form details. */
@@ -5151,7 +5150,7 @@ function dossierEventsTimelineItem(t,m,past){
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
     '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
-      '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'&&!past?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
+      '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
       '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button></li>';
