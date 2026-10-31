@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1108';
-var APP_BUILD='6108';
+var APP_VERSION='5.0.1109';
+var APP_BUILD='6109';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,11 +4535,28 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
+/* 5.0.1109 — one definition of past/future across the Events timeline
+   and the nearest-event preview. A completed or result-bearing entry is past.
+   A started hearing/meeting today is past even before midnight; an
+   uncompleted deadline remains upcoming through its due date. */
+function dossierEventPast(t){
+  if(!t)return false;
+  if(t.done || (t.kind==='hearing'&&hearingHasResult(t)))return true;
+  if(!t.due)return false;
+  if(t.due<today())return true;
+  if(t.due>today())return false;
+  if(t.kind==='hearing')return hearingNeedsResult(t);
+  if(t.kind==='meeting')return meetingOccurred(t);
+  return false;
+}
+function dossierEventFuture(t){
+  return !!(t&&t.due&&t.due>=today()&&!dossierEventPast(t));
+}
 /* 5.0.1043 / stage 8.1.4 — use ONE event selection for the text and arrow. */
 function dossierNearestRecord(m,items){
   if(!m || m.archived)return null;
   return (items||[]).filter(function(t){
-    return t && !t.done && t.due && t.due>=today() &&
+    return dossierEventFuture(t) &&
       (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
   }).sort(sortT)[0]||null;
 }
@@ -5146,14 +5163,19 @@ function dossierEventsTimelineItem(t,m,past){
     (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
     (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'');
   var accessibility=upcoming?[title].concat(upcoming.details).join('. '):[title,meta.top,meta.bottom].filter(Boolean).join('. ');
+  // Past events on this summary page are a chronological history, not actions.
+  // Preserve their complete content and semantic accessibility without a
+  // clickable row or a misleading chevron. Editing lives in the event editor.
+  var rowOpen=past
+    ? '<div class="dossier-events-row dossier-events-row-static" role="group" aria-label="'+esc(accessibility)+'">'
+    : '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">';
   return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
-    '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
-    '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
+    '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+rowOpen+
       '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
-      '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
-    '</button></li>';
+      (past?'<span class="dossier-events-row-chevron is-empty" aria-hidden="true"></span>':'<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>')+
+    (past?'</div>':'</button>')+'</li>';
 }
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
@@ -5170,10 +5192,27 @@ function dossierEventsSection(title,kind,items,m,showMenu,emptyText){
     (list.length?'<ol class="dossier-events-timeline">'+list.map(function(t){return dossierEventsTimelineItem(t,m,kind==='past');}).join('')+'</ol>':dossierEventsEmptySection(emptyText||'Событий пока нет.'))+
   '</section>';
 }
+/* 5.0.1109: select the EVENT kind before opening the existing editor;
+   never create demo data or default every event to a hearing. */
+function sheetDossierEventChoice(id){
+  var m=matter(id);if(!m)return;
+  if(m.archived){toast('Сначала верните дело в работу');return;}
+  function option(kind,symbol,title,note){
+    return '<button type="button" class="matter-act-row" style="--tone:#ba8645" data-act="dossier-create-event" data-id="'+esc(id)+'" data-v="'+kind+'">'+
+      '<span class="matter-act-ico">'+ico(symbol)+'</span><span class="matter-act-copy"><b>'+esc(title)+'</b><small>'+esc(note)+'</small></span>'+
+      '<span class="matter-act-tail">'+ico('chev','s')+'</span></button>';
+  }
+  openSheet('<div class="matter-actions-head"><div class="matter-actions-head-icon">'+ico('cal')+'</div>'+
+    '<div class="matter-actions-head-copy"><small>по выбранному делу</small><h2>Добавить событие</h2><p>'+matterDisplayTitle(m)+'</p></div></div>'+
+    '<div class="matter-actions-card">'+
+      option('hearing','scale','Судебное заседание','Дата, суд, время и результат')+
+      option('deadline','doc','Процессуальный срок','Расчёт срока и документы')+
+      option('meeting','user','Встреча','Участники, время и место')+'</div>');
+}
 function dossierEventsBottomActions(id){
   return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
       dossierStage9EmptyButtonArt()+
-      '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-hearing" data-id="'+esc(id)+'" aria-label="Добавить событие">'+
+      '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="dossier-event-choice" data-id="'+esc(id)+'" aria-label="Добавить событие">'+
         '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
         '<span class="dossier-stage9-label">Добавить событие</span></button>'+
       '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-events-focus-filter" data-id="'+esc(id)+'" aria-label="Открыть фильтры событий">'+
@@ -5184,8 +5223,8 @@ function dossierEventsBottomActions(id){
 function dossierEventsListsBody(m,id,events){
   var current=dossierEventFilterOf(id);
   var source=dossierFilteredEventsOf(id,events||[]);
-  var upcoming=source.filter(function(t){return !t.done && t.due && t.due>=today();}).sort(sortT);
-  var past=source.filter(function(t){return t.done || (t.due&&t.due<today());}).sort(function(a,b){
+  var upcoming=source.filter(dossierEventFuture).sort(sortT);
+  var past=source.filter(dossierEventPast).sort(function(a,b){
     if(!!a.due!==!!b.due)return a.due?-1:1;
     if((a.due||'')!==(b.due||''))return (a.due||'')>(b.due||'')?-1:1;
     if((a.time||'')!==(b.time||''))return (a.time||'')>(b.time||'')?-1:1;
@@ -5822,8 +5861,8 @@ function openMatter(id,tab){
   if(DOSSIER_LAYOUT_ONLY){dossierLayoutPreview(m,id,tab,p);return;}
   var ts=tasksOf(id).slice().sort(sortT);
   var events=ts.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
-  var future=events.filter(function(t){return !t.done && t.due && t.due>=today();});
-  var past=events.filter(function(t){return t.done || (t.due&&t.due<today());});
+  var future=events.filter(dossierEventFuture);
+  var past=events.filter(dossierEventPast);
   var nextEvent=m.archived?null:future.slice().sort(sortT)[0]||null;
   var work=ts.filter(function(t){return !t.kind||t.kind==='task';});
   var active=work.filter(function(t){return !t.done;});
@@ -5849,7 +5888,7 @@ function openMatter(id,tab){
     data=dossierSection('Журнал действий',dossierJournalList(js),addLog);
   }
   var bottomLabel=tab==='events'?'Добавить событие':tab==='journal'?'Добавить запись':'Добавить задачу';
-  var bottomAct=tab==='events'?'m-hearing':tab==='journal'?'m-journal':'m-add';
+  var bottomAct=tab==='events'?'dossier-event-choice':tab==='journal'?'m-journal':'m-add';
   var bottom='<div class="dossier-actions">'+
     (m.archived?'<button class="dossier-action-primary" data-act="m-reopen" data-id="'+esc(id)+'">'+ico('arch')+' Вернуть в работу</button>':
     '<button class="dossier-action-primary" data-act="'+bottomAct+'" data-id="'+esc(id)+'">'+ico('plus')+' '+bottomLabel+'</button>')+
@@ -7077,6 +7116,15 @@ document.addEventListener('click', function(ev){
       dossierEventsFitSoon();
       break;
     }
+    case 'dossier-event-choice': sheetDossierEventChoice(id||$('#page')._mid); break;
+    case 'dossier-create-event': {
+      var evm=matter(id);if(!evm||evm.archived){toast('Сначала верните дело в работу');break;}
+      closeSheet();
+      if(v==='hearing') editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});
+      else if(v==='deadline') sheetDeadline(id);
+      else if(v==='meeting') editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});
+      break;
+    }
     case 'dossier-events-focus-filter': {
       var filterRow=$('#page').querySelector('.dossier-events-filter-row');
       if(filterRow){
@@ -7863,7 +7911,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6107',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v='+APP_BUILD,{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;

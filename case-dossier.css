@@ -3200,3 +3200,23 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     font-size:clamp(9.2px,3.05vw,10.6px);
   }
 }
+
+/* 5.0.1109 — Completed/history entries are NON-INTERACTIVE, unlike upcoming
+   events. Keep exactly the same grid, icon X-axis and dividers. Show all
+   real notes in the timeline because there is no longer a tap-to-open route. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row-static{
+  cursor:default; touch-action:auto; user-select:text; -webkit-user-select:text;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row-static .dossier-events-copy span,
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row-static .dossier-events-copy small{
+  display:block; overflow:visible; text-overflow:clip;
+  -webkit-line-clamp:unset; line-clamp:unset; max-height:none;
+  overflow-wrap:anywhere; word-break:normal;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-past .dossier-events-row-static .dossier-events-row-chevron{
+  visibility:hidden;
+}
