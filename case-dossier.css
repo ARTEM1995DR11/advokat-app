@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6101') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6102') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6101') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6102') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=6101') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6102') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6101');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6102');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -2157,7 +2157,7 @@ body.dossier-status-masked::before{
   content:"";position:fixed;z-index:1200;top:0;left:0;right:0;
   height:calc(max(env(safe-area-inset-top,0px),44px) + 20px);
   background-color:#f8f2e6;
-  background-image:url('bg-dossier-continuous-v5833.webp?v=6101');
+  background-image:url('bg-dossier-continuous-v5833.webp?v=6102');
   background-position:center top;
   background-size:100% auto;
   background-repeat:no-repeat;
@@ -2413,7 +2413,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   box-sizing:border-box; width:96.7%;
   min-height:var(--dossier-upcoming-paper-min-height);
   border:16px solid transparent;
-  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6101');
+  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6102');
   border-image-slice:58 58 58 58 fill;
   border-image-width:16px;
   border-image-repeat:stretch;
@@ -2461,7 +2461,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   position:relative;box-sizing:border-box;display:flex;flex-direction:column;
   gap:0;min-height:0;margin:0;padding:4px 5px 7px;
   border:13px solid transparent;
-  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6101');
+  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6102');
   border-image-slice:58 58 58 58 fill;
   border-image-width:13px;
   border-image-repeat:stretch;
@@ -2899,4 +2899,32 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   .dossier-events-timeline-item:only-child .dossier-events-timeline-node{
     top:calc(50% - 6px);
   }
+}
+
+/* 5.0.1102 — point 3: content fidelity to the approved «События» mockup.
+   A heading names the event KIND; subsequent lines reflect saved event data.
+   Separate judge and courtroom lines are shown when recorded; deadline/meeting
+   subjects do not replace the kind heading. No changes to the approved geometry
+   or to the completed-events section. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-upcoming .dossier-events-copy{
+  gap:1px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-paper-section-upcoming .dossier-events-copy
+.dossier-events-upcoming-detail{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:normal;
+  overflow-wrap:break-word;
+  word-break:normal;
+  -webkit-hyphens:none;
+  hyphens:none;
+  font:400 clamp(9.5px,2.55vw,10.9px)/1.13 Georgia,'Times New Roman',serif;
+  color:#526d92;
 }

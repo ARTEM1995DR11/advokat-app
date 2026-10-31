@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1101';
-var APP_BUILD='6101';
+var APP_VERSION='5.0.1102';
+var APP_BUILD='6102';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5038,6 +5038,61 @@ function dossierEventsMetaLines(t,m,past){
   }
   return {top:top,bottom:bottom};
 }
+/* 5.0.1102 — Upcoming list text follows the approved Events mockup.
+   The visible heading is the EVENT KIND, and the detail lines are based only
+   on genuinely saved fields (title, note, hearing venue/judge/room, legal rule).
+   Keep the complete record unchanged for the editor/search/export. */
+function dossierEventsUpcomingInfo(t,m){
+  var rawTitle=String((t&&t.title)||'').replace(/\s+/g,' ').trim();
+  var rawNote=String((t&&t.note)||'').replace(/\s+/g,' ').trim();
+  var rawPlace=String((t&&t.place)||'').replace(/\s+/g,' ').trim();
+  var label='', details=[];
+  function distinctPush(value){
+    var v=String(value||'').replace(/\s+/g,' ').trim();
+    if(!v)return;
+    if(details.some(function(a){return a.toLocaleLowerCase('ru')===v.toLocaleLowerCase('ru');}))return;
+    details.push(v);
+  }
+  if(t.kind==='hearing'){
+    label='Судебное заседание';
+    distinctPush(dossierEventsShortPlace(hearingPlace(t,m)));
+    // A judge selected for this PARTICULAR hearing overrides the default judge in the case.
+    var judge=String(t.hearingJudge||(m&&(m.judge||m.investigator))||'').trim();
+    if(judge)distinctPush('Судья: '+judge);
+    var room=String(t.hall||t.room||t.courtroom||'').trim();
+    if(!room){
+      var match=rawNote.match(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?([0-9А-Яа-яA-Za-z-]+)/iu);
+      if(match)room='№ '+match[1];
+    }
+    if(room){
+      room=room.replace(/^зал\s*/iu,'').replace(/^№\s*/,'').trim();
+      if(room)distinctPush('Зал № '+room);
+    }
+    // An optional free-text note remains visible if it contains meaningful
+    // information besides a bare room number. Never invent a hall or judge.
+    var noteRest=rawNote.replace(/(?:^|[.,;\n\s])зал\s*(?:№\s*)?[0-9А-Яа-яA-Za-z-]+/giu,' ').replace(/^[.,;\s]+|[.,;\s]+$/g,'').trim();
+    if(noteRest)distinctPush(noteRest);
+  }else if(t.kind==='deadline'){
+    label='Процессуальный срок';
+    if(rawTitle && !/^процессуальн(?:ый|ого)\s+срок(?:а)?\.?$/iu.test(rawTitle))distinctPush(rawTitle);
+    if(rawNote && rawNote.toLocaleLowerCase('ru')!==rawTitle.toLocaleLowerCase('ru'))distinctPush(rawNote);
+    if(!details.length && t.ruleArticle)distinctPush(t.ruleArticle);
+    if(!details.length && t.rule)distinctPush(t.rule);
+  }else if(t.kind==='meeting'){
+    // The editor accepts free-form meeting topics. Never invent the other party:
+    // show “с доверителем” only if the author actually entered that wording.
+    var describesMeeting=/^(?:встреча|свидание|консультация|переговоры)(?:\s|$|[.:,–-])/iu.test(rawTitle);
+    label=describesMeeting?rawTitle:'Встреча';
+    if(rawTitle && !describesMeeting)distinctPush(rawTitle);
+    if(rawNote && rawNote.toLocaleLowerCase('ru')!==rawTitle.toLocaleLowerCase('ru'))distinctPush(rawNote);
+    if(!details.length)distinctPush(rawPlace);
+    else if(rawPlace && !details.some(function(a){return a.toLocaleLowerCase('ru')===rawPlace.toLocaleLowerCase('ru');}))distinctPush(rawPlace);
+  }else{
+    label=rawTitle||'Событие';
+    distinctPush(rawNote||rawPlace);
+  }
+  return {title:label, details:details};
+}
 function dossierEventsPreviewDate(t){
   if(!t||!t.due)return {date:'Дата не указана',meta:''};
   return {date:fmtD(t.due,true),meta:DOW[parseD(t.due).getDay()] + (t.time?', '+String(t.time):'')};
@@ -5047,17 +5102,23 @@ function dossierEventActionName(t){
 }
 function dossierEventsTimelineItem(t,m,past){
   var meta=dossierEventsMetaLines(t,m,past), dt=dossierEventsPreviewDate(t), title=dossierEventsHeadline(t);
+  var upcoming=past?null:dossierEventsUpcomingInfo(t,m);
+  if(upcoming)title=upcoming.title;
   var icon=dossierEventsIconKey(t,past), tone=dossierEventsIconTone(t,past);
   var confirmed=!!(t.done||(t.kind==='hearing'&&hearingHasResult(t)));
+  var upcomingText=upcoming?upcoming.details.map(function(line,i){
+    return '<span class="dossier-events-upcoming-detail" title="'+esc(line)+'">'+esc(line)+'</span>';
+  }).join(''):'';
+  var description=upcoming?upcomingText:
+    (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
+    (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'');
+  var accessibility=upcoming?[title].concat(upcoming.details).join('. '):title;
   return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+(confirmed?' is-confirmed':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+
-    '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(title)+'">'+
+    '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="dossier-events-datebox"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+ico(icon,'s')+'</span>'+
-      '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+
-        (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
-        (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'')+
-      '</span>'+
+      '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
       '<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button></li>';
 }
@@ -7746,7 +7807,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6101',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6102',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
