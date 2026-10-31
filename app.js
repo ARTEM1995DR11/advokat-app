@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1091';
-var APP_BUILD='6091';
+var APP_VERSION='5.0.1092';
+var APP_BUILD='6092';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5008,6 +5008,9 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<img src="dossier-general-nearest-card-v6045.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" width="2159" height="848" draggable="false" loading="eager" fetchpriority="high" decoding="async">'+
           '<div class="dossier-stage8-titlebar"><h2 class="dossier-stage8-title">БЛИЖАЙШЕЕ СОБЫТИЕ</h2><span class="dossier-stage8-title-rule" aria-hidden="true"></span></div>'+
           '<div class="dossier-events-nearest-output" data-events-nearest-output>'+dossierEventsNearestLiveBody(m,id,events||[])+'</div>'+
+          // Standalone blank layer, anchored to the BOTTOM of this approved
+          // paper so its spacing stays exact at every iPhone width.
+          '<div class="dossier-events-upcoming-blank" data-dossier-layer="events-upcoming-blank-paper" aria-hidden="true"></div>'+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -7544,7 +7547,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6091',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6092',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
