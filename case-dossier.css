@@ -1,5 +1,5 @@
 /* 5.0.829 / build 5829 — isolated premium matter dossier. No changes to «Дела». */
-#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6098') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
+#page.dossier-page{background:#f8f2e6 url('bg-dossier-continuous-v5833.webp?v=6099') top center / 100% auto no-repeat!important;color:#10264a!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 9px calc(env(safe-area-inset-bottom,0px) + 20px)!important;overflow-x:hidden!important}
 #page.dossier-page .dossier-screen{max-width:600px;margin:auto;font-family:Georgia,'Times New Roman',serif;color:#10264a;position:relative;isolation:isolate;padding-bottom:8px}
 #page.dossier-page .dossier-nav{height:58px;margin:0 12px 10px;display:grid;grid-template-columns:48px 1fr 108px;gap:10px;align-items:center;position:relative;z-index:5}
 #page.dossier-page .dossier-iconbtn{width:44px;height:44px;border:1px solid rgba(129,90,47,.18);border-radius:13px;background:linear-gradient(180deg,#fffefe 0%,#fbf7f1 100%);box-shadow:0 8px 18px rgba(82,55,27,.16),0 1px 0 rgba(255,255,255,.94) inset,0 -1px 0 rgba(212,193,168,.28) inset;color:#0d2a62;display:flex;align-items:center;justify-content:center;padding:0}
@@ -462,7 +462,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank{
   z-index:3;margin:-16px 0 0;min-height:max(620px,calc(100dvh - 178px));
-  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6098') center top / 100% 100% no-repeat transparent;
+  border:0;border-radius:0;background:url('dossier-front-parchment-v5839.png?v=6099') center top / 100% 100% no-repeat transparent;
   box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-paper-front-blank:before{display:none}
@@ -490,7 +490,7 @@
   width:48px;height:48px;min-width:48px;min-height:48px;
   display:flex;align-items:center;justify-content:center;
   padding:0;border:0;border-radius:0;
-  background:transparent url('dossier-header-button-premium-v5859.png?v=6098') center / 100% 100% no-repeat;
+  background:transparent url('dossier-header-button-premium-v5859.png?v=6099') center / 100% 100% no-repeat;
   box-shadow:none;color:#132C55;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -1546,7 +1546,7 @@
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7-middle{
   flex:1 1 auto;min-height:10px;width:100%;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6098');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6099');
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -2157,7 +2157,7 @@ body.dossier-status-masked::before{
   content:"";position:fixed;z-index:1200;top:0;left:0;right:0;
   height:calc(max(env(safe-area-inset-top,0px),44px) + 20px);
   background-color:#f8f2e6;
-  background-image:url('bg-dossier-continuous-v5833.webp?v=6098');
+  background-image:url('bg-dossier-continuous-v5833.webp?v=6099');
   background-position:center top;
   background-size:100% auto;
   background-repeat:no-repeat;
@@ -2413,7 +2413,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   box-sizing:border-box; width:96.7%;
   min-height:var(--dossier-upcoming-paper-min-height);
   border:16px solid transparent;
-  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6098');
+  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6099');
   border-image-slice:58 58 58 58 fill;
   border-image-width:16px;
   border-image-repeat:stretch;
@@ -2461,7 +2461,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   position:relative;box-sizing:border-box;display:flex;flex-direction:column;
   gap:0;min-height:0;margin:0;padding:4px 5px 7px;
   border:13px solid transparent;
-  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6098');
+  border-image-source:url('dossier-events-upcoming-paper-v6092.webp?v=6099');
   border-image-slice:58 58 58 58 fill;
   border-image-width:13px;
   border-image-repeat:stretch;
@@ -2642,7 +2642,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   }
 }
 
-/* 5.0.1098: precision pass on the Events nearest-event CONTENT only.
+/* 5.0.1099: precision pass on the Events nearest-event CONTENT only.
    The approved shared paper, calendar, icon, tabs, filters, title/date axes and
    the entire General tab remain unchanged. Restrict long dynamic descriptions
    without letting iOS widen the sheet or overlap the decorative arrow. */
@@ -2677,7 +2677,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1098 / Events only: tighten PAPER STACK according to the approved mockup.
+/* 5.0.1099 / Events only: tighten PAPER STACK according to the approved mockup.
    Preserve the completed filters (four pills) and all card internals.
    The first offset compensates for transparent padding in the nearest-card art.
    Following offsets remove empty parchment between the three paper blocks. */
@@ -2694,7 +2694,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   gap:3px; /* was 8px: close the split between the two lists */
 }
 
-/* 5.0.1098 — point 3 ONLY: approved «Предстоящие события» timeline.
+/* 5.0.1099 — point 3 ONLY: approved «Предстоящие события» timeline.
    Pixel audit against the Events mockup at 402 CSS px.  Only the upcoming
    section is touched.  The General tab, filters, nearest card, completed
    events and footer actions are not affected. */
@@ -2766,4 +2766,45 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   .dossier-events-iconbox{width:34px;height:37px;}
   #page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
   .dossier-events-paper-heading h2{font-size:10.4px;}
+}
+
+/* v5.0.1099 — point 3 final optical alignment, UPCOMING events ONLY.
+   Retain the agreed sheet/line/date/icon columns, filter bar, nearest event,
+   past events and footer; remove excess air around the first upcoming row. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"]
+.dossier-events-paper-section-upcoming{
+  padding-top:1px;    /* was 4px: title and rule closer to the sheet's top */
+  padding-bottom:3px; /* was 7px: less empty sheet beneath the final row */
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+.dossier-events-paper-heading{
+  min-height:22px;    /* was 25px: bring divider and first event up */
+  margin-bottom:0;    /* was 1px */
+  padding-bottom:4px; /* was 5px: preserve title/divider rhythm */
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+.dossier-events-row{
+  min-height:72px;    /* was 76px: prevent one-event paper from growing tall */
+  padding-top:8px;
+  padding-bottom:8px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+.dossier-events-iconbox .ico{
+  width:22px; height:22px; /* was 20px: approved artwork remains untouched */
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+.dossier-events-row-chevron .ico{
+  width:14px; height:16px; /* was 12×14px */
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+  .dossier-events-row{
+    min-height:70px;
+    padding-top:7px;
+    padding-bottom:7px;
+  }
+  #page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+  .dossier-events-iconbox .ico{width:20px;height:20px;}
+  #page.dossier-page .dossier-rear-stage .dossier-events-paper-section-upcoming
+  .dossier-events-row-chevron .ico{width:13px;height:15px;}
 }
