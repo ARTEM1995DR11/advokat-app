@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1095';
-var APP_BUILD='6095';
+var APP_VERSION='5.0.1096';
+var APP_BUILD='6096';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4954,7 +4954,25 @@ function dossierEventsNearestLiveBody(m,id,events){
   var nearest=dossierNearestRecord(m,source);
   var empty={all:'Предстоящих событий нет',hearing:'Предстоящих заседаний нет',deadline:'Предстоящих сроков нет',meeting:'Предстоящих встреч нет'};
   var note=current==='all'?'Добавьте событие по этому делу':'Выберите другую категорию событий';
+  // Retain the approved General renderer for court hearings and empty states:
+  // these must remain identical to the "Общее" card. Deadlines and meetings
+  // need a meaningful second detail line instead of a bare repeated title.
   var info=dossierNearestLiveInfo(m,source,empty[current],note);
+  if(nearest && (nearest.kind==='deadline'||nearest.kind==='meeting')){
+    var extra=String(nearest.note||nearest.desc||nearest.description||'').replace(/\s+/g,' ').trim();
+    var name=String(nearest.title||'').replace(/\s+/g,' ').trim()||
+      (nearest.kind==='deadline'?'Процессуальный срок':'Встреча с доверителем');
+    var location=String(nearest.place||'').replace(/\s+/g,' ').trim();
+    // If note and title match, a separate repeated line is misleading.
+    if(extra.toLocaleLowerCase('ru-RU')===name.toLocaleLowerCase('ru-RU'))extra='';
+    var secondary=extra || (location!==name?location:'');
+    info='<div class="dossier-stage8-event-info dossier-events-nearest-nonhearing" aria-label="Ближайшее событие">'+
+      '<strong class="dossier-stage8-event-date">'+dossierDate(nearest.due)+
+        (nearest.time?', '+esc(nearest.time):'')+'</strong>'+
+      '<span class="dossier-stage8-event-place">'+esc(name)+'</span>'+
+      (secondary?'<span class="dossier-stage8-event-details" title="'+esc(secondary)+'">'+esc(secondary)+'</span>':'')+
+      '</div>';
+  }
   if(!nearest)return info;
   return info+'<button type="button" class="dossier-stage8-event-arrow-hit dossier-events-arrow-hit"'+
     ' data-act="task" data-id="'+esc(nearest.id)+'"'+
@@ -7728,7 +7746,7 @@ if('serviceWorker' in navigator){
        register only after the UI is already usable; do not force an update,
        reload, navigation or controller switch during launch. */
     setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v=6095',{updateViaCache:'none'})
+      navigator.serviceWorker.register('./sw.js?v=6096',{updateViaCache:'none'})
         .then(function(reg){
           setTimeout(function(){
             var worker=reg.active || navigator.serviceWorker.controller;
