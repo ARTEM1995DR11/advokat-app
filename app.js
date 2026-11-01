@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1111';
-var APP_BUILD='6111';
+var APP_VERSION='5.0.1112';
+var APP_BUILD='6112';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,7 +4535,7 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
-/* 5.0.1111 — one definition of past/future across the Events timeline
+/* 5.0.1112 — one definition of past/future across the Events timeline
    and the nearest-event preview. A completed or result-bearing entry is past.
    A started hearing/meeting today is past even before midnight; an
    uncompleted deadline remains upcoming through its due date. */
@@ -4911,7 +4911,7 @@ function dossierStage9EmptyButtonArt(){
 }
 
 
-/* 5.0.1111 — Events only. The approved parchment materials and the original
+/* 5.0.1112 — Events only. The approved parchment materials and the original
    General-tab footer remain intact. In Events, make the primary gold action
    clearly wider than the secondary filter (as on the approved mockup). */
 function dossierEventsFooterArt(){
@@ -5229,7 +5229,7 @@ function dossierEventsSection(title,kind,items,m,showMenu,emptyText){
     (list.length?'<ol class="dossier-events-timeline">'+list.map(function(t){return dossierEventsTimelineItem(t,m,kind==='past');}).join('')+'</ol>':dossierEventsEmptySection(emptyText||'Событий пока нет.'))+
   '</section>';
 }
-/* 5.0.1111: select the EVENT kind before opening the existing editor;
+/* 5.0.1112: select the EVENT kind before opening the existing editor;
    never create demo data or default every event to a hearing. */
 function sheetDossierEventChoice(id){
   var m=matter(id);if(!m)return;
@@ -5273,7 +5273,7 @@ function dossierEventsListsBody(m,id,events){
     dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,true,'Прошедших событий пока нет.')+
   '</div>';
 }
-/* 5.0.1111 — connect the actual marker coordinates in BOTH chronologies.
+/* 5.0.1112 — connect the actual marker coordinates in BOTH chronologies.
    The last tail ends 7px beneath its marker and never guesses a next row.
    This handles 1, 3, 30 events, long notes, mobile fonts and resized pages. */
 function dossierEventsAlignTimelines(stage){

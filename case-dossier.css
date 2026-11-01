@@ -3340,3 +3340,72 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   height:var(--dossier-events-tail-length,7px);
   bottom:auto;
 }
+
+
+/* 5.0.1112 — unify bottom action styling across dossier pages.
+   Events footer now uses the SAME approved action geometry and typography as
+   the General tab; only the action meanings (labels / icons) differ. */
+#page.dossier-page .dossier-rear-stage
+.dossier-clean-canvas-events > .dossier-events-stage9-actions{
+  left:3.63%;
+  width:92.73%;
+  top:calc(var(--dossier-stage7-top) + var(--dossier-events-stage-height,700px) - 7px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action{
+  top:4.57%;
+  height:77.15%;
+  font:700 clamp(10.7px,3.12vw,13px)/1 Georgia,'Times New Roman',serif;
+  letter-spacing:-.023em;
+  text-shadow:0 .3px 0 rgba(255,254,249,.18);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-add{
+  left:.66%;
+  width:51.32%;
+  grid-template-columns:25.4% minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-more{
+  left:54.08%;
+  width:45.26%;
+  grid-template-columns:22% minmax(0,1fr);
+  letter-spacing:-.023em;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-icon{
+  min-width:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  align-self:center;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-add .dossier-stage9-label,
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-more .dossier-stage9-label{
+  padding:0 4px 0 1px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-more .dossier-stage9-icon svg{
+  width:clamp(17px,4.5vw,21px);
+  height:clamp(17px,4.5vw,21px);
+  fill:none;
+  stroke:#8a5a24;
+  stroke-width:2;
+  stroke-linejoin:round;
+  stroke-linecap:round;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions .dossier-stage9-action{
+    font-size:clamp(9.1px,3.05vw,11px);
+    letter-spacing:-.03em;
+  }
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions .dossier-stage9-action-add .dossier-stage9-label,
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions .dossier-stage9-action-more .dossier-stage9-label{
+    padding:0 2px 0 0;
+  }
+}
