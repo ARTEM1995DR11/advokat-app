@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1110';
-var APP_BUILD='6110';
+var APP_VERSION='5.0.1111';
+var APP_BUILD='6111';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4535,7 +4535,7 @@ function dossierCoverClientName(m){
 /* 5.0.1009 / build 6009 — Stage 7.3 adaptive paper.
    Tab upper PNGs remain geometrically intact. Only shared middle paper repeats
    and unchanged footer travels down. The entire upper header (layers 1–4) is frozen. */
-/* 5.0.1110 — one definition of past/future across the Events timeline
+/* 5.0.1111 — one definition of past/future across the Events timeline
    and the nearest-event preview. A completed or result-bearing entry is past.
    A started hearing/meeting today is past even before midnight; an
    uncompleted deadline remains upcoming through its due date. */
@@ -4911,18 +4911,20 @@ function dossierStage9EmptyButtonArt(){
 }
 
 
-/* 5.0.1110 — Events only. The approved parchment materials and the original
+/* 5.0.1111 — Events only. The approved parchment materials and the original
    General-tab footer remain intact. In Events, make the primary gold action
    clearly wider than the secondary filter (as on the approved mockup). */
 function dossierEventsFooterArt(){
-  var art=dossierStage9EmptyButtonArt();
+  var art=dossierStage9EmptyButtonArt()
+    .replace('dy="2.05" stdDeviation="1.3"','dy="1.4" stdDeviation="1.0"')
+    .replace('flood-opacity=".29"','flood-opacity=".23"');
   var start=art.indexOf('    <!-- The two foundations share');
   var end=art.lastIndexOf('</svg>');
   if(start<0||end<0)return art;
   var geometry=`    <!-- Events footer: one prominent action and one compact auxiliary filter. -->
     <g filter="url(#dossier9shadow1072)">
-      <rect x="3.5" y="5.8" width="219" height="52.4" rx="10.9" fill="#9e672c" opacity=".56"/>
-      <rect x="230" y="5.8" width="147.5" height="52.4" rx="10.9" fill="#a47b48" opacity=".46"/>
+      <rect x="3.5" y="5.8" width="219" height="52.4" rx="10.9" fill="#9e672c" opacity=".44"/>
+      <rect x="230" y="5.8" width="147.5" height="52.4" rx="10.9" fill="#a47b48" opacity=".35"/>
     </g>
     <rect x="2.5" y="3.2" width="220" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#94652c" stroke-width=".74"/>
     <rect x="229" y="3.2" width="148.5" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#a67a48" stroke-width=".71"/>
@@ -5014,8 +5016,8 @@ function dossierEventsNearestLiveBody(m,id,events){
     info='<div class="dossier-stage8-event-info dossier-events-nearest-nonhearing" aria-label="Ближайшее событие">'+
       '<strong class="dossier-stage8-event-date">'+dossierDate(nearest.due)+
         (nearest.time?', '+esc(nearest.time):'')+'</strong>'+
-      '<span class="dossier-stage8-event-place">'+esc(name)+'</span>'+
-      (secondary?'<span class="dossier-stage8-event-details" title="'+esc(secondary)+'">'+esc(secondary)+'</span>':'')+
+      '<span class="dossier-stage8-event-place">'+esc(dossierEventsDisplayText(name))+'</span>'+
+      (secondary?'<span class="dossier-stage8-event-details" title="'+esc(dossierEventsDisplayText(secondary))+'">'+esc(dossierEventsDisplayText(secondary))+'</span>':'')+
       '</div>';
   }
   if(!nearest)return info;
@@ -5025,6 +5027,12 @@ function dossierEventsNearestLiveBody(m,id,events){
 }
 
 
+/* Display-only legal abbreviations; never rewrite the user's stored note.
+   Unicode-safe boundary matching: JavaScript \b does not cover Cyrillic words. */
+function dossierEventsDisplayText(value){
+  return String(value||'').replace(/(^|[^A-Za-zА-ЯЁа-яё])(црб|уфсин|уфиц)(?=$|[^A-Za-zА-ЯЁа-яё])/giu,
+    function(full,lead,term){return lead+term.toLocaleUpperCase('ru-RU');});
+}
 function dossierEventsShortPlace(text){
   var value=String(text||'').replace(/\s+/g,' ').trim();
   if(!value)return '';
@@ -5033,12 +5041,12 @@ function dossierEventsShortPlace(text){
              .replace(/областной\s+суд/giu,'облсуд')
              .replace(/районный\s+суд/giu,'райсуд')
              .replace(/\s{2,}/g,' ').trim();
-  return value;
+  return dossierEventsDisplayText(value);
 }
 function dossierEventsHeadline(t){
   if(t&&t.kind==='hearing')return 'Судебное заседание';
   var title=String((t&&t.title)||'').replace(/\s+/g,' ').trim();
-  if(title)return title;
+  if(title)return dossierEventsDisplayText(title);
   if(t&&t.kind==='deadline')return 'Процессуальный срок';
   if(t&&t.kind==='meeting')return 'Встреча';
   return 'Событие';
@@ -5087,7 +5095,7 @@ function dossierEventsMetaLines(t,m,past){
       bottom=note;
     }
     if(bottom && bottom.toLocaleLowerCase('ru')===top.toLocaleLowerCase('ru'))bottom='';
-    return {top:top,bottom:bottom};
+    return {top:dossierEventsDisplayText(top),bottom:dossierEventsDisplayText(bottom)};
   }
   if(t.kind==='hearing'){
     top=dossierEventsShortPlace(hearingPlace(t,m));
@@ -5104,7 +5112,7 @@ function dossierEventsMetaLines(t,m,past){
   }else{
     top=note||String(t.place||'').replace(/\s+/g,' ').trim();
   }
-  return {top:top,bottom:bottom};
+  return {top:dossierEventsDisplayText(top),bottom:dossierEventsDisplayText(bottom)};
 }
 /* 5.0.1102 — Upcoming list text follows the approved Events mockup.
    The visible heading is the EVENT KIND, and the detail lines are based only
@@ -5116,7 +5124,7 @@ function dossierEventsUpcomingInfo(t,m){
   var rawPlace=String((t&&t.place)||'').replace(/\s+/g,' ').trim();
   var label='', details=[];
   function distinctPush(value){
-    var v=String(value||'').replace(/\s+/g,' ').trim();
+    var v=dossierEventsDisplayText(String(value||'').replace(/\s+/g,' ').trim());
     if(!v)return;
     if(details.some(function(a){return a.toLocaleLowerCase('ru')===v.toLocaleLowerCase('ru');}))return;
     details.push(v);
@@ -5159,11 +5167,12 @@ function dossierEventsUpcomingInfo(t,m){
     label=rawTitle||'Событие';
     distinctPush(rawNote||rawPlace);
   }
-  return {title:label, details:details};
+  return {title:dossierEventsDisplayText(label), details:details};
 }
 function dossierEventsPreviewDate(t){
   if(!t||!t.due)return {date:'Дата не указана',meta:''};
-  return {date:fmtD(t.due,true),meta:DOW[parseD(t.due).getDay()] + (t.time?', '+String(t.time):'')};
+  var recordedTime=String(t.time||'').trim();
+  return {date:fmtD(t.due,true),meta:recordedTime?(DOW[parseD(t.due).getDay()]+', '+recordedTime):'Без времени',noTime:!recordedTime};
 }
 function dossierEventActionName(t){
   if(t&&t.kind==='hearing'){
@@ -5199,7 +5208,7 @@ function dossierEventsTimelineItem(t,m,past){
     : '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">';
   return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+' is-'+(t.kind==='hearing'?'hearing':t.kind==='deadline'?'deadline':t.kind==='meeting'?'meeting':'other')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+rowOpen+
-      '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
+      '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+(dt.noTime?' is-no-time':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
       (past?'<span class="dossier-events-row-chevron is-empty" aria-hidden="true"></span>':'<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>')+
@@ -5220,7 +5229,7 @@ function dossierEventsSection(title,kind,items,m,showMenu,emptyText){
     (list.length?'<ol class="dossier-events-timeline">'+list.map(function(t){return dossierEventsTimelineItem(t,m,kind==='past');}).join('')+'</ol>':dossierEventsEmptySection(emptyText||'Событий пока нет.'))+
   '</section>';
 }
-/* 5.0.1110: select the EVENT kind before opening the existing editor;
+/* 5.0.1111: select the EVENT kind before opening the existing editor;
    never create demo data or default every event to a hearing. */
 function sheetDossierEventChoice(id){
   var m=matter(id);if(!m)return;
@@ -5264,27 +5273,29 @@ function dossierEventsListsBody(m,id,events){
     dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,true,'Прошедших событий пока нет.')+
   '</div>';
 }
-/* Align every connector with the actual next marker. Past-event rows may
-   have different heights because their recorded court outcomes vary in length. */
-function dossierEventsAlignPastTimeline(stage){
+/* 5.0.1111 — connect the actual marker coordinates in BOTH chronologies.
+   The last tail ends 7px beneath its marker and never guesses a next row.
+   This handles 1, 3, 30 events, long notes, mobile fonts and resized pages. */
+function dossierEventsAlignTimelines(stage){
   if(!stage)return;
-  var items=stage.querySelectorAll('.dossier-events-paper-section-past .dossier-events-timeline-item');
-  for(var i=0;i<items.length-1;i++){
-    var li=items[i];
-    var current=li.querySelector('.dossier-events-timeline-node');
-    var next=items[i+1].querySelector('.dossier-events-timeline-node');
-    if(!current||!next)continue;
-    // Reach behind the following marker centre to avoid visible tiny breaks.
-    // Position using both ACTUAL marker rectangles. Long description rows,
-    // web fonts, iPhone resizing and any uneven row height are supported.
-    var base=li.getBoundingClientRect();
-    var start=current.getBoundingClientRect().bottom;
-    var target=next.getBoundingClientRect().top;
-    var offset=Math.max(0,Math.round((start-base.top)*100)/100);
-    var length=Math.max(0,Math.round((target-start+9)*100)/100);
-    li.style.setProperty('--dossier-past-connector-top',offset+'px');
-    li.style.setProperty('--dossier-past-connector-length',length+'px');
-  }
+  ['upcoming','past'].forEach(function(group){
+    var items=stage.querySelectorAll('.dossier-events-paper-section-'+group+' .dossier-events-timeline-item');
+    for(var i=0;i<items.length;i++){
+      var li=items[i],node=li.querySelector('.dossier-events-timeline-node');
+      if(!node)continue;
+      var base=li.getBoundingClientRect(),box=node.getBoundingClientRect();
+      var offset=Math.max(0,Math.round((box.bottom-base.top)*100)/100);
+      li.style.setProperty('--dossier-events-line-top',offset+'px');
+      if(i===items.length-1){
+        li.style.setProperty('--dossier-events-tail-length','7px');
+      }else{
+        var next=items[i+1].querySelector('.dossier-events-timeline-node');
+        if(!next)continue;
+        var distance=next.getBoundingClientRect().top-box.bottom;
+        li.style.setProperty('--dossier-events-line-length',Math.max(0,Math.round((distance+3)*100)/100)+'px');
+      }
+    }
+  });
 }
 function dossierEventsFitToContent(){
   var page=document.getElementById('page');
@@ -5293,7 +5304,7 @@ function dossierEventsFitToContent(){
   var paper=stage&&stage.querySelector('.dossier-events-upcoming-blank');
   var canvas=stage&&stage.closest('.dossier-clean-canvas-events');
   if(!stage||!paper||!canvas)return;
-  dossierEventsAlignPastTimeline(stage);
+  dossierEventsAlignTimelines(stage);
   var bottom=paper.getBoundingClientRect().bottom;
   var stageTop=stage.getBoundingClientRect().top;
   // The approved tabs, nearest paper and graphical footer retain their own
