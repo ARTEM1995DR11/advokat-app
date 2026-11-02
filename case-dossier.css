@@ -3428,7 +3428,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1126 — Tasks / first paper: reuse existing v6115 blank asset.
+/* 5.0.1127 — Tasks / first paper: reuse existing v6115 blank asset.
    Align the outer silhouette with General/Events by symmetrically narrowing
    the card, retaining previous vertical anchor. 9-slice keeps paper rim sharp
    without whole-image vertical stretching; a thinner border matches the
@@ -3447,12 +3447,12 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6115.webp?v=6126') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6127') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
 
-/* 5.0.1126 — Tasks / step 2. Live content only INSIDE the already-approved
+/* 5.0.1127 — Tasks / step 2. Live content only INSIDE the already-approved
    first paper. Do not reposition or resize the first paper or its border art.
    The baked single divider remains the only horizontal divider. */
 #page.dossier-page .dossier-rear-stage
@@ -3463,10 +3463,10 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-title{
-  position:absolute;top:10.0%;left:5.3%;right:5.3%;
+  position:absolute;top:12.2%;left:5.3%;right:5.3%;
   margin:0;padding:0;
-  font:700 clamp(10.7px,2.97vw,13.2px)/1.15 Georgia,"Times New Roman",serif;
-  letter-spacing:clamp(1.0px,.36vw,1.6px);
+  font:700 clamp(10.0px,2.75vw,12.3px)/1.15 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(.85px,.27vw,1.25px);
   color:#845422;text-shadow:0 1px 0 rgba(255,255,255,.8);
   white-space:nowrap;
 }
