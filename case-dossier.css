@@ -2827,7 +2827,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   width:16px;
   height:16px;
   border:2.5px solid #f3dfbb;
-  background:radial-gradient(circle at 33% 27%,#bf8937 0%,#ad7524 59%,#976118 100%);
+  background:radial-gradient(circle at 33% 27%,#bf8937 0%,#ad7524 59%,#976119 100%);
   box-shadow:0 0 0 .7px rgba(255,248,234,.94),0 1px 2px rgba(94,56,17,.19);
 }
 #page.dossier-page .dossier-rear-stage
@@ -3428,33 +3428,29 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1116 — Tasks tab / step 1 only. Original layered blank paper + header
-   hairline (no calendar, chevron, title or counters). The positioning is
-   relative to the approved unscaled 1448×540 tab head, so the card remains
-   under the tab strip without altering the locked dossier layers. */
+/* 5.0.1119 — Tasks / first paper: preserve the existing approved blank asset.
+   9-slice draws its perimeter at native proportions rather than vertically
+   deforming the gold rim and paper corners. Only its mounting changes.
+   Shift down 9 CSS px compared with 1118. Mild color adjustment brings the
+   existing rim closer to the approved General/Events papers. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-first-blank{
   position:absolute;
   z-index:5;
-  top:47.2%;
-  left:2.2%;
-  width:95.6%;
+  top:calc(46.2% + 9px);
+  left:.55%;
+  width:99.25%;
   height:auto;
-  aspect-ratio:1700 / 563;
+  aspect-ratio:2159 / 848;
   margin:0;
   padding:0;
   pointer-events:none;
-  overflow:visible;
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-tasks-first-blank img{
-  display:block;
-  width:100%;
-  height:auto;
-  aspect-ratio:1700 / 563;
-  object-fit:contain;
-  max-width:none;
-  user-select:none;
-  -webkit-user-drag:none;
-  pointer-events:none;
+  box-sizing:border-box;
+  border:solid transparent;
+  border-width:38px 19px 13px;
+  filter:saturate(.84) brightness(1.035) contrast(.97);
+  border-image-source:url('dossier-tasks-summary-paper-v6115.webp?v=6119');
+  border-image-slice:190 108 80 108 fill;
+  border-image-width:38px 19px 13px;
+  border-image-repeat:stretch;
 }
