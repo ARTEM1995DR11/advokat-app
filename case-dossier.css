@@ -3428,29 +3428,29 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1120 — Tasks / first paper: reuse existing v6115 blank asset.
+/* 5.0.1122 — Tasks / first paper: reuse existing v6115 blank asset.
    Align the outer silhouette with General/Events by symmetrically narrowing
    the card, retaining previous vertical anchor. 9-slice keeps paper rim sharp
    without whole-image vertical stretching; a thinner border matches the
-   approved cards. No new image, calendar, arrow or overlay. */
+   approved cards. One image only; no pseudo-element strip or middle rule. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-first-blank{
   position:absolute;
   z-index:5;
-  top:calc(46.2% + 9px);
+  top:calc(46.2% + 11px);
   left:2.75%;
   width:94.85%;
   height:auto;
-  aspect-ratio:2159 / 848;
+  aspect-ratio:1700 / 563;
   margin:0;
   padding:0;
   pointer-events:none;
   box-sizing:border-box;
   border:solid transparent;
-  border-width:35px 16px 12px;
-  filter:saturate(.84) brightness(1.035) contrast(.97);
-  border-image-source:url('dossier-tasks-summary-paper-v6115.webp?v=6120');
+  border-width:31px 14px 10px;
+  filter:saturate(.78) brightness(1.045) contrast(.955);
+  border-image-source:url('dossier-tasks-summary-paper-v6115.webp?v=6122');
   border-image-slice:190 108 80 108 fill;
-  border-image-width:35px 16px 12px;
+  border-image-width:31px 14px 10px;
   border-image-repeat:stretch;
 }
