@@ -3409,3 +3409,20 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     padding:0 2px 0 0;
   }
 }
+
+/* 5.0.1113 — exact shared Stage-9 geometry for the two approved tab footers.
+   Keep the General controls untouched and fit the slightly longer Events
+   label only inside its own gold action, without moving its frame or icon. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-add .dossier-stage9-label{
+  font-size:.955em;
+  letter-spacing:-.035em;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-icon{
+  overflow:hidden;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-icon svg{
+  flex:none;
+}

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1112';
-var APP_BUILD='6112';
+var APP_VERSION='5.0.1113';
+var APP_BUILD='6113';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4911,34 +4911,12 @@ function dossierStage9EmptyButtonArt(){
 }
 
 
-/* 5.0.1112 — Events only. The approved parchment materials and the original
-   General-tab footer remain intact. In Events, make the primary gold action
-   clearly wider than the secondary filter (as on the approved mockup). */
+/* 5.0.1113 — both dossier tabs reuse the SAME approved paper-button artwork.
+   The Events footer used a wider 220/148 SVG split while its interactive
+   buttons had already reverted to the General 195/172 split. The mismatch
+   placed the filter symbol outside its visible gold-framed button. */
 function dossierEventsFooterArt(){
-  var art=dossierStage9EmptyButtonArt()
-    .replace('dy="2.05" stdDeviation="1.3"','dy="1.4" stdDeviation="1.0"')
-    .replace('flood-opacity=".29"','flood-opacity=".23"');
-  var start=art.indexOf('    <!-- The two foundations share');
-  var end=art.lastIndexOf('</svg>');
-  if(start<0||end<0)return art;
-  var geometry=`    <!-- Events footer: one prominent action and one compact auxiliary filter. -->
-    <g filter="url(#dossier9shadow1072)">
-      <rect x="3.5" y="5.8" width="219" height="52.4" rx="10.9" fill="#9e672c" opacity=".44"/>
-      <rect x="230" y="5.8" width="147.5" height="52.4" rx="10.9" fill="#a47b48" opacity=".35"/>
-    </g>
-    <rect x="2.5" y="3.2" width="220" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#94652c" stroke-width=".74"/>
-    <rect x="229" y="3.2" width="148.5" height="54" rx="11.8" fill="url(#dossier9rim1072)" stroke="#a67a48" stroke-width=".71"/>
-    <rect x="4.7" y="5.3" width="215.5" height="49.3" rx="9.6" fill="url(#dossier9gold1072)" stroke="#fff2cf" stroke-width=".85"/>
-    <rect x="231.2" y="5.3" width="144.2" height="49.3" rx="9.6" fill="url(#dossier9ivory1072)" stroke="#ffffff" stroke-width=".86"/>
-    <rect x="6.7" y="7.3" width="211.5" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#bd873c" stroke-width=".6"/>
-    <rect x="233.2" y="7.3" width="140.2" height="45.3" rx="8.7" fill="url(#dossier9grain1072)" stroke="#ccb18d" stroke-width=".56"/>
-    <path d="M8 10 Q9 8 12 8 H215" fill="none" stroke="#fffae8" stroke-opacity=".86" stroke-width=".8"/>
-    <path d="M235 10 Q236 8 239 8 H369" fill="none" stroke="#ffffff" stroke-opacity=".64" stroke-width=".8"/>
-    <path d="M8 49 Q8 52 13 52 H215" fill="none" stroke="#8f5c29" stroke-opacity=".27" stroke-width=".85"/>
-    <path d="M235 49 Q235 52 240 52 H369" fill="none" stroke="#99734d" stroke-opacity=".20" stroke-width=".8"/>
-    <rect x="59" y="13.1" width="1" height="34" rx=".5" fill="url(#dossier9divider1072)" opacity=".68"/>
-`;
-  return art.slice(0,start)+geometry+art.slice(end);
+  return dossierStage9EmptyButtonArt();
 }
 
 /* 5.0.1078: Layer 9 follows the finished folder and kraft paper, rather than
