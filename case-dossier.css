@@ -3428,18 +3428,18 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1119 — Tasks / first paper: preserve the existing approved blank asset.
-   9-slice draws its perimeter at native proportions rather than vertically
-   deforming the gold rim and paper corners. Only its mounting changes.
-   Shift down 9 CSS px compared with 1118. Mild color adjustment brings the
-   existing rim closer to the approved General/Events papers. */
+/* 5.0.1120 — Tasks / first paper: reuse existing v6115 blank asset.
+   Align the outer silhouette with General/Events by symmetrically narrowing
+   the card, retaining previous vertical anchor. 9-slice keeps paper rim sharp
+   without whole-image vertical stretching; a thinner border matches the
+   approved cards. No new image, calendar, arrow or overlay. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-first-blank{
   position:absolute;
   z-index:5;
   top:calc(46.2% + 9px);
-  left:.55%;
-  width:99.25%;
+  left:2.75%;
+  width:94.85%;
   height:auto;
   aspect-ratio:2159 / 848;
   margin:0;
@@ -3447,10 +3447,10 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:solid transparent;
-  border-width:38px 19px 13px;
+  border-width:35px 16px 12px;
   filter:saturate(.84) brightness(1.035) contrast(.97);
-  border-image-source:url('dossier-tasks-summary-paper-v6115.webp?v=6119');
+  border-image-source:url('dossier-tasks-summary-paper-v6115.webp?v=6120');
   border-image-slice:190 108 80 108 fill;
-  border-image-width:38px 19px 13px;
+  border-image-width:35px 16px 12px;
   border-image-repeat:stretch;
 }
