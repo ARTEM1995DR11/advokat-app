@@ -3428,7 +3428,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1115 — Tasks tab / step 1 only. Original layered blank paper + header
+/* 5.0.1116 — Tasks tab / step 1 only. Original layered blank paper + header
    hairline (no calendar, chevron, title or counters). The positioning is
    relative to the approved unscaled 1448×540 tab head, so the card remains
    under the tab strip without altering the locked dossier layers. */
@@ -3436,7 +3436,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-first-blank{
   position:absolute;
   z-index:5;
-  top:46.4%;
+  top:47.2%;
   left:2.2%;
   width:95.6%;
   height:auto;

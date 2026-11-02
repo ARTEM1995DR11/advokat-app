@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1115';
-var APP_BUILD='6115';
+var APP_VERSION='5.0.1116';
+var APP_BUILD='6116';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5358,7 +5358,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
           '</div>'+
         '</div>' : '')+
-      // 5.0.1115 / Tasks, step 1: isolated blank paper foundation from the
+      // 5.0.1116 / Tasks, step 1: isolated blank paper foundation from the
       // approved reference. No task labels, counts, icons or fake entries yet.
       // The thin horizontal divider belongs to the image, not an HTML overlay.
       (state==='tasks' ?
