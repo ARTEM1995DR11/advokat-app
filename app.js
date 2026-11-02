@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1113';
-var APP_BUILD='6113';
+var APP_VERSION='5.0.1115';
+var APP_BUILD='6115';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5357,6 +5357,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<div class="dossier-events-upcoming-blank" data-dossier-layer="events-list-papers">'+
             '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
           '</div>'+
+        '</div>' : '')+
+      // 5.0.1115 / Tasks, step 1: isolated blank paper foundation from the
+      // approved reference. No task labels, counts, icons or fake entries yet.
+      // The thin horizontal divider belongs to the image, not an HTML overlay.
+      (state==='tasks' ?
+        '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-step1-empty-paper" aria-label="Пустая основа первого блока задач">'+
+          '<img src="dossier-tasks-summary-paper-v6115.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1700" height="563" decoding="async" fetchpriority="high">'+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.

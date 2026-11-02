@@ -3426,3 +3426,35 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-events-stage9-actions .dossier-stage9-icon svg{
   flex:none;
 }
+
+
+/* 5.0.1115 — Tasks tab / step 1 only. Original layered blank paper + header
+   hairline (no calendar, chevron, title or counters). The positioning is
+   relative to the approved unscaled 1448×540 tab head, so the card remains
+   under the tab strip without altering the locked dossier layers. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-first-blank{
+  position:absolute;
+  z-index:5;
+  top:46.4%;
+  left:2.2%;
+  width:95.6%;
+  height:auto;
+  aspect-ratio:1700 / 563;
+  margin:0;
+  padding:0;
+  pointer-events:none;
+  overflow:visible;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-tasks-first-blank img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:1700 / 563;
+  object-fit:contain;
+  max-width:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
