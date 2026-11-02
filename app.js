@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1123';
-var APP_BUILD='6123';
+var APP_VERSION='5.0.1124';
+var APP_BUILD='6124';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5305,6 +5305,32 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
+// 5.0.1124 — live case-task summary, using only the actual task records.
+// A past due date counts as overdue only for unfinished work; deadlines,
+// hearings and meetings belong to the Events tab and are not counted here.
+function dossierTasksSummaryStats(id){
+  var work=tasksOf(id).filter(function(t){return !t.kind||t.kind==='task';});
+  var open=work.filter(function(t){return !t.done;});
+  var late=open.filter(function(t){return t.due&&dd(t.due)<0;});
+  return {open:open.length,late:late.length,done:work.length-open.length};
+}
+function dossierTasksSummaryLive(id){
+  var stats=dossierTasksSummaryStats(id);
+  var items=[
+    {tone:'active',value:stats.open,label:'В работе',graphic:'<path d="M6.5 3.8h11M6.5 20.2h11M8.1 5c0 3.2 3.9 4.4 3.9 7s-3.9 3.8-3.9 7M15.9 5c0 3.2-3.9 4.4-3.9 7s3.9 3.8 3.9 7M9.2 8.6 12 11l2.8-2.4M9.2 15.6l2.8-2.4 2.8 2.4"/>'},
+    {tone:'late',value:stats.late,label:'Просрочено',graphic:'<path d="M12 6v8"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/>'},
+    {tone:'done',value:stats.done,label:'Выполнено',graphic:'<path d="m6.7 12.2 3.4 3.5 7.2-7.5"/>'}
+  ];
+  return '<div class="dossier-task-summary-content" role="group" aria-label="Сводка по задачам">'+
+    '<h2 class="dossier-task-summary-title">СВОДКА ПО ЗАДАЧАМ</h2>'+
+    '<div class="dossier-task-summary-metrics">'+items.map(function(item){
+      return '<div class="dossier-task-summary-metric is-'+item.tone+'" aria-label="'+item.label+': '+item.value+'">'+
+        '<span class="dossier-task-summary-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6">'+item.graphic+'</svg></span>'+
+        '<span class="dossier-task-summary-reading"><strong>'+item.value+'</strong><small>'+item.label+'</small></span>'+
+      '</div>';
+    }).join('')+'</div></div>';
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -5358,11 +5384,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
           '</div>'+
         '</div>' : '')+
-      // 5.0.1121 / Tasks, step 1: isolated blank paper foundation from the
-      // approved reference. No task labels, counts, icons or fake entries yet.
-      // The thin horizontal divider belongs to the image, not an HTML overlay.
+      // 5.0.1124 / Tasks, step 2: use the approved existing paper background;
+      // overlay only live heading and three actual per-case task counters.
+      // The paper edges, divider and tab geometry are unchanged.
       (state==='tasks' ?
-        '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-step1-empty-paper" aria-label="Пустая основа первого блока задач"></div>' : '')+
+        '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-step1-empty-paper">'+
+          dossierTasksSummaryLive(id)+
+        '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?
