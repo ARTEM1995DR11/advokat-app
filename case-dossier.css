@@ -3447,7 +3447,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6135') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6136') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3545,16 +3545,16 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1135 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1136 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank{
   position:absolute;
   z-index:5;
-  top:calc(46.2% + 10px + 28.29vw - 6px);
-  left:0%;
-  width:100%;
+  top:calc(46.2% + 10px + 28.29vw - 14px);
+  left:1.45%;
+  width:97.1%;
   height:auto;
   aspect-ratio:1370 / 963;
   margin:0;

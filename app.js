@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1135';
-var APP_BUILD='6135';
+var APP_VERSION='5.0.1136';
+var APP_BUILD='6136';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5391,7 +5391,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1135: second, EMPTY standalone paper for «Требуют внимания».
+        // 5.0.1136: second, EMPTY standalone paper for «Требуют внимания».
         // No title, rows, counters or controls are part of this step.
         '<div class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-empty-paper" aria-hidden="true">'+
           '<img src="dossier-tasks-attention-blank-v6134.png?v='+APP_BUILD+'" alt="" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
