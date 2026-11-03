@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1136';
-var APP_BUILD='6136';
+var APP_VERSION='5.0.1137';
+var APP_BUILD='6137';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5391,11 +5391,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1136: second, EMPTY standalone paper for «Требуют внимания».
-        // No title, rows, counters or controls are part of this step.
-        '<div class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-empty-paper" aria-hidden="true">'+
-          '<img src="dossier-tasks-attention-blank-v6134.png?v='+APP_BUILD+'" alt="" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
-        '</div>' : '')+
+        // 5.0.1137 / Attention, step 2: approved paper, HTML heading and
+        // decorative ellipsis. Interactive menu and actual task rows come later.
+        '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-heading" aria-label="Требуют внимания">'+
+          '<img src="dossier-tasks-attention-blank-v6134.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
+          '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
+          '<span class="dossier-attention-ellipsis" aria-hidden="true"><i></i><i></i><i></i></span>'+
+        '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?

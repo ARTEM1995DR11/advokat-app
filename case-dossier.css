@@ -3447,7 +3447,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6136') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6137') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3545,7 +3545,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1136 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1137 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
@@ -3572,4 +3572,43 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   user-select:none;
   -webkit-user-drag:none;
   pointer-events:none;
+}
+
+/* 5.0.1137 — Tasks / attention stage 2: ONLY title and visual ellipsis.
+   All geometry, the approved blank image and its one baked rule stay intact.
+   This ellipsis is decorative until the actual actions menu is implemented. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-title{
+  position:absolute;
+  top:3.5%;
+  left:4.55%;
+  right:17%;
+  margin:0;
+  padding:0;
+  font:700 clamp(10.2px,2.83vw,12.4px)/1.12 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(.85px,.26vw,1.2px);
+  color:#845422;
+  text-shadow:0 .65px 0 rgba(255,255,255,.72);
+  white-space:nowrap;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-ellipsis{
+  position:absolute;
+  top:4.65%;
+  right:6.2%;
+  display:flex;
+  align-items:center;
+  gap:clamp(2.6px,.83vw,3.5px);
+  height:clamp(5px,1.45vw,6px);
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-ellipsis i{
+  display:block;
+  width:clamp(3px,1.04vw,4.35px);
+  height:clamp(3px,1.04vw,4.35px);
+  border-radius:50%;
+  background:#8f5e23;
+  box-shadow:0 .35px .6px rgba(62,36,16,.2);
 }
