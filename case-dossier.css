@@ -3428,7 +3428,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1127 — Tasks / first paper: reuse existing v6115 blank asset.
+/* 5.0.1128 — Tasks / first paper: reuse existing v6115 blank asset.
    Align the outer silhouette with General/Events by symmetrically narrowing
    the card, retaining previous vertical anchor. 9-slice keeps paper rim sharp
    without whole-image vertical stretching; a thinner border matches the
@@ -3447,12 +3447,12 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6127') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6128') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
 
-/* 5.0.1127 — Tasks / step 2. Live content only INSIDE the already-approved
+/* 5.0.1128 — Tasks / step 2. Live content only INSIDE the already-approved
    first paper. Do not reposition or resize the first paper or its border art.
    The baked single divider remains the only horizontal divider. */
 #page.dossier-page .dossier-rear-stage
@@ -3471,14 +3471,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   white-space:nowrap;
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-metrics{
-  position:absolute;left:5.25%;right:5.25%;top:34.2%;height:49%;
+  position:absolute;left:3.9%;right:2.7%;top:33%;height:57%;
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(4px,1.55vw,7px);
+  gap:clamp(5px,1.5vw,6.5px);
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-metric{
   min-width:0;min-height:0;display:flex;align-items:center;
   justify-content:space-around;gap:2px;padding:0 5px;
-  border-radius:clamp(7px,2.45vw,10px);
+  border-radius:clamp(7px,2.05vw,8.5px);
   box-sizing:border-box;border:1px solid rgba(184,161,135,.42);
   background:linear-gradient(160deg,rgba(255,255,255,.77),rgba(246,240,231,.77));
   box-shadow:0 1px 2px rgba(105,71,41,.08),inset 0 1px 1px rgba(255,255,255,.9);
