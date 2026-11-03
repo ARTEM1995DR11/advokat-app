@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1130';
-var APP_BUILD='6130';
+var APP_VERSION='5.0.1132';
+var APP_BUILD='6132';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5305,7 +5305,7 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
-// 5.0.1130 — live case-task summary, using only the actual task records.
+// 5.0.1132 — live case-task summary, using only the actual task records.
 // A past due date counts as overdue only for unfinished work; deadlines,
 // hearings and meetings belong to the Events tab and are not counted here.
 function dossierTasksSummaryStats(id){
@@ -5345,7 +5345,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
     return '<button type="button" class="dossier-stage7-hit dossier-stage7-hit-'+key+'"'+
       ' role="tab" aria-selected="'+selected+'" aria-controls="dossier-content996"'+
       ' data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'"'+
-      ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', невыполненных задач: '+count:'')+'"'+
+      ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', задач в работе: '+count:'')+'"'+
       ' tabindex="0"></button>';
   }).join('');
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
@@ -5384,7 +5384,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
           '</div>'+
         '</div>' : '')+
-      // 5.0.1130 / Tasks, step 2: use the approved existing paper background;
+      // 5.0.1132 / Tasks, step 2: use the approved existing paper background;
       // overlay only live heading and three actual per-case task counters.
       // The paper edges, divider and tab geometry are unchanged.
       (state==='tasks' ?
@@ -5455,7 +5455,7 @@ function dossierLayoutPreview(m,id,tab,p){
   var dossierTasks=tasksOf(id).slice().sort(sortT);
   var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
   var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
-  var dossierOpenTasks=dossierTasks.filter(function(t){return (!t.kind||t.kind==='task')&&!t.done;});
+  var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-stack="layer1-locked" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -5479,7 +5479,7 @@ function dossierLayoutPreview(m,id,tab,p){
     '</div>'+
     // Stage 7.2: four approved transparent PNG states; only the state asset changes.
     // Actual tab actions remain real buttons, invisibly positioned above the artwork.
-    dossierIndexStage1008(id,tab,dossierOpenTasks.length,m,dossierEvents)+
+    dossierIndexStage1008(id,tab,dossierOpenCount,m,dossierEvents)+
     (tab==='general'?dossierStage9Actions(id):'')+
     (tab==='events'?dossierEventsBottomActions(id):'')+
     ''+ // Stage 8 cards removed: independent layer design pending
