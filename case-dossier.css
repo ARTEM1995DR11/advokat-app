@@ -3428,7 +3428,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1129 — Tasks / first paper: reuse existing v6115 blank asset.
+/* 5.0.1130 — Tasks / first paper: reuse existing v6115 blank asset.
    Align the outer silhouette with General/Events by symmetrically narrowing
    the card, retaining previous vertical anchor. 9-slice keeps paper rim sharp
    without whole-image vertical stretching; a thinner border matches the
@@ -3447,12 +3447,12 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6129') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6130') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
 
-/* 5.0.1129 — Tasks / step 2. Live content only INSIDE the already-approved
+/* 5.0.1130 — Tasks / step 2. Live content only INSIDE the already-approved
    first paper. Do not reposition or resize the first paper or its border art.
    The baked single divider remains the only horizontal divider. */
 #page.dossier-page .dossier-rear-stage
@@ -3479,40 +3479,43 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   min-width:0;min-height:0;display:flex;align-items:center;
   justify-content:space-between;gap:1px;padding:0 5px;
   border-radius:clamp(7px,2.05vw,8.5px);
-  box-sizing:border-box;border:1px solid rgba(184,161,135,.42);
-  background:linear-gradient(160deg,rgba(255,255,255,.77),rgba(246,240,231,.77));
-  box-shadow:0 1px 2px rgba(105,71,41,.08),inset 0 1px 1px rgba(255,255,255,.9);
+  box-sizing:border-box;border:1px solid rgba(180,154,125,.29);
+  background:radial-gradient(ellipse at 18% 12%,rgba(255,255,255,.38),transparent 76%),
+    linear-gradient(163deg,rgba(255,255,255,.86),rgba(249,246,240,.85));
+  box-shadow:0 .65px 1.3px rgba(105,71,41,.055),inset 0 .75px 0 rgba(255,255,255,.75);
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-metric.is-late{
-  border-color:rgba(210,147,139,.5);
-  background:linear-gradient(160deg,rgba(255,246,245,.86),rgba(252,235,232,.80));
+  border-color:rgba(213,161,153,.34);
+  background:radial-gradient(ellipse at 18% 12%,rgba(255,255,255,.31),transparent 74%),
+    linear-gradient(162deg,rgba(255,251,250,.88),rgba(252,242,240,.85));
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-metric.is-done{
-  border-color:rgba(148,185,167,.48);
-  background:linear-gradient(160deg,rgba(248,254,249,.86),rgba(233,245,237,.80));
+  border-color:rgba(148,184,167,.33);
+  background:radial-gradient(ellipse at 18% 12%,rgba(255,255,255,.32),transparent 74%),
+    linear-gradient(162deg,rgba(250,254,250,.89),rgba(241,249,243,.86));
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-symbol{
   flex:none;width:clamp(30px,9.35vw,40px);height:clamp(30px,9.35vw,40px);
   border-radius:50%;display:grid;place-items:center;
-  color:#1049a1;background:radial-gradient(circle at 36% 30%,#dde9ff,#bbd2ff);
-  box-shadow:inset 0 1px 2px rgba(255,255,255,.65),0 1px 2px rgba(80,90,140,.09);
+  color:#174ba0;background:radial-gradient(circle at 36% 26%,#e6eeff 1%,#cddffb 68%,#c2d7f7 100%);
+  box-shadow:inset 0 .7px 1.5px rgba(255,255,255,.53),0 .65px 1.25px rgba(81,100,148,.055);
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-symbol svg{
   display:block;width:54%;height:54%;
 }
 #page.dossier-page .dossier-rear-stage .is-late .dossier-task-summary-symbol{
-  background:radial-gradient(circle at 35% 26%,#ffa8aa,#f26c77);
+  background:radial-gradient(circle at 35% 27%,#ffe0e1 0%,#f7b4ba 69%,#f2a0a9 100%);
   color:#a90b21;
 }
 #page.dossier-page .dossier-rear-stage .is-late .dossier-task-summary-symbol svg{
-  background:#c92539;color:white;border-radius:50%;
+  background:#ca2d40;color:white;border-radius:50%;
   width:64%;height:64%;padding:5px;box-sizing:border-box;
 }
 #page.dossier-page .dossier-rear-stage .is-done .dossier-task-summary-symbol{
-  background:radial-gradient(circle at 35% 26%,#d7f5e6,#a6dfc5);color:white;
+  background:radial-gradient(circle at 35% 27%,#e3f6ed 0%,#c5ecda 70%,#b5e4ce 100%);color:white;
 }
 #page.dossier-page .dossier-rear-stage .is-done .dossier-task-summary-symbol svg{
-  border-radius:50%;background:#11986c;padding:4px;
+  border-radius:50%;background:#16966e;padding:4px;
   width:72%;height:72%;box-sizing:border-box;
 }
 #page.dossier-page .dossier-rear-stage .dossier-task-summary-reading{

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1129';
-var APP_BUILD='6129';
+var APP_VERSION='5.0.1130';
+var APP_BUILD='6130';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5305,7 +5305,7 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
-// 5.0.1129 — live case-task summary, using only the actual task records.
+// 5.0.1130 — live case-task summary, using only the actual task records.
 // A past due date counts as overdue only for unfinished work; deadlines,
 // hearings and meetings belong to the Events tab and are not counted here.
 function dossierTasksSummaryStats(id){
@@ -5384,7 +5384,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<div class="dossier-events-lists-output" data-events-lists-output>'+dossierEventsListsBody(m,id,events||[])+'</div>'+
           '</div>'+
         '</div>' : '')+
-      // 5.0.1129 / Tasks, step 2: use the approved existing paper background;
+      // 5.0.1130 / Tasks, step 2: use the approved existing paper background;
       // overlay only live heading and three actual per-case task counters.
       // The paper edges, divider and tab geometry are unchanged.
       (state==='tasks' ?
