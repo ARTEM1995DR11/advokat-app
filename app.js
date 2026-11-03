@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1133';
-var APP_BUILD='6133';
+var APP_VERSION='5.0.1135';
+var APP_BUILD='6135';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5388,8 +5388,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       // overlay only live heading and three actual per-case task counters.
       // The paper edges, divider and tab geometry are unchanged.
       (state==='tasks' ?
-        '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-step1-empty-paper">'+
+        '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
+        '</div>'+
+        // 5.0.1135: second, EMPTY standalone paper for «Требуют внимания».
+        // No title, rows, counters or controls are part of this step.
+        '<div class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-empty-paper" aria-hidden="true">'+
+          '<img src="dossier-tasks-attention-blank-v6134.png?v='+APP_BUILD+'" alt="" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
