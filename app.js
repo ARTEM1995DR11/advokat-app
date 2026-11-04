@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1149';
-var APP_BUILD='6149';
+var APP_VERSION='5.0.1150';
+var APP_BUILD='6150';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5419,7 +5419,9 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
   var extraAttention=state==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+((extraAttention>0?extraAttention*78+54:0))+'px">'+
+  // Reserve enough space for the real parchment continuation on every mobile width.
+  var continuationHeight=extraAttention>0 ? extraAttention*78+75 : 0;
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5461,9 +5463,8 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1149 / Attention, step 4: display real per-case task details
-        // over the same approved row structure. No synthetic tasks are persisted.
-        // Interactions (checkbox, opening a task) remain the stage 5 work.
+        // 5.0.1150 / Finished attention card: live per-case tasks, statuses,
+        // interactive checkboxes and arrows. Test entries never persist.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-row-structure" aria-label="Требуют внимания">'+
           '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+

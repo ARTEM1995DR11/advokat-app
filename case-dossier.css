@@ -3433,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6149') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6150') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3788,22 +3788,29 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:rgba(255,252,245,.83);border:1px solid rgba(166,127,80,.43);
   border-radius:10px;padding:8px 12px;
 }
-/* When a case has more than three tasks, extend the paper below the third row.
-   The approved image is retained unscaled for the initial three rows. */
+/* 5.0.1150 — completed stage 6: the fourth and subsequent rows continue
+   on real parchment from the very same approved paper asset (cropped only).
+   The first three-row approved paper, its title, checkbox/arrow geometry and
+   the summary remain exactly unchanged.  The continuation has its own bottom
+   gold lip, instead of the flat rectangular tan appendage of build 6149. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows{
-  position:absolute;top:99%;left:-2.5%;right:-2.5%;z-index:6;
-  display:flex;flex-direction:column;min-width:0;
-  background:linear-gradient(120deg,#fcf0e1,#f6e5d4 85%);
-  border:1.5px solid rgba(172,127,75,.67);border-top:0;
-  border-radius:0 0 11px 11px;
-  box-shadow:0 3px 5px rgba(100,65,33,.18);
-  padding:8px 4.2% 15px;box-sizing:border-box;
+  position:absolute;
+  top:calc(100% + 4px);
+  left:-3.0%;right:-3.0%;z-index:6;
+  min-width:0;
+  display:flex;flex-direction:column;
+  padding:11px 5.0% 26px;
+  box-sizing:border-box;
   pointer-events:none;
+  border:0;border-radius:0;
+  background: url('dossier-tasks-attention-extension-v6150.png?v=6150') center/100% 100% no-repeat;
+  box-shadow:none;
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row{
-  flex:none;height:clamp(65px,19vw,78px);
+  flex:none;
+  height:clamp(65px,19vw,78px);
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:first-child .dossier-attention-structure-checkbox,
@@ -3812,4 +3819,9 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:not(:last-child)::after{
   left:0;right:0;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows::before{
+  content:'';position:absolute;left:6%;right:6%;top:6px;height:1px;
+  background:rgba(154,119,84,.19);box-shadow:0 1px 0 rgba(255,255,255,.53);
 }
