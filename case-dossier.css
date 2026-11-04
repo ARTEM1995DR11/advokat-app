@@ -3433,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6148') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6149') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3531,7 +3531,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1148 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1149 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
@@ -3560,7 +3560,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1148 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1148.
+/* 5.0.1149 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1149.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3579,7 +3579,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1148 — compatibility guard for an older in-memory dossier DOM.
+/* 5.0.1149 — compatibility guard for an older in-memory dossier DOM.
    The current render does not insert these controls; if an older document
    survived an iOS PWA update, hide the obsolete ellipses and expand history.
    Do not change approved paper/card dimensions or typography. */
@@ -3592,7 +3592,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1148 / Attention stage 3 — EMPTY row geometry only.
+/* 5.0.1149 / Attention stage 3 — EMPTY row geometry only.
    This overlays the approved second paper without resizing or shifting it.
    Titles, dates, status chips and click handlers will arrive in later steps. */
 #page.dossier-page .dossier-rear-stage
@@ -3631,7 +3631,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1148 — Events, join between the upcoming and past papers.
+/* 5.0.1149 — Events, join between the upcoming and past papers.
    After menu removal the paired 13px border-image rims visually produced a
    wide double parchment seam.  Overlap ONLY the second sheet by 7px; do not
    alter its heading, timeline rows, approved art or the page scroll model. */
@@ -3648,14 +3648,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   }
 }
 
-/* 5.0.1148 — Stage 3, reference alignment: on the tall first row the
+/* 5.0.1149 — Stage 3, reference alignment: on the tall first row the
    checkbox sits beside the two-line title, not beside the second metadata line. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row:first-child .dossier-attention-structure-checkbox{
   top:29%;
 }
 
-/* 5.0.1148 — Attention stage 4. Content ONLY; preserve the approved paper,
+/* 5.0.1149 — Attention stage 4. Content ONLY; preserve the approved paper,
    row heights, checkboxes, arrows, lines and summary above. All row elements
    remain visual (noninteractive) until workflow integration in stage 5. */
 #page.dossier-page .dossier-rear-stage
@@ -3734,4 +3734,82 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
  #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-attention-task-name{font-size:9px;right:31%;}
  #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-attention-status{font-size:7.1px;padding:0 3px;gap:1px;}
  #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-attention-meta{font-size:7.2px;grid-template-columns:49% 51%;}
+}
+
+/* 5.0.1149 — Stage 5 interactive queue. The approved first three rows,
+   parchment silhouette, title, rules and counter geometry remain unchanged. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
+  min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height, 0px));
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-arrow{
+  right:2.35%;top:50%;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row.is-placeholder{display:none;}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-check-hit,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-open-hit{
+  appearance:none;-webkit-appearance:none;
+  position:absolute;z-index:8;display:block;box-sizing:border-box;
+  border:0;background:transparent;padding:0;cursor:pointer;
+  pointer-events:auto;touch-action:manipulation;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-check-hit{
+  top:37%;left:1%;transform:translateY(-50%);
+  width:clamp(34px,10.1vw,45px);height:clamp(40px,11vw,48px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row:first-child .dossier-attention-check-hit{top:29%;}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-open-hit{
+  right:-1%;top:50%;transform:translateY(-50%);
+  width:clamp(34px,9.5vw,42px);height:clamp(48px,15vw,64px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-check-hit:focus-visible,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-open-hit:focus-visible{
+  outline:2px solid #245382;outline-offset:-2px;border-radius:8px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-empty{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  color:#806846;text-align:center;font:italic clamp(11px,3vw,14px)/1.4 Georgia,serif;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-empty button{
+  pointer-events:auto;touch-action:manipulation;cursor:pointer;
+  font:700 12px Georgia,serif;color:#274a76;
+  background:rgba(255,252,245,.83);border:1px solid rgba(166,127,80,.43);
+  border-radius:10px;padding:8px 12px;
+}
+/* When a case has more than three tasks, extend the paper below the third row.
+   The approved image is retained unscaled for the initial three rows. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows{
+  position:absolute;top:99%;left:-2.5%;right:-2.5%;z-index:6;
+  display:flex;flex-direction:column;min-width:0;
+  background:linear-gradient(120deg,#fcf0e1,#f6e5d4 85%);
+  border:1.5px solid rgba(172,127,75,.67);border-top:0;
+  border-radius:0 0 11px 11px;
+  box-shadow:0 3px 5px rgba(100,65,33,.18);
+  padding:8px 4.2% 15px;box-sizing:border-box;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row{
+  flex:none;height:clamp(65px,19vw,78px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:first-child .dossier-attention-structure-checkbox,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:first-child .dossier-attention-check-hit{top:37%;}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:not(:last-child)::after{
+  left:0;right:0;
 }

@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1148';
-var APP_BUILD='6148';
+var APP_VERSION='5.0.1149';
+var APP_BUILD='6149';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4083,7 +4083,9 @@ function drawEditor(preserveScroll){
   '</div>'+
   '<div class="chips task-quick-dates">'+quickDates.map(function(x){
       return '<button class="chip" data-act="e-quick" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'):'')+
-  (!hearing&&!meeting&&t.kind!=='deadline'?'<div class="fld task-priority-field"><label>Приоритет</label><div class="chips task-priority-chips">'+pris+'</div></div>':'')+
+  (!hearing&&!meeting&&t.kind!=='deadline'?'<div class="fld task-priority-field"><label>Приоритет</label><div class="chips task-priority-chips">'+pris+'</div></div>'+ 
+    '<div class="fld task-attention-category-field"><label>Категория задачи (необязательно)</label><input id="e-attention-category" list="attention-category-list" maxlength="60" placeholder="Например: Процессуальные документы" value="'+esc(t.attentionCategory||t.category||'')+'"><datalist id="attention-category-list"><option value="Процессуальные документы"><option value="Запросы и документы"><option value="Анализ материалов"><option value="Коммуникации"><option value="Контроль сроков"></datalist></div>'+ 
+    '<div class="fld task-attention-control-field"><label>Статус контроля</label><select id="e-attention-status"><option value=""'+(t.attentionStatus==='control'?'':' selected')+'>В работе</option><option value="control"'+(t.attentionStatus==='control'?' selected':'')+'>На контроле</option></select></div>':'')+
   (hearing
     ? '<div class="fld hearing-court-field"><label>Суд / место заседания *</label>'+inlineChoiceField('e-place','e-court-choice',t.place||'','Суд или место заседания',courtChoiceOptions(t.place||''),'court-options')+'<small class="fieldhint">Можно выбрать Кинешемский городской суд или мировой участок стрелкой справа либо ввести любой другой суд вручную.</small>'+courtDatalist()+'</div>'
     : (meeting?'<div class="fld hearing-court-field"><label>Место встречи</label><input id="e-place" placeholder="Офис, СИЗО, адрес, кафе" value="'+esc(t.place||'')+'"></div>':''))+
@@ -4161,6 +4163,8 @@ function pullEditor(){
     if(dr){ED.title=dr.name;ED.ruleCode=legalDeadlineCode(dr.code).name;ED.ruleArticle=dr.article;ED.rule=dr.article;ED.pri='high';}
     if(dres){ED.due=dres.end;ED.time=dres.endTime||'';}
   }
+  if(g('#e-attention-category')!==undefined) ED.attentionCategory = $('#e-attention-category').value.trim();
+  if(g('#e-attention-status')!==undefined) ED.attentionStatus = $('#e-attention-status').value;
   if(g('#e-note')!==undefined) ED.note = $('#e-note').value.trim();
 }
 
@@ -5195,7 +5199,7 @@ function dossierEventsTimelineItem(t,m,past){
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
 }
-/* 5.0.1148: «Прошедшие события» всегда раскрыты; список прокручивается
+/* 5.0.1149: «Прошедшие события» всегда раскрыты; список прокручивается
    вместе со страницей. Кнопка «•••» и сворачивание удалены. */
 function dossierEventsSection(title,kind,items,m,emptyText){
   var list=items||[];
@@ -5330,10 +5334,9 @@ function dossierTasksSummaryLive(id){
     }).join('')+'</div></div>';
 }
 
-// 5.0.1148 — Stage 4: visible row copy over the approved three-row geometry.
-// The source is ONLY saved tasks of the currently opened case. The three empty
-// placeholders remain when no records exist; demonstration records are QA-only.
-// Checkboxes and chevrons stay decorative until stage 5 connects actions.
+// 5.0.1149 — Stage 5: operational case-specific attention queue.
+// Only unfinished ordinary tasks belong here. Event records remain on Events.
+// The approved three-row paper and its geometry do not change at 1–3 tasks.
 function dossierAttentionStatus(t){
   if(t.due && dd(t.due)<0) return {tone:'late',text:'Просрочено',kind:'late'};
   if(t.attentionStatus==='control') return {tone:'control',text:'На контроле',kind:'clock'};
@@ -5341,7 +5344,7 @@ function dossierAttentionStatus(t){
 }
 function dossierAttentionCategory(t){
   var raw=String(t.attentionCategory||t.category||'').trim();
-  return raw||'Задача'; // Never infer a category that was not saved on this task.
+  return raw||'Задача';
 }
 function dossierAttentionIcon(type){
   var common='viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
@@ -5354,34 +5357,46 @@ function dossierAttentionStatusIcon(tone){
   if(tone==='control')return '<span aria-hidden="true" class="dossier-attention-chip-icon is-clock">◷</span>';
   return '<span aria-hidden="true" class="dossier-attention-chip-icon is-hourglass">⌛</span>';
 }
-function dossierAttentionRowMarkup(t){
-  var present=!!t;
-  var chip=present?dossierAttentionStatus(t):null;
-  var name=present?String(t.title||'Задача'):'',due=present?(t.due||''):'';
-  var cat=present?dossierAttentionCategory(t):'';
-  var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
-  var when=present?(due?((dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:'')):(t.time?t.time:'Без срока')):'';
-  return '<div class="dossier-attention-structure-row'+(present?' has-task':'')+'">'+
-    '<span class="dossier-attention-structure-checkbox" aria-hidden="true"></span>'+
-    '<span class="dossier-attention-structure-arrow" aria-hidden="true"></span>'+
-    (present?'<div class="dossier-attention-row-copy" role="group" aria-label="'+esc(name)+'">'+
-       '<strong class="dossier-attention-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
-       '<span class="dossier-attention-status is-'+chip.tone+'">'+dossierAttentionStatusIcon(chip.tone)+esc(chip.text)+'</span>'+
-       '<div class="dossier-attention-meta"><span class="dossier-attention-when'+(chip.tone==='late'?' is-late':'')+'">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
-       '<span class="dossier-attention-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span></div>'+
-      '</div>':'')+'</div>';
-}
-function dossierAttentionRowsLive(id){
+function dossierAttentionActiveTasks(id){
   var entries=tasksOf(id).filter(function(t){return !t.done && (!t.kind||t.kind==='task');});
   entries.sort(function(a,b){
-    // Initial visual grouping for the three prototype rows: urgent work,
-    // ordinary work, then explicitly marked follow-up/control tasks.
+    // Overdue first; then upcoming deadlines; explicitly controlled work last.
     var rank={late:0,active:1,control:2};
     var ar=rank[dossierAttentionStatus(a).tone],br=rank[dossierAttentionStatus(b).tone];
     var al=a.due?dd(a.due):99999,bl=b.due?dd(b.due):99999;
     return ar-br || al-bl || (a.title||'').localeCompare(b.title||'','ru');
   });
-  return Array.from({length:3},function(_,i){return dossierAttentionRowMarkup(entries[i]||null);}).join('');
+  return entries;
+}
+function dossierAttentionRowMarkup(t){
+  if(!t) return '<div class="dossier-attention-structure-row is-placeholder" aria-hidden="true"></div>';
+  var chip=dossierAttentionStatus(t),name=String(t.title||'Задача'),due=t.due||'';
+  var cat=dossierAttentionCategory(t),tid=esc(t.id);
+  var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
+  var when=due?((dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:'')):(t.time?t.time:'Без срока');
+  return '<div class="dossier-attention-structure-row has-task">'+
+    '<span class="dossier-attention-structure-checkbox" aria-hidden="true"></span>'+
+    '<span class="dossier-attention-structure-arrow" aria-hidden="true"></span>'+
+    '<div class="dossier-attention-row-copy" role="group" aria-label="'+esc(name)+'">'+
+      '<strong class="dossier-attention-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
+      '<span class="dossier-attention-status is-'+chip.tone+'">'+dossierAttentionStatusIcon(chip.tone)+esc(chip.text)+'</span>'+
+      '<div class="dossier-attention-meta"><span class="dossier-attention-when'+(chip.tone==='late'?' is-late':'')+'">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+      '<span class="dossier-attention-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span></div></div>'+
+    '<button type="button" class="dossier-attention-check-hit" data-act="dossier-attention-toggle" data-id="'+tid+'" aria-label="Отметить выполненной: '+esc(name)+'" title="Завершить задачу"></button>'+
+    '<button type="button" class="dossier-attention-open-hit" data-act="task" data-id="'+tid+'" aria-label="Открыть задачу: '+esc(name)+'" title="Открыть задачу"></button>'+
+    '</div>';
+}
+function dossierAttentionRowsLive(id){
+  var entries=dossierAttentionActiveTasks(id);
+  if(!entries.length){
+    return '<div class="dossier-attention-empty" role="status">'+
+      '<span>Нет задач, требующих внимания</span>'+
+      (matter(id)&&!matter(id).archived?'<button type="button" data-act="m-add" data-id="'+esc(id)+'">+ Добавить задачу</button>':'')+
+      '</div>';
+  }
+  var first=Array.from({length:3},function(_,i){return dossierAttentionRowMarkup(entries[i]||null);}).join('');
+  var extra=entries.length>3?'<div class="dossier-attention-more-rows" aria-label="Остальные задачи">'+entries.slice(3).map(dossierAttentionRowMarkup).join('')+'</div>':'';
+  return first+extra;
 }
 
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -5403,7 +5418,8 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   }).join('');
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
+  var extraAttention=state==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+((extraAttention>0?extraAttention*78+54:0))+'px">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5445,7 +5461,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1148 / Attention, step 4: display real per-case task details
+        // 5.0.1149 / Attention, step 4: display real per-case task details
         // over the same approved row structure. No synthetic tasks are persisted.
         // Interactions (checkbox, opening a task) remain the stage 5 work.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-row-structure" aria-label="Требуют внимания">'+
@@ -7154,6 +7170,16 @@ document.addEventListener('click', function(ev){
     case 'qa-journal': closeSheet();if(!activeM().length){toast('Сначала создайте дело');break;}sheetJournal('');break;
 
     /* tasks */
+    case 'dossier-attention-toggle': {
+      var currentId=$('#page')._mid, taskToComplete=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
+      if(!taskToComplete||!sameRecordId(taskToComplete.mid,currentId)||taskToComplete.done||!( !taskToComplete.kind || taskToComplete.kind==='task' ))break;
+      var currentMatter=matter(currentId);
+      if(currentMatter&&currentMatter.archived){toast('Сначала верните дело в работу');break;}
+      var scrollBefore=window.scrollY;
+      toggleTaskDone(id);
+      requestAnimationFrame(function(){window.scrollTo(0,scrollBefore);});
+      break;
+    }
     case 'toggle': toggleTaskDone(id); break;
     case 'hearing-result': sheetHearingResult(id); break;
     case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
@@ -8380,7 +8406,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61480e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61490e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--rear-glow)" stop-opacity=".15"/><stop offset=".42" stop-color="var(--rear-bright)" stop-opacity=".055"/><stop offset=".7" stop-color="var(--rear-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--rear-edge)" stop-opacity=".18"/></linearGradient>
