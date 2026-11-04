@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1146';
-var APP_BUILD='6146';
+var APP_VERSION='5.0.1147';
+var APP_BUILD='6147';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5195,7 +5195,7 @@ function dossierEventsTimelineItem(t,m,past){
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
 }
-/* 5.0.1146: «Прошедшие события» всегда раскрыты; список прокручивается
+/* 5.0.1147: «Прошедшие события» всегда раскрыты; список прокручивается
    вместе со страницей. Кнопка «•••» и сворачивание удалены. */
 function dossierEventsSection(title,kind,items,m,emptyText){
   var list=items||[];
@@ -5330,6 +5330,60 @@ function dossierTasksSummaryLive(id){
     }).join('')+'</div></div>';
 }
 
+// 5.0.1147 — Stage 4: visible row copy over the approved three-row geometry.
+// The source is ONLY saved tasks of the currently opened case. The three empty
+// placeholders remain when no records exist; demonstration records are QA-only.
+// Checkboxes and chevrons stay decorative until stage 5 connects actions.
+function dossierAttentionStatus(t){
+  if(t.due && dd(t.due)<0) return {tone:'late',text:'Просрочено',kind:'late'};
+  if(t.attentionStatus==='control') return {tone:'control',text:'На контроле',kind:'clock'};
+  return {tone:'active',text:'В работе',kind:'hourglass'};
+}
+function dossierAttentionCategory(t){
+  var raw=String(t.attentionCategory||t.category||'').trim();
+  return raw||'Задача'; // Never infer a category that was not saved on this task.
+}
+function dossierAttentionIcon(type){
+  var common='viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  if(type==='calendar')return '<svg '+common+'><rect x="4" y="5.8" width="16" height="15" rx="1.8"/><path d="M4 10.5h16M8 3.5v4.1M16 3.5v4.1M8 14h3M8 17h3"/></svg>';
+  if(type==='comm')return '<svg '+common+'><path d="M5 19V6.6A2.6 2.6 0 0 1 7.6 4h8.8A2.6 2.6 0 0 1 19 6.6V19l-3.4-2H8.4z"/><path d="M9 10a3 3 0 1 1 6 0M12 13v2"/></svg>';
+  return '<svg '+common+'><path d="M6 3.5h8.6L18.5 8v12H6zM14.5 3.5V8h4M9 12h6M9 15h6"/></svg>';
+}
+function dossierAttentionStatusIcon(tone){
+  if(tone==='late')return '<span aria-hidden="true" class="dossier-attention-chip-icon">!</span>';
+  if(tone==='control')return '<span aria-hidden="true" class="dossier-attention-chip-icon is-clock">◷</span>';
+  return '<span aria-hidden="true" class="dossier-attention-chip-icon is-hourglass">⌛</span>';
+}
+function dossierAttentionRowMarkup(t){
+  var present=!!t;
+  var chip=present?dossierAttentionStatus(t):null;
+  var name=present?String(t.title||'Задача'):'',due=present?(t.due||''):'';
+  var cat=present?dossierAttentionCategory(t):'';
+  var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
+  var when=due?((dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:'')):(t.time?t.time:'Без срока');
+  return '<div class="dossier-attention-structure-row'+(present?' has-task':'')+'">'+
+    '<span class="dossier-attention-structure-checkbox" aria-hidden="true"></span>'+
+    '<span class="dossier-attention-structure-arrow" aria-hidden="true"></span>'+
+    (present?'<div class="dossier-attention-row-copy" role="group" aria-label="'+esc(name)+'">'+
+       '<strong class="dossier-attention-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
+       '<span class="dossier-attention-status is-'+chip.tone+'">'+dossierAttentionStatusIcon(chip.tone)+esc(chip.text)+'</span>'+
+       '<div class="dossier-attention-meta"><span class="dossier-attention-when'+(chip.tone==='late'?' is-late':'')+'">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+       '<span class="dossier-attention-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span></div>'+
+      '</div>':'')+'</div>';
+}
+function dossierAttentionRowsLive(id){
+  var entries=tasksOf(id).filter(function(t){return !t.done && (!t.kind||t.kind==='task');});
+  entries.sort(function(a,b){
+    // Initial visual grouping for the three prototype rows: urgent work,
+    // ordinary work, then explicitly marked follow-up/control tasks.
+    var rank={late:0,active:1,control:2};
+    var ar=rank[dossierAttentionStatus(a).tone],br=rank[dossierAttentionStatus(b).tone];
+    var al=a.due?dd(a.due):99999,bl=b.due?dd(b.due):99999;
+    return ar-br || al-bl || (a.title||'').localeCompare(b.title||'','ru');
+  });
+  return Array.from({length:3},function(_,i){return dossierAttentionRowMarkup(entries[i]||null);}).join('');
+}
+
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -5391,15 +5445,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1146 / Attention, step 3: three empty structural rows only.
-        // Decorative checkboxes, row separators and chevrons are deliberately
-        // noninteractive until the real per-case task list is wired in step 5.
+        // 5.0.1147 / Attention, step 4: display real per-case task details
+        // over the same approved row structure. No synthetic tasks are persisted.
+        // Interactions (checkbox, opening a task) remain the stage 5 work.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-row-structure" aria-label="Требуют внимания">'+
           '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
-          '<div class="dossier-attention-row-structure" aria-hidden="true">'+
-            Array.from({length:3},function(){return '<div class="dossier-attention-structure-row"><span class="dossier-attention-structure-checkbox"></span><span class="dossier-attention-structure-arrow"></span></div>';}).join('')+
-          '</div>'+
+          '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
         '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -8328,7 +8380,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61460e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61470e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--rear-glow)" stop-opacity=".15"/><stop offset=".42" stop-color="var(--rear-bright)" stop-opacity=".055"/><stop offset=".7" stop-color="var(--rear-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--rear-edge)" stop-opacity=".18"/></linearGradient>
