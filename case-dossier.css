@@ -3838,6 +3838,11 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
+/* 5.0.1156 / «Остальные задачи»: tighten the paper seam another 4 CSS px.
+   The approved card shape, header and other tabs are unchanged. */
+/* 5.0.1155 / «Остальные задачи», stages 1–2: correct the visible paper gap.
+   Only this card moves 6px closer to the attention card.
+   Keep a separate 6px compensation when the attention list extends beyond three rows. */
 /* 5.0.1154 / «Остальные задачи», stages 1–2.
    New independent 1370×700 transparent paper beneath the completed attention
    card. The source PNG contains the ONE fine divider; no second CSS rule.
@@ -3845,7 +3850,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-other-blank{
   position:absolute;
-  top:calc(46.2% + 96.56vw - 7px + var(--dossier-other-follow-shift,0px));
+  top:calc(46.2% + 96.56vw - 17px + var(--dossier-other-follow-shift,0px));
   left:1.45%;
   width:97.1%;
   aspect-ratio:1370 / 700;

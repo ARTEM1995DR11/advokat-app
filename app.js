@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1154';
-var APP_BUILD='6154';
+var APP_VERSION='5.0.1156';
+var APP_BUILD='6156';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5425,7 +5425,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   // The visible continuation is n × responsive row height + 37px padding
   // and its top begins 10px above the attention card's mathematical bottom.
   var otherFollowShift=extraAttention>0
-    ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 28px)' : '0px';
+    ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 34px)' : '0px';
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
@@ -5475,7 +5475,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
           '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
         '</section>'+
-        // 5.0.1154 — «Остальные задачи», stage 1+2. The separately approved
+        // 5.0.1156 — «Остальные задачи», stage 1+2. The separately approved
         // blank two-row parchment and its single baked header rule. Rows and
         // per-case task routing are intentionally reserved for later stages.
         '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-title" aria-label="Остальные задачи">'+
