@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1140';
-var APP_BUILD='6140';
+var APP_VERSION='5.0.1141';
+var APP_BUILD='6141';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5195,7 +5195,7 @@ function dossierEventsTimelineItem(t,m,past){
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
 }
-/* 5.0.1140: «Прошедшие события» всегда раскрыты; список прокручивается
+/* 5.0.1141: «Прошедшие события» всегда раскрыты; список прокручивается
    вместе со страницей. Кнопка «•••» и сворачивание удалены. */
 function dossierEventsSection(title,kind,items,m,emptyText){
   var list=items||[];
@@ -5391,7 +5391,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1140 / Attention, step 2: approved paper, HTML heading and
+        // 5.0.1141 / Attention, step 2: approved paper, HTML heading and
         // no menu dots: scrolling handles long lists. Actual task rows come later.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-heading" aria-label="Требуют внимания">'+
           '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
@@ -8324,7 +8324,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61400e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61410e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--rear-glow)" stop-opacity=".15"/><stop offset=".42" stop-color="var(--rear-bright)" stop-opacity=".055"/><stop offset=".7" stop-color="var(--rear-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--rear-edge)" stop-opacity=".18"/></linearGradient>

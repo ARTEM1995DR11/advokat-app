@@ -2673,11 +2673,11 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="events"] .dossier-events-nearest-paper .dossier-events-upcoming-blank{
-  top:calc(100% - 5px); /* was +8px: reduce gap to first independent paper */
+  top:calc(100% - 9px); /* approved compact paper stack: first sheet 4px closer */
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="events"] .dossier-events-lists-live{
-  gap:3px; /* was 8px: close the split between the two lists */
+  gap:0px; /* close the optical seam between past and upcoming sheets */
 }
 
 /* 5.0.1100 — point 3 ONLY: approved «Предстоящие события» timeline.
@@ -3433,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6140') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6141') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3531,14 +3531,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1140 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1141 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank{
   position:absolute;
   z-index:5;
-  top:calc(46.2% + 10px + 28.29vw - 14px);
+  top:calc(46.2% + 10px + 28.29vw - 19px);
   left:1.45%;
   width:97.1%;
   height:auto;
@@ -3560,7 +3560,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1140 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1140.
+/* 5.0.1141 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1141.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3579,7 +3579,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1140 — compatibility guard for an older in-memory dossier DOM.
+/* 5.0.1141 — compatibility guard for an older in-memory dossier DOM.
    The current render does not insert these controls; if an older document
    survived an iOS PWA update, hide the obsolete ellipses and expand history.
    Do not change approved paper/card dimensions or typography. */
