@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1152';
-var APP_BUILD='6152';
+var APP_VERSION='5.0.1154';
+var APP_BUILD='6154';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5421,7 +5421,12 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   var extraAttention=state==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
   // Reserve enough space for the real parchment continuation on every mobile width.
   var continuationHeight=extraAttention>0 ? extraAttention*78+75 : 0;
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px">'+
+  // CSS-relative continuation shift stays accurate from 320 to 430 CSS px.
+  // The visible continuation is n × responsive row height + 37px padding
+  // and its top begins 10px above the attention card's mathematical bottom.
+  var otherFollowShift=extraAttention>0
+    ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 28px)' : '0px';
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5469,6 +5474,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
           '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
+        '</section>'+
+        // 5.0.1154 — «Остальные задачи», stage 1+2. The separately approved
+        // blank two-row parchment and its single baked header rule. Rows and
+        // per-case task routing are intentionally reserved for later stages.
+        '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-title" aria-label="Остальные задачи">'+
+          '<img src="dossier-tasks-other-blank-v6153.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="700" loading="eager" decoding="async">'+
+          '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
         '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -5535,13 +5547,15 @@ function dossierLayoutPreview(m,id,tab,p){
   var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
   var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
   var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
+  var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
+  var dossierExtraListSpace=dossierAdditionalTaskRows?dossierAdditionalTaskRows*78+75:0;
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-stack="layer1-locked" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
     '<div class="dossier-nav-title">Карточка дела<i></i></div><div class="dossier-nav-actions">'+
     '<button class="dossier-iconbtn" type="button" data-act="m-print" data-id="'+esc(id)+'" aria-label="Поделиться">'+ico('share')+'</button>'+
     '<button class="dossier-iconbtn" type="button" data-act="m-edit" data-id="'+esc(id)+'" aria-label="Редактировать">'+ico('edit')+'</button></div></header>'+
-    '<main class="dossier-clean-canvas'+(tab==='general'?' dossier-clean-canvas-general':'')+(tab==='events'?' dossier-clean-canvas-events':'')+'" aria-label="Основа карточки дела: верхушка и чистая бумага">'+
+    '<main class="dossier-clean-canvas'+(tab==='general'?' dossier-clean-canvas-general':'')+(tab==='events'?' dossier-clean-canvas-events':'')+(tab==='tasks'?' dossier-clean-canvas-tasks':'')+'"'+(tab==='tasks'?' style="--dossier-other-list-extra-height:'+dossierExtraListSpace+'px"':'')+' aria-label="Основа карточки дела: верхушка и чистая бумага">'+
     '<img class="dossier-colored-rear-strip" data-dossier-layer="leather-back" src="'+stripImage+'" alt="" aria-hidden="true" draggable="false" width="2172" height="724">'+    
     '<div class="dossier-paper-stack-stage" data-dossier-layer="kraft-paper" aria-hidden="true"><img class="dossier-paper-stack-art" src="dossier-kraft-layer2-v5942.webp?v='+APP_BUILD+'" alt="" width="2084" height="641" draggable="false"></div>'+
     '<div class="dossier-layer3-rims" data-dossier-layer="paper-rims" aria-hidden="true"><img src="dossier-layer3-single-sheet-v5995.svg?v='+APP_BUILD+'" alt="" width="402" height="50" draggable="false"></div>'+

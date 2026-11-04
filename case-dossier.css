@@ -3836,3 +3836,46 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   content:'';position:absolute;left:6%;right:6%;top:6px;height:1px;
   background:rgba(154,119,84,.19);box-shadow:0 1px 0 rgba(255,255,255,.53);
 }
+
+
+/* 5.0.1154 / «Остальные задачи», stages 1–2.
+   New independent 1370×700 transparent paper beneath the completed attention
+   card. The source PNG contains the ONE fine divider; no second CSS rule.
+   Preserve all positions and imagery of the summary and attention papers. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-other-blank{
+  position:absolute;
+  top:calc(46.2% + 96.56vw - 7px + var(--dossier-other-follow-shift,0px));
+  left:1.45%;
+  width:97.1%;
+  aspect-ratio:1370 / 700;
+  height:auto;
+  z-index:5;
+  margin:0;padding:0;
+  border:0;overflow:visible;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-other-blank > img{
+  display:block;width:100%;height:auto;aspect-ratio:1370 / 700;
+  object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-other-blank .dossier-other-title{
+  position:absolute;left:4.55%;right:4.55%;top:6.65%;
+  margin:0;padding:0;
+  font:700 clamp(10.2px,2.83vw,12.4px)/1.12 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(.85px,.26vw,1.2px);
+  color:#845422;text-shadow:0 .65px 0 rgba(255,255,255,.72);
+  white-space:nowrap;pointer-events:none;
+}
+
+/* Stage 2 geometry: make room for the new separate two-row paper above
+   the existing moving lower folder edge. The upper paper and its content
+   are not moved. Grow only the tasks page, never General or Events. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
+  min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-tasks{
+  min-height:max(calc(100dvh - 160px),calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + var(--dossier-other-list-extra-height,0px) + clamp(150px,47.5vw,205px) + 12px));
+}
