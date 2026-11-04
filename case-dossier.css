@@ -3447,7 +3447,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6137') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6138') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3545,7 +3545,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1137 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1138 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
@@ -3574,7 +3574,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1137 — Tasks / attention stage 2: ONLY title and visual ellipsis.
+/* 5.0.1138 — Tasks / attention stage 2: ONLY title and visual ellipsis.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3596,7 +3596,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-ellipsis{
   position:absolute;
   top:4.65%;
-  right:6.2%;
+  right:5.0%;
   display:flex;
   align-items:center;
   gap:clamp(2.6px,.83vw,3.5px);
