@@ -2484,17 +2484,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:linear-gradient(90deg,rgba(148,110,63,.27),rgba(148,110,63,.23) 84%,transparent);
   box-shadow:0 .5px 0 rgba(255,250,239,.65);
 }
-#page.dossier-page .dossier-rear-stage .dossier-events-paper-menu{
-  position:relative;z-index:2;display:grid;place-items:center;
-  flex:0 0 27px;min-width:27px;height:23px;
-  margin:-4px 1px 0 0;padding:0;border:0;
-  appearance:none;-webkit-appearance:none;background:transparent;
-  color:#986222;letter-spacing:1px;font:700 16px/1 Georgia,serif;
-  cursor:pointer;pointer-events:auto;
-}
-#page.dossier-page .dossier-rear-stage .dossier-events-paper-menu:focus-visible{
-  outline:2px solid #b4894e;outline-offset:1px;border-radius:6px;
-}
 #page.dossier-page .dossier-rear-stage .dossier-events-timeline{
   margin:0;padding:0;list-style:none;display:block;min-height:0;
 }
@@ -2597,9 +2586,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-events-section-empty{
   background:transparent;box-shadow:none;padding:14px 10px 16px;
   color:#6a7590;font:400 11px/1.3 Georgia,'Times New Roman',serif;
-}
-#page.dossier-page .dossier-rear-stage .dossier-events-paper-section.is-collapsed .dossier-events-timeline{
-  display:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"] .dossier-events-upcoming-blank .dossier-events-bottom-actions{
   display:none;
@@ -3447,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6138') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6140') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3545,7 +3531,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1138 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1140 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
@@ -3574,7 +3560,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1138 — Tasks / attention stage 2: ONLY title and visual ellipsis.
+/* 5.0.1140 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1140.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3592,23 +3578,15 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   white-space:nowrap;
   pointer-events:none;
 }
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-ellipsis{
-  position:absolute;
-  top:4.65%;
-  right:5.0%;
-  display:flex;
-  align-items:center;
-  gap:clamp(2.6px,.83vw,3.5px);
-  height:clamp(5px,1.45vw,6px);
-  pointer-events:none;
+
+/* 5.0.1140 — compatibility guard for an older in-memory dossier DOM.
+   The current render does not insert these controls; if an older document
+   survived an iOS PWA update, hide the obsolete ellipses and expand history.
+   Do not change approved paper/card dimensions or typography. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-attention-blank .dossier-attention-ellipsis,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"] .dossier-events-paper-menu {
+  display:none !important;
 }
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank .dossier-attention-ellipsis i{
-  display:block;
-  width:clamp(3px,1.04vw,4.35px);
-  height:clamp(3px,1.04vw,4.35px);
-  border-radius:50%;
-  background:#8f5e23;
-  box-shadow:0 .35px .6px rgba(62,36,16,.2);
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section.is-collapsed .dossier-events-timeline {
+  display:block !important;
 }

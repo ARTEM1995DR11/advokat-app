@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1138';
-var APP_BUILD='6138';
+var APP_VERSION='5.0.1140';
+var APP_BUILD='6140';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5195,14 +5195,13 @@ function dossierEventsTimelineItem(t,m,past){
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
 }
-var DOSSIER_EVENTS_PAST_COLLAPSED=Object.create(null);
-function dossierEventsSection(title,kind,items,m,showMenu,emptyText){
+/* 5.0.1140: «Прошедшие события» всегда раскрыты; список прокручивается
+   вместе со страницей. Кнопка «•••» и сворачивание удалены. */
+function dossierEventsSection(title,kind,items,m,emptyText){
   var list=items||[];
-  var collapsed=kind==='past'&&!!DOSSIER_EVENTS_PAST_COLLAPSED[String(m.id)];
-  return '<section class="dossier-events-paper-section dossier-events-paper-section-'+esc(kind)+(collapsed?' is-collapsed':'')+'">'+
+  return '<section class="dossier-events-paper-section dossier-events-paper-section-'+esc(kind)+'">'+
     '<div class="dossier-events-paper-heading"><h2>'+esc(title)+'</h2>'+
       '<span class="dossier-events-paper-rule" aria-hidden="true"></span>'+
-      (showMenu?'<button class="dossier-events-paper-menu" type="button" data-act="dossier-events-toggle-past" data-id="'+esc(m.id)+'" aria-label="'+(collapsed?'Показать':'Скрыть')+' прошедшие события" aria-expanded="'+(!collapsed?'true':'false')+'">•••</button>':'')+
     '</div>'+
     (list.length?'<ol class="dossier-events-timeline">'+list.map(function(t){return dossierEventsTimelineItem(t,m,kind==='past');}).join('')+'</ol>':dossierEventsEmptySection(emptyText||'Событий пока нет.'))+
   '</section>';
@@ -5247,8 +5246,8 @@ function dossierEventsListsBody(m,id,events){
   });
   var emptyMap={all:'Предстоящих событий пока нет.',hearing:'Предстоящих заседаний пока нет.',deadline:'Предстоящих сроков пока нет.',meeting:'Предстоящих встреч пока нет.'};
   return '<div class="dossier-events-lists-live">'+
-    dossierEventsSection('ПРЕДСТОЯЩИЕ СОБЫТИЯ','upcoming',upcoming,m,false,emptyMap[current]||emptyMap.all)+
-    dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,true,'Прошедших событий пока нет.')+
+    dossierEventsSection('ПРЕДСТОЯЩИЕ СОБЫТИЯ','upcoming',upcoming,m,emptyMap[current]||emptyMap.all)+
+    dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,'Прошедших событий пока нет.')+
   '</div>';
 }
 /* 5.0.1112 — connect the actual marker coordinates in BOTH chronologies.
@@ -5348,6 +5347,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
       ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', задач в работе: '+count:'')+'"'+
       ' tabindex="0"></button>';
   }).join('');
+  // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
     '<div class="dossier-stage7-head">'+
@@ -5391,12 +5391,11 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1138 / Attention, step 2: approved paper, HTML heading and
-        // decorative ellipsis. Interactive menu and actual task rows come later.
+        // 5.0.1140 / Attention, step 2: approved paper, HTML heading and
+        // no menu dots: scrolling handles long lists. Actual task rows come later.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-heading" aria-label="Требуют внимания">'+
           '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
-          '<span class="dossier-attention-ellipsis" aria-hidden="true"><i></i><i></i><i></i></span>'+
         '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -7167,17 +7166,6 @@ document.addEventListener('click', function(ev){
       }
       break;
     }
-    case 'dossier-events-toggle-past': {
-      var toggledId=String(id||$('#page')._mid||'');
-      DOSSIER_EVENTS_PAST_COLLAPSED[toggledId]=!DOSSIER_EVENTS_PAST_COLLAPSED[toggledId];
-      var pm=matter(toggledId);
-      if(pm){
-        var listPanel=$('#page').querySelector('[data-events-lists-output]');
-        if(listPanel)listPanel.innerHTML=dossierEventsListsBody(pm,toggledId,tasksOf(toggledId).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;}));
-      }
-      dossierEventsFitSoon();
-      break;
-    }
     case 'dossier-event-choice': sheetDossierEventChoice(id||$('#page')._mid); break;
     case 'dossier-create-event': {
       var evm=matter(id);if(!evm||evm.archived){toast('Сначала верните дело в работу');break;}
@@ -8336,7 +8324,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61390e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61400e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--rear-glow)" stop-opacity=".15"/><stop offset=".42" stop-color="var(--rear-bright)" stop-opacity=".055"/><stop offset=".7" stop-color="var(--rear-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--rear-edge)" stop-opacity=".18"/></linearGradient>
