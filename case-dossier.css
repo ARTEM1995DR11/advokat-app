@@ -3433,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6147') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6148') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3531,7 +3531,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1147 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1148 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
@@ -3560,7 +3560,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1147 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1147.
+/* 5.0.1148 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1148.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3579,7 +3579,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1147 — compatibility guard for an older in-memory dossier DOM.
+/* 5.0.1148 — compatibility guard for an older in-memory dossier DOM.
    The current render does not insert these controls; if an older document
    survived an iOS PWA update, hide the obsolete ellipses and expand history.
    Do not change approved paper/card dimensions or typography. */
@@ -3592,7 +3592,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1147 / Attention stage 3 — EMPTY row geometry only.
+/* 5.0.1148 / Attention stage 3 — EMPTY row geometry only.
    This overlays the approved second paper without resizing or shifting it.
    Titles, dates, status chips and click handlers will arrive in later steps. */
 #page.dossier-page .dossier-rear-stage
@@ -3631,7 +3631,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1147 — Events, join between the upcoming and past papers.
+/* 5.0.1148 — Events, join between the upcoming and past papers.
    After menu removal the paired 13px border-image rims visually produced a
    wide double parchment seam.  Overlap ONLY the second sheet by 7px; do not
    alter its heading, timeline rows, approved art or the page scroll model. */
@@ -3648,14 +3648,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   }
 }
 
-/* 5.0.1147 — Stage 3, reference alignment: on the tall first row the
+/* 5.0.1148 — Stage 3, reference alignment: on the tall first row the
    checkbox sits beside the two-line title, not beside the second metadata line. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row:first-child .dossier-attention-structure-checkbox{
   top:29%;
 }
 
-/* 5.0.1147 — Attention stage 4. Content ONLY; preserve the approved paper,
+/* 5.0.1148 — Attention stage 4. Content ONLY; preserve the approved paper,
    row heights, checkboxes, arrows, lines and summary above. All row elements
    remain visual (noninteractive) until workflow integration in stage 5. */
 #page.dossier-page .dossier-rear-stage

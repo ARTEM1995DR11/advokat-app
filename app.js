@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1147';
-var APP_BUILD='6147';
+var APP_VERSION='5.0.1148';
+var APP_BUILD='6148';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5195,7 +5195,7 @@ function dossierEventsTimelineItem(t,m,past){
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
 }
-/* 5.0.1147: «Прошедшие события» всегда раскрыты; список прокручивается
+/* 5.0.1148: «Прошедшие события» всегда раскрыты; список прокручивается
    вместе со страницей. Кнопка «•••» и сворачивание удалены. */
 function dossierEventsSection(title,kind,items,m,emptyText){
   var list=items||[];
@@ -5330,7 +5330,7 @@ function dossierTasksSummaryLive(id){
     }).join('')+'</div></div>';
 }
 
-// 5.0.1147 — Stage 4: visible row copy over the approved three-row geometry.
+// 5.0.1148 — Stage 4: visible row copy over the approved three-row geometry.
 // The source is ONLY saved tasks of the currently opened case. The three empty
 // placeholders remain when no records exist; demonstration records are QA-only.
 // Checkboxes and chevrons stay decorative until stage 5 connects actions.
@@ -5360,7 +5360,7 @@ function dossierAttentionRowMarkup(t){
   var name=present?String(t.title||'Задача'):'',due=present?(t.due||''):'';
   var cat=present?dossierAttentionCategory(t):'';
   var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
-  var when=due?((dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:'')):(t.time?t.time:'Без срока');
+  var when=present?(due?((dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:'')):(t.time?t.time:'Без срока')):'';
   return '<div class="dossier-attention-structure-row'+(present?' has-task':'')+'">'+
     '<span class="dossier-attention-structure-checkbox" aria-hidden="true"></span>'+
     '<span class="dossier-attention-structure-arrow" aria-hidden="true"></span>'+
@@ -5445,7 +5445,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1147 / Attention, step 4: display real per-case task details
+        // 5.0.1148 / Attention, step 4: display real per-case task details
         // over the same approved row structure. No synthetic tasks are persisted.
         // Interactions (checkbox, opening a task) remain the stage 5 work.
         '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-row-structure" aria-label="Требуют внимания">'+
@@ -8380,7 +8380,7 @@ function matterFolderShell(){
       <linearGradient id="${uid}-faceInnerShade" x1=".05" y1=".05" x2=".95" y2="1"><stop stop-color="#8f7d67" stop-opacity="0"/><stop offset=".40" stop-color="#8f7d67" stop-opacity="0"/><stop offset=".70" stop-color="#8f7d67" stop-opacity=".085"/><stop offset="1" stop-color="#8f7d67" stop-opacity=".20"/></linearGradient>
       <filter id="${uid}-faceEdgeSoft" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="3"/></filter>
       <clipPath id="${uid}-backClip"><path d="${back}"/></clipPath>
-      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61470e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
+      <linearGradient id="${uid}-rimDepth" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="438"><stop stop-color="#96601e"/><stop offset=".20" stop-color="#794710"/><stop offset=".55" stop-color="#61480e"/><stop offset=".78" stop-color="#764614"/><stop offset=".93" stop-color="#925c1b"/><stop offset="1" stop-color="#734215"/></linearGradient>
       <clipPath id="${uid}-tabClip"><path d="${tab}"/></clipPath>
       <clipPath id="${uid}-shoulderClip"><path d="${shoulder}"/></clipPath>
       <linearGradient id="${uid}-shoulderRound" gradientUnits="userSpaceOnUse" x1="389" y1="0" x2="427" y2="0"><stop stop-color="var(--rear-glow)" stop-opacity=".15"/><stop offset=".42" stop-color="var(--rear-bright)" stop-opacity=".055"/><stop offset=".7" stop-color="var(--rear-deep)" stop-opacity="0"/><stop offset="1" stop-color="var(--rear-edge)" stop-opacity=".18"/></linearGradient>
