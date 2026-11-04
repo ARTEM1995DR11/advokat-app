@@ -3433,7 +3433,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
   box-sizing:border-box;
   border:none;
-  background:url('dossier-tasks-summary-paper-v6127.webp?v=6142') center/100% 100% no-repeat;
+  background:url('dossier-tasks-summary-paper-v6127.webp?v=6144') center/100% 100% no-repeat;
   filter:saturate(.86) brightness(1.01) contrast(.985);
 }
 
@@ -3531,14 +3531,14 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1142 — Tasks, blank stage 2: independently placed parchment from the
+/* 5.0.1144 — Tasks, blank stage 2: independently placed parchment from the
    separately reviewed PNG. The approved summary and all earlier dossier
    layers remain untouched. The blank paper has no live entries or controls. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-attention-blank{
   position:absolute;
   z-index:5;
-  top:calc(46.2% + 10px + 28.29vw - 13px);
+  top:calc(46.2% + 10px + 28.29vw - 10px);
   left:1.45%;
   width:97.1%;
   height:auto;
@@ -3560,7 +3560,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1142 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1142.
+/* 5.0.1144 — Tasks / attention stage 2: ONLY title; the redundant ellipsis is removed in 5.0.1144.
    All geometry, the approved blank image and its one baked rule stay intact.
    This ellipsis is decorative until the actual actions menu is implemented. */
 #page.dossier-page .dossier-rear-stage
@@ -3579,7 +3579,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   pointer-events:none;
 }
 
-/* 5.0.1142 — compatibility guard for an older in-memory dossier DOM.
+/* 5.0.1144 — compatibility guard for an older in-memory dossier DOM.
    The current render does not insert these controls; if an older document
    survived an iOS PWA update, hide the obsolete ellipses and expand history.
    Do not change approved paper/card dimensions or typography. */
@@ -3589,4 +3589,43 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 #page.dossier-page .dossier-rear-stage .dossier-events-paper-section.is-collapsed .dossier-events-timeline {
   display:block !important;
+}
+
+
+/* 5.0.1144 / Attention stage 3 — EMPTY row geometry only.
+   This overlays the approved second paper without resizing or shifting it.
+   Titles, dates, status chips and click handlers will arrive in later steps. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-attention-blank .dossier-attention-row-structure{
+  position:absolute;
+  top:13.1%;bottom:5.5%;left:4.0%;right:4.0%;
+  display:grid;grid-template-rows:repeat(3,minmax(0,1fr));
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row{
+  position:relative;min-width:0;min-height:0;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-row:not(:last-child)::after{
+  content:'';position:absolute;left:12%;right:0;bottom:0;
+  height:1px;background:rgba(154,119,84,.21);
+  box-shadow:0 1px 0 rgba(255,255,255,.46);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-checkbox{
+  position:absolute;left:0;top:37%;transform:translateY(-50%);
+  width:clamp(18px,5.48vw,24px);height:clamp(18px,5.48vw,24px);
+  box-sizing:border-box;border:1.5px solid #98703c;
+  border-radius:clamp(3px,.83vw,4.3px);
+  background:linear-gradient(145deg,rgba(255,253,245,.92),rgba(250,242,227,.67));
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.86),0 1px 2px rgba(113,78,42,.13);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-attention-structure-arrow{
+  position:absolute;right:1.3%;top:62%;transform:translateY(-50%) rotate(45deg);
+  width:clamp(7px,2.05vw,9px);height:clamp(7px,2.05vw,9px);
+  box-sizing:border-box;border-top:1.6px solid #987039;
+  border-right:1.6px solid #987039;
+  border-radius:1px;
 }
