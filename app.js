@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1160';
-var APP_BUILD='6160';
+var APP_VERSION='5.0.1162';
+var APP_BUILD='6162';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5388,11 +5388,11 @@ function dossierOtherActiveTasks(id){
   });
   return entries;
 }
-// Stage 4: real task text and categories in the existing two approved rows.
-// Checkbox/arrow visuals stay decorative until the stage-5 event handlers.
+// 5.0.1161 — Stage 5: case-specific, operational task rows.
+// The real task ID is applied only to actual records; placeholders remain inert.
 function dossierOtherRowMarkup(t){
   if(!t)return '<div class="dossier-other-structure-row is-placeholder" aria-hidden="true"><span class="dossier-other-structure-checkbox"></span><span class="dossier-other-structure-arrow"></span></div>';
-  var name=String(t.title||'Задача');
+  var name=String(t.title||'Задача'), tid=esc(t.id);
   var cat=dossierAttentionCategory(t);
   var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
   var due=t.due||'';
@@ -5406,12 +5406,15 @@ function dossierOtherRowMarkup(t){
       '<div class="dossier-other-meta">'+
         '<span class="dossier-other-when">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
         '<span class="dossier-other-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
-      '</div></div></div>';
+      '</div></div>'+ 
+    '<button type="button" class="dossier-other-check-hit" data-act="dossier-other-toggle" data-id="'+tid+'" aria-label="Отметить выполненной: '+esc(name)+'" title="Завершить задачу"></button>'+ 
+    '<button type="button" class="dossier-other-open-hit" data-act="dossier-other-open" data-id="'+tid+'" aria-label="Открыть задачу: '+esc(name)+'" title="Открыть задачу"></button>'+ 
+    '</div>';
 }
 function dossierOtherRowsLive(id){
   var entries=dossierOtherActiveTasks(id);
   var first=Array.from({length:2},function(_,i){return dossierOtherRowMarkup(entries[i]||null);}).join('');
-  // Preserve visibility of EVERY saved task even before stage-5 actions.
+  // Preserve visibility and interaction for EVERY saved task, including continuations.
   // For three or more, use a separate parchment extension; never silently
   // omit saved records or count items that cannot be seen in either list.
   var extra=entries.length>2
@@ -5528,8 +5531,8 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
           '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
         '</section>'+
-        // 5.0.1159 — «Остальные задачи», stage 4. Text, dates, category and
-        // visual statuses in approved two-row paper; actions follow at stage 5.
+        // 5.0.1161 — «Остальные задачи», stage 5. Accessible checkboxes and
+        // editor arrows over the two approved paper rows and any continuation.
         '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-live-copy" aria-label="Остальные задачи">'+
           '<img src="dossier-tasks-other-blank-v6153.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="700" loading="eager" decoding="async">'+
           '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
@@ -7240,14 +7243,35 @@ document.addEventListener('click', function(ev){
     case 'qa-journal': closeSheet();if(!activeM().length){toast('Сначала создайте дело');break;}sheetJournal('');break;
 
     /* tasks */
-    case 'dossier-attention-toggle': {
-      var currentId=$('#page')._mid, taskToComplete=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
-      if(!taskToComplete||!sameRecordId(taskToComplete.mid,currentId)||taskToComplete.done||!( !taskToComplete.kind || taskToComplete.kind==='task' ))break;
+    case 'dossier-attention-toggle':
+    case 'dossier-other-toggle': {
+      var pageForTask=$('#page');
+      var currentId=pageForTask&&pageForTask._mid;
+      var taskToComplete=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
+      // Revalidate the task/active dossier before mutating encrypted local state.
+      if(!pageForTask||pageForTask._matterTab!=='tasks'||!taskToComplete||
+         !sameRecordId(taskToComplete.mid,currentId)||taskToComplete.done||
+         (taskToComplete.kind&&taskToComplete.kind!=='task'))break;
       var currentMatter=matter(currentId);
-      if(currentMatter&&currentMatter.archived){toast('Сначала верните дело в работу');break;}
+      if(!currentMatter)break;
+      if(currentMatter.archived){toast('Сначала верните дело в работу');break;}
+      // Guard an outdated visual row after a date, priority or status change.
+      if(a==='dossier-other-toggle' && dossierNeedsAttention(taskToComplete))break;
+      if(a==='dossier-attention-toggle' && !dossierNeedsAttention(taskToComplete))break;
       var scrollBefore=window.scrollY;
       toggleTaskDone(id);
       requestAnimationFrame(function(){window.scrollTo(0,scrollBefore);});
+      break;
+    }
+    case 'dossier-other-open': {
+      var currentPage=$('#page'), rowTask=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
+      if(currentPage&&currentPage._matterTab==='tasks'&&rowTask&&
+        sameRecordId(rowTask.mid,currentPage._mid)&&!rowTask.done&&
+        (!rowTask.kind||rowTask.kind==='task')) {
+        var editorMatter=matter(currentPage._mid);
+        if(editorMatter&&editorMatter.archived){toast('Сначала верните дело в работу');break;}
+        if(editorMatter)editTask(rowTask);
+      }
       break;
     }
     case 'toggle': toggleTaskDone(id); break;

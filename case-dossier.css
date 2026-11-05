@@ -4017,7 +4017,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   display:flex;flex-direction:column;
   padding:11px 5% 26px;
   border:0;border-radius:0;pointer-events:none;
-  background:url('dossier-tasks-attention-extension-v6150.png?v=6160') center/100% 100% no-repeat;
+  background:url('dossier-tasks-attention-extension-v6150.png?v=6162') center/100% 100% no-repeat;
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row{
@@ -4032,4 +4032,33 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row:first-child:last-child::after{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
   min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px) + var(--dossier-other-extra-height,0px));
+}
+
+/* 5.0.1161 — «Остальные задачи», stage 5.
+   Transparent accessible hit targets centered on the existing drawn checkbox
+   and chevron. No changes to the approved paper, visuals, text or spacing. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-check-hit,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-open-hit{
+  position:absolute;z-index:10;display:block;
+  appearance:none;-webkit-appearance:none;
+  padding:0;border:0;box-sizing:border-box;background:transparent;
+  pointer-events:auto;touch-action:manipulation;cursor:pointer;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-check-hit{
+  left:calc(4.8% - 10px);top:29%;transform:translateY(-50%);
+  width:clamp(38px,11vw,46px);height:clamp(38px,11vw,46px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-open-hit{
+  right:calc(2.35% - 14px);top:50%;transform:translateY(-50%);
+  width:clamp(36px,10.5vw,44px);height:clamp(44px,12vw,52px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-check-hit:focus-visible,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-open-hit:focus-visible{
+  outline:2px solid #245382;outline-offset:-2px;border-radius:8px;
 }
