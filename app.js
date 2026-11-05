@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1166';
-var APP_BUILD='6166';
+var APP_VERSION='5.0.1167';
+var APP_BUILD='6167';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5312,7 +5312,7 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
-// 5.0.1166 — layout-driven task footer. The approved folder tabs and
+// 5.0.1167 — layout-driven task footer. The approved folder tabs and
 // summary stay fixed. The folder foot follows the last actual task/button,
 // not the historical fixed-height mockup sheets.
 function dossierTasksFitToContent(){
@@ -5327,13 +5327,19 @@ function dossierTasksFitToContent(){
   var stageRect=stage.getBoundingClientRect();
   var stackRect=stack.getBoundingClientRect();
   var footerHeight=foot?foot.offsetHeight:95;
+  var actions=stack.querySelector('.dossier-tasks-bottom-actions');
+  var actionRect=actions&&actions.getBoundingClientRect();
+  var actionsHeight=actions?actions.getBoundingClientRect().height:70;
+  // Same compositing rule as General and Events: the gilded folder edge
+  // finishes behind the upper part of the buttons, never below them.
   var desired=Math.max(
-    Math.ceil(stackRect.bottom-stageRect.top+footerHeight-10),
+    Math.ceil((actionRect?actionRect.top:stackRect.bottom)-stageRect.top+24),
     (head?head.offsetHeight:140)+footerHeight+12
   );
   stage.style.height=desired+'px';
   stage.style.minHeight='0px';
-  canvas.style.minHeight=Math.max(window.innerHeight-155,(stage.offsetTop||55)+desired+8)+'px';
+  // The controls extend BELOW the folder edge and remain scrollable/tappable.
+  canvas.style.minHeight=Math.max(window.innerHeight-155,(stage.offsetTop||55)+desired+actionsHeight+22)+'px';
 }
 function dossierTasksFitSoon(){
   requestAnimationFrame(function(){requestAnimationFrame(dossierTasksFitToContent);});
@@ -5532,7 +5538,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   }).join('');
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
-  // 5.0.1166: papers are content-sized and stacked in normal flow.
+  // 5.0.1167: papers are content-sized and stacked in normal flow.
   // All rows are visible inside the same paper; there are no placeholder
   // rows, stitched extensions or manual shifts between sections.
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
