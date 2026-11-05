@@ -3799,45 +3799,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:rgba(255,252,245,.83);border:1px solid rgba(166,127,80,.43);
   border-radius:10px;padding:8px 12px;
 }
-/* 5.0.1150 — completed stage 6: the fourth and subsequent rows continue
-   on real parchment from the very same approved paper asset (cropped only).
-   The first three-row approved paper, its title, checkbox/arrow geometry and
-   the summary remain exactly unchanged.  The continuation has its own bottom
-   gold lip, instead of the flat rectangular tan appendage of build 6149. */
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows{
-  position:absolute;
-  top:calc(100% + 4px);
-  left:-3.0%;right:-3.0%;z-index:6;
-  min-width:0;
-  display:flex;flex-direction:column;
-  padding:11px 5.0% 26px;
-  box-sizing:border-box;
-  pointer-events:none;
-  border:0;border-radius:0;
-  background: url('dossier-tasks-attention-extension-v6150.png?v=6152') center/100% 100% no-repeat;
-  box-shadow:none;
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row{
-  flex:none;
-  height:clamp(65px,19vw,78px);
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:first-child .dossier-attention-structure-checkbox,
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:first-child .dossier-attention-check-hit{top:37%;}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows .dossier-attention-structure-row:not(:last-child)::after{
-  left:0;right:0;
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-attention-more-rows::before{
-  content:'';position:absolute;left:6%;right:6%;top:6px;height:1px;
-  background:rgba(154,119,84,.19);box-shadow:0 1px 0 rgba(255,255,255,.53);
-}
-
-
 /* 5.0.1156 / «Остальные задачи»: tighten the paper seam another 4 CSS px.
    The approved card shape, header and other tabs are unchanged. */
 /* 5.0.1155 / «Остальные задачи», stages 1–2: correct the visible paper gap.
@@ -4007,33 +3968,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-other-meta{font-size:7.2px;grid-template-columns:49% 51%;}
 }
 
-/* 5.0.1159 — Safety continuation for 3+ «Остальные задачи».
-   Reuses the approved parchment texture and only adds height BELOW the new
-   card. Full interaction will be added in stage 5; no hidden saved tasks. */
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-other-blank .dossier-other-extra-rows{
-  position:absolute;top:calc(100% + 2px);left:-3.0%;right:-3.0%;z-index:6;
-  box-sizing:border-box;min-width:0;
-  display:flex;flex-direction:column;
-  padding:11px 5% 26px;
-  border:0;border-radius:0;pointer-events:none;
-  background:url('dossier-tasks-attention-extension-v6150.png?v=6162') center/100% 100% no-repeat;
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row{
-  flex:none;height:clamp(65px,19vw,78px);
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row:not(:last-child)::after{
-  content:'';position:absolute;left:1%;right:0;bottom:0;height:1px;
-  background:rgba(154,119,84,.21);box-shadow:0 1px 0 rgba(255,255,255,.46);
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row:first-child:last-child::after{display:none;}
-#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
-  min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px) + var(--dossier-other-extra-height,0px));
-}
-
 /* 5.0.1161 — «Остальные задачи», stage 5.
    Transparent accessible hit targets centered on the existing drawn checkbox
    and chevron. No changes to the approved paper, visuals, text or spacing. */
@@ -4159,19 +4093,6 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage .dossier-done-open:focus-visible{
   outline:2px solid #245382;outline-offset:-2px;border-radius:8px;
 }
-#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows{
-  position:absolute;z-index:6;left:-3%;right:-3%;top:calc(100% + 2px);
-  padding:11px 5% 26px;box-sizing:border-box;
-  display:flex;flex-direction:column;pointer-events:none;
-  background:url('dossier-tasks-attention-extension-v6150.png?v=6163') center/100% 100% no-repeat;
-}
-#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows .dossier-done-row{
-  flex:none;height:clamp(65px,19vw,78px);
-}
-#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows .dossier-done-row:not(:last-child)::after{
-  content:"";position:absolute;left:1%;right:0;bottom:0;height:1px;
-  background:rgba(154,119,84,.21);
-}
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
   min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px) + var(--dossier-other-extra-height,0px) + clamp(125px,37.6vw,166px) + var(--dossier-done-extra-height,0px));
 }
@@ -4207,4 +4128,142 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 #page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-tasks{
   min-height:max(calc(100dvh - 160px),calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + var(--dossier-other-list-extra-height,0px) + clamp(150px,47.5vw,205px) + clamp(125px,37.6vw,166px) + clamp(45px,17.5vw,65px) + 12px));
+}
+
+/* 5.0.1166 — ADAPTIVE PAPER STACK. All task section heights are dictated
+   exclusively by their actual visible rows. Preserve approved artwork via
+   nine-slice borders; do not stretch the top, rounded corners or bottom lip.
+   This overrides the earlier fixed-3/2/2-row mockup positioning only on Tasks. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack{
+  position:absolute;
+  z-index:8;
+  top:calc(46.2% + 28.29vw);
+  left:1.45%;width:97.1%;
+  margin:0;padding:0;
+  display:flex;flex-direction:column;align-items:stretch;
+  gap:0;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section{
+  display:block;position:relative;
+  inset:auto;top:auto;left:auto;right:auto;bottom:auto;
+  flex:none;width:100%;height:auto;aspect-ratio:auto;
+  box-sizing:border-box;margin:0;
+  border:14px solid transparent;
+  border-image-slice:115 68 90 68 fill;
+  border-image-width:29px 17px 19px 17px;
+  border-image-repeat:stretch;
+  padding:13px 0 8px;
+  z-index:5;overflow:visible;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section + section{
+  margin-top:-8px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-attention-blank{
+  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6166');
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-other-blank{
+  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6166');
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-done-paper{
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6166');
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section > h2{
+  position:absolute;top:9px;left:3.4%;right:3.4%;
+  font:700 clamp(10.2px,2.83vw,12.4px)/1.12 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(.85px,.26vw,1.2px);color:#845422;
+  margin:0;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-attention-row-structure,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-other-row-structure,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-rows{
+  position:relative;inset:auto;top:auto;left:auto;right:auto;bottom:auto;
+  display:flex;flex-direction:column;
+  margin:0;padding:0;min-height:0;
+  width:100%;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-attention-structure-row,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-other-structure-row,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-row{
+  position:relative;display:block;flex:0 0 clamp(72px,19.3vw,83px);
+  width:100%;height:clamp(72px,19.3vw,83px);min-height:0;
+}
+/* Separator between actual tasks only, including lists over 3 rows. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-attention-structure-row:not(:last-child)::after,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-other-structure-row:not(:last-child)::after,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-row:not(:last-child)::after{
+  content:"";display:block;position:absolute;left:10.8%;right:0;bottom:0;
+  height:1px;background:rgba(154,119,84,.21);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-attention-structure-row:last-child::after,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-other-structure-row:last-child::after,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-row:last-child::after{display:none;}
+/* On the one-row card, preserve exactly the same checkbox/title coordinates. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-row .dossier-done-check,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-row .dossier-done-toggle{top:35%;}
+/* Buttons follow the last actual paper, even when no tasks are present. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-bottom-actions{
+  position:relative;left:0;right:auto;top:auto;bottom:auto;
+  display:block;flex:0 0 auto;width:100%;height:auto;
+  aspect-ratio:380/70;margin:-5px 0 0;
+  z-index:10;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action{
+  pointer-events:auto;
+}
+/* No hard-coded empty paper below the buttons; fitter sizes folder to stack. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
+  min-height:0;
+}
+/* Override legacy specificity of fixed-size stage 1–6 paper wrappers. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
+  position:relative!important;top:auto!important;left:auto!important;right:auto!important;
+  width:100%!important;height:auto!important;aspect-ratio:auto!important;
+  margin-left:0!important;margin-right:0!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-attention-row-structure,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-other-row-structure,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack .dossier-done-rows{
+  position:relative!important;top:auto!important;bottom:auto!important;left:auto!important;right:auto!important;
+  display:flex!important;flex-direction:column!important;grid-template-rows:none!important;
+}
+/* Reserve the paper title and single baked rule before the first real row. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section{
+  padding-top:31px;
+}
+/* Earlier art wrappers reset `border:0` with a more specific selector.
+   Force the nine-slice border on every section, including Other and Done. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section{
+  border:14px solid transparent!important;
+  border-image-slice:115 68 90 68 fill!important;
+  border-image-width:29px 17px 19px 17px!important;
+  border-image-repeat:stretch!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section + section{
+  margin-top:-8px!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank{
+  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6166')!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank{
+  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6166')!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6166')!important;
+}
+/* Header labels do not drift downward as task counts grow. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section > h2{
+  top:10px!important;left:4.0%!important;right:4.0%!important;
+}
+/* 5.0.1166 — retain the approved GOLD lower lip without reserving a
+   100px empty parchment tail beneath the task buttons. Only Tasks tab. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] > .dossier-stage7-foot{
+  height:clamp(28px,8vw,35px)!important;
+  flex:0 0 clamp(28px,8vw,35px)!important;
+  aspect-ratio:auto!important;
+  object-fit:cover!important;
+  object-position:center bottom!important;
+  transform:translateY(-2px);
 }

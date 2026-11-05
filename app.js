@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1165';
-var APP_BUILD='6165';
+var APP_VERSION='5.0.1166';
+var APP_BUILD='6166';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5312,6 +5312,37 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
+// 5.0.1166 — layout-driven task footer. The approved folder tabs and
+// summary stay fixed. The folder foot follows the last actual task/button,
+// not the historical fixed-height mockup sheets.
+function dossierTasksFitToContent(){
+  var page=document.getElementById('page');
+  if(!page||!page.classList.contains('dossier-page')||page._matterTab!=='tasks')return;
+  var stage=page.querySelector('.dossier-stage7[data-active-tab="tasks"]');
+  var stack=stage&&stage.querySelector('.dossier-tasks-stack');
+  var canvas=stage&&stage.closest('.dossier-clean-canvas-tasks');
+  if(!stage||!stack||!canvas)return;
+  var head=stage.querySelector('.dossier-stage7-head');
+  var foot=stage.querySelector('.dossier-stage7-foot');
+  var stageRect=stage.getBoundingClientRect();
+  var stackRect=stack.getBoundingClientRect();
+  var footerHeight=foot?foot.offsetHeight:95;
+  var desired=Math.max(
+    Math.ceil(stackRect.bottom-stageRect.top+footerHeight-10),
+    (head?head.offsetHeight:140)+footerHeight+12
+  );
+  stage.style.height=desired+'px';
+  stage.style.minHeight='0px';
+  canvas.style.minHeight=Math.max(window.innerHeight-155,(stage.offsetTop||55)+desired+8)+'px';
+}
+function dossierTasksFitSoon(){
+  requestAnimationFrame(function(){requestAnimationFrame(dossierTasksFitToContent);});
+}
+window.addEventListener('resize',function(){
+  var page=document.getElementById('page');
+  if(page&&page.classList.contains('dossier-page')&&page._matterTab==='tasks')dossierTasksFitSoon();
+},{passive:true});
+
 // 5.0.1133 — live case-task summary, using only the actual task records.
 // A past due date counts as overdue only for unfinished work; deadlines,
 // hearings and meetings belong to the Events tab and are not counted here.
@@ -5416,15 +5447,7 @@ function dossierOtherRowMarkup(t){
     '</div>';
 }
 function dossierOtherRowsLive(id){
-  var entries=dossierOtherActiveTasks(id);
-  var first=Array.from({length:2},function(_,i){return dossierOtherRowMarkup(entries[i]||null);}).join('');
-  // Preserve visibility and interaction for EVERY saved task, including continuations.
-  // For three or more, use a separate parchment extension; never silently
-  // omit saved records or count items that cannot be seen in either list.
-  var extra=entries.length>2
-    ? '<div class="dossier-other-extra-rows" aria-label="Продолжение остальных задач">'+entries.slice(2).map(dossierOtherRowMarkup).join('')+'</div>'
-    : '';
-  return first+extra;
+  return dossierOtherActiveTasks(id).map(dossierOtherRowMarkup).join('');
 }
 // 5.0.1163 — Completed work uses only actual saved records from this case.
 // Dates are the task's original due date when provided, otherwise the
@@ -5455,11 +5478,7 @@ function dossierDoneRowMarkup(t){
   '</div>';
 }
 function dossierDoneRowsLive(id){
-  var entries=dossierDoneWorkTasks(id);
-  var first=Array.from({length:2},function(_,i){return dossierDoneRowMarkup(entries[i]||null);}).join('');
-  var more=entries.length>2?'<div class="dossier-done-extra-rows" aria-label="Продолжение выполненных задач">'+
-    entries.slice(2).map(dossierDoneRowMarkup).join('')+'</div>':'';
-  return first+more;
+  return dossierDoneWorkTasks(id).map(dossierDoneRowMarkup).join('');
 }
 function dossierAttentionRowMarkup(t){
   if(!t) return '<div class="dossier-attention-structure-row is-placeholder" aria-hidden="true"></div>';
@@ -5480,18 +5499,8 @@ function dossierAttentionRowMarkup(t){
     '</div>';
 }
 function dossierAttentionRowsLive(id){
-  var entries=dossierAttentionActiveTasks(id);
-  if(!entries.length){
-    return '<div class="dossier-attention-empty" role="status">'+
-      '<span>Нет задач, требующих внимания</span>'+
-      (matter(id)&&!matter(id).archived?'<button type="button" data-act="m-add" data-id="'+esc(id)+'">+ Добавить задачу</button>':'')+
-      '</div>';
-  }
-  var first=Array.from({length:3},function(_,i){return dossierAttentionRowMarkup(entries[i]||null);}).join('');
-  var extra=entries.length>3?'<div class="dossier-attention-more-rows" aria-label="Остальные задачи">'+entries.slice(3).map(dossierAttentionRowMarkup).join('')+'</div>':'';
-  return first+extra;
+  return dossierAttentionActiveTasks(id).map(dossierAttentionRowMarkup).join('');
 }
-
 // 5.0.1164 — two approved gold/ivory dossier buttons below completed work.
 function dossierTasksBottomActions(id){
   return '<div class="dossier-stage9-blank-buttons dossier-tasks-bottom-actions" role="group" aria-label="Действия с задачами">'+
@@ -5523,21 +5532,10 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   }).join('');
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
-  var extraAttention=state==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
-  var extraOther=state==='tasks'?Math.max(0,dossierOtherActiveTasks(id).length-2):0;
-  // Reserve enough space for both parchment continuations on mobile widths.
-  var continuationHeight=extraAttention>0 ? extraAttention*78+75 : 0;
-  var otherExtraHeight=extraOther>0 ? extraOther*78+45 : 0;
-  var extraDone=state==='tasks'?Math.max(0,dossierDoneWorkTasks(id).length-2):0;
-  var doneExtraHeight=extraDone>0?extraDone*78+41:0;
-  var doneButtonsShift=extraDone>0?'calc('+extraDone+' * clamp(65px,19vw,78px) + 41px)':'0px';
-  var doneFollowShift=extraOther>0?'calc('+extraOther+' * clamp(65px,19vw,78px) + 41px)':'0px';
-  // CSS-relative continuation shift stays accurate from 320 to 430 CSS px.
-  // The visible continuation is n × responsive row height + 37px padding
-  // and its top begins 10px above the attention card's mathematical bottom.
-  var otherFollowShift=extraAttention>0
-    ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 34px)' : '0px';
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-extra-height:'+otherExtraHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+';--dossier-done-follow-shift:'+doneFollowShift+';--dossier-done-extra-height:'+doneExtraHeight+'px;--dossier-done-buttons-shift:'+doneButtonsShift+'">'+
+  // 5.0.1166: papers are content-sized and stacked in normal flow.
+  // All rows are visible inside the same paper; there are no placeholder
+  // rows, stitched extensions or manual shifts between sections.
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5579,26 +5577,24 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '<div class="dossier-tasks-first-blank" data-dossier-layer="tasks-summary-approved">'+
           dossierTasksSummaryLive(id)+
         '</div>'+
-        // 5.0.1150 / Finished attention card: live per-case tasks, statuses,
-        // interactive checkboxes and arrows. Test entries never persist.
-        '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-paper-with-row-structure" aria-label="Требуют внимания">'+
-          '<img src="dossier-tasks-attention-blank-v6138.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="963" loading="eager" decoding="async">'+
-          '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
-          '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
-        '</section>'+
-        // 5.0.1161 — «Остальные задачи», stage 5. Accessible checkboxes and
-        // editor arrows over the two approved paper rows and any continuation.
-        '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-live-copy" aria-label="Остальные задачи">'+
-          '<img src="dossier-tasks-other-blank-v6153.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="700" loading="eager" decoding="async">'+
-          '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
-          '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
-        '</section>'+
-        '<section class="dossier-tasks-done-paper" aria-label="Выполненные задачи" data-dossier-layer="tasks-done-paper-live">'+
-          '<img src="dossier-tasks-done-blank-v6163.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="530" loading="eager" decoding="async">'+
-          '<h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2>'+
-          '<div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div>'+
+        '<div class="dossier-tasks-stack" aria-label="Списки задач дела">'+
+          (dossierAttentionActiveTasks(id).length ?
+            '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+
+              '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
+              '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
+            '</section>' : '')+
+          (dossierOtherActiveTasks(id).length ?
+            '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-responsive" aria-label="Остальные задачи">'+
+              '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
+              '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
+            '</section>' : '')+
+          (dossierDoneWorkTasks(id).length ?
+            '<section class="dossier-tasks-done-paper" data-dossier-layer="tasks-done-responsive" aria-label="Выполненные задачи">'+
+              '<h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2>'+
+              '<div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div>'+
+            '</section>' : '')+
           dossierTasksBottomActions(id)+
-        '</section>' : '')+
+        '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
       (state==='general' ?
@@ -5705,6 +5701,10 @@ function dossierLayoutPreview(m,id,tab,p){
   if(tab==='events'){
     dossierEventsFitSoon();
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(dossierEventsFitSoon).catch(function(){});
+  }
+  if(tab==='tasks'){
+    dossierTasksFitSoon();
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(dossierTasksFitSoon).catch(function(){});
   }
   // Stage 2 (5.0.890): typography fitted against the actual rendered status
   // boundary, with additional reserve for iOS/Safari font metric differences.
