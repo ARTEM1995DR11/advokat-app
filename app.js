@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1167';
-var APP_BUILD='6167';
+var APP_VERSION='5.0.1168';
+var APP_BUILD='6168';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5312,7 +5312,7 @@ window.addEventListener('resize',function(){
   if(page && page.classList.contains('dossier-page') && page._matterTab==='events')dossierEventsFitSoon();
 },{passive:true});
 
-// 5.0.1167 — layout-driven task footer. The approved folder tabs and
+// 5.0.1168 — layout-driven task footer. The approved folder tabs and
 // summary stay fixed. The folder foot follows the last actual task/button,
 // not the historical fixed-height mockup sheets.
 function dossierTasksFitToContent(){
@@ -5538,7 +5538,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   }).join('');
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
-  // 5.0.1167: papers are content-sized and stacked in normal flow.
+  // 5.0.1168: papers are content-sized and stacked in normal flow.
   // All rows are visible inside the same paper; there are no placeholder
   // rows, stitched extensions or manual shifts between sections.
   return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'">'+
