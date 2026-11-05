@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1156';
-var APP_BUILD='6156';
+var APP_VERSION='5.0.1159';
+var APP_BUILD='6159';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5357,16 +5357,67 @@ function dossierAttentionStatusIcon(tone){
   if(tone==='control')return '<span aria-hidden="true" class="dossier-attention-chip-icon is-clock">◷</span>';
   return '<span aria-hidden="true" class="dossier-attention-chip-icon is-hourglass">⌛</span>';
 }
+// 5.0.1159 — A case task belongs in ONE of the two open-task sections.
+// Overdue, today / next three days, high-priority and explicitly controlled
+// tasks require attention. All other unfinished work belongs to «Остальные».
+// The summary badge deliberately still counts BOTH groups.
+function dossierNeedsAttention(t){
+  if(t.attentionStatus==='control' || t.pri==='high')return true;
+  if(!t.due)return false;
+  var left=dd(t.due);
+  return Number.isFinite(left) && left<=3;
+}
+function dossierOpenWorkTasks(id){
+  return tasksOf(id).filter(function(t){return !t.done && (!t.kind||t.kind==='task');});
+}
 function dossierAttentionActiveTasks(id){
-  var entries=tasksOf(id).filter(function(t){return !t.done && (!t.kind||t.kind==='task');});
+  var entries=dossierOpenWorkTasks(id).filter(dossierNeedsAttention);
   entries.sort(function(a,b){
-    // Overdue first; then upcoming deadlines; explicitly controlled work last.
     var rank={late:0,active:1,control:2};
     var ar=rank[dossierAttentionStatus(a).tone],br=rank[dossierAttentionStatus(b).tone];
     var al=a.due?dd(a.due):99999,bl=b.due?dd(b.due):99999;
     return ar-br || al-bl || (a.title||'').localeCompare(b.title||'','ru');
   });
   return entries;
+}
+function dossierOtherActiveTasks(id){
+  var entries=dossierOpenWorkTasks(id).filter(function(t){return !dossierNeedsAttention(t);});
+  entries.sort(function(a,b){
+    var al=a.due?dd(a.due):99999,bl=b.due?dd(b.due):99999;
+    return al-bl || (a.title||'').localeCompare(b.title||'','ru');
+  });
+  return entries;
+}
+// Stage 4: real task text and categories in the existing two approved rows.
+// Checkbox/arrow visuals stay decorative until the stage-5 event handlers.
+function dossierOtherRowMarkup(t){
+  if(!t)return '<div class="dossier-other-structure-row is-placeholder" aria-hidden="true"><span class="dossier-other-structure-checkbox"></span><span class="dossier-other-structure-arrow"></span></div>';
+  var name=String(t.title||'Задача');
+  var cat=dossierAttentionCategory(t);
+  var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
+  var due=t.due||'';
+  var when=due?(dd(due)===0?'сегодня':dd(due)===1?'завтра':'до '+fmtD(due,true))+(t.time?' '+t.time:''):(t.time?t.time:'Без срока');
+  return '<div class="dossier-other-structure-row has-task">'+
+    '<span class="dossier-other-structure-checkbox" aria-hidden="true"></span>'+
+    '<span class="dossier-other-structure-arrow" aria-hidden="true"></span>'+
+    '<div class="dossier-other-row-copy" role="group" aria-label="'+esc(name)+'">'+
+      '<strong class="dossier-other-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
+      '<span class="dossier-other-status">'+dossierAttentionStatusIcon('active')+'В работе</span>'+
+      '<div class="dossier-other-meta">'+
+        '<span class="dossier-other-when">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+        '<span class="dossier-other-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
+      '</div></div></div>';
+}
+function dossierOtherRowsLive(id){
+  var entries=dossierOtherActiveTasks(id);
+  var first=Array.from({length:2},function(_,i){return dossierOtherRowMarkup(entries[i]||null);}).join('');
+  // Preserve visibility of EVERY saved task even before stage-5 actions.
+  // For three or more, use a separate parchment extension; never silently
+  // omit saved records or count items that cannot be seen in either list.
+  var extra=entries.length>2
+    ? '<div class="dossier-other-extra-rows" aria-label="Продолжение остальных задач">'+entries.slice(2).map(dossierOtherRowMarkup).join('')+'</div>'
+    : '';
+  return first+extra;
 }
 function dossierAttentionRowMarkup(t){
   if(!t) return '<div class="dossier-attention-structure-row is-placeholder" aria-hidden="true"></div>';
@@ -5419,14 +5470,16 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
   var extraAttention=state==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
-  // Reserve enough space for the real parchment continuation on every mobile width.
+  var extraOther=state==='tasks'?Math.max(0,dossierOtherActiveTasks(id).length-2):0;
+  // Reserve enough space for both parchment continuations on mobile widths.
   var continuationHeight=extraAttention>0 ? extraAttention*78+75 : 0;
+  var otherExtraHeight=extraOther>0 ? extraOther*78+45 : 0;
   // CSS-relative continuation shift stays accurate from 320 to 430 CSS px.
   // The visible continuation is n × responsive row height + 37px padding
   // and its top begins 10px above the attention card's mathematical bottom.
   var otherFollowShift=extraAttention>0
     ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 34px)' : '0px';
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+'">'+
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-extra-height:'+otherExtraHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5475,12 +5528,12 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
           '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
         '</section>'+
-        // 5.0.1156 — «Остальные задачи», stage 1+2. The separately approved
-        // blank two-row parchment and its single baked header rule. Rows and
-        // per-case task routing are intentionally reserved for later stages.
-        '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-title" aria-label="Остальные задачи">'+
+        // 5.0.1159 — «Остальные задачи», stage 4. Text, dates, category and
+        // visual statuses in approved two-row paper; actions follow at stage 5.
+        '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-paper-with-live-copy" aria-label="Остальные задачи">'+
           '<img src="dossier-tasks-other-blank-v6153.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="700" loading="eager" decoding="async">'+
           '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
+          '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
         '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -5548,7 +5601,9 @@ function dossierLayoutPreview(m,id,tab,p){
   var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
   var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
   var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
-  var dossierExtraListSpace=dossierAdditionalTaskRows?dossierAdditionalTaskRows*78+75:0;
+  var dossierAdditionalOtherRows=tab==='tasks'?Math.max(0,dossierOtherActiveTasks(id).length-2):0;
+  var dossierExtraListSpace=(dossierAdditionalTaskRows?dossierAdditionalTaskRows*78+75:0)+
+    (dossierAdditionalOtherRows?dossierAdditionalOtherRows*78+45:0);
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-stack="layer1-locked" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
