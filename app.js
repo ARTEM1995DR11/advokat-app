@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1168';
-var APP_BUILD='6168';
+var APP_VERSION='5.0.1169';
+var APP_BUILD='6169';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5584,21 +5584,21 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           dossierTasksSummaryLive(id)+
         '</div>'+
         '<div class="dossier-tasks-stack" aria-label="Списки задач дела">'+
-          (dossierAttentionActiveTasks(id).length ?
-            '<section class="dossier-tasks-attention-blank" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+
-              '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
-              '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
-            '</section>' : '')+
-          (dossierOtherActiveTasks(id).length ?
-            '<section class="dossier-tasks-other-blank" data-dossier-layer="tasks-other-responsive" aria-label="Остальные задачи">'+
-              '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
-              '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
-            '</section>' : '')+
-          (dossierDoneWorkTasks(id).length ?
-            '<section class="dossier-tasks-done-paper" data-dossier-layer="tasks-done-responsive" aria-label="Выполненные задачи">'+
-              '<h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2>'+
-              '<div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div>'+
-            '</section>' : '')+
+          // 5.0.1169: all three physical paper layers remain in the folder
+          // even in a completely empty case. Empty layers have only their
+          // approved headings and blank parchment, never synthetic tasks.
+          '<section class="dossier-tasks-attention-blank'+(dossierAttentionActiveTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+
+            '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
+            '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
+          '</section>'+
+          '<section class="dossier-tasks-other-blank'+(dossierOtherActiveTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-other-responsive" aria-label="Остальные задачи">'+
+            '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
+            '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
+          '</section>'+
+          '<section class="dossier-tasks-done-paper'+(dossierDoneWorkTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-done-responsive" aria-label="Выполненные задачи">'+
+            '<h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2>'+
+            '<div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div>'+
+          '</section>'+
           dossierTasksBottomActions(id)+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly

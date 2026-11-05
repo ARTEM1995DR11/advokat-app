@@ -4160,13 +4160,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6168');
+  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6169');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6168');
+  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6169');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6168');
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section > h2{
   position:absolute;top:9px;left:3.4%;right:3.4%;
@@ -4245,13 +4245,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6168')!important;
+  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6169')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6168')!important;
+  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6169')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6168')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169')!important;
 }
 /* Header labels do not drift downward as task counts grow. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section > h2{
@@ -4309,7 +4309,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   aspect-ratio:auto!important;
   flex:0 0 auto;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6168')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169')!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
@@ -4317,9 +4317,31 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:transparent!important;
   box-shadow:none!important;
 }
-/* Never reserve empty placeholder rows: absent Completed items imply no sheet. */
+/* 5.0.1169 — the three approved paper layers are always visible, even
+   with zero tasks. Only real records make rows. An empty section retains
+   a shallow but fully formed parchment, heading and lower gold rim;
+   there is no checkbox, chevron, fake row or invented deadline. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
-.dossier-tasks-stack > .dossier-tasks-done-paper:not(:has(.dossier-done-row.has-task)){
-  display:none!important;
+.dossier-tasks-stack > section.is-empty{
+  display:block!important;
+  min-height:clamp(83px,23vw,99px)!important;
+  padding-bottom:8px!important;
 }
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper.is-empty{
+  min-height:clamp(81px,22vw,94px)!important;
+}
+/* Empty paper should neither create an invisible interactive row nor
+   reserve the typical 72–83px live-task row height. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section.is-empty .dossier-attention-row-structure,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section.is-empty .dossier-other-row-structure,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section.is-empty .dossier-done-rows{
+  height:0!important;min-height:0!important;padding:0!important;margin:0!important;
+}
+/* Preserve the proportional corners introduced in 5.0.1168; avoid a
+   flattened gold lip in the smaller empty paper. */
