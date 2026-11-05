@@ -3959,6 +3959,18 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   width:clamp(10px,2.8vw,13px);height:clamp(10px,2.8vw,13px);
   font:12px/1 serif;
 }
+/* 5.0.1160 — Stage 4 audit: use the approved monochrome hourglass silhouette,
+   never a system-coloured emoji; this changes only the blue chips on OTHER tasks. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-status-hourglass{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:clamp(10px,2.8vw,13px);height:clamp(10px,2.8vw,13px);
+  color:#28558c;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-other-status-hourglass svg{
+  display:block;width:100%;height:100%;
+}
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-other-meta{
   position:absolute;left:12.5%;right:4%;bottom:8%;
@@ -4005,7 +4017,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   display:flex;flex-direction:column;
   padding:11px 5% 26px;
   border:0;border-radius:0;pointer-events:none;
-  background:url('dossier-tasks-attention-extension-v6150.png?v=6159') center/100% 100% no-repeat;
+  background:url('dossier-tasks-attention-extension-v6150.png?v=6160') center/100% 100% no-repeat;
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-other-extra-rows .dossier-other-structure-row{

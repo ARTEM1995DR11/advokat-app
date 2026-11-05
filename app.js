@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1159';
-var APP_BUILD='6159';
+var APP_VERSION='5.0.1160';
+var APP_BUILD='6160';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5402,7 +5402,7 @@ function dossierOtherRowMarkup(t){
     '<span class="dossier-other-structure-arrow" aria-hidden="true"></span>'+
     '<div class="dossier-other-row-copy" role="group" aria-label="'+esc(name)+'">'+
       '<strong class="dossier-other-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
-      '<span class="dossier-other-status">'+dossierAttentionStatusIcon('active')+'В работе</span>'+
+      '<span class="dossier-other-status"><span class="dossier-other-status-hourglass" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.8h11M6.5 20.2h11M8.1 5c0 3.2 3.9 4.4 3.9 7s-3.9 3.8-3.9 7M15.9 5c0 3.2-3.9 4.4-3.9 7s3.9 3.8 3.9 7"/></svg></span>В работе</span>'+
       '<div class="dossier-other-meta">'+
         '<span class="dossier-other-when">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
         '<span class="dossier-other-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
