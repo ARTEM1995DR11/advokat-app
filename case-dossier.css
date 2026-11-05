@@ -4062,3 +4062,149 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-stage7[data-active-tab="tasks"] .dossier-other-open-hit:focus-visible{
   outline:2px solid #245382;outline-offset:-2px;border-radius:8px;
 }
+
+
+/* 5.0.1163 — next independent paper card, «Выполненные».
+   Approved previous cards and their positions remain unchanged. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-done-paper{
+  position:absolute;z-index:5;pointer-events:none;
+  left:1.45%;width:97.1%;height:auto;aspect-ratio:1370/530;
+  top:calc(46.2% + 96.56vw - 17px + var(--dossier-other-follow-shift,0px) + 49.61vw - 5px + var(--dossier-done-follow-shift,0px));
+  overflow:visible;margin:0;padding:0;border:0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-tasks-done-paper > img{
+  display:block;width:100%;height:auto;aspect-ratio:1370/530;object-fit:fill;
+  user-select:none;-webkit-user-drag:none;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-tasks-done-paper .dossier-done-title{
+  position:absolute;left:4.55%;right:4.55%;top:6.9%;
+  margin:0;padding:0;white-space:nowrap;pointer-events:none;
+  font:700 clamp(10.2px,2.83vw,12.4px)/1.12 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(.85px,.26vw,1.2px);color:#845422;
+  text-shadow:0 .65px 0 rgba(255,255,255,.72);
+}
+#page.dossier-page .dossier-rear-stage .dossier-tasks-done-paper .dossier-done-rows{
+  position:absolute;top:19%;bottom:6%;left:4%;right:4%;
+  display:grid;grid-template-rows:repeat(2,minmax(0,1fr));pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-row{position:relative;min-width:0;min-height:0;}
+#page.dossier-page .dossier-rear-stage .dossier-done-row:first-child::after{
+  content:"";position:absolute;left:10.8%;right:-.6%;bottom:0;height:1px;
+  background:rgba(154,119,84,.21);box-shadow:0 1px 0 rgba(255,255,255,.46);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-check{
+  position:absolute;left:4.8%;top:46%;transform:translateY(-50%);
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(18px,5.3vw,23px);height:clamp(18px,5.3vw,23px);
+  box-sizing:border-box;border-radius:clamp(3px,.8vw,4.3px);
+  background:linear-gradient(145deg,#24ac83,#078265);border:1px solid #329c7c;
+  box-shadow:0 1px 2px rgba(39,99,70,.24),inset 0 1px 2px rgba(255,255,255,.43);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-check svg{
+  width:75%;height:75%;stroke:#fff;stroke-width:2.4;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-chevron{
+  position:absolute;right:2.35%;top:50%;transform:translateY(-50%) rotate(45deg);
+  width:clamp(7px,2.05vw,9px);height:clamp(7px,2.05vw,9px);
+  border-top:1.6px solid #987039;border-right:1.6px solid #987039;border-radius:1px;
+  box-sizing:border-box;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-copy{
+  position:absolute;inset:0;font-family:Georgia,"Times New Roman",serif;
+  pointer-events:none;color:#162b51;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-name{
+  position:absolute;left:12.5%;right:8%;top:13%;
+  font-size:clamp(9px,2.78vw,11.8px);font-weight:700;line-height:1.16;
+  letter-spacing:-.15px;max-height:43%;overflow:hidden;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-meta{
+  position:absolute;left:12.5%;right:5%;bottom:10%;min-height:25%;
+  display:grid;grid-template-columns:49% minmax(0,1fr);align-items:start;
+  font-size:clamp(7.5px,2.33vw,9.8px);line-height:1.18;letter-spacing:-.2px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-date,
+#page.dossier-page .dossier-rear-stage .dossier-done-cat{
+  display:flex;gap:3px;align-items:flex-start;min-width:0;max-width:100%;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-date{color:#455a46;padding-right:3px;}
+#page.dossier-page .dossier-rear-stage .dossier-done-cat{
+  border-left:1px solid rgba(153,123,90,.48);padding-left:7px;color:#4d6892;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-meta svg{
+  display:block;flex:0 0 clamp(10px,3.05vw,14px);
+  width:clamp(10px,3.05vw,14px);height:clamp(10px,3.05vw,14px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-meta span span{
+  min-width:0;overflow-wrap:break-word;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-toggle,
+#page.dossier-page .dossier-rear-stage .dossier-done-open{
+  position:absolute;z-index:10;display:block;pointer-events:auto;
+  appearance:none;-webkit-appearance:none;cursor:pointer;touch-action:manipulation;
+  box-sizing:border-box;border:0;padding:0;background:transparent;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-toggle{
+  left:calc(4.8% - 10px);top:46%;transform:translateY(-50%);
+  width:clamp(38px,11vw,46px);height:clamp(38px,11vw,46px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-open{
+  right:calc(2.35% - 14px);top:50%;transform:translateY(-50%);
+  width:clamp(36px,10.5vw,44px);height:clamp(44px,12vw,52px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-toggle:focus-visible,
+#page.dossier-page .dossier-rear-stage .dossier-done-open:focus-visible{
+  outline:2px solid #245382;outline-offset:-2px;border-radius:8px;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows{
+  position:absolute;z-index:6;left:-3%;right:-3%;top:calc(100% + 2px);
+  padding:11px 5% 26px;box-sizing:border-box;
+  display:flex;flex-direction:column;pointer-events:none;
+  background:url('dossier-tasks-attention-extension-v6150.png?v=6163') center/100% 100% no-repeat;
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows .dossier-done-row{
+  flex:none;height:clamp(65px,19vw,78px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-done-extra-rows .dossier-done-row:not(:last-child)::after{
+  content:"";position:absolute;left:1%;right:0;bottom:0;height:1px;
+  background:rgba(154,119,84,.21);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
+  min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px) + var(--dossier-other-extra-height,0px) + clamp(125px,37.6vw,166px) + var(--dossier-done-extra-height,0px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-tasks{
+  min-height:max(calc(100dvh - 160px), calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + var(--dossier-other-list-extra-height,0px) + clamp(150px,47.5vw,205px) + clamp(125px,37.6vw,166px) + 12px));
+}
+@media(max-width:355px){
+ #page.dossier-page .dossier-rear-stage .dossier-done-name{font-size:9px;}
+ #page.dossier-page .dossier-rear-stage .dossier-done-meta{font-size:7.2px;grid-template-columns:49% 51%;}
+}
+
+/* 5.0.1164 — approved two-button footer below «Выполненные».
+   No position, texture or typography edits to approved sections above. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-tasks-done-paper .dossier-tasks-bottom-actions{
+  position:absolute;z-index:10;pointer-events:none;
+  top:calc(100% + 2px + var(--dossier-done-buttons-shift,0px));
+  left:1.1%;width:97.8%;height:auto;aspect-ratio:380/70;
+  margin:0;padding:0;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-tasks-bottom-actions .dossier-stage9-blank-svg{
+  display:block;width:100%;height:100%;pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-tasks-bottom-actions .dossier-stage9-action{pointer-events:auto;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-tasks-bottom-actions .dossier-stage9-action-more .dossier-stage9-icon svg{
+  fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]{
+  min-height:calc(var(--dossier-stage7-min-height) + var(--dossier-attention-extra-height,0px) + clamp(150px,47.5vw,205px) + var(--dossier-other-extra-height,0px) + clamp(125px,37.6vw,166px) + var(--dossier-done-extra-height,0px) + clamp(45px,17.5vw,65px));
+}
+#page.dossier-page .dossier-rear-stage .dossier-clean-canvas.dossier-clean-canvas-tasks{
+  min-height:max(calc(100dvh - 160px),calc(var(--dossier-stage7-top) + var(--dossier-stage7-min-height) + var(--dossier-other-list-extra-height,0px) + clamp(150px,47.5vw,205px) + clamp(125px,37.6vw,166px) + clamp(45px,17.5vw,65px) + 12px));
+}

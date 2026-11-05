@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1162';
-var APP_BUILD='6162';
+var APP_VERSION='5.0.1165';
+var APP_BUILD='6165';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3640,6 +3640,10 @@ function renderMore(){
     '</div>'+
     '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
       row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
+      (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?
+        row('list','Открыть тестовую карточку','12 задач · 10 событий · выполненные записи','demo-scenario-open')+
+        row('trash','Удалить тестовую карточку','Только демонстрационные записи, без остальных дел','demo-scenario-remove'):
+        row('list','Тестовая карточка: задачи и события','12 задач, заседания, встречи и процессуальные сроки','demo-scenario-open'))+
       row('list','Загрузить примеры','Учебные дела и задачи','demo')+
       row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
       row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
@@ -5422,6 +5426,41 @@ function dossierOtherRowsLive(id){
     : '';
   return first+extra;
 }
+// 5.0.1163 — Completed work uses only actual saved records from this case.
+// Dates are the task's original due date when provided, otherwise the
+// recorded completion date; no mock tasks are inserted into user storage.
+function dossierDoneWorkTasks(id){
+  return tasksOf(id).filter(function(t){return !!t.done&&(!t.kind||t.kind==='task');})
+    .sort(function(a,b){
+      var ad=a.doneAt||a.due||'',bd=b.doneAt||b.due||'';
+      return bd.localeCompare(ad)||(a.title||'').localeCompare(b.title||'','ru');
+    });
+}
+function dossierDoneRowMarkup(t){
+  if(!t)return '<div class="dossier-done-row is-placeholder" aria-hidden="true"></div>';
+  var title=String(t.title||'Задача'),tid=esc(t.id),cat=dossierAttentionCategory(t);
+  var date=(t.due||((t.doneAt||'').slice(0,10))||'');
+  var when=date?fmtD(date,true):'Дата не указана';
+  var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
+  return '<div class="dossier-done-row has-task">'+
+    '<span class="dossier-done-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5.3 12.1 4.4 4.5 9-9.3"/></svg></span>'+
+    '<span class="dossier-done-chevron" aria-hidden="true"></span>'+
+    '<div class="dossier-done-copy"><strong class="dossier-done-name" title="'+esc(title)+'">'+esc(title)+'</strong>'+
+      '<div class="dossier-done-meta">'+
+        '<span class="dossier-done-date">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+        '<span class="dossier-done-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
+      '</div></div>'+
+    '<button type="button" class="dossier-done-toggle" data-act="dossier-done-reopen" data-id="'+tid+'" title="Вернуть задачу в работу" aria-label="Вернуть в работу: '+esc(title)+'"></button>'+
+    '<button type="button" class="dossier-done-open" data-act="dossier-done-open" data-id="'+tid+'" title="Открыть задачу" aria-label="Открыть выполненную задачу: '+esc(title)+'"></button>'+
+  '</div>';
+}
+function dossierDoneRowsLive(id){
+  var entries=dossierDoneWorkTasks(id);
+  var first=Array.from({length:2},function(_,i){return dossierDoneRowMarkup(entries[i]||null);}).join('');
+  var more=entries.length>2?'<div class="dossier-done-extra-rows" aria-label="Продолжение выполненных задач">'+
+    entries.slice(2).map(dossierDoneRowMarkup).join('')+'</div>':'';
+  return first+more;
+}
 function dossierAttentionRowMarkup(t){
   if(!t) return '<div class="dossier-attention-structure-row is-placeholder" aria-hidden="true"></div>';
   var chip=dossierAttentionStatus(t),name=String(t.title||'Задача'),due=t.due||'';
@@ -5453,6 +5492,18 @@ function dossierAttentionRowsLive(id){
   return first+extra;
 }
 
+// 5.0.1164 — two approved gold/ivory dossier buttons below completed work.
+function dossierTasksBottomActions(id){
+  return '<div class="dossier-stage9-blank-buttons dossier-tasks-bottom-actions" role="group" aria-label="Действия с задачами">'+
+    dossierStage9EmptyButtonArt()+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>'+
+      '<span class="dossier-stage9-label">Добавить задачу</span></button>'+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-tasks-templates" data-id="'+esc(id)+'" aria-label="Шаблоны задач">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8"><path d="M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12h6M9 16h6"/></svg></span>'+
+      '<span class="dossier-stage9-label">Шаблоны</span></button>'+ 
+  '</div>';
+}
 function dossierIndexStage1008(id,current,openCount,m,events){
   var stateArt={
     general:'dossier-index-top-general-v6014.webp',
@@ -5477,12 +5528,16 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   // Reserve enough space for both parchment continuations on mobile widths.
   var continuationHeight=extraAttention>0 ? extraAttention*78+75 : 0;
   var otherExtraHeight=extraOther>0 ? extraOther*78+45 : 0;
+  var extraDone=state==='tasks'?Math.max(0,dossierDoneWorkTasks(id).length-2):0;
+  var doneExtraHeight=extraDone>0?extraDone*78+41:0;
+  var doneButtonsShift=extraDone>0?'calc('+extraDone+' * clamp(65px,19vw,78px) + 41px)':'0px';
+  var doneFollowShift=extraOther>0?'calc('+extraOther+' * clamp(65px,19vw,78px) + 41px)':'0px';
   // CSS-relative continuation shift stays accurate from 320 to 430 CSS px.
   // The visible continuation is n × responsive row height + 37px padding
   // and its top begins 10px above the attention card's mathematical bottom.
   var otherFollowShift=extraAttention>0
     ? 'calc('+extraAttention+' * clamp(65px,19vw,78px) + 34px)' : '0px';
-  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-extra-height:'+otherExtraHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+'">'+
+  return '<div class="dossier-stage7 dossier-stage7-adaptive" data-dossier-layer="interactive-index" data-active-tab="'+state+'" style="--dossier-attention-extra-height:'+continuationHeight+'px;--dossier-other-extra-height:'+otherExtraHeight+'px;--dossier-other-follow-shift:'+otherFollowShift+';--dossier-done-follow-shift:'+doneFollowShift+';--dossier-done-extra-height:'+doneExtraHeight+'px;--dossier-done-buttons-shift:'+doneButtonsShift+'">'+
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
@@ -5537,6 +5592,12 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '<img src="dossier-tasks-other-blank-v6153.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="700" loading="eager" decoding="async">'+
           '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
           '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
+        '</section>'+
+        '<section class="dossier-tasks-done-paper" aria-label="Выполненные задачи" data-dossier-layer="tasks-done-paper-live">'+
+          '<img src="dossier-tasks-done-blank-v6163.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false" width="1370" height="530" loading="eager" decoding="async">'+
+          '<h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2>'+
+          '<div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div>'+
+          dossierTasksBottomActions(id)+
         '</section>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
       // below the finished 8.1 block. No previous 8.2 layer is retained.
@@ -5605,8 +5666,10 @@ function dossierLayoutPreview(m,id,tab,p){
   var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
   var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
   var dossierAdditionalOtherRows=tab==='tasks'?Math.max(0,dossierOtherActiveTasks(id).length-2):0;
+  var dossierAdditionalDoneRows=tab==='tasks'?Math.max(0,dossierDoneWorkTasks(id).length-2):0;
   var dossierExtraListSpace=(dossierAdditionalTaskRows?dossierAdditionalTaskRows*78+75:0)+
-    (dossierAdditionalOtherRows?dossierAdditionalOtherRows*78+45:0);
+    (dossierAdditionalOtherRows?dossierAdditionalOtherRows*78+45:0)+
+    (dossierAdditionalDoneRows?dossierAdditionalDoneRows*78+41:0);
   var html='<div class="dossier-screen dossier-clean-base dossier-rear-stage" data-dossier-stage="colored-top" data-dossier-stack="layer1-locked" data-dossier-type="'+esc(visualType)+'">'+
     '<header class="dossier-nav" data-dossier-layer="navigation">'+
     '<button class="dossier-iconbtn" type="button" data-act="close" aria-label="Назад">'+ico('left')+'</button>'+
@@ -6360,7 +6423,9 @@ function sheetTemplates(mid){
         '<span class="rl">'+t.n+'<small>'+t.items.length+' задач</small></span>'+ico('chev','s')+'</button>'; }).join('')+'</div>');
 }
 function applyTpl(i,mid){
+  if(mid && (!matter(mid)||matter(mid).archived)){toast('Сначала верните дело в работу');return;}
   var t = TPL[i];
+  if(!t)return;
   t.items.forEach(function(it,k){
     S.tasks.push({ id:uid(), title:it[0], mid:mid||'', due:addD(today(),it[1]), time:'',
       pri: it[1]<=1?'high':it[1]<=5?'mid':'low', kind:'task', note:'', steps:[], done:false,
@@ -6935,7 +7000,7 @@ function schedule(){
   timers.forEach(clearTimeout); timers = [];
   if(!S.settings.notify || !('Notification' in window) || Notification.permission!=='granted') return;
   var now = new Date();
-  S.tasks.filter(function(t){ return matterTaskVisible(t) && !t.done && t.due===today() && t.time; }).forEach(function(t){
+  S.tasks.filter(function(t){ return !t.isDemoScenario1165 && matterTaskVisible(t) && !t.done && t.due===today() && t.time; }).forEach(function(t){
     var at = new Date(today()+'T'+t.time+':00'); var lead = t.kind==='hearing' ? 60 : 10;
     var when = at.getTime() - lead*60010 - now.getTime();
     if(when>0 && when<86400000){
@@ -7020,6 +7085,88 @@ function showIntro(){
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
   await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+}
+
+/* 5.0.1165 — opt-in isolated DEMO case for visual and functional QA.
+   No actual client data or records are changed. A clear explicit action is
+   required before the encrypted local database receives test entries. */
+function demoScenario1165Matter(){
+  return S.matters.filter(function(m){return m&&m.isDemoScenario1165;})[0]||null;
+}
+function openDemoScenario1165(){
+  var existing=demoScenario1165Matter();
+  if(existing){closeAll();go('matters');openMatter(existing.id,'tasks');return;}
+  if(!confirm('Создать одно ВЫМЫШЛЕННОЕ тестовое дело с 12 незавершёнными и 3 выполненными задачами, 4 заседаниями, 3 встречами и 3 процессуальными сроками? Даты отсчитываются от сегодняшнего дня. Реальные дела не изменяются. В настройках появится кнопка удаления тестового набора.'))return;
+  var id='demo1165-m-'+uid();
+  var now=new Date().toISOString(),d0=today();
+  var m={id:id,type:'civil',basis:'agreement',client:'Демов Алексей Сергеевич',number:'2-0000/2026',
+    court:'Учебный городской суд',judge:'Петрова А. А.',opponent:'ООО «Учебный ответчик»',
+    role:'истец',stage:'Первая инстанция',dayRate:0,phone:'',
+    notes:'ДЕМО — тестовая карточка для проверки задач, судебных заседаний, встреч и процессуальных сроков. Все сведения вымышлены.',
+    archived:false,isDemoScenario1165:true,created:now};
+  m.title=matterAutoTitle(m);
+  var list=[],i=0;
+  function make(kind,title,offset,time,extra){
+    var x={id:'demo1165-t-'+uid()+'-'+(++i),mid:id,kind:kind,title:title,
+      due:offset===null?'':addD(d0,offset),time:time||'',pri:'mid',
+      place:'',note:'',steps:[],done:false,doneAt:null,created:now,isDemoScenario1165:true};
+    Object.assign(x,extra||{});
+    list.push(x);return x;
+  }
+  // 4 attention tasks + 8 other open tasks => two-digit task tab badge.
+  make('task','Подготовить ходатайство об истребовании документов',-2,'',{pri:'high',category:'Процессуальные документы'});
+  make('task','Составить возражения на отзыв ответчика',0,'',{pri:'mid',category:'Процессуальные документы'});
+  make('task','Созвониться с доверителем по позиции в деле',1,'18:30',{pri:'low',category:'Коммуникации',attentionStatus:'control'});
+  make('task','Подготовить перечень вопросов свидетелям',3,'',{pri:'mid',category:'Анализ материалов'});
+  make('task','Запросить подлинники документов в архиве суда',5,'',{category:'Запросы и документы'});
+  make('task','Проверить поступление ответа на адвокатский запрос',7,'',{category:'Контроль сроков'});
+  make('task','Подготовить позицию к заседанию по исследованию доказательств',9,'',{category:'Анализ материалов'});
+  make('task','Согласовать с доверителем проект письменных объяснений',12,'',{category:'Коммуникации'});
+  make('task','Ознакомиться с дополнительными материалами гражданского дела и подготовить замечания',15,'',{category:'Анализ материалов'});
+  make('task','Проверить движение дела на сайте суда',20,'',{category:'Контроль сроков'});
+  make('task','Подготовить проект заявления о судебных расходах',25,'',{category:'Процессуальные документы'});
+  make('task','Систематизировать судебную практику по аналогичным делам',null,'',{category:'Анализ материалов'});
+  // Completed ordinary tasks are displayed ONLY in «ВЫПОЛНЕННЫЕ».
+  var done=[
+    ['Подготовить проект искового заявления',-20,'Процессуальные документы'],
+    ['Согласовать дату встречи с доверителем',-14,'Коммуникации'],
+    ['Проверить сведения из ЕГРН',-8,'Запросы и документы']
+  ];
+  done.forEach(function(x){make('task',x[0],x[1],'',{done:true,doneAt:addD(d0,x[1]+1)+'T15:00:00.000Z',category:x[2]});});
+  // Events are not counted as ordinary tasks and are visible in «События».
+  make('hearing','Судебное заседание',1,'09:30',{place:m.court,hearingJudge:m.judge,hall:'3',pri:'high',note:'Подготовить оригиналы документов'});
+  make('hearing','Предварительное судебное заседание',8,'11:00',{place:m.court,hearingJudge:m.judge,hall:'5',note:'Обсуждение доказательств'});
+  make('hearing','Исследование доказательств',31,'14:00',{place:m.court,hearingJudge:m.judge,hall:'2',note:'Проверка длинного наименования события'});
+  make('hearing','Судебное заседание',-12,'10:00',{place:m.court,hearingJudge:m.judge,hall:'3',done:true,
+    doneAt:addD(d0,-12)+'T15:00:00.000Z',hearingResultStatus:'completed',hearingResultAt:addD(d0,-12)+'T15:00:00.000Z',
+    hearingResultText:'Заседание состоялось, истребованы документы',note:'Заседание состоялось'});
+  make('meeting','Встреча с доверителем',2,'17:30',{place:'Офис адвоката',note:'Обсуждение позиции по делу'});
+  make('meeting','Встреча с экспертом',15,'12:15',{place:'Учебный экспертный центр',note:'Обсуждение заключения'});
+  make('meeting','Созвон с доверителем',-5,'18:00',{place:'По телефону',note:'Встреча прошла, итог не указан'});
+  make('deadline','Срок подачи письменных объяснений',3,'',{pri:'high',sourceDate:d0,deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',note:'Представить письменные объяснения до окончания срока'});
+  make('deadline','Срок представления дополнительных доказательств',21,'',{sourceDate:d0,deadlineCode:'GPK',note:'Контроль установленного судом срока'});
+  make('deadline','Срок подачи возражений на заявление',-6,'',{sourceDate:addD(d0,-20),deadlineCode:'GPK',note:'Прошедший срок для проверки хронологии'});
+  var logs=[
+    ['Создано демонстрационное дело для проверки интерфейса.',0,'system'],
+    ['Получены документы и сформирован перечень доказательств.',-9,'note'],
+    ['Согласован план подготовки к заседанию.',-3,'note']
+  ].map(function(row,k){return {id:'demo1165-j-'+uid()+'-'+k,mid:id,text:row[0],date:addD(d0,row[1]),type:row[2],created:now,isDemoScenario1165:true};});
+  // Commit tagged records as one controlled opt-in operation.
+  S.matters.unshift(m);S.tasks=list.concat(S.tasks);S.journal=logs.concat(S.journal);
+  S.ui.matterScope='active';S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterStatus='';S.ui.showArch=false;
+  save();closeAll();go('matters');openMatter(id,'tasks');
+  toast('Демо: 12 задач, 3 выполнены, 10 событий');
+}
+function removeDemoScenario1165(){
+  var m=demoScenario1165Matter();
+  if(!m){toast('Тестовая карточка не найдена');return;}
+  if(!confirm('Удалить только демонстрационную карточку и ВСЕ связанные с ней записи? Ваши остальные дела, задачи и события сохранятся.'))return;
+  var id=m.id;
+  S.matters=S.matters.filter(function(x){return !x || x.id!==id;});
+  S.tasks=S.tasks.filter(function(x){return !x || !sameRecordId(x.mid,id);});
+  S.journal=S.journal.filter(function(x){return !x || !sameRecordId(x.mid,id);});
+  S.participation=S.participation.filter(function(x){return !x || !sameRecordId(x.mid,id);});
+  save();closeAll();go('more');toast('Тестовая карточка и её записи удалены');schedule();
 }
 
 /* 5.0.816 — opt-in, fully fictional workflow fixtures. No real-case data is modified. */
@@ -7263,6 +7410,33 @@ document.addEventListener('click', function(ev){
       requestAnimationFrame(function(){window.scrollTo(0,scrollBefore);});
       break;
     }
+    case 'dossier-tasks-templates': {
+      var templatePage=$('#page');
+      if(!templatePage || templatePage._matterTab!=='tasks' ||
+         !sameRecordId(templatePage._mid,id))break;
+      var templateMatter=matter(id);
+      if(!templateMatter)break;
+      if(templateMatter.archived){toast('Сначала верните дело в работу');break;}
+      sheetTemplates(id);
+      break;
+    }
+    case 'dossier-done-reopen':
+    case 'dossier-done-open': {
+      var completedPage=$('#page');
+      var doneTask=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
+      if(!completedPage || completedPage._matterTab!=='tasks' || !doneTask ||
+         !sameRecordId(completedPage._mid,doneTask.mid) || !doneTask.done ||
+         (doneTask.kind && doneTask.kind!=='task'))break;
+      var completedMatter=matter(completedPage._mid);
+      if(!completedMatter)break;
+      if(completedMatter.archived){toast('Сначала верните дело в работу');break;}
+      if(a==='dossier-done-reopen'){
+        var doneScroll=window.scrollY;
+        toggleTaskDone(id);
+        requestAnimationFrame(function(){window.scrollTo(0,doneScroll);});
+      }else editTask(doneTask);
+      break;
+    }
     case 'dossier-other-open': {
       var currentPage=$('#page'), rowTask=S.tasks.filter(function(t){return sameRecordId(t.id,id);})[0];
       if(currentPage&&currentPage._matterTab==='tasks'&&rowTask&&
@@ -7430,6 +7604,8 @@ document.addEventListener('click', function(ev){
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
     case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus);});save();render();toast('Выполненные задачи удалены');}break;}
+    case 'demo-scenario-open': openDemoScenario1165();break;
+    case 'demo-scenario-remove': removeDemoScenario1165();break;
     case 'demo': loadCompleteDemoCases();break;
     case 'new-task': editTask(null,S.ui.tab==='cal'&&S.ui.calSel?{due:S.ui.calSel}:{due:today()});break;
     case 'intro': showIntro();break;
