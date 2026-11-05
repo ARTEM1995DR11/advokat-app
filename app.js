@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1169';
-var APP_BUILD='6169';
+var APP_VERSION='5.0.1170';
+var APP_BUILD='6170';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5584,7 +5584,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           dossierTasksSummaryLive(id)+
         '</div>'+
         '<div class="dossier-tasks-stack" aria-label="Списки задач дела">'+
-          // 5.0.1169: all three physical paper layers remain in the folder
+          // 5.0.1170: all three physical paper layers remain in the folder
           // even in a completely empty case. Empty layers have only their
           // approved headings and blank parchment, never synthetic tasks.
           '<section class="dossier-tasks-attention-blank'+(dossierAttentionActiveTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+

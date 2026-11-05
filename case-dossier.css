@@ -4160,13 +4160,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6169');
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6170');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6169');
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6170');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169');
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section > h2{
   position:absolute;top:9px;left:3.4%;right:3.4%;
@@ -4245,13 +4245,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6138.png?v=6169')!important;
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6170')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6153.png?v=6169')!important;
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6170')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170')!important;
 }
 /* Header labels do not drift downward as task counts grow. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section > h2{
@@ -4309,7 +4309,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   aspect-ratio:auto!important;
   flex:0 0 auto;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6169')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170')!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
@@ -4317,7 +4317,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:transparent!important;
   box-shadow:none!important;
 }
-/* 5.0.1169 — the three approved paper layers are always visible, even
+/* 5.0.1170 — the three approved paper layers are always visible, even
    with zero tasks. Only real records make rows. An empty section retains
    a shallow but fully formed parchment, heading and lower gold rim;
    there is no checkbox, chevron, fake row or invented deadline. */
@@ -4345,3 +4345,35 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 /* Preserve the proportional corners introduced in 5.0.1168; avoid a
    flattened gold lip in the smaller empty paper. */
+
+
+/* 5.0.1170 — Tasks / stage 2: genuine one-line header on responsive paper.
+   Prior Attention / Other PNGs had a baked horizontal rule at raster y=96..99
+   inside the top 9-slice. On a shallow empty card that rule coincided
+   with its heading and appeared to push the title downward. v6170 art
+   contains the same approved textures minus only those 4 raster rows.
+   Anchoring the rule to the heading itself is robust in Safari and Chromium.
+   «Выполненные» already uses divider-free artwork, so disable its legacy
+   card pseudo-rule to avoid the observed extra / double line.
+   Restrict this update to task paper headings; do not touch row layouts,
+   summary, other tabs, footer actions or folder dimensions. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper::before {
+  content:none!important;display:none!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section > h2 {
+  top:9px!important;left:4%!important;right:4%!important;
+  z-index:2;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section > h2::after {
+  content:"";position:absolute;left:0;right:0;
+  top:calc(100% + 5px);height:1px;
+  background:rgba(151,113,72,.28);
+  box-shadow:0 1px 0 rgba(255,255,255,.45);
+  pointer-events:none;
+}
