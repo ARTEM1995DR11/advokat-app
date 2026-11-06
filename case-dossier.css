@@ -4453,7 +4453,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-right:0!important;
   padding:31px 0 8px!important;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-paper-empty-v6173.png?v=6175')!important;
+  border-image-source:url('dossier-tasks-done-paper-empty-v6173.png?v=6179')!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
