@@ -4658,7 +4658,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   z-index:1;
   width:100%;
   flex:1 1 auto;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6190');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6193');
   background-repeat:repeat-y;
   background-size:100% auto;
   overflow:visible;
@@ -4675,7 +4675,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin:calc(-15.5vw) auto -60px;
   padding:0;
   border:14px solid transparent;
-  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6190');
+  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6194');
   border-image-slice:150 72 160 72 fill;
   border-image-width:clamp(27px,8vw,36px) clamp(13px,4.25vw,19px) clamp(25px,7vw,32px) clamp(13px,4.25vw,19px);
   border-image-repeat:stretch;
@@ -4869,7 +4869,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1190 / Journal, layer 4: live icons, full texts and row separators.
+/* 5.0.1192 / Journal, layer 4: live icons, full texts and row separators.
    The existing approved paper and heading are untouched. Row height follows
    actual wrapped content, including small screens; no ellipsis for records.
    Keep rows non-interactive until the later actions/filter stage. */
@@ -4979,3 +4979,167 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   .dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
   .dossier-journal-paper-blank .dossier-journal-entry-text{font-size:9.3px;line-height:1.3;}
 }
+
+
+/* 5.0.1192 — gentle, in-list emphasis for the newest journal record.
+   The highlight starts after the chronology spine and does not paint over
+   the timeline or create a duplicated standalone «Последняя запись» card. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record.is-latest{
+  background:linear-gradient(90deg,rgba(250,226,182,.13),rgba(255,245,229,.05));
+  background-repeat:no-repeat;
+  background-position:34px 0;
+  background-size:calc(100% - 34px) calc(100% - 2px);
+  border-radius:8px;
+}
+
+
+/* 5.0.1192 — journal layer 5. The established nine-slice paper borders
+   stay intact, but the sheet now derives its HEIGHT from its live contents.
+   Never stretch the final empty card to mimic six fictitious events.
+   The parent middle panel must not flex-stretch it behind the footer. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-stage7-middle-journal{
+  flex:0 0 auto!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-stage7-middle-journal > .dossier-journal-paper-blank,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank:has(> .dossier-journal-timeline){
+  height:auto!important;
+  min-height:0!important;
+  padding-top:40px;
+  padding-bottom:clamp(22px,5.8vw,26px);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank:has(> .dossier-journal-timeline.is-empty){
+  min-height:clamp(96px,27vw,121px)!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank > .dossier-journal-timeline.is-empty{
+  min-height:38px!important;
+  display:flex;
+  justify-content:center;
+  padding:5px 0 2px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-empty-message{
+  margin:0;
+  padding:0;
+  text-align:center;
+  color:#8b765e;
+  font:italic 400 clamp(10px,2.8vw,12px)/1.35 Georgia,"Times New Roman",serif;
+}
+
+
+/* 5.0.1193 / Журнал, слой 6 — independent approved gold / ivory actions.
+   One shared SVG with General, Events and Tasks; title/icons are DOM overlays.
+   Keep the journal's nine-slice paper and golden foot completely unchanged.
+   Buttons rise a little over the folder lip and do not produce a second
+   stretched paper strip, regardless of the journal row count. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions{
+  position:relative!important;
+  display:block!important;
+  flex:0 0 auto!important;
+  align-self:flex-start!important;
+  box-sizing:border-box!important;
+  top:auto!important;
+  bottom:auto!important;
+  left:var(--dossier-actions-stage-left,2%)!important;
+  right:auto!important;
+  width:var(--dossier-actions-stage-width,95.8%)!important;
+  height:auto!important;
+  aspect-ratio:380/70!important;
+  margin:-27px 0 0!important;
+  z-index:9!important;
+  pointer-events:none!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions .dossier-stage9-action{
+  pointer-events:auto!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions
+.dossier-stage9-action-more .dossier-stage9-icon svg{
+  fill:none!important;
+  stroke:#8a5a24!important;
+  stroke-width:1.8!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+  width:clamp(17px,4.9vw,21px)!important;
+  height:clamp(17px,4.9vw,21px)!important;
+}
+/* Let the same approved SVG width carry identical titles without shrinkage. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions .dossier-stage9-label{
+  white-space:nowrap!important;
+}
+
+
+/* 5.0.1194 — Journal functional layer. Approved card and spine geometry
+   are preserved. Only a small, accessible detail-arrow and active-filter
+   label are added to the live HTML content. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-paper-blank .dossier-journal-timeline-row.has-record{
+  padding-right:20px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-record-open{
+  position:absolute;
+  z-index:3;
+  top:50%;right:0;
+  transform:translateY(-50%);
+  border:0;
+  padding:0;
+  width:20px;height:32px;
+  background:transparent;
+  color:#916a3a;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-record-open svg{
+  width:16px;height:16px;
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-record-open:focus-visible{
+  outline:2px solid #956a35;outline-offset:1px;border-radius:4px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-filter-state{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  margin:0 3% 2px;
+  padding:6px 2px;
+  border-bottom:1px solid rgba(154,119,84,.16);
+  color:#806345;font:400 clamp(9px,2.5vw,11px)/1.3 Georgia,"Times New Roman",serif;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-journal-filter-state button{
+  flex-shrink:0;border:0;background:none;padding:3px;
+  color:#315985;font-family:inherit;font-size:inherit;font-weight:700;cursor:pointer;text-decoration:underline;
+}
+.journal-filter-sheet .journal-filter-help,.journal-record-view-sheet .journal-record-view-type{
+  font:400 12px/1.5 Georgia,"Times New Roman",serif;
+  color:#83705c;margin:10px 4px;
+}
+.journal-filter-sheet .fld input[type=date]{max-width:100%;min-width:0;box-sizing:border-box;}
+.journal-record-view-sheet .journal-record-view-text{
+  white-space:pre-wrap;overflow-wrap:anywhere;padding:15px 10px;
+  border:1px solid rgba(161,119,72,.25);border-radius:10px;
+  background:rgba(255,249,238,.78);color:#173967;
+  font:400 15px/1.55 Georgia,"Times New Roman",serif;
+}
+/* Interactive stage 7 controls explicitly opt back in: the approved paper
+   intentionally disables pointer events on decorative descendants. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="journal"]
+.dossier-journal-record-open,
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="journal"]
+.dossier-journal-filter-state button{pointer-events:auto!important;}

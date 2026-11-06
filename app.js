@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1190';
-var APP_BUILD='6190';
+var APP_VERSION='5.0.1194';
+var APP_BUILD='6194';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5655,19 +5655,101 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '</div>' : '')+
     '</div>'+
     (state==='journal' ?
-      // 5.0.1190, Journal / layer 4: live icons, full content and gentle row
+      // 5.0.1192, Journal / layer 4: live icons, full content and gentle row
       // separators. The data model is unchanged; filtering/actions come later.
-      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-entries-v6190">'+
+      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-entries-v6192">'+
         '<section class="dossier-journal-paper-blank" aria-label="Журнал действий">'+
           '<h2 class="dossier-journal-paper-heading">ЖУРНАЛ ДЕЙСТВИЙ</h2>'+
           '<span class="dossier-journal-paper-rule" aria-hidden="true"></span>'+
-          dossierJournalTimelineEntries(id)+
+          dossierJournalFilterStatus(id)+dossierJournalTimelineEntries(id)+
         '</section>'+
       '</div>'
       : '<div class="dossier-stage7-middle" aria-hidden="true"></div>')+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.webp?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async" width="1448" height="375">'+
+    (state==='journal'?dossierJournalBottomActions(id):'')+
     '</div>';
+}
+
+/* 5.0.1193 / Журнал, этап 6 — two approved freestanding action buttons.
+   Reuse the exact same graphical foundation and interactive slots as
+   General / Events / Tasks. The journal filter implementation is stage 7. */
+function dossierJournalBottomActions(id){
+  return '<div class="dossier-stage9-blank-buttons dossier-journal-bottom-actions" data-dossier-layer="journal-stage9-actions" role="group" aria-label="Действия с журналом">'+
+    dossierStage9EmptyButtonArt()+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-journal" data-id="'+esc(id)+'" aria-label="Новая запись в журнале">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
+      '<span class="dossier-stage9-label">Новая запись</span></button>'+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-journal-filter-open" data-id="'+esc(id)+'" aria-label="Фильтр записей журнала" title="Фильтр журнала">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 4h18l-7.4 8.3v6.2L10.3 21v-8.7L3 4Z" /></svg></span>'+
+      '<span class="dossier-stage9-label">Фильтр</span></button>'+
+  '</div>';
+}
+
+/* 5.0.1194 — Journal layer 7. Filter state is view-only, per dossier,
+   never copied into the encrypted journal database. Dates and record types
+   are filtered from actual saved data; no synthetic history is introduced. */
+var DOSSIER_JOURNAL_FILTERS=Object.create(null);
+function dossierJournalFilter(id){
+  return DOSSIER_JOURNAL_FILTERS[String(id)]||{kind:'all',from:'',to:''};
+}
+function dossierJournalFilterActive(id){
+  var f=dossierJournalFilter(id);
+  return f.kind!=='all'||!!f.from||!!f.to;
+}
+function dossierJournalIsManual(j){
+  return !j||!j.type||String(j.type)==='note';
+}
+function dossierJournalVisibleEntries(id){
+  var f=dossierJournalFilter(id);
+  return dossierJournalChronology(id).filter(function(j){
+    if(f.kind==='manual'&&!dossierJournalIsManual(j))return false;
+    if(f.kind==='auto'&&dossierJournalIsManual(j))return false;
+    var date=String(j.date||'');
+    if(f.from&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<f.from))return false;
+    if(f.to&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date>f.to))return false;
+    return true;
+  });
+}
+function dossierJournalFilterStatus(id){
+  if(!dossierJournalFilterActive(id))return '';
+  var num=dossierJournalVisibleEntries(id).length,all=dossierJournalChronology(id).length;
+  return '<div class="dossier-journal-filter-state" aria-live="polite">'+
+    '<span>Показано '+num+' из '+all+' записей</span>'+
+    '<button type="button" data-act="dossier-journal-filter-clear" data-id="'+esc(id)+'">Сбросить фильтр</button></div>';
+}
+function dossierJournalRefresh(id){
+  var page=$('#page');
+  if(!page||!page.classList.contains('open')||page._matterTab!=='journal'||!sameRecordId(page._mid,id))return;
+  var paper=page.querySelector('.dossier-journal-paper-blank');
+  if(!paper)return;
+  var oldTop=page.scrollTop;
+  var oldState=paper.querySelector('.dossier-journal-filter-state');if(oldState)oldState.remove();
+  var oldList=paper.querySelector('.dossier-journal-timeline');if(oldList)oldList.remove();
+  paper.insertAdjacentHTML('beforeend',dossierJournalFilterStatus(id)+dossierJournalTimelineEntries(id));
+  page.scrollTop=Math.max(0,Math.min(oldTop,page.scrollHeight-page.clientHeight));
+}
+function dossierJournalFilterSheet(id){
+  var m=matter(id),f=dossierJournalFilter(id);
+  if(!m)return;
+  openSheet('<div class="journal-premium-head"><span class="journal-premium-head-icon">'+ico('doc','s')+'</span><div class="journal-premium-head-copy"><h2>Фильтр журнала</h2><p>Только записи дела: '+esc(m.client||m.title||'')+'</p></div></div>'+
+    '<div class="fld"><label for="journal-filter-kind">Тип записи</label><select id="journal-filter-kind">'+
+      [['all','Все записи'],['manual','Записи адвоката'],['auto','Автоматические действия']].map(function(opt){return '<option value="'+opt[0]+'"'+(f.kind===opt[0]?' selected':'')+'>'+opt[1]+'</option>';}).join('')+'</select></div>'+
+    '<div class="two"><div class="fld"><label for="journal-filter-from">С даты</label><input type="date" id="journal-filter-from" value="'+esc(f.from||'')+'"></div>'+
+    '<div class="fld"><label for="journal-filter-to">По дату</label><input type="date" id="journal-filter-to" value="'+esc(f.to||'')+'"></div></div>'+
+    '<p class="journal-filter-help">Даты включительно. Без дат — весь журнал. Фильтр не удаляет и не изменяет записи.</p>'+
+    '<input type="hidden" id="journal-filter-mid" value="'+esc(id)+'">'+
+    '<button type="button" class="btn journal-premium-save" data-act="dossier-journal-filter-apply" data-id="'+esc(id)+'">Применить фильтр</button>');
+  $('#sheet').classList.add('sheet-premium-form','journal-filter-sheet');
+}
+function dossierJournalViewRecord(id,mid){
+  var j=(S.journal||[]).find(function(item){return sameRecordId(item.id,id);});
+  if(!j||!sameRecordId(j.mid,mid)){toast('Запись не найдена');return;}
+  var d=dossierJournalDateParts(j);
+  openSheet('<div class="journal-premium-head"><span class="journal-premium-head-icon">'+dossierJournalIconSvg(dossierJournalVisual(j).icon)+'</span><div class="journal-premium-head-copy"><h2>Запись журнала</h2><p>'+esc(d.date)+(d.time?' · '+esc(d.time):'')+'</p></div></div>'+
+    '<div class="journal-record-view-text">'+esc(j.text||'Запись без текста')+'</div>'+
+    '<p class="journal-record-view-type">'+(dossierJournalIsManual(j)?'Запись адвоката':'Автоматическая запись')+' · Просмотр без изменения данных</p>');
+  $('#sheet').classList.add('sheet-premium-form','journal-record-view-sheet');
 }
 
 // 5.0.1189 — Journal timeline stage 3: dates and markers only. Never
@@ -5704,13 +5786,19 @@ function dossierJournalDateParts(j){
   }
   return {date:dateText,time:clock};
 }
-// 5.0.1190 — Pure presentation. Icon category is inferred for decoration
+// 5.0.1192 — Pure presentation. Icon category is inferred for decoration
 // only; journal records are never retyped or modified. Unknown types use
 // the neutral document icon, not an invented action or court outcome.
 function dossierJournalVisual(j){
   var type=String((j&&j.type)||'').toLocaleLowerCase('ru');
-  var msg=String((j&&j.text)||'').toLocaleLowerCase('ru');
-  if(type==='hearing-result'||/результат заседания|заседани[ея] (?:отложен|состоял)/iu.test(msg))
+  var msg=String((j&&j.text)||'').toLocaleLowerCase('ru').trim();
+  // A completed-task journal event takes precedence over keywords in the
+  // task title (e.g. «Выполнено: Созвониться с доверителем»).
+  if(/^(?:выполнено|завершено)\s*:/iu.test(msg))
+    return {icon:'check',tone:'green'};
+  if(type==='closure')
+    return {icon:'check',tone:'green'};
+  if(type==='hearing-result' ||/результат заседания|заседани[ея] (?:отложен|состоял)/iu.test(msg))
     return {icon:'doc',tone:'blue'};
   if(/ходатайств|обращени[ея] в суд|судебн(?:ый|ое) документ/iu.test(msg))
     return {icon:'court',tone:'gold'};
@@ -5722,8 +5810,6 @@ function dossierJournalVisual(j){
     return {icon:'mail',tone:'gold'};
   if(/отправлен|направлен|запрос направлен|отослан/iu.test(msg))
     return {icon:'send',tone:'gold'};
-  if(type==='closure'||/^(?:выполнено:|завершено:)/iu.test(msg))
-    return {icon:'check',tone:'green'};
   return {icon:'doc',tone:'blue'};
 }
 function dossierJournalIconSvg(name){
@@ -5735,13 +5821,12 @@ function dossierJournalIconSvg(name){
   return ico(name==='court'?'court':name,'s');
 }
 function dossierJournalTimelineEntries(id){
-  var records=dossierJournalChronology(id);
-  // Empty paper remains intentionally free of fictitious records.
-  // The decorative nodes introduced in stage 3 remain non-interactive.
+  var records=dossierJournalVisibleEntries(id);
+  // No synthetic events: an empty journal is a compact, genuine blank
+  // paper with a single informative message and no timeline markers.
   if(!records.length){
-    return '<div class="dossier-journal-timeline is-empty" aria-label="Записей журнала пока нет">'+
-      '<span class="dossier-journal-spine" aria-hidden="true"></span>'+ 
-      Array.from({length:6},function(){return '<div class="dossier-journal-timeline-row is-placeholder" aria-hidden="true"><span class="dossier-journal-node"></span></div>';}).join('')+
+    return '<div class="dossier-journal-timeline is-empty" aria-label="Журнал пуст">'+
+      '<p class="dossier-journal-empty-message">'+(dossierJournalFilterActive(id)?'По выбранным условиям записей нет':'Записей пока нет')+'</p>'+
     '</div>';
   }
   return '<div class="dossier-journal-timeline has-content" role="list" aria-label="Хронология журнала действий">'+
@@ -5757,6 +5842,7 @@ function dossierJournalTimelineEntries(id){
         '</div>'+ 
         '<span class="dossier-journal-entry-icon is-'+display.tone+'" aria-hidden="true">'+dossierJournalIconSvg(display.icon)+'</span>'+ 
         '<p class="dossier-journal-entry-text">'+esc(full)+'</p>'+ 
+        '<button type="button" class="dossier-journal-record-open" data-act="dossier-journal-view" data-id="'+esc(j.id||'')+'" data-v="'+esc(id)+'" aria-label="Просмотреть запись: '+esc(full.slice(0,80))+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>'+ 
       '</div>';
     }).join('')+
   '</div>';
@@ -7695,6 +7781,29 @@ document.addEventListener('click', function(ev){
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
     case 'm-journal': sheetJournal(id);break;
+    case 'dossier-journal-filter-open': {
+      var fp=$('#page');if(fp&&fp._matterTab==='journal'&&sameRecordId(fp._mid,id))dossierJournalFilterSheet(id);
+      break;
+    }
+    case 'dossier-journal-filter-apply': {
+      var jid=$('#journal-filter-mid')&&$('#journal-filter-mid').value;
+      if(!jid||!matter(jid))break;
+      var from=String(($('#journal-filter-from')&&$('#journal-filter-from').value)||'');
+      var to=String(($('#journal-filter-to')&&$('#journal-filter-to').value)||'');
+      if((from&&!/^\d{4}-\d{2}-\d{2}$/.test(from))||(to&&!/^\d{4}-\d{2}-\d{2}$/.test(to))||(from&&to&&from>to)){
+        toast('Проверьте период: начало не должно быть позже окончания');break;
+      }
+      var kind=$('#journal-filter-kind')&&$('#journal-filter-kind').value;
+      DOSSIER_JOURNAL_FILTERS[String(jid)]={kind:['all','manual','auto'].indexOf(kind)>=0?kind:'all',from:from,to:to};
+      closeSheet();dossierJournalRefresh(jid);break;
+    }
+    case 'dossier-journal-filter-clear': {
+      var cid=id||$('#page')._mid;if(cid){delete DOSSIER_JOURNAL_FILTERS[String(cid)];dossierJournalRefresh(cid);}break;
+    }
+    case 'dossier-journal-view': {
+      var pv=$('#page');if(pv&&pv._matterTab==='journal'&&sameRecordId(pv._mid,v))dossierJournalViewRecord(id,v);
+      break;
+    }
     case 'm-print': if(matter($('#page')._mid))printMatter($('#page')._mid);break;
     case 'm-finish': sheetMatterFinish(id);break;
     case 'm-finish-save': finishMatter(id);break;
@@ -7710,7 +7819,21 @@ document.addEventListener('click', function(ev){
 
     /* journal + participation */
     case 'j-clear': {var jtxt=$('#j-text');if(jtxt){jtxt.value='';jtxt.dispatchEvent(new Event('input',{bubbles:true}));jtxt.focus();}break;}
-    case 'j-save': {var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');var jt=$('#j-text').value.trim();if(!jm){toast('Выберите дело');break;}if(!jt){toast('Введите запись');break;}addJournal(jm,jt,$('#j-date').value||today(),'note',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(jm);render();toast('Запись добавлена');break;}
+    case 'j-save': {
+      var jm=$('#j-mid-select')?$('#j-mid-select').value:($('#j-mid')?$('#j-mid').value:'');
+      var jt=($('#j-text')&&$('#j-text').value||'').trim();
+      if(!jm||!matter(jm)){toast('Выберите дело');break;}
+      if((matter(jm)||{}).archived){toast('Сначала верните дело в работу');break;}
+      if(!jt){toast('Введите запись');break;}
+      var jd=$('#j-date')&&$('#j-date').value||today();
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(jd)){toast('Укажите дату записи');break;}
+      addJournal(jm,jt,jd,'note',true);save();closeSheet();
+      var currentPage=$('#page');
+      if(currentPage.classList.contains('open')&&sameRecordId(currentPage._mid,jm)&&currentPage._matterTab==='journal'){
+        dossierJournalRefresh(jm);
+      }else if(currentPage.classList.contains('open')&&sameRecordId(currentPage._mid,jm))openMatter(jm,currentPage._matterTab);
+      render();toast('Запись добавлена');break;
+    }
     case 'journal-del': {var toDelete=S.journal.filter(function(j){return j.id===id;})[0];if(!toDelete||toDelete.type==='system'||toDelete.type==='closure'||(matter(toDelete.mid)||{}).archived){toast('Системная история и записи архива не удаляются');break;}S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
     case 'pt-new': closeSheet();sheetParticipation('');break;
     case 'participation-log': sheetParticipationLog();break;
