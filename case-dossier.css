@@ -4453,7 +4453,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-right:0!important;
   padding:31px 0 8px!important;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-paper-empty-v6173.png?v=6179')!important;
+  border-image-source:url('dossier-tasks-done-paper-empty-v6173.png?v=6180')!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
@@ -4596,4 +4596,22 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   :is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-label{
     padding:0 2px 0 0!important;
   }
+}
+
+
+/* 5.0.1181 — Tasks footer vertical gap tightened to match the approved
+   Stage-9 buttons on General / Events mockup. Horizontal alignment remains unchanged.
+   The task stack is 97.1% of the dossier stage and starts at 1.45%; the
+   approved buttons start at 2% of the stage and span 95.8%.  Convert
+   those measurements into task-stack-relative values without touching
+   SVG artwork, icon slots, labels or click handlers.
+   (2 - 1.45)/97.1 = .566426%; 95.8/97.1 = 98.661174%. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions{
+  left:0!important;
+  right:auto!important;
+  width:98.661174%!important;
+  margin:-2px 0 0 .566426%!important;
+  aspect-ratio:380 / 70!important;
 }
