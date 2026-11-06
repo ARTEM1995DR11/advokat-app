@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1189';
-var APP_BUILD='6189';
+var APP_VERSION='5.0.1190';
+var APP_BUILD='6190';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5655,13 +5655,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '</div>' : '')+
     '</div>'+
     (state==='journal' ?
-      // 5.0.1189, Journal / layer 3: only timeline spine, markers and
-      // real dates/times. The icons, text, separators and actions come later.
-      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-timeline-v6189">'+
+      // 5.0.1190, Journal / layer 4: live icons, full content and gentle row
+      // separators. The data model is unchanged; filtering/actions come later.
+      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-entries-v6190">'+
         '<section class="dossier-journal-paper-blank" aria-label="Журнал действий">'+
           '<h2 class="dossier-journal-paper-heading">ЖУРНАЛ ДЕЙСТВИЙ</h2>'+
           '<span class="dossier-journal-paper-rule" aria-hidden="true"></span>'+
-          dossierJournalTimelineSkeleton(id)+
+          dossierJournalTimelineEntries(id)+
         '</section>'+
       '</div>'
       : '<div class="dossier-stage7-middle" aria-hidden="true"></div>')+
@@ -5704,24 +5704,59 @@ function dossierJournalDateParts(j){
   }
   return {date:dateText,time:clock};
 }
-function dossierJournalTimelineSkeleton(id){
+// 5.0.1190 — Pure presentation. Icon category is inferred for decoration
+// only; journal records are never retyped or modified. Unknown types use
+// the neutral document icon, not an invented action or court outcome.
+function dossierJournalVisual(j){
+  var type=String((j&&j.type)||'').toLocaleLowerCase('ru');
+  var msg=String((j&&j.text)||'').toLocaleLowerCase('ru');
+  if(type==='hearing-result'||/результат заседания|заседани[ея] (?:отложен|состоял)/iu.test(msg))
+    return {icon:'doc',tone:'blue'};
+  if(/ходатайств|обращени[ея] в суд|судебн(?:ый|ое) документ/iu.test(msg))
+    return {icon:'court',tone:'gold'};
+  if(/создан[оа]? (?:досье|карточк|дело)|досье создан|открыто дело/iu.test(msg))
+    return {icon:'folder',tone:'gold'};
+  if(/консультаци|звон(?:ок|ил|или)|созвон|телефон|переговор|связал(?:ся|ась)/iu.test(msg))
+    return {icon:'phone',tone:'gold'};
+  if(/получен[ыоа]? (?:материал|документ|письм|ответ)|поступил[ио]? (?:материал|документ|письм)/iu.test(msg))
+    return {icon:'mail',tone:'gold'};
+  if(/отправлен|направлен|запрос направлен|отослан/iu.test(msg))
+    return {icon:'send',tone:'gold'};
+  if(type==='closure'||/^(?:выполнено:|завершено:)/iu.test(msg))
+    return {icon:'check',tone:'green'};
+  return {icon:'doc',tone:'blue'};
+}
+function dossierJournalIconSvg(name){
+  // Existing shared icon definitions are used where appropriate. Envelope
+  // and outgoing-paper-plane are drawn inline to avoid dependency on an
+  // unavailable icon name in older offline installations.
+  if(name==='mail')return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>';
+  if(name==='send')return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21 3-7.5 18-3.4-7.1L3 10.5 21 3Z"/><path d="M10.1 13.9 21 3"/></svg>';
+  return ico(name==='court'?'court':name,'s');
+}
+function dossierJournalTimelineEntries(id){
   var records=dossierJournalChronology(id);
-  // The empty-state marks are decorative placeholders, NOT synthetic records.
+  // Empty paper remains intentionally free of fictitious records.
+  // The decorative nodes introduced in stage 3 remain non-interactive.
   if(!records.length){
     return '<div class="dossier-journal-timeline is-empty" aria-label="Записей журнала пока нет">'+
       '<span class="dossier-journal-spine" aria-hidden="true"></span>'+ 
       Array.from({length:6},function(){return '<div class="dossier-journal-timeline-row is-placeholder" aria-hidden="true"><span class="dossier-journal-node"></span></div>';}).join('')+
     '</div>';
   }
-  return '<div class="dossier-journal-timeline" role="list" aria-label="Хронология журнала действий">'+
+  return '<div class="dossier-journal-timeline has-content" role="list" aria-label="Хронология журнала действий">'+
     '<span class="dossier-journal-spine" aria-hidden="true"></span>'+ 
-    records.map(function(j){
+    records.map(function(j,i){
       var parsed=dossierJournalDateParts(j);
-      return '<div class="dossier-journal-timeline-row" role="listitem" data-journal-entry-id="'+esc(j.id||'')+'">'+
+      var display=dossierJournalVisual(j);
+      var full=String((j&&j.text)||'').trim()||'Запись в журнале';
+      return '<div class="dossier-journal-timeline-row has-record'+(i===0?' is-latest':'')+'" role="listitem" data-journal-entry-id="'+esc(j.id||'')+'">'+
         '<span class="dossier-journal-node" aria-hidden="true"></span>'+ 
         '<div class="dossier-journal-datetime"><time class="dossier-journal-date">'+esc(parsed.date)+'</time>'+ 
           (parsed.time?'<span class="dossier-journal-time">'+esc(parsed.time)+'</span>':'')+
         '</div>'+ 
+        '<span class="dossier-journal-entry-icon is-'+display.tone+'" aria-hidden="true">'+dossierJournalIconSvg(display.icon)+'</span>'+ 
+        '<p class="dossier-journal-entry-text">'+esc(full)+'</p>'+ 
       '</div>';
     }).join('')+
   '</div>';
