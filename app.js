@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1176';
-var APP_BUILD='6176';
+var APP_VERSION='5.0.1177';
+var APP_BUILD='6177';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5330,10 +5330,14 @@ function dossierTasksFitToContent(){
   var actions=stack.querySelector('.dossier-tasks-bottom-actions');
   var actionRect=actions&&actions.getBoundingClientRect();
   var actionsHeight=actions?actions.getBoundingClientRect().height:70;
-  // Same compositing rule as General and Events: the gilded folder edge
-  // finishes behind the upper part of the buttons, never below them.
+  // 5.0.1177 / Stage 5. The last paper section ends 5 CSS px above
+  // the independent action row. Position the bottom gold folder lip
+  // 2 CSS px BELOW that paper edge rather than starting on top of it.
+  // The footer illustration itself has a -2px seam-safe transform,
+  // so (footerHeight - 1) leaves precisely a 2px paper-to-lip gap
+  // with no white tail and keeps the buttons in front of the gold rim.
   var desired=Math.max(
-    Math.ceil((actionRect?actionRect.top:stackRect.bottom)-stageRect.top+24),
+    Math.ceil((actionRect?actionRect.top:stackRect.bottom)-stageRect.top+footerHeight-1),
     (head?head.offsetHeight:140)+footerHeight+12
   );
   stage.style.height=desired+'px';
