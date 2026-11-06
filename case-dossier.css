@@ -4644,3 +4644,58 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   max-height:2.36em!important;
   line-height:1.18!important;
 }
+
+
+/* 5.0.1187 / Journal, layer 1 — clean stand-alone paper only.
+   Mounted in the existing stage-7 MIDDLE flow, with a negative top offset
+   to tuck the new leaf just below the journal tab. Crucially, the folder
+   foot follows the leaf in normal flow instead of overlapping it.
+   No baked lettering/line/rows. Other three tabs untouched. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-stage7-middle-journal{
+  display:block;
+  position:relative;
+  z-index:1;
+  width:100%;
+  flex:1 1 auto;
+  background-image:url('dossier-paper-middle-v6009.webp?v=6187');
+  background-repeat:repeat-y;
+  background-size:100% auto;
+  overflow:visible;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] > .dossier-stage7-middle-journal > .dossier-journal-paper-blank{
+  box-sizing:border-box;
+  position:relative;
+  display:block;
+  width:95%;
+  height:clamp(400px,124vw,560px);
+  min-height:400px;
+  margin:calc(-15.5vw) auto -60px;
+  padding:0;
+  border:14px solid transparent;
+  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6187');
+  border-image-slice:150 72 160 72 fill;
+  border-image-width:clamp(27px,8vw,36px) clamp(13px,4.25vw,19px) clamp(25px,7vw,32px) clamp(13px,4.25vw,19px);
+  border-image-repeat:stretch;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+  pointer-events:none;
+}
+/* The paper's top sits below the tab strip; no phantom bottom space. */
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="journal"] > .dossier-stage7-middle-journal > .dossier-journal-paper-blank{
+    width:95.5%;
+  }
+}
+
+/* Journal uses intrinsic content height: the foot tucks under the clean
+   leaf instead of leaving a second empty sheet beneath it. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"].dossier-stage7-adaptive{
+  min-height:0!important;
+}

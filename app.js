@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1186';
-var APP_BUILD='6186';
+var APP_VERSION='5.0.1187';
+var APP_BUILD='6187';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5654,7 +5654,13 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           '</div>'+
         '</div>' : '')+
     '</div>'+
-    '<div class="dossier-stage7-middle" aria-hidden="true"></div>'+
+    (state==='journal' ?
+      // 5.0.1187, Journal / layer 1: ONLY a free-standing empty parchment.
+      // Records remain in S.journal; timeline, title and buttons come later.
+      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-empty-foundation-v6187">'+
+        '<section class="dossier-journal-paper-blank" aria-label="Пустой бумажный слой журнала действий"></section>'+
+      '</div>'
+      : '<div class="dossier-stage7-middle" aria-hidden="true"></div>')+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.webp?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async" width="1448" height="375">'+
     '</div>';
