@@ -4529,3 +4529,71 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     letter-spacing:-.03em;
   }
 }
+
+
+/* 5.0.1178 — unify footer action buttons across all dossier tabs.
+   Keep each tab's action logic and icon artwork, but normalize the shared
+   visual system: container width, action geometry, typography, icon slots,
+   and label padding. This makes General / Events / Tasks / Journal look like
+   one approved family of buttons. */
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions){
+  width:95.8%!important;
+  left:2.0%!important;
+  aspect-ratio:380 / 70!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-action{
+  top:4.57%!important;
+  height:77.15%!important;
+  border-radius:11px!important;
+  font:700 clamp(10.7px,3.12vw,13px)/1 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.023em!important;
+  text-shadow:0 .3px 0 rgba(255,254,249,.18)!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-action-add{
+  left:.66%!important;
+  width:51.32%!important;
+  grid-template-columns:25.4% minmax(0,1fr)!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-action-more{
+  left:54.08%!important;
+  width:45.26%!important;
+  grid-template-columns:22% minmax(0,1fr)!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-icon{
+  min-width:0!important;
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  align-self:center!important;
+  overflow:hidden!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-icon svg{
+  flex:none!important;
+}
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-label{
+  padding:0 4px 0 1px!important;
+  text-align:center!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions .dossier-stage9-action-add .dossier-stage9-label{
+  font-size:.955em!important;
+  letter-spacing:-.035em!important;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  :is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-action{
+    font-size:clamp(9.1px,3.05vw,11px)!important;
+    letter-spacing:-.03em!important;
+  }
+  #page.dossier-page .dossier-rear-stage
+  :is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions) .dossier-stage9-label{
+    padding:0 2px 0 0!important;
+  }
+}
