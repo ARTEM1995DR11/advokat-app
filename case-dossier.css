@@ -4658,7 +4658,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   z-index:1;
   width:100%;
   flex:1 1 auto;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6187');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6188');
   background-repeat:repeat-y;
   background-size:100% auto;
   overflow:visible;
@@ -4675,7 +4675,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin:calc(-15.5vw) auto -60px;
   padding:0;
   border:14px solid transparent;
-  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6187');
+  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6188');
   border-image-slice:150 72 160 72 fill;
   border-image-width:clamp(27px,8vw,36px) clamp(13px,4.25vw,19px) clamp(25px,7vw,32px) clamp(13px,4.25vw,19px);
   border-image-repeat:stretch;
@@ -4698,4 +4698,172 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="journal"].dossier-stage7-adaptive{
   min-height:0!important;
+}
+
+
+/* 5.0.1188 / Journal, layer 2: only a DOM heading + a SINGLE fine rule.
+   The raster substrate is unchanged and has no baked line, so no masks,
+   background-color covers or stacked pseudo-element rules are necessary.
+   Coordinates are anchored to the journal paper, not stretched image slices. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank > .dossier-journal-paper-heading{
+  position:absolute;
+  top:3px;
+  left:3px;
+  right:3px;
+  z-index:2;
+  margin:0;
+  padding:0;
+  font:700 clamp(11.2px,3.14vw,13px)/1.14 Georgia,"Times New Roman",serif;
+  letter-spacing:clamp(1px,.36vw,1.55px);
+  color:#855321;
+  text-shadow:0 .45px 0 rgba(255,253,249,.5);
+  white-space:nowrap;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank > .dossier-journal-paper-rule{
+  display:block;
+  position:absolute;
+  top:26px;
+  left:3px;
+  right:3px;
+  z-index:2;
+  height:1px;
+  margin:0;
+  padding:0;
+  background:rgba(149,108,65,.30);
+  box-shadow:0 1px 0 rgba(255,255,255,.42);
+  pointer-events:none;
+}
+@media (max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+  .dossier-journal-paper-blank > .dossier-journal-paper-heading{
+    letter-spacing:.9px;
+    font-size:11.2px;
+  }
+}
+
+
+/* 5.0.1189 / Journal, layer 3 — live chronological skeleton inside the
+   approved blank leaf. Strictly no row icons, descriptions or click hotspots.
+   Normal-flow rows allow >6 real entries without crushing the footer. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank:has(> .dossier-journal-timeline){
+  height:auto;
+  min-height:clamp(400px,124vw,560px);
+  padding-top:40px;
+  padding-bottom:24px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank > .dossier-journal-timeline{
+  position:relative;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  margin:0;
+  padding:0;
+  min-height:0;
+  pointer-events:none;
+  z-index:1;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-spine{
+  position:absolute;
+  z-index:0;
+  left:12px;
+  top:clamp(19px,5.1vw,22px);
+  bottom:clamp(17px,4.8vw,21px);
+  width:1.5px;
+  border-radius:4px;
+  background:linear-gradient(90deg,#8b6127,#ae8544,#8b6127);
+  box-shadow:0 0 0 0.35px rgba(155,112,47,.12);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row{
+  display:flex;
+  position:relative;
+  box-sizing:border-box;
+  align-items:flex-start;
+  flex:0 0 clamp(52px,16vw,69px);
+  height:clamp(52px,16vw,69px);
+  min-width:0;
+  width:100%;
+  padding:clamp(7px,2vw,9px) 0 0 35px;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-node{
+  position:absolute;
+  z-index:2;
+  left:0;
+  top:clamp(9px,2.75vw,12px);
+  box-sizing:border-box;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:radial-gradient(circle at 31% 24%, #fff2d9 0, #f6d6a7 65%, #dbb67a 100%);
+  border:1px solid rgba(239,197,132,.86);
+  box-shadow:0 1px 2px rgba(133,82,26,.14), inset 0 1px 0 rgba(255,255,255,.52);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-node::after{
+  content:"";
+  display:block;
+  position:absolute;
+  inset:5px;
+  background:linear-gradient(155deg,#986312,#81510f);
+  border-radius:50%;
+  box-shadow:inset 0 1px 1px rgba(45,31,6,.25),0 1px 0 rgba(255,255,255,.6);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-datetime{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  line-height:1.12;
+  text-align:left;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-date{
+  color:#774718;
+  font:700 clamp(9px,2.65vw,11.3px)/1.15 Georgia,"Times New Roman",serif;
+  letter-spacing:-.025em;
+  white-space:nowrap;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-time{
+  color:#7c756d;
+  font:400 clamp(9px,2.65vw,11.3px)/1.12 Georgia,"Times New Roman",serif;
+  font-variant-numeric:tabular-nums;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline.is-empty .dossier-journal-node{
+  opacity:.52;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline.is-empty .dossier-journal-spine{
+  opacity:.4;
+}
+@media(max-width:355px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+  .dossier-journal-paper-blank .dossier-journal-date{
+    font-size:9px;
+  }
 }

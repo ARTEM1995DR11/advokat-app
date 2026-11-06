@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1187';
-var APP_BUILD='6187';
+var APP_VERSION='5.0.1189';
+var APP_BUILD='6189';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5655,15 +5655,76 @@ function dossierIndexStage1008(id,current,openCount,m,events){
         '</div>' : '')+
     '</div>'+
     (state==='journal' ?
-      // 5.0.1187, Journal / layer 1: ONLY a free-standing empty parchment.
-      // Records remain in S.journal; timeline, title and buttons come later.
-      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-empty-foundation-v6187">'+
-        '<section class="dossier-journal-paper-blank" aria-label="Пустой бумажный слой журнала действий"></section>'+
+      // 5.0.1189, Journal / layer 3: only timeline spine, markers and
+      // real dates/times. The icons, text, separators and actions come later.
+      '<div class="dossier-stage7-middle dossier-stage7-middle-journal" data-dossier-layer="journal-timeline-v6189">'+
+        '<section class="dossier-journal-paper-blank" aria-label="Журнал действий">'+
+          '<h2 class="dossier-journal-paper-heading">ЖУРНАЛ ДЕЙСТВИЙ</h2>'+
+          '<span class="dossier-journal-paper-rule" aria-hidden="true"></span>'+
+          dossierJournalTimelineSkeleton(id)+
+        '</section>'+
       '</div>'
       : '<div class="dossier-stage7-middle" aria-hidden="true"></div>')+
     '<img class="dossier-stage7-foot" src="dossier-paper-foot-v6009.webp?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async" width="1448" height="375">'+
     '</div>';
+}
+
+// 5.0.1189 — Journal timeline stage 3: dates and markers only. Never
+// invent dates/times, never mutate or duplicate persisted journal entries.
+function dossierJournalChronology(id){
+  return journalOf(id).slice().sort(function(a,b){
+    var dateA=String((a&&a.date)||''), dateB=String((b&&b.date)||'');
+    var primary=dateB.localeCompare(dateA);
+    if(primary)return primary;
+    return String((b&&b.created)||'').localeCompare(String((a&&a.created)||''));
+  });
+}
+function dossierJournalDateParts(j){
+  var raw=String((j&&j.date)||'');
+  // Only well-formed calendar dates can be shown as record dates.
+  var calendar=/^\d{4}-\d{2}-\d{2}$/.test(raw)?raw:'';
+  var dateText='Дата не указана';
+  if(calendar){
+    var d=parseD(calendar);
+    if(!isNaN(d.getTime())&&iso(d)===calendar){
+      dateText=fmtD(calendar,true);
+    }else calendar='';
+  }
+  var clock='';
+  var explicit=String((j&&j.time)||'').trim();
+  if(/^([01]\d|2[0-3]):[0-5]\d$/.test(explicit)) clock=explicit;
+  else if(j&&j.created&&calendar){
+    var instant=new Date(j.created);
+    // A creation timestamp is the event time ONLY if it belongs to the
+    // same calendar date. For historical/backdated records, do not invent it.
+    if(!isNaN(instant.getTime())&&iso(instant)===calendar){
+      clock=String(instant.getHours()).padStart(2,'0')+':'+String(instant.getMinutes()).padStart(2,'0');
+    }
+  }
+  return {date:dateText,time:clock};
+}
+function dossierJournalTimelineSkeleton(id){
+  var records=dossierJournalChronology(id);
+  // The empty-state marks are decorative placeholders, NOT synthetic records.
+  if(!records.length){
+    return '<div class="dossier-journal-timeline is-empty" aria-label="Записей журнала пока нет">'+
+      '<span class="dossier-journal-spine" aria-hidden="true"></span>'+ 
+      Array.from({length:6},function(){return '<div class="dossier-journal-timeline-row is-placeholder" aria-hidden="true"><span class="dossier-journal-node"></span></div>';}).join('')+
+    '</div>';
+  }
+  return '<div class="dossier-journal-timeline" role="list" aria-label="Хронология журнала действий">'+
+    '<span class="dossier-journal-spine" aria-hidden="true"></span>'+ 
+    records.map(function(j){
+      var parsed=dossierJournalDateParts(j);
+      return '<div class="dossier-journal-timeline-row" role="listitem" data-journal-entry-id="'+esc(j.id||'')+'">'+
+        '<span class="dossier-journal-node" aria-hidden="true"></span>'+ 
+        '<div class="dossier-journal-datetime"><time class="dossier-journal-date">'+esc(parsed.date)+'</time>'+ 
+          (parsed.time?'<span class="dossier-journal-time">'+esc(parsed.time)+'</span>':'')+
+        '</div>'+ 
+      '</div>';
+    }).join('')+
+  '</div>';
 }
 
 function dossierIndexContent996(m,id,tab,tasks,events,logs){
