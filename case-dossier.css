@@ -4379,7 +4379,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1173: old Safari color-mask workaround removed. */
+/* 5.0.1175 — live rows restored on the new Completed paper. */
 
 /* 5.0.1172 — Stage 3 / completed-task live rows ONLY.
    The approved paper/heading (stage 1–2) and other task cards remain locked.
@@ -4435,9 +4435,10 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   top:50%;
 }
 
-/* 5.0.1173 — NEW blank paper for «Выполненные» (approval stage).
-   This is an independent full-image layer with no header or rows.
-   No nine-slice seams, no raster lines, no colored CSS overlay patches. */
+/* 5.0.1175 — independent clean paper for «Выполненные» now receives
+   its live rows. The approved clean texture from v6173 becomes the dynamic
+   border-image source, so the paper keeps its geometry while growing with
+   the real number of completed tasks. Only this section is touched. */
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
 .dossier-tasks-stack > section.dossier-tasks-done-paper.dossier-done-layer-empty{
@@ -4445,19 +4446,26 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   display:block!important;
   box-sizing:border-box!important;
   width:100%!important;
-  height:clamp(83px,23vw,99px)!important;
-  min-height:clamp(83px,23vw,99px)!important;
-  flex:0 0 clamp(83px,23vw,99px)!important;
+  height:auto!important;
+  min-height:0!important;
+  flex:0 0 auto!important;
   margin-left:0!important;
   margin-right:0!important;
-  padding:0!important;
-  border:0!important;
-  border-image:none!important;
-  border-image-source:none!important;
+  padding:31px 0 8px!important;
+  border:14px solid transparent!important;
+  border-image-source:url('dossier-tasks-done-paper-empty-v6173.png?v=6175')!important;
+  border-image-slice:115 68 90 68 fill!important;
+  border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
+  border-image-repeat:stretch!important;
   border-radius:0!important;
-  background:transparent url('dossier-tasks-done-paper-empty-v6173.png?v=6173') center/100% 100% no-repeat!important;
+  background:transparent!important;
   box-shadow:none!important;
   overflow:visible!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section.dossier-done-layer-empty.is-empty{
+  min-height:clamp(81px,22vw,94px)!important;
 }
 #page.dossier-page .dossier-rear-stage
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
@@ -4467,4 +4475,12 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-tasks-stack > section.dossier-done-layer-empty::after{
   content:none!important;
   display:none!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section.dossier-done-layer-empty > .dossier-done-title{
+  position:absolute!important;
+  left:4%!important;right:4%!important;top:10px!important;
+  margin:0!important;padding:0!important;white-space:nowrap!important;
+  z-index:2!important;pointer-events:none!important;
 }

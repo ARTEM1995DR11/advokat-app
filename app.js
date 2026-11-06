@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1173';
-var APP_BUILD='6173';
+var APP_VERSION='5.0.1175';
+var APP_BUILD='6175';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5595,10 +5595,10 @@ function dossierIndexStage1008(id,current,openCount,m,events){
             '<h2 class="dossier-other-title">ОСТАЛЬНЫЕ ЗАДАЧИ</h2>'+
             '<div class="dossier-other-row-structure">'+dossierOtherRowsLive(id)+'</div>'+
           '</section>'+
-          // 5.0.1173: independent EMPTY paper; preserve actual tasks in storage
-          // and the live summary counters, but do not render completion rows
-          // until this new paper layer is approved for filling.
-          '<section class="dossier-tasks-done-paper dossier-done-layer-empty" data-dossier-layer="tasks-done-empty-v6173" aria-label="Пустая бумажная основа выполненных задач"></section>'+ 
+          // 5.0.1175: continue filling the new independent clean paper for
+          // «Выполненные». Keep the approved heading and single rule, and
+          // restore only real completed rows from this case.
+          '<section class="dossier-tasks-done-paper dossier-done-layer-empty'+(dossierDoneWorkTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-done-empty-v6173" aria-label="Выполненные задачи"><h2 class="dossier-done-title">ВЫПОЛНЕННЫЕ</h2><div class="dossier-done-rows">'+dossierDoneRowsLive(id)+'</div></section>'+ 
           dossierTasksBottomActions(id)+
         '</div>' : '')+
       // 5.0.1048 / stage 8.2: one standalone TEXT-FREE paper card, directly
