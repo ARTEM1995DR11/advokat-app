@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1194';
-var APP_BUILD='6194';
+var APP_VERSION='5.0.1196';
+var APP_BUILD='6196';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5822,6 +5822,7 @@ function dossierJournalIconSvg(name){
 }
 function dossierJournalTimelineEntries(id){
   var records=dossierJournalVisibleEntries(id);
+  var newest=dossierJournalChronology(id)[0]||null;
   // No synthetic events: an empty journal is a compact, genuine blank
   // paper with a single informative message and no timeline markers.
   if(!records.length){
@@ -5835,7 +5836,8 @@ function dossierJournalTimelineEntries(id){
       var parsed=dossierJournalDateParts(j);
       var display=dossierJournalVisual(j);
       var full=String((j&&j.text)||'').trim()||'Запись в журнале';
-      return '<div class="dossier-journal-timeline-row has-record'+(i===0?' is-latest':'')+'" role="listitem" data-journal-entry-id="'+esc(j.id||'')+'">'+
+      var trulyNewest=i===0&&newest&&sameRecordId(j.id,newest.id);
+      return '<div class="dossier-journal-timeline-row has-record'+(trulyNewest?' is-latest':'')+'" role="listitem" data-journal-entry-id="'+esc(j.id||'')+'">'+
         '<span class="dossier-journal-node" aria-hidden="true"></span>'+ 
         '<div class="dossier-journal-datetime"><time class="dossier-journal-date">'+esc(parsed.date)+'</time>'+ 
           (parsed.time?'<span class="dossier-journal-time">'+esc(parsed.time)+'</span>':'')+
@@ -7780,7 +7782,7 @@ document.addEventListener('click', function(ev){
     case 'm-deadline': {var md=matter(id);if(md&&md.archived){toast('Сначала верните дело в работу');break;}sheetDeadline(id);break;}
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
-    case 'm-journal': sheetJournal(id);break;
+    case 'm-journal': {var mj=matter(id);if(mj&&mj.archived){toast('Сначала верните дело в работу');break;}sheetJournal(id);break;}
     case 'dossier-journal-filter-open': {
       var fp=$('#page');if(fp&&fp._matterTab==='journal'&&sameRecordId(fp._mid,id))dossierJournalFilterSheet(id);
       break;
@@ -7827,7 +7829,12 @@ document.addEventListener('click', function(ev){
       if(!jt){toast('Введите запись');break;}
       var jd=$('#j-date')&&$('#j-date').value||today();
       if(!/^\d{4}-\d{2}-\d{2}$/.test(jd)){toast('Укажите дату записи');break;}
-      addJournal(jm,jt,jd,'note',true);save();closeSheet();
+      addJournal(jm,jt,jd,'note',true);
+      // A newly authored note must be visible after saving, even when the
+      // previous filter showed only automatic records or an older period.
+      // Reset presentation only; all journal data remain intact.
+      if(dossierJournalFilterActive(jm))delete DOSSIER_JOURNAL_FILTERS[String(jm)];
+      save();closeSheet();
       var currentPage=$('#page');
       if(currentPage.classList.contains('open')&&sameRecordId(currentPage._mid,jm)&&currentPage._matterTab==='journal'){
         dossierJournalRefresh(jm);

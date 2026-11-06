@@ -4658,7 +4658,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   z-index:1;
   width:100%;
   flex:1 1 auto;
-  background-image:url('dossier-paper-middle-v6009.webp?v=6193');
+  background-image:url('dossier-paper-middle-v6009.webp?v=6196');
   background-repeat:repeat-y;
   background-size:100% auto;
   overflow:visible;
@@ -4675,7 +4675,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin:calc(-15.5vw) auto -60px;
   padding:0;
   border:14px solid transparent;
-  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6194');
+  border-image-source:url('dossier-journal-paper-empty-v6187.webp?v=6196');
   border-image-slice:150 72 160 72 fill;
   border-image-width:clamp(27px,8vw,36px) clamp(13px,4.25vw,19px) clamp(25px,7vw,32px) clamp(13px,4.25vw,19px);
   border-image-repeat:stretch;
@@ -5143,3 +5143,30 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-journal-record-open,
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="journal"]
 .dossier-journal-filter-state button{pointer-events:auto!important;}
+
+
+/* 5.0.1196 — iOS Safari journal QA: reserve the actual chevron hit-zone.
+   Previously a weaker padding-right rule was overridden by the earlier
+   full paper selector. Real user screenshot showed text UNDER the arrow.
+   Override with the exact same/full selector and verify their rects never
+   intersect, on narrow and wide phones. Existing paper/timeline styles stay. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record{
+  padding-right:clamp(24px,6.7vw,30px)!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record
+.dossier-journal-entry-text{
+  min-width:0!important;
+  max-width:100%!important;
+  overflow-wrap:anywhere!important;
+}
+/* Slightly reduce the excess blank area after the last real journal row
+   without changing the golden border or button coordinates within the sheet. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank:has(> .dossier-journal-timeline.has-content){
+  padding-bottom:clamp(16px,4.2vw,20px)!important;
+}
