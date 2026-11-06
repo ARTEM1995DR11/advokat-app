@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1185';
-var APP_BUILD='6185';
+var APP_VERSION='5.0.1186';
+var APP_BUILD='6186';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -72,7 +72,8 @@ function mergeState(d){
     if(t.id!=null) t.id=String(t.id);
     if(t.mid!=null && t.mid!=='') t.mid=String(t.mid);
     if(t.kind==='call' || t.kind==='doc') t.kind='task';
-    if(t.done && !t.doneAt) t.doneAt=new Date().toISOString();
+    // 5.0.1186: do not invent a completion date for legacy completed tasks.
+    // A missing doneAt remains absent; the dossier labels the deadline as 'Срок'.
   });
   out.participation.forEach(function(e){
     if(!e) return;
