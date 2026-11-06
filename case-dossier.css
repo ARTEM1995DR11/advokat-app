@@ -4160,13 +4160,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6172');
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6173');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6172');
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6173');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172');
+  border-image-source:none;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section > h2{
   position:absolute;top:9px;left:3.4%;right:3.4%;
@@ -4245,13 +4245,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6172')!important;
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6173')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6172')!important;
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6173')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172')!important;
+  border-image-source:none!important;
 }
 /* Header labels do not drift downward as task counts grow. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section > h2{
@@ -4309,7 +4309,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   aspect-ratio:auto!important;
   flex:0 0 auto;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172')!important;
+  border-image-source:none!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
@@ -4379,30 +4379,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1171 — Stage 2 / Safari border-image seam guard.
-   With the proportional nine-slice raster iOS may reveal a horizontal
-   resampling seam THROUGH the completed card's heading at 0/1/N rows.
-   The only intentional rule must remain h2::after BELOW the heading.
-   Match the original parchment's gentle tint strictly inside the
-   heading text band; its CSS after-rule is drawn outside that band.
-   This does NOT hide row separators or alter the border drawing. */
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
-.dossier-tasks-stack > .dossier-tasks-done-paper > h2.dossier-done-title {
-  background:linear-gradient(90deg,
-    rgba(252,239,225,.99) 0%,
-    rgba(250,237,222,.99) 52%,
-    rgba(251,238,225,.99) 100%);
-  isolation:isolate;
-}
-#page.dossier-page .dossier-rear-stage
-.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
-.dossier-tasks-stack > .dossier-tasks-done-paper > h2.dossier-done-title::after {
-  content:""!important;
-  display:block!important;
-  top:calc(100% + 5px)!important;
-}
-
+/* 5.0.1173: old Safari color-mask workaround removed. */
 
 /* 5.0.1172 — Stage 3 / completed-task live rows ONLY.
    The approved paper/heading (stage 1–2) and other task cards remain locked.
@@ -4456,4 +4433,38 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
 .dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-open{
   top:50%;
+}
+
+/* 5.0.1173 — NEW blank paper for «Выполненные» (approval stage).
+   This is an independent full-image layer with no header or rows.
+   No nine-slice seams, no raster lines, no colored CSS overlay patches. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section.dossier-tasks-done-paper.dossier-done-layer-empty{
+  position:relative!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:clamp(83px,23vw,99px)!important;
+  min-height:clamp(83px,23vw,99px)!important;
+  flex:0 0 clamp(83px,23vw,99px)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  padding:0!important;
+  border:0!important;
+  border-image:none!important;
+  border-image-source:none!important;
+  border-radius:0!important;
+  background:transparent url('dossier-tasks-done-paper-empty-v6173.png?v=6173') center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section.dossier-done-layer-empty::before,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > section.dossier-done-layer-empty::after{
+  content:none!important;
+  display:none!important;
 }
