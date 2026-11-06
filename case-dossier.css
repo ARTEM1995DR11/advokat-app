@@ -4160,13 +4160,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6170');
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6172');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6170');
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6172');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170');
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172');
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack > section > h2{
   position:absolute;top:9px;left:3.4%;right:3.4%;
@@ -4245,13 +4245,13 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin-top:-8px!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-attention-blank{
-  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6170')!important;
+  border-image-source:url('dossier-tasks-attention-blank-v6170.png?v=6172')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-other-blank{
-  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6170')!important;
+  border-image-source:url('dossier-tasks-other-blank-v6170.png?v=6172')!important;
 }
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > .dossier-tasks-done-paper{
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172')!important;
 }
 /* Header labels do not drift downward as task counts grow. */
 #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head .dossier-tasks-stack > section > h2{
@@ -4309,7 +4309,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   aspect-ratio:auto!important;
   flex:0 0 auto;
   border:14px solid transparent!important;
-  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6170')!important;
+  border-image-source:url('dossier-tasks-done-blank-v6163.png?v=6172')!important;
   border-image-slice:115 68 90 68 fill!important;
   border-image-width:clamp(24px,7.78vw,34px) clamp(15px,4.6vw,20.5px) clamp(19px,6.08vw,26.5px) clamp(15px,4.6vw,20.5px)!important;
   border-image-repeat:stretch!important;
@@ -4376,4 +4376,84 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   background:rgba(151,113,72,.28);
   box-shadow:0 1px 0 rgba(255,255,255,.45);
   pointer-events:none;
+}
+
+
+/* 5.0.1171 — Stage 2 / Safari border-image seam guard.
+   With the proportional nine-slice raster iOS may reveal a horizontal
+   resampling seam THROUGH the completed card's heading at 0/1/N rows.
+   The only intentional rule must remain h2::after BELOW the heading.
+   Match the original parchment's gentle tint strictly inside the
+   heading text band; its CSS after-rule is drawn outside that band.
+   This does NOT hide row separators or alter the border drawing. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper > h2.dossier-done-title {
+  background:linear-gradient(90deg,
+    rgba(252,239,225,.99) 0%,
+    rgba(250,237,222,.99) 52%,
+    rgba(251,238,225,.99) 100%);
+  isolation:isolate;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper > h2.dossier-done-title::after {
+  content:""!important;
+  display:block!important;
+  top:calc(100% + 5px)!important;
+}
+
+
+/* 5.0.1172 — Stage 3 / completed-task live rows ONLY.
+   The approved paper/heading (stage 1–2) and other task cards remain locked.
+   A completed task takes precisely one compact row, including a two-line
+   task title, a deadline/category grid, a completion mark and arrow.
+   Zero tasks still shows an empty paper as explicitly approved in 1169. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task {
+  flex:0 0 clamp(64px,17.3vw,74px)!important;
+  height:clamp(64px,17.3vw,74px)!important;
+  min-height:0!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-name{
+  left:12.5%;right:8%;top:11%;
+  max-height:44%;
+  line-height:1.16;
+  font-size:clamp(9.4px,2.78vw,11.8px);
+  -webkit-line-clamp:2;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-meta{
+  left:12.5%;right:5%;bottom:8%;min-height:24%;
+  grid-template-columns:49% minmax(0,1fr);
+  align-items:center;
+  font-size:clamp(7.5px,2.28vw,9.5px);
+  line-height:1.15;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-check,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-toggle {
+  top:33%;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-check {
+  background:linear-gradient(150deg,#2caa88 0%,#078468 100%);
+  border-color:#369d7d;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.50),0 1.5px 2px rgba(40,99,72,.25);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-chevron,
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-done-paper .dossier-done-row.has-task .dossier-done-open{
+  top:50%;
 }
