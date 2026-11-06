@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1181';
-var APP_BUILD='6181';
+var APP_VERSION='5.0.1185';
+var APP_BUILD='6185';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2652,6 +2652,19 @@ function performDeleteTaskById(id){
   toast('Удалено');
 }
 function deleteTaskById(id){ openPremiumDeleteConfirm(id); }
+// 5.0.1185: the case dossier scrolls inside #page, not window. Record the
+// actual scroll container and restore it after the task list is rebuilt.
+function dossierRestoreTaskScroll(scrollPosition, expectedId){
+  function restore(){
+    var panel=$('#page');
+    if(!panel||!panel.classList.contains('open')||panel._matterTab!=='tasks'||
+       !sameRecordId(panel._mid,expectedId))return;
+    var max=Math.max(0,panel.scrollHeight-panel.clientHeight);
+    panel.scrollTop=Math.min(Math.max(0,scrollPosition),max);
+  }
+  restore();
+  requestAnimationFrame(restore);
+}
 var TASK_TOGGLE_GUARD=Object.create(null);
 function toggleTaskDone(id){
   var now=Date.now();
@@ -5450,7 +5463,7 @@ function dossierOtherRowMarkup(t){
       '<span class="dossier-other-status"><span class="dossier-other-status-hourglass" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.8h11M6.5 20.2h11M8.1 5c0 3.2 3.9 4.4 3.9 7s-3.9 3.8-3.9 7M15.9 5c0 3.2-3.9 4.4-3.9 7s3.9 3.8 3.9 7"/></svg></span>В работе</span>'+
       '<div class="dossier-other-meta">'+
         '<span class="dossier-other-when">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
-        '<span class="dossier-other-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
+        '<span class="dossier-other-cat" title="'+esc(cat)+'">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
       '</div></div>'+ 
     '<button type="button" class="dossier-other-check-hit" data-act="dossier-other-toggle" data-id="'+tid+'" aria-label="Отметить выполненной: '+esc(name)+'" title="Завершить задачу"></button>'+ 
     '<button type="button" class="dossier-other-open-hit" data-act="dossier-other-open" data-id="'+tid+'" aria-label="Открыть задачу: '+esc(name)+'" title="Открыть задачу"></button>'+ 
@@ -5459,9 +5472,28 @@ function dossierOtherRowMarkup(t){
 function dossierOtherRowsLive(id){
   return dossierOtherActiveTasks(id).map(dossierOtherRowMarkup).join('');
 }
-// 5.0.1163 — Completed work uses only actual saved records from this case.
-// Dates are the task's original due date when provided, otherwise the
-// recorded completion date; no mock tasks are inserted into user storage.
+// Completed work uses only actual saved records from this case.
+// In the Completed section, the primary date is the factual completion time.
+// Older imported records without doneAt show an explicitly labelled task
+// deadline rather than falsely implying that deadline is the completion date.
+function dossierCompletedDateInfo(t){
+  var stored=String((t&&t.doneAt)||'').trim(), date='';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(stored)) date=stored;
+  else if(stored){
+    var stamp=new Date(stored);
+    if(!isNaN(stamp.getTime()))date=iso(stamp); // local calendar day, not UTC substring
+  }
+  if(date){
+    var formatted=fmtD(date,true);
+    return {text:formatted,info:'Выполнено: '+formatted};
+  }
+  var due=String((t&&t.due)||'');
+  if(/^\d{4}-\d{2}-\d{2}$/.test(due)){
+    return {text:'Срок: '+due.slice(8,10)+'.'+due.slice(5,7)+'.'+due.slice(0,4),
+      info:'Установленный срок: '+fmtD(due,true)+'. Фактическая дата выполнения не сохранена'};
+  }
+  return {text:'Дата не указана',info:'Фактическая дата выполнения не сохранена'};
+}
 function dossierDoneWorkTasks(id){
   return tasksOf(id).filter(function(t){return !!t.done&&(!t.kind||t.kind==='task');})
     .sort(function(a,b){
@@ -5472,16 +5504,16 @@ function dossierDoneWorkTasks(id){
 function dossierDoneRowMarkup(t){
   if(!t)return '<div class="dossier-done-row is-placeholder" aria-hidden="true"></div>';
   var title=String(t.title||'Задача'),tid=esc(t.id),cat=dossierAttentionCategory(t);
-  var date=(t.due||((t.doneAt||'').slice(0,10))||'');
-  var when=date?fmtD(date,true):'Дата не указана';
+  var completedDate=dossierCompletedDateInfo(t);
+  var when=completedDate.text;
   var catIcon=/коммуник|связ|звон|встреч/i.test(cat)?'comm':'doc';
   return '<div class="dossier-done-row has-task">'+
     '<span class="dossier-done-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5.3 12.1 4.4 4.5 9-9.3"/></svg></span>'+
     '<span class="dossier-done-chevron" aria-hidden="true"></span>'+
     '<div class="dossier-done-copy"><strong class="dossier-done-name" title="'+esc(title)+'">'+esc(title)+'</strong>'+
       '<div class="dossier-done-meta">'+
-        '<span class="dossier-done-date">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
-        '<span class="dossier-done-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
+        '<span class="dossier-done-date" title="'+esc(completedDate.info)+'">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+        '<span class="dossier-done-cat" title="'+esc(cat)+'">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span>'+
       '</div></div>'+
     '<button type="button" class="dossier-done-toggle" data-act="dossier-done-reopen" data-id="'+tid+'" title="Вернуть задачу в работу" aria-label="Вернуть в работу: '+esc(title)+'"></button>'+
     '<button type="button" class="dossier-done-open" data-act="dossier-done-open" data-id="'+tid+'" title="Открыть задачу" aria-label="Открыть выполненную задачу: '+esc(title)+'"></button>'+
@@ -5503,7 +5535,7 @@ function dossierAttentionRowMarkup(t){
       '<strong class="dossier-attention-task-name" title="'+esc(name)+'">'+esc(name)+'</strong>'+
       '<span class="dossier-attention-status is-'+chip.tone+'">'+dossierAttentionStatusIcon(chip.tone)+esc(chip.text)+'</span>'+
       '<div class="dossier-attention-meta"><span class="dossier-attention-when'+(chip.tone==='late'?' is-late':'')+'">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
-      '<span class="dossier-attention-cat">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span></div></div>'+
+      '<span class="dossier-attention-cat" title="'+esc(cat)+'">'+dossierAttentionIcon(catIcon)+'<span>'+esc(cat)+'</span></span></div></div>'+
     '<button type="button" class="dossier-attention-check-hit" data-act="dossier-attention-toggle" data-id="'+tid+'" aria-label="Отметить выполненной: '+esc(name)+'" title="Завершить задачу"></button>'+
     '<button type="button" class="dossier-attention-open-hit" data-act="task" data-id="'+tid+'" aria-label="Открыть задачу: '+esc(name)+'" title="Открыть задачу"></button>'+
     '</div>';
@@ -7415,9 +7447,9 @@ document.addEventListener('click', function(ev){
       // Guard an outdated visual row after a date, priority or status change.
       if(a==='dossier-other-toggle' && dossierNeedsAttention(taskToComplete))break;
       if(a==='dossier-attention-toggle' && !dossierNeedsAttention(taskToComplete))break;
-      var scrollBefore=window.scrollY;
+      var scrollBefore=pageForTask.scrollTop;
       toggleTaskDone(id);
-      requestAnimationFrame(function(){window.scrollTo(0,scrollBefore);});
+      dossierRestoreTaskScroll(scrollBefore,currentId);
       break;
     }
     case 'dossier-tasks-templates': {
@@ -7441,9 +7473,10 @@ document.addEventListener('click', function(ev){
       if(!completedMatter)break;
       if(completedMatter.archived){toast('Сначала верните дело в работу');break;}
       if(a==='dossier-done-reopen'){
-        var doneScroll=window.scrollY;
+        var doneScroll=completedPage.scrollTop;
+        var reopenMatterId=completedPage._mid;
         toggleTaskDone(id);
-        requestAnimationFrame(function(){window.scrollTo(0,doneScroll);});
+        dossierRestoreTaskScroll(doneScroll,reopenMatterId);
       }else editTask(doneTask);
       break;
     }

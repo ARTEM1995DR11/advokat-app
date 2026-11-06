@@ -4531,6 +4531,16 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
+/* 5.0.1183 — single horizontal coordinate system for approved footer buttons.
+   Values are stage-relative; the Tasks stack converts them into its local
+   coordinates. Reuse the same variables, not disconnected fixed overrides. */
+#page.dossier-page .dossier-rear-stage{
+  --dossier-actions-stage-left:2%;
+  --dossier-actions-stage-width:95.8%;
+  --dossier-actions-task-local-left:.566426%;
+  --dossier-actions-task-local-width:98.661174%;
+}
+
 /* 5.0.1178 — unify footer action buttons across all dossier tabs.
    Keep each tab's action logic and icon artwork, but normalize the shared
    visual system: container width, action geometry, typography, icon slots,
@@ -4538,8 +4548,8 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
    one approved family of buttons. */
 #page.dossier-page .dossier-rear-stage
 :is(.dossier-stage9-blank-buttons,.dossier-events-stage9-actions,.dossier-tasks-bottom-actions){
-  width:95.8%!important;
-  left:2.0%!important;
+  width:var(--dossier-actions-stage-width)!important;
+  left:var(--dossier-actions-stage-left)!important;
   aspect-ratio:380 / 70!important;
 }
 #page.dossier-page .dossier-rear-stage
@@ -4611,7 +4621,26 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-tasks-stack > .dossier-tasks-bottom-actions{
   left:0!important;
   right:auto!important;
-  width:98.661174%!important;
-  margin:-2px 0 0 .566426%!important;
+  width:var(--dossier-actions-task-local-width)!important;
+  margin:-2px 0 0 var(--dossier-actions-task-local-left)!important;
   aspect-ratio:380 / 70!important;
+}
+
+/* 5.0.1184 — constrain exceptionally long task categories to two visible
+   lines without changing the approved row height, paper or metadata grid.
+   The original full category text stays in the DOM for accessibility and
+   is also available as a title on desktop. Applies to all three lists. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+:is(.dossier-attention-cat,.dossier-other-cat,.dossier-done-cat) > span{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  line-clamp:2;
+  overflow:hidden!important;
+  overflow-wrap:anywhere!important;
+  white-space:normal!important;
+  min-width:0!important;
+  max-height:2.36em!important;
+  line-height:1.18!important;
 }
