@@ -4484,3 +4484,48 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   margin:0!important;padding:0!important;white-space:nowrap!important;
   z-index:2!important;pointer-events:none!important;
 }
+
+/* 5.0.1176 — Tasks footer, stage 4. Match the approved Stage-9 geometry
+   of the General and Events tabs without modifying either of those tabs.
+   The Tasks footer is hosted inside the paper stack rather than directly
+   inside the full canvas, so the width/offset compensation below aligns
+   the two independent SVG buttons to the outer edge of the paper. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions{
+  box-sizing:border-box;
+  width:99%!important;
+  margin:5px 0 0 .5%!important;
+  aspect-ratio:380/70!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action{
+  top:4.57%;height:77.15%;
+  font:700 clamp(10.7px,3.12vw,13px)/1 Georgia,'Times New Roman',serif;
+  letter-spacing:-.023em;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action-add{
+  left:.66%;width:51.32%;grid-template-columns:25.4% minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action-more{
+  left:54.08%;width:45.26%;grid-template-columns:22% minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+.dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action-more .dossier-stage9-icon svg{
+  fill:none!important;stroke:#8a5a24!important;stroke-width:2!important;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="tasks"] .dossier-stage7-head
+  .dossier-tasks-stack > .dossier-tasks-bottom-actions .dossier-stage9-action{
+    font-size:clamp(9.1px,3.05vw,11px);
+    letter-spacing:-.03em;
+  }
+}
