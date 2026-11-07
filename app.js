@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1196';
-var APP_BUILD='6196';
+var APP_VERSION='5.0.1197';
+var APP_BUILD='6197';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5296,6 +5296,73 @@ function dossierEventsAlignTimelines(stage){
     }
   });
 }
+/* 5.0.1197 — one paper-anchored footer system for all four dossier tabs.
+   Different ancestors/layouts previously generated four unrelated vertical
+   button positions. A small transform aligns the existing shared SVG row to
+   the final real paper edge without moving any card, sheet, or folder rim.
+   The shift is measured, not guessed from row counts or viewport width. */
+function dossierFooterPaperAndButtons(){
+  var page=document.getElementById('page');
+  if(!page||!page.classList.contains('dossier-page'))return null;
+  var tab=page._matterTab;
+  var stage=page.querySelector('.dossier-stage7[data-active-tab="'+tab+'"]');
+  if(!stage)return null;
+  var paper=null,buttons=null;
+  if(tab==='general'){
+    paper=stage.querySelector('.dossier-stage8-recent-paper');
+    buttons=page.querySelector('.dossier-clean-canvas-general > .dossier-stage9-blank-buttons');
+  }else if(tab==='events'){
+    paper=stage.querySelector('.dossier-events-paper-section-past');
+    buttons=page.querySelector('.dossier-clean-canvas-events > .dossier-events-stage9-actions');
+  }else if(tab==='tasks'){
+    paper=stage.querySelector('.dossier-tasks-stack > .dossier-tasks-done-paper');
+    buttons=stage.querySelector('.dossier-tasks-stack > .dossier-tasks-bottom-actions');
+  }else if(tab==='journal'){
+    paper=stage.querySelector('.dossier-journal-paper-blank');
+    buttons=stage.querySelector('.dossier-journal-bottom-actions');
+  }
+  return paper&&buttons?{paper:paper,buttons:buttons,stage:stage}:null;
+}
+function dossierFooterAlignToPaper(){
+  var nodes=dossierFooterPaperAndButtons();
+  if(!nodes)return;
+  var buttons=nodes.buttons;
+  // Transform is visual only; the original flow (including painted folder
+  // lip and interactive area) is not changed. Remove the prior translation
+  // from the measured top so successive refreshes never compound it.
+  var prev=Number(buttons.dataset.dossierFooterShift||0);
+  if(!Number.isFinite(prev))prev=0;
+  var baselineTop=buttons.getBoundingClientRect().top-prev;
+  var paperBottom=nodes.paper.getBoundingClientRect().bottom;
+  var shift=Math.round((paperBottom-2-baselineTop)*100)/100;
+  if(!Number.isFinite(shift))return;
+  if(Math.abs(shift-prev)>.1){
+    buttons.style.setProperty('--dossier-footer-paper-shift',shift+'px');
+    buttons.dataset.dossierFooterShift=String(shift);
+  }
+}
+function dossierFooterAlignSoon(){
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    requestAnimationFrame(dossierFooterAlignToPaper);
+  });});
+}
+function dossierFooterObservePaper(){
+  var page=document.getElementById('page');
+  if(!page)return;
+  if(page._dossierFooterObserver){
+    page._dossierFooterObserver.disconnect();page._dossierFooterObserver=null;
+  }
+  var nodes=dossierFooterPaperAndButtons();
+  if(!nodes)return;
+  if(typeof ResizeObserver!=='undefined'){
+    var observer=new ResizeObserver(dossierFooterAlignSoon);
+    observer.observe(nodes.paper);
+    page._dossierFooterObserver=observer;
+  }
+  dossierFooterAlignSoon();
+}
+window.addEventListener('resize',dossierFooterAlignSoon,{passive:true});
+
 function dossierEventsFitToContent(){
   var page=document.getElementById('page');
   if(!page||!page.classList.contains('dossier-page')||page._matterTab!=='events')return;
@@ -5317,6 +5384,7 @@ function dossierEventsFitToContent(){
   stage.style.setProperty('min-height','0px');
   var navSpace=stage.offsetTop||55;
   canvas.style.setProperty('min-height',Math.max(window.innerHeight-155,navSpace+desired+84)+'px');
+  dossierFooterAlignToPaper();
 }
 function dossierEventsFitSoon(){
   requestAnimationFrame(function(){requestAnimationFrame(dossierEventsFitToContent);});
@@ -5358,6 +5426,7 @@ function dossierTasksFitToContent(){
   stage.style.minHeight='0px';
   // The controls extend BELOW the folder edge and remain scrollable/tappable.
   canvas.style.minHeight=Math.max(window.innerHeight-155,(stage.offsetTop||55)+desired+actionsHeight+22)+'px';
+  dossierFooterAlignToPaper();
 }
 function dossierTasksFitSoon(){
   requestAnimationFrame(function(){requestAnimationFrame(dossierTasksFitToContent);});
@@ -5728,6 +5797,7 @@ function dossierJournalRefresh(id){
   var oldList=paper.querySelector('.dossier-journal-timeline');if(oldList)oldList.remove();
   paper.insertAdjacentHTML('beforeend',dossierJournalFilterStatus(id)+dossierJournalTimelineEntries(id));
   page.scrollTop=Math.max(0,Math.min(oldTop,page.scrollHeight-page.clientHeight));
+  dossierFooterAlignSoon();
 }
 function dossierJournalFilterSheet(id){
   var m=matter(id),f=dossierJournalFilter(id);
@@ -5930,6 +6000,8 @@ function dossierLayoutPreview(m,id,tab,p){
     '</main></div>';
   openPage(html);
   p.classList.add('dossier-page');p._mid=id;p._navType='matter';p._matterTab=tab;
+  dossierFooterObservePaper();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(dossierFooterAlignSoon).catch(function(){});
   updateDossierStatusMask();
   if(tab==='events'){
     dossierEventsFitSoon();

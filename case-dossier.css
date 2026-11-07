@@ -5170,3 +5170,17 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 .dossier-journal-paper-blank:has(> .dossier-journal-timeline.has-content){
   padding-bottom:clamp(16px,4.2vw,20px)!important;
 }
+
+
+/* 5.0.1197 — global shared footer anchor for General/Events/Tasks/Journal.
+   One measured offset from the BOTTOM of the final real paper card, rather
+   than four unrelated stage/bottom/margin calculations. Preserve the approved
+   SVG geometry, icon slots, font, hit areas and gold shadows untouched. */
+#page.dossier-page .dossier-rear-stage
+:is(.dossier-clean-canvas-general > .dossier-stage9-blank-buttons,
+    .dossier-clean-canvas-events > .dossier-events-stage9-actions,
+    .dossier-tasks-stack > .dossier-tasks-bottom-actions,
+    .dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions){
+  transform:translateY(var(--dossier-footer-paper-shift,0px))!important;
+  will-change:auto;
+}
