@@ -48005,3 +48005,63 @@ body.matter-actions-open #scrim.open{
 #sheet.matter-actions-premium.open>.matter-actions-outline .ma6225-light{
   opacity:.75;
 }
+
+/* 5.0.1226 — NEW STAGE 3 / seven-action card interior grid.
+   Change only spacing inside approved paper outline; do not change SVG paths,
+   header typography, content strings, handlers, or text wrapping policy.
+   The card's chevron always keeps a minimum tap-visible region. */
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  padding-left:7px!important;
+  padding-right:7px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card{
+  padding-left:1px!important;
+  padding-right:1px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+  gap:7px!important;
+  padding-left:8px!important;
+  padding-right:8px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico{
+  flex:0 0 40px!important;
+  width:40px!important;
+  min-width:40px!important;
+  height:40px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy{
+  min-width:0!important;
+  flex:1 1 0%!important;
+}
+#sheet.matter-actions-premium.open .matter-act-tail{
+  flex:0 0 14px!important;
+  width:14px!important;
+  min-width:14px!important;
+  margin:0!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open>.matter-actions-paper{
+    padding-left:5px!important;
+    padding-right:5px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-actions-card{
+    padding-left:1px!important;
+    padding-right:1px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+    gap:5px!important;
+    padding-left:6px!important;
+    padding-right:6px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-act-ico{
+    flex:0 0 36px!important;
+    width:36px!important;
+    min-width:36px!important;
+    height:36px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-act-tail{
+    flex:0 0 12px!important;
+    width:12px!important;
+    min-width:12px!important;
+  }
+}
