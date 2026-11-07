@@ -6973,7 +6973,7 @@ body.light .sheet.sheet-premium-search .fld textarea,
 body.light .sheet.sheet-premium-search .fld select{
   background:linear-gradient(180deg,#FFFFFF,#FBF9F5)!important;
   border-color:rgba(44,52,62,.12)!important;
-  color:#16223D!important;
+  color:#16224D!important;
   box-shadow:0 8px 20px rgba(44,35,22,.05),inset 0 1px 0 rgba(255,255,255,.92);
 }
 body.light .sheet.sheet-premium-form .hint,
@@ -39048,10 +39048,10 @@ html body #sc-matters .matter-header-action > .ico{
 html body #sc-matters .matter-header-action.on{
   border-color:rgba(190,145,54,.62)!important;
   background:linear-gradient(180deg,#FFF8E8,#F5E4B2)!important;
-  color:#8B6223!important;
+  color:#8B6224!important;
   box-shadow:0 6px 15px rgba(92,61,14,.17),inset 0 1px 0 rgba(255,255,255,.98)!important;
 }
-html body #sc-matters .matter-header-action.on > .ico{color:#8B6223!important;}
+html body #sc-matters .matter-header-action.on > .ico{color:#8B6224!important;}
 html body #sc-matters .matter-header-action:active{
   transform:translateY(1px) scale(.98)!important;
 }
@@ -47547,7 +47547,7 @@ body.matter-actions-open #scrim.open{
      other modal sheets such as "Результат заседания". */
   background:
     linear-gradient(180deg,rgba(249,243,232,.15),rgba(249,243,232,.26)),
-    url('bg-dossier-continuous-v5833.webp?v=6223') top center / 100% auto no-repeat,
+    url('bg-dossier-continuous-v5833.webp?v=6224') top center / 100% auto no-repeat,
     #f8f2e6!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
@@ -47932,7 +47932,7 @@ body.matter-actions-open #scrim.open{
   transform:none!important;
   border:0!important;
   border-radius:0!important;
-  background:url('matter-actions-crown-v6223.svg') top center/100% 100% no-repeat!important;
+  background:none!important;
   box-shadow:none!important;
 }
 #sheet.matter-actions-premium.open>.grab{
@@ -47955,3 +47955,29 @@ body.matter-actions-open #scrim.open{
   #sheet.matter-actions-premium.open::before{border-radius:0 0 24px 24px!important;}
   #sheet.matter-actions-premium.open>.matter-actions-paper{border-radius:23px 23px 20px 20px!important;}
 }
+
+/* 5.0.1224 — STAGE 1 / continuous vector-outline implementation.
+   SVG path is computed from the actual panel width AND height. This keeps
+   side walls, crown and the bottom edge one closed piece, even on scroll.
+   The inner leaf and text are deliberately unchanged until later stages. */
+#sheet.matter-actions-premium.open{
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;padding:40px 12px 16px!important;
+  isolation:isolate!important;overflow-y:auto!important;
+}
+#sheet.matter-actions-premium.open::before,
+#sheet.matter-actions-premium.open::after{content:none!important;display:none!important;}
+#sheet.matter-actions-premium.open>.matter-actions-outline{
+  display:block!important;position:absolute!important;top:0!important;left:0!important;
+  z-index:0!important;width:100%!important;height:100%!important;
+  overflow:visible!important;pointer-events:none!important;
+  filter:drop-shadow(0 5px 6px rgba(96,58,25,.14));
+}
+#sheet.matter-actions-premium.open>.grab{
+  height:0!important;min-height:0!important;width:0!important;
+  padding:0!important;margin:0!important;opacity:0!important;pointer-events:none!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  position:relative!important;z-index:2!important;
+}
+@media(max-width:360px){#sheet.matter-actions-premium.open{padding:40px 8px 13px!important;}}

@@ -5,7 +5,7 @@
 'use strict';
 
 var APP_VERSION='5.0.1223';
-var APP_BUILD='6223';
+var APP_BUILD='6224';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4551,7 +4551,64 @@ function sheetMatterMore(id){
   );
   $('#sheet').classList.add('matter-actions-premium');
   document.body.classList.add('matter-actions-open');
+  mountMatterActionsOutline($('#sheet'));
 }
+/* v6224 / stage 1 — one closed SVG outline covers both sides and bottom.
+   Coordinates are calculated at the displayed size to avoid stretching rounded
+   corners on different phone heights. Pure decoration: pointer-events none. */
+var MATTER_ACTIONS_OUTLINE_OBSERVER=null;
+function mountMatterActionsOutline(panel){
+  if(!panel)return;
+  if(MATTER_ACTIONS_OUTLINE_OBSERVER){MATTER_ACTIONS_OUTLINE_OBSERVER.disconnect();MATTER_ACTIONS_OUTLINE_OBSERVER=null;}
+  var prior=panel.querySelector(':scope > .matter-actions-outline');
+  if(prior)prior.remove();
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.createElementNS(ns,'svg');
+  svg.classList.add('matter-actions-outline');
+  svg.setAttribute('aria-hidden','true');
+  svg.setAttribute('focusable','false');
+  svg.setAttribute('preserveAspectRatio','none');
+  svg.innerHTML='<defs>'+ 
+   '<linearGradient id="ma6224Paper" x1="0" x2=".7" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".5" stop-color="#fff8ed"/><stop offset="1" stop-color="#f6e5cf"/></linearGradient>'+
+   '<linearGradient id="ma6224Gold" x1="0" x2="1" y1="0" y2=".18"><stop stop-color="#ae7635"/><stop offset=".13" stop-color="#e8c596"/><stop offset=".56" stop-color="#c18c51"/><stop offset=".88" stop-color="#ebcc96"/><stop offset="1" stop-color="#a37033"/></linearGradient>'+
+   '<linearGradient id="ma6224Grip" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#e5d4b6"/><stop offset="1" stop-color="#be995e"/></linearGradient>'+
+   '</defs><path class="ma6224-paper" fill="url(#ma6224Paper)" stroke="url(#ma6224Gold)" stroke-width="2.2" stroke-linejoin="round"/>'+
+   '<path class="ma6224-foil" fill="none" stroke="#e9c99c" stroke-opacity=".87" stroke-width="1.2" stroke-linejoin="round"/>'+
+   '<rect class="ma6224-grip" width="36" height="5" rx="2.5" fill="url(#ma6224Grip)" stroke="#ddc29f" stroke-width=".5"/>';
+  panel.insertBefore(svg,panel.firstChild);
+  // A scroll container shifts absolute children with its content. Counter-translate
+  // only the decorative vector so both vertical edges and bottom rim remain
+  // visible while the seven action rows scroll normally.
+  if(panel._maOutlineScrollHandler)panel.removeEventListener('scroll',panel._maOutlineScrollHandler);
+  panel._maOutlineScrollHandler=function(){svg.style.transform='translateY('+panel.scrollTop+'px)';};
+  panel.addEventListener('scroll',panel._maOutlineScrollHandler,{passive:true});
+  function outline(){
+    if(!panel.isConnected)return;
+    var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
+    if(w<200||h<160)return;
+    var cx=w/2, lf=2, rt=w-2;
+    var crownL=cx-52,crownR=cx+52,shoulderL=cx-74,shoulderR=cx+74;
+    var bottom=Math.max(82,h-2),bottomStart=bottom-27;
+    var outer='M 31 30 H '+shoulderL+' C '+(shoulderL+12)+' 30 '+(crownL-11)+' 22 '+(crownL-7)+' 14 C '+(crownL-3)+' 6 '+(crownL+1)+' 4 '+(crownL+15)+' 4 H '+(crownR-15)+' C '+(crownR-1)+' 4 '+(crownR+3)+' 6 '+(crownR+7)+' 14 C '+(crownR+11)+' 22 '+(shoulderR-12)+' 30 '+shoulderR+' 30 H '+(w-31)+' C '+(w-13)+' 30 '+rt+' 43 '+rt+' 61 V '+bottomStart+' Q '+rt+' '+bottom+' '+(w-30)+' '+bottom+' H 30 Q '+lf+' '+bottom+' '+lf+' '+bottomStart+' V 61 C '+lf+' 43 13 30 31 30 Z';
+    var a=9,b=w-9, ib=bottom-7, iStart=ib-24;
+    var inner='M 35 36 H '+(shoulderL+1)+' C '+(shoulderL+17)+' 36 '+(crownL-7)+' 27 '+(crownL-1)+' 18 C '+(crownL+2)+' 12 '+(crownL+5)+' 11 '+(crownL+17)+' 11 H '+(crownR-17)+' C '+(crownR-5)+' 11 '+(crownR-2)+' 12 '+(crownR+1)+' 18 C '+(crownR+7)+' 27 '+(shoulderR-17)+' 36 '+(shoulderR-1)+' 36 H '+(w-35)+' C '+(w-17)+' 36 '+b+' 46 '+b+' 64 V '+iStart+' Q '+b+' '+ib+' '+(w-35)+' '+ib+' H 35 Q '+a+' '+ib+' '+a+' '+iStart+' V 64 C '+a+' 46 17 36 35 36 Z';
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    svg.querySelector('.ma6224-paper').setAttribute('d',outer);
+    svg.querySelector('.ma6224-foil').setAttribute('d',inner);
+    svg.querySelector('.ma6224-grip').setAttribute('x',String(cx-18));
+    svg.querySelector('.ma6224-grip').setAttribute('y','17');
+  }
+  outline();
+  if(typeof ResizeObserver!=='undefined'){
+    MATTER_ACTIONS_OUTLINE_OBSERVER=new ResizeObserver(outline);
+    MATTER_ACTIONS_OUTLINE_OBSERVER.observe(panel);
+  } else {
+    window.addEventListener('resize',outline,{passive:true});
+  }
+  requestAnimationFrame(outline);
+  panel._maOutlineScrollHandler();
+}
+
 /* Picker selects an existing event editor; no parallel event database. */
 function sheetMatterEventKind(id){
   var m=matter(id);if(!m)return;
