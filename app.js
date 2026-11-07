@@ -5,7 +5,7 @@
 'use strict';
 
 var APP_VERSION='5.0.1205';
-var APP_BUILD='6205';
+var APP_BUILD='6206';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
