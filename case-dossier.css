@@ -5172,7 +5172,7 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
 }
 
 
-/* 5.0.1197 — global shared footer anchor for General/Events/Tasks/Journal.
+/* 5.0.1199 — global shared footer anchor for General/Events/Tasks/Journal.
    One measured offset from the BOTTOM of the final real paper card, rather
    than four unrelated stage/bottom/margin calculations. Preserve the approved
    SVG geometry, icon slots, font, hit areas and gold shadows untouched. */
@@ -5183,4 +5183,23 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     .dossier-stage7[data-active-tab="journal"] > .dossier-journal-bottom-actions){
   transform:translateY(var(--dossier-footer-paper-shift,0px))!important;
   will-change:auto;
+}
+
+/* 5.0.1199 — Events: eliminate horizontal overflow from unusually long
+   deadline subjects and other user-entered event titles. The old approved
+   typography kept deadline headlines on a single line at normal lengths,
+   but white-space:nowrap made an unbroken long title widen the scrollable
+   dossier to twice the viewport. Permit emergency word wrapping ONLY in
+   the event title text cell: all paper artwork, date/icon columns,
+   chronological rail and shared footer coordinates remain unchanged. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="events"] .dossier-events-timeline-item
+.dossier-events-copy > b{
+  min-width:0;
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  -webkit-hyphens:none;
+  hyphens:none;
 }

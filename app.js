@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1197';
-var APP_BUILD='6197';
+var APP_VERSION='5.0.1200';
+var APP_BUILD='6200';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2668,6 +2668,13 @@ function dossierRestoreTaskScroll(scrollPosition, expectedId){
 }
 var TASK_TOGGLE_GUARD=Object.create(null);
 function toggleTaskDone(id){
+  // 5.0.1200: an archived dossier is read-only across every task entry
+  // point, including the global task list (not only its paper tab).
+  var existingTask=(S.tasks||[]).find(function(t){return sameRecordId(t.id,id);});
+  if(existingTask&&existingTask.mid){
+    var owner=matter(existingTask.mid);
+    if(owner&&owner.archived){toast('Сначала верните дело в работу');return;}
+  }
   var now=Date.now();
   if(TASK_TOGGLE_GUARD[id] && now-TASK_TOGGLE_GUARD[id]<450) return;
   TASK_TOGGLE_GUARD[id]=now;
@@ -4249,6 +4256,16 @@ function saveTask(){
   } else {
     ED.id=uid();ED.created=new Date().toISOString();ED.done=false;S.tasks.unshift(ED);
   }
+  // 5.0.1200: when an event is created inside a filtered Events tab,
+  // restore «Все» for THIS matter so the new record is immediately visible.
+  // Preserve filters of other dossiers and do not reset them on ordinary edits.
+  if(isNew&&ED.mid&&['hearing','meeting','deadline'].indexOf(ED.kind)>=0){
+    var eventPage=$('#page');
+    if(eventPage&&eventPage.classList.contains('open')&&eventPage._matterTab==='events'&&
+       sameRecordId(eventPage._mid,ED.mid)){
+      DOSSIER_EVENT_FILTER_STATE[String(ED.mid)]='all';
+    }
+  }
   if(ED.mid && (isNew || ED.kind==='hearing' || ED.kind==='meeting' || ED.kind==='deadline')){
     var label='';
     if(ED.kind==='hearing') label='Назначено заседание'+(ED.due?' — '+fmtD(ED.due,true):'')+(ED.time?' в '+ED.time:'')+(ED.place?' · '+ED.place:'');
@@ -4406,7 +4423,9 @@ function saveMatterPosition(id){
   render();toast('Позиция сохранена');
 }
 function matterJournalRow(j){
-  var canDelete=j.type!=='system'&&j.type!=='closure'&&!(matter(j.mid)||{}).archived;
+  // Only notes entered by the advocate can be removed. Auto-generated
+  // transitions belong to the historical record of the dossier.
+  var canDelete=dossierJournalIsManual(j)&&!(matter(j.mid)||{}).archived;
   return '<div class="matter-jline"><i></i><div class="matter-jcopy"><b>'+fmtD(j.date||today(),true)+'</b><p>'+esc(j.text)+'</p></div>'+(canDelete?'<button class="matter-jdel" data-act="journal-del" data-id="'+esc(j.id)+'">'+ico('trash','s')+'</button>':'')+'</div>';
 }
 
@@ -5296,7 +5315,7 @@ function dossierEventsAlignTimelines(stage){
     }
   });
 }
-/* 5.0.1197 — one paper-anchored footer system for all four dossier tabs.
+/* 5.0.1198 — one paper-anchored footer system for all four dossier tabs.
    Different ancestors/layouts previously generated four unrelated vertical
    button positions. A small transform aligns the existing shared SVG row to
    the final real paper edge without moving any card, sheet, or folder rim.
@@ -7913,7 +7932,20 @@ document.addEventListener('click', function(ev){
       }else if(currentPage.classList.contains('open')&&sameRecordId(currentPage._mid,jm))openMatter(jm,currentPage._matterTab);
       render();toast('Запись добавлена');break;
     }
-    case 'journal-del': {var toDelete=S.journal.filter(function(j){return j.id===id;})[0];if(!toDelete||toDelete.type==='system'||toDelete.type==='closure'||(matter(toDelete.mid)||{}).archived){toast('Системная история и записи архива не удаляются');break;}S.journal=S.journal.filter(function(j){return j.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);render();break;}
+    case 'journal-del': {
+      var toDelete=S.journal.find(function(j){return sameRecordId(j.id,id);});
+      if(!toDelete||!dossierJournalIsManual(toDelete)||(matter(toDelete.mid)||{}).archived){
+        toast('Автоматическая история и записи архива не удаляются');break;
+      }
+      S.journal=S.journal.filter(function(j){return !sameRecordId(j.id,id);});
+      save();
+      var journalPage=$('#page');
+      if(journalPage.classList.contains('open')&&sameRecordId(journalPage._mid,toDelete.mid)){
+        if(journalPage._matterTab==='journal')dossierJournalRefresh(toDelete.mid);
+        else openMatter(toDelete.mid,journalPage._matterTab);
+      }
+      render();toast('Запись удалена');break;
+    }
     case 'pt-new': closeSheet();sheetParticipation('');break;
     case 'participation-log': sheetParticipationLog();break;
     case 'pt-save': {var pm=$('#pt-mid').value,pd=$('#pt-date').value||today();if(!pm){toast('Выберите дело');break;}var dup=S.participation.some(function(e){return e.mid===pm&&e.date===pd;});if(dup){toast('По этому делу день участия на эту дату уже учтён');break;}var rec={id:uid(),mid:pm,date:pd,kind:$('#pt-kind').value||'other',place:$('#pt-place').value.trim(),desc:$('#pt-desc').value.trim(),rate:+$('#pt-rate').value||0,created:new Date().toISOString()};S.participation.unshift(rec);addJournal(pm,'День участия: '+(PART_KINDS[rec.kind]||'участие')+(rec.place?' · '+rec.place:''),pd,'participation',true);save();closeSheet();if($('#page').classList.contains('open'))openMatter(pm);render();toast('Учтён 1 день участия');break;}
