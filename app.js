@@ -4513,7 +4513,40 @@ function sheetMatterMore(id){
   );
   $('#sheet').classList.add('matter-actions-premium');
   document.body.classList.add('matter-actions-open');
+  /* 5.0.1207: the area behind the sheet is an intentional case-context
+     preview rather than the arbitrary scrolled underlying DOM. Only real
+     per-matter future events are shown; on small screens it is suppressed. */
+  var previewRoot=$('#scrim');
+  var preview=previewRoot.querySelector('.matter-actions-context-preview');
+  if(!preview){
+    preview=document.createElement('div');
+    preview.className='matter-actions-context-preview';
+    preview.setAttribute('aria-hidden','true');
+    previewRoot.appendChild(preview);
+  }
+  var next=dossierNearestRecord(m,tasksOf(id));
+  var previewDate=next?(dossierDate(next.due)+(next.time?', '+next.time:'')):'Предстоящих событий нет';
+  var previewDetail=next?(String(next.place||'').trim()||(next.kind==='hearing'?(hearingPlace(next,m)||'Судебное заседание'):next.kind==='meeting'?'Встреча':next.kind==='deadline'?'Процессуальный срок':'Событие')):'Добавьте событие во вкладке «События»';
+  preview.innerHTML='<span class="matter-actions-context-icon" aria-hidden="true">'+ico('cal')+'</span>'+
+    '<span class="matter-actions-context-copy"><b>'+esc(previewDate)+'</b><small>'+esc(previewDetail)+'</small></span>';
+  requestAnimationFrame(syncMatterActionsContextPreview);
 }
+/* A viewport-aware reveal: do not expose truncated type or collide with the
+   status bar when only a narrow band is available above the action sheet. */
+function syncMatterActionsContextPreview(){
+  var panel=$('#sheet'),root=$('#scrim');
+  if(!panel||!root||!document.body.classList.contains('matter-actions-open'))return;
+  var preview=root.querySelector('.matter-actions-context-preview');
+  if(!preview)return;
+  var sheetTop=panel.getBoundingClientRect().top;
+  if(sheetTop<128){preview.style.display='none';return;}
+  var safe=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--top'))||0;
+  var start=Math.max(59, Math.min(Math.max(64,safe+7), sheetTop-72));
+  if(start+57>sheetTop-8){preview.style.display='none';return;}
+  preview.style.top=Math.round(start)+'px';
+  preview.style.display='flex';
+}
+window.addEventListener('resize',function(){if(document.body.classList.contains('matter-actions-open'))requestAnimationFrame(syncMatterActionsContextPreview);});
 
 /* 5.0.822: standalone dossier view; all records still live in S.matters, S.tasks and S.journal. */
 /* Decorative vector profile of the dossier cover; markup rather than raster art. */
