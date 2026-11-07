@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1211';
-var APP_BUILD='6211';
+var APP_VERSION='5.0.1223';
+var APP_BUILD='6223';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2117,7 +2117,7 @@ function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).l
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2651,10 +2651,7 @@ function openPremiumMatterDeleteConfirm(id){
     '<section class="premium-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="premium-delete-confirm-title">'+
       '<div class="premium-delete-confirm-mark"><i></i><span>'+ico('trash')+'</span><i></i></div>'+
       '<h2 id="premium-delete-confirm-title">Удалить дело?</h2>'+
-      '<p>Будут безвозвратно удалены дело, связанные задачи, события, дни участия и журнал. Перед удалением рекомендуется сохранить зашифрованную резервную копию.</p>'+
-      '<button type="button" class="matter-delete-backup" data-act="matter-delete-backup">'+ico('lock','s')+' Создать резервную копию</button>'+
-      '<label class="matter-delete-label" for="matter-delete-phrase">Для подтверждения введите УДАЛИТЬ</label>'+
-      '<input id="matter-delete-phrase" type="text" autocomplete="off" autocapitalize="characters" placeholder="УДАЛИТЬ" aria-label="Введите УДАЛИТЬ">'+
+      '<p>Будут удалены дело, связанные задачи и журнал. Действие необратимо.</p>'+
       '<div class="premium-delete-confirm-actions">'+
         '<button type="button" class="premium-delete-cancel" data-act="premium-delete-cancel">Отмена</button>'+
         '<button type="button" class="premium-delete-accept" data-act="premium-delete-matter-confirm" data-id="'+esc(id)+'">'+ico('trash','s')+'<span>Удалить</span></button>'+
@@ -2665,10 +2662,6 @@ function openPremiumMatterDeleteConfirm(id){
   vib(8);
 }
 function performDeleteMatterById(id){
-  var confirmed=$('#matter-delete-phrase');
-  if(!confirmed||confirmed.value.trim().toLocaleUpperCase('ru-RU')!=='УДАЛИТЬ'){
-    toast('Для удаления введите УДАЛИТЬ');return;
-  }
   var m=matter(id);
   if(!m)return;
   S.tasks=S.tasks.filter(function(t){return t.mid!==id;});
@@ -4533,17 +4526,14 @@ function sheetMatterMore(id){
     // Archived dossiers are read-only until explicitly returned to work.
     rows+=row('m-view-info','#5279a7','folder','Просмотреть карточку','Сведения дела без редактирования')+
       row('m-open-journal','#258f6f','doc','Просмотреть журнал','Хронология действий без изменения')+
-      row('m-position-view','#b48436','gavel','Позиция по делу','Просмотр рабочих материалов')+
-      row('m-print','#b48436','share','Экспорт / печать','Внутренняя или сокращённая сводка')+
       row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи')+
       row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
   }else{
     rows+=row('m-edit','#5279a7','edit','Редактировать дело','Реквизиты, суд, доверитель, стадия')+
-      row('m-add','#3676d7','check','Добавить задачу','Поручение, контроль, документы')+
-      row('m-event','#be8626','cal','Добавить событие','Заседание, встреча или процессуальный срок')+
+      row('m-add','#198b69','check','Добавить задачу','Поручение, контроль, подготовка документов')+
+      row('m-event','#3776c6','cal','Добавить событие','Заседание, встреча или процессуальный срок')+
       row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
-      row('m-position-edit','#5279a7','gavel','Позиция по делу','Аргументы, доказательства, стратегия')+
-      row('m-finish','#19865c','check','Завершить дело','Указать результат и отправить в архив')+
+      row('m-finish','#19865c','check','Завершить дело','Результат, дата и архивирование')+
       row('m-arch','#607997','arch','Архивировать без завершения','Переместить неоконченное дело в архив')+
       row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
   }
@@ -7886,7 +7876,6 @@ document.addEventListener('click', function(ev){
     case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
     case 'premium-delete-confirm': performDeleteTaskById(id); break;
     case 'premium-delete-matter-confirm': performDeleteMatterById(id); break;
-    case 'matter-delete-backup': closePremiumDeleteConfirm();closeSheet();sheetBackup();break;
     case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;

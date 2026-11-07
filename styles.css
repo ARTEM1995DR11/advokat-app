@@ -6973,7 +6973,7 @@ body.light .sheet.sheet-premium-search .fld textarea,
 body.light .sheet.sheet-premium-search .fld select{
   background:linear-gradient(180deg,#FFFFFF,#FBF9F5)!important;
   border-color:rgba(44,52,62,.12)!important;
-  color:#16222D!important;
+  color:#16223D!important;
   box-shadow:0 8px 20px rgba(44,35,22,.05),inset 0 1px 0 rgba(255,255,255,.92);
 }
 body.light .sheet.sheet-premium-form .hint,
@@ -39048,10 +39048,10 @@ html body #sc-matters .matter-header-action > .ico{
 html body #sc-matters .matter-header-action.on{
   border-color:rgba(190,145,54,.62)!important;
   background:linear-gradient(180deg,#FFF8E8,#F5E4B2)!important;
-  color:#8B6218!important;
+  color:#8B6223!important;
   box-shadow:0 6px 15px rgba(92,61,14,.17),inset 0 1px 0 rgba(255,255,255,.98)!important;
 }
-html body #sc-matters .matter-header-action.on > .ico{color:#8B6218!important;}
+html body #sc-matters .matter-header-action.on > .ico{color:#8B6223!important;}
 html body #sc-matters .matter-header-action:active{
   transform:translateY(1px) scale(.98)!important;
 }
@@ -47547,7 +47547,7 @@ body.matter-actions-open #scrim.open{
      other modal sheets such as "Результат заседания". */
   background:
     linear-gradient(180deg,rgba(249,243,232,.15),rgba(249,243,232,.26)),
-    url('bg-dossier-continuous-v5833.webp?v=6211') top center / 100% auto no-repeat,
+    url('bg-dossier-continuous-v5833.webp?v=6223') top center / 100% auto no-repeat,
     #f8f2e6!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
@@ -47579,8 +47579,379 @@ body.matter-actions-open #scrim.open{
 .matter-archive-ack input{flex-shrink:0;width:19px;height:19px}
 
 /* 5.0.1211 — deliberate confirmation for destructive, multi-record action. */
-.premium-delete-confirm .matter-delete-label{display:block;font-size:14px;font-weight:700;color:#822d26;margin:14px 0 7px}
-.premium-delete-confirm #matter-delete-phrase{width:100%;border:1px solid #cf9387;border-radius:12px;min-height:46px;font-size:17px;padding:9px 12px;background:#fff;color:#62241e;margin-bottom:15px}
-.premium-delete-confirm .matter-delete-backup{display:flex;align-items:center;gap:8px;border:1px solid #d7bd8d;background:#fff8e7;border-radius:11px;color:#754f25;font-weight:600;padding:10px 12px;min-height:44px;width:100%}
-.premium-delete-confirm .matter-delete-backup .ico{width:20px;height:20px}
 #sheet.matter-export-choice-sheet .matter-export-warning{margin:12px 17px 4px;color:#775529;background:#fff2d9;border-left:3px solid #ba8a43;padding:9px;font-size:13px;line-height:1.45}
+
+
+/* 5.0.1215 — REVISED APPROVED 7-ACTION MOCKUP / STAGE 1.
+   Symmetric, single centered index tab aligned with the drag handle.
+   The decorative tab belongs only to this sheet and captures no taps. */
+#sheet.matter-actions-premium.open{
+  border-radius:30px!important;
+  border-color:rgba(165,112,48,.65)!important;
+  box-shadow:0 0 0 2px rgba(246,218,176,.79),
+    0 0 0 3px rgba(156,105,46,.28),
+    0 12px 23px rgba(73,43,18,.17),inset 0 1px rgba(255,255,255,.97)!important;
+}
+#sheet.matter-actions-premium.open::before{
+  content:''!important;
+  inset:3px 5px auto!important;
+  height:18px!important;
+  border-radius:27px 27px 0 0!important;
+  border-color:rgba(209,171,116,.35)!important;
+  pointer-events:none!important;
+}
+#sheet.matter-actions-premium.open::after{
+  content:''!important;
+  position:absolute!important;
+  top:0!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;
+  width:34%!important;height:20px!important;
+  border:1px solid rgba(170,115,47,.61)!important;
+  border-bottom:0!important;
+  border-radius:15px 15px 4px 4px!important;
+  background:linear-gradient(180deg,#fffdf7 0%,#f9ebd4 63%,#f1d9ae 100%)!important;
+  box-shadow:inset 0 2px 1px rgba(255,255,255,.93)!important;
+  pointer-events:none!important;
+}
+#sheet.matter-actions-premium.open>.grab{
+  position:relative!important;z-index:4!important;
+  width:38px!important;height:4px!important;
+  margin:4px auto 10px!important;
+  background:linear-gradient(90deg,#d7ad72,#b78c4e,#dfbb85)!important;
+  border-radius:8px!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.85)!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  border-radius:27px 27px 24px 24px!important;
+  border-color:rgba(179,126,65,.50)!important;
+}
+@media(max-width:360px){
+ #sheet.matter-actions-premium.open::after{width:37%!important}
+}
+
+
+/* 5.0.1216 — REVISED MOCKUP / STAGE 2, HEADER ONLY.
+   Keep the real-case subtitle and all existing row handlers unchanged. */
+#sheet.matter-actions-premium.open .matter-actions-head{
+  gap:13px!important;
+  align-items:center!important;
+  margin:5px 8px 17px 13px!important;
+  padding:4px 0 0!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon{
+  flex:0 0 49px!important;width:49px!important;
+  height:49px!important;min-width:49px!important;max-width:49px!important;
+  border-radius:15px!important;
+  background:linear-gradient(135deg,#fffaf1 0%,#ffecc8 72%,#eccd96 100%)!important;
+  border-color:rgba(189,137,62,.61)!important;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.97),
+    0 3px 1px rgba(179,126,61,.16),0 6px 11px rgba(106,75,35,.17)!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon .ico{
+  width:26px!important;height:26px!important;stroke-width:1.85!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small{
+  font-size:clamp(8px,2.6vw,10px)!important;
+  letter-spacing:.20em!important;margin-bottom:4px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{
+  flex-basis:43px;width:43px;min-width:14px;height:2px;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>h2{
+  font-size:clamp(23px,6.3vw,27px)!important;
+  letter-spacing:-.035em!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>p{
+  font-size:clamp(10px,3vw,12.2px)!important;
+  margin-top:5px!important;
+}
+@media(max-width:360px){
+ #sheet.matter-actions-premium.open .matter-actions-head{gap:10px!important;margin-left:6px!important;margin-right:2px!important}
+ #sheet.matter-actions-premium.open .matter-actions-head-icon{
+  flex-basis:42px!important;min-width:42px!important;max-width:42px!important;width:42px!important;height:42px!important
+ }
+ #sheet.matter-actions-premium.open .matter-actions-head-copy>h2{font-size:21px!important}
+ #sheet.matter-actions-premium.open .matter-actions-head-copy>small{letter-spacing:.12em!important}
+ #sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{flex-basis:18px;width:18px}
+}
+
+
+/* 5.0.1217 — REVISED MOCKUP / STAGE 3. Seven equal, taller folio cards.
+   Only geometry and paper appearance; preserve all seven live actions. */
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  padding:12px 11px 17px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card{
+  gap:9px!important;padding:0 2px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+  min-height:69px!important;
+  gap:12px!important;padding:9px 12px!important;
+  border-radius:19px!important;
+  border-color:rgba(181,132,72,.53)!important;
+  background:linear-gradient(160deg,rgba(255,255,255,.98),rgba(255,250,239,.97) 76%,rgba(250,234,209,.96))!important;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(185,133,71,.13),0 5px 11px rgba(95,57,19,.14)!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico{
+  flex:0 0 44px!important;width:44px!important;height:44px!important;
+  border-radius:14px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico .ico{
+  width:24px!important;height:24px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy b{
+  font-size:clamp(13.9px,4vw,16.2px)!important;
+  line-height:1.11!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy small{
+  font-size:clamp(10.2px,2.95vw,12px)!important;
+  line-height:1.24!important;margin-top:4px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-tail{
+  flex:0 0 17px!important;width:17px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-tail .ico{
+  width:18px!important;height:18px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row.danger{
+  border-color:rgba(202,84,75,.51)!important;
+  background:linear-gradient(150deg,#fff8f5,#ffe9e4)!important;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(200,99,87,.12),0 5px 11px rgba(112,54,39,.12)!important;
+}
+@media(max-width:360px){
+ #sheet.matter-actions-premium.open>.matter-actions-paper{padding:9px 7px 14px!important}
+ #sheet.matter-actions-premium.open .matter-actions-card{gap:7px!important;padding:0 1px!important}
+ #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+   min-height:65px!important;gap:8px!important;padding:8px 8px!important;border-radius:16px!important;
+ }
+ #sheet.matter-actions-premium.open .matter-act-ico{flex-basis:39px!important;width:39px!important;height:39px!important}
+ #sheet.matter-actions-premium.open .matter-act-copy b{font-size:13px!important}
+ #sheet.matter-actions-premium.open .matter-act-copy small{font-size:10.1px!important}
+ #sheet.matter-actions-premium.open .matter-act-tail{flex-basis:15px!important;width:15px!important}
+}
+
+
+/* 5.0.1218 — REVISED MOCKUP / STAGE 4 FINAL OPTICAL CONSISTENCY.
+   Maintain one centered index, a single subtle metallic edge, and
+   proportional spacing for both active and archived case menus. */
+#sheet.matter-actions-premium.open{
+  background:linear-gradient(135deg,#fffcf5,#fbf1e3 72%,#f4dec0)!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.97),0 2px 7px rgba(111,70,31,.12)!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row:focus-visible{
+  outline:2px solid #b47c27!important;outline-offset:2px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>h2{
+  text-wrap:nowrap;
+}
+
+
+/* 5.0.1219 - approved seven-action art / 1: outer indexed ivory leaf */
+#sheet.matter-actions-premium.open{
+  border:1px solid rgba(165,117,58,.69)!important;
+  border-radius:34px!important;
+  background:linear-gradient(138deg,#fffdf7 0%,#fff9ed 56%,#fae9d2 100%)!important;
+  box-shadow:0 0 0 2px rgba(244,218,177,.78), 0 0 0 3px rgba(165,109,42,.34), 0 9px 24px rgba(75,43,18,.19),inset 0 2px 0 #fff!important;
+  padding:6px 11px 11px!important;
+}
+#sheet.matter-actions-premium.open::before{
+  content:''!important;position:absolute!important;pointer-events:none!important;
+  inset:4px 5px auto!important;height:23px!important;
+  border:1px solid rgba(197,150,88,.42)!important;border-bottom:none!important;
+  border-radius:30px 30px 0 0!important;background:none!important;box-shadow:none!important;
+}
+#sheet.matter-actions-premium.open::after{
+  content:''!important;display:block!important;position:absolute!important;pointer-events:none!important;
+  top:-1px!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;width:32%!important;height:26px!important;
+  border:1px solid rgba(177,123,54,.66)!important;border-bottom:none!important;
+  border-radius:24px 24px 6px 6px!important;
+  background:linear-gradient(180deg,#fffdf7 0%,#fdf4e5 64%,#f7e6cb 100%)!important;
+  box-shadow:inset 0 2px 1px rgba(255,255,255,.98),0 -1px 0 rgba(229,193,137,.45)!important;
+}
+#sheet.matter-actions-premium.open>.grab{
+  position:relative!important;z-index:6!important;
+  width:36px!important;height:4px!important;margin:6px auto 13px!important;
+  border-radius:10px!important;background:linear-gradient(90deg,#dcc39b,#b99a6a,#ddbe8f)!important;
+  box-shadow:inset 0 1px 1px rgba(132,92,49,.25),0 1px 0 rgba(255,255,255,.86)!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  border:1px solid rgba(178,129,67,.50)!important;
+  border-radius:29px 29px 24px 24px!important;
+  background:radial-gradient(ellipse at 5% 0%,rgba(255,255,255,.8),transparent 60%),linear-gradient(150deg,#fffdf7,#fff6e8 74%,#fbeddb)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.98),0 4px 9px rgba(113,68,23,.13)!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper::before,
+#sheet.matter-actions-premium.open>.matter-actions-paper::after{display:none!important}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{border-radius:27px!important;padding:6px 7px 9px!important}
+  #sheet.matter-actions-premium.open::after{width:36%!important}
+  #sheet.matter-actions-premium.open>.matter-actions-paper{border-radius:24px 24px 20px 20px!important}
+}
+
+
+/* 5.0.1220 - approved seven-action art / 2: header placement and legibility */
+#sheet.matter-actions-premium.open .matter-actions-head{
+  display:flex!important;align-items:center!important;gap:13px!important;
+  margin:3px 8px 17px 11px!important;padding:3px 0 0!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon{
+  flex:0 0 49px!important;min-width:49px!important;max-width:49px!important;
+  width:49px!important;height:49px!important;border-radius:15px!important;
+  border:1px solid rgba(183,126,53,.53)!important;
+  background:linear-gradient(145deg,#fffaf0,#f9e6c4 80%,#eed2a3)!important;
+  box-shadow:inset 0 1px 1px #fff,0 4px 8px rgba(125,84,38,.19)!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon .ico{width:26px!important;height:26px!important;stroke-width:1.85!important}
+#sheet.matter-actions-premium.open .matter-actions-head-copy{flex:1 1 auto!important;min-width:0!important}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small{
+  font:800 clamp(8px,2.5vw,10px)/1.2 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  letter-spacing:.19em!important;margin:0 0 4px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{
+  width:39px!important;flex:0 1 39px!important;height:2px!important;min-width:13px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>h2{
+  font:700 clamp(22px,6.5vw,27px)/1.06 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.031em!important;white-space:nowrap!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>p{
+  font:400 clamp(10.8px,3.12vw,12.5px)/1.27 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  margin:5px 0 0!important;color:#5e6880!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open .matter-actions-head{gap:9px!important;margin-left:4px!important;margin-right:3px!important}
+  #sheet.matter-actions-premium.open .matter-actions-head-icon{flex-basis:42px!important;min-width:42px!important;max-width:42px!important;width:42px!important;height:42px!important}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>h2{font-size:21px!important}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>small{letter-spacing:.12em!important}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{width:16px!important;flex-basis:16px!important}
+}
+
+
+/* 5.0.1221 - approved seven-action art / 3: seven equal folio rows */
+#sheet.matter-actions-premium.open>.matter-actions-paper{padding:11px 10px 15px!important}
+#sheet.matter-actions-premium.open .matter-actions-card{
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  gap:8px!important;padding:0 2px!important;margin:0!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  min-height:63px!important;gap:12px!important;padding:8px 11px!important;margin:0!important;
+  border-radius:21px!important;border:1px solid rgba(184,136,81,.54)!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.99),rgba(255,251,244,.99) 78%,rgba(248,233,210,.97))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 2px 0 rgba(188,144,84,.13),0 5px 10px rgba(105,65,28,.15)!important;
+  overflow:hidden!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico{
+  flex:0 0 43px!important;width:43px!important;height:43px!important;
+  border-radius:13px!important;border-color:color-mix(in srgb,var(--tone) 33%,#fff 67%)!important;
+  box-shadow:inset 0 1px 1px #fff,0 3px 7px rgba(77,67,49,.15)!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico .ico{width:23px!important;height:23px!important;stroke-width:1.95!important}
+#sheet.matter-actions-premium.open .matter-act-copy{min-width:0!important;flex:1 1 auto!important}
+#sheet.matter-actions-premium.open .matter-act-copy b{
+  font:700 clamp(13.4px,4.1vw,16px)/1.13 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.018em!important;color:#102452!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy small{
+  font:400 clamp(10px,2.85vw,11.8px)/1.25 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  margin-top:3px!important;color:#43536d!important;
+}
+#sheet.matter-actions-premium.open .matter-act-tail{flex:0 0 16px!important;width:16px!important}
+#sheet.matter-actions-premium.open .matter-act-tail .ico{width:17px!important;height:17px!important}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row.danger{
+  border-color:rgba(206,99,95,.50)!important;border-radius:21px!important;
+  background:linear-gradient(150deg,#fff9f7,#ffefed 74%,#ffe1dc)!important;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(193,94,83,.1),0 5px 10px rgba(110,57,51,.12)!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open>.matter-actions-paper{padding:10px 6px 13px!important}
+  #sheet.matter-actions-premium.open .matter-actions-card{padding:0 1px!important;gap:7px!important}
+  #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{min-height:61px!important;gap:8px!important;padding:8px 8px!important;border-radius:17px!important}
+  #sheet.matter-actions-premium.open .matter-act-ico{flex-basis:38px!important;width:38px!important;height:38px!important;border-radius:12px!important}
+  #sheet.matter-actions-premium.open .matter-act-copy b{font-size:13px!important}
+  #sheet.matter-actions-premium.open .matter-act-copy small{font-size:10px!important}
+  #sheet.matter-actions-premium.open .matter-act-tail{flex:0 0 14px!important;width:14px!important}
+}
+
+
+/* 5.0.1223 - stage 4 regression + optical sign-off candidate */
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row:focus-visible{
+  outline:2px solid #ac782b!important;outline-offset:2px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row:active{
+  transform:translateY(1px)!important;
+  box-shadow:inset 0 1px 2px rgba(167,119,64,.13),0 2px 4px rgba(92,55,29,.14)!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy small,
+#sheet.matter-actions-premium.open .matter-act-copy b{
+  hyphens:auto;overflow-wrap:break-word!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row.danger .matter-act-copy b,
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row.danger .matter-act-tail{color:#b92a27!important}
+
+/* 5.0.1223 — approved seven-action SILHOUETTE correction.
+   Continuous cut-paper crown with curved shoulders, instead of an inset rectangular tab.
+   Seven live actions and their handlers are not changed. */
+#sheet.matter-actions-premium.open{
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:38px 11px 13px!important;
+  overflow-y:auto!important;
+  isolation:isolate!important;
+}
+#sheet.matter-actions-premium.open::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  inset:47px 0 0!important;
+  border:2px solid rgba(176,123,59,.72)!important;
+  border-top:0!important;
+  border-radius:0 0 30px 30px!important;
+  background:radial-gradient(ellipse at 13% 12%,rgba(255,255,255,.84),transparent 58%),linear-gradient(139deg,#fffdf7 0%,#fff8ed 62%,#f9e8d1 100%)!important;
+  box-shadow:0 2px 0 rgba(241,207,155,.78),0 4px 1px rgba(153,96,39,.33),0 12px 23px rgba(80,46,19,.18),inset 0 -2px 1px rgba(198,147,75,.16)!important;
+}
+#sheet.matter-actions-premium.open::after{
+  content:""!important;
+  position:absolute!important;
+  pointer-events:none!important;
+  z-index:1!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  height:64px!important;
+  transform:none!important;
+  border:0!important;
+  border-radius:0!important;
+  background:url('matter-actions-crown-v6223.svg') top center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+}
+#sheet.matter-actions-premium.open>.grab{
+  opacity:0!important;
+  height:0!important;
+  width:0!important;
+  margin:0!important;
+  padding:0!important;
+  pointer-events:none!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  z-index:2!important;
+  border-radius:28px 28px 23px 23px!important;
+  border-color:rgba(177,130,73,.43)!important;
+  background:radial-gradient(ellipse 70% 37% at 8% 5%,rgba(255,255,255,.92),transparent 80%),linear-gradient(151deg,#fffdfa 0%,#fff8ef 63%,#fdf0df 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 2px 5px rgba(114,75,38,.11)!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{padding:38px 7px 10px!important;}
+  #sheet.matter-actions-premium.open::before{border-radius:0 0 24px 24px!important;}
+  #sheet.matter-actions-premium.open>.matter-actions-paper{border-radius:23px 23px 20px 20px!important;}
+}

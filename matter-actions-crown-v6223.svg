@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 64" preserveAspectRatio="none">
+ <defs>
+  <linearGradient id="foil" x1="0" x2="0.8" y1="0" y2="1"><stop stop-color="#ad7a37"/><stop offset=".27" stop-color="#edcd99"/><stop offset=".52" stop-color="#be8b49"/><stop offset=".82" stop-color="#d5a364"/><stop offset="1" stop-color="#a26d2e"/></linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0.2" y2="1"><stop stop-color="#fffdf8"/><stop offset=".48" stop-color="#fffaf0"/><stop offset="1" stop-color="#fff8ed"/></linearGradient>
+  <linearGradient id="inner" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#ffffff" stop-opacity=".95"/><stop offset="1" stop-color="#e6c798" stop-opacity=".6"/></linearGradient>
+  <linearGradient id="grip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e7d6bb"/><stop offset="1" stop-color="#c4a477"/></linearGradient>
+ </defs>
+ <path d="M 1 63 L 1 48 C 1 32 11 24 27 24 H 125 C 132 24 136 21 139 15 C 143 6 148 4 160 4 H 230 C 242 4 247 6 251 15 C 254 21 258 24 265 24 H 363 C 379 24 389 32 389 48 V 63 Z" fill="url(#paper)" stroke="none"/>
+ <path d="M 1 63 L 1 48 C 1 32 11 24 27 24 H 125 C 132 24 136 21 139 15 C 143 6 148 4 160 4 H 230 C 242 4 247 6 251 15 C 254 21 258 24 265 24 H 363 C 379 24 389 32 389 48 V 63" fill="none" stroke="url(#foil)" stroke-width="2"/>
+ <path d="M 6 59 V 48 C 6 35 13 29 29 29 H 125 C 137 29 141 25 145 17 C 148 11 152 10 160 10 H 230 C 238 10 242 11 245 17 C 249 25 253 29 265 29 H 361 C 377 29 384 35 384 48 V 59" fill="none" stroke="url(#inner)" stroke-width="1.3"/>
+ <path d="M 30 32 H 122 M 269 32 H 360" stroke="#d7ac72" stroke-opacity=".54" stroke-width=".8"/>
+ <rect x="178" y="16" width="34" height="4.8" rx="2.4" fill="url(#grip)" stroke="#d7bb96" stroke-width=".45"/>
+ <path d="M 181 17.1 H 209" stroke="#fff8e9" stroke-width=".75" stroke-linecap="round" opacity=".9"/>
+</svg>
