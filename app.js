@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1229';
-var APP_BUILD='6229';
+var APP_VERSION='5.0.1231';
+var APP_BUILD='6231';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2664,10 +2664,12 @@ function openPremiumMatterDeleteConfirm(id){
 function performDeleteMatterById(id){
   var m=matter(id);
   if(!m)return;
-  S.tasks=S.tasks.filter(function(t){return t.mid!==id;});
-  S.participation=S.participation.filter(function(e){return e.mid!==id;});
-  S.journal=S.journal.filter(function(j){return j.mid!==id;});
-  S.matters=S.matters.filter(function(x){return x.id!==id;});
+  // 5.0.1230: tolerate numeric/string relation IDs in older imports and
+  // ensure deleting one dossier never leaves its related records orphaned.
+  S.tasks=S.tasks.filter(function(t){return !sameRecordId(t.mid,id);});
+  S.participation=S.participation.filter(function(e){return !sameRecordId(e.mid,id);});
+  S.journal=S.journal.filter(function(j){return !sameRecordId(j.mid,id);});
+  S.matters=S.matters.filter(function(x){return !sameRecordId(x.id,id);});
   save();
   closePremiumDeleteConfirm();
   closeAll();
@@ -8025,12 +8027,12 @@ document.addEventListener('click', function(ev){
     case 'm-position-save': saveMatterPosition(id||$('#page')._mid);break;
     case 'm-moremenu': sheetMatterMore(id||$('#page')._mid); break;
     case 'm-save': saveMatter();break;
-    case 'm-add': {var ma=matter(id);if(ma&&ma.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,due:today()});break;}
+    case 'm-add': {var ma=matter(id);if(!ma){toast('Дело не найдено');break;}if(ma.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:String(ma.id),due:today()});break;}
     case 'm-hearing': {var mh=matter(id);if(mh&&mh.archived){toast('Сначала верните дело в работу');break;}editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});break;}
     case 'm-deadline': {var md=matter(id);if(md&&md.archived){toast('Сначала верните дело в работу');break;}sheetDeadline(id);break;}
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
-    case 'm-journal': {var mj=matter(id);if(mj&&mj.archived){toast('Сначала верните дело в работу');break;}sheetJournal(id);break;}
+    case 'm-journal': {var mj=matter(id);if(!mj){toast('Дело не найдено');break;}if(mj.archived){toast('Сначала верните дело в работу');break;}sheetJournal(String(mj.id));break;}
     case 'dossier-journal-filter-open': {
       var fp=$('#page');if(fp&&fp._matterTab==='journal'&&sameRecordId(fp._mid,id))dossierJournalFilterSheet(id);
       break;
