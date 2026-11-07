@@ -47076,15 +47076,6 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
 /* 5.0.1202 — approved Actions sheet, corrected phone proportions.
    Only this modal: hide the unrelated, scrolled dossier behind the iOS
    status bar; keep every existing action handler and accessible button. */
-body.matter-actions-open #scrim.open{
-  z-index:41!important;
-  opacity:1!important;
-  background:
-    linear-gradient(180deg,rgba(255,247,234,.94),rgba(254,244,230,.975)),
-    url('bg-dossier-continuous-v5833.webp?v=6202') center top/cover!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-}
 #sheet.matter-actions-premium.open{
   z-index:42!important;
   top:max(65px,calc(env(safe-area-inset-top,0px) + 9px))!important;
@@ -47210,20 +47201,6 @@ body.matter-actions-open #scrim.open{
 body.matter-actions-open #page.dossier-page.open{
   overflow-y:hidden!important;
   overscroll-behavior:none!important;
-}
-body.matter-actions-open #scrim.open{
-  /* Opaque under the iOS status bar; gentle reveal farther down.
-     No arbitrary underlying case text can appear under the status icons. */
-  background:
-    linear-gradient(to bottom,
-      rgba(255,249,239,1) 0px,
-      rgba(255,249,239,1) calc(env(safe-area-inset-top,0px) + 65px),
-      rgba(255,249,239,.58) calc(env(safe-area-inset-top,0px) + 96px),
-      rgba(255,249,239,.64) calc(env(safe-area-inset-top,0px) + 130px),
-      rgba(255,249,239,1) calc(env(safe-area-inset-top,0px) + 168px),
-      rgba(255,249,239,1) 100%)!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
 }
 #sheet.matter-actions-premium.open{
   position:fixed!important;
@@ -47517,61 +47494,9 @@ body.matter-actions-open #scrim.open{
 
 
 /* ========================================================================
-   5.0.1207 — FINISH STAGES 1–4: deliberate background above the sheet,
-   simplified parchment contour. The approved header and eight live rows,
+   5.0.1207 — FINISH STAGES 1–4: simplified parchment contour. The approved header and eight live rows,
    including their clickable handlers, remain unchanged.
    ======================================================================== */
-body.matter-actions-open #scrim.open{
-  background:
-    linear-gradient(180deg,rgba(255,250,242,.95),rgba(255,246,229,.94)),
-    url('bg-dossier-continuous-v5833.webp') center top / cover no-repeat!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-}
-#scrim .matter-actions-context-preview{
-  display:none;
-  position:fixed;
-  left:clamp(15px,4.5vw,29px);
-  right:clamp(15px,4.5vw,29px);
-  box-sizing:border-box;
-  height:57px;
-  min-width:0;
-  align-items:center;
-  gap:11px;
-  padding:6px 12px;
-  border:1px solid rgba(172,119,49,.55);
-  border-radius:14px;
-  background:linear-gradient(135deg,#fff9e9 0%,#fef3de 61%,#f4dcaf 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 3px 0 rgba(176,130,65,.18),0 7px 15px rgba(104,73,38,.14);
-  pointer-events:none;
-  color:#13284b;
-  overflow:hidden;
-}
-body.matter-actions-open #scrim.open .matter-actions-context-preview{display:flex;}
-body.matter-actions-open #scrim.open .matter-actions-context-preview[style*="display: none"]{display:none!important;}
-#scrim .matter-actions-context-icon{
-  display:flex;
-  flex:0 0 42px;
-  width:42px;height:42px;
-  align-items:center;justify-content:center;
-  background:linear-gradient(155deg,#ffe9bc,#f6d6a1);
-  border:1px solid #d9aa60;
-  border-radius:10px;
-  color:#95621e;
-  box-shadow:inset 0 1px 0 #fff9e4,0 2px 3px rgba(112,74,34,.12);
-}
-#scrim .matter-actions-context-icon .ico{width:26px;height:26px;stroke-width:1.75}
-#scrim .matter-actions-context-copy{display:flex;min-width:0;flex:1;flex-direction:column;gap:3px;}
-#scrim .matter-actions-context-copy b{
-  display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font:700 clamp(12px,3.55vw,15px)/1.15 Georgia,'Times New Roman',serif;
-  color:#14274b;
-}
-#scrim .matter-actions-context-copy small{
-  display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font:400 clamp(10px,2.8vw,12px)/1.2 system-ui,-apple-system,'Segoe UI',sans-serif;
-  color:#64718a;
-}
 /* One exterior metallic edge + one delicate inner leaf. No stacked bottom
    borders, duplicated extruded rims or repeated horizontal highlights. */
 #sheet.matter-actions-premium.open{
@@ -47607,5 +47532,24 @@ body.matter-actions-open #scrim.open .matter-actions-context-preview[style*="dis
 }
 #sheet.matter-actions-premium.open>.matter-actions-paper::before,
 #sheet.matter-actions-premium.open>.matter-actions-paper::after{display:none!important;}
-/* Do not let inline geometry positioning survive after another modal opens. */
-body:not(.matter-actions-open) #scrim .matter-actions-context-preview{display:none!important;}
+
+/* =======================================================================
+   5.0.1208 — «Действия по делу»: use the same real-page backdrop as
+   «Результат заседания». No fake event banner or opaque beige cover.
+   The underlying dossier stays at its current scroll position; the
+   overlay tints/blurs it, without changing approved paper/cards geometry.
+   ======================================================================= */
+body.matter-actions-open #scrim.open{
+  z-index:41!important;
+  opacity:1!important;
+  /* The actual dossier-page marble, without a duplicate "next event"
+     card or visible scrolled case rows. Mirrors the quiet backdrop behind
+     other modal sheets such as "Результат заседания". */
+  background:
+    linear-gradient(180deg,rgba(249,243,232,.15),rgba(249,243,232,.26)),
+    url('bg-dossier-continuous-v5833.webp?v=6208') top center / 100% auto no-repeat,
+    #f8f2e6!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#sheet.matter-actions-premium.open{z-index:42!important;}
