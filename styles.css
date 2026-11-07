@@ -47200,3 +47200,164 @@ body.matter-actions-open #scrim.open{
     top:max(65px,calc(env(safe-area-inset-top,0px) + 9px))!important;
   }
 }
+
+
+/* 5.0.1203 | ACTIONS SHEET — STAGE 1, FOUNDATION ONLY.
+   Keep the approved existing eight rows/header untouched. The old modal was
+   forced from top:65px to bottom:0, producing a large empty tail. Let the
+   paper stack determine its own height while retaining a safe-screen cap.
+   The scrolled dossier remains frozen behind a softly veiled upper peek. */
+body.matter-actions-open #page.dossier-page.open{
+  overflow-y:hidden!important;
+  overscroll-behavior:none!important;
+}
+body.matter-actions-open #scrim.open{
+  /* Opaque under the iOS status bar; gentle reveal farther down.
+     No arbitrary underlying case text can appear under the status icons. */
+  background:
+    linear-gradient(to bottom,
+      rgba(255,249,239,1) 0px,
+      rgba(255,249,239,1) calc(env(safe-area-inset-top,0px) + 65px),
+      rgba(255,249,239,.58) calc(env(safe-area-inset-top,0px) + 96px),
+      rgba(255,249,239,.64) calc(env(safe-area-inset-top,0px) + 130px),
+      rgba(255,249,239,1) calc(env(safe-area-inset-top,0px) + 168px),
+      rgba(255,249,239,1) 100%)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#sheet.matter-actions-premium.open{
+  position:fixed!important;
+  top:auto!important;
+  bottom:max(12px,env(safe-area-inset-bottom,0px))!important;
+  height:auto!important;
+  max-height:calc(100dvh - max(105px, calc(env(safe-area-inset-top,0px) + 63px)))!important;
+  min-height:0!important;
+  border:1px solid rgba(176,124,60,.53)!important;
+  border-radius:26px!important;
+  box-sizing:border-box!important;
+  padding:3px 11px 12px!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  overflow-y:auto!important;
+  box-shadow:0 -5px 0 rgba(248,226,190,.75),
+    0 -7px 0 1px rgba(169,118,56,.44),
+    0 10px 28px rgba(70,37,10,.18),
+    inset 0 2px 2px rgba(255,255,255,.95)!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{
+    padding:3px 8px 10px!important;
+  }
+}
+@media(min-width:600px){
+  #sheet.matter-actions-premium.open{
+    top:auto!important;
+    bottom:max(12px,env(safe-area-inset-bottom,0px))!important;
+  }
+}
+
+
+/* 5.0.1204 — ACTIONS / STAGE 2.
+   Dedicated decorative parchment layers only.  No modifications to the
+   header, action-row content, icons, sizes or any JS event handlers.
+   The three extra paper layers are paint-only and cannot intercept taps. */
+#sheet.matter-actions-premium.open{
+  isolation:isolate!important;
+  border:2px solid rgba(162,111,53,.65)!important;
+  border-radius:29px!important;
+  background:
+    radial-gradient(ellipse 82% 29% at 50% 0%,rgba(255,255,255,.96) 0%,transparent 92%),
+    linear-gradient(100deg,rgba(255,252,246,.94),rgba(255,248,235,.90) 37%,rgba(251,235,211,.91)),
+    url('dossier-front-parchment-v5839.png') center top / cover no-repeat!important;
+  box-shadow:
+    0 -3px 0 rgba(254,235,205,.98),
+    0 -5px 0 1px rgba(161,108,49,.52),
+    0 -9px 0 rgba(247,216,174,.45),
+    0 11px 21px rgba(73,42,16,.20),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -3px 4px rgba(154,97,36,.17)!important;
+}
+/* A slightly raised folio behind the visible sheet. */
+#sheet.matter-actions-premium.open::before{
+  content:'';
+  position:absolute;
+  z-index:0;
+  inset:3px 5px 5px;
+  pointer-events:none;
+  border:1px solid rgba(202,163,106,.62);
+  border-radius:27px 27px 25px 25px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.89),rgba(255,248,234,.31) 11%,transparent 25%,transparent 86%,rgba(210,160,92,.18));
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.62),0 2px 1px rgba(160,107,51,.15);
+}
+/* The rear folder index is visible at the crown but disappears under the leaf. */
+#sheet.matter-actions-premium.open::after{
+  content:'';
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  top:0;
+  left:48%;
+  width:25%;
+  height:19px;
+  border:1px solid rgba(156,106,54,.67);
+  border-bottom:0;
+  border-radius:12px 12px 2px 2px;
+  background:linear-gradient(170deg,#fffdf8 3%,#f9e8cb 67%,#dfb77d 100%);
+  box-shadow:inset 0 2px 1px rgba(255,255,255,.94), 0 -2px 2px rgba(135,81,30,.15);
+}
+#sheet.matter-actions-premium.open>.grab{
+  z-index:3!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  isolation:isolate!important;
+  position:relative!important;
+  z-index:2!important;
+  border:1px solid rgba(184,128,64,.65)!important;
+  border-radius:26px 26px 21px 21px!important;
+  background:
+    radial-gradient(ellipse 73% 28% at 0 0,rgba(255,255,255,.93),transparent 87%),
+    radial-gradient(ellipse 58% 62% at 96% 72%,rgba(223,176,110,.095),transparent 85%),
+    linear-gradient(135deg,rgba(255,253,247,.93),rgba(255,249,239,.94) 45%,rgba(253,242,223,.95)),
+    url('dossier-front-parchment-v5839.png') center center / cover no-repeat!important;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.76),
+    inset 0 0 0 4px rgba(232,208,173,.21),
+    inset 0 -3px 2px rgba(168,108,47,.16),
+    0 2px 0 rgba(199,154,91,.58),
+    0 5px 0 rgba(161,106,50,.29),
+    0 9px 13px rgba(86,47,17,.17)!important;
+}
+/* Hairline edge within the folio and the softly rolled lower rim. */
+#sheet.matter-actions-premium.open>.matter-actions-paper::before{
+  content:'';
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  inset:4px;
+  border:1px solid rgba(231,200,158,.45);
+  border-radius:22px 22px 17px 17px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper::after{
+  content:'';
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  height:6px;
+  left:8px;
+  right:8px;
+  bottom:1px;
+  border-radius:0 0 18px 18px;
+  background:linear-gradient(180deg,transparent,rgba(204,148,78,.11));
+}
+#sheet.matter-actions-premium.open .matter-actions-head,
+#sheet.matter-actions-premium.open .matter-actions-card{
+  position:relative;
+  z-index:1;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{border-radius:25px!important;}
+  #sheet.matter-actions-premium.open::before{border-radius:23px!important;}
+  #sheet.matter-actions-premium.open>.matter-actions-paper{border-radius:22px 22px 18px 18px!important;}
+}
