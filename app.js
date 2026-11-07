@@ -5,7 +5,7 @@
 'use strict';
 
 var APP_VERSION='5.0.1231';
-var APP_BUILD='6231';
+var APP_BUILD='6232';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2112,12 +2112,53 @@ function sortT(a,b){
 }
 function stepsDone(t){ return (t.steps||[]).filter(function(s){ return s.d; }).length; }
 
+/* 5.0.1232 — nested navigation for the seven case actions.
+   The originating dossier stays mounted behind the sheets. Only navigation
+   initiated from the Actions menu pushes a return destination; unrelated
+   quick-add and tabs retain their original Back behaviour. */
+var MATTER_ACTION_RETURN=null;
+function matterActionReturnReset(){ MATTER_ACTION_RETURN=null; }
+function matterActionReturnTrack(act,id,trigger){
+  var sh=$('#sheet');
+  if(!trigger||!trigger.closest||!sh||!sh.classList.contains('open'))return;
+  var mid=String(id||'');
+  if(sh.classList.contains('matter-actions-premium') &&
+      trigger.closest('.matter-actions-card .matter-act-row') &&
+      ['m-edit','m-add','m-event','m-journal','m-finish','m-arch'].indexOf(act)>=0 && matter(mid)){
+    MATTER_ACTION_RETURN={mid:mid,stack:['actions']};
+    return;
+  }
+  if(act==='m-event-kind' && sh.classList.contains('matter-event-choice-sheet') &&
+      MATTER_ACTION_RETURN && sameRecordId(MATTER_ACTION_RETURN.mid,mid) &&
+      trigger.closest('.matter-action-choice-list')){
+    MATTER_ACTION_RETURN.stack.push('event-choice');
+  }
+}
+function matterActionReturnBack(){
+  var nav=MATTER_ACTION_RETURN,sh=$('#sheet'),p=$('#page');
+  if(!nav||!matter(nav.mid)){matterActionReturnReset();return false;}
+  if(!p||!p.classList.contains('open')||!sameRecordId(p._mid,nav.mid)){matterActionReturnReset();return false;}
+  if(!((sh&&sh.classList.contains('open'))||nav.pageView))return false;
+  if(sh&&sh.classList.contains('open')&&sh.classList.contains('matter-actions-premium')){matterActionReturnReset();return false;}
+  var step=nav.stack.pop();
+  if(step==='event-choice'){
+    sheetMatterEventKind(nav.mid);
+    return true;
+  }
+  if(step==='actions'){
+    sheetMatterMore(nav.mid); // The menu is now the navigation root.
+    return true;
+  }
+  matterActionReturnReset();
+  return false;
+}
+
 /* ------------------------- sheets ------------------------- */
 /* Шторка: содержимое прокручивается, а кнопки действий закреплены внизу —
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2135,9 +2176,10 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
+  matterActionReturnReset();
   document.body.classList.remove('dossier-status-masked','matter-actions-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open'); var sh=$('#sheet');
+function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -3764,6 +3806,8 @@ function appBack(){
   if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
+  if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
+  if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
   if(page.classList.contains('open')){
@@ -4515,6 +4559,7 @@ function matterCompactDeadlineRow(t){
 /* 5.0.1209 — agreed eight-action case control panel. Existing paper artwork and
    dedicated editors stay intact: no duplicate record formats or hidden copies. */
 function sheetMatterMore(id){
+  matterActionReturnReset();
   var m=matter(id);if(!m)return;
   function row(act,tone,icon,title,subtitle,extraCls){
     return '<button type="button" class="matter-act-row '+(extraCls||'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-id="'+esc(id)+'" aria-label="'+esc(title)+'. '+esc(subtitle)+'">'+
@@ -7783,6 +7828,7 @@ document.addEventListener('click', function(ev){
   if(Date.now()<SWIPE_CLICK_BLOCK_UNTIL){ev.preventDefault();ev.stopPropagation();return;}
   var el=ev.target.closest('[data-act]'); if(!el){ if(!ev.target.closest('.pt-item')) closeTaskActionRows(); return; }
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
+  matterActionReturnTrack(a,id,el);
   if(el.classList.contains('quickitem')) vib(7);
   switch(a){
     /* navigation / dashboard */
@@ -8018,8 +8064,8 @@ document.addEventListener('click', function(ev){
     }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;
     case 'm-edit': {var me=matter(id||$('#page')._mid);if(me){if(me.archived){toast('Для редактирования верните дело в работу');break;}editMatter(me);}break;}
-    case 'm-view-info': {if(matter(id)){closeSheet();openMatter(id,'general');}break;}
-    case 'm-open-journal': {if(matter(id)){closeSheet();openMatter(id,'journal');}break;}
+    case 'm-view-info': {if(matter(id)){var backInfo=$('#sheet').classList.contains('matter-actions-premium');closeSheet();openMatter(id,'general');if(backInfo)MATTER_ACTION_RETURN={mid:String(id),stack:['actions'],pageView:true};}break;}
+    case 'm-open-journal': {if(matter(id)){var backJournal=$('#sheet').classList.contains('matter-actions-premium');closeSheet();openMatter(id,'journal');if(backJournal)MATTER_ACTION_RETURN={mid:String(id),stack:['actions'],pageView:true};}break;}
     case 'm-event': sheetMatterEventKind(id||$('#page')._mid);break;
     case 'm-event-kind': {var evm=matter(id);if(!evm)break;if(evm.archived){toast('Сначала верните дело в работу');break;}if(v==='hearing')editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});else if(v==='meeting')editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});else if(v==='deadline')sheetDeadline(id);break;}
     case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
@@ -8363,7 +8409,7 @@ document.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
 $('#fab').onclick=function(){if(!unlocked)return;vib(); if(S.ui.tab==='matters' && !$('#page').classList.contains('open')){ closeSheet(); editMatter(null); } else sheetQuickAdd();};
-$('#scrim').onclick=function(){if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
+$('#scrim').onclick=function(){if(MATTER_ACTION_RETURN && $('#sheet').classList.contains('open')){appBack();return;}if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
   var f=e.target.files[0];if(!f)return;var r=new FileReader();
