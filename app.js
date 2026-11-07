@@ -4553,7 +4553,7 @@ function sheetMatterMore(id){
   document.body.classList.add('matter-actions-open');
   mountMatterActionsOutline($('#sheet'));
 }
-/* v6224 / stage 1 — one closed SVG outline covers both sides and bottom.
+/* v6224/6225 — continuous outer SVG plus matching inner leaf.
    Coordinates are calculated at the displayed size to avoid stretching rounded
    corners on different phone heights. Pure decoration: pointer-events none. */
 var MATTER_ACTIONS_OUTLINE_OBSERVER=null;
@@ -4572,8 +4572,11 @@ function mountMatterActionsOutline(panel){
    '<linearGradient id="ma6224Paper" x1="0" x2=".7" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".5" stop-color="#fff8ed"/><stop offset="1" stop-color="#f6e5cf"/></linearGradient>'+
    '<linearGradient id="ma6224Gold" x1="0" x2="1" y1="0" y2=".18"><stop stop-color="#ae7635"/><stop offset=".13" stop-color="#e8c596"/><stop offset=".56" stop-color="#c18c51"/><stop offset=".88" stop-color="#ebcc96"/><stop offset="1" stop-color="#a37033"/></linearGradient>'+
    '<linearGradient id="ma6224Grip" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#e5d4b6"/><stop offset="1" stop-color="#be995e"/></linearGradient>'+
+   '<linearGradient id="ma6225Leaf" x1="0" y1="0" x2=".58" y2="1"><stop offset="0" stop-color="#fffefb"/><stop offset=".38" stop-color="#fffaf2"/><stop offset=".82" stop-color="#fff7eb"/><stop offset="1" stop-color="#f7ebd9"/></linearGradient>'+
+   '<radialGradient id="ma6225SoftLight" cx=".18" cy=".12" r=".96"><stop offset="0" stop-color="#fff" stop-opacity=".60"/><stop offset=".52" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
    '</defs><path class="ma6224-paper" fill="url(#ma6224Paper)" stroke="url(#ma6224Gold)" stroke-width="2.2" stroke-linejoin="round"/>'+
-   '<path class="ma6224-foil" fill="none" stroke="#e9c99c" stroke-opacity=".87" stroke-width="1.2" stroke-linejoin="round"/>'+
+   '<path class="ma6224-foil" fill="url(#ma6225Leaf)" stroke="#d4ac74" stroke-opacity=".82" stroke-width="1.05" stroke-linejoin="round"/>'+
+   '<path class="ma6225-light" fill="url(#ma6225SoftLight)" stroke="none"/>'+
    '<rect class="ma6224-grip" width="36" height="5" rx="2.5" fill="url(#ma6224Grip)" stroke="#ddc29f" stroke-width=".5"/>';
   panel.insertBefore(svg,panel.firstChild);
   // A scroll container shifts absolute children with its content. Counter-translate
@@ -4595,6 +4598,7 @@ function mountMatterActionsOutline(panel){
     svg.setAttribute('viewBox','0 0 '+w+' '+h);
     svg.querySelector('.ma6224-paper').setAttribute('d',outer);
     svg.querySelector('.ma6224-foil').setAttribute('d',inner);
+    svg.querySelector('.ma6225-light').setAttribute('d',inner);
     svg.querySelector('.ma6224-grip').setAttribute('x',String(cx-18));
     svg.querySelector('.ma6224-grip').setAttribute('y','17');
   }

@@ -47981,3 +47981,27 @@ body.matter-actions-open #scrim.open{
   position:relative!important;z-index:2!important;
 }
 @media(max-width:360px){#sheet.matter-actions-premium.open{padding:40px 8px 13px!important;}}
+
+/* 5.0.1225 — NEW STAGE 2 / continuous inner paper leaf.
+   The inner panel no longer draws an independent rounded rectangle;
+   its shape is the inset path of the SAME SVG as the gold outer rim.
+   Preserve header/rows/text positions and all interaction handlers. */
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  -webkit-box-shadow:none!important;
+  isolation:isolate!important;
+  overflow:visible!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper::before,
+#sheet.matter-actions-premium.open>.matter-actions-paper::after{
+  content:none!important;display:none!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-outline .ma6224-foil{
+  filter:drop-shadow(0 1.4px 1.6px rgba(130,87,41,.17));
+}
+#sheet.matter-actions-premium.open>.matter-actions-outline .ma6225-light{
+  opacity:.75;
+}
