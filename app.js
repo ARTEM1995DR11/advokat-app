@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1208';
-var APP_BUILD='6208';
+var APP_VERSION='5.0.1211';
+var APP_BUILD='6211';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1968,6 +1968,39 @@ function matterClosureCard(m){
     (x.summary?'<p class="matter-closure-summary"><b>Итог работы:</b> '+esc(x.summary)+'</p>':'')+
     '<small>Досье, задачи, события и журнал сохранены. Вернуть дело в работу можно через «Ещё действия».</small></section>';
 }
+/* 5.0.1210 — substantive pre-archive review. Active items become hidden
+   from live queues when the case is archived, not "still visible". */
+function matterPendingWorkHTML(id){
+  var linked=tasksOf(id).filter(isActiveRecord);
+  if(!linked.length)return '';
+  var lines=linked.slice(0,30).map(function(t){
+    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
+    return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
+       (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
+       (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
+  }).join('');
+  return '<div class="matter-pending-work"><b>Не завершено: '+linked.length+'</b><p>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</p><ul>'+lines+'</ul>'+
+    (linked.length>30?'<small>И ещё '+(linked.length-30)+' записей.</small>':'')+'</div>';
+}
+function sheetMatterArchive(id){
+  var m=matter(id);if(!m||m.archived)return;
+  var count=tasksOf(id).filter(isActiveRecord).length;
+  openSheet('<div class="matter-finish-head"><span class="matter-finish-logo">'+ico('arch')+'</span><div><h2>Архивировать без завершения</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+ 
+    '<p class="matter-archive-intro">Дело останется неоконченным. Его задачи и события будут сохранены в истории, но исключены из активной работы.</p>'+matterPendingWorkHTML(id)+
+    (count?'<label class="matter-archive-ack"><input type="checkbox" id="matter-archive-ack"> Проверил(а) незавершённые задачи, сроки и заседания</label>':'')+
+    '<button class="btn" type="button" data-act="m-archive-save" data-id="'+esc(id)+'">'+ico('arch','s')+' Архивировать дело</button>');
+  $('#sheet').classList.add('matter-finish-sheet','matter-archive-sheet');
+}
+function archiveMatter(id){
+  var m=matter(id);if(!m||m.archived)return;
+  var count=tasksOf(id).filter(isActiveRecord).length;
+  if(count&&!($('#matter-archive-ack')&&$('#matter-archive-ack').checked)){
+    toast('Подтвердите проверку незавершённых записей');return;
+  }
+  m.archived=true;
+  addJournal(id,'Дело архивировано без завершения поручения',today(),'system',true);
+  save();closeAll();render();toast('Дело перемещено в архив');
+}
 function sheetMatterFinish(id){
   var m=matter(id);if(!m||m.archived)return;
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
@@ -1976,7 +2009,7 @@ function sheetMatterFinish(id){
     '<div class="fld"><label for="matter-close-date">Дата завершения</label><input id="matter-close-date" type="date" value="'+today()+'"></div>'+
     '<div class="fld"><label for="matter-close-outcome">Итог дела / поручения</label><select id="matter-close-outcome">'+Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+'</select></div>'+
     '<div class="fld"><label for="matter-close-note">Заключительная запись</label><textarea id="matter-close-note" rows="4" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div>'+
-    (open.length?'<div class="matter-finish-warning"><b>Есть незавершённые записи: '+open.length+'</b><p>'+pending.length+' требуют результата заседания. Эти записи сохранятся в истории и перестанут попадать в активные списки; при возврате дела в работу они снова появятся.</p><label><input id="matter-close-ack" type="checkbox"> Я проверил(а) оставшиеся задачи и сроки</label></div>':'')+
+    (open.length?'<div class="matter-finish-warning">'+matterPendingWorkHTML(id)+'<label><input id="matter-close-ack" type="checkbox"> Я проверил(а) оставшиеся задачи, сроки и заседания</label></div>':'')+
     '<button class="btn matter-finish-submit" data-act="m-finish-save" data-id="'+esc(id)+'">'+ico('check','s')+' Завершить и переместить в архив</button>');
   $('#sheet').classList.add('matter-finish-sheet');
 }
@@ -2618,7 +2651,10 @@ function openPremiumMatterDeleteConfirm(id){
     '<section class="premium-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="premium-delete-confirm-title">'+
       '<div class="premium-delete-confirm-mark"><i></i><span>'+ico('trash')+'</span><i></i></div>'+
       '<h2 id="premium-delete-confirm-title">Удалить дело?</h2>'+
-      '<p>Будут удалены дело, связанные задачи и журнал. Действие необратимо.</p>'+
+      '<p>Будут безвозвратно удалены дело, связанные задачи, события, дни участия и журнал. Перед удалением рекомендуется сохранить зашифрованную резервную копию.</p>'+
+      '<button type="button" class="matter-delete-backup" data-act="matter-delete-backup">'+ico('lock','s')+' Создать резервную копию</button>'+
+      '<label class="matter-delete-label" for="matter-delete-phrase">Для подтверждения введите УДАЛИТЬ</label>'+
+      '<input id="matter-delete-phrase" type="text" autocomplete="off" autocapitalize="characters" placeholder="УДАЛИТЬ" aria-label="Введите УДАЛИТЬ">'+
       '<div class="premium-delete-confirm-actions">'+
         '<button type="button" class="premium-delete-cancel" data-act="premium-delete-cancel">Отмена</button>'+
         '<button type="button" class="premium-delete-accept" data-act="premium-delete-matter-confirm" data-id="'+esc(id)+'">'+ico('trash','s')+'<span>Удалить</span></button>'+
@@ -2629,6 +2665,10 @@ function openPremiumMatterDeleteConfirm(id){
   vib(8);
 }
 function performDeleteMatterById(id){
+  var confirmed=$('#matter-delete-phrase');
+  if(!confirmed||confirmed.value.trim().toLocaleUpperCase('ru-RU')!=='УДАЛИТЬ'){
+    toast('Для удаления введите УДАЛИТЬ');return;
+  }
   var m=matter(id);
   if(!m)return;
   S.tasks=S.tasks.filter(function(t){return t.mid!==id;});
@@ -4477,6 +4517,8 @@ function matterCompactDeadlineRow(t){
 }
 /* 5.0.1201 — approved parchment design for «Действия по делу».
    Existing data-act handlers and lifecycle remain unchanged. */
+/* 5.0.1209 — agreed eight-action case control panel. Existing paper artwork and
+   dedicated editors stay intact: no duplicate record formats or hidden copies. */
 function sheetMatterMore(id){
   var m=matter(id);if(!m)return;
   function row(act,tone,icon,title,subtitle,extraCls){
@@ -4486,19 +4528,25 @@ function sheetMatterMore(id){
       '<span class="matter-act-tail" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button>';
   }
-  var archiveTitle=m.archived?'Вернуть в работу':'Архивировать без завершения';
-  var archiveSub=m.archived?'Восстановить дело с сохранением истории':'Переместить неоконченное дело в архив';
   var rows='';
-  if(!m.archived){
-    rows+=row('m-finish','#19865c','check','Завершить дело','Указать результат, дату и отправить в архив')+
-      row('m-hearing','#3676d7','cal','Заседание','Назначить судебное заседание')+
-      row('m-deadline','#be8626','clock','Процессуальный срок','Добавить контролируемый срок');
+  if(m.archived){
+    // Archived dossiers are read-only until explicitly returned to work.
+    rows+=row('m-view-info','#5279a7','folder','Просмотреть карточку','Сведения дела без редактирования')+
+      row('m-open-journal','#258f6f','doc','Просмотреть журнал','Хронология действий без изменения')+
+      row('m-position-view','#b48436','gavel','Позиция по делу','Просмотр рабочих материалов')+
+      row('m-print','#b48436','share','Экспорт / печать','Внутренняя или сокращённая сводка')+
+      row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи')+
+      row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
+  }else{
+    rows+=row('m-edit','#5279a7','edit','Редактировать дело','Реквизиты, суд, доверитель, стадия')+
+      row('m-add','#3676d7','check','Добавить задачу','Поручение, контроль, документы')+
+      row('m-event','#be8626','cal','Добавить событие','Заседание, встреча или процессуальный срок')+
+      row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
+      row('m-position-edit','#5279a7','gavel','Позиция по делу','Аргументы, доказательства, стратегия')+
+      row('m-finish','#19865c','check','Завершить дело','Указать результат и отправить в архив')+
+      row('m-arch','#607997','arch','Архивировать без завершения','Переместить неоконченное дело в архив')+
+      row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
   }
-  rows+=row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
-    row('m-edit','#5279a7','edit','Изменить карточку','Отредактировать реквизиты дела')+
-    row('m-print','#b48436','share','Экспорт / печать','Подготовить сводку по делу')+
-    row(m.archived?'m-reopen':'m-arch','#607997','arch',archiveTitle,archiveSub)+
-    row('m-del','#ce504b','trash','Удалить дело','Связанные записи также будут удалены','danger');
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();
   var caseLine=(client?(client+(article?' — '+article:(m.number?' — № '+m.number:''))):String(m.title||m.number||'Карточка дела')).replace(/\s+/g,' ').trim();
@@ -4513,9 +4561,18 @@ function sheetMatterMore(id){
   );
   $('#sheet').classList.add('matter-actions-premium');
   document.body.classList.add('matter-actions-open');
-  // 5.0.1208: The dossier stays at its current scroll position; the modal
-  // backdrop reproduces its original marble background (not its scrolled
-  // cards). No extra event banner or synthetic preview is inserted.
+}
+/* Picker selects an existing event editor; no parallel event database. */
+function sheetMatterEventKind(id){
+  var m=matter(id);if(!m)return;
+  if(m.archived){toast('Сначала верните дело в работу');return;}
+  openSheet('<div class="matter-action-choice-head"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2>Добавить событие</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+ 
+    '<div class="matter-action-choice-list">'+
+    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="hearing">'+ico('gavel','s')+'<span><b>Судебное заседание</b><small>Дата, время, суд и судья</small></span>'+ico('chev','s')+'</button>'+ 
+    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="meeting">'+ico('user','s')+'<span><b>Встреча с доверителем</b><small>Время, место и цель встречи</small></span>'+ico('chev','s')+'</button>'+ 
+    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="deadline">'+ico('clock','s')+'<span><b>Процессуальный срок</b><small>Контроль срока и правовое основание</small></span>'+ico('chev','s')+'</button>'+ 
+    '</div>');
+  $('#sheet').classList.add('matter-event-choice-sheet');
 }
 
 /* 5.0.822: standalone dossier view; all records still live in S.matters, S.tasks and S.journal. */
@@ -6523,6 +6580,7 @@ function matterEditorSectionHead(icon,title,num){
   '</div>';
 }
 function editMatter(m){
+  if(m&&m.archived){toast('Для редактирования верните дело в работу');return;}
   MED = m ? clone(m) : {id:null,title:'',type:'civil',basis:'agreement',client:'',phone:'',number:'',court:'',judge:'',investigator:'',article:'',role:'',restraint:'',opponent:'',stage:'Первая инстанция',executionIssue:'',executionInstitution:'',dayRate:'',notes:'',archived:false};
   MED = sanitizeMatterByType(MED);
   if(!MATTER_BASIS[MED.basis]) MED.basis='agreement';
@@ -6545,6 +6603,8 @@ function editMatter(m){
 }
 
 function saveMatter(){
+  // Direct handler guard: an old editor must not mutate an archived dossier.
+  if(MED&&MED.id&&((matter(MED.id)||{}).archived)){toast('Архивное дело доступно только для просмотра');return;}
   pullMatterDraft();
   if(!MED||!MATTER_BASIS[MED.basis]){toast('Выберите основание ведения');return;}
   if(MED.type==='criminal'&&MED.stage==='Исполнение приговора'&&!MED.executionIssue){toast('Выберите вопрос исполнения приговора');return;}
@@ -7190,6 +7250,37 @@ function printDay(){
       (m?' — '+esc(m.title):'')+(t.place?'<br><small>'+esc(t.place)+'</small>':'')+'</td></tr>'; }).join('')+'</table>';
   printHTML('План работы адвоката', fmtD(today(),true), rows);
 }
+/* 5.0.1211 — distinguish private advocate report from the intentionally
+   limited client handout. Never leak private journal/strategy into client PDF. */
+function sheetMatterExport(id){
+  var m=matter(id);if(!m)return;
+  openSheet('<div class="matter-action-choice-head"><small>СВЕДЕНИЯ ПО ДЕЛУ</small><h2>Экспорт / печать</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+ 
+    '<p class="matter-export-warning">Содержимое полной сводки предназначено только адвокату. Перед передачей документа доверителю выберите сокращённую версию.</p>'+ 
+    '<div class="matter-action-choice-list">'+
+    '<button type="button" data-act="m-print-private" data-id="'+esc(id)+'">'+ico('lock','s')+'<span><b>Полная сводка адвоката</b><small>Задачи, рабочие заметки, журнал и участие</small></span>'+ico('chev','s')+'</button>'+ 
+    '<button type="button" data-act="m-print-client" data-id="'+esc(id)+'">'+ico('doc','s')+'<span><b>Сводка для доверителя</b><small>Реквизиты и будущие события без внутреннего журнала</small></span>'+ico('chev','s')+'</button>'+ 
+    '</div>');
+  $('#sheet').classList.add('matter-event-choice-sheet','matter-export-choice-sheet');
+}
+function printMatterClient(id){
+  var m=matter(id);if(!m)return;
+  var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
+  var fields=[['Доверитель',m.client],['Номер дела',m.number],[ctx.label||'Суд / орган',m.court],['Стадия',m.stage]];
+  var info='<h2>Общие сведения</h2><table>'+fields.filter(function(r){return !!r[1];}).map(function(r){
+    return '<tr><td style="width:38%">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>';
+  }).join('')+'</table>';
+  var upcoming=tasksOf(id).filter(function(t){
+    return !t.done&&(t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline')&&t.due&&t.due>=today();
+  }).sort(sortT).slice(0,20);
+  if(upcoming.length){
+    info+='<h2>Предстоящие события и сроки</h2><table>'+upcoming.map(function(t){
+      var kind=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':'Процессуальный срок';
+      return '<tr><td>'+esc(fmtD(t.due,true))+(t.time?' '+esc(t.time):'')+'</td><td>'+esc(kind)+(t.kind==='meeting'&&t.place?' · '+esc(t.place):'')+'</td></tr>';
+    }).join('')+'</table>';
+  }
+  info+='<p><small>Сводка подготовлена на '+esc(fmtD(today(),true))+'. Внутренние заметки, позиция адвоката, журнал и информация о вознаграждении не включены.</small></p>';
+  printHTML(m.title||'Дело','Сводка для доверителя',info);
+}
 function printMatter(id){
   var m=matter(id),st=matterStats(m),ts=tasksOf(id).sort(sortT),parts=participationOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;}),js=journalOf(id).slice().sort(function(a,b){return a.date<b.date?1:-1;});
   var pctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
@@ -7795,6 +7886,7 @@ document.addEventListener('click', function(ev){
     case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
     case 'premium-delete-confirm': performDeleteTaskById(id); break;
     case 'premium-delete-matter-confirm': performDeleteMatterById(id); break;
+    case 'matter-delete-backup': closePremiumDeleteConfirm();closeSheet();sheetBackup();break;
     case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
@@ -7873,7 +7965,11 @@ document.addEventListener('click', function(ev){
       break;
     }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;
-    case 'm-edit': {var me=matter($('#page')._mid);if(me)editMatter(me);break;}
+    case 'm-edit': {var me=matter(id||$('#page')._mid);if(me){if(me.archived){toast('Для редактирования верните дело в работу');break;}editMatter(me);}break;}
+    case 'm-view-info': {if(matter(id)){closeSheet();openMatter(id,'general');}break;}
+    case 'm-open-journal': {if(matter(id)){closeSheet();openMatter(id,'journal');}break;}
+    case 'm-event': sheetMatterEventKind(id||$('#page')._mid);break;
+    case 'm-event-kind': {var evm=matter(id);if(!evm)break;if(evm.archived){toast('Сначала верните дело в работу');break;}if(v==='hearing')editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});else if(v==='meeting')editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});else if(v==='deadline')sheetDeadline(id);break;}
     case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
     case 'm-position-edit': sheetMatterPosition(id||$('#page')._mid);break;
     case 'm-position-save': saveMatterPosition(id||$('#page')._mid);break;
@@ -7908,17 +8004,14 @@ document.addEventListener('click', function(ev){
       var pv=$('#page');if(pv&&pv._matterTab==='journal'&&sameRecordId(pv._mid,v))dossierJournalViewRecord(id,v);
       break;
     }
-    case 'm-print': if(matter($('#page')._mid))printMatter($('#page')._mid);break;
+    case 'm-print': sheetMatterExport(id||$('#page')._mid);break;
+    case 'm-print-private': if(matter(id)){closeSheet();printMatter(id);}break;
+    case 'm-print-client': if(matter(id)){closeSheet();printMatterClient(id);}break;
     case 'm-finish': sheetMatterFinish(id);break;
     case 'm-finish-save': finishMatter(id);break;
     case 'm-reopen': reopenMatter(id);break;
-    case 'm-arch': {var mm=matter(id);if(!mm)break;
-      if(!mm.archived){
-        var activeLinked=tasksOf(id).filter(isActiveRecord);
-        if(activeLinked.length&&!confirm('По делу осталось '+activeLinked.length+' '+plural(activeLinked.length,'активная запись','активные записи','активных записей')+'. Они продолжат отображаться в «Сегодня» и «Задачах». Всё равно отправить дело в архив?'))break;
-      }
-      if(mm.archived){reopenMatter(id);break;}
-      mm.archived=true;addJournal(id,'Дело архивировано без завершения поручения',today(),'system',true);save();closeAll();render();toast('Дело в архиве');break;}
+    case 'm-arch': sheetMatterArchive(id);break;
+    case 'm-archive-save': archiveMatter(id);break;
     case 'm-del': openPremiumMatterDeleteConfirm(id); break;
 
     /* journal + participation */

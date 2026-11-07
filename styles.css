@@ -47547,9 +47547,40 @@ body.matter-actions-open #scrim.open{
      other modal sheets such as "Результат заседания". */
   background:
     linear-gradient(180deg,rgba(249,243,232,.15),rgba(249,243,232,.26)),
-    url('bg-dossier-continuous-v5833.webp?v=6208') top center / 100% auto no-repeat,
+    url('bg-dossier-continuous-v5833.webp?v=6211') top center / 100% auto no-repeat,
     #f8f2e6!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
 }
 #sheet.matter-actions-premium.open{z-index:42!important;}
+
+/* 5.0.1209 — event-kind picker reuses app's existing sheet and palette. */
+#sheet.matter-event-choice-sheet .matter-action-choice-head{padding:16px 17px 8px;color:#152a52}
+#sheet.matter-event-choice-sheet .matter-action-choice-head small{display:block;color:#a7772b;font-weight:700;letter-spacing:.15em;font-size:11px}
+#sheet.matter-event-choice-sheet .matter-action-choice-head h2{font-family:Georgia,serif;font-size:27px;margin:5px 0;color:#172e59}
+#sheet.matter-event-choice-sheet .matter-action-choice-head p{margin:0;color:#61718a;font-size:14px;overflow-wrap:anywhere}
+#sheet.matter-event-choice-sheet .matter-action-choice-list{display:grid;gap:10px;margin:13px 12px 22px}
+#sheet.matter-event-choice-sheet .matter-action-choice-list>button{border:1px solid #d5bc96;background:#fff9f0;color:#172e59;border-radius:18px;min-height:76px;display:flex;align-items:center;gap:12px;padding:11px 13px;text-align:left;box-shadow:0 3px 9px #78623b25}
+#sheet.matter-event-choice-sheet .matter-action-choice-list>button>.ico:first-child{color:#bd8836;width:28px;height:28px;flex-shrink:0}
+#sheet.matter-event-choice-sheet .matter-action-choice-list>button>span{flex:1;min-width:0}
+#sheet.matter-event-choice-sheet .matter-action-choice-list b{display:block;font-family:Georgia,serif;font-size:18px;line-height:1.2}
+#sheet.matter-event-choice-sheet .matter-action-choice-list small{display:block;font-size:12px;color:#637189;margin-top:4px}
+#sheet.matter-event-choice-sheet .matter-action-choice-list>button>.ico:last-child{width:15px;height:15px;flex-shrink:0;color:#ae803e}
+
+/* 5.0.1210 — checklist for safe close/archive, not a decorative warning. */
+.matter-pending-work{padding:13px;margin:12px 0;border:1px solid #d7b889;border-radius:16px;background:#fff9ed;color:#4c3d31}
+.matter-pending-work>b{color:#735020}
+.matter-pending-work p{font-size:13px;line-height:1.45;margin:7px 0}
+.matter-pending-work ul{padding-left:20px;margin:9px 0;max-height:195px;overflow:auto}
+.matter-pending-work li{margin:5px 0;font-size:13px;overflow-wrap:anywhere;line-height:1.4}
+.matter-pending-work strong{color:#ac413e;font-weight:600}
+.matter-archive-intro{margin:10px 15px;line-height:1.5;font-size:14px;color:#42516c}
+.matter-archive-ack{display:flex;align-items:flex-start;gap:8px;margin:12px 13px;font-size:13px;color:#473d35}
+.matter-archive-ack input{flex-shrink:0;width:19px;height:19px}
+
+/* 5.0.1211 — deliberate confirmation for destructive, multi-record action. */
+.premium-delete-confirm .matter-delete-label{display:block;font-size:14px;font-weight:700;color:#822d26;margin:14px 0 7px}
+.premium-delete-confirm #matter-delete-phrase{width:100%;border:1px solid #cf9387;border-radius:12px;min-height:46px;font-size:17px;padding:9px 12px;background:#fff;color:#62241e;margin-bottom:15px}
+.premium-delete-confirm .matter-delete-backup{display:flex;align-items:center;gap:8px;border:1px solid #d7bd8d;background:#fff8e7;border-radius:11px;color:#754f25;font-weight:600;padding:10px 12px;min-height:44px;width:100%}
+.premium-delete-confirm .matter-delete-backup .ico{width:20px;height:20px}
+#sheet.matter-export-choice-sheet .matter-export-warning{margin:12px 17px 4px;color:#775529;background:#fff2d9;border-left:3px solid #ba8a43;padding:9px;font-size:13px;line-height:1.45}
