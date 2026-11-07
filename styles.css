@@ -48065,3 +48065,43 @@ body.matter-actions-open #scrim.open{
     min-width:12px!important;
   }
 }
+
+/* 5.0.1227 — NEW STAGE 4 / typography only.
+   Preserve stage 1–2 SVG silhouettes, stage 3 card grid, and event handlers.
+   Never split Russian words or insert automatic hyphens inside action names.
+   At a narrow viewport show a typographic ellipsis rather than broken words.
+   Full strings remain in accessible button aria-labels in app.js. */
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row .matter-act-copy{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row .matter-act-copy>b,
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row .matter-act-copy>small{
+  display:block!important;
+  box-sizing:border-box!important;
+  max-width:100%!important;
+  min-width:0!important;
+  width:100%!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  overflow-wrap:normal!important;
+  word-wrap:normal!important;
+  word-break:normal!important;
+  -webkit-hyphens:none!important;
+  hyphens:none!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row .matter-act-copy>b{
+  letter-spacing:-.018em!important;
+}
+/* Keep the seven row titles readable at 320px: a single complete line is
+   impossible for the longest title, so safely ellipsize without text overlap. */
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row .matter-act-copy>b{
+    letter-spacing:-.025em!important;
+  }
+}
