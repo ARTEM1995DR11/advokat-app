@@ -46906,3 +46906,168 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
 @media(max-width:390px){
   #sc-tasks .pt-row.hearing-result-done[data-kind="hearing"] .pt-history-tags{gap:5px!important;}
 }
+
+
+/* 5.0.1201 — approved «Действия по делу» parchment sheet.
+   Deliberately limited to #sheet.matter-actions-premium. */
+#sheet.matter-actions-premium{
+  isolation:isolate;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-height:calc(100dvh - 88px)!important;
+  padding:5px 11px max(24px,calc(env(safe-area-inset-bottom,0px) + 15px))!important;
+  border:1px solid rgba(176,124,60,.53)!important;
+  border-bottom:0!important;
+  border-radius:29px 29px 0 0!important;
+  background:
+    radial-gradient(ellipse 300px 200px at 2% 3%,rgba(255,255,255,.88),transparent 80%),
+    radial-gradient(ellipse 260px 350px at 90% 60%,rgba(224,185,127,.13),transparent 82%),
+    linear-gradient(135deg,#fff9ee 0%,#fff4e7 48%,#faebd8 100%)!important;
+  box-shadow:0 -7px 0 rgba(248,226,190,.7),0 -9px 0 1px rgba(169,118,56,.48),
+    0 -17px 45px rgba(55,29,9,.25),inset 0 2px 2px rgba(255,255,255,.95)!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+#sheet.matter-actions-premium::-webkit-scrollbar{display:none}
+#sheet.matter-actions-premium>.grab{
+  position:relative;z-index:2;
+  width:39px!important;height:4px!important;
+  margin:4px auto 9px!important;
+  border-radius:5px!important;
+  background:#e1c9a5!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.75)!important;
+}
+#sheet.matter-actions-premium>.matter-actions-paper{
+  position:relative;z-index:1;
+  box-sizing:border-box;
+  padding:13px 10px 17px;
+  border:1px solid rgba(188,138,73,.48);
+  border-radius:25px 25px 20px 20px;
+  background:
+    radial-gradient(ellipse at 6% 0%,rgba(255,255,255,.83),transparent 37%),
+    radial-gradient(ellipse at 100% 80%,rgba(214,167,111,.075),transparent 50%),
+    linear-gradient(155deg,#fff9ef 0%,#fff5e9 53%,#fdf0df 100%);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.62),
+    inset 0 -3px 3px rgba(176,114,49,.08),
+    0 3px 0 rgba(178,123,60,.45),0 11px 25px rgba(72,44,20,.12);
+}
+#sheet.matter-actions-premium .matter-actions-head{
+  display:flex!important;align-items:center!important;
+  gap:12px!important;margin:0 5px 13px!important;
+  padding:3px 0 0!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-icon{
+  flex:0 0 52px!important;width:52px!important;height:52px!important;
+  min-width:52px!important;max-width:52px!important;
+  border-radius:16px!important;
+  background:linear-gradient(150deg,#fff7de,#f7e4bf)!important;
+  border:1px solid rgba(194,143,73,.55)!important;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.92),0 3px 7px rgba(133,93,41,.23)!important;
+  color:#a4762d!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-icon .ico{width:27px!important;height:27px!important;stroke-width:1.9}
+#sheet.matter-actions-premium .matter-actions-head-copy{min-width:0!important;flex:1!important}
+#sheet.matter-actions-premium .matter-actions-head-copy small{
+  margin:0 0 3px!important;color:#a47635!important;
+  font:800 10px/1.25 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  text-transform:uppercase!important;letter-spacing:.21em!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-copy h2{
+  margin:0!important;
+  color:#14264b!important;
+  font:700 clamp(22px,6.6vw,30px)/1.08 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.04em!important;
+  overflow-wrap:normal;
+}
+#sheet.matter-actions-premium .matter-actions-head-copy p{
+  color:#667287!important;
+  font:400 clamp(11px,3.35vw,13px)/1.3 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  margin:5px 0 0!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#sheet.matter-actions-premium .matter-actions-card{
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+  padding:0!important;overflow:visible!important;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;
+}
+#sheet.matter-actions-premium .matter-act-row{
+  display:flex!important;align-items:center!important;
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:100%!important;min-height:72px!important;
+  gap:11px!important;padding:9px 11px!important;
+  margin:0!important;
+  border:1px solid rgba(190,148,101,.58)!important;
+  border-radius:17px!important;
+  background:linear-gradient(152deg,rgba(255,255,255,.95),rgba(255,252,246,.96) 48%,rgba(251,241,226,.98))!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,1),
+    0 3px 0 rgba(166,116,61,.11),0 5px 10px rgba(99,62,24,.16)!important;
+  color:#162951!important;
+  text-align:left!important;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s,transform .12s,box-shadow .12s;
+}
+#sheet.matter-actions-premium .matter-act-row:active{
+  transform:translateY(1px)!important;
+  box-shadow:inset 0 1px 2px rgba(179,139,84,.10),0 2px 5px rgba(92,51,21,.16)!important;
+}
+#sheet.matter-actions-premium .matter-act-row:focus-visible{
+  outline:2px solid #bc852d;outline-offset:2px;
+}
+#sheet.matter-actions-premium .matter-act-ico{
+  flex:0 0 45px!important;width:45px!important;height:45px!important;
+  border-radius:13px!important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--tone) 4%,#fff 96%),color-mix(in srgb,var(--tone) 15%,#fff 85%))!important;
+  border:1px solid color-mix(in srgb,var(--tone) 35%,#fff 65%)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.96),0 3px 6px rgba(74,62,43,.14)!important;
+  color:var(--tone)!important;
+}
+#sheet.matter-actions-premium .matter-act-ico .ico{width:24px!important;height:24px!important;stroke-width:2!important}
+#sheet.matter-actions-premium .matter-act-copy{flex:1 1 auto!important;min-width:0!important}
+#sheet.matter-actions-premium .matter-act-copy b{
+  color:#12244c!important;
+  font:700 clamp(15px,4.15vw,18px)/1.14 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.015em!important;
+  overflow-wrap:anywhere;
+}
+#sheet.matter-actions-premium .matter-act-copy small{
+  display:block!important;
+  margin-top:3px!important;
+  color:#435069!important;
+  font:400 clamp(10.6px,3.1vw,12.5px)/1.25 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  overflow-wrap:anywhere;
+}
+#sheet.matter-actions-premium .matter-act-tail{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 17px!important;width:17px!important;
+  color:#97641e!important;
+}
+#sheet.matter-actions-premium .matter-act-tail .ico{width:18px!important;height:18px!important;stroke-width:2.5!important}
+#sheet.matter-actions-premium .matter-act-row.danger{
+  background:linear-gradient(145deg,#fff7f3,#ffeae3)!important;
+  border-color:rgba(201,79,70,.54)!important;
+}
+#sheet.matter-actions-premium .matter-act-row.danger .matter-act-copy b,
+#sheet.matter-actions-premium .matter-act-row.danger .matter-act-tail{color:#bf3834!important}
+#sheet.matter-actions-premium .matter-act-row.danger .matter-act-ico{
+  color:#d2473f!important;
+  background:linear-gradient(145deg,#fff3ec,#f7d8cf)!important;
+  border-color:rgba(211,79,71,.45)!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium{padding-left:7px!important;padding-right:7px!important;max-height:calc(100dvh - 70px)!important}
+  #sheet.matter-actions-premium>.matter-actions-paper{padding:10px 7px 14px!important;border-radius:22px 22px 17px 17px}
+  #sheet.matter-actions-premium .matter-actions-head{gap:9px!important;margin:0 3px 12px!important}
+  #sheet.matter-actions-premium .matter-actions-head-icon{width:43px!important;height:43px!important;flex-basis:43px!important;min-width:43px!important;max-width:43px!important}
+  #sheet.matter-actions-premium .matter-actions-head-copy h2{font-size:22px!important}
+  #sheet.matter-actions-premium .matter-act-row{gap:9px!important;padding:8px!important;min-height:68px!important}
+  #sheet.matter-actions-premium .matter-act-ico{flex-basis:41px!important;width:41px!important;height:41px!important}
+  #sheet.matter-actions-premium .matter-act-copy b{font-size:14.4px!important}
+  #sheet.matter-actions-premium .matter-act-copy small{font-size:10.4px!important}
+  #sheet.matter-actions-premium .matter-act-tail{flex-basis:15px!important;width:15px!important}
+}
+@media(min-width:600px){
+  #sheet.matter-actions-premium{left:max(0px,calc((100vw - 620px)/2))!important;right:max(0px,calc((100vw - 620px)/2))!important;max-height:calc(100dvh - 52px)!important}
+}

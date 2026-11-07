@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1200';
-var APP_BUILD='6200';
+var APP_VERSION='5.0.1201';
+var APP_BUILD='6201';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4475,34 +4475,41 @@ function matterCompactDeadlineRow(t){
     (label?'<span class="matter-deadline-tag '+(days!==null&&days<0?'overdue':'')+'">'+esc(label)+'</span>':'')+
   '</button>';
 }
+/* 5.0.1201 — approved parchment design for «Действия по делу».
+   Existing data-act handlers and lifecycle remain unchanged. */
 function sheetMatterMore(id){
-  var m=matter(id); if(!m) return;
-  function row(act, tone, icon, title, subtitle, extraCls){
-    return '<button type="button" class="matter-act-row '+(extraCls||'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-id="'+id+'">'+
-      '<span class="matter-act-ico">'+ico(icon)+'</span>'+
-      '<span class="matter-act-copy"><b>'+title+'</b><small>'+subtitle+'</small></span>'+
-      '<span class="matter-act-tail">'+ico('chev','s')+'</span>'+
+  var m=matter(id);if(!m)return;
+  function row(act,tone,icon,title,subtitle,extraCls){
+    return '<button type="button" class="matter-act-row '+(extraCls||'')+'" style="--tone:'+tone+'" data-act="'+act+'" data-id="'+esc(id)+'" aria-label="'+esc(title)+'. '+esc(subtitle)+'">'+
+      '<span class="matter-act-ico" aria-hidden="true">'+ico(icon)+'</span>'+
+      '<span class="matter-act-copy"><b>'+esc(title)+'</b><small>'+esc(subtitle)+'</small></span>'+
+      '<span class="matter-act-tail" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button>';
   }
-  var archiveTitle = m.archived ? 'Вернуть в работу' : 'Архивировать без завершения';
-  var archiveSub = m.archived ? 'Восстановить дело с сохранением истории' : 'Переместить неоконченное дело в архив';
+  var archiveTitle=m.archived?'Вернуть в работу':'Архивировать без завершения';
+  var archiveSub=m.archived?'Восстановить дело с сохранением истории':'Переместить неоконченное дело в архив';
   var rows='';
   if(!m.archived){
-    rows+=row('m-finish','#218A65','check','Завершить дело','Указать результат, дату и отправить в архив')+
-      row('m-hearing','#4E8FF2','cal','Заседание','Назначить судебное заседание')+
-      row('m-deadline','#D5A13D','clock','Процессуальный срок','Добавить контролируемый срок');
+    rows+=row('m-finish','#19865c','check','Завершить дело','Указать результат, дату и отправить в архив')+
+      row('m-hearing','#3676d7','cal','Заседание','Назначить судебное заседание')+
+      row('m-deadline','#be8626','clock','Процессуальный срок','Добавить контролируемый срок');
   }
-  rows+=row('m-journal','#4AA89B','doc','Запись в журнал','Зафиксировать действие по делу')+
-    row('m-edit','#728FB0','edit','Изменить карточку','Отредактировать реквизиты дела')+
-    row('m-print','#C89A3F','share','Экспорт / печать','Подготовить сводку по делу')+
-    row(m.archived?'m-reopen':'m-arch','#8197AF','arch',archiveTitle,archiveSub)+
-    row('m-del','#E06161','trash','Удалить дело','Связанные записи также будут удалены','danger');
+  rows+=row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
+    row('m-edit','#5279a7','edit','Изменить карточку','Отредактировать реквизиты дела')+
+    row('m-print','#b48436','share','Экспорт / печать','Подготовить сводку по делу')+
+    row(m.archived?'m-reopen':'m-arch','#607997','arch',archiveTitle,archiveSub)+
+    row('m-del','#ce504b','trash','Удалить дело','Связанные записи также будут удалены','danger');
+  var client=matterFolderStage6Client(m).label;
+  var article=String(m.article||'').replace(/\s+/g,' ').trim();
+  var caseLine=client && article ? client+' — '+article : String(m.title||m.number||client||'Карточка дела').replace(/\s+/g,' ').trim();
   openSheet(
-    '<div class="matter-actions-head">'+
-      '<div class="matter-actions-head-icon">'+ico('brief')+'</div>'+
-      '<div class="matter-actions-head-copy"><small>управление делом</small><h2>Действия по делу</h2><p>'+esc(matterDisplayTitle(m))+'</p></div>'+
-    '</div>'+
-    '<div class="matter-actions-card">'+rows+'</div>'
+    '<section class="matter-actions-paper" role="region" aria-labelledby="matter-actions-heading">'+
+      '<div class="matter-actions-head">'+
+        '<div class="matter-actions-head-icon" aria-hidden="true">'+ico('brief')+'</div>'+
+        '<div class="matter-actions-head-copy"><small>Управление делом</small><h2 id="matter-actions-heading">Действия по делу</h2><p title="'+esc(caseLine)+'">'+esc(caseLine)+'</p></div>'+
+      '</div>'+
+      '<div class="matter-actions-card">'+rows+'</div>'+
+    '</section>'
   );
   $('#sheet').classList.add('matter-actions-premium');
 }
