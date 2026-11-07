@@ -48185,3 +48185,31 @@ body.matter-actions-open #scrim.open{
   #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-ico .ico{width:21px!important;height:21px!important;}
   #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-tail .ico{width:15px!important;height:15px!important;}
 }
+
+
+/* 5.0.1229 — STAGE 6 / lower folio finish and scrolling discipline.
+   Keep the approved outer/inner SVG paths, the seven action cards,
+   typography, iconography, and existing action handlers unchanged.
+   The bottom free space comes from nested leaf and panel paddings;
+   bring their sum from 31px to 25px at normal widths (26px -> 22px at 320).
+   On narrow devices, scroll ONLY the sheet. Its outline compensation
+   already holds the complete gold contour at the visible viewport. */
+#sheet.matter-actions-premium.open{
+  padding-bottom:13px!important;
+  scroll-padding-bottom:13px!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+#sheet.matter-actions-premium.open>.matter-actions-paper{
+  padding-bottom:12px!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{
+    padding-bottom:11px!important;
+    scroll-padding-bottom:11px!important;
+  }
+  #sheet.matter-actions-premium.open>.matter-actions-paper{
+    padding-bottom:11px!important;
+  }
+}
