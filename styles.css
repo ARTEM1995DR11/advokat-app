@@ -48105,3 +48105,83 @@ body.matter-actions-open #scrim.open{
     letter-spacing:-.025em!important;
   }
 }
+
+
+/* 5.0.1228 — STAGE 5 / signed-off seven-action icon artwork and gold chevrons.
+   Visual changes are restricted to icon plaques, SVG strokes and right arrows.
+   Keep stage 1–4 contours, card geometry, title line lengths and handlers intact. */
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row{
+  --ma-icon-ink:#487db6;
+  --ma-icon-top:#fafdff;
+  --ma-icon-bottom:#e6eff8;
+  --ma-icon-edge:#a9c3db;
+  --ma-icon-shadow:rgba(64,92,126,.13);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-edit"],
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-view-info"]{
+  --ma-icon-ink:#306da7;--ma-icon-top:#fcfdff;--ma-icon-bottom:#e1edf9;
+  --ma-icon-edge:#aac5e0;--ma-icon-shadow:rgba(68,102,154,.15);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-add"]{
+  --ma-icon-ink:#168260;--ma-icon-top:#f8fdf9;--ma-icon-bottom:#dcefe4;
+  --ma-icon-edge:#acd7c0;--ma-icon-shadow:rgba(47,133,96,.15);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-event"]{
+  --ma-icon-ink:#2376c6;--ma-icon-top:#fafcff;--ma-icon-bottom:#deebfe;
+  --ma-icon-edge:#a9c6eb;--ma-icon-shadow:rgba(51,110,180,.17);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-journal"],
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-open-journal"]{
+  --ma-icon-ink:#17906d;--ma-icon-top:#fafffc;--ma-icon-bottom:#daf0e8;
+  --ma-icon-edge:#9ed3bb;--ma-icon-shadow:rgba(32,126,99,.14);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-finish"],
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-reopen"]{
+  --ma-icon-ink:#16805c;--ma-icon-top:#fffdf5;--ma-icon-bottom:#eef0dc;
+  --ma-icon-edge:#d4c99c;--ma-icon-shadow:rgba(121,115,60,.15);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-arch"]{
+  --ma-icon-ink:#4c719a;--ma-icon-top:#fcfdff;--ma-icon-bottom:#e0eaf4;
+  --ma-icon-edge:#adbfce;--ma-icon-shadow:rgba(66,98,132,.16);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row[data-act="m-del"]{
+  --ma-icon-ink:#c83835;--ma-icon-top:#fffaf9;--ma-icon-bottom:#f9deda;
+  --ma-icon-edge:#e4aaa4;--ma-icon-shadow:rgba(175,73,67,.16);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-ico{
+  box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  color:var(--ma-icon-ink)!important;
+  border:1px solid var(--ma-icon-edge)!important;
+  background:linear-gradient(144deg,var(--ma-icon-top) 0%,var(--ma-icon-top) 28%,var(--ma-icon-bottom) 100%)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.97),
+             inset 0 -1px 0 rgba(111,94,68,.07),
+             0 3.5px 6px var(--ma-icon-shadow)!important;
+  transform:none!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-ico .ico{
+  flex:0 0 auto!important;
+  width:23px!important;height:23px!important;
+  stroke-width:2.1!important;
+  stroke-linecap:round!important;stroke-linejoin:round!important;
+  fill:none!important;
+  color:inherit!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-tail{
+  color:#a47632!important;
+  align-self:center!important;justify-content:center!important;
+  opacity:.96!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-tail .ico{
+  width:17px!important;height:17px!important;
+  stroke-width:2.25!important;
+  stroke-linecap:round!important;stroke-linejoin:round!important;
+  fill:none!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row.danger>.matter-act-tail{
+  color:#bc3937!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-ico .ico{width:21px!important;height:21px!important;}
+  #sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row>.matter-act-tail .ico{width:15px!important;height:15px!important;}
+}
