@@ -47071,3 +47071,132 @@ body.light #sheet.matter-editor-sheet .matter-editor-save:focus{
 @media(min-width:600px){
   #sheet.matter-actions-premium{left:max(0px,calc((100vw - 620px)/2))!important;right:max(0px,calc((100vw - 620px)/2))!important;max-height:calc(100dvh - 52px)!important}
 }
+
+
+/* 5.0.1202 — approved Actions sheet, corrected phone proportions.
+   Only this modal: hide the unrelated, scrolled dossier behind the iOS
+   status bar; keep every existing action handler and accessible button. */
+body.matter-actions-open #scrim.open{
+  z-index:41!important;
+  opacity:1!important;
+  background:
+    linear-gradient(180deg,rgba(255,247,234,.94),rgba(254,244,230,.975)),
+    url('bg-dossier-continuous-v5833.webp?v=6202') center top/cover!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#sheet.matter-actions-premium.open{
+  z-index:42!important;
+  top:max(65px,calc(env(safe-area-inset-top,0px) + 9px))!important;
+  bottom:0!important;
+  height:auto!important;
+  max-height:none!important;
+  width:100%!important;
+  padding:3px 11px max(16px,env(safe-area-inset-bottom,0px))!important;
+  border-radius:25px 25px 0 0!important;
+  background:
+    radial-gradient(ellipse at 6% 9%,rgba(255,255,255,.92),transparent 36%),
+    linear-gradient(150deg,#fff9ee 0%,#fff1df 100%)!important;
+  overscroll-behavior:contain!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+}
+#sheet.matter-actions-premium>.grab{
+  height:3px!important;width:35px!important;
+  margin:4px auto 7px!important;
+  background:#dcbf96!important;
+}
+#sheet.matter-actions-premium>.matter-actions-paper{
+  padding:9px 9px 13px!important;
+  border-radius:21px 21px 17px 17px!important;
+  border-color:rgba(191,147,94,.5)!important;
+  background:
+    radial-gradient(ellipse 65% 80% at 0 5%,rgba(255,255,255,.94),transparent 80%),
+    linear-gradient(145deg,#fffbf3,#fff3e7 80%,#fdf0df)!important;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.67),
+    0 3px 0 rgba(177,123,58,.33),0 7px 18px rgba(90,53,22,.12)!important;
+}
+#sheet.matter-actions-premium .matter-actions-head{
+  gap:10px!important;
+  margin:0 6px 11px!important;
+  padding:4px 0 0!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-icon{
+  flex:0 0 40px!important;
+  width:40px!important;height:40px!important;
+  min-width:40px!important;max-width:40px!important;
+  border-radius:13px!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-icon .ico{
+  width:22px!important;height:22px!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-copy small{
+  font:800 9px/1.2 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  letter-spacing:.19em!important;
+  margin:0 0 2px!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-copy h2{
+  font:700 clamp(19px,5.4vw,23px)/1.06 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.03em!important;
+}
+#sheet.matter-actions-premium .matter-actions-head-copy p{
+  margin-top:3px!important;
+  font:400 clamp(10px,2.9vw,11.3px)/1.3 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+}
+#sheet.matter-actions-premium .matter-actions-card{
+  gap:6px!important;
+}
+#sheet.matter-actions-premium .matter-act-row{
+  min-height:55px!important;
+  gap:9px!important;
+  padding:7px 10px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(188,146,96,.54)!important;
+  background:linear-gradient(148deg,#fffefe,#fffaf2 78%,#fbeddc)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,1),
+    0 2px 0 rgba(166,116,61,.10),0 4px 8px rgba(99,62,24,.12)!important;
+}
+#sheet.matter-actions-premium .matter-act-ico{
+  flex:0 0 36px!important;
+  width:36px!important;height:36px!important;
+  border-radius:11px!important;
+}
+#sheet.matter-actions-premium .matter-act-ico .ico{
+  width:21px!important;height:21px!important;
+  stroke-width:1.95!important;
+}
+#sheet.matter-actions-premium .matter-act-copy b{
+  font:700 clamp(12px,3.52vw,14.2px)/1.12 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.025em!important;
+  overflow-wrap:break-word!important;
+}
+#sheet.matter-actions-premium .matter-act-copy small{
+  margin-top:2px!important;
+  font:400 clamp(9.5px,2.68vw,10.8px)/1.22 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+}
+#sheet.matter-actions-premium .matter-act-tail{
+  flex:0 0 14px!important;
+  width:14px!important;
+}
+#sheet.matter-actions-premium .matter-act-tail .ico{
+  width:15px!important;height:15px!important;
+}
+#sheet.matter-actions-premium .matter-act-row.danger{
+  background:linear-gradient(145deg,#fff8f6,#ffebe5)!important;
+  border-color:rgba(203,98,89,.48)!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open{padding:3px 8px max(15px,env(safe-area-inset-bottom,0px))!important}
+  #sheet.matter-actions-premium>.matter-actions-paper{padding:8px 7px 12px!important}
+  #sheet.matter-actions-premium .matter-act-row{gap:8px!important;padding:7px 8px!important;min-height:53px!important}
+  #sheet.matter-actions-premium .matter-act-ico{flex-basis:34px!important;width:34px!important;height:34px!important}
+  #sheet.matter-actions-premium .matter-act-copy b{font-size:12px!important}
+  #sheet.matter-actions-premium .matter-act-copy small{font-size:9.4px!important}
+}
+@media(min-width:600px){
+  #sheet.matter-actions-premium.open{
+    left:max(0px,calc((100vw - 620px)/2))!important;
+    right:max(0px,calc((100vw - 620px)/2))!important;
+    top:max(65px,calc(env(safe-area-inset-top,0px) + 9px))!important;
+  }
+}

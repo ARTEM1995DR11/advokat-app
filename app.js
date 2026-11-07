@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1201';
-var APP_BUILD='6201';
+var APP_VERSION='5.0.1202';
+var APP_BUILD='6202';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2096,15 +2096,15 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  document.body.classList.remove('matter-actions-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
-  document.body.classList.remove('dossier-status-masked'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open'); var sh=$('#sheet');
+function closeSheet(){ document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4501,7 +4501,7 @@ function sheetMatterMore(id){
     row('m-del','#ce504b','trash','Удалить дело','Связанные записи также будут удалены','danger');
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();
-  var caseLine=client && article ? client+' — '+article : String(m.title||m.number||client||'Карточка дела').replace(/\s+/g,' ').trim();
+  var caseLine=(client?(client+(article?' — '+article:(m.number?' · № '+m.number:''))):String(m.title||m.number||'Карточка дела')).replace(/\s+/g,' ').trim();
   openSheet(
     '<section class="matter-actions-paper" role="region" aria-labelledby="matter-actions-heading">'+
       '<div class="matter-actions-head">'+
@@ -4512,6 +4512,7 @@ function sheetMatterMore(id){
     '</section>'
   );
   $('#sheet').classList.add('matter-actions-premium');
+  document.body.classList.add('matter-actions-open');
 }
 
 /* 5.0.822: standalone dossier view; all records still live in S.matters, S.tasks and S.journal. */
