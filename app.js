@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1204';
-var APP_BUILD='6204';
+var APP_VERSION='5.0.1205';
+var APP_BUILD='6205';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4501,7 +4501,7 @@ function sheetMatterMore(id){
     row('m-del','#ce504b','trash','Удалить дело','Связанные записи также будут удалены','danger');
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();
-  var caseLine=(client?(client+(article?' — '+article:(m.number?' · № '+m.number:''))):String(m.title||m.number||'Карточка дела')).replace(/\s+/g,' ').trim();
+  var caseLine=(client?(client+(article?' — '+article:(m.number?' — № '+m.number:''))):String(m.title||m.number||'Карточка дела')).replace(/\s+/g,' ').trim();
   openSheet(
     '<section class="matter-actions-paper" role="region" aria-labelledby="matter-actions-heading">'+
       '<div class="matter-actions-head">'+

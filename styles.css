@@ -47361,3 +47361,104 @@ body.matter-actions-open #scrim.open{
   #sheet.matter-actions-premium.open::before{border-radius:23px!important;}
   #sheet.matter-actions-premium.open>.matter-actions-paper{border-radius:22px 22px 18px 18px!important;}
 }
+
+
+/* ========================================================================
+   5.0.1205 — ACTIONS / STAGE 3: approved heading geometry.
+   Header only: briefcase plate, eyebrow + foil line, title and real case
+   description. No changes to sheet sizes, eight action rows or handlers.
+   ======================================================================== */
+#sheet.matter-actions-premium.open .matter-actions-head{
+  gap:12px!important;
+  align-items:center!important;
+  margin:0 6px 11px 15px!important;
+  padding:2px 0 0!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon{
+  flex:0 0 43px!important;
+  width:43px!important;
+  height:43px!important;
+  min-width:43px!important;
+  max-width:43px!important;
+  border-radius:14px!important;
+  color:#936018!important;
+  background:linear-gradient(140deg,#fffaf0 0%,#fff0d4 55%,#f0d6ac 100%)!important;
+  border:1px solid rgba(192,139,65,.62)!important;
+  box-shadow:inset 0 2px 1px rgba(255,255,255,.99),
+     inset 0 -1px 2px rgba(182,122,56,.13),
+     0 2px 0 rgba(192,143,74,.20),
+     0 4px 9px rgba(102,67,30,.20)!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon .ico{
+  width:24px!important;
+  height:24px!important;
+  stroke-width:1.85!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small{
+  display:flex!important;
+  align-items:center!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  gap:9px!important;
+  white-space:nowrap!important;
+  color:#97621e!important;
+  font:800 clamp(8px,2.32vw,10px)/1.2 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  letter-spacing:.21em!important;
+  margin:0 0 3px!important;
+}
+/* Actual metallic underline at the right of УПРАВЛЕНИЕ ДЕЛОМ. */
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{
+  content:'';
+  display:block;
+  flex:0 1 34px;
+  width:34px;
+  min-width:15px;
+  height:2px;
+  border-radius:2px;
+  background:linear-gradient(90deg,#a66b24,#e9c37b,#bb8032);
+  box-shadow:0 1px 0 rgba(255,255,255,.95);
+  pointer-events:none;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>h2{
+  color:#12264a!important;
+  font:700 clamp(21px,5.65vw,24.5px)/1.04 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  margin:0!important;
+  overflow:visible!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>p{
+  margin:4px 0 0!important;
+  color:#516078!important;
+  font:400 clamp(10px,2.93vw,12px)/1.24 system-ui,-apple-system,'Segoe UI',sans-serif!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  min-width:0!important;
+}
+@media(max-width:360px){
+  #sheet.matter-actions-premium.open .matter-actions-head{
+    gap:9px!important;
+    margin-left:7px!important;
+    margin-right:4px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-actions-head-icon{
+    flex-basis:39px!important;
+    width:39px!important;
+    min-width:39px!important;
+    max-width:39px!important;
+    height:39px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-actions-head-icon .ico{
+    width:22px!important;height:22px!important;
+  }
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>small{gap:5px!important;letter-spacing:.16em!important;}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>small::after{flex-basis:18px;width:18px;min-width:8px;}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>h2{font-size:21px!important;letter-spacing:-.045em!important;}
+}
