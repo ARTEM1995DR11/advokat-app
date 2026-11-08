@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1255';
-var APP_BUILD='6255';
+var APP_VERSION='5.0.1256';
+var APP_BUILD='6256';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2126,14 +2126,14 @@ function matterFinishWarningMarkup(id){
      '</svg>'+ico('arch','s')+'</span>'+ 
    '<span class="matter-finish-warning-divider" aria-hidden="true"></span>'+ 
    '<span class="matter-finish-warning-copy"><strong>Не завершено: '+count+'</strong><span>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</span></span></div>';
-  var entries=linked.slice(0,30).map(function(t){
+  var entries=linked.map(function(t){
     var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
     return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
       (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
       (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
   }).join('');
-  var details='<details class="matter-finish-pending-details"'+(count<=2?' open':'')+'><summary>Просмотреть незавершённые записи <span>'+count+'</span></summary><ul>'+entries+'</ul>'+
-    (count>30?'<p class="matter-finish-extra">И ещё '+(count-30)+' записей</p>':'')+'</details>';
+  var details='<details class="matter-finish-pending-details"><summary>Просмотреть незавершённые записи <span>'+count+'</span></summary><ul>'+entries+'</ul>'+
+    '</details>';
   return '<section class="matter-finish-warning" aria-label="Проверка незавершённых записей">'+heading+details+
     '<label class="matter-finish-ack"><input id="matter-close-ack" type="checkbox"><span>Я проверил(а) оставшиеся задачи, сроки и заседания</span></label></section>';
 }
