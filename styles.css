@@ -48466,7 +48466,7 @@ body.matter-event-backdrop-open #scrim.open{
   opacity:1!important;
   background:
     linear-gradient(180deg,rgba(249,243,232,.17),rgba(249,243,232,.27)),
-    url('bg-dossier-continuous-v5833.webp?v=6240') top center / 100% auto no-repeat,
+    url('bg-dossier-continuous-v5833.webp?v=6241') top center / 100% auto no-repeat,
     #f8f2e6!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
@@ -48539,4 +48539,25 @@ body.matter-event-backdrop-open #scrim.open{
   #sheet.matter-event-stage1-open .matter-event-stage4-card:active{
     transition:none!important;
   }
+}
+
+
+/* 5.0.1241 — iOS standalone safety-area background continuity.
+   Some real iPhone display modes expose a lower region beyond the app's
+   dynamic viewport. Paint the same approved marble on the document canvas,
+   not just the overlay, so the region below the picker never becomes a
+   flat contrasting strip. The approved picker and SVG outline are unchanged. */
+html:has(body.matter-event-backdrop-open){
+  background-color:#f8f2e6!important;
+  background-image:linear-gradient(180deg,rgba(249,243,232,.17),rgba(249,243,232,.27)),url('bg-dossier-continuous-v5833.webp?v=6241')!important;
+  background-repeat:no-repeat!important;
+  background-position:top center!important;
+  background-size:100% auto!important;
+}
+body.matter-event-backdrop-open{
+  background-color:#f8f2e6!important;
+  background-image:linear-gradient(180deg,rgba(249,243,232,.17),rgba(249,243,232,.27)),url('bg-dossier-continuous-v5833.webp?v=6241')!important;
+  background-repeat:no-repeat!important;
+  background-position:top center!important;
+  background-size:100% auto!important;
 }
