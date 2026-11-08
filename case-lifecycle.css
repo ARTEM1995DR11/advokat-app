@@ -750,3 +750,191 @@ body.matter-finish-date-picker-open #date-scrim {background:rgba(31,23,15,.36)!i
 @media(prefers-reduced-motion:reduce){
  .matter-finish-outcome-modal,.matter-finish-outcome-scrim{transition:none;}
 }
+
+
+/* 5.0.1253 — Stage 6: approved paper/ink final note. The original textarea
+   and its ID remain the only source of saved summary data. */
+#sheet.matter-finish-paper-stage1 .matter-finish-note-field { margin:0 0 18px!important;min-width:0; }
+#sheet.matter-finish-paper-stage1 .matter-finish-note-field>label {
+ display:block!important;margin:0 0 8px!important;color:#112b55!important;
+ font:700 clamp(15px,4.1vw,18px)/1.25 Georgia,'Times New Roman',serif!important;
+ letter-spacing:-.012em!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control {
+ position:relative;display:flex;align-items:stretch;box-sizing:border-box;
+ width:100%;min-width:0;min-height:114px;gap:0;
+ border:1.25px solid #c9b8aa;border-radius:18px;
+ background:linear-gradient(145deg,#fffefa 0%,#fbf4e9 100%);
+ box-shadow:0 6px 13px rgba(102,70,38,.13),inset 0 1px 1px rgba(255,255,255,.95);
+ overflow:hidden;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control:focus-within {
+ outline:2px solid rgba(174,130,60,.62);outline-offset:2px;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-icon {
+ width:55px;flex:0 0 55px;display:flex;align-items:flex-start;justify-content:center;
+ padding-top:21px;box-sizing:border-box;color:#778ca1;pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-icon svg {
+ width:28px;height:38px;filter:drop-shadow(0 1px 0 #fff);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-divider {
+ align-self:flex-start;flex:0 0 1px;height:54px;margin-top:20px;
+ background:linear-gradient(to bottom,transparent,#cbbeb1 12%,#cbbeb1 88%,transparent);
+ pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control #matter-close-note {
+ display:block!important;flex:1 1 auto!important;box-sizing:border-box!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ min-height:112px!important;height:112px;max-height:250px;
+ resize:none!important;overflow-y:auto!important;
+ padding:17px 13px 17px 15px!important;margin:0!important;
+ border:0!important;border-radius:0!important;outline:0!important;
+ background:transparent!important;box-shadow:none!important;
+ color:#14294e!important;font:400 clamp(15px,4vw,18px)/1.48 Georgia,'Times New Roman',serif!important;
+ letter-spacing:.002em!important;white-space:pre-wrap;overflow-wrap:anywhere;
+ -webkit-appearance:none!important;appearance:none!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control #matter-close-note::placeholder {
+ color:#8293ab!important;opacity:1!important;font-style:italic;
+}
+@media(max-width:355px) {
+ #sheet.matter-finish-paper-stage1 .matter-finish-note-icon{width:39px;flex-basis:39px;padding-top:17px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-note-icon svg{width:24px;height:34px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-note-control #matter-close-note{padding:14px 10px 14px 11px!important;font-size:15px!important;}
+}
+
+
+/* 5.0.1254 — Stage 7: paper-and-gold unfinished work summary and checklist. */
+#sheet.matter-finish-paper-stage1 .matter-finish-warning {
+ margin:2px 0 19px!important;padding:11px!important;max-width:100%;box-sizing:border-box;
+ border:1.5px solid #d6a55e!important;border-radius:22px!important;
+ background:linear-gradient(135deg,#fffaf0,#fbedd8)!important;
+ color:#544335!important;
+ box-shadow:0 6px 14px rgba(116,75,24,.14),inset 0 1px 0 #fffef7!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-top {
+ display:flex;align-items:center;gap:10px;box-sizing:border-box;
+ min-height:114px;padding:12px 10px;border:1px solid #cda66d;
+ border-radius:17px;background:linear-gradient(110deg,#fff8ea,#fff3df);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem {
+ display:grid;place-items:center;position:relative;flex:0 0 78px;
+ width:78px;height:84px;color:#b77e20;pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem>.ico {
+ width:34px;height:34px;position:absolute;top:21px;left:23px;
+ color:#a86a12;stroke-width:1.8;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-laurel {
+ position:absolute;inset:0;width:78px;height:84px;filter:drop-shadow(0 1px 0 #fff);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-divider {
+ flex:0 0 1px;align-self:stretch;max-height:100px;
+ background:linear-gradient(180deg,transparent,#dfb36b 15%,#dfb36b 85%,transparent);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy {display:flex;flex-direction:column;gap:7px;min-width:0;flex:1;}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy strong {
+ display:block;color:#92510e;font:700 clamp(19px,5.4vw,26px)/1.2 Georgia,'Times New Roman',serif;
+ overflow-wrap:anywhere;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy span {
+ display:block;color:#5c4b3d;font:400 clamp(12.5px,3.5vw,15px)/1.36 Georgia,'Times New Roman',serif;
+ overflow-wrap:anywhere;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details {
+ display:block;margin:10px 2px 0;border:1px solid #e1c69c;border-radius:13px;
+ background:rgba(255,253,247,.74);color:#5c4b3d;
+ overflow:hidden;box-shadow:inset 0 1px 0 #fff;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details summary {
+ cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:9px;
+ padding:11px 12px;color:#75470d;font:700 13px/1.35 system-ui,-apple-system,sans-serif;
+ list-style:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details summary::-webkit-details-marker {display:none;}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details summary>span {
+ background:#f6e7ce;border:1px solid #e3c69b;border-radius:99px;min-width:26px;
+ text-align:center;padding:2px 6px;color:#955b20;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details ul {
+ margin:0!important;padding:4px 12px 8px 29px!important;
+ border-top:1px solid #e5d1b3;max-height:260px!important;overflow-y:auto!important;
+ overscroll-behavior:contain;overflow-wrap:anywhere;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details li {
+ font-size:13px;line-height:1.45;margin:6px 0;color:#514537;overflow-wrap:anywhere;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details small{color:#6f685e;}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details strong {color:#ad3b35;font-weight:700;}
+#sheet.matter-finish-paper-stage1 .matter-finish-extra{padding:0 14px 10px;color:#7c6450;}
+#sheet.matter-finish-paper-stage1 .matter-finish-ack {
+ display:flex;align-items:flex-start;gap:10px;padding:11px 7px 4px;
+ cursor:pointer;font:500 13px/1.4 system-ui,-apple-system,sans-serif;color:#594735;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-ack #matter-close-ack {
+ flex:0 0 21px!important;width:21px!important;height:21px!important;margin:0!important;
+ accent-color:#228068!important;cursor:pointer;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-ack span {min-width:0;overflow-wrap:anywhere;}
+@media(max-width:355px){
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning{padding:8px!important;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-top{gap:6px;padding:10px 7px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem{flex-basis:49px;width:49px;height:65px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-laurel{width:49px;height:65px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem>.ico{width:24px;height:24px;left:13px;top:17px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-copy strong{font-size:18px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-warning-copy span{font-size:12px;}
+}
+
+
+/* 5.0.1255 — Stage 8: approved archive action, pinned to inner paper footer.
+   On small screens label may wrap but never overlaps the icon or gold rim. */
+#sheet.matter-finish-paper-stage1 .matter-finish-submit {
+ position:relative;box-sizing:border-box!important;display:flex!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ align-items:center!important;justify-content:center!important;gap:11px!important;
+ min-height:62px!important;height:auto!important;margin:0!important;
+ padding:12px 15px!important;
+ border:2px solid #b98223!important;border-radius:19px!important;
+ color:#fff9eb!important;cursor:pointer;
+ background:linear-gradient(152deg,#24836a 0%,#137454 54%,#075f46 100%)!important;
+ box-shadow:0 6px 12px rgba(60,84,51,.24),inset 0 1px 0 #a6dbc4,inset 0 -2px 0 #064936,0 0 0 2px rgba(255,249,234,.84)!important;
+ text-shadow:0 1px 1px rgba(4,62,44,.3);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit:active{filter:brightness(.94);transform:translateY(1px);}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit:focus-visible{outline:3px solid #d2a24b;outline-offset:3px;}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit-check {
+ flex:0 0 24px;display:grid;place-items:center;height:29px;pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit-check .ico {
+ width:26px;height:26px;stroke-width:2.5;color:#fffaf0;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit-divider {
+ flex:0 0 1px;width:1px;height:31px;
+ background:linear-gradient(180deg,transparent,#f6e0ba 18%,#f6e0ba 82%,transparent);
+ pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-submit-label {
+ min-width:0;max-width:100%;overflow-wrap:normal;hyphens:auto;
+ text-align:center;color:#fff9eb;
+ font:700 clamp(13px,3.75vw,19px)/1.19 Georgia,'Times New Roman',serif;
+ letter-spacing:-.006em;
+}
+#sheet.matter-finish-paper-stage1.open>.shfoot {
+ padding:12px 24px max(19px,env(safe-area-inset-bottom,0px))!important;
+ background:linear-gradient(180deg,rgba(255,250,241,.97),rgba(250,238,219,.97))!important;
+ border-top:1px solid rgba(219,186,140,.56)!important;
+}
+@media(max-width:355px){
+ #sheet.matter-finish-paper-stage1 .matter-finish-submit{padding:11px 8px!important;gap:7px!important;min-height:57px!important;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-submit-check{flex-basis:19px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-submit-check .ico{width:20px;height:20px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-submit-divider{height:34px;}
+ #sheet.matter-finish-paper-stage1 .matter-finish-submit-label{font-size:13px!important;}
+ #sheet.matter-finish-paper-stage1.open>.shfoot{padding:10px 20px 20px!important;}
+}
+@media(max-height:640px){
+ #sheet.matter-finish-paper-stage1.open>.shfoot{padding-bottom:15px!important;padding-top:9px!important;}
+}

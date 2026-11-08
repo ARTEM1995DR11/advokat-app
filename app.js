@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1252';
-var APP_BUILD='6252';
+var APP_VERSION='5.0.1255';
+var APP_BUILD='6255';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2108,6 +2108,36 @@ function pickMatterFinishOutcome(key){
   closeMatterFinishOutcomePicker();vib(5);
 }
 
+
+/* 5.0.1254 — Stage 7: dynamic unfinished-record review, styled separately
+   from the generic non-completion archive action. Retains every record and
+   the exact confirmation checkbox/validation ID. */
+function matterFinishWarningMarkup(id){
+  var linked=tasksOf(id).filter(isActiveRecord),count=linked.length;
+  if(!count)return '';
+  // Keep all record entries available without making an 18-item checklist
+  // swallow the screen; expand on demand for detailed review.
+  var heading='<div class="matter-finish-warning-top" role="note">'+
+   '<span class="matter-finish-warning-emblem" aria-hidden="true">'+
+     '<svg class="matter-finish-warning-laurel" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+       '<path d="M17 66C7 55 7 38 18 24M67 66C77 55 77 38 66 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'+
+       '<path d="M18 58Q6 58 8 50Q17 50 18 58ZM14 48Q5 44 10 37Q20 40 14 48ZM14 36Q8 29 16 25Q21 33 14 36ZM22 69Q12 70 12 61Q22 61 22 69ZM66 58Q78 58 76 50Q67 50 66 58ZM70 48Q79 44 74 37Q64 40 70 48ZM70 36Q76 29 68 25Q63 33 70 36ZM62 69Q72 70 72 61Q62 61 62 69Z" fill="currentColor" opacity=".76"/>'+
+       '<path d="M25 73Q42 82 59 73" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'+
+     '</svg>'+ico('arch','s')+'</span>'+ 
+   '<span class="matter-finish-warning-divider" aria-hidden="true"></span>'+ 
+   '<span class="matter-finish-warning-copy"><strong>Не завершено: '+count+'</strong><span>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</span></span></div>';
+  var entries=linked.slice(0,30).map(function(t){
+    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
+    return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
+      (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
+      (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
+  }).join('');
+  var details='<details class="matter-finish-pending-details"'+(count<=2?' open':'')+'><summary>Просмотреть незавершённые записи <span>'+count+'</span></summary><ul>'+entries+'</ul>'+
+    (count>30?'<p class="matter-finish-extra">И ещё '+(count-30)+' записей</p>':'')+'</details>';
+  return '<section class="matter-finish-warning" aria-label="Проверка незавершённых записей">'+heading+details+
+    '<label class="matter-finish-ack"><input id="matter-close-ack" type="checkbox"><span>Я проверил(а) оставшиеся задачи, сроки и заседания</span></label></section>';
+}
+
 function sheetMatterFinish(id){
   var m=matter(id);if(!m||m.archived)return;
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
@@ -2116,9 +2146,9 @@ function sheetMatterFinish(id){
     '<div class="matter-finish-intro" role="note"><span class="matter-finish-intro-mark" aria-hidden="true">'+ico('arch','s')+'</span><span class="matter-finish-intro-rule" aria-hidden="true"></span><span class="matter-finish-intro-copy">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</span></div>'+
     matterFinishDateMarkup()+
     matterFinishOutcomeMarkup()+
-    '<div class="fld"><label for="matter-close-note">Заключительная запись</label><textarea id="matter-close-note" rows="4" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div>'+
-    (open.length?'<div class="matter-finish-warning">'+matterPendingWorkHTML(id)+'<label><input id="matter-close-ack" type="checkbox"> Я проверил(а) оставшиеся задачи, сроки и заседания</label></div>':'')+
-    '<button class="btn matter-finish-submit" data-act="m-finish-save" data-id="'+esc(id)+'">'+ico('check','s')+' Завершить и переместить в архив</button>');
+    '<div class="fld matter-finish-note-field"><label for="matter-close-note">Заключительная запись</label><div class="matter-finish-note-control"><span class="matter-finish-note-icon" aria-hidden="true"><svg viewBox="0 0 44 52" fill="none"><path d="M7 43C10 28 15 16 36 7c.9 17-8 30-21 34" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 46c8-15 17-25 28-39M21 29l12-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 46h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="matter-finish-note-divider" aria-hidden="true"></span><textarea id="matter-close-note" rows="4" aria-label="Заключительная запись о завершении дела" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div></div>'+
+    (open.length?matterFinishWarningMarkup(id):'')+
+    '<button class="btn matter-finish-submit" type="button" data-act="m-finish-save" data-id="'+esc(id)+'"><span class="matter-finish-submit-check" aria-hidden="true">'+ico('check','s')+'</span><span class="matter-finish-submit-divider" aria-hidden="true"></span><span class="matter-finish-submit-label">Завершить и переместить в архив</span></button>');
   $('#sheet').classList.add('matter-finish-sheet','matter-finish-paper-stage1');
   document.body.classList.add('matter-finish-backdrop-open');
   mountMatterFinishFoundation($('#sheet'));
