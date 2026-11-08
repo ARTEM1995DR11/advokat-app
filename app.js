@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1258';
-var APP_BUILD='6258';
+var APP_VERSION='5.0.1261';
+var APP_BUILD='6261';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2351,6 +2351,7 @@ function matterActionReturnBack(){
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
+  if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   if(FINISH_FOUNDATION_OBSERVER){FINISH_FOUNDATION_OBSERVER.disconnect();FINISH_FOUNDATION_OBSERVER=null;}
   if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
@@ -2358,7 +2359,8 @@ function openSheet(html){
     s.removeEventListener('scroll',s._matterEventPaperScroll);
     s._matterEventPaperScroll=null;
   }
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  document.body.classList.remove('journal-sheet-open');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2376,11 +2378,12 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
+  if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
   document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -7086,19 +7089,63 @@ function decorateJournalPremiumControls(){
     tail.innerHTML=ico('chev','s');
     dateBtn.appendChild(tail);
     dateBtn.classList.add('journal-premium-picker');
+    dateBtn.setAttribute('aria-label','Выбрать дату записи в журнал');
   }
   syncJournalMatterMeta();
 }
+/* 5.0.1259 — separate continuous paper shell, matching approved case-action sheets.
+   It is decorative, never changes journal data or event handlers. */
+var JOURNAL_FOUNDATION_OBSERVER=null;
+function mountJournalPaperFoundation(panel){
+  if(!panel)return;
+  if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
+  var prev=panel.querySelector(':scope > .journal-paper-foundation');if(prev)prev.remove();
+  var ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+  svg.classList.add('journal-paper-foundation');
+  svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+  svg.setAttribute('preserveAspectRatio','none');
+  svg.innerHTML='<defs>'+ 
+    '<linearGradient id="jp1259Rim" x1="0" x2="1" y1="0" y2=".08"><stop stop-color="#ad762f"/><stop offset=".13" stop-color="#ebc88d"/><stop offset=".53" stop-color="#bd8a47"/><stop offset=".87" stop-color="#e7c18d"/><stop offset="1" stop-color="#a4732e"/></linearGradient>'+
+    '<linearGradient id="jp1259Outer" x1="0" x2=".5" y1="0" y2="1"><stop stop-color="#fffdf8"/><stop offset=".52" stop-color="#fff9ee"/><stop offset="1" stop-color="#f5e4c9"/></linearGradient>'+
+    '<linearGradient id="jp1259Inner" x1="0" x2=".25" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".65" stop-color="#fffaf2"/><stop offset="1" stop-color="#f9eedc"/></linearGradient>'+
+    '<radialGradient id="jp1259Light" cx=".18" cy=".08" r=".98"><stop stop-color="#fff" stop-opacity=".53"/><stop offset=".74" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
+    '<linearGradient id="jp1259Grip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9c3a2"/><stop offset="1" stop-color="#b9976b"/></linearGradient>'+ 
+    '</defs><path class="journal-paper-outer" fill="url(#jp1259Outer)" stroke="url(#jp1259Rim)" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<path class="journal-paper-inner" fill="url(#jp1259Inner)" stroke="#dcc097" stroke-width="1.13" stroke-linejoin="round"/>'+
+    '<path class="journal-paper-light" fill="url(#jp1259Light)" stroke="none"/>'+
+    '<rect class="journal-paper-grip" width="37" height="4.5" rx="2.25" fill="url(#jp1259Grip)"/>';
+  panel.insertBefore(svg,panel.firstChild);
+  function redraw(){
+    if(!panel.isConnected||!panel.classList.contains('journal-paper-v1259'))return;
+    var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
+    if(w<245||h<160)return;
+    var cx=w/2,shoulderL=cx-75,shoulderR=cx+75,crownL=cx-51,crownR=cx+51,bottom=h-2;
+    var outer='M 30 33 H '+shoulderL+' C '+(shoulderL+12)+' 33 '+(crownL-11)+' 25 '+(crownL-7)+' 16 C '+(crownL-3)+' 7 '+(crownL+2)+' 3 '+(crownL+17)+' 3 H '+(crownR-17)+' C '+(crownR-2)+' 3 '+(crownR+3)+' 7 '+(crownR+7)+' 16 C '+(crownR+11)+' 25 '+(shoulderR-12)+' 33 '+shoulderR+' 33 H '+(w-30)+' Q '+(w-2)+' 33 '+(w-2)+' 62 V '+(bottom-29)+' Q '+(w-2)+' '+bottom+' '+(w-31)+' '+bottom+' H 31 Q 2 '+bottom+' 2 '+(bottom-29)+' V 62 Q 2 33 30 33 Z';
+    var inner='M 35 41 H '+(shoulderL+1)+' C '+(shoulderL+17)+' 41 '+(crownL-6)+' 32 '+(crownL-1)+' 20 C '+(crownL+2)+' 14 '+(crownL+7)+' 11 '+(crownL+18)+' 11 H '+(crownR-18)+' C '+(crownR-7)+' 11 '+(crownR-2)+' 14 '+(crownR+1)+' 20 C '+(crownR+6)+' 32 '+(shoulderR-17)+' 41 '+(shoulderR-1)+' 41 H '+(w-35)+' Q '+(w-10)+' 41 '+(w-10)+' 67 V '+(bottom-31)+' Q '+(w-10)+' '+(bottom-9)+' '+(w-36)+' '+(bottom-9)+' H 36 Q 10 '+(bottom-9)+' 10 '+(bottom-31)+' V 67 Q 10 41 35 41 Z';
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    svg.querySelector('.journal-paper-outer').setAttribute('d',outer);
+    svg.querySelector('.journal-paper-inner').setAttribute('d',inner);
+    svg.querySelector('.journal-paper-light').setAttribute('d',inner);
+    svg.querySelector('.journal-paper-grip').setAttribute('x',String(cx-18.5));
+    svg.querySelector('.journal-paper-grip').setAttribute('y','17.5');
+  }
+  redraw();
+  if(typeof ResizeObserver!=='undefined'){
+    JOURNAL_FOUNDATION_OBSERVER=new ResizeObserver(redraw);JOURNAL_FOUNDATION_OBSERVER.observe(panel);
+  }
+  requestAnimationFrame(redraw);
+}
+
 function sheetJournal(mid){
   var fixed=mid?matter(mid):null;
   var fixedName=fixed?(matterFolderStage6Name(fixed)||matterAutoClientLabel(fixed.client)||'Дело'):'Дело';
   var fixedSubject=fixed?matterDisplayCaseSubject(fixed):'';
   var fixedContext=fixed?([fixed.number?'№ '+String(fixed.number).replace(/^№\s*/,''):'',fixed.court||''].filter(Boolean).join(' · ')):'';
   openSheet(
-    '<div class="journal-premium-head">'+
-      '<span class="journal-premium-head-icon">'+ico('doc','s')+'</span>'+
-      '<div class="journal-premium-head-copy"><h2>Запись в журнал дела</h2><p>Хронология работы и процессуальных событий</p></div>'+
-    '</div>'+
+    '<header class="journal-premium-head">'+
+      '<button type="button" class="journal-premium-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button>'+
+      '<div class="journal-premium-head-copy"><div class="journal-premium-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Запись в журнал дела</h2><p>Хронология работы и процессуальных событий</p></div>'+
+    '</header>'+
     '<div class="journal-premium-ornament"><span></span><i></i><span></span></div>'+
     (!mid?
       '<div class="fld journal-premium-fld journal-matter-fld"><label>Дело</label>'+
@@ -7110,8 +7157,8 @@ function sheetJournal(mid){
         '<div class="journal-fixed-matter"><span class="journal-field-leading">'+ico('folder','s')+'</span><div class="journal-fixed-matter-copy"><b>'+esc(fixedName)+'</b>'+(fixedSubject?'<small class="journal-fixed-article">'+esc(fixedSubject)+'</small>':'')+(fixedContext?'<small class="journal-fixed-context">'+esc(fixedContext)+'</small>':'')+'</div></div>'+
       '</div>'
     )+
-    '<div class="fld journal-premium-fld journal-date-fld"><label>Дата</label><div class="journal-date-wrap">'+premiumDateControl('j-date',today(),'Выберите дату')+'</div></div>'+
-    '<div class="fld journal-premium-fld journal-note-fld"><label>Событие / заметка</label>'+
+    '<div class="fld journal-premium-fld journal-date-fld"><label id="j-date-label">Дата</label><div class="journal-date-wrap">'+premiumDateControl('j-date',today(),'Выберите дату')+'</div></div>'+
+    '<div class="fld journal-premium-fld journal-note-fld"><label for="j-text">Событие / заметка</label>'+
       '<div class="journal-note-shell"><span class="journal-note-icon">'+ico('doc','s')+'</span>'+
         '<textarea id="j-text" name="advokat-journal-note-5267" rows="5" autocomplete="off" spellcheck="true" placeholder="Подано ходатайство, получены документы, заседание перенесено…"></textarea>'+
         '<button type="button" class="journal-note-clear" data-act="j-clear" aria-label="Очистить запись">'+ico('xmark','s')+'</button>'+
@@ -7121,8 +7168,9 @@ function sheetJournal(mid){
     '<input type="hidden" id="j-mid" value="'+esc(mid)+'">'+
     '<button class="btn journal-premium-save" data-act="j-save"><span class="journal-premium-save-icon">'+ico('qe-save','s')+'</span><b>Добавить в журнал</b></button>'
   );
-  $('#sheet').classList.add('sheet-premium-form','journal-premium-sheet');
+  $('#sheet').classList.add('sheet-premium-form','journal-premium-sheet','journal-paper-v1259');
   document.body.classList.add('journal-sheet-open');
+  mountJournalPaperFoundation($('#sheet'));
   setTimeout(function(){decorateJournalPremiumControls();},0);
 }
 function sheetParticipation(mid){
