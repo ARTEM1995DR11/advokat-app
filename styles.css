@@ -48859,3 +48859,114 @@ body.light.journal-sheet-open #scrim.open{
   #sheet.journal-paper-v1259 .journal-note-shell textarea{padding-left:57px!important;}
   #sheet.journal-paper-v1259 .journal-note-icon{left:6px!important;}
 }
+
+/* ====================================================================
+   5.0.1262 — pixel audit correction: journal form only.
+   Reference 390 px: paper 366 px, date 45 px, note 111 px, CTA 54 px.
+   Keep app's business logic, existing controls and approved iconography.
+   ==================================================================== */
+#sheet.journal-premium-sheet.journal-paper-v1259.open{
+  left:12px!important;right:12px!important;
+  width:calc(100% - 24px)!important;
+  top:max(54px,calc(env(safe-area-inset-top,0px) + 7px))!important;
+  bottom:auto!important;
+  height:min(calc((100vw - 24px) * 1.685),calc(100dvh - 76px))!important;
+  max-height:calc(100dvh - 76px)!important;
+}
+#sheet.journal-paper-v1259.open>.shbody{
+  margin-top:53px!important;
+  padding:7px 16px 10px!important;
+  scroll-padding-top:9px!important;
+}
+#sheet.journal-paper-v1259.open>.shfoot{
+  padding:7px 16px 18px!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-head{
+  margin-bottom:13px!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-fld{
+  margin-bottom:11px!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-fld>label{
+  margin-bottom:7px!important;
+  font-size:clamp(14px,3.75vw,17px)!important;
+  line-height:1.2!important;
+}
+#sheet.journal-paper-v1259 .journal-fixed-matter{
+  min-height:90px!important;
+}
+#sheet.journal-paper-v1259 .premium-select-field.journal-premium-picker,
+#sheet.journal-paper-v1259 .premium-date-field.journal-premium-picker{
+  height:45px!important;min-height:45px!important;
+}
+#sheet.journal-paper-v1259 .premium-select-field.journal-premium-picker>.journal-field-leading,
+#sheet.journal-paper-v1259 .premium-date-field.journal-premium-picker>.journal-field-leading{
+  height:41px!important;
+}
+#sheet.journal-paper-v1259 .premium-date-field.journal-premium-picker>.journal-field-tail,
+#sheet.journal-paper-v1259 .premium-select-field.journal-premium-picker>.premium-select-field-arrow{
+  width:32px!important;height:33px!important;
+}
+#sheet.journal-paper-v1259 .journal-note-shell textarea{
+  height:111px!important;min-height:111px!important;max-height:none!important;
+  padding:12px 14px 10px 62px!important;
+  font-size:clamp(12.5px,3.45vw,15px)!important;
+  line-height:1.42!important;
+}
+#sheet.journal-paper-v1259 .journal-note-shell textarea::placeholder{
+  font-size:clamp(12.5px,3.45vw,15px)!important;
+  line-height:1.42!important;
+}
+#sheet.journal-paper-v1259 .journal-note-icon{
+  left:8px!important;top:12px!important;
+  width:41px!important;height:43px!important;
+}
+#sheet.journal-paper-v1259 .journal-note-icon::after{
+  right:-3px!important;height:43px!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-ornament-bottom{
+  margin:2px 4px 7px!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-save{
+  min-height:54px!important;height:54px!important;
+  font-size:clamp(16px,4.85vw,22px)!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-save-icon .ico{
+  width:23px!important;height:23px!important;
+}
+/* The scrim covers even the overscroll/home-indicator portion in standalone iOS. */
+html:has(>body.journal-sheet-open),body.journal-sheet-open{
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center top!important;
+}
+body.journal-sheet-open::before{
+  inset:-1px 0 -max(100px,env(safe-area-inset-bottom,0px)) 0!important;
+  background:url('bg-matters-approved-v487.png') center top/cover no-repeat,#f8f0e2!important;
+}
+body.light.journal-sheet-open #scrim.open{
+  top:0!important;bottom:-120px!important;
+  height:calc(100dvh + 120px)!important;
+  min-height:calc(100dvh + 120px)!important;
+}
+@media(max-width:355px){
+  #sheet.journal-paper-v1259.open>.shbody{
+    padding-left:12px!important;padding-right:12px!important;
+  }
+  #sheet.journal-paper-v1259.open>.shfoot{
+    padding-left:12px!important;padding-right:12px!important;
+  }
+  #sheet.journal-paper-v1259 .journal-premium-head{
+    gap:8px!important;
+  }
+  #sheet.journal-paper-v1259 .journal-note-shell textarea{
+    padding-left:54px!important;padding-right:10px!important;
+  }
+  #sheet.journal-paper-v1259 .journal-note-icon{left:5px!important;}
+}
+@media(max-height:620px){
+  #sheet.journal-paper-v1259.open>.shbody{margin-top:49px!important;}
+  #sheet.journal-paper-v1259.open>.shfoot{padding-bottom:10px!important;}
+}
