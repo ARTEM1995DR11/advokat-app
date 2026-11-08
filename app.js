@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1257';
-var APP_BUILD='6257';
+var APP_VERSION='5.0.1258';
+var APP_BUILD='6258';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2120,6 +2120,7 @@ function matterFinishWarningMarkup(id){
   var heading='<div class="matter-finish-warning-top" role="note">'+
    '<span class="matter-finish-warning-emblem" aria-hidden="true">'+
      '<svg class="matter-finish-warning-laurel" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+       '<path d="M42 7C49 4 53 7 57 12C64 10 69 14 69 20C76 23 77 29 72 35C77 41 75 47 69 51C70 59 64 63 57 63C52 70 46 69 42 67C35 70 29 69 25 63C17 63 13 58 15 51C9 46 7 40 12 35C7 29 9 22 15 20C16 13 21 10 27 12C32 6 37 5 42 7Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" opacity=".85"/>'+
        '<path d="M17 66C7 55 7 38 18 24M67 66C77 55 77 38 66 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'+
        '<path d="M18 58Q6 58 8 50Q17 50 18 58ZM14 48Q5 44 10 37Q20 40 14 48ZM14 36Q8 29 16 25Q21 33 14 36ZM22 69Q12 70 12 61Q22 61 22 69ZM66 58Q78 58 76 50Q67 50 66 58ZM70 48Q79 44 74 37Q64 40 70 48ZM70 36Q76 29 68 25Q63 33 70 36ZM62 69Q72 70 72 61Q62 61 62 69Z" fill="currentColor" opacity=".76"/>'+
        '<path d="M25 73Q42 82 59 73" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'+

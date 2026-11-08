@@ -1204,3 +1204,78 @@ body.matter-finish-backdrop-open #scrim.open {
   min-height:100lvh!important;
   width:100%!important;
 }
+
+/* ========================================================================
+   5.0.1258 — pixel-oriented alignment with the user-approved visual reference.
+   Only the completion screen; editable data, dialog IDs and archive logic stay.
+   The image reference has a 9:16 aspect while iPhone viewports vary: preserve
+   accessible hit areas and the real pending-items review rather than crop it.
+   ======================================================================== */
+/* Match the slightly quieter reference section-heading scale. The form fields
+   keep their already-approved gold rings and safe 44+px clickable targets. */
+#sheet.matter-finish-paper-stage1 .matter-finish-date-field>label,
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-field>label,
+#sheet.matter-finish-paper-stage1 .matter-finish-note-field>label {
+  font-size:clamp(14px,3.72vw,16px)!important;
+  letter-spacing:-.014em!important;
+  line-height:1.23!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-text {
+  font-size:clamp(13.5px,3.7vw,16px)!important;
+}
+/* The approved sketch uses a shallower note. Preserve full note entry by
+   scrolling the textarea itself, not truncating or cutting stored characters. */
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control {
+  height:71px!important;min-height:71px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-icon {
+  padding-top:13px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-divider {
+  margin-top:12px!important;height:44px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-note-control #matter-close-note {
+  height:69px!important;min-height:69px!important;max-height:69px!important;
+  padding-top:10px!important;padding-bottom:10px!important;
+  font-size:clamp(13.5px,3.6vw,15px)!important;
+  line-height:1.3!important;
+}
+/* Decorative alert emblem matches the scalloped archival seal of the
+   artwork; the word-count, dynamic totals and review affordance are untouched. */
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-top {
+  gap:6px!important;padding:8px 7px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem {
+  flex-basis:56px!important;width:56px!important;height:75px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-laurel {
+  width:56px!important;height:75px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem>.ico {
+  width:25px!important;height:25px!important;top:18px!important;left:15px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy {gap:4px!important;}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy strong {
+  font-size:clamp(18px,4.85vw,21px)!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-copy span {
+  font-size:clamp(11.5px,3.03vw,12.8px)!important;
+  line-height:1.3!important;
+  letter-spacing:-.012em!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-divider {
+  height:74px!important;max-height:74px!important;
+}
+/* Compact phones must continue to show separate icon, copy and check state. */
+@media(max-width:355px){
+  #sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem {
+    flex-basis:44px!important;width:44px!important;height:65px!important;
+  }
+  #sheet.matter-finish-paper-stage1 .matter-finish-warning-laurel {
+    width:44px!important;height:65px!important;
+  }
+  #sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem>.ico {
+    top:16px!important;left:11px!important;width:22px!important;height:22px!important;
+  }
+  #sheet.matter-finish-paper-stage1 .matter-finish-warning-divider{height:64px!important;max-height:64px!important;}
+}
