@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1244';
-var APP_BUILD='6244';
+var APP_VERSION='5.0.1246';
+var APP_BUILD='6246';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2016,7 +2016,7 @@ function sheetMatterFinish(id){
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
   /* 5.0.1242: paper form shell, stage 1. Keep the form field IDs and archival logic unchanged. */
   openSheet('<header class="matter-finish-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
-    '<div class="matter-finish-intro">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</div>'+
+    '<div class="matter-finish-intro" role="note"><span class="matter-finish-intro-mark" aria-hidden="true">'+ico('arch','s')+'</span><span class="matter-finish-intro-rule" aria-hidden="true"></span><span class="matter-finish-intro-copy">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</span></div>'+
     '<div class="fld"><label for="matter-close-date">Дата завершения</label><input id="matter-close-date" type="date" value="'+today()+'"></div>'+
     '<div class="fld"><label for="matter-close-outcome">Итог дела / поручения</label><select id="matter-close-outcome">'+Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+'</select></div>'+
     '<div class="fld"><label for="matter-close-note">Заключительная запись</label><textarea id="matter-close-note" rows="4" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div>'+
