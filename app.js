@@ -5,7 +5,7 @@
 'use strict';
 
 var APP_VERSION='5.0.1231';
-var APP_BUILD='6236';
+var APP_BUILD='6237';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2171,16 +2171,16 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  document.body.classList.remove('matter-actions-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
   matterActionReturnReset();
-  document.body.classList.remove('dossier-status-masked','matter-actions-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open'); var sh=$('#sheet');
+function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4672,7 +4672,7 @@ function sheetMatterEventKind(id){
   var shortName=matterApprovedLeadName(m)||m.client||m.number||'Дело';
   openSheet('<section class="matter-event-stage1-empty" role="region" aria-labelledby="matter-event-stage2-title">'+
       '<header class="matter-event-stage2-header">'+
-        '<button class="matter-event-stage2-back" type="button" data-act="close" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button>'+
+        '<button class="matter-event-stage2-back" type="button" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button>'+
         '<div class="matter-event-stage2-copy">'+
           '<div class="matter-event-stage2-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
           '<h2 id="matter-event-stage2-title">Добавить событие</h2>'+
@@ -4699,6 +4699,8 @@ function sheetMatterEventKind(id){
     '</section>');
   var panel=$('#sheet');
   panel.classList.add('matter-event-choice-sheet','matter-event-stage1-open');
+  /* Keep the originating dossier mounted and its scroll untouched: only the scrim changes. */
+  document.body.classList.add('matter-event-backdrop-open');
   mountMatterEventPaperStage1(panel);
 }
 /* Unified outer+inner outline; corner geometry calculated at actual mobile size.
@@ -4717,7 +4719,7 @@ function mountMatterEventPaperStage1(panel){
   svg.innerHTML='<defs>'+ 
     '<linearGradient id="me633Foil" x1="0" x2="1" y1="0" y2=".12"><stop stop-color="#b27a32"/><stop offset=".14" stop-color="#edd3a4"/><stop offset=".55" stop-color="#be8b49"/><stop offset=".88" stop-color="#f2d9af"/><stop offset="1" stop-color="#a67533"/></linearGradient>'+ 
     '<linearGradient id="me633Base" x1="0" x2=".4" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".62" stop-color="#fff8ed"/><stop offset="1" stop-color="#f2e2c9"/></linearGradient>'+ 
-    '<linearGradient id="me633Inner" x1="0" x2=".18" y1="0" y2="1"><stop stop-color="#fffdfa"/><stop offset=".60" stop-color="#fffaf2"/><stop offset="1" stop-color="#fbefdE"/></linearGradient>'+ 
+    '<linearGradient id="me633Inner" x1="0" x2=".18" y1="0" y2="1"><stop stop-color="#fffdf7"/><stop offset=".60" stop-color="#fff8ec"/><stop offset="1" stop-color="#f9e9d4"/></linearGradient>'+ 
     '<radialGradient id="me633Glow" cx=".16" cy=".06" r="1"><stop stop-color="#fff" stop-opacity=".58"/><stop offset=".76" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+ 
     '<linearGradient id="me633Grip" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#edd8b5"/><stop offset="1" stop-color="#b89360"/></linearGradient>'+ 
     '</defs>'+ 

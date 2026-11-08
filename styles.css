@@ -48456,3 +48456,36 @@ body.matter-actions-open #scrim.open{
 #sheet.matter-event-stage1-open .matter-event-stage4-card.event-deadline .matter-event-stage4-copy>small{
   font-size:clamp(10.4px,2.95vw,11.65px)!important;
 }
+
+
+/* 5.0.1237 — stages 1–4: final optical correction, no geometry changes.
+   When the event chooser is open the original dossier remains mounted behind
+   a quiet, existing marble backdrop. Match the approved Actions overlay. */
+body.matter-event-backdrop-open #scrim.open{
+  z-index:41!important;
+  opacity:1!important;
+  background:
+    linear-gradient(180deg,rgba(249,243,232,.17),rgba(249,243,232,.27)),
+    url('bg-dossier-continuous-v5833.webp?v=6237') top center / 100% auto no-repeat,
+    #f8f2e6!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#sheet.matter-event-choice-sheet.matter-event-stage1-open{z-index:42!important;}
+/* Shafted back arrow (replaces the short left chevron), same button and handler. */
+#sheet.matter-event-stage1-open .matter-event-stage2-back .ico{
+  width:28px!important;height:28px!important;stroke-width:2.25!important;
+}
+/* More precise gold rim, soft grounded drop shadow and warm top highlight. */
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card{
+  border-color:rgba(187,136,72,.78)!important;
+  background:linear-gradient(143deg,#fffefa 0%,#fffaf1 57%,#f9eddb 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset 0 -1px 0 rgba(224,195,155,.34),
+    0 2px 0 rgba(177,125,61,.23),
+    0 7px 13px rgba(105,71,35,.165)!important;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card:active{
+  box-shadow:inset 0 2px 4px rgba(140,96,39,.17),0 2px 5px rgba(107,71,35,.14)!important;
+}
