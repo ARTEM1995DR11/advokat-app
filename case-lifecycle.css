@@ -548,3 +548,205 @@ body.matter-finish-backdrop-open::before {
   #sheet.matter-finish-paper-stage1 .matter-finish-outcome-text{font-size:14px!important;}
   #sheet.matter-finish-paper-stage1 .matter-finish-outcome-arrow{width:29px;height:29px;right:8px;}
 }
+
+/* =====================================================================
+ 5.0.1252 — Согласованные бумажно-золотые окна выбора даты и итога дела.
+ Системные iOS select/date панели не используются только в «Завершить дело».
+ Сохранение по прежним ID полей, модель данных/архивирование не меняются.
+ ===================================================================== */
+#sheet.matter-finish-paper-stage1 #matter-close-date,
+#sheet.matter-finish-paper-stage1 #matter-close-outcome {
+  display:none!important;
+  pointer-events:none!important;
+  width:0!important;height:0!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-hit,
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-hit {
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;height:100%!important;
+  min-height:0!important;max-height:none!important;
+  margin:0!important;padding:0!important;
+  opacity:1!important;
+  background:transparent!important;
+  color:transparent!important;
+  border:0!important;box-shadow:none!important;
+  outline:0!important;border-radius:inherit!important;
+  appearance:none!important;-webkit-appearance:none!important;
+  z-index:3!important;cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-control:has(.matter-finish-date-hit:focus-visible),
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-control:has(.matter-finish-outcome-hit:focus-visible) {
+  outline:2px solid #a67929!important;outline-offset:3px!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-text {
+  padding-right:47px!important;
+}
+/* Date: app's existing premium calendar, limited here to valid completion dates. */
+body.matter-finish-date-picker-open #premium-date-modal {
+  box-sizing:border-box!important;
+  max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 20px)!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  background:linear-gradient(148deg,#fffef9 0%,#fff9ed 70%,#f7e9d4 100%)!important;
+  border:2px solid #c89c57!important;
+  border-radius:27px!important;
+  box-shadow:0 18px 55px rgba(39,26,15,.29),inset 0 0 0 4px rgba(255,255,255,.66),inset 0 0 0 5px rgba(190,147,81,.27)!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-grab {
+  background:linear-gradient(90deg,#c19a61,#d6bd94,#c19a61)!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-head small {
+  font-family:Georgia,'Times New Roman',serif!important;
+  color:#9e7028!important;
+  font-weight:700!important;
+  letter-spacing:.13em!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-head h3 {
+  color:#0c2553!important;
+  font:700 clamp(22px,6vw,26px)/1.1 Georgia,'Times New Roman',serif!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-nav button {
+  background:linear-gradient(140deg,#fffdf7,#f7e9d0)!important;
+  border:1px solid #d9bb8a!important;color:#a06f20!important;
+  box-shadow:0 2px 6px rgba(85,54,23,.08)!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-nav button:disabled {
+  opacity:.25!important;cursor:not-allowed!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-week span {
+  color:#8d7762!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day {
+  color:#1b3157!important;
+  font:600 clamp(13px,3.4vw,15px)/1.1 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day.outside {color:#b8a68e!important;}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day.today {border-color:#cba96e!important;}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day.selected {
+  color:#fffefa!important;border-color:#91641c!important;
+  background:linear-gradient(135deg,#bd9045,#a87722)!important;
+  box-shadow:0 4px 9px rgba(134,85,23,.20)!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day.unavailable,
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-day:disabled {
+  color:#c9c5c0!important;opacity:.4!important;
+  pointer-events:none!important;background:none!important;border-color:transparent!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-selected {
+  background:rgba(255,248,234,.9)!important;border-color:#d9bc8e!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-selected b {color:#142954!important;}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-secondary {
+  background:#fff8e9!important;border-color:#dfc39c!important;color:#875b21!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-primary {
+  background:linear-gradient(120deg,#cba45c,#a47728)!important;
+  border-color:#95651d!important;color:#fffefa!important;
+}
+body.matter-finish-date-picker-open #premium-date-modal .premium-date-actions {grid-template-columns:1fr 1.4fr!important;}
+body.matter-finish-date-picker-open #date-scrim {background:rgba(31,23,15,.36)!important;}
+
+/* Outcome: independent accessible selection dialog. */
+.matter-finish-outcome-scrim {
+  position:fixed;inset:0;z-index:10020;
+  opacity:0;pointer-events:none;
+  background:rgba(28,22,18,.43);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  transition:opacity .16s ease;
+}
+.matter-finish-outcome-scrim.open {opacity:1;pointer-events:auto;}
+.matter-finish-outcome-modal {
+  position:fixed;z-index:10021;
+  left:50%;bottom:max(12px,env(safe-area-inset-bottom,0px));
+  width:min(420px,calc(100vw - 24px));
+  max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 24px);
+  box-sizing:border-box;
+  display:flex;flex-direction:column;min-height:0;
+  padding:10px 13px 13px;
+  border-radius:27px;
+  border:2px solid #c69a59;
+  background:linear-gradient(160deg,#fffef9 0%,#fff8eb 65%,#f6e7ce 100%);
+  box-shadow:0 22px 60px rgba(43,27,11,.32),inset 0 0 0 3px rgba(255,255,255,.78),inset 0 0 0 4px rgba(186,138,71,.20);
+  transform:translate(-50%,18px) scale(.98);opacity:0;pointer-events:none;
+  transition:transform .18s ease,opacity .16s ease;
+  outline:none;
+}
+.matter-finish-outcome-modal.open {
+  transform:translate(-50%,0) scale(1);opacity:1;pointer-events:auto;
+}
+.matter-finish-choice-grip {
+  width:44px;height:5px;min-height:5px;
+  margin:0 auto 13px;border-radius:99px;
+  background:linear-gradient(90deg,#b18b53,#d8bd93,#b18b53);
+}
+.matter-finish-choice-head {
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:10px;flex:0 0 auto;margin:0 2px 10px;
+}
+.matter-finish-choice-head small {
+  display:block;margin:0 0 5px;
+  font:700 10px/1.2 Georgia,'Times New Roman',serif;
+  letter-spacing:.14em;color:#a7792d;
+}
+.matter-finish-choice-head h3 {
+  margin:0;color:#102856;
+  font:700 clamp(21px,5.2vw,24px)/1.16 Georgia,'Times New Roman',serif;
+}
+.matter-finish-choice-x {
+  display:grid;place-items:center;flex:0 0 36px;
+  width:36px;height:36px;padding:0;border:1px solid #d7bd92;border-radius:12px;
+  background:#fff8e8;color:#9d6b1d;
+}
+.matter-finish-choice-x .ico {width:19px;height:19px;}
+.matter-finish-choice-rows {
+  min-height:0;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  display:flex;flex-direction:column;gap:5px;
+  padding:3px 1px 7px;
+}
+.matter-finish-choice-row {
+  display:flex;align-items:center;gap:12px;flex:0 0 auto;
+  box-sizing:border-box;width:100%;min-height:51px;padding:9px 12px;
+  text-align:left;border-radius:15px;border:1px solid #e2c9a8;
+  background:linear-gradient(135deg,#fffdf8,#fff5e4);
+  box-shadow:0 2px 4px rgba(117,80,33,.055);
+  color:#162a50;
+}
+.matter-finish-choice-row.selected {
+  border:1.5px solid #b98a40;
+  background:linear-gradient(140deg,#fff7e4,#f7ead2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 3px 8px rgba(111,77,37,.10);
+}
+.matter-finish-choice-mark {
+  flex:0 0 29px;display:grid;place-items:center;
+  width:29px;height:29px;border:1px solid #d6c6ae;
+  border-radius:10px;background:#fffaf1;color:#18805b;
+}
+.matter-finish-choice-row.selected .matter-finish-choice-mark {
+  background:#e3f2e8;border-color:#9fc9af;
+}
+.matter-finish-choice-mark .ico {width:19px;height:19px;stroke-width:2.1;}
+.matter-finish-choice-label {
+  min-width:0;overflow-wrap:anywhere;
+  font:600 clamp(14px,3.7vw,16px)/1.27 Georgia,'Times New Roman',serif;
+}
+.matter-finish-choice-cancel {
+  flex:0 0 auto;min-height:43px;margin:7px 0 0;
+  border-radius:13px;border:1px solid #d5b98d;
+  background:linear-gradient(#fffaf0,#f6e9d3);color:#845e29;
+  font:650 14px/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif;
+}
+.matter-finish-choice-row:focus-visible,.matter-finish-choice-cancel:focus-visible,.matter-finish-choice-x:focus-visible {
+  outline:2px solid #b5853c;outline-offset:2px;
+}
+@media(max-width:355px){
+ .matter-finish-outcome-modal{width:calc(100vw - 14px);padding:8px 10px 10px;border-radius:23px;}
+ .matter-finish-choice-head h3{font-size:19px;}
+ .matter-finish-choice-row{min-height:47px;padding:8px 10px;gap:10px;}
+ .matter-finish-choice-label{font-size:13.5px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .matter-finish-outcome-modal,.matter-finish-outcome-scrim{transition:none;}
+}

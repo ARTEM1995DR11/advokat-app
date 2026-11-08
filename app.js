@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1251';
-var APP_BUILD='6251';
+var APP_VERSION='5.0.1252';
+var APP_BUILD='6252';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -335,6 +335,7 @@ function datePickerShiftMonth(ym,delta){
 function openPremiumDatePicker(target,value,mode,taskId){
   var selected=value||((target&&$('#'+target))?$('#'+target).value:'')||'';
   DATE_PICKER={target:target||'',selected:selected,month:(selected||today()).slice(0,7),mode:mode||'field',taskId:taskId||''};
+  document.body.classList.toggle('matter-finish-date-picker-open',target==='matter-close-date');
   renderPremiumDatePicker();
   var modal=$('#premium-date-modal'), scr=$('#date-scrim');
   if(modal)modal.classList.add('open'); if(scr)scr.classList.add('open');
@@ -344,30 +345,33 @@ function openPremiumDatePicker(target,value,mode,taskId){
 function closePremiumDatePicker(){
   var modal=$('#premium-date-modal'),scr=$('#date-scrim');
   if(modal)modal.classList.remove('open'); if(scr)scr.classList.remove('open');
-  document.body.classList.remove('premium-date-open'); DATE_PICKER=null;
+  document.body.classList.remove('premium-date-open','matter-finish-date-picker-open'); DATE_PICKER=null;
 }
 function renderPremiumDatePicker(){
   if(!DATE_PICKER)return;
   var modal=$('#premium-date-modal');if(!modal)return;
+  var finishDate=DATE_PICKER.target==='matter-close-date';
   var p=DATE_PICKER.month.split('-'), y=+p[0],m=+p[1], first=new Date(y,m-1,1);
   var offset=(first.getDay()+6)%7,start=new Date(y,m-1,1-offset), cells='';
   for(var i=0;i<42;i++){
     var d=new Date(start);d.setDate(start.getDate()+i);var ds=iso(d),outside=d.getMonth()!==(m-1),sel=DATE_PICKER.selected===ds,isToday=ds===today();
-    cells+='<button type="button" class="premium-date-day'+(outside?' outside':'')+(sel?' selected':'')+(isToday?' today':'')+'" data-act="date-day" data-v="'+ds+'" aria-label="'+esc(fmtD(ds,true))+'"><span>'+d.getDate()+'</span></button>';
+    var blocked=finishDate&&ds>today();
+    cells+='<button type="button" class="premium-date-day'+(outside?' outside':'')+(sel?' selected':'')+(isToday?' today':'')+(blocked?' unavailable':'')+'" data-act="date-day" data-v="'+ds+'" aria-label="'+esc(fmtD(ds,true))+'"'+(blocked?' disabled aria-disabled="true"':'')+'><span>'+d.getDate()+'</span></button>';
   }
   modal.innerHTML='<div class="premium-date-grab"></div>'+
-    '<div class="premium-date-head"><div><small>Выбор даты</small><h3>'+esc(datePickerMonthLabel(DATE_PICKER.month))+'</h3></div><div class="premium-date-nav"><button type="button" data-act="date-prev" aria-label="Предыдущий месяц">'+ico('left')+'</button><button type="button" data-act="date-next" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
+    '<div class="premium-date-head"><div><small>'+(finishDate?'ДАТА ЗАВЕРШЕНИЯ':'Выбор даты')+'</small><h3>'+esc(datePickerMonthLabel(DATE_PICKER.month))+'</h3></div><div class="premium-date-nav"><button type="button" data-act="date-prev" aria-label="Предыдущий месяц">'+ico('left')+'</button><button type="button" data-act="date-next" aria-label="Следующий месяц"'+(finishDate&&DATE_PICKER.month>=today().slice(0,7)?' disabled':'')+'>'+ico('chev')+'</button></div></div>'+
     '<div class="premium-date-week"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div>'+
     '<div class="premium-date-grid">'+cells+'</div>'+
     '<div class="premium-date-selected"><span>'+ico('cal','s')+'</span><div><small>Выбрано</small><b>'+(DATE_PICKER.selected?esc(fmtD(DATE_PICKER.selected,true)):'Дата не выбрана')+'</b></div></div>'+
     '<div class="premium-date-actions">'+
       '<button type="button" class="premium-date-secondary" data-act="date-today">Сегодня</button>'+
-      (DATE_PICKER.mode==='field'?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
+      (DATE_PICKER.mode==='field'&&!finishDate?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
       '<button type="button" class="premium-date-primary" data-act="date-apply">Готово '+ico('check','s')+'</button>'+
     '</div>';
 }
 function applyPremiumDatePicker(){
   if(!DATE_PICKER)return; var dp=DATE_PICKER;
+  if(dp.target==='matter-close-date'&&(!dp.selected||dp.selected>today())){toast('Выберите дату не позднее сегодняшней');return;}
   if(dp.mode==='task'){
     if(!dp.selected){toast('Выберите дату');return;}
     closePremiumDatePicker();closeSheet();moveTaskToDate(dp.taskId,dp.selected,'Дата изменена');return;
@@ -2012,8 +2016,8 @@ function archiveMatter(id){
   save();closeAll();render();toast('Дело перемещено в архив');
 }
 
-/* 5.0.1249 / stage 4: approved date-control visual with NATIVE date input.
-   The original #matter-close-date ID, value and save validation are preserved. */
+/* 5.0.1252: approved date-control visual and custom paper calendar.
+   Original #matter-close-date ID, value and save validation remain unchanged. */
 function matterFinishDateText(iso){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return 'Выбрать дату';
   var a=iso.split('-'),m=Number(a[1]),d=Number(a[2]);
@@ -2023,40 +2027,85 @@ function matterFinishDateText(iso){
 }
 function matterFinishDateMarkup(){
   var v=today();
-  return '<div class="fld matter-finish-date-field"><label for="matter-close-date">Дата завершения</label>'+
+  return '<div class="fld matter-finish-date-field"><label for="matter-close-date-button">Дата завершения</label>'+
     '<div class="matter-finish-date-control">'+
     '<span class="matter-finish-date-icon" aria-hidden="true">'+ico('cal','s')+'</span>'+
     '<span class="matter-finish-control-rule" aria-hidden="true"></span>'+
     '<span class="matter-finish-date-text" aria-hidden="true">'+esc(matterFinishDateText(v))+'</span>'+
-    '<input id="matter-close-date" type="date" value="'+v+'" aria-label="Дата завершения" max="'+v+'">'+
+    '<input id="matter-close-date" type="hidden" value="'+v+'">'+
+    '<button type="button" id="matter-close-date-button" class="matter-finish-date-hit" data-act="date-open" data-target="matter-close-date" aria-label="Выбрать дату завершения: '+esc(matterFinishDateText(v))+'"></button>'+
     '</div></div>';
 }
 function bindMatterFinishDate(){
   var el=document.getElementById('matter-close-date'),label=document.querySelector('.matter-finish-date-text');
   if(!el||!label)return;
-  function refresh(){label.textContent=matterFinishDateText(el.value);}
+  function refresh(){label.textContent=matterFinishDateText(el.value);var btn=document.getElementById('matter-close-date-button');if(btn)btn.setAttribute('aria-label','Выбрать дату завершения: '+matterFinishDateText(el.value));}
   el.addEventListener('input',refresh);
   el.addEventListener('change',refresh);
   refresh();
 }
 
-/* 5.0.1251 / stage 5: full-width native outcome choice, with separate paper presentation. */
+/* 5.0.1252: visually distinct outcome field with custom in-app choice dialog. */
 function matterFinishOutcomeMarkup(){
-  return '<div class="fld matter-finish-outcome-field"><label for="matter-close-outcome">Итог дела / поручения</label>'+
+  return '<div class="fld matter-finish-outcome-field"><label for="matter-close-outcome-button">Итог дела / поручения</label>'+
     '<div class="matter-finish-outcome-control">'+
     '<span class="matter-finish-outcome-icon" aria-hidden="true">'+ico('check','s')+'</span>'+
     '<span class="matter-finish-control-rule" aria-hidden="true"></span>'+
     '<span class="matter-finish-outcome-text" aria-hidden="true">'+esc(MATTER_CLOSE_OUTCOMES.fulfilled)+'</span>'+
-    '<select id="matter-close-outcome" data-premium-ready="1" aria-label="Итог дела или поручения">'+
+    '<select id="matter-close-outcome" data-premium-ready="1" aria-label="Итог дела или поручения" tabindex="-1">'+
     Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+
-    '</select><span class="matter-finish-outcome-arrow" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>'+
+    '</select><button type="button" id="matter-close-outcome-button" class="matter-finish-outcome-hit" data-act="finish-outcome-open" aria-haspopup="dialog" aria-label="Выбрать итог дела"></button><span class="matter-finish-outcome-arrow" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>'+
     '</div></div>';
 }
 function bindMatterFinishOutcome(){
   var el=document.getElementById('matter-close-outcome'),label=document.querySelector('.matter-finish-outcome-text');
   if(!el||!label)return;
-  function refresh(){ label.textContent=el.selectedOptions.length?el.selectedOptions[0].textContent:'Выберите результат'; }
+  function refresh(){label.textContent=el.selectedOptions.length?el.selectedOptions[0].textContent:'Выберите результат';var btn=document.getElementById('matter-close-outcome-button');if(btn)btn.setAttribute('aria-label','Выбрать итог дела: '+label.textContent);}
   el.addEventListener('input',refresh);el.addEventListener('change',refresh);refresh();
+}
+
+
+/* 5.0.1252: paper/gold result chooser, without native iOS select menu.
+   The existing #matter-close-outcome select remains the sole saved data source. */
+var FINISH_OUTCOME_OPEN=false,FINISH_OUTCOME_FOCUS=null;
+function closeMatterFinishOutcomePicker(){
+  var modal=document.getElementById('matter-finish-outcome-modal');
+  var scr=document.getElementById('matter-finish-outcome-scrim');
+  if(modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
+  if(scr)scr.classList.remove('open');
+  document.body.classList.remove('matter-finish-outcome-picker-open');
+  FINISH_OUTCOME_OPEN=false;
+  if(FINISH_OUTCOME_FOCUS&&FINISH_OUTCOME_FOCUS.isConnected){try{FINISH_OUTCOME_FOCUS.focus({preventScroll:true});}catch(_){}}
+  FINISH_OUTCOME_FOCUS=null;
+}
+function openMatterFinishOutcomePicker(){
+  var select=document.getElementById('matter-close-outcome');
+  if(!select)return;
+  if(DATE_PICKER)closePremiumDatePicker();
+  var scr=document.getElementById('matter-finish-outcome-scrim');
+  if(!scr){scr=document.createElement('div');scr.id='matter-finish-outcome-scrim';scr.className='matter-finish-outcome-scrim';scr.dataset.act='finish-outcome-close';document.body.appendChild(scr);}
+  var modal=document.getElementById('matter-finish-outcome-modal');
+  if(!modal){modal=document.createElement('div');modal.id='matter-finish-outcome-modal';modal.className='matter-finish-outcome-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Выбрать итог дела');modal.tabIndex=-1;document.body.appendChild(modal);}
+  var rows=Object.keys(MATTER_CLOSE_OUTCOMES).map(function(key){
+    var chosen=select.value===key;
+    return '<button type="button" class="matter-finish-choice-row'+(chosen?' selected':'')+'" data-act="finish-outcome-pick" data-v="'+key+'" role="option" aria-selected="'+String(chosen)+'"><span class="matter-finish-choice-mark">'+(chosen?ico('check','s'):'')+'</span><span class="matter-finish-choice-label">'+esc(MATTER_CLOSE_OUTCOMES[key])+'</span></button>';
+  }).join('');
+  modal.innerHTML='<div class="matter-finish-choice-grip" aria-hidden="true"></div>'+
+    '<div class="matter-finish-choice-head"><div><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h3>Итог дела / поручения</h3></div><button type="button" class="matter-finish-choice-x" data-act="finish-outcome-close" aria-label="Закрыть список">'+ico('xmark','s')+'</button></div>'+
+    '<div class="matter-finish-choice-rows" role="listbox" aria-label="Варианты итога">'+rows+'</div>'+
+    '<button type="button" class="matter-finish-choice-cancel" data-act="finish-outcome-close">Отмена</button>';
+  FINISH_OUTCOME_FOCUS=document.activeElement;
+  FINISH_OUTCOME_OPEN=true;
+  scr.classList.add('open');modal.classList.add('open');modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('matter-finish-outcome-picker-open');
+  modal.focus({preventScroll:true});
+}
+function pickMatterFinishOutcome(key){
+  var select=document.getElementById('matter-close-outcome');
+  if(!select||!Object.prototype.hasOwnProperty.call(MATTER_CLOSE_OUTCOMES,key))return;
+  select.value=key;
+  select.dispatchEvent(new Event('change',{bubbles:true}));
+  closeMatterFinishOutcomePicker();vib(5);
 }
 
 function sheetMatterFinish(id){
@@ -2271,6 +2320,7 @@ function matterActionReturnBack(){
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
+  if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   if(FINISH_FOUNDATION_OBSERVER){FINISH_FOUNDATION_OBSERVER.disconnect();FINISH_FOUNDATION_OBSERVER=null;}
   if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
   if(s._matterEventPaperScroll){
@@ -2295,10 +2345,11 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
+  if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
   document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -3924,6 +3975,7 @@ function go(tab,replaceHistory,transition){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(FINISH_OUTCOME_OPEN){closeMatterFinishOutcomePicker();vib(5);return true;}
   if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
@@ -8081,12 +8133,15 @@ document.addEventListener('click', function(ev){
     case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
     case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
     case 'date-prev': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,-1);renderPremiumDatePicker();}break;
-    case 'date-next': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,1);renderPremiumDatePicker();}break;
-    case 'date-day': if(DATE_PICKER){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
+    case 'date-next': if(DATE_PICKER){var nextMonth=datePickerShiftMonth(DATE_PICKER.month,1);if(DATE_PICKER.target!=='matter-close-date'||nextMonth<=today().slice(0,7)){DATE_PICKER.month=nextMonth;renderPremiumDatePicker();}}break;
+    case 'date-day': if(DATE_PICKER&&(DATE_PICKER.target!=='matter-close-date'||v<=today())){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
     case 'date-today': if(DATE_PICKER){DATE_PICKER.selected=today();DATE_PICKER.month=today().slice(0,7);renderPremiumDatePicker();}break;
     case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
     case 'date-apply': applyPremiumDatePicker();break;
     case 'date-close': closePremiumDatePicker();break;
+    case 'finish-outcome-open': openMatterFinishOutcomePicker();break;
+    case 'finish-outcome-pick': pickMatterFinishOutcome(v||'');break;
+    case 'finish-outcome-close': closeMatterFinishOutcomePicker();break;
     case 'time-open': {var tt=el.dataset.target||'',ti=tt?$('#'+tt):null;openPremiumTimePicker(tt,ti?ti.value:'',el.dataset.timeMode||'default');break;}
     case 'time-hour': if(TIME_PICKER){TIME_PICKER.hour=+v;normalizePremiumTimeSelection();renderPremiumTimePicker();vib(4);}break;
     case 'time-minute': if(TIME_PICKER&&premiumTimeMinuteAllowed(TIME_PICKER.hour,+v)){TIME_PICKER.minute=+v;updatePremiumTimeWheelVisuals();vib(4);}break;
@@ -8639,6 +8694,8 @@ document.addEventListener('input',function(e){
   }
 });
 document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&FINISH_OUTCOME_OPEN){e.preventDefault();closeMatterFinishOutcomePicker();return;}
+  if(e.key==='Escape'&&DATE_PICKER){e.preventDefault();closePremiumDatePicker();return;}
   if(handlePhoneDeleteKey(e))return;
   if(e.key==='Enter'&&e.target.id==='e-title'){e.preventDefault();saveTask();}
 });
@@ -8669,7 +8726,7 @@ document.addEventListener('touchstart',function(e){
   var t=e.touches[0];
   // На основных вкладках горизонтальный жест теперь переключает страницы.
   // Системный edge-swipe «Назад» оставляем только внутри открытых экранов/панелей.
-  var overlayOpen=$('#page').classList.contains('open')||$('#sheet').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER;
+  var overlayOpen=$('#page').classList.contains('open')||$('#sheet').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
   EDGE_SWIPE.on = overlayOpen && t.clientX <= 44;
   EDGE_SWIPE.x=t.clientX; EDGE_SWIPE.y=t.clientY; EDGE_SWIPE.dx=0; EDGE_SWIPE.dy=0; EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
