@@ -1110,3 +1110,97 @@ body.matter-finish-date-picker-open #date-scrim {background:rgba(31,23,15,.36)!i
   #sheet.matter-finish-sheet.matter-finish-paper-stage1.open>.shbody {margin-top:50px!important;padding-top:6px!important;}
   #sheet.matter-finish-sheet.matter-finish-paper-stage1.open>.shfoot {padding-top:7px!important;padding-bottom:12px!important;}
 }
+
+/* ========================================================================
+   5.0.1257 — final visual reconciliation before approving «Завершить дело».
+   - Gold paper outline remains visible BEHIND the fixed action area.
+   - One continuous marble background covers standalone iOS large viewport.
+   - Form fields have safe horizontal gutters from the paper's inner rim.
+   Do not change the dossier or any other sheet, data or archival handlers.
+   ======================================================================== */
+/* The old opaque .shfoot gradient hid the last 60–110px of the continuous
+   SVG foundation, including the bottom arc. Its background must be clear. */
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shfoot {
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-top:0!important;
+  box-shadow:none!important;
+  z-index:2!important;
+  padding-top:10px!important;
+  padding-bottom:max(28px,env(safe-area-inset-bottom,0px))!important;
+}
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .matter-finish-foundation {
+  z-index:0!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+/* iOS standalone can expose a bottom region outside the visual viewport.
+   Reserve its large viewport on both html and body instead of switching
+   from a textured scrim to the flat app background at the lower edge. */
+html:has(> body.matter-finish-backdrop-open),
+body.matter-finish-backdrop-open {
+  min-height:100lvh!important;
+  height:100lvh!important;
+  background-color:#f7eee0!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+}
+/* Keep only a uniform, almost transparent warm wash in the scrim; do not
+   start a second independently cropped marble texture at visualViewport end. */
+body.matter-finish-backdrop-open::before {display:none!important;content:none!important;}
+body.matter-finish-backdrop-open #scrim.open {
+  background:linear-gradient(180deg,rgba(255,250,238,.035),rgba(255,248,236,.045))!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+/* Content should clear the inset golden line without changing the already
+   approved paper crown, emblem, title and intro card. */
+#sheet.matter-finish-paper-stage1 .matter-finish-date-field,
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-field,
+#sheet.matter-finish-paper-stage1 .matter-finish-note-field {
+  margin-left:7px!important;
+  margin-right:7px!important;
+  width:auto!important;
+  min-width:0!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning {
+  margin-left:7px!important;
+  margin-right:7px!important;
+  width:auto!important;
+}
+@media(max-width:355px){
+  #sheet.matter-finish-paper-stage1 .matter-finish-date-field,
+  #sheet.matter-finish-paper-stage1 .matter-finish-outcome-field,
+  #sheet.matter-finish-paper-stage1 .matter-finish-note-field,
+  #sheet.matter-finish-paper-stage1 .matter-finish-warning {
+    margin-left:4px!important;margin-right:4px!important;
+  }
+  #sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shfoot {
+    padding-bottom:max(24px,env(safe-area-inset-bottom,0px))!important;
+  }
+}
+@media(max-height:640px){
+  #sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shfoot {
+    padding-bottom:max(20px,env(safe-area-inset-bottom,0px))!important;
+  }
+}
+/* The underlying dashboard has its own photography. A truly transparent
+   scrim would reveal it even when html/body are marbled; paint the approved
+   marble on the scrim as well, using the same large-viewport backing. */
+body.matter-finish-backdrop-open #scrim.open {
+  background:linear-gradient(180deg,rgba(255,250,238,.035),rgba(255,248,236,.045)),
+             url('bg-matters-approved-v487.png') center top / cover no-repeat,
+             #f7eee0!important;
+}
+/* Explicit large viewport bleed on iOS: prevents the fixed scrim from ending
+   where visualViewport ends and exposing the dashboard's flat bottom strip. */
+body.matter-finish-backdrop-open #scrim.open {
+  top:0!important;
+  bottom:auto!important;
+  height:100lvh!important;
+  min-height:100lvh!important;
+  width:100%!important;
+}
