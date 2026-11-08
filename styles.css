@@ -48213,3 +48213,246 @@ body.matter-actions-open #scrim.open{
     padding-bottom:11px!important;
   }
 }
+
+
+/* 5.0.1233 — Добавить событие, STAGE 1: EMPTY unified paper layer.
+   Only the case-actions event picker receives the new shape. Text, buttons,
+   icon tiles and typography are reserved for the next visual stages. */
+#sheet.matter-event-choice-sheet.matter-event-stage1-open{
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:min(425px,calc(100dvh - 92px))!important;
+  max-height:calc(100dvh - 72px)!important;
+  padding:42px 14px 18px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+}
+#sheet.matter-event-stage1-open::before,
+#sheet.matter-event-stage1-open::after{display:none!important;content:none!important;}
+#sheet.matter-event-stage1-open>.grab{
+  width:0!important;height:0!important;min-height:0!important;
+  padding:0!important;margin:0!important;opacity:0!important;
+}
+#sheet.matter-event-stage1-open>.matter-event-stage1-outline{
+  display:block!important;position:absolute!important;left:0!important;top:0!important;
+  width:100%!important;height:100%!important;z-index:0!important;
+  pointer-events:none!important;overflow:visible!important;
+  filter:drop-shadow(0 5px 7px rgba(105,70,34,.16));
+}
+#sheet.matter-event-stage1-open>.matter-event-stage1-empty{
+  position:relative;z-index:1;min-height:100%;background:none;
+  border:0;box-shadow:none;pointer-events:none;
+}
+/* The existing choices remain in source for subsequent stages but are not
+   displayed on this first, intentionally blank, paper-layer milestone. */
+#sheet.matter-event-stage1-open>.matter-event-deferred-content{display:none!important;}
+@media(max-width:360px){
+  #sheet.matter-event-stage1-open{padding:40px 9px 15px!important;height:min(405px,calc(100dvh - 80px))!important;}
+}
+
+
+/* 5.0.1234 — Event chooser / STAGE 2: header on the approved, empty
+   unified parchment. Only the header is made visible in this revision.
+   Card area and event editors are untouched. */
+#sheet.matter-event-stage1-open>.matter-event-stage1-empty{
+  box-sizing:border-box;
+  min-height:100%;
+  padding:10px 14px 10px;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-header{
+  display:flex;align-items:center;gap:11px;min-width:0;
+  padding:0;margin:0;
+  background:transparent;border:0;box-shadow:none;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-back{
+  appearance:none;-webkit-appearance:none;
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 47px;width:47px;height:49px;
+  padding:0;margin:0;border-radius:14px;
+  border:1px solid #dab681;
+  background:linear-gradient(140deg,#fffdf8 0%,#fff5e2 62%,#f0d9ad 100%);
+  color:#b17a26;
+  box-shadow:inset 0 1px 0 #fff,0 3px 7px #80613825,0 1px 0 #b88b4d50;
+  position:relative;z-index:2;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-back .ico{
+  width:26px;height:26px;color:#b17a26;stroke-width:2.25;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-back:focus-visible{
+  outline:2px solid #b38642;outline-offset:3px;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-back:active{
+  transform:translateY(1px);box-shadow:inset 0 1px 4px #ad854f40;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-copy{
+  flex:1;min-width:0;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow{
+  display:flex;align-items:center;gap:11px;min-width:0;
+  font-family:Georgia,serif;font-size:10.8px;font-weight:800;
+  color:#9d6e29;letter-spacing:.16em;line-height:1.2;
+  white-space:nowrap;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow span{
+  white-space:nowrap;flex:0 1 auto;min-width:0;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow i{
+  display:block;flex:1 1 20px;max-width:39px;height:2px;border-radius:3px;
+  background:linear-gradient(90deg,#caa064,#aa772b);
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-copy h2{
+  font:700 clamp(22px,7vw,30px)/1.12 Georgia,'Times New Roman',serif;
+  color:#102653;letter-spacing:-.023em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin:5px 0 6px;padding:0;
+}
+#sheet.matter-event-stage1-open .matter-event-stage2-copy p{
+  font:400 clamp(12px,3.45vw,15px)/1.25 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:#69758c;letter-spacing:.002em;
+  margin:0;padding:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:360px){
+  #sheet.matter-event-stage1-open>.matter-event-stage1-empty{padding:10px 11px 10px;}
+  #sheet.matter-event-stage1-open .matter-event-stage2-header{gap:9px;}
+  #sheet.matter-event-stage1-open .matter-event-stage2-back{
+    flex-basis:42px;width:42px;height:45px;border-radius:13px;
+  }
+  #sheet.matter-event-stage1-open .matter-event-stage2-eyebrow{
+    font-size:9.3px;letter-spacing:.11em;gap:7px;
+  }
+  #sheet.matter-event-stage1-open .matter-event-stage2-eyebrow i{max-width:24px;}
+}
+/* Stage 2 interactive control: the intentionally inert empty paper must not
+   block the visible Back button that is mounted inside it. */
+#sheet.matter-event-stage1-open .matter-event-stage2-header,
+#sheet.matter-event-stage1-open .matter-event-stage2-back{
+  pointer-events:auto!important;
+}
+
+
+/* 5.0.1235 / STAGE 3 — geometrical boxes only, no icons or text yet.
+   Header and unified paper from stages 1–2 are retained unchanged. */
+#sheet.matter-event-stage1-open .matter-event-stage3-cards{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr);
+  gap:11px;margin:19px 0 0;padding:0;
+  min-width:0;pointer-events:none;
+}
+#sheet.matter-event-stage1-open .matter-event-stage3-blank{
+  box-sizing:border-box;width:100%;height:76px;min-width:0;
+  border:1px solid rgba(198,153,100,.69);border-radius:23px;
+  background:linear-gradient(137deg,#fffefa 0%,#fffcf5 54%,#fbf0e1 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.97),0 2px 0 rgba(183,135,70,.20),0 5px 9px rgba(107,71,35,.12);
+}
+#sheet.matter-event-stage1-open>.matter-event-stage1-empty{
+  pointer-events:auto!important;
+}
+@media(max-width:360px){
+  #sheet.matter-event-stage1-open .matter-event-stage3-cards{gap:10px;margin-top:16px;}
+  #sheet.matter-event-stage1-open .matter-event-stage3-blank{height:74px;border-radius:20px;}
+}
+
+
+/* 5.0.1236 / STAGE 4 — live, filled event chooser cards.
+   Same geometry as stage 3: only glyphs, copy, colors and arrows added. */
+#sheet.matter-event-stage1-open .matter-event-stage4-cards{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr);
+  gap:11px;margin:19px 0 0;padding:0;min-width:0;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card{
+  appearance:none;-webkit-appearance:none;
+  box-sizing:border-box;display:flex;align-items:center;
+  height:76px;min-height:76px;min-width:0;width:100%;
+  padding:9px 11px;gap:9px;
+  text-align:left;white-space:normal;cursor:pointer;
+  border:1px solid rgba(198,153,100,.69);border-radius:23px;
+  color:#142952;
+  background:linear-gradient(137deg,#fffefa 0%,#fffcf5 54%,#fbf0e1 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.97),0 2px 0 rgba(183,135,70,.20),0 5px 9px rgba(107,71,35,.12);
+  -webkit-tap-highlight-color:transparent;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card:focus-visible{
+  outline:2px solid #b68d50;outline-offset:2px;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card:active{
+  transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(140,96,39,.14),0 2px 4px rgba(107,71,35,.13);
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-icon{
+  box-sizing:border-box;width:48px;height:53px;flex:0 0 48px;
+  display:flex;justify-content:center;align-items:center;
+  border-radius:15px;border:1px solid #e2c38c;
+  color:#b57d26;background:linear-gradient(145deg,#fffef9,#fff0cd 90%);
+  box-shadow:inset 0 1px 1px #fff,0 3px 6px #6f532b2b;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-icon>.ico{
+  width:29px;height:29px;stroke-width:1.95;color:inherit;
+}
+#sheet.matter-event-stage1-open .event-meeting>.matter-event-stage4-icon{
+  border-color:#b4cdd8;color:#3c9dc0;
+  background:linear-gradient(150deg,#fbfeff,#e9f5fb 86%);
+}
+#sheet.matter-event-stage1-open .event-deadline>.matter-event-stage4-icon{
+  border-color:#a9d5b1;color:#119c77;
+  background:linear-gradient(150deg,#fbfffc,#e4f7e5 90%);
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-copy{
+  display:block;flex:1 1 auto;min-width:0;overflow:hidden;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-copy>b{
+  display:block;margin:0;padding:0;
+  color:#102653;font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(15px,4.5vw,19px);font-weight:700;
+  line-height:1.19;letter-spacing:-.024em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-copy>small{
+  display:block;font:400 clamp(10.5px,3.2vw,12.7px)/1.25 system-ui,-apple-system,sans-serif;
+  margin-top:5px;color:#5a6b87;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-arrow{
+  display:flex;align-items:center;justify-content:center;
+  color:#ac7828;flex:0 0 15px;width:15px;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-arrow>.ico{
+  color:inherit;width:16px;height:16px;stroke-width:2.05;
+}
+@media(max-width:360px){
+  #sheet.matter-event-stage1-open .matter-event-stage4-cards{gap:10px;margin-top:16px;}
+  #sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card{
+    height:74px;min-height:74px;border-radius:20px;gap:7px;padding:9px 8px;
+  }
+  #sheet.matter-event-stage1-open .matter-event-stage4-icon{width:41px;height:47px;flex-basis:41px;border-radius:12px;}
+  #sheet.matter-event-stage1-open .matter-event-stage4-icon>.ico{width:25px;height:25px;}
+  #sheet.matter-event-stage1-open .matter-event-stage4-copy>b{font-size:clamp(13.4px,4.15vw,16px);}
+  #sheet.matter-event-stage1-open .matter-event-stage4-copy>small{font-size:10.4px;}
+}
+
+/* Layout guard: the old generic event-picker selector gives every direct span
+   flex:1. Override it for the icon/content/arrow slots of approved new cards. */
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-icon{
+  flex:0 0 48px!important;width:48px!important;min-width:48px!important;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-copy{
+  flex:1 1 auto!important;width:auto!important;min-width:0!important;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-arrow{
+  flex:0 0 15px!important;width:15px!important;min-width:15px!important;
+}
+@media(max-width:360px){
+  #sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-icon{
+    flex-basis:41px!important;width:41px!important;min-width:41px!important;
+  }
+}
+/* Keep the approved deadline wording fully readable at regular iPhone widths;
+   leave single-line ellipsis only for genuinely narrow (320px) layouts. */
+#sheet.matter-event-stage1-open .matter-event-stage4-card.event-deadline .matter-event-stage4-copy>small{
+  font-size:clamp(10.4px,2.95vw,11.65px)!important;
+}

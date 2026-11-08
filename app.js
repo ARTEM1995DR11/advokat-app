@@ -5,7 +5,7 @@
 'use strict';
 
 var APP_VERSION='5.0.1231';
-var APP_BUILD='6232';
+var APP_BUILD='6236';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2158,7 +2158,8 @@ function matterActionReturnBack(){
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4661,16 +4662,95 @@ function mountMatterActionsOutline(panel){
 }
 
 /* Picker selects an existing event editor; no parallel event database. */
+/* 5.0.1233 — approved event picker, stage 1: unified empty parchment.
+   Existing event-kind markup is preserved, but intentionally hidden until the
+   card-content stages. No duplicate editors, no changes to case data. */
 function sheetMatterEventKind(id){
   var m=matter(id);if(!m)return;
   if(m.archived){toast('Сначала верните дело в работу');return;}
-  openSheet('<div class="matter-action-choice-head"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2>Добавить событие</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+ 
-    '<div class="matter-action-choice-list">'+
-    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="hearing">'+ico('gavel','s')+'<span><b>Судебное заседание</b><small>Дата, время, суд и судья</small></span>'+ico('chev','s')+'</button>'+ 
-    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="meeting">'+ico('user','s')+'<span><b>Встреча с доверителем</b><small>Время, место и цель встречи</small></span>'+ico('chev','s')+'</button>'+ 
-    '<button type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="deadline">'+ico('clock','s')+'<span><b>Процессуальный срок</b><small>Контроль срока и правовое основание</small></span>'+ico('chev','s')+'</button>'+ 
-    '</div>');
-  $('#sheet').classList.add('matter-event-choice-sheet');
+  /* Stage 4: fill the approved 3-card layout with live event selection. */
+  var shortName=matterApprovedLeadName(m)||m.client||m.number||'Дело';
+  openSheet('<section class="matter-event-stage1-empty" role="region" aria-labelledby="matter-event-stage2-title">'+
+      '<header class="matter-event-stage2-header">'+
+        '<button class="matter-event-stage2-back" type="button" data-act="close" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button>'+
+        '<div class="matter-event-stage2-copy">'+
+          '<div class="matter-event-stage2-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
+          '<h2 id="matter-event-stage2-title">Добавить событие</h2>'+
+          '<p title="'+esc(shortName)+'">'+esc(shortName)+'</p>'+
+        '</div>'+
+      '</header>'+ 
+      '<div class="matter-action-choice-list matter-event-stage4-cards" role="group" aria-label="Тип события">'+
+        '<button class="matter-event-stage4-card event-hearing" type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="hearing" aria-label="Судебное заседание — дата, время, суд и судья">'+
+          '<span class="matter-event-stage4-icon">'+ico('gavel','s')+'</span>'+
+          '<span class="matter-event-stage4-copy"><b>Судебное заседание</b><small>Дата, время, суд и судья</small></span>'+
+          '<span class="matter-event-stage4-arrow">'+ico('chev','s')+'</span>'+
+        '</button>'+ 
+        '<button class="matter-event-stage4-card event-meeting" type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="meeting" aria-label="Встреча с доверителем — время, место и цель встречи">'+
+          '<span class="matter-event-stage4-icon">'+ico('user','s')+'</span>'+
+          '<span class="matter-event-stage4-copy"><b>Встреча с доверителем</b><small>Время, место и цель встречи</small></span>'+
+          '<span class="matter-event-stage4-arrow">'+ico('chev','s')+'</span>'+
+        '</button>'+ 
+        '<button class="matter-event-stage4-card event-deadline" type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="deadline" aria-label="Процессуальный срок — контроль срока и правовое основание">'+
+          '<span class="matter-event-stage4-icon">'+ico('clock','s')+'</span>'+
+          '<span class="matter-event-stage4-copy"><b>Процессуальный срок</b><small>Контроль срока и правовое основание</small></span>'+
+          '<span class="matter-event-stage4-arrow">'+ico('chev','s')+'</span>'+
+        '</button>'+ 
+      '</div>'+ 
+    '</section>');
+  var panel=$('#sheet');
+  panel.classList.add('matter-event-choice-sheet','matter-event-stage1-open');
+  mountMatterEventPaperStage1(panel);
+}
+/* Unified outer+inner outline; corner geometry calculated at actual mobile size.
+   The crown, shoulders, both side walls and bottom rim are continuous. */
+var MATTER_EVENT_PAPER_OBSERVER=null;
+function mountMatterEventPaperStage1(panel){
+  if(!panel)return;
+  if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
+  var old=panel.querySelector(':scope > .matter-event-stage1-outline');
+  if(old)old.remove();
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.createElementNS(ns,'svg');
+  svg.classList.add('matter-event-stage1-outline');
+  svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+  svg.setAttribute('preserveAspectRatio','none');
+  svg.innerHTML='<defs>'+ 
+    '<linearGradient id="me633Foil" x1="0" x2="1" y1="0" y2=".12"><stop stop-color="#b27a32"/><stop offset=".14" stop-color="#edd3a4"/><stop offset=".55" stop-color="#be8b49"/><stop offset=".88" stop-color="#f2d9af"/><stop offset="1" stop-color="#a67533"/></linearGradient>'+ 
+    '<linearGradient id="me633Base" x1="0" x2=".4" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".62" stop-color="#fff8ed"/><stop offset="1" stop-color="#f2e2c9"/></linearGradient>'+ 
+    '<linearGradient id="me633Inner" x1="0" x2=".18" y1="0" y2="1"><stop stop-color="#fffdfa"/><stop offset=".60" stop-color="#fffaf2"/><stop offset="1" stop-color="#fbefdE"/></linearGradient>'+ 
+    '<radialGradient id="me633Glow" cx=".16" cy=".06" r="1"><stop stop-color="#fff" stop-opacity=".58"/><stop offset=".76" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+ 
+    '<linearGradient id="me633Grip" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#edd8b5"/><stop offset="1" stop-color="#b89360"/></linearGradient>'+ 
+    '</defs>'+ 
+    '<path class="me633-outer" fill="url(#me633Base)" stroke="url(#me633Foil)" stroke-width="2.2" stroke-linejoin="round"/>'+ 
+    '<path class="me633-inner" fill="url(#me633Inner)" stroke="#d9b688" stroke-width="1.15" stroke-linejoin="round"/>'+ 
+    '<path class="me633-light" fill="url(#me633Glow)"/>'+ 
+    '<rect class="me633-grip" width="37" height="4.6" rx="2.3" fill="url(#me633Grip)"/>';
+  panel.insertBefore(svg,panel.firstChild);
+  if(panel._matterEventPaperScroll)panel.removeEventListener('scroll',panel._matterEventPaperScroll);
+  panel._matterEventPaperScroll=function(){svg.style.transform='translateY('+panel.scrollTop+'px)';};
+  panel.addEventListener('scroll',panel._matterEventPaperScroll,{passive:true});
+  function update(){
+    if(!panel.isConnected||!panel.classList.contains('matter-event-stage1-open'))return;
+    var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
+    if(w<240||h<150)return;
+    var cx=w/2,shoulderL=cx-78,shoulderR=cx+78,crownL=cx-54,crownR=cx+54;
+    var bottom=h-2;
+    var outer='M 31 32 H '+shoulderL+' C '+(shoulderL+12)+' 32 '+(crownL-11)+' 23 '+(crownL-7)+' 15 C '+(crownL-4)+' 8 '+(crownL+1)+' 4 '+(crownL+17)+' 4 H '+(crownR-17)+' C '+(crownR-1)+' 4 '+(crownR+4)+' 8 '+(crownR+7)+' 15 C '+(crownR+11)+' 23 '+(shoulderR-12)+' 32 '+shoulderR+' 32 H '+(w-31)+' Q '+(w-2)+' 32 '+(w-2)+' 62 V '+(bottom-29)+' Q '+(w-2)+' '+bottom+' '+(w-32)+' '+bottom+' H 32 Q 2 '+bottom+' 2 '+(bottom-29)+' V 62 Q 2 32 31 32 Z';
+    var inner='M 36 39 H '+(shoulderL+1)+' C '+(shoulderL+16)+' 39 '+(crownL-6)+' 30 '+(crownL-1)+' 20 C '+(crownL+2)+' 14 '+(crownL+7)+' 12 '+(crownL+18)+' 12 H '+(crownR-18)+' C '+(crownR-7)+' 12 '+(crownR-2)+' 14 '+(crownR+1)+' 20 C '+(crownR+6)+' 30 '+(shoulderR-16)+' 39 '+(shoulderR-1)+' 39 H '+(w-36)+' Q '+(w-10)+' 39 '+(w-10)+' 66 V '+(bottom-32)+' Q '+(w-10)+' '+(bottom-8)+' '+(w-37)+' '+(bottom-8)+' H 37 Q 10 '+(bottom-8)+' 10 '+(bottom-32)+' V 66 Q 10 39 36 39 Z';
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    svg.querySelector('.me633-outer').setAttribute('d',outer);
+    svg.querySelector('.me633-inner').setAttribute('d',inner);
+    svg.querySelector('.me633-light').setAttribute('d',inner);
+    svg.querySelector('.me633-grip').setAttribute('x',String(cx-18.5));
+    svg.querySelector('.me633-grip').setAttribute('y','18');
+  }
+  update();
+  if(typeof ResizeObserver!=='undefined'){
+    MATTER_EVENT_PAPER_OBSERVER=new ResizeObserver(update);
+    MATTER_EVENT_PAPER_OBSERVER.observe(panel);
+  }
+  requestAnimationFrame(update);
+  panel._matterEventPaperScroll();
 }
 
 /* 5.0.822: standalone dossier view; all records still live in S.matters, S.tasks and S.journal. */
