@@ -395,3 +395,47 @@ body.matter-finish-backdrop-open {
 body.matter-finish-backdrop-open::before {
   background:url('bg-matters-approved-v487.png') center top / cover no-repeat,#f8f0e2!important;
 }
+
+
+/* =====================================================================
+ 5.0.1248 — isolation of the scrollport within the paper sheet.
+ The crown and shoulder belong to a NON-SCROLLING area. Previously the
+ 62px top padding was part of .shbody's scrolling contents; at scrollTop>0
+ the first fields could paint above the paper rim onto the marble background.
+ Margin reserves the crown OUTSIDE the scrollable element; the inner
+ 6px padding keeps the original starting coordinate of the form.
+ The viewport itself now clips all descendant content (including momentum
+ scrolling in iOS) before it can enter the crown or cross the gold frame.
+ ===================================================================== */
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shbody {
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  margin:56px 0 0!important;
+  padding:6px 24px 20px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  contain:paint!important;
+  clip-path:inset(0 0 0 0)!important;
+  scroll-padding-top:10px;
+  scroll-padding-bottom:16px;
+}
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shfoot {
+  flex:0 0 auto!important;
+  position:relative!important;
+  z-index:2!important;
+}
+@media (max-width:355px){
+  #sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shbody {
+    margin-top:55px!important;
+    padding:6px 20px 16px!important;
+  }
+}
+@media (max-height:640px){
+  #sheet.matter-finish-sheet.matter-finish-paper-stage1.open > .shbody {
+    margin-top:50px!important;
+    padding-top:6px!important;
+  }
+}
