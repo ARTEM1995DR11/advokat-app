@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1231';
-var APP_BUILD='6237';
+var APP_VERSION='5.0.1240';
+var APP_BUILD='6240';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2159,6 +2159,10 @@ function matterActionReturnBack(){
 function openSheet(html){
   var s = $('#sheet');
   if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
+  if(s._matterEventPaperScroll){
+    s.removeEventListener('scroll',s._matterEventPaperScroll);
+    s._matterEventPaperScroll=null;
+  }
   s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
@@ -4305,6 +4309,13 @@ function saveTask(){
   }catch(_hearingStageValidationErr){}
 
   pullEditor();
+  /* 5.0.1239 — a case-linked event cannot be saved into a deleted/archived
+     case, including if the case state changed while its editor was open. */
+  if(ED.mid){
+    var targetCase=matter(ED.mid);
+    if(!targetCase){toast('Дело не найдено. Выберите действующее дело');return;}
+    if(targetCase.archived){toast('Дело в архиве: сначала верните его в работу');return;}
+  }
   var hearing=ED.kind==='hearing', meeting=ED.kind==='meeting';
   if(hearing){
     if(!ED.mid && !String(ED.hearingTopic||'').trim()){
@@ -4354,7 +4365,17 @@ function saveTask(){
     else label='Добавлена задача: '+ED.title+(ED.due?' — '+fmtD(ED.due,true):'');
     addJournal(ED.mid,label,today(),'task',true);
   }
-  save();closeSheet();render();if($('#page').classList.contains('open')&&$('#page')._mid)openMatter($('#page')._mid);toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':(ED.kind==='deadline'?'Срок сохранён':'Задача сохранена')));schedule();
+  /* Refresh the original dossier in place after save; do not send the user
+     to its General tab or lose a long Events/Tasks/Journal scroll position. */
+  var returnPage=$('#page');
+  var returnContext=returnPage&&returnPage.classList.contains('open')&&returnPage._mid?
+    {mid:returnPage._mid,tab:returnPage._matterTab||'general',scroll:returnPage.scrollTop}:null;
+  save();closeSheet();render();
+  if(returnContext && matter(returnContext.mid)){
+    openMatter(returnContext.mid,returnContext.tab);
+    $('#page').scrollTop=returnContext.scroll;
+  }
+  toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':(ED.kind==='deadline'?'Срок сохранён':'Задача сохранена')));schedule();
 }
 
 /* =====================================================================

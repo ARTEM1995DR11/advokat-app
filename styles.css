@@ -48466,7 +48466,7 @@ body.matter-event-backdrop-open #scrim.open{
   opacity:1!important;
   background:
     linear-gradient(180deg,rgba(249,243,232,.17),rgba(249,243,232,.27)),
-    url('bg-dossier-continuous-v5833.webp?v=6237') top center / 100% auto no-repeat,
+    url('bg-dossier-continuous-v5833.webp?v=6240') top center / 100% auto no-repeat,
     #f8f2e6!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
@@ -48488,4 +48488,55 @@ body.matter-event-backdrop-open #scrim.open{
 }
 #sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card:active{
   box-shadow:inset 0 2px 4px rgba(140,96,39,.17),0 2px 5px rgba(107,71,35,.14)!important;
+}
+
+
+/* 5.0.1238 — stage 6: responsive event selector, without moving approved art.
+   The sheet is the ONLY vertical scroller. The vector rim is already fixed
+   visually by mountMatterEventPaperStage1() when this sheet scrolls. */
+#sheet.matter-event-choice-sheet.matter-event-stage1-open{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scroll-padding-bottom:22px!important;
+  bottom:0!important;
+}
+#sheet.matter-event-stage1-open .matter-event-stage4-card,
+#sheet.matter-event-stage1-open .matter-event-stage2-back{touch-action:manipulation;}
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow,
+#sheet.matter-event-stage1-open .matter-event-stage4-copy b,
+#sheet.matter-event-stage1-open .matter-event-stage4-copy small{
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+/* Compact displays should make the last card reachable by scrolling rather
+   than cutting off the bottom gold rim or shrinking approved card artwork. */
+@media(max-height:600px){
+  #sheet.matter-event-choice-sheet.matter-event-stage1-open{
+    height:min(425px,calc(100dvh - 20px))!important;
+    max-height:calc(100dvh - 16px)!important;
+    scroll-padding-bottom:28px!important;
+  }
+  #sheet.matter-event-stage1-open>.matter-event-stage1-empty{padding-bottom:24px!important;}
+}
+@media(max-height:600px) and (max-width:360px){
+  #sheet.matter-event-choice-sheet.matter-event-stage1-open{
+    height:min(405px,calc(100dvh - 16px))!important;
+  }
+}
+
+
+/* 5.0.1240 — stage 8: final event-chooser interaction polish.
+   Keep selected-element keyboard focus visible on ivory. */
+#sheet.matter-event-stage1-open .matter-event-stage4-card:focus-visible{
+  outline:2px solid #ad7d36!important;
+  outline-offset:2px!important;
+}
+@media(prefers-reduced-motion:reduce){
+  #sheet.matter-event-stage1-open .matter-event-stage4-card:active{
+    transition:none!important;
+  }
 }
