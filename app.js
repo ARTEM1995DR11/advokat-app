@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1248';
-var APP_BUILD='6248';
+var APP_VERSION='5.0.1250';
+var APP_BUILD='6250';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2011,20 +2011,70 @@ function archiveMatter(id){
   addJournal(id,'Дело архивировано без завершения поручения',today(),'system',true);
   save();closeAll();render();toast('Дело перемещено в архив');
 }
+
+/* 5.0.1249 / stage 4: approved date-control visual with NATIVE date input.
+   The original #matter-close-date ID, value and save validation are preserved. */
+function matterFinishDateText(iso){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return 'Выбрать дату';
+  var a=iso.split('-'),m=Number(a[1]),d=Number(a[2]);
+  var months=['янв.','февр.','марта','апр.','мая','июня','июля','авг.','сент.','окт.','нояб.','дек.'];
+  if(!m||m>12||!d||d>31)return 'Выбрать дату';
+  return d+' '+months[m-1]+' '+a[0]+' г.';
+}
+function matterFinishDateMarkup(){
+  var v=today();
+  return '<div class="fld matter-finish-date-field"><label for="matter-close-date">Дата завершения</label>'+
+    '<div class="matter-finish-date-control">'+
+    '<span class="matter-finish-date-icon" aria-hidden="true">'+ico('cal','s')+'</span>'+
+    '<span class="matter-finish-control-rule" aria-hidden="true"></span>'+
+    '<span class="matter-finish-date-text" aria-hidden="true">'+esc(matterFinishDateText(v))+'</span>'+
+    '<input id="matter-close-date" type="date" value="'+v+'" aria-label="Дата завершения" max="'+v+'">'+
+    '</div></div>';
+}
+function bindMatterFinishDate(){
+  var el=document.getElementById('matter-close-date'),label=document.querySelector('.matter-finish-date-text');
+  if(!el||!label)return;
+  function refresh(){label.textContent=matterFinishDateText(el.value);}
+  el.addEventListener('input',refresh);
+  el.addEventListener('change',refresh);
+  refresh();
+}
+
+/* 5.0.1250 / stage 5: full-width native outcome choice, with separate paper presentation. */
+function matterFinishOutcomeMarkup(){
+  return '<div class="fld matter-finish-outcome-field"><label for="matter-close-outcome">Итог дела / поручения</label>'+
+    '<div class="matter-finish-outcome-control">'+
+    '<span class="matter-finish-outcome-icon" aria-hidden="true">'+ico('check','s')+'</span>'+
+    '<span class="matter-finish-control-rule" aria-hidden="true"></span>'+
+    '<span class="matter-finish-outcome-text" aria-hidden="true">'+esc(MATTER_CLOSE_OUTCOMES.fulfilled)+'</span>'+
+    '<select id="matter-close-outcome" data-premium-ready="1" aria-label="Итог дела или поручения">'+
+    Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+
+    '</select><span class="matter-finish-outcome-arrow" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>'+
+    '</div></div>';
+}
+function bindMatterFinishOutcome(){
+  var el=document.getElementById('matter-close-outcome'),label=document.querySelector('.matter-finish-outcome-text');
+  if(!el||!label)return;
+  function refresh(){ label.textContent=el.selectedOptions.length?el.selectedOptions[0].textContent:'Выберите результат'; }
+  el.addEventListener('input',refresh);el.addEventListener('change',refresh);refresh();
+}
+
 function sheetMatterFinish(id){
   var m=matter(id);if(!m||m.archived)return;
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
   /* 5.0.1242: paper form shell, stage 1. Keep the form field IDs and archival logic unchanged. */
   openSheet('<header class="matter-finish-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
     '<div class="matter-finish-intro" role="note"><span class="matter-finish-intro-mark" aria-hidden="true">'+ico('arch','s')+'</span><span class="matter-finish-intro-rule" aria-hidden="true"></span><span class="matter-finish-intro-copy">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</span></div>'+
-    '<div class="fld"><label for="matter-close-date">Дата завершения</label><input id="matter-close-date" type="date" value="'+today()+'"></div>'+
-    '<div class="fld"><label for="matter-close-outcome">Итог дела / поручения</label><select id="matter-close-outcome">'+Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+'</select></div>'+
+    matterFinishDateMarkup()+
+    matterFinishOutcomeMarkup()+
     '<div class="fld"><label for="matter-close-note">Заключительная запись</label><textarea id="matter-close-note" rows="4" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div>'+
     (open.length?'<div class="matter-finish-warning">'+matterPendingWorkHTML(id)+'<label><input id="matter-close-ack" type="checkbox"> Я проверил(а) оставшиеся задачи, сроки и заседания</label></div>':'')+
     '<button class="btn matter-finish-submit" data-act="m-finish-save" data-id="'+esc(id)+'">'+ico('check','s')+' Завершить и переместить в архив</button>');
   $('#sheet').classList.add('matter-finish-sheet','matter-finish-paper-stage1');
   document.body.classList.add('matter-finish-backdrop-open');
   mountMatterFinishFoundation($('#sheet'));
+  bindMatterFinishDate();
+  bindMatterFinishOutcome();
 }
 /* 5.0.1244 / stage 1 — dedicated continuous outline for «Завершить дело».
    The approved central crown, shoulders, side walls and bottom rounding are

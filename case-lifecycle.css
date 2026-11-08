@@ -439,3 +439,112 @@ body.matter-finish-backdrop-open::before {
     padding-top:6px!important;
   }
 }
+
+/* =====================================================================
+  5.0.1249 — ЭТАП 4. Премиальное поле даты в утверждённом макете.
+  Важное: нативный input[type=date] остаётся доступен для iOS picker,
+  а видимое значение синхронизируется без изменения модели данных.
+   ===================================================================== */
+#sheet.matter-finish-paper-stage1 .matter-finish-date-field {margin-bottom:16px!important;}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-field>label{
+  display:block!important;margin:0 0 7px!important;
+  font:700 clamp(15px,4.1vw,18px)/1.24 Georgia,'Times New Roman',serif!important;
+  color:#112b55!important;letter-spacing:-.014em!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-control{
+  position:relative!important;box-sizing:border-box!important;
+  width:100%!important;height:52px!important;
+  display:flex!important;align-items:center!important;gap:12px!important;
+  padding:0 14px!important;
+  border:1.1px solid #c9b8aa!important;border-radius:16px!important;
+  background:linear-gradient(130deg,rgba(255,255,255,.90),rgba(252,248,244,.93))!important;
+  box-shadow:0 5px 11px rgba(114,79,43,.07), inset 0 1.5px 1px rgba(255,255,255,.98)!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-control:focus-within{
+  outline:2px solid rgba(174,130,60,.65);outline-offset:2px;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-icon{
+  display:grid;place-items:center;flex:0 0 28px!important;
+  color:#678097!important;pointer-events:none!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-icon .ico{width:25px;height:25px;stroke-width:1.7;}
+#sheet.matter-finish-paper-stage1 .matter-finish-control-rule{
+  display:block;flex:0 0 1px;width:1px;height:27px;
+  background:linear-gradient(to bottom,transparent,#cbbeb1 10%,#cbbeb1 90%,transparent);pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-text{
+  flex:1 1 auto;min-width:0;text-align:left;pointer-events:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  color:#112653;font:700 clamp(16px,4.6vw,21px)/1.2 Georgia,'Times New Roman',serif;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-date-control #matter-close-date{
+  position:absolute!important;inset:0!important;z-index:1!important;
+  width:100%!important;height:100%!important;min-height:0!important;
+  opacity:0!important;transition:none!important;animation:none!important;cursor:pointer!important;
+  border:0!important;margin:0!important;padding:0!important;
+  -webkit-appearance:none;appearance:none;
+}
+@media(max-width:355px){
+  #sheet.matter-finish-paper-stage1 .matter-finish-date-control{height:49px!important;gap:9px!important;padding:0 11px!important;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-date-icon{flex-basis:24px!important;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-date-icon .ico{width:23px;height:23px;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-date-text{font-size:16px!important;}
+}
+
+/* =====================================================================
+  5.0.1250 — ЭТАП 5. Карточка результата с зелёной отметкой,
+  разделителем и золотой стрелкой. Настоящий select сохраняет все варианты.
+   ===================================================================== */
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-field{margin-bottom:16px!important;}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-field>label{
+  display:block!important;margin:0 0 7px!important;
+  font:700 clamp(15px,4.1vw,18px)/1.24 Georgia,'Times New Roman',serif!important;
+  color:#112b55!important;letter-spacing:-.014em!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-control{
+  width:100%;min-width:0;box-sizing:border-box;position:relative;
+  height:57px;display:flex;align-items:center;gap:12px;
+  padding:0 12px 0 13px;
+  border:1.25px solid #c2a67e;border-radius:17px;
+  background:linear-gradient(145deg,rgba(255,254,247,.97),rgba(253,246,230,.96));
+  box-shadow:0 6px 12px rgba(111,71,26,.12),inset 0 1px 1px #fff;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-control:focus-within{
+  outline:2px solid rgba(174,130,60,.65);outline-offset:2px;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-icon{
+  flex:0 0 30px;display:grid;place-items:center;
+  width:30px;height:30px;border:1px solid #99c3a7;border-radius:10px;
+  background:linear-gradient(145deg,#f4fcf6,#dbeedf);color:#177d57;
+  box-shadow:0 2px 4px rgba(54,101,57,.12),inset 0 1px 0 #fff;
+  pointer-events:none;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-icon .ico{width:23px;height:23px;stroke-width:2;}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-control>.matter-finish-control-rule{height:29px;}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-text{
+  flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;pointer-events:none;color:#0e2454;
+  font:700 clamp(14px,4.05vw,18px)/1.2 Georgia,'Times New Roman',serif;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-control #matter-close-outcome{
+  position:absolute!important;inset:0!important;z-index:1!important;
+  width:100%!important;max-width:none!important;height:100%!important;
+  margin:0!important;padding:0!important;border:0!important;
+  opacity:0!important;transition:none!important;animation:none!important;
+  cursor:pointer!important;-webkit-appearance:none!important;appearance:none!important;
+}
+
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-arrow{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  display:grid;place-items:center;pointer-events:none;
+  width:32px;height:32px;border-radius:11px;
+  color:#a97824;border:1px solid #edd8ac;
+  background:linear-gradient(145deg,#fffaf0,#f8ead0);
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-outcome-arrow .ico{width:21px;height:21px;stroke-width:2.4;}
+@media(max-width:355px){
+  #sheet.matter-finish-paper-stage1 .matter-finish-outcome-control{height:53px;gap:8px;padding-left:10px;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-outcome-icon{flex-basis:27px;width:27px;height:27px;border-radius:9px;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-outcome-text{font-size:14px!important;}
+  #sheet.matter-finish-paper-stage1 .matter-finish-outcome-arrow{width:29px;height:29px;right:8px;}
+}
