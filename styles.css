@@ -48561,3 +48561,41 @@ body.matter-event-backdrop-open{
   background-position:top center!important;
   background-size:100% auto!important;
 }
+
+
+/* 5.0.1243 — case identity, journal. Keep the entire article visible and
+   let the fixed row grow naturally rather than clipping after `ч.`. */
+body.light .sheet.journal-premium-sheet .journal-fixed-matter{
+  height:auto!important; min-height:70px!important;
+  grid-template-columns:32px minmax(0,1fr)!important;
+  padding-top:10px!important;padding-bottom:10px!important;
+}
+body.light .sheet.journal-premium-sheet .journal-fixed-matter-copy{
+  min-width:0!important;overflow:visible!important;
+}
+body.light .sheet.journal-premium-sheet .journal-fixed-matter-copy .journal-fixed-article{
+  display:block!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:break-word!important;
+  margin-top:4px!important;
+  font-size:12.5px!important;
+  line-height:1.32!important;
+  font-weight:600!important;
+  color:#3b5675!important;
+}
+body.light .sheet.journal-premium-sheet .journal-fixed-matter-copy .journal-fixed-context{
+  margin-top:4px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+body.light .sheet.journal-premium-sheet .journal-matter-meta.is-visible{
+  max-height:110px!important;
+  overflow:visible!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  font-size:12px!important;
+  line-height:1.35!important;
+}

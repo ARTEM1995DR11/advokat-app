@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1241';
-var APP_BUILD='6241';
+var APP_VERSION='5.0.1244';
+var APP_BUILD='6244';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -739,6 +739,10 @@ function syncPremiumSelectButton(id){
   var inMatterEditor=!!sel.closest('.matter-editor-sheet');
   var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null,label=opt?(opt.textContent||opt.label||'').trim():'— выбрать —';
   if(id==='m-role'&&sel.value)label=matterRoleDisplayLabel((MED&&MED.type)||'other',(MED&&MED.stage)||'',sel.value);
+  if(id==='j-mid-select'&&sel.value){
+    var jm=matter(sel.value);
+    if(jm)label=matterFolderStage6Name(jm)||matterAutoClientLabel(jm.client)||jm.title||'Дело';
+  }
   if(inMatterEditor&&!sel.value)label=id==='m-role'?'Выберите статус':'';
   var b=btn.querySelector('b');if(b)b.textContent=label||(inMatterEditor?'':'— выбрать —');btn.classList.toggle('empty',!sel.value);
   var tone=(id==='m-type'||id==='m-basis'||id==='m-stage'||id==='m-role'||id==='m-execution-issue')?premiumListMatterMeta(id,sel.value):null;
@@ -1621,11 +1625,17 @@ function matterAutoClientLabel(value){
   }
   return matterAutoTitlePiece(text,58);
 }
+/* 5.0.1243: legal references are NOT prose sentences. In particular the
+   period in `ч. 3 ст. 30` must not terminate a case title at `ч`. Do not
+   shorten legal qualifications here: the UI decides how to wrap them. */
+function matterFullQualification(m){
+  return String((m&&m.article)||'').replace(/\s+/g,' ').trim();
+}
 function matterAutoTitle(o){
   o=o||{};
   var type=o.type||'other';
   var client=matterAutoClientLabel(o.client||'');
-  var article=matterAutoTitlePiece(o.article||'',60);
+  var article=matterFullQualification(o);
   var subject=matterAutoTitlePiece(o.notes||'',58);
   var execution='';
   if(type==='criminal'&&o.stage==='Исполнение приговора'&&o.executionIssue){
@@ -2004,15 +2014,68 @@ function archiveMatter(id){
 function sheetMatterFinish(id){
   var m=matter(id);if(!m||m.archived)return;
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
-  openSheet('<div class="matter-finish-head"><span class="matter-finish-logo">'+ico('check')+'</span><div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+
+  /* 5.0.1242: paper form shell, stage 1. Keep the form field IDs and archival logic unchanged. */
+  openSheet('<header class="matter-finish-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
     '<div class="matter-finish-intro">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</div>'+
     '<div class="fld"><label for="matter-close-date">Дата завершения</label><input id="matter-close-date" type="date" value="'+today()+'"></div>'+
     '<div class="fld"><label for="matter-close-outcome">Итог дела / поручения</label><select id="matter-close-outcome">'+Object.keys(MATTER_CLOSE_OUTCOMES).map(function(k){return '<option value="'+k+'">'+esc(MATTER_CLOSE_OUTCOMES[k])+'</option>';}).join('')+'</select></div>'+
     '<div class="fld"><label for="matter-close-note">Заключительная запись</label><textarea id="matter-close-note" rows="4" placeholder="Что сделано, каков итог, нужны ли дальнейшие действия…"></textarea></div>'+
     (open.length?'<div class="matter-finish-warning">'+matterPendingWorkHTML(id)+'<label><input id="matter-close-ack" type="checkbox"> Я проверил(а) оставшиеся задачи, сроки и заседания</label></div>':'')+
     '<button class="btn matter-finish-submit" data-act="m-finish-save" data-id="'+esc(id)+'">'+ico('check','s')+' Завершить и переместить в архив</button>');
-  $('#sheet').classList.add('matter-finish-sheet');
+  $('#sheet').classList.add('matter-finish-sheet','matter-finish-paper-stage1');
+  document.body.classList.add('matter-finish-backdrop-open');
+  mountMatterFinishFoundation($('#sheet'));
 }
+/* 5.0.1244 / stage 1 — dedicated continuous outline for «Завершить дело».
+   The approved central crown, shoulders, side walls and bottom rounding are
+   one vector shape, scaled to the *actual* panel dimensions (not stretched).
+   It is decoration only; form fields, event handlers and archive logic remain.
+*/
+var FINISH_FOUNDATION_OBSERVER=null;
+function mountMatterFinishFoundation(panel){
+  if(!panel)return;
+  if(FINISH_FOUNDATION_OBSERVER){FINISH_FOUNDATION_OBSERVER.disconnect();FINISH_FOUNDATION_OBSERVER=null;}
+  var prev=panel.querySelector(':scope > .matter-finish-foundation');if(prev)prev.remove();
+  var ns='http://www.w3.org/2000/svg';
+  var svg=document.createElementNS(ns,'svg');
+  svg.classList.add('matter-finish-foundation');
+  svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+  svg.setAttribute('preserveAspectRatio','none');
+  svg.innerHTML='<defs>'+
+    '<linearGradient id="mf6244Rim" x1="0" x2="1" y1="0" y2=".08"><stop stop-color="#ad762f"/><stop offset=".13" stop-color="#ebc88d"/><stop offset=".53" stop-color="#bd8a47"/><stop offset=".87" stop-color="#e7c18d"/><stop offset="1" stop-color="#a4732e"/></linearGradient>'+
+    '<linearGradient id="mf6244Outer" x1="0" x2=".5" y1="0" y2="1"><stop stop-color="#fffdf8"/><stop offset=".52" stop-color="#fff9ee"/><stop offset="1" stop-color="#f5e4c9"/></linearGradient>'+
+    '<linearGradient id="mf6244Inner" x1="0" x2=".25" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset=".65" stop-color="#fffaf2"/><stop offset="1" stop-color="#f9eedc"/></linearGradient>'+
+    '<radialGradient id="mf6244Light" cx=".18" cy=".08" r=".98"><stop stop-color="#fff" stop-opacity=".53"/><stop offset=".74" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
+    '<linearGradient id="mf6244Grip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9c3a2"/><stop offset="1" stop-color="#b9976b"/></linearGradient>'+
+    '</defs>'+
+    '<path class="mf6244-outer" fill="url(#mf6244Outer)" stroke="url(#mf6244Rim)" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<path class="mf6244-inner" fill="url(#mf6244Inner)" stroke="#dcc097" stroke-width="1.13" stroke-linejoin="round"/>'+
+    '<path class="mf6244-light" fill="url(#mf6244Light)" stroke="none"/>'+
+    '<rect class="mf6244-grip" width="37" height="4.5" rx="2.25" fill="url(#mf6244Grip)"/>';
+  panel.insertBefore(svg,panel.firstChild);
+  function redraw(){
+    if(!panel.isConnected||!panel.classList.contains('matter-finish-paper-stage1'))return;
+    var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
+    if(w<245||h<160)return;
+    var cx=w/2, shoulderL=cx-75,shoulderR=cx+75,crownL=cx-51,crownR=cx+51;
+    var bottom=h-2;
+    var outer='M 30 33 H '+shoulderL+' C '+(shoulderL+12)+' 33 '+(crownL-11)+' 25 '+(crownL-7)+' 16 C '+(crownL-3)+' 7 '+(crownL+2)+' 3 '+(crownL+17)+' 3 H '+(crownR-17)+' C '+(crownR-2)+' 3 '+(crownR+3)+' 7 '+(crownR+7)+' 16 C '+(crownR+11)+' 25 '+(shoulderR-12)+' 33 '+shoulderR+' 33 H '+(w-30)+' Q '+(w-2)+' 33 '+(w-2)+' 62 V '+(bottom-29)+' Q '+(w-2)+' '+bottom+' '+(w-31)+' '+bottom+' H 31 Q 2 '+bottom+' 2 '+(bottom-29)+' V 62 Q 2 33 30 33 Z';
+    var inner='M 35 41 H '+(shoulderL+1)+' C '+(shoulderL+17)+' 41 '+(crownL-6)+' 32 '+(crownL-1)+' 20 C '+(crownL+2)+' 14 '+(crownL+7)+' 11 '+(crownL+18)+' 11 H '+(crownR-18)+' C '+(crownR-7)+' 11 '+(crownR-2)+' 14 '+(crownR+1)+' 20 C '+(crownR+6)+' 32 '+(shoulderR-17)+' 41 '+(shoulderR-1)+' 41 H '+(w-35)+' Q '+(w-10)+' 41 '+(w-10)+' 67 V '+(bottom-31)+' Q '+(w-10)+' '+(bottom-9)+' '+(w-36)+' '+(bottom-9)+' H 36 Q 10 '+(bottom-9)+' 10 '+(bottom-31)+' V 67 Q 10 41 35 41 Z';
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    svg.querySelector('.mf6244-outer').setAttribute('d',outer);
+    svg.querySelector('.mf6244-inner').setAttribute('d',inner);
+    svg.querySelector('.mf6244-light').setAttribute('d',inner);
+    svg.querySelector('.mf6244-grip').setAttribute('x',String(cx-18.5));
+    svg.querySelector('.mf6244-grip').setAttribute('y','17.5');
+  }
+  redraw();
+  if(typeof ResizeObserver!=='undefined'){
+    FINISH_FOUNDATION_OBSERVER=new ResizeObserver(redraw);
+    FINISH_FOUNDATION_OBSERVER.observe(panel);
+  }else window.addEventListener('resize',redraw,{passive:true});
+  requestAnimationFrame(redraw);
+}
+
 function finishMatter(id){
   var m=matter(id);if(!m||m.archived)return;
   var dateEl=$('#matter-close-date'),outcomeEl=$('#matter-close-outcome'),noteEl=$('#matter-close-note');
@@ -2158,12 +2221,13 @@ function matterActionReturnBack(){
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
   var s = $('#sheet');
+  if(FINISH_FOUNDATION_OBSERVER){FINISH_FOUNDATION_OBSERVER.disconnect();FINISH_FOUNDATION_OBSERVER=null;}
   if(MATTER_EVENT_PAPER_OBSERVER){MATTER_EVENT_PAPER_OBSERVER.disconnect();MATTER_EVENT_PAPER_OBSERVER=null;}
   if(s._matterEventPaperScroll){
     s.removeEventListener('scroll',s._matterEventPaperScroll);
     s._matterEventPaperScroll=null;
   }
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2175,16 +2239,16 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
   matterActionReturnReset();
-  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -2301,12 +2365,14 @@ function hearingCaption(t,m){
      а номер дела показывается отдельной строкой ниже. */
   if(m){
     var title=String(m.title||'').replace(/\s+/g,' ').trim();
-    if(title) return matterAutoTitlePiece(title,86);
+    // Never run the sentence parser on `Иванов И.И. — ч. 3 ст. 30`:
+    // both personal initials and legal abbreviations contain periods.
+    if(title) return title;
     var auto=matterAutoTitle({
       type:m.type||'other', client:m.client||'', article:m.article||'', notes:m.notes||'',
       stage:m.stage||'', executionIssue:m.executionIssue||''
     });
-    if(auto) return matterAutoTitlePiece(auto,86);
+    if(auto) return auto;
     if(m.client) return matterAutoClientLabel(m.client);
   }
   return t.hearingTopic||t.hearingClient||t.hearingNumber||'Судебное заседание';
@@ -6835,13 +6901,27 @@ function saveMatter(){
 function addJournal(mid,text,date,type,silent){
   if(!mid||!text)return; S.journal.unshift({id:uid(),mid:mid,date:date||today(),text:text,type:type||'note',created:new Date().toISOString()}); if(!silent)save();
 }
+/* Visible case identity: the person and the legal qualification are
+   separate lines. They are not an arbitrary character-truncated title. */
+function matterDisplayCaseSubject(m){
+  if(!m)return '';
+  if(m.type==='criminal' && m.stage==='Исполнение приговора' && m.executionIssue){
+    var issue=criminalExecutionIssue(m.executionIssue);
+    if(issue)return issue.short||issue.name||'';
+  }
+  if((m.type==='criminal'||m.type==='koap')&&matterFullQualification(m))return matterFullQualification(m);
+  var title=String(m.title||matterAutoTitle(m)||'').replace(/\s+/g,' ').trim();
+  var pos=title.indexOf(' — ');
+  return pos>=0?title.slice(pos+3).trim():'';
+}
 function journalMatterMetaText(mid){
   var m=mid?matter(mid):null;if(!m)return '';
   var bits=[];
-  if(m.client)bits.push(m.client);
+  var subject=matterDisplayCaseSubject(m);
+  if(subject)bits.push(subject);
   if(m.court)bits.push(m.court);
   else if(m.number)bits.push('№ '+m.number);
-  return bits.slice(0,2).join(' · ');
+  return bits.join(' · ');
 }
 function syncJournalMatterMeta(){
   var box=$('#j-matter-meta');if(!box)return;
@@ -6878,7 +6958,9 @@ function decorateJournalPremiumControls(){
 }
 function sheetJournal(mid){
   var fixed=mid?matter(mid):null;
-  var fixedMeta=mid?journalMatterMetaText(mid):'';
+  var fixedName=fixed?(matterFolderStage6Name(fixed)||matterAutoClientLabel(fixed.client)||'Дело'):'Дело';
+  var fixedSubject=fixed?matterDisplayCaseSubject(fixed):'';
+  var fixedContext=fixed?([fixed.number?'№ '+String(fixed.number).replace(/^№\s*/,''):'',fixed.court||''].filter(Boolean).join(' · ')):'';
   openSheet(
     '<div class="journal-premium-head">'+
       '<span class="journal-premium-head-icon">'+ico('doc','s')+'</span>'+
@@ -6892,7 +6974,7 @@ function sheetJournal(mid){
       '</div>'
       :
       '<div class="fld journal-premium-fld journal-fixed-matter-fld"><label>Дело</label>'+
-        '<div class="journal-fixed-matter"><span class="journal-field-leading">'+ico('folder','s')+'</span><div><b>'+esc((fixed&&fixed.title)||'Дело')+'</b>'+(fixedMeta?'<small>'+esc(fixedMeta)+'</small>':'')+'</div></div>'+
+        '<div class="journal-fixed-matter"><span class="journal-field-leading">'+ico('folder','s')+'</span><div class="journal-fixed-matter-copy"><b>'+esc(fixedName)+'</b>'+(fixedSubject?'<small class="journal-fixed-article">'+esc(fixedSubject)+'</small>':'')+(fixedContext?'<small class="journal-fixed-context">'+esc(fixedContext)+'</small>':'')+'</div></div>'+
       '</div>'
     )+
     '<div class="fld journal-premium-fld journal-date-fld"><label>Дата</label><div class="journal-date-wrap">'+premiumDateControl('j-date',today(),'Выберите дату')+'</div></div>'+
