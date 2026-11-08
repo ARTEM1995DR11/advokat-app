@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1250';
-var APP_BUILD='6250';
+var APP_VERSION='5.0.1251';
+var APP_BUILD='6251';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2040,7 +2040,7 @@ function bindMatterFinishDate(){
   refresh();
 }
 
-/* 5.0.1250 / stage 5: full-width native outcome choice, with separate paper presentation. */
+/* 5.0.1251 / stage 5: full-width native outcome choice, with separate paper presentation. */
 function matterFinishOutcomeMarkup(){
   return '<div class="fld matter-finish-outcome-field"><label for="matter-close-outcome">Итог дела / поручения</label>'+
     '<div class="matter-finish-outcome-control">'+

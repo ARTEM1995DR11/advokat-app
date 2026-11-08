@@ -5203,3 +5203,48 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   -webkit-hyphens:none;
   hyphens:none;
 }
+
+
+/* ========================================================================
+  5.0.1251 — audited archived/active dossier chronology text collision.
+  The former `white-space:nowrap` allowed long calendar dates (especially
+  «19 сентября 2026») to paint UNDER the entry icon, despite grid min-width:0.
+  Reserve each independent cell in the existing approved three-column layout;
+  wrap the date at WORD boundaries, never above the icon. The year remains
+  visible. Do not alter folder art, time-line nodes, or data/order/handlers.
+  ======================================================================== */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record{
+  grid-template-columns:minmax(0,32%) clamp(26px,8.3vw,34px) minmax(0,1fr);
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record .dossier-journal-datetime{
+  width:100%;max-width:100%;min-width:0;overflow-wrap:normal;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record .dossier-journal-date{
+  display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;
+  white-space:normal!important;text-wrap:wrap!important;
+  overflow-wrap:break-word;word-break:normal;
+  -webkit-hyphens:none;hyphens:none;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record .dossier-journal-entry-icon{
+  position:relative;z-index:1;flex:none;justify-self:start;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+.dossier-journal-paper-blank .dossier-journal-timeline-row.has-record .dossier-journal-entry-text{
+  box-sizing:border-box;min-width:0;max-width:100%;overflow-wrap:anywhere;
+}
+@media (max-width:355px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="journal"] .dossier-stage7-middle-journal
+  .dossier-journal-paper-blank .dossier-journal-timeline-row.has-record{
+    grid-template-columns:minmax(0,31%) 26px minmax(0,1fr);
+  }
+}
