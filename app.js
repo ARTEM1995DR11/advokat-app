@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1272';
-var APP_BUILD='6272';
+var APP_VERSION='5.0.1274';
+var APP_BUILD='6274';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2124,12 +2124,30 @@ function matterFinishWarningMarkup(id){
   // swallow the screen; expand on demand for detailed review.
   var heading='<div class="matter-finish-warning-top" role="note">'+
    '<span class="matter-finish-warning-emblem" aria-hidden="true">'+
-     '<svg class="matter-finish-warning-laurel" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg">'+
-       '<path d="M42 7C49 4 53 7 57 12C64 10 69 14 69 20C76 23 77 29 72 35C77 41 75 47 69 51C70 59 64 63 57 63C52 70 46 69 42 67C35 70 29 69 25 63C17 63 13 58 15 51C9 46 7 40 12 35C7 29 9 22 15 20C16 13 21 10 27 12C32 6 37 5 42 7Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" opacity=".85"/>'+
-       '<path d="M17 66C7 55 7 38 18 24M67 66C77 55 77 38 66 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'+
-       '<path d="M18 58Q6 58 8 50Q17 50 18 58ZM14 48Q5 44 10 37Q20 40 14 48ZM14 36Q8 29 16 25Q21 33 14 36ZM22 69Q12 70 12 61Q22 61 22 69ZM66 58Q78 58 76 50Q67 50 66 58ZM70 48Q79 44 74 37Q64 40 70 48ZM70 36Q76 29 68 25Q63 33 70 36ZM62 69Q72 70 72 61Q62 61 62 69Z" fill="currentColor" opacity=".76"/>'+
-       '<path d="M25 73Q42 82 59 73" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'+
-     '</svg>'+ico('arch','s')+'</span>'+ 
+     '<svg class="matter-finish-warning-laurel" viewBox="0 0 100 112" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">'+
+     '<defs><linearGradient id="mf-seal-line-1274" x1="12" y1="0" x2="84" y2="106" gradientUnits="userSpaceOnUse"><stop stop-color="#E1B552"/><stop offset=".46" stop-color="#B97D1F"/><stop offset="1" stop-color="#C38A24"/></linearGradient><linearGradient id="mf-seal-leaf-1274" x1="2" y1="63" x2="43" y2="112" gradientUnits="userSpaceOnUse"><stop stop-color="#F2C967"/><stop offset=".53" stop-color="#C28A28"/><stop offset="1" stop-color="#A96E13"/></linearGradient></defs>'+
+     '<path d="M15.5 69C10.3 65.4 8.8 57.3 13.4 51.4C9.2 45.6 11 38.6 17.1 35.4C14.2 28.4 19.1 22.6 26.2 22.5C27.4 14.5 34.7 11.2 41.1 14.4C46.3 9.1 53.1 9.2 58.5 14.3C66.4 10.7 73.3 15.1 74.7 22.7C82.3 22.8 86.4 29.4 83.3 36.5C89.7 39.6 91.1 46.1 86.7 51.9C91.5 58.1 90 65.5 84.8 69.4" stroke="url(#mf-seal-line-1274)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
+     '<path d="M17.5 67.7C13.2 64.3 12 57.8 15.3 52.2C11.8 46.4 13.7 40.7 19 37.5C16.6 30.9 20.5 25.1 28.2 24.6C29.4 17.2 35.8 14.6 41.8 17.2C46.7 12.2 52.7 12.3 57.8 17.1C65.1 13.7 71 17.9 72.6 24.8C79.1 24.3 83 30.7 80.8 37.3C86.3 41.3 87 46.3 83.5 52.2C87.2 58 86 64.5 82.5 67.7" stroke="#F3D99C" stroke-width=".75" opacity=".9"/>'+
+     '<g stroke-linejoin="round" stroke-linecap="round"><rect x="30.8" y="39.1" width="38.4" height="11.8" rx="2.4" stroke="#EAC579" stroke-width="5.8"/><rect x="30.8" y="39.1" width="38.4" height="11.8" rx="2.4" stroke="#A96D12" stroke-width="3.4"/><path d="M34.9 50.4V69.5Q34.9 73 38.4 73H61.6Q65.1 73 65.1 69.5V50.4" stroke="#F3D08A" stroke-width="6"/><path d="M34.9 50.4V69.5Q34.9 73 38.4 73H61.6Q65.1 73 65.1 69.5V50.4" stroke="#A86D14" stroke-width="3.5"/><path d="M46.1 59H53.9" stroke="#AF761B" stroke-width="3.6"/></g>'+
+     '<g stroke="#AD781D" stroke-linejoin="round"><path d="M49.5 106.7C31.5 100.6 13.7 91.6 8.3 67.3" stroke-width="1.4" stroke-linecap="round"/><path d="M50.5 106.7C68.5 100.6 86.3 91.6 91.7 67.3" stroke-width="1.4" stroke-linecap="round"/><g fill="url(#mf-seal-leaf-1274)" stroke-width=".45">'+
+     '<path d="M9 73C4.5 69 4.1 63.6 6.1 58.4C11.1 62.1 11.9 68.5 9 73Z"/>'+
+     '<path d="M13.2 83C7.4 79.6 4.2 74.6 5.1 71C12.4 72.1 16.1 77.8 13.2 83Z"/>'+
+     '<path d="M20.5 84C17.1 77.8 18 73 22.2 70.1C26.9 76.2 25.7 81.9 20.5 84Z"/>'+
+     '<path d="M21.7 92C14.2 91.5 9.3 87.5 8.4 83.3C16.2 82.2 22.8 87.2 21.7 92Z"/>'+
+     '<path d="M29.3 96C24.4 90.8 24.7 85.4 29.3 82.6C34.4 89.1 34.1 93.7 29.3 96Z"/>'+
+     '<path d="M34.2 102C26.4 103.1 21.3 99.6 19.9 96.2C27.4 93.2 33.1 97.1 34.2 102Z"/>'+
+     '<path d="M45.7 107.3C38.8 111.4 31.8 110.1 28.3 106.1C35.1 102.3 42.2 102.4 45.7 107.3Z"/>'+
+     '</g><g fill="url(#mf-seal-leaf-1274)" stroke-width=".45" transform="translate(100 0) scale(-1 1)">'+
+     '<path d="M9 73C4.5 69 4.1 63.6 6.1 58.4C11.1 62.1 11.9 68.5 9 73Z"/>'+
+     '<path d="M13.2 83C7.4 79.6 4.2 74.6 5.1 71C12.4 72.1 16.1 77.8 13.2 83Z"/>'+
+     '<path d="M20.5 84C17.1 77.8 18 73 22.2 70.1C26.9 76.2 25.7 81.9 20.5 84Z"/>'+
+     '<path d="M21.7 92C14.2 91.5 9.3 87.5 8.4 83.3C16.2 82.2 22.8 87.2 21.7 92Z"/>'+
+     '<path d="M29.3 96C24.4 90.8 24.7 85.4 29.3 82.6C34.4 89.1 34.1 93.7 29.3 96Z"/>'+
+     '<path d="M34.2 102C26.4 103.1 21.3 99.6 19.9 96.2C27.4 93.2 33.1 97.1 34.2 102Z"/>'+
+     '<path d="M45.7 107.3C38.8 111.4 31.8 110.1 28.3 106.1C35.1 102.3 42.2 102.4 45.7 107.3Z"/>'+
+     '</g><path d="M46.5 108.6L53.5 111M53.5 108.6L46.5 111" stroke-width="1.25" stroke-linecap="round"/></g>'+
+     '</svg>'+
+     '</span>'+ 
    '<span class="matter-finish-warning-divider" aria-hidden="true"></span>'+ 
    '<span class="matter-finish-warning-copy"><strong>Не завершено: '+count+'</strong><span>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</span></span></div>';
   var entries=linked.map(function(t){

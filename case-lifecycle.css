@@ -1658,3 +1658,19 @@ body.matter-archive-backdrop-open #scrim.open {
  #sheet.matter-archive-paper-stage1 .matter-archive-submit{transition:none!important}
 }
 
+
+/* 5.0.1273 — “Завершить дело”: match approved archival wreath.
+   Gold leaves curve below the scalloped seal; icon and sheet layout unchanged. */
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-laurel{
+ filter:drop-shadow(0 1px 0 rgba(255,255,255,.94))!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem>.ico{
+ filter:drop-shadow(0 1px 0 rgba(255,248,216,.88))!important;
+}
+
+/* 5.0.1274: единый SVG медальона, ящика и лаврового венка;
+   без наложения двух независимых иконок. */
+#sheet.matter-finish-paper-stage1 .matter-finish-warning-emblem .matter-finish-warning-laurel{
+  display:block!important;overflow:visible!important;
+  filter:drop-shadow(0 1px 0 rgba(255,251,235,.92))!important;
+}
