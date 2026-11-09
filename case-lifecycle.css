@@ -1437,3 +1437,109 @@ body.matter-archive-backdrop-open #scrim.open {
 @media(prefers-reduced-motion:no-preference) {
   #sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back:active {transform:translateY(1px);}
 }
+
+
+/* ======================================================================
+  5.0.1267 / STAGE 3 — archive-without-completion explanatory text.
+  Scope: archive form only. Stage 1 paper silhouette and stage 2 header frozen.
+  The existing paragraph and archive validation/handlers are preserved.
+   ====================================================================== */
+#sheet.matter-archive-paper-stage1 .matter-archive-intro {
+  position:relative!important;
+  margin:14px 9px 18px!important;
+  padding:16px 2px 0!important;
+  border:0!important;
+  border-top:1px solid rgba(198,151,78,.48)!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:#24365f!important;
+  font:400 clamp(13px,3.55vw,15px)/1.43 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  letter-spacing:.005em!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+}
+@media(max-width:355px){
+ #sheet.matter-archive-paper-stage1 .matter-archive-intro{
+    margin:10px 7px 14px!important;padding-top:12px!important;
+    font-size:12.6px!important;line-height:1.40!important;
+ }
+}
+@media(max-height:640px){
+ #sheet.matter-archive-paper-stage1 .matter-archive-intro{margin-bottom:12px!important;}
+}
+
+
+/* ======================================================================
+  5.0.1268 / STAGE 4 — approved gold/ivory pending-work card.
+  Dynamic pending count, list and confirmation use the existing app data.
+  No change to archiveMatter(), saved records or stage 1–3 design.
+   ====================================================================== */
+#sheet.matter-archive-paper-stage1 .matter-pending-work{
+  box-sizing:border-box!important;
+  position:relative!important;
+  margin:6px 2px 19px!important;
+  padding:13px 15px 15px!important;
+  border:1.4px solid #d3a255!important;
+  border-radius:18px!important;
+  background:radial-gradient(ellipse at 50% 0,rgba(255,255,255,.92),rgba(255,255,255,0) 65%),linear-gradient(145deg,#fffaf0 0%,#fff5e4 65%,#fbefda 100%)!important;
+  box-shadow:0 8px 15px rgba(130,91,41,.13),inset 0 1.5px rgba(255,255,255,.94),inset 0 0 0 4px rgba(255,255,255,.20)!important;
+  color:#4f3829!important;
+  overflow:hidden!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>b:first-child{
+  display:block!important;
+  margin:0 0 7px!important;
+  color:#78440e!important;
+  font:700 clamp(17px,5vw,20px)/1.15 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.014em!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>p{
+  margin:0 0 12px!important;
+  color:#543d2a!important;
+  font:400 clamp(12.8px,3.65vw,14.5px)/1.43 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  overflow-wrap:break-word!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>ul{
+  box-sizing:border-box!important;
+  margin:8px 0 0!important;
+  padding:0 3px 0 23px!important;
+  max-height:min(192px,30vh)!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scrollbar-width:thin;
+  scrollbar-color:#caaf7c transparent;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work li{
+  margin:0 0 8px!important;
+  padding:0!important;
+  font:400 clamp(12.6px,3.54vw,14px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  color:#48382b!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work li::marker{color:#845119!important;}
+#sheet.matter-archive-paper-stage1 .matter-pending-work li b{
+  color:#754414!important;
+  font-weight:750!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work li small{
+  color:#786e62!important;
+  font-size:.9em!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work li strong{
+  color:#ad4946!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>small{
+  display:block!important;margin-top:4px!important;
+  color:#7d664c!important;
+}
+@media(max-width:355px){
+ #sheet.matter-archive-paper-stage1 .matter-pending-work{
+   margin:4px 0 13px!important;padding:11px 10px 12px!important;border-radius:15px!important;
+ }
+ #sheet.matter-archive-paper-stage1 .matter-pending-work>b:first-child{font-size:17px!important;}
+ #sheet.matter-archive-paper-stage1 .matter-pending-work>p{font-size:12px!important;line-height:1.36!important;}
+ #sheet.matter-archive-paper-stage1 .matter-pending-work li{font-size:11.8px!important;line-height:1.34!important;}
+}
