@@ -1279,3 +1279,161 @@ body.matter-finish-backdrop-open #scrim.open {
   }
   #sheet.matter-finish-paper-stage1 .matter-finish-warning-divider{height:64px!important;max-height:64px!important;}
 }
+
+
+/* =====================================================================
+  5.0.1265 — АРХИВИРОВАТЬ БЕЗ ЗАВЕРШЕНИЯ, ЭТАП 1 / 8
+  Только мраморный фон, цельный бумажный силуэт и внутренняя прокрутка.
+  Переиспользован неизменённый утверждённый контур страницы завершения.
+  Не оформлять пока шапку, предупреждение, чекбокс и кнопку (этапы 2–7).
+  Архивирование и контроль незавершённых элементов оставлены прежними.
+  ===================================================================== */
+html:has(>body.matter-archive-backdrop-open),
+body.matter-archive-backdrop-open {
+  min-height:100lvh!important;height:100lvh!important;
+  background:#f7efe2 url('bg-matters-approved-v487.png') center top / cover no-repeat!important;
+}
+body.matter-archive-backdrop-open #scrim.open {
+  position:fixed!important;top:0!important;bottom:auto!important;
+  width:100%!important;height:100lvh!important;min-height:100lvh!important;
+  z-index:41!important;opacity:1!important;
+  background:linear-gradient(180deg,rgba(255,252,244,.025),rgba(255,247,230,.04)),
+    url('bg-matters-approved-v487.png') center top / cover no-repeat,#f7efe2!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+#sheet.matter-archive-sheet.matter-archive-paper-stage1.open {
+  position:fixed!important;z-index:42!important;
+  left:12px!important;right:12px!important;
+  top:max(70px,calc(env(safe-area-inset-top,0px) + 16px))!important;
+  bottom:max(15px,env(safe-area-inset-bottom,0px))!important;
+  width:auto!important;height:auto!important;max-height:none!important;
+  padding:0!important;margin:0!important;
+  display:flex!important;flex-direction:column!important;
+  border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  transform:none!important;isolation:isolate!important;overflow:hidden!important;
+}
+#sheet.matter-archive-paper-stage1::before,
+#sheet.matter-archive-paper-stage1::after {content:none!important;display:none!important;}
+#sheet.matter-archive-paper-stage1>.grab {display:none!important;}
+#sheet.matter-archive-paper-stage1>.matter-finish-foundation {
+  position:absolute!important;inset:0!important;
+  display:block!important;width:100%!important;height:100%!important;
+  z-index:0!important;pointer-events:none!important;
+  overflow:visible!important;
+  filter:drop-shadow(0 5px 8px rgba(93,62,29,.15));
+}
+#sheet.matter-archive-paper-stage1>.shbody {
+  position:relative!important;z-index:1!important;
+  flex:1 1 auto!important;min-height:0!important;
+  box-sizing:border-box!important;
+  margin:49px 16px 0!important;padding:8px 9px 16px!important;
+  border:0!important;background:transparent!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+}
+#sheet.matter-archive-paper-stage1>.shfoot {
+  position:relative!important;z-index:1!important;
+  flex:0 0 auto!important;box-sizing:border-box!important;
+  margin:0 16px 0!important;
+  padding:11px 9px max(26px,env(safe-area-inset-bottom,0px))!important;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+}
+@media(max-width:355px){
+  #sheet.matter-archive-sheet.matter-archive-paper-stage1.open {left:8px!important;right:8px!important;}
+  #sheet.matter-archive-paper-stage1>.shbody {margin:47px 10px 0!important;padding:6px 6px 12px!important;}
+  #sheet.matter-archive-paper-stage1>.shfoot {margin:0 10px!important;padding:8px 6px 19px!important;}
+}
+@media(max-height:640px){
+  #sheet.matter-archive-sheet.matter-archive-paper-stage1.open {
+    top:max(44px,calc(env(safe-area-inset-top,0px) + 6px))!important;
+    bottom:max(6px,env(safe-area-inset-bottom,0px))!important;
+  }
+  #sheet.matter-archive-paper-stage1>.shbody {margin-top:58px!important;}
+  #sheet.matter-archive-paper-stage1>.shfoot {padding-top:6px!important;padding-bottom:14px!important;}
+}
+
+
+/* =======================================================================
+  5.0.1266 — «Архивировать без завершения», ЭТАП 2/8: ШАПКА И ВОЗВРАТ.
+  Все селекторы ограничены конкретной страницей. Утверждённый контур,
+  прокрутка, информационный блок, список, чекбокс, кнопка НЕ ИЗМЕНЕНЫ.
+  ======================================================================= */
+#sheet.matter-archive-paper-stage1 .matter-archive-head {
+  display:grid!important;
+  grid-template-columns:50px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:12px!important;
+  margin:3px 0 18px!important;
+  padding:0 3px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back {
+  display:grid!important;place-items:center!important;
+  width:49px!important;height:50px!important;
+  border-radius:15px!important;
+  flex:none!important;justify-self:start!important;
+  border:1.2px solid #ccaa70!important;
+  background:linear-gradient(145deg,#fffefa 0%,#fff5e2 46%,#f7e4bf 100%)!important;
+  color:#ae7b22!important;
+  box-shadow:0 6px 10px rgba(131,91,42,.20),inset 0 1.3px 0 rgba(255,255,255,.98)!important;
+  -webkit-tap-highlight-color:transparent;
+  cursor:pointer!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back .ico {
+  width:29px!important;height:29px!important;stroke-width:2.6!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back:focus-visible {
+  outline:2px solid #957029!important;outline-offset:3px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-heading {
+  min-width:0!important;
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow {
+  display:flex!important;align-items:center!important;
+  gap:10px!important;margin:0 0 5px!important;min-width:0!important;
+  color:#a27122!important;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-weight:700!important;
+  font-size:clamp(10px,2.95vw,12px)!important;
+  line-height:1.22!important;
+  letter-spacing:.145em!important;white-space:nowrap!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow>span {
+  flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow i {
+  flex:1 1 auto!important;min-width:12px!important;max-width:38px!important;
+  height:2.5px!important;background:linear-gradient(90deg,#b0802d,#a46e1c)!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head h2 {
+  margin:0 0 4px!important;
+  color:#0d2153!important;
+  font:700 clamp(23px,7.05vw,29px)/1.10 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head p {
+  margin:0!important;
+  font:400 clamp(13px,3.72vw,16px)/1.32 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  color:#66778f!important;letter-spacing:.003em!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:355px) {
+  #sheet.matter-archive-paper-stage1 .matter-archive-head {
+    grid-template-columns:43px minmax(0,1fr)!important;
+    gap:9px!important;padding:0 1px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back {
+    width:43px!important;height:47px!important;border-radius:13px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-head h2 {
+    font-size:clamp(22px,6.8vw,24px)!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow {
+    font-size:10px!important;letter-spacing:.095em!important;gap:7px!important;
+  }
+}
+@media(prefers-reduced-motion:no-preference) {
+  #sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back:active {transform:translateY(1px);}
+}

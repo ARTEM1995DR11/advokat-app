@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1264';
-var APP_BUILD='6264';
+var APP_VERSION='5.0.1266';
+var APP_BUILD='6266';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1999,11 +1999,13 @@ function matterPendingWorkHTML(id){
 function sheetMatterArchive(id){
   var m=matter(id);if(!m||m.archived)return;
   var count=tasksOf(id).filter(isActiveRecord).length;
-  openSheet('<div class="matter-finish-head"><span class="matter-finish-logo">'+ico('arch')+'</span><div><h2>Архивировать без завершения</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+ 
+  openSheet('<header class="matter-finish-head matter-archive-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Архивировать без завершения</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+ 
     '<p class="matter-archive-intro">Дело останется неоконченным. Его задачи и события будут сохранены в истории, но исключены из активной работы.</p>'+matterPendingWorkHTML(id)+
     (count?'<label class="matter-archive-ack"><input type="checkbox" id="matter-archive-ack"> Проверил(а) незавершённые задачи, сроки и заседания</label>':'')+
     '<button class="btn" type="button" data-act="m-archive-save" data-id="'+esc(id)+'">'+ico('arch','s')+' Архивировать дело</button>');
-  $('#sheet').classList.add('matter-finish-sheet','matter-archive-sheet');
+  $('#sheet').classList.add('matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1');
+  document.body.classList.add('matter-archive-backdrop-open');
+  mountMatterFinishFoundation($('#sheet')); // 5.0.1265: paper geometry only, no field/logic restyling
 }
 function archiveMatter(id){
   var m=matter(id);if(!m||m.archived)return;
@@ -2184,7 +2186,7 @@ function mountMatterFinishFoundation(panel){
     '<rect class="mf6244-grip" width="37" height="4.5" rx="2.25" fill="url(#mf6244Grip)"/>';
   panel.insertBefore(svg,panel.firstChild);
   function redraw(){
-    if(!panel.isConnected||!panel.classList.contains('matter-finish-paper-stage1'))return;
+    if(!panel.isConnected||!(panel.classList.contains('matter-finish-paper-stage1')||panel.classList.contains('matter-archive-paper-stage1')))return;
     var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
     if(w<245||h<160)return;
     var cx=w/2, shoulderL=cx-75,shoulderR=cx+75,crownL=cx-51,crownR=cx+51;
@@ -2359,8 +2361,8 @@ function openSheet(html){
     s.removeEventListener('scroll',s._matterEventPaperScroll);
     s._matterEventPaperScroll=null;
   }
-  document.body.classList.remove('journal-sheet-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2381,9 +2383,9 @@ function closeAll(){
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
-  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
