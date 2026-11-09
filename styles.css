@@ -49038,3 +49038,24 @@ body.light.journal-sheet-open #scrim.open::after {
     top:max(54px,calc(env(safe-area-inset-top,0px) + 7px))!important;
   }
 }
+
+
+/* =====================================================================
+   5.0.1264 — TASKS: prevent clipped pending-hearing due text (“Тр...”).
+   The date/status line must occupy the row beneath the hearing details,
+   not the narrow state-icon column. Applies to all tasks filters.
+   ===================================================================== */
+#sc-tasks .pt-row.needs-result[data-kind="hearing"] > .pt-result-due-wide {
+  grid-column:2 / -1!important;
+  grid-row:2!important;
+  min-width:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  justify-self:stretch!important;
+  display:block!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}

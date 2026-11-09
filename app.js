@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1263';
-var APP_BUILD='6263';
+var APP_VERSION='5.0.1264';
+var APP_BUILD='6264';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3506,7 +3506,11 @@ function taskProjectRow(t){
           hearingUnifiedJudgeLine(t,m)+
           hearingUnifiedCourtLine(t,m);
       }
-      wideDue=due;
+      // 5.0.1264: pending hearing's due text belongs to the full-width
+      // second grid row. Without this class it auto-lands under the 32px
+      // state icon and is truncated to “Тр...” on iPhone.
+      wideDue=due.replace('class="pt-result-due"',
+                          'class="pt-result-due pt-result-due-wide"');
     }else{
       var completedHearing=hearingHasResult(t);
       var completedBasis=completedHearing?hearingBasisBadge(m):'';
