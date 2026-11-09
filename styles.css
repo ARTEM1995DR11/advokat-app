@@ -48970,3 +48970,71 @@ body.light.journal-sheet-open #scrim.open{
   #sheet.journal-paper-v1259.open>.shbody{margin-top:49px!important;}
   #sheet.journal-paper-v1259.open>.shfoot{padding-bottom:10px!important;}
 }
+
+/* =====================================================================
+   5.0.1263 — Journal: two finishing corrections, without changing fields.
+   1) Keep the original top position and card dimensions. The paper shell
+      now reaches the iPhone's bottom safe area rather than ending early.
+   2) Reinforce the lower marble texture above the iOS home-indicator area.
+   ===================================================================== */
+html:has(>body.journal-sheet-open),
+body.journal-sheet-open {
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+  min-height:100lvh!important;
+}
+body.journal-sheet-open::before {
+  inset:-1px 0 -200px 0!important;
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-size:100% 100lvh!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+}
+body.light.journal-sheet-open #scrim.open {
+  top:0!important;
+  bottom:-200px!important;
+  height:calc(100lvh + 200px)!important;
+  min-height:calc(100lvh + 200px)!important;
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+  background-repeat:no-repeat!important;
+}
+/* A subtle continuation of the SAME approved marble in the footer/safe-area.
+   Fade its top edge to prevent a horizontal joint. Does not cover the paper. */
+body.light.journal-sheet-open #scrim.open::after {
+  content:''!important;
+  position:fixed!important;
+  left:0!important;right:0!important;
+  bottom:-max(30px,env(safe-area-inset-bottom,0px))!important;
+  height:clamp(130px,22dvh,220px)!important;
+  pointer-events:none!important;
+  background:url('bg-matters-approved-v487.png') center 43%/100% auto no-repeat!important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 54%,black 100%)!important;
+  mask-image:linear-gradient(to bottom,transparent 0%,black 54%,black 100%)!important;
+}
+#sheet.journal-premium-sheet.journal-paper-v1259.open {
+  top:max(54px,calc(env(safe-area-inset-top,0px) + 7px))!important;
+  bottom:max(24px,calc(env(safe-area-inset-bottom,0px) + 8px))!important;
+  height:auto!important;
+  max-height:none!important;
+}
+/* The existing independent body scroll and fixed footer are intentionally retained.
+   The SVG foundation uses ResizeObserver and redraws to the new sheet height. */
+/* Final vertical balance: use part of the spare height above the sheet and
+   part within its paper foundation, rather than an empty gap below or inside. */
+#sheet.journal-premium-sheet.journal-paper-v1259.open {
+  top:clamp(54px,calc(10dvh + 30px),128px)!important;
+  bottom:max(24px,calc(env(safe-area-inset-bottom,0px) + 8px))!important;
+  height:auto!important;
+}
+@media(max-height:620px){
+  #sheet.journal-premium-sheet.journal-paper-v1259.open {
+    top:max(54px,calc(env(safe-area-inset-top,0px) + 7px))!important;
+  }
+}
