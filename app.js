@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1268';
-var APP_BUILD='6268';
+var APP_VERSION='5.0.1272';
+var APP_BUILD='6272';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1987,22 +1987,25 @@ function matterClosureCard(m){
 function matterPendingWorkHTML(id){
   var linked=tasksOf(id).filter(isActiveRecord);
   if(!linked.length)return '';
-  var lines=linked.slice(0,30).map(function(t){
+  var lines=linked.map(function(t){
     var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
     return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
        (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
        (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
   }).join('');
-  return '<div class="matter-pending-work"><b>Не завершено: '+linked.length+'</b><p>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</p><ul>'+lines+'</ul>'+
-    (linked.length>30?'<small>И ещё '+(linked.length-30)+' записей.</small>':'')+'</div>';
+  var items='<ul class="matter-archive-pending-list" aria-label="Незавершённые записи">'+lines+'</ul>';
+  var inner=linked.length>3
+    ?'<details class="matter-archive-pending-details"><summary><span>Просмотреть незавершённые записи</span><span class="matter-archive-pending-count">'+linked.length+'</span></summary>'+items+'</details>'
+    :'<div class="matter-archive-pending-simple">'+items+'</div>';
+  return '<div class="matter-pending-work"><b>Не завершено: '+linked.length+'</b><p>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</p>'+inner+'</div>';
 }
 function sheetMatterArchive(id){
   var m=matter(id);if(!m||m.archived)return;
   var count=tasksOf(id).filter(isActiveRecord).length;
   openSheet('<header class="matter-finish-head matter-archive-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Архивировать без завершения</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+ 
     '<p class="matter-archive-intro">Дело останется неоконченным. Его задачи и события будут сохранены в истории, но исключены из активной работы.</p>'+matterPendingWorkHTML(id)+
-    (count?'<label class="matter-archive-ack"><input type="checkbox" id="matter-archive-ack"> Проверил(а) незавершённые задачи, сроки и заседания</label>':'')+
-    '<button class="btn" type="button" data-act="m-archive-save" data-id="'+esc(id)+'">'+ico('arch','s')+' Архивировать дело</button>');
+    (count?'<label class="matter-archive-ack"><input type="checkbox" id="matter-archive-ack"><span class="matter-archive-ack-box" aria-hidden="true">'+ico('check','s')+'</span><span class="matter-archive-ack-copy">Проверил(а) незавершённые задачи, сроки и заседания</span></label>':'')+
+    '<button class="btn matter-archive-submit" type="button" data-act="m-archive-save" data-id="'+esc(id)+'"><span class="matter-archive-submit-icon" aria-hidden="true">'+ico('arch','s')+'</span><span>Архивировать дело</span></button>');
   $('#sheet').classList.add('matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1');
   document.body.classList.add('matter-archive-backdrop-open');
   mountMatterFinishFoundation($('#sheet')); // 5.0.1265: paper geometry only, no field/logic restyling
