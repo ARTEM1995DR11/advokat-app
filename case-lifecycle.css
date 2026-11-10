@@ -1816,3 +1816,162 @@ body.matter-archive-backdrop-open #scrim.open {
   }
   #sheet.matter-archive-paper-stage1>.shbody{padding-bottom:48px!important;}
 }
+
+/* ======================================================================
+   5.0.1276 — ARCHIVE WITHOUT COMPLETION: FINAL MOCKUP RECONCILIATION
+   Visual-only, scoped to this one sheet. All previously approved paper SVG,
+   other pages, task records, confirmation and archive handlers are untouched.
+   Reference: approved 864px design, coordinates normalized to 390px viewport.
+   ====================================================================== */
+/* 1: Move the ENTIRE header group to the reference left rail, not the paper. */
+#sheet.matter-archive-paper-stage1 .matter-archive-head{
+  margin-left:-10px!important;
+  margin-right:-9px!important;
+  grid-template-columns:49px minmax(0,1fr)!important;
+  gap:8px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back{
+  width:49px!important;height:50px!important;
+  border-radius:15px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow{
+  letter-spacing:.128em!important;
+  font-size:clamp(10.1px,2.83vw,11.6px)!important;
+}
+/* Preserve deliberate two-line title even with wider usable heading rail. */
+#sheet.matter-archive-paper-stage1 .matter-archive-head h2{
+  max-width:100%!important;
+  letter-spacing:-.033em!important;
+}
+/* 2: Extend the fine header divider, WITHOUT shifting explanatory copy. */
+#sheet.matter-archive-paper-stage1 .matter-archive-intro{
+  border-top-color:transparent!important;
+  margin-top:12px!important;
+  margin-bottom:15px!important;
+  padding-top:15px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-intro::before{
+  content:'';position:absolute;pointer-events:none;
+  top:-1px;left:5px;right:-13px;height:1px;
+  background:linear-gradient(90deg,rgba(204,162,101,.50),rgba(204,162,101,.50) 94%,rgba(204,162,101,0));
+}
+/* 3: Reference copy is slightly tighter than the old sans-serif paragraph. */
+#sheet.matter-archive-paper-stage1 .matter-archive-intro{
+  font-size:clamp(12.5px,3.39vw,13.7px)!important;
+  line-height:1.36!important;
+  letter-spacing:.001em!important;
+}
+/* 4: Crisp radius and warm satin-paper fill, no thick rounded outline. */
+#sheet.matter-archive-paper-stage1 .matter-pending-work{
+  border-radius:14px!important;
+  border-width:1.15px!important;
+  border-color:#d1a052!important;
+  background:radial-gradient(ellipse 85% 58% at 45% 8%,rgba(255,255,255,.63),transparent 100%),
+             linear-gradient(145deg,#fff9ed 0%,#fff5e6 50%,#fcf0da 100%)!important;
+  box-shadow:0 7px 12px rgba(127,83,33,.14),inset 0 1px rgba(255,255,255,.95),
+             inset 0 0 0 1px rgba(255,251,239,.60)!important;
+  padding-top:11px!important;
+  padding-bottom:11px!important;
+}
+/* 5: Match type scale and rhythm without hiding any live records. */
+#sheet.matter-archive-paper-stage1 .matter-pending-work>b:first-child{
+  font-size:clamp(17.4px,4.75vw,19px)!important;
+  line-height:1.14!important;
+  margin-bottom:7px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>p{
+  font-size:clamp(12.1px,3.37vw,13.4px)!important;
+  line-height:1.37!important;
+  letter-spacing:.001em!important;
+  margin-bottom:10px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work .matter-archive-pending-list li{
+  font-size:clamp(11.85px,3.27vw,13.1px)!important;
+  line-height:1.32!important;
+  margin-bottom:5px!important;
+  letter-spacing:0!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-pending-simple ul.matter-archive-pending-list{
+  margin-top:2px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+}
+/* 6: Lighter, thinner checkbox frame; contrast on checked/focused states kept. */
+#sheet.matter-archive-paper-stage1 .matter-archive-ack{
+  font-size:clamp(12.1px,3.38vw,13.3px)!important;
+  line-height:1.39!important;
+  gap:10px!important;
+  margin-top:12px!important;
+  margin-bottom:14px!important;
+  padding-top:4px!important;
+  padding-bottom:5px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-ack-box{
+  flex:0 0 19px!important;width:19px!important;height:19px!important;
+  border:1.25px solid #c1913a!important;
+  border-radius:5px!important;
+  background:linear-gradient(140deg,#fffef8,#fff8ed)!important;
+  box-shadow:0 1px 2px rgba(110,74,32,.09)!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-ack-box .ico{width:14px!important;height:14px!important}
+#sheet.matter-archive-paper-stage1 .matter-archive-ack input:checked+.matter-archive-ack-box{
+  background:linear-gradient(145deg,#eef9ef,#cfebdb)!important;
+  border-color:#338a64!important;color:#167454!important;
+}
+/* 7: Polished double-rim gold plate, sharp top glint, deep lower relief. */
+#sheet.matter-archive-paper-stage1 .matter-archive-submit{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  font-size:clamp(16px,4.9vw,19.3px)!important;
+  font-weight:700!important;
+  gap:13px!important;
+  border:2px solid #a76d0c!important;
+  border-radius:25px!important;
+  background:linear-gradient(180deg,
+      #ffec99 0%,#fff6bd 9%,#ffe889 18%,#efc15a 40%,
+      #d89e33 73%,#b97e1d 92%,#edbe57 100%)!important;
+  box-shadow:0 8px 13px rgba(108,62,15,.23),
+    inset 0 0 0 1px #ffdf84,
+    inset 0 0 0 3px #fff1ad,
+    inset 0 5px 3px rgba(255,254,220,.93),
+    inset 0 -5px 3px rgba(118,66,8,.30)!important;
+  text-shadow:0 1px 0 rgba(255,241,173,.6)!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit::before{
+  content:'';pointer-events:none;position:absolute;z-index:-1;
+  left:4px;right:4px;top:3px;height:34%;border-radius:20px 20px 40% 40%;
+  background:linear-gradient(180deg,rgba(255,255,243,.92),rgba(255,255,243,.24) 50%,transparent);
+  opacity:.69;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit::after{
+  content:'';pointer-events:none;position:absolute;inset:4px;z-index:-1;
+  border:1px solid rgba(255,244,196,.88);border-radius:20px;
+  box-shadow:0 1px 1px rgba(140,81,8,.20);
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit-icon .ico{
+  width:23px!important;height:23px!important;stroke-width:2.4!important;
+}
+/* Gold diamond and side rules stay delicate like the approved artwork. */
+#sheet.matter-archive-paper-stage1>.shfoot::before{
+  opacity:.84!important;
+}
+/* Preserve legible title, list scroll, button and safe paper rim at 320px. */
+@media(max-width:355px){
+ #sheet.matter-archive-paper-stage1 .matter-archive-head{
+    margin-left:-5px!important;margin-right:-4px!important;gap:7px!important;
+    grid-template-columns:43px minmax(0,1fr)!important;
+ }
+ #sheet.matter-archive-paper-stage1 .matter-pending-work{
+   border-radius:12px!important;padding-top:10px!important;padding-bottom:10px!important;
+ }
+ #sheet.matter-archive-paper-stage1 .matter-pending-work .matter-archive-pending-list li{
+   font-size:11.55px!important;
+ }
+ #sheet.matter-archive-paper-stage1 .matter-archive-ack-box{
+   flex-basis:19px!important;
+ }
+ #sheet.matter-archive-paper-stage1 .matter-archive-submit{
+   font-size:clamp(14px,4.65vw,16px)!important;gap:8px!important;
+ }
+}
