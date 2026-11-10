@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1274';
-var APP_BUILD='6274';
+var APP_VERSION='5.0.1275';
+var APP_BUILD='6275';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1996,7 +1996,7 @@ function matterPendingWorkHTML(id){
   var items='<ul class="matter-archive-pending-list" aria-label="Незавершённые записи">'+lines+'</ul>';
   var inner=linked.length>3
     ?'<details class="matter-archive-pending-details"><summary><span>Просмотреть незавершённые записи</span><span class="matter-archive-pending-count">'+linked.length+'</span></summary>'+items+'</details>'
-    :'<div class="matter-archive-pending-simple">'+items+'</div>';
+    :'<div class="matter-archive-pending-simple'+(linked.length===3?' matter-archive-pending-scrollable':'')+'">'+items+'</div>';
   return '<div class="matter-pending-work"><b>Не завершено: '+linked.length+'</b><p>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</p>'+inner+'</div>';
 }
 function sheetMatterArchive(id){

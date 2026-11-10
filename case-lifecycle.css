@@ -1674,3 +1674,145 @@ body.matter-archive-backdrop-open #scrim.open {
   display:block!important;overflow:visible!important;
   filter:drop-shadow(0 1px 0 rgba(255,251,235,.92))!important;
 }
+
+
+/* ======================================================================
+  5.0.1275 — Seven-point reconciliation of «Архивировать без завершения».
+  Keep the approved SVG paper geometry, crown, date/body semantics and
+  archival handlers unchanged. Constrain rules to the archive sheet only.
+  Pixel baseline: 390px-wide iPhone; inner gold rim has ~12px safe gutter.
+  ====================================================================== */
+/* 1 / 3. Restore reference working width WITHOUT resizing the paper.
+   Wider scroll/foot containers avoid clipping the expanded golden borders. */
+#sheet.matter-archive-paper-stage1>.shbody {
+  margin-left:12px!important;margin-right:12px!important;
+}
+#sheet.matter-archive-paper-stage1>.shfoot {
+  margin-left:12px!important;margin-right:12px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work {
+  margin-left:-8px!important;
+  margin-right:-8px!important;
+  width:calc(100% + 16px)!important;
+  max-width:none!important;
+  padding:12px 12px 13px!important;
+}
+/* 2. The divider and explanatory copy share the reference's wider gutter.
+   The approved title / back-button coordinate system remains fixed. */
+#sheet.matter-archive-paper-stage1 .matter-archive-intro {
+  margin-left:-7px!important;
+  margin-right:-7px!important;
+  padding-left:4px!important;
+  padding-right:4px!important;
+}
+/* 3. For 1–3 entries there must be no second bordered box. Each row is
+   direct paper content with its bullet, full label and date intact. */
+#sheet.matter-archive-paper-stage1 .matter-pending-work .matter-archive-pending-simple {
+  display:block!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  margin:5px 0 0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-pending-simple ul.matter-archive-pending-list {
+  max-height:none!important;
+  padding:2px 2px 0 19px!important;
+  margin:0!important;
+  overflow:visible!important;
+}
+/* 4. Three LONG entries remain fully readable by a local, bounded scroll;
+   it never enlarges the whole warning enough to bury confirmation. */
+#sheet.matter-archive-paper-stage1 .matter-archive-pending-scrollable ul.matter-archive-pending-list {
+  max-height:clamp(105px,17dvh,150px)!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:#c39d60 transparent!important;
+  padding-right:6px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work .matter-archive-pending-list li {
+  margin-bottom:6px!important;
+  font-size:clamp(12.3px,3.49vw,13.7px)!important;
+  line-height:1.32!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-pending-work>p {
+  margin-bottom:9px!important;
+  line-height:1.37!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-pending-details>summary {
+  min-height:38px!important;
+}
+/* Keep long lists in their own scrolling region, independent from sheet. */
+#sheet.matter-archive-paper-stage1 .matter-archive-pending-details[open]>ul {
+  max-height:min(175px,25dvh)!important;
+}
+/* 5. Confirmation is a normal-flow control just after the list. Reserve
+   enough scroll clearance to reach its lower edge above the fixed CTA. */
+#sheet.matter-archive-paper-stage1 .matter-archive-ack {
+  margin:10px 1px 12px!important;
+  padding:5px 0 7px!important;
+  scroll-margin-bottom:30px!important;
+  min-height:34px!important;
+  gap:10px!important;
+}
+#sheet.matter-archive-paper-stage1>.shbody {
+  padding-bottom:42px!important;
+  scroll-padding-bottom:42px!important;
+}
+/* 6. Wider CTA, correct warm highlights, deep lower gold and satin shadow;
+   minimum height remains at the approved 54px on a standard iPhone. */
+#sheet.matter-archive-paper-stage1 .matter-archive-submit {
+  margin-left:-8px!important;
+  margin-right:-8px!important;
+  width:calc(100% + 16px)!important;
+  max-width:none!important;
+  min-height:54px!important;
+  height:54px!important;
+  border:3px double #ad761c!important;
+  background:linear-gradient(180deg,#fff7cc 0%,#ffe59a 9%,#f0c35c 31%,#d5a035 64%,#bd8321 91%,#f5c765 100%)!important;
+  box-shadow:0 9px 16px rgba(106,62,12,.24),inset 0 2px 2px rgba(255,255,255,1),inset 0 -3px 3px rgba(91,50,9,.28)!important;
+  gap:11px!important;
+  line-height:1.12!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit-icon {
+  flex:0 0 25px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit-icon .ico {
+  width:23px!important;height:23px!important;
+}
+/* 7. Narrow devices retain a rim-safe gutter and readable single/two-line CTA. */
+@media(max-width:355px) {
+  #sheet.matter-archive-paper-stage1 .matter-pending-work {
+    margin-left:-6px!important;margin-right:-6px!important;
+    width:calc(100% + 12px)!important;
+    padding:10px 9px 12px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-intro {
+    margin-left:-4px!important;margin-right:-4px!important;
+    padding-left:2px!important;padding-right:2px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-submit {
+    margin-left:-7px!important;margin-right:-6px!important;
+    width:calc(100% + 12px)!important;
+    min-height:51px!important;height:auto!important;
+    padding:8px 5px!important;gap:7px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-pending-work .matter-archive-pending-list li {
+    font-size:11.8px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-ack {gap:9px!important;}
+  #sheet.matter-archive-paper-stage1>.shbody {padding-bottom:48px!important;}
+}
+@media(max-height:640px){
+  #sheet.matter-archive-paper-stage1 .matter-archive-pending-scrollable ul.matter-archive-pending-list{
+    max-height:105px!important;
+  }
+  #sheet.matter-archive-paper-stage1 .matter-archive-pending-details[open]>ul{
+    max-height:105px!important;
+  }
+  #sheet.matter-archive-paper-stage1>.shbody{padding-bottom:48px!important;}
+}
