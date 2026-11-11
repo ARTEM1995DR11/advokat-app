@@ -9112,48 +9112,18 @@ document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true}
 document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
 
 /* =====================================================================
-   iOS 26 PWA BOTTOM CHROME FIX (5.0.93)
-   Не используем fixed + bottom и не используем screen.height.
-   Реальную видимую нижнюю границу берём из visualViewport и
-   задаём fixed-элементам координату top. Пользовательские данные
-   и IndexedDB этот код не читает и не изменяет.
+   5.0.1277 — stable bottom chrome / iPhone PWA.
+   CSS anchors #tabbar to bottom:0 and #fab immediately above it.
+   Previously these hooks wrote `top` and `#app height` from visualViewport;
+   iOS scroll and resize events could leave those numbers stale, creating
+   a large beige band. Deliberately do not mutate layout measurements here.
+   Keep compatibility with callers in boot / navigation / resume.
    ===================================================================== */
 function refreshFixedChrome(){
-  try{
-    var root=document.documentElement;
-    var vv=window.visualViewport;
-    var vvTop=vv&&Number.isFinite(vv.offsetTop)?vv.offsetTop:0;
-    var vvHeight=vv&&Number.isFinite(vv.height)?vv.height:window.innerHeight;
-    if(!Number.isFinite(vvHeight)||vvHeight<=0)return;
-    var visibleBottom=vvTop+vvHeight;
-    var nav=document.getElementById('tabbar');
-    var fab=document.getElementById('fab');
-    var narrow=window.innerWidth<=390;
-    var navH=nav&&nav.offsetHeight?nav.offsetHeight:(narrow?73:75);
-    var fabH=fab&&fab.offsetHeight?fab.offsetHeight:(narrow?52:56);
-    var fabGap=narrow?85:88;
-    root.style.setProperty('--ios-vv-height',Math.round(vvHeight)+'px');
-    root.style.setProperty('--ios-nav-top',Math.max(0,Math.round(visibleBottom-navH))+'px');
-    root.style.setProperty('--ios-fab-top',Math.max(0,Math.round(visibleBottom-fabGap-fabH))+'px');
-    if(nav){nav.style.visibility='visible';void nav.offsetHeight;}
-    if(fab){void fab.offsetHeight;}
-  }catch(e){}
+  // Intentionally empty: the layout viewport is the sole CSS anchor.
 }
 function settleFixedChrome(){
-  refreshFixedChrome();
-  requestAnimationFrame(refreshFixedChrome);
-  setTimeout(refreshFixedChrome,60);
-  setTimeout(refreshFixedChrome,220);
-  setTimeout(refreshFixedChrome,650);
-}
-settleFixedChrome();
-window.addEventListener('pageshow',settleFixedChrome,{passive:true});
-window.addEventListener('resize',refreshFixedChrome,{passive:true});
-document.addEventListener('visibilitychange',function(){if(!document.hidden)settleFixedChrome();},{passive:true});
-window.addEventListener('orientationchange',function(){setTimeout(settleFixedChrome,120);},{passive:true});
-if(window.visualViewport){
-  window.visualViewport.addEventListener('resize',refreshFixedChrome,{passive:true});
-  window.visualViewport.addEventListener('scroll',refreshFixedChrome,{passive:true});
+  // Intentionally empty: no delayed viewport snapshots or JS reflows.
 }
 
 /* Status-bar protection: #page is a scroll container inside a fullscreen PWA.

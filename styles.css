@@ -12570,24 +12570,26 @@ html body.light .timerpill{
     bottom:calc(91px - env(safe-area-inset-bottom,0px))!important;
   }
 }
-:root{
-  --ios-nav-top:calc(100dvh - 75px);
-  --ios-fab-top:calc(100dvh - 144px);
-  --ios-vv-height:100dvh;
-}
+/* 5.0.1277: Common screen and navigation positioning.
+   All primary screens fill one layout viewport; bottom chrome anchors to
+   that same viewport, never to a transient visualViewport calculation.
+   `viewport-fit=cover` lets the panel meet the very bottom of standalone iOS.
+   Keep the premium navigation art, dimensions and horizontal offsets. */
 html,body{
-  min-height:100dvh!important;
-  height:100dvh!important;
+  height:100%!important;
+  min-height:0!important;
 }
 #app{
-  height:var(--ios-vv-height,100dvh)!important;
+  height:100%!important;
+  min-height:0!important;
+  inset:0!important;
 }
 html body #tabbar.premium-nav,
 html body.light #tabbar.premium-nav,
 html body:not(.light) #tabbar.premium-nav{
   position:fixed!important;
-  top:var(--ios-nav-top)!important;
-  bottom:auto!important;
+  top:auto!important;
+  bottom:0!important;
   transform:none!important;
   translate:none!important;
 }
@@ -12595,14 +12597,20 @@ html body #fab.fab,
 html body.light #fab.fab,
 html body:not(.light) #fab.fab{
   position:fixed!important;
-  top:var(--ios-fab-top)!important;
-  bottom:auto!important;
+  top:auto!important;
+  bottom:88px!important;
+}
+html body .timerpill,
+html body.light .timerpill{
+  top:auto!important;
+  bottom:94px!important;
 }
 @media(max-width:390px){
-  :root{
-    --ios-nav-top:calc(100dvh - 73px);
-    --ios-fab-top:calc(100dvh - 137px);
-  }
+  html body #fab.fab,
+  html body.light #fab.fab,
+  html body:not(.light) #fab.fab{bottom:85px!important}
+  html body .timerpill,
+  html body.light .timerpill{bottom:91px!important}
 }
 body.light #sc-today,
 body.light #sc-matters,
