@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1276';
-var APP_BUILD='6276';
+var APP_VERSION='5.0.1278';
+var APP_BUILD='6278';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3970,6 +3970,7 @@ function renderMore(){
       row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён · база зашифрована':'База зашифрована локальным ключом устройства','pin')+
     '</div>'+
     '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
+      row('info','Проверить обновление','Установлена '+APP_VERSION+' · проверить версию на сервере','app-update-check')+
       row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
       (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?
         row('list','Открыть тестовую карточку','12 задач · 10 событий · выполненные записи','demo-scenario-open')+
@@ -8586,6 +8587,7 @@ document.addEventListener('click', function(ev){
     case 'demo-scenario-remove': removeDemoScenario1165();break;
     case 'demo': loadCompleteDemoCases();break;
     case 'new-task': editTask(null,S.ui.tab==='cal'&&S.ui.calSel?{due:S.ui.calSel}:{due:today()});break;
+    case 'app-update-check': checkForAppUpdate();break;
     case 'intro': showIntro();break;
     case 'wipe': wipeAll();break;
     case 'skip': closeSheet();S.settings.seen=true;S.settings.dismissed=true;save();break;
@@ -9257,6 +9259,35 @@ window.addEventListener('pageshow',function(event){
   render();
   settleFixedChrome();
 },{passive:true});
+/* 5.0.1278: server-version check bypasses both HTTP cache and the SW cache.
+   A ZIP must be deployed to the hosting root; a downloaded ZIP alone is not an update.
+   No local app data, PIN, or indexedDB storage is cleared. */
+async function checkForAppUpdate(){
+  if(!navigator.onLine){toast('Для проверки обновления нужен интернет');return;}
+  try{
+    var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    var versionText=(await response.text()).trim();
+    var match=versionText.match(/(5\.0\.\d+)\s*\/\s*(\d+)/);
+    if(!match)throw new Error('Invalid VERSION.txt');
+    var remoteBuild=Number(match[2]), currentBuild=Number(APP_BUILD);
+    if(remoteBuild>currentBuild){
+      if(!confirm('Доступна версия '+match[1]+' (установлена '+APP_VERSION+'). Обновить приложение сейчас?'))return;
+      if(unlocked)flushSave();
+      if('serviceWorker' in navigator){
+        try{var reg=await navigator.serviceWorker.getRegistration();if(reg)await reg.update();}catch(_e){}
+      }
+      // The existing worker serves navigations network-first. A unique URL also
+      // prevents Safari's restored page snapshot from showing an older HTML shell.
+      window.location.replace('./?app_update='+remoteBuild+'_'+Date.now());
+    }else if(remoteBuild===currentBuild){
+      toast('Установлена актуальная версия '+APP_VERSION);
+    }else{
+      toast('На сервере пока версия '+match[1]+'; локально '+APP_VERSION);
+    }
+  }catch(_e){toast('Не удалось проверить версию на сервере');}
+}
+
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     /* 5.0.249 STARTUP-STABILITY:
