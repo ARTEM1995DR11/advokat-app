@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1281';
-var APP_BUILD='6281';
+var APP_VERSION='5.0.1282';
+var APP_BUILD='6282';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -8824,31 +8824,53 @@ document.addEventListener('gesturestart',function(e){e.preventDefault();});
 /* =====================================================================
    iPhone-style edge swipe: left edge -> right = Back
    ===================================================================== */
-var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+/* 5.0.1282 — «Добавить событие»: свайп вправо по любой части
+   бумажной формы = та же навигация, что золотая стрелка «Назад».
+   Для прочих открытых страниц сохраняем прежний edge-swipe (44px).
+   Только явно горизонтальное движение перехватывает жест; вертикальная
+   прокрутка бумаги и нажатия на карточки остаются обычными. */
+var EDGE_SWIPE={on:false,choice:false,x:0,y:0,dx:0,dy:0,moved:false};
 document.addEventListener('touchstart',function(e){
+  EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0];
-  // На основных вкладках горизонтальный жест теперь переключает страницы.
-  // Системный edge-swipe «Назад» оставляем только внутри открытых экранов/панелей.
-  var overlayOpen=$('#page').classList.contains('open')||$('#sheet').classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
-  EDGE_SWIPE.on = overlayOpen && t.clientX <= 44;
-  EDGE_SWIPE.x=t.clientX; EDGE_SWIPE.y=t.clientY; EDGE_SWIPE.dx=0; EDGE_SWIPE.dy=0; EDGE_SWIPE.moved=false;
+  var t=e.touches[0],sh=$('#sheet');
+  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
+  // Unified chooser is used from both the dossier «События» tab and the
+  // «Действия по делу» menu; appBack() preserves each originating route.
+  var chooser=sh.classList.contains('open')&&sh.classList.contains('matter-event-stage1-open')&&
+    sh.contains(e.target)&&!LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER;
+  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser);
+  EDGE_SWIPE.choice=chooser;
+  EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
   if(!EDGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0]; EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x; EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
-  if(EDGE_SWIPE.dx>12 && Math.abs(EDGE_SWIPE.dx)>Math.abs(EDGE_SWIPE.dy)*1.25){
+  var t=e.touches[0];EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x;EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
+  if(!EDGE_SWIPE.moved && EDGE_SWIPE.choice && EDGE_SWIPE.dy>18 &&
+     EDGE_SWIPE.dy>Math.abs(EDGE_SWIPE.dx)*1.15){
+    EDGE_SWIPE.on=false;return; // allow vertical scrolling
+  }
+  if(EDGE_SWIPE.dx>14 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.3){
     EDGE_SWIPE.moved=true;
-    if(e.cancelable) e.preventDefault();
+    if(e.cancelable)e.preventDefault();
   }
 },{passive:false,capture:true});
-document.addEventListener('touchend',function(){
-  if(!EDGE_SWIPE.on) return;
-  var ok=EDGE_SWIPE.moved && EDGE_SWIPE.dx>=68 && Math.abs(EDGE_SWIPE.dy)<=70 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.35;
-  EDGE_SWIPE.on=false;
-  if(ok) appBack();
+document.addEventListener('touchend',function(e){
+  if(!EDGE_SWIPE.on)return;
+  if(e.changedTouches && e.changedTouches.length===1){
+    var t=e.changedTouches[0];EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x;EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
+  }
+  var threshold=EDGE_SWIPE.choice?58:68;
+  var ok=EDGE_SWIPE.moved && EDGE_SWIPE.dx>=threshold && Math.abs(EDGE_SWIPE.dy)<=70 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.35;
+  EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
+  if(ok){
+    // A synthetic click following touchend must not hit a card behind the
+    // dismissed sheet or immediately reopen a different screen.
+    SWIPE_CLICK_BLOCK_UNTIL=Date.now()+400;
+    appBack();
+  }
 },{passive:true,capture:true});
-document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;},{passive:true,capture:true});
 
 /* =====================================================================
    Swipe по задачам / встречам / срокам / судебным заседаниям — 5.0.101

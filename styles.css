@@ -48511,8 +48511,10 @@ body.matter-event-backdrop-open #scrim.open{
   scroll-padding-bottom:22px!important;
   bottom:0!important;
 }
+/* 5.0.1282: permit horizontal gestures to reach the single Back handler,
+   while the browser retains vertical scroll and native tap behaviour. */
 #sheet.matter-event-stage1-open .matter-event-stage4-card,
-#sheet.matter-event-stage1-open .matter-event-stage2-back{touch-action:manipulation;}
+#sheet.matter-event-stage1-open .matter-event-stage2-back{touch-action:pan-y!important;}
 #sheet.matter-event-stage1-open .matter-event-stage2-eyebrow,
 #sheet.matter-event-stage1-open .matter-event-stage4-copy b,
 #sheet.matter-event-stage1-open .matter-event-stage4-copy small{
