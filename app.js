@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1279';
-var APP_BUILD='6279';
+var APP_VERSION='5.0.1280';
+var APP_BUILD='6280';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -9259,7 +9259,7 @@ window.addEventListener('pageshow',function(event){
   render();
   settleFixedChrome();
 },{passive:true});
-/* 5.0.1278: server-version check bypasses both HTTP cache and the SW cache.
+/* 5.0.1280: server-version check bypasses both HTTP cache and the SW cache.
    A ZIP must be deployed to the hosting root; a downloaded ZIP alone is not an update.
    No local app data, PIN, or indexedDB storage is cleared. */
 async function checkForAppUpdate(){

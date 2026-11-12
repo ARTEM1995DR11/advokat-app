@@ -3216,7 +3216,7 @@ body.light .matter-field-card{background:linear-gradient(180deg,#FFFFFF,#F8FAFC)
 body.light .matter-field-copy b{color:#142431}
 body.light .matter-note-card{background:linear-gradient(155deg,rgba(200,155,67,.08),transparent 78%),linear-gradient(180deg,#FFFDF9,#FFFFFF);box-shadow:0 10px 24px rgba(35,31,24,.045)}
 body.light .matter-note-card p{color:#607487}
-body.light .matter-quickbtn{background:linear-gradient(180deg,#FFFFFF,#F7F9FC);color:#4B6278;box-shadow:0 10px 24px rgba(35,31,24,.045)}
+body.light .matter-quickbtn{background:linear-gradient(180deg,#FFFFFF,#F7F9FC);color:#4B6280;box-shadow:0 10px 24px rgba(35,31,24,.045)}
 body.light .matter-quickbtn .ico{color:#A56E17}
 body.light .matter-quickbtn.primary{background:linear-gradient(145deg,#E7C463,#C8942A);color:#241908}
 body.light .matter-quickbtn.primary .ico{color:#241908}
@@ -49066,57 +49066,4 @@ body.light.journal-sheet-open #scrim.open::after {
   overflow-wrap:break-word!important;
   overflow:visible!important;
   text-overflow:clip!important;
-}
-
-
-/* ====================================================================
-   5.0.1279 — IOS HOME-SCREEN VIEWPORT CORRECTION
-   iOS can report a layout viewport 40–70 CSS px shorter than the screen.
-   A fixed bottom:0 attaches to that short viewport, leaving a blank band.
-   Only when the guarded Home Screen measurement confirms the discrepancy,
-   extend the app's common canvas to screen.height and anchor bottom chrome
-   inside that canvas. Outside this case, existing styling is unchanged.
-   ==================================================================== */
-html.pwa-full-height,
-html.pwa-full-height body {
-  height:var(--pwa-full-height)!important;
-  min-height:var(--pwa-full-height)!important;
-  max-height:var(--pwa-full-height)!important;
-}
-html.pwa-full-height body {
-  position:relative!important;
-  overflow:hidden!important;
-}
-html.pwa-full-height body #app {
-  position:absolute!important;
-  top:0!important;right:0!important;bottom:0!important;left:0!important;
-  height:var(--pwa-full-height)!important;
-  max-height:var(--pwa-full-height)!important;
-  min-height:0!important;
-}
-html.pwa-full-height body #tabbar.premium-nav,
-html.pwa-full-height body #fab.fab,
-html.pwa-full-height body .timerpill {
-  position:absolute!important;
-  top:auto!important;
-}
-html.pwa-full-height body #tabbar.premium-nav {
-  bottom:0!important;
-}
-html.pwa-full-height body #fab.fab {
-  bottom:88px!important;
-}
-html.pwa-full-height body .timerpill {
-  bottom:94px!important;
-}
-@media(max-width:390px){
-  html.pwa-full-height body #fab.fab{bottom:85px!important}
-  html.pwa-full-height body .timerpill{bottom:91px!important}
-}
-/* Full-screen overlays share the same physical canvas as the tab bar.
-   Keep the established papers, dimensions, and individual sheet rules. */
-html.pwa-full-height body #scrim,
-html.pwa-full-height body #sheet,
-html.pwa-full-height body #page {
-  position:absolute!important;
 }
