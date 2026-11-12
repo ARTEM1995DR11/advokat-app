@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1280';
-var APP_BUILD='6280';
+var APP_VERSION='5.0.1281';
+var APP_BUILD='6281';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5748,20 +5748,16 @@ function dossierEventsSection(title,kind,items,m,emptyText){
 }
 /* 5.0.1112: select the EVENT kind before opening the existing editor;
    never create demo data or default every event to a hearing. */
+/* 5.0.1281 — one approved event chooser for both entry points.
+   The dossier's «События» tab used to open a parallel white legacy sheet.
+   Reuse the existing parchment selector from «Действия по делу» instead.
+   The selected matter and underlying dossier tab/scroll are preserved; the
+   existing hearing, meeting and deadline editors remain the only editors. */
 function sheetDossierEventChoice(id){
   var m=matter(id);if(!m)return;
   if(m.archived){toast('Сначала верните дело в работу');return;}
-  function option(kind,symbol,title,note){
-    return '<button type="button" class="matter-act-row" style="--tone:#ba8645" data-act="dossier-create-event" data-id="'+esc(id)+'" data-v="'+kind+'">'+
-      '<span class="matter-act-ico">'+ico(symbol)+'</span><span class="matter-act-copy"><b>'+esc(title)+'</b><small>'+esc(note)+'</small></span>'+
-      '<span class="matter-act-tail">'+ico('chev','s')+'</span></button>';
-  }
-  openSheet('<div class="matter-actions-head"><div class="matter-actions-head-icon">'+ico('cal')+'</div>'+
-    '<div class="matter-actions-head-copy"><small>по выбранному делу</small><h2>Добавить событие</h2><p>'+matterDisplayTitle(m)+'</p></div></div>'+
-    '<div class="matter-actions-card">'+
-      option('hearing','scale','Судебное заседание','Дата, суд, время и результат')+
-      option('deadline','doc','Процессуальный срок','Расчёт срока и документы')+
-      option('meeting','user','Встреча','Участники, время и место')+'</div>');
+  matterActionReturnReset(); // Back closes to the originating «События» tab.
+  sheetMatterEventKind(String(m.id));
 }
 function dossierEventsBottomActions(id){
   return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
