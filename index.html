@@ -2,26 +2,26 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="app-build" content="6278">
+<meta name="app-build" content="6279">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Ежедневник адвоката</title>
-<link rel="manifest" href="manifest.webmanifest?v=6278">
-<link rel="stylesheet" href="styles.css?v=6278">
-<link rel="stylesheet" href="new-matter-client.css?v=6278">
-<link rel="stylesheet" href="new-matter-stage.css?v=6278">
-<link rel="stylesheet" href="new-matter-values.css?v=6278">
-<link rel="stylesheet" href="new-matter-save.css?v=6278">
-<link rel="stylesheet" href="cases-folders.css?v=6278">
-<link rel="stylesheet" href="case-lifecycle.css?v=6278">
-<link rel="stylesheet" href="case-dossier.css?v=6278">
-<link rel="preload" href="app.js?v=6278" as="script">
-<link rel="preload" href="scale-gold.webp?v=6278" as="image" fetchpriority="high">
+<link rel="manifest" href="manifest.webmanifest?v=6279">
+<link rel="stylesheet" href="styles.css?v=6279">
+<link rel="stylesheet" href="new-matter-client.css?v=6279">
+<link rel="stylesheet" href="new-matter-stage.css?v=6279">
+<link rel="stylesheet" href="new-matter-values.css?v=6279">
+<link rel="stylesheet" href="new-matter-save.css?v=6279">
+<link rel="stylesheet" href="cases-folders.css?v=6279">
+<link rel="stylesheet" href="case-lifecycle.css?v=6279">
+<link rel="stylesheet" href="case-dossier.css?v=6279">
+<link rel="preload" href="app.js?v=6279" as="script">
+<link rel="preload" href="scale-gold.webp?v=6279" as="image" fetchpriority="high">
 <link rel="preload" href="bg-today-desk.webp" as="image">
 <link rel="preload" href="nav-panel-light.png" as="image">
-<link rel="preload" href="nav-active-today.png?v=6278" as="image">
-<link rel="preload" href="header-bell-premium.png?v=6278" as="image">
-<link rel="preload" href="header-search-premium.png?v=6278" as="image">
-<link rel="preload" href="fab-plus-square-premium.png?v=6278" as="image">
+<link rel="preload" href="nav-active-today.png?v=6279" as="image">
+<link rel="preload" href="header-bell-premium.png?v=6279" as="image">
+<link rel="preload" href="header-search-premium.png?v=6279" as="image">
+<link rel="preload" href="fab-plus-square-premium.png?v=6279" as="image">
 <meta name="theme-color" content="#F4F6F9">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,11 +30,63 @@
 <meta name="apple-mobile-web-app-title" content="Адвокат">
 <meta name="format-detection" content="telephone=no">
 <meta name="color-scheme" content="light">
-<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=6278">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=6278">
-<link rel="icon" href="premium-icon-192.png?v=6278">
+<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=6279">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=6279">
+<link rel="icon" href="premium-icon-192.png?v=6279">
+<script id="ios-pwa-fullscreen-repair">
+/* 5.0.1279 — standalone iOS may expose a layout viewport shorter than
+   the physical Home Screen canvas. CSS bottom:0 then leaves a blank band.
+   Use the physical height only in standalone portrait mode, when measured
+   screen/viewport discrepancy is credible; ignore keyboard resizes.
+   The correction applies to the whole app canvas, not to a single tab. */
+(function(){
+  var root=document.documentElement, pending=0;
+  function standalone(){
+    return navigator.standalone===true ||
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  }
+  function editing(){
+    var a=document.activeElement;
+    return !!(a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)));
+  }
+  function update(){
+    pending=0;
+    if(editing()) return;
+    var physical=Number(window.screen && screen.height)||0;
+    var screenWidth=Number(window.screen && screen.width)||0;
+    var layout=window.innerHeight||root.clientHeight||0;
+    var width=window.innerWidth||0;
+    var gap=physical-layout;
+    // Never expand a normal Safari tab, landscape layout, or the keyboard.
+    var active=!!(standalone() && width>0 && layout>320 &&
+      physical>layout && gap>=18 && gap<=128 &&
+      physical>screenWidth && Math.abs(screenWidth-width)<=6 &&
+      !(window.visualViewport && window.visualViewport.scale>1.03));
+    if(active){
+      root.style.setProperty('--pwa-full-height',physical+'px');
+      root.classList.add('pwa-full-height');
+    } else {
+      root.classList.remove('pwa-full-height');
+      root.style.removeProperty('--pwa-full-height');
+    }
+  }
+  function schedule(){
+    if(pending) cancelAnimationFrame(pending);
+    pending=requestAnimationFrame(update);
+  }
+  window.__pwaCorrectStandaloneCanvas=update;
+  update();
+  document.addEventListener('DOMContentLoaded',schedule);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)schedule();});
+  document.addEventListener('focusout',function(){setTimeout(schedule,250);});
+  window.addEventListener('pageshow',schedule);
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('orientationchange',function(){setTimeout(schedule,250);});
+  if(window.visualViewport)window.visualViewport.addEventListener('resize',schedule,{passive:true});
+})();
+</script>
 <style id="ios-pwa-nav-critical">
-/* 5.0.1278: One layout-viewport reference. Never calculate a fixed top
+/* 5.0.1279: One layout-viewport reference. Never calculate a fixed top
    from visualViewport.offsetTop/height; iOS changes these while scrolling. */
 #tabbar.premium-nav{position:fixed!important;left:12px!important;right:12px!important;top:auto!important;bottom:0!important;z-index:1000!important}
 #fab.fab{position:fixed!important;top:auto!important;bottom:88px!important;z-index:1001!important}
@@ -243,6 +295,6 @@
 </div>
 
 <input type="file" id="file" accept=".json" style="display:none">
-<script src="app.js?v=6278"></script>
+<script src="app.js?v=6279"></script>
 </body>
 </html>

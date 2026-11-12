@@ -49067,3 +49067,56 @@ body.light.journal-sheet-open #scrim.open::after {
   overflow:visible!important;
   text-overflow:clip!important;
 }
+
+
+/* ====================================================================
+   5.0.1279 — IOS HOME-SCREEN VIEWPORT CORRECTION
+   iOS can report a layout viewport 40–70 CSS px shorter than the screen.
+   A fixed bottom:0 attaches to that short viewport, leaving a blank band.
+   Only when the guarded Home Screen measurement confirms the discrepancy,
+   extend the app's common canvas to screen.height and anchor bottom chrome
+   inside that canvas. Outside this case, existing styling is unchanged.
+   ==================================================================== */
+html.pwa-full-height,
+html.pwa-full-height body {
+  height:var(--pwa-full-height)!important;
+  min-height:var(--pwa-full-height)!important;
+  max-height:var(--pwa-full-height)!important;
+}
+html.pwa-full-height body {
+  position:relative!important;
+  overflow:hidden!important;
+}
+html.pwa-full-height body #app {
+  position:absolute!important;
+  top:0!important;right:0!important;bottom:0!important;left:0!important;
+  height:var(--pwa-full-height)!important;
+  max-height:var(--pwa-full-height)!important;
+  min-height:0!important;
+}
+html.pwa-full-height body #tabbar.premium-nav,
+html.pwa-full-height body #fab.fab,
+html.pwa-full-height body .timerpill {
+  position:absolute!important;
+  top:auto!important;
+}
+html.pwa-full-height body #tabbar.premium-nav {
+  bottom:0!important;
+}
+html.pwa-full-height body #fab.fab {
+  bottom:88px!important;
+}
+html.pwa-full-height body .timerpill {
+  bottom:94px!important;
+}
+@media(max-width:390px){
+  html.pwa-full-height body #fab.fab{bottom:85px!important}
+  html.pwa-full-height body .timerpill{bottom:91px!important}
+}
+/* Full-screen overlays share the same physical canvas as the tab bar.
+   Keep the established papers, dimensions, and individual sheet rules. */
+html.pwa-full-height body #scrim,
+html.pwa-full-height body #sheet,
+html.pwa-full-height body #page {
+  position:absolute!important;
+}
