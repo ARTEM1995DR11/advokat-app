@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1284';
-var APP_BUILD='6284';
+var APP_VERSION='5.0.1287';
+var APP_BUILD='6287';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5461,12 +5461,39 @@ function dossierStage9EmptyButtonArt(){
 }
 
 
-/* 5.0.1113 — both dossier tabs reuse the SAME approved paper-button artwork.
-   The Events footer used a wider 220/148 SVG split while its interactive
-   buttons had already reverted to the General 195/172 split. The mismatch
-   placed the filter symbol outside its visible gold-framed button. */
+/* 5.0.1285 — the Events tab already has four category chips above its
+   timeline. The old bottom «Фильтр» button only jumped to the same chips.
+   Use one full-width gold action here; leave General/Tasks/Journal untouched. */
 function dossierEventsFooterArt(){
-  return dossierStage9EmptyButtonArt();
+  return `<svg class="dossier-stage9-blank-svg dossier-events-single-art" viewBox="0 0 380 70" role="img" aria-label="Золотая основа кнопки добавления события" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="dossierEventsGold1285" x1=".06" y1="0" x2=".16" y2="1">
+        <stop offset="0" stop-color="#fff2c7"/><stop offset=".15" stop-color="#f9deab"/>
+        <stop offset=".58" stop-color="#edbb70"/><stop offset="1" stop-color="#ce944a"/>
+      </linearGradient>
+      <linearGradient id="dossierEventsRim1285" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#e8bb73"/><stop offset=".21" stop-color="#ae7430"/>
+        <stop offset=".46" stop-color="#ffe5af"/><stop offset="1" stop-color="#8c5822"/>
+      </linearGradient>
+      <linearGradient id="dossierEventsDivider1285" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff5dc"/><stop offset=".5" stop-color="#ad7a40"/><stop offset="1" stop-color="#fff0c7"/>
+      </linearGradient>
+      <filter id="dossierEventsShadow1285" x="-8%" y="-24%" width="116%" height="155%">
+        <feDropShadow dx="0" dy="2.25" stdDeviation="1.5" flood-color="#77451f" flood-opacity=".3"/>
+      </filter>
+      <pattern id="dossierEventsGrain1285" patternUnits="userSpaceOnUse" width="13" height="11">
+        <circle cx="2" cy="3" r=".4" fill="#a56f34" opacity=".2"/>
+        <circle cx="10" cy="9" r=".34" fill="#fff" opacity=".36"/>
+      </pattern>
+    </defs>
+    <rect x="3.4" y="5.6" width="373.2" height="53" rx="12.6" fill="#9e672c" opacity=".55" filter="url(#dossierEventsShadow1285)"/>
+    <rect x="2.5" y="3.2" width="375" height="54" rx="12.3" fill="url(#dossierEventsRim1285)" stroke="#986632" stroke-width=".8"/>
+    <rect x="4.9" y="5.3" width="370.2" height="49.4" rx="10" fill="url(#dossierEventsGold1285)" stroke="#fff3cc" stroke-width="1"/>
+    <rect x="6.9" y="7.3" width="366.2" height="45.3" rx="9.0" fill="url(#dossierEventsGrain1285)" stroke="#b48041" stroke-width=".65"/>
+    <path d="M12 10 Q13 8.9 16 8.9 H367" fill="none" stroke="#fffbed" stroke-opacity=".94" stroke-width="1"/>
+    <path d="M12 49 Q13 52 17 52 H364" fill="none" stroke="#8f5c29" stroke-opacity=".29" stroke-width="1"/>
+    <rect x="71.5" y="13.1" width="1.2" height="34" rx=".6" fill="url(#dossierEventsDivider1285)" opacity=".83"/>
+  </svg>`;
 }
 
 /* 5.0.1078: Layer 9 follows the finished folder and kraft paper, rather than
@@ -5770,14 +5797,11 @@ function sheetDossierEventChoice(id){
   sheetMatterEventKind(String(m.id),'dossier-events');
 }
 function dossierEventsBottomActions(id){
-  return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
+  return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions is-single-action" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
       dossierEventsFooterArt()+
       '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="dossier-event-choice" data-id="'+esc(id)+'" aria-label="Добавить событие">'+
         '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
         '<span class="dossier-stage9-label">Добавить событие</span></button>'+
-      '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-events-focus-filter" data-id="'+esc(id)+'" aria-label="Открыть фильтры событий">'+
-        '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 4h18l-7.4 8.3v6.2L10.3 21v-8.7L3 4Z" /></svg></span>'+
-        '<span class="dossier-stage9-label">Фильтр</span></button>'+
     '</div>';
 }
 function dossierEventsListsBody(m,id,events){
@@ -6137,16 +6161,19 @@ function dossierAttentionRowMarkup(t){
 function dossierAttentionRowsLive(id){
   return dossierAttentionActiveTasks(id).map(dossierAttentionRowMarkup).join('');
 }
-// 5.0.1164 — two approved gold/ivory dossier buttons below completed work.
+/* 5.0.1287 — a single primary task action like Events and Journal.
+   Task templates remain available in the app's general templates area. */
+function dossierTasksFooterArt(){
+  return dossierEventsFooterArt()
+    .replace('dossier-events-single-art','dossier-tasks-single-art')
+    .replace('Золотая основа кнопки добавления события','Золотая основа кнопки добавления задачи');
+}
 function dossierTasksBottomActions(id){
-  return '<div class="dossier-stage9-blank-buttons dossier-tasks-bottom-actions" role="group" aria-label="Действия с задачами">'+
-    dossierStage9EmptyButtonArt()+
+  return '<div class="dossier-stage9-blank-buttons dossier-tasks-bottom-actions is-single-action" role="group" aria-label="Действия с задачами">'+
+    dossierTasksFooterArt()+
     '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
       '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>'+
       '<span class="dossier-stage9-label">Добавить задачу</span></button>'+
-    '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-tasks-templates" data-id="'+esc(id)+'" aria-label="Шаблоны задач">'+
-      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.8"><path d="M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12h6M9 16h6"/></svg></span>'+
-      '<span class="dossier-stage9-label">Шаблоны</span></button>'+ 
   '</div>';
 }
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -6264,18 +6291,20 @@ function dossierIndexStage1008(id,current,openCount,m,events){
     '</div>';
 }
 
-/* 5.0.1193 / Журнал, этап 6 — two approved freestanding action buttons.
-   Reuse the exact same graphical foundation and interactive slots as
-   General / Events / Tasks. The journal filter implementation is stage 7. */
+/* 5.0.1286 — Journal: a single full-width primary action, matching Events.
+   Do not create a second footer design. The archived filter-sheet code stays
+   available for future reuse, but is not exposed as a bottom action. */
+function dossierJournalFooterArt(){
+  return dossierEventsFooterArt()
+    .replace('dossier-events-single-art','dossier-journal-single-art')
+    .replace('Золотая основа кнопки добавления события','Золотая основа кнопки новой записи');
+}
 function dossierJournalBottomActions(id){
-  return '<div class="dossier-stage9-blank-buttons dossier-journal-bottom-actions" data-dossier-layer="journal-stage9-actions" role="group" aria-label="Действия с журналом">'+
-    dossierStage9EmptyButtonArt()+
+  return '<div class="dossier-stage9-blank-buttons dossier-journal-bottom-actions is-single-action" data-dossier-layer="journal-stage9-actions" role="group" aria-label="Действия с журналом">'+
+    dossierJournalFooterArt()+
     '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-journal" data-id="'+esc(id)+'" aria-label="Новая запись в журнале">'+
       '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
       '<span class="dossier-stage9-label">Новая запись</span></button>'+
-    '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="dossier-journal-filter-open" data-id="'+esc(id)+'" aria-label="Фильтр записей журнала" title="Фильтр журнала">'+
-      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 4h18l-7.4 8.3v6.2L10.3 21v-8.7L3 4Z" /></svg></span>'+
-      '<span class="dossier-stage9-label">Фильтр</span></button>'+
   '</div>';
 }
 
@@ -6956,6 +6985,9 @@ function openMatter(id,tab){
   warmDossierAssets();
   var p=$('#page');
   if(!DOSSIER_TABS[tab])tab=(p.classList.contains('open')&&sameRecordId(p._mid,id)&&DOSSIER_TABS[p._matterTab])?p._matterTab:'general';
+  // 5.0.1286: journal always opens with the complete chronology after the
+  // bottom filter control was removed. Prevent stale hidden per-case filters.
+  if(tab==='journal')delete DOSSIER_JOURNAL_FILTERS[String(id)];
   if(DOSSIER_LAYOUT_ONLY){dossierLayoutPreview(m,id,tab,p);return;}
   var ts=tasksOf(id).slice().sort(sortT);
   var events=ts.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
@@ -8452,17 +8484,6 @@ document.addEventListener('click', function(ev){
       if(v==='hearing') editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});
       else if(v==='deadline') sheetDeadline(id);
       else if(v==='meeting') editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});
-      break;
-    }
-    case 'dossier-events-focus-filter': {
-      var filterRow=$('#page').querySelector('.dossier-events-filter-row');
-      if(filterRow){
-        filterRow.scrollIntoView({behavior:'smooth',block:'start'});
-        var activeBtn=filterRow.querySelector('.dossier-events-filter.is-active')||filterRow.querySelector('.dossier-events-filter');
-        if(activeBtn && typeof activeBtn.focus==='function') setTimeout(function(){
-          try{activeBtn.focus({preventScroll:true});}catch(_){activeBtn.focus();}
-        },120);
-      }
       break;
     }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;

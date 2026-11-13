@@ -5248,3 +5248,116 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     grid-template-columns:minmax(0,31%) 26px minmax(0,1fr);
   }
 }
+
+
+/* 5.0.1285 — only the Events tab gets ONE full-width action. The top four
+   category chips (Все / Заседания / Сроки / Встречи) remain the sole filters.
+   Specificity and !important override the shared two-button footer template
+   without touching the approved General, Tasks and Journal bottom controls. */
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions.is-single-action .dossier-stage9-action-add{
+  left:.66%!important;
+  width:98.68%!important;
+  grid-template-columns:20% minmax(0,1fr)!important;
+  font-size:clamp(12px,3.52vw,15px)!important;
+  letter-spacing:-.012em!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon{
+  position:absolute;left:6.0%;top:0;bottom:0;width:13%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon svg{
+  width:clamp(20px,5.7vw,26px);height:clamp(20px,5.7vw,26px);
+  stroke-width:2;stroke:#86501b;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-events-stage9-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-label{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:center;
+  width:100%;padding:0 0 0 9%!important;box-sizing:border-box;
+  font-size:1em!important;letter-spacing:-.015em!important;
+  white-space:nowrap;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-events-stage9-actions.is-single-action .dossier-stage9-action-add{
+    font-size:clamp(11px,3.55vw,13px)!important;
+  }
+}
+
+
+/* 5.0.1286 — Journal: same single golden footer as Events, no separate Filter
+   button. The approved timeline, paper, navigation and other tab footers remain
+   untouched. Overrides shared two-action coordinates without changing size. */
+#page.dossier-page .dossier-rear-stage
+.dossier-journal-bottom-actions.is-single-action .dossier-stage9-action-add{
+  left:.66%!important;
+  width:98.68%!important;
+  grid-template-columns:20% minmax(0,1fr)!important;
+  font-size:clamp(12px,3.52vw,15px)!important;
+  letter-spacing:-.012em!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-journal-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon{
+  position:absolute;left:6%;top:0;bottom:0;width:13%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-journal-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon svg{
+  width:clamp(20px,5.7vw,26px);height:clamp(20px,5.7vw,26px);
+  stroke-width:2;stroke:#86501b;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-journal-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-label{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:center;
+  width:100%;padding:0 0 0 9%!important;box-sizing:border-box;
+  font-size:1em!important;letter-spacing:-.015em!important;
+  white-space:nowrap;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-journal-bottom-actions.is-single-action .dossier-stage9-action-add{
+    font-size:clamp(11px,3.55vw,13px)!important;
+  }
+}
+
+
+/* 5.0.1287 — Tasks: a single wide golden «Добавить задачу» button.
+   The paper stack, its vertical position, and all task cards are unchanged. */
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+> .dossier-tasks-bottom-actions.is-single-action .dossier-stage9-action-add{
+  left:.66%!important;
+  width:98.68%!important;
+  grid-template-columns:20% minmax(0,1fr)!important;
+  font-size:clamp(12px,3.52vw,15px)!important;
+  letter-spacing:-.012em!important;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+> .dossier-tasks-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon{
+  position:absolute;left:6%;top:0;bottom:0;width:13%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+> .dossier-tasks-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-icon svg{
+  width:clamp(20px,5.7vw,26px);height:clamp(20px,5.7vw,26px);
+  stroke-width:2;stroke:#86501b;
+}
+#page.dossier-page .dossier-rear-stage
+.dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+> .dossier-tasks-bottom-actions.is-single-action .dossier-stage9-action-add .dossier-stage9-label{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:center;
+  width:100%;padding:0 0 0 9%!important;box-sizing:border-box;
+  font-size:1em!important;letter-spacing:-.015em!important;
+  white-space:nowrap;
+}
+@media(max-width:365px){
+  #page.dossier-page .dossier-rear-stage
+  .dossier-stage7[data-active-tab="tasks"] .dossier-tasks-stack
+  > .dossier-tasks-bottom-actions.is-single-action .dossier-stage9-action-add{
+    font-size:clamp(11px,3.55vw,13px)!important;
+  }
+}
