@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1282';
-var APP_BUILD='6282';
+var APP_VERSION='5.0.1283';
+var APP_BUILD='6283';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2395,7 +2395,7 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
@@ -2404,9 +2404,9 @@ function closeAll(){
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
-  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4952,6 +4952,14 @@ function sheetMatterEventKind(id){
   panel.classList.add('matter-event-choice-sheet','matter-event-stage1-open');
   /* Keep the originating dossier mounted and its scroll untouched: only the scrim changes. */
   document.body.classList.add('matter-event-backdrop-open');
+  // 5.0.1283: show the ACTUAL case dossier beneath the paper chooser.
+  // The full dossier stays mounted, including its current tab and scroll position.
+  // When invoked without an open dossier, retain the approved marble fallback.
+  var underlying=$('#page');
+  document.body.classList.toggle('matter-event-dossier-backdrop-open',
+    !!(underlying && underlying.classList.contains('open') &&
+       underlying.classList.contains('dossier-page') &&
+       sameRecordId(underlying._mid,id)));
   mountMatterEventPaperStage1(panel);
 }
 /* Unified outer+inner outline; corner geometry calculated at actual mobile size.

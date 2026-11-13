@@ -48469,7 +48469,7 @@ body.matter-actions-open #scrim.open{
 /* 5.0.1237 — stages 1–4: final optical correction, no geometry changes.
    When the event chooser is open the original dossier remains mounted behind
    a quiet, existing marble backdrop. Match the approved Actions overlay. */
-body.matter-event-backdrop-open #scrim.open{
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open{
   z-index:41!important;
   opacity:1!important;
   background:
@@ -49068,4 +49068,22 @@ body.light.journal-sheet-open #scrim.open::after {
   overflow-wrap:break-word!important;
   overflow:visible!important;
   text-overflow:clip!important;
+}
+
+/* 5.0.1283 — «Добавить событие» is a genuine overlay of the OPEN DOSSIER.
+   The old backdrop was a full-opaque image of marble, masking the actual case
+   folder. Make the scrim translucent, leaving the original folder, tab and
+   scroll exactly where they were. Do not alter the approved paper chooser. */
+body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #scrim.open{
+  z-index:41!important;
+  opacity:1!important;
+  background:rgba(248,242,231,.17)!important;
+  -webkit-backdrop-filter:blur(1px) saturate(.91)!important;
+  backdrop-filter:blur(1px) saturate(.91)!important;
+}
+body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #page.dossier-page.open{
+  z-index:40!important;
+}
+body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #sheet.matter-event-stage1-open{
+  z-index:42!important;
 }
