@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1283';
-var APP_BUILD='6283';
+var APP_VERSION='5.0.1284';
+var APP_BUILD='6284';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4916,7 +4916,7 @@ function mountMatterActionsOutline(panel){
 /* 5.0.1233 — approved event picker, stage 1: unified empty parchment.
    Existing event-kind markup is preserved, but intentionally hidden until the
    card-content stages. No duplicate editors, no changes to case data. */
-function sheetMatterEventKind(id){
+function sheetMatterEventKind(id,origin){
   var m=matter(id);if(!m)return;
   if(m.archived){toast('Сначала верните дело в работу');return;}
   /* Stage 4: fill the approved 3-card layout with live event selection. */
@@ -4952,14 +4952,16 @@ function sheetMatterEventKind(id){
   panel.classList.add('matter-event-choice-sheet','matter-event-stage1-open');
   /* Keep the originating dossier mounted and its scroll untouched: only the scrim changes. */
   document.body.classList.add('matter-event-backdrop-open');
-  // 5.0.1283: show the ACTUAL case dossier beneath the paper chooser.
-  // The full dossier stays mounted, including its current tab and scroll position.
-  // When invoked without an open dossier, retain the approved marble fallback.
+  // 5.0.1284 — backdrop is selected by ENTRY POINT, not by whether the
+  // dossier happens to be mounted: it remains mounted behind «Действия по делу» too.
+  // «События» (+) => show the current dossier and its unchanged scroll/tab;
+  // «Действия по делу» => restore the original quiet marble backdrop.
   var underlying=$('#page');
-  document.body.classList.toggle('matter-event-dossier-backdrop-open',
-    !!(underlying && underlying.classList.contains('open') &&
-       underlying.classList.contains('dossier-page') &&
-       sameRecordId(underlying._mid,id)));
+  var fromDossierEvents=origin==='dossier-events' &&
+    underlying && underlying.classList.contains('open') &&
+    underlying.classList.contains('dossier-page') &&
+    underlying._matterTab==='events' && sameRecordId(underlying._mid,id);
+  document.body.classList.toggle('matter-event-dossier-backdrop-open',!!fromDossierEvents);
   mountMatterEventPaperStage1(panel);
 }
 /* Unified outer+inner outline; corner geometry calculated at actual mobile size.
@@ -5765,7 +5767,7 @@ function sheetDossierEventChoice(id){
   var m=matter(id);if(!m)return;
   if(m.archived){toast('Сначала верните дело в работу');return;}
   matterActionReturnReset(); // Back closes to the originating «События» tab.
-  sheetMatterEventKind(String(m.id));
+  sheetMatterEventKind(String(m.id),'dossier-events');
 }
 function dossierEventsBottomActions(id){
   return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
