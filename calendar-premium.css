@@ -1007,3 +1007,154 @@ html body #sc-cal.screen{
 
 /* Approved month agenda has the heading itself, without a duplicate record-count caption. */
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-head p{display:none!important;}
+
+/* ======================================================================
+   5.0.1297.2 — MONTH visual second pass based on the approved reference.
+   Deliberately excluded: original calendar background, the customized
+   Calendar + selected-date masthead, day agenda, week/day modes and nav.
+   Targets reference proportions in CSS pixels, not raster-upscaled image
+   dimensions. Five and six real calendar rows are both supported.
+   ====================================================================== */
+/* 3-state premium control: align to reference dimensions and centering. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{
+  width:calc(100% - 18px)!important;
+  margin:0 auto 10px!important;
+  padding:4px!important;gap:3px!important;
+  min-height:0!important;grid-template-columns:1.09fr 1fr 1fr!important;
+  border-radius:19px!important;
+  background:linear-gradient(180deg,rgba(255,254,250,.96),rgba(247,242,233,.94))!important;
+  box-shadow:0 5px 12px rgba(92,69,43,.09),inset 0 1px 0 #fff!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{
+  min-height:27px!important;height:27px!important;
+  padding:3px 2px!important;border-radius:14px!important;
+  font-size:11.5px!important;font-weight:620!important;gap:5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode .ico{
+  width:15px!important;height:15px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode[aria-pressed="true"]{
+  background:linear-gradient(145deg,#e7c46e,#cf9837 72%,#c38628)!important;
+  box-shadow:inset 0 1px 0 rgba(255,244,203,.95),inset 0 -2px 0 rgba(155,103,30,.1),0 3px 7px rgba(110,78,39,.15)!important;
+}
+/* Month surface and period navigation. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  width:calc(100% - 6px)!important;
+  margin-left:3px!important;margin-right:3px!important;
+  padding:9px 10px 10px!important;
+  border-radius:15px!important;
+  background:linear-gradient(160deg,rgba(255,255,255,.985),rgba(255,252,248,.975))!important;
+  border-color:rgba(192,160,118,.20)!important;
+  box-shadow:0 6px 18px rgba(86,67,48,.09),inset 0 1px #fff!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-top{
+  min-height:27px!important;margin-bottom:4px!important;gap:5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow{
+  width:27px!important;min-width:27px!important;height:27px!important;min-height:27px!important;
+  border-radius:9px!important;
+  border-color:rgba(190,166,133,.32)!important;
+  background:linear-gradient(145deg,#fffefa,#f6f0e7)!important;
+  box-shadow:0 2px 4px rgba(65,47,28,.07),inset 0 1px rgba(255,255,255,.94)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow .ico{
+  width:17px!important;height:17px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-today-btn{
+  height:26px!important;min-height:26px!important;
+  padding:0 6px!important;border-radius:9px!important;font-size:11px!important;
+  font-weight:650!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:5px!important;}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{
+  font-size:clamp(15px,5.1vw,20px)!important;
+  letter-spacing:-.037em!important;
+}
+/* Monday-first calendar grid; compact without truncating week 6. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:21px!important;grid-auto-rows:26px!important;
+  row-gap:1px!important;column-gap:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:9.5px!important;letter-spacing:.045em!important;font-weight:740!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:26px!important;max-height:26px!important;
+  padding-top:2px!important;
+  font-size:12.5px!important;line-height:15px!important;gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:15px!important;line-height:15px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-2px!important;width:min(36px,100%)!important;height:32px!important;
+  border-radius:9px!important;
+  background:linear-gradient(144deg,#f0cf81 0%,#dda94c 35%,#bd812b 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,250,210,.92),inset 0 -2px rgba(140,90,20,.1),0 4px 9px rgba(128,80,21,.21)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday .cdots{
+  height:5px!important;min-height:5px!important;gap:3px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday .cdots i,
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel .cdots::after{
+  width:4.5px!important;height:4.5px!important;
+}
+/* Footer metrics: lighter, narrower and with the approved right chevron. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  grid-template-columns:1fr 1.12fr!important;gap:8px!important;margin-top:7px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  position:relative;min-height:29px!important;
+  padding:3px 5px!important;gap:8px!important;
+  border-radius:10px!important;
+  background:linear-gradient(160deg,rgba(255,250,242,.96),rgba(250,244,235,.93))!important;
+  border-color:rgba(202,171,127,.30)!important;
+  box-shadow:0 2px 4px rgba(95,74,49,.065),inset 0 1px rgba(255,255,255,.96)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.ico{
+  width:19px!important;height:19px!important;stroke-width:1.9!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
+  font-size:18px!important;font-weight:700!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{
+  font-size:10.3px!important;font-weight:450!important;line-height:1.15!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{
+  padding-right:17px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child::after{
+  content:"";position:absolute;right:9px;top:50%;width:6px;height:6px;
+  border-right:1.7px solid #19314b;border-top:1.7px solid #19314b;
+  transform:translateY(-50%) rotate(45deg);pointer-events:none;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{
+    width:calc(100% - 8px)!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{font-size:10.5px!important;gap:3px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode .ico{width:13px!important;height:13px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{font-size:15px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{grid-auto-rows:24px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{height:24px!important;max-height:24px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{width:min(33px,100%)!important;height:30px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{gap:4px!important;padding:3px 2px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.ico{width:17px!important;height:17px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{font-size:16.5px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{font-size:9.2px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{padding-right:13px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child::after{right:5px;}
+}
+/* Final reference-aligned positioning of the month card interior. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  padding-top:7px!important;padding-bottom:8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  padding-top:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-4px!important;height:29px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
+  font-size:17.5px!important;
+}
