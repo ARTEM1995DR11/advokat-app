@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.21';
-var APP_BUILD='6320';
+var APP_VERSION='5.0.1297.23';
+var APP_BUILD='6322';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3897,7 +3897,7 @@ function calStateBadgeHTML(badge,klass){
   return '<em class="'+klass+' '+esc(badge.tone)+'">'+
     (iconName?ico(iconName,'s'):'')+'<span>'+esc(badge.label)+'</span></em>';
 }
-/* 5.0.1297.21 — Agenda pass 2.1: separate event narrative from
+/* 5.0.1297.23 — Agenda pass 2.1: separate event narrative from
    venue/case metadata, and reserve a right-aligned status column. No record
    fields are changed: the two lines are a presentation of source records. */
 function calMonthAgendaRow(t){

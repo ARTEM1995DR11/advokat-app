@@ -2301,3 +2301,68 @@ html body #sc-cal.screen{
   -webkit-backdrop-filter:blur(13px) saturate(.8)!important;
   backdrop-filter:blur(13px) saturate(.8)!important;
 }
+
+
+/* ====================================================================
+   5.0.1297.22 — precise corrections after the visual review.
+   1) Calendar timeline connectors: no hidden gap between rows with margins.
+   2) No automatic internal word hyphenation and legible case metadata.
+   3) iOS status-area protection fades into background rather than a flat bar.
+   The existing floating "+", footer and month card are untouched.
+   ==================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-timeline{
+  row-gap:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-timeline>.cal-month-event{
+  margin-block:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event:not(:last-child)::after{
+  bottom:-23px!important;
+  background:#bb914d!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top>b,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-top>b{
+  hyphens:none!important;
+  -webkit-hyphens:none!important;
+  word-break:normal!important;
+  overflow-wrap:break-word!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
+  color:#626b6c!important;
+  font-weight:460!important;
+}
+/* Only the screen-scoped shield changes. Shared height and safe-area layout
+   remain unchanged. Keep it solid behind status icons and fade its bottom. */
+#cal-ios-status-shield{
+  height:max(48px,env(safe-area-inset-top,0px))!important;
+  background-color:transparent!important;
+  background-image:linear-gradient(to bottom,
+    rgba(249,243,233,.995) 0%,
+    rgba(249,243,233,.99) 61%,
+    rgba(249,243,233,.82) 78%,
+    rgba(249,243,233,0) 100%)!important;
+  background-position:0 0!important;
+  background-size:100% 100%!important;
+  background-repeat:no-repeat!important;
+  border:none!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+
+/* ====================================================================
+   5.0.1297.23 — Part 3: calendar-only scroll accessibility.
+   Scrolling to keyboard-focused agenda entries leaves room for the iPhone
+   safe top and existing fixed navigation. This does NOT move/redraw the FAB,
+   does NOT alter bottom-nav or screen height, and does NOT affect case tabs.
+   ==================================================================== */
+#sc-cal.screen{
+  scroll-padding-top:calc(52px + env(safe-area-inset-top,0px))!important;
+  scroll-padding-bottom:calc(135px + env(safe-area-inset-bottom,0px))!important;
+}
+#sc-cal .calendar-project .cal-month-event:focus-visible{
+  scroll-margin-top:calc(52px + env(safe-area-inset-top,0px));
+  scroll-margin-bottom:calc(135px + env(safe-area-inset-bottom,0px));
+}
