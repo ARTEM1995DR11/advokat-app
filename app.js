@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1295';
-var APP_BUILD='6296';
+var APP_VERSION='5.0.1297';
+var APP_BUILD='6299';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2956,7 +2956,7 @@ function performDeleteTaskById(id){
   save();
   closePremiumDeleteConfirm();
   closeSheet();
-  render();
+  renderPreservingCalendarPosition();
   if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
   toast('Удалено');
 }
@@ -2997,7 +2997,7 @@ function toggleTaskDone(id){
   }
   t.done=!t.done; t.doneAt=t.done?new Date().toISOString():null;
   if(t.mid) addJournal(t.mid,(t.done?'Выполнено: ':'Возвращено в работу: ')+t.title,today(),'task',true);
-  vib(t.done?[10,40,14]:8); save(); render();
+  vib(t.done?[10,40,14]:8); save(); renderPreservingCalendarPosition();
   if($('#page').classList.contains('open')&&t.mid) openMatter(t.mid);
   toast((t.done?'Выполнено':'Возвращено в работу')+' · '+t.title.slice(0,32));
 }
@@ -3097,7 +3097,7 @@ function saveHearingResult(){
     if(next)label+='. Следующее заседание — '+fmtD(next.due,true)+' в '+next.time;
     addJournal(t.mid,label,t.due||today(),'hearing-result',true);
   }
-  HR=null;vib([12,35,12]);save();closeSheet();render();
+  HR=null;vib([12,35,12]);save();closeSheet();renderPreservingCalendarPosition();
   if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);
   toast(next?'Результат сохранён · следующее заседание создано':'Результат заседания сохранён');
   schedule();
@@ -3108,7 +3108,7 @@ function sheetHearingResultSummary(id){
   openSheet('<div class="hearing-result-head"><span class="hearing-result-head-icon done">'+ico('check')+'</span><div><h2>Результат заседания</h2><p>'+esc(fmtD(t.due,true)+(t.time?' · '+t.time:'')+(hearingContextText(t)?' · '+hearingContextText(t):''))+'</p></div></div>'+ 
     '<div class="hearing-result-summary '+(ri?ri.tone:'')+'"><small>Результат</small><b>'+esc(ri?ri.label:'Зафиксирован')+'</b>'+(t.hearingResultText?'<p>'+esc(t.hearingResultText)+'</p>':'')+'</div>'+ 
     (next?'<div class="hearing-result-next"><small>Следующее заседание</small><b>'+esc(fmtD(next.due,true)+' · '+next.time)+'</b><span>'+esc(next.place||'')+'</span></div>':'')+
-    '<div class="hint">Запись сохранена в истории'+(t.mid?' и журнале дела':'')+'. Завершённые заседания автоматически не удаляются.</div>');
+    '<div class="hint">Запись сохранена в истории'+(t.mid?' и журнале дела':'')+'. Завершённые заседания автоматически не удаляются.</div>'+calendarEditorCaseShortcut(t));
   $('#sheet').classList.add('hearing-result-sheet');
 }
 
@@ -3895,6 +3895,52 @@ function calMonthAgendaRow(t){
        (context.length?'<small>'+esc(context.join(' · '))+'</small>':'')+'</span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
+/* Stage 7 / 5.0.1296: full day timeline built from the SAME records as month/week.
+   The visual rows are views only: no copies, fixtures, or alternative storage. */
+function calDayTimelineRow(t){
+  var m=t.mid?matter(t.mid):null;
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var badge=calMonthBadge(t);
+  var stamp=calMonthItemTime(t);
+  var head=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
+  var detail='',location='',caseMeta='';
+  if(kind==='hearing'){
+    detail=hearingContextText(t)||t.hearingTopic||t.note||'';
+    location=t.place||'';
+  }else if(kind==='meeting'){
+    detail=t.note||'';
+    location=t.place||'';
+  }else if(kind==='deadline'){
+    detail=t.rule||t.note||'';
+    location=t.place||'';
+  }else{
+    detail=t.note||'';
+    location=t.place||'';
+  }
+  if(m)caseMeta=[m.number?('Дело № '+m.number):'',m.client||''].filter(Boolean).join(' · ');
+  if(detail===head)detail='';
+  if(detail===location)location='';
+  var icon=kind==='hearing'?'court':kind==='meeting'?'user':kind==='deadline'?'doc':'check';
+  var act=hearingNeedsResult(t)?'hearing-result':'task';
+  return '<div class="cal-day-timeline-row '+(stamp?'timed':'untimed')+'">'+
+    '<span class="cal-day-clock">'+(stamp?esc(stamp):'—')+'</span>'+
+    '<button type="button" class="cal-day-event '+kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+head+', '+badge.label)+'">'+
+      '<span class="cal-day-event-icon">'+ico(icon,'s')+'</span>'+
+      '<span class="cal-day-event-copy">'+
+        '<span class="cal-day-event-head"><b>'+esc(head)+'</b><em class="cal-day-event-status '+badge.tone+'">'+esc(badge.label)+'</em></span>'+
+        (detail?'<span class="cal-day-event-desc">'+esc(detail)+'</span>':'')+
+        (location?'<span class="cal-day-event-location">'+ico('pin','s')+esc(location)+'</span>':'')+
+        (caseMeta?'<span class="cal-day-event-case">'+esc(caseMeta)+'</span>':'')+
+      '</span><span class="cal-day-event-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button></div>';
+}
+function calDayTimelineContent(day){
+  var ordered=day.slice().sort(calMonthAgendaSort);
+  var timed=ordered.filter(function(t){return !!calMonthItemTime(t);});
+  var untimed=ordered.filter(function(t){return !calMonthItemTime(t);});
+  if(!day.length)return '<div class="cal-day-empty"><p>На этот день записей нет</p><button type="button" data-act="new-on-day">Добавить запись</button></div>';
+  return (timed.length?'<div class="cal-day-timeline" aria-label="События по времени">'+timed.map(calDayTimelineRow).join('')+'</div>':'')+
+    (untimed.length?'<div class="cal-day-untimed"><h3>БЕЗ УКАЗАННОГО ВРЕМЕНИ</h3><div class="cal-day-untimed-list" aria-label="Записи без указанного времени">'+untimed.map(calDayTimelineRow).join('')+'</div></div>':'');
+}
 function profileInitials(name){
   var raw=(name||'Адвокат').trim();
   if(!raw) return 'АК';
@@ -4015,14 +4061,23 @@ function renderCal(){
         '<div class="cal-week-stat" aria-label="'+weekHearings+' судебных заседаний за неделю">'+ico('gavel','s')+'<span><b>'+weekHearings+'</b><small>'+plural(weekHearings,'заседание','заседания','заседаний')+'</small></span></div>'+
       '</div></section>';
   }else{
-    /* Stage 2 bridge: live day navigation + real agenda, awaiting stage 7 timeline. */
-    periodContent='<div class="calendar-month-card cal-premium-bridge-day">'+periodTop+
-      '<div class="cal-premium-day-meta">'+cap(DOW[parseD(u.calSel).getDay()])+' · '+day.length+' '+plural(day.length,'событие','события','событий')+'</div></div>';
+    /* Stage 7: approved full-day overview, actual calendar date and real KPIs. */
+    periodContent='<section class="calendar-month-card cal-day-overview" aria-label="Дата и показатели дня">'+
+      '<div class="cal-day-overview-nav">'+
+        '<button type="button" class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="-1" aria-label="Предыдущий день">'+ico('left')+'</button>'+
+        '<div class="cal-day-overview-title"><h2>'+esc(fmtD(u.calSel,true))+'</h2><p>'+esc(['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'][parseD(u.calSel).getDay()])+'</p></div>'+
+        '<div class="cal-day-overview-right"><button type="button" class="calendar-today-btn cal-day-today" data-act="cal-today">Сегодня</button><button type="button" class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="1" aria-label="Следующий день">'+ico('chev')+'</button></div>'+
+      '</div>'+
+      '<div class="cal-day-kpis" aria-label="Показатели за выбранный день">'+
+        '<div class="cal-day-kpi">'+ico('brief','s')+'<span><b>'+day.length+'</b><small>'+plural(day.length,'запись','записи','записей')+'</small></span></div>'+
+        '<div class="cal-day-kpi">'+ico('gavel','s')+'<span><b>'+dHear+'</b><small>'+plural(dHear,'заседание','заседания','заседаний')+'</small></span></div>'+
+        '<div class="cal-day-kpi">'+ico('clock','s')+'<span><b>'+dDead+'</b><small>'+plural(dDead,'срок','срока','сроков')+'</small></span></div>'+
+      '</div></section>';
   }
 
   var html='<div class="calendar-project" data-calendar-foundation="premium-v1" data-calendar-view="'+mode+'">'+
     mainBrandHeader()+
-    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><div class="cal-title-sub"><i aria-hidden="true"></i><span>Адвокатский ежедневник</span></div></div>'+
+    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     switcher+periodContent+
     (mode==='month'||mode==='week'?
@@ -4033,11 +4088,10 @@ function renderCal(){
         (day.length?'<div class="cal-month-timeline">'+day.slice().sort(calMonthAgendaSort).map(calMonthAgendaRow).join('')+'</div>':
           '<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span><button type="button" data-act="new-on-day">Добавить запись</button></div>')+
       '</section>':
-      '<div class="calendar-day-card">'+
-        '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
-        '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
-        (day.length?('<div class="calendar-agenda-list">'+day.slice().sort(calMonthAgendaSort).map(calAgendaRow).join('')+'</div>'):'<div class="calendar-empty">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',[{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>')+
-      '</div>')+'</div>';
+      '<section class="calendar-day-card cal-day-schedule" aria-label="Расписание выбранного дня">'+
+        '<div class="cal-day-schedule-heading"><h2>РАСПИСАНИЕ ДНЯ</h2><i aria-hidden="true"></i></div>'+
+        calDayTimelineContent(day)+
+      '</section>')+'</div>';
   $('#sc-cal').innerHTML=html;
 }
 
@@ -4204,6 +4258,39 @@ function appBack(){
   }
   if(S.ui.tab!=='today'){ go('today',true); vib(5); return true; }
   return false;
+}
+
+/* Calendar stage 8 (5.0.1297): modal navigation never creates a second
+   set of records. Keep the original selected date, view and scroll when the
+   existing task/hearing editor saves, deletes or records a hearing result. */
+function calendarEntryDate(){
+  return S.ui.tab==='cal' && window.AdvokatCalendar
+    ? window.AdvokatCalendar.safeDate(S.ui.calSel,today()) : today();
+}
+function renderPreservingCalendarPosition(){
+  var screen=S.ui.tab==='cal'?$('#sc-cal'):null;
+  var scroll=screen?screen.scrollTop:0;
+  var selected=screen?S.ui.calSel:null;
+  var view=screen?S.ui.calView:null;
+  render();
+  if(screen && S.ui.tab==='cal'){
+    // The editor does not change the selected day, even when its record is
+    // rescheduled to another date. Retain the period the user was reviewing.
+    S.ui.calSel=selected; S.ui.calView=view;
+    var target=$('#sc-cal');
+    if(target){
+      var restore=function(){
+        if(S.ui.tab!=='cal')return;
+        target.scrollTop=Math.min(scroll,Math.max(0,target.scrollHeight-target.clientHeight));
+      };
+      restore();requestAnimationFrame(restore);
+    }
+  }
+}
+function calendarEditorCaseShortcut(t){
+  if(S.ui.tab!=='cal'||!t||!t.id||!t.mid||!matter(t.mid))return '';
+  return '<button type="button" class="cal-editor-case-shortcut" data-act="cal-open-matter" data-id="'+esc(t.mid)+'">'+
+    ico('folder','s')+'<span>Открыть связанное дело</span>'+ico('chev','s')+'</button>';
 }
 
 /* =====================================================================
@@ -4488,7 +4575,7 @@ function renderHearingPremiumEditor(t,isNew){
         '<label>Дело (необязательно)</label>'+
         '<div class="qe192-control qe192-select-control"><span class="qe192-leading qe-icon-case">'+ico('qe-folder','s')+'</span><select id="e-mid">'+opts+'</select></div>'+
         '<small class="qe192-hint qe193-hearing-matter-hint">Для разового или дежурного заседания дело можно не выбирать.</small>'+
-      '</section>'+
+      '</section>'+calendarEditorCaseShortcut(t)+
       '<section id="hearing-topic-field" class="qe192-field qe193-hearing-topic-field"'+(t.mid?' style="display:none"':'')+'>'+
         '<label>Что за заседание *</label>'+
         '<div class="qe192-control qe192-input-control"><span class="qe192-leading qe-icon-number">'+ico('qe-document','s')+'</span><input id="e-hearing-topic" name="advokat-hearing-topic-5293" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'" autocomplete="off" autocapitalize="sentences" spellcheck="true"></div>'+
@@ -4561,7 +4648,7 @@ function drawEditor(preserveScroll){
   '<div class="hearing-premium-editor standard-premium-editor kind-'+t.kind+'-editor">'+
   renderQuickEntryTop190(title,t.kind)+
   (!hearing&&t.kind!=='deadline'?'<div class="fld task-editor-title-field qe193-title-field"><label>'+(meeting?'Тема встречи':'Что нужно сделать')+'</label><div class="qe193-title-shell"><span class="qe193-title-icon">'+ico('qe-document','s')+'</span><input id="e-title" name="advokat-manual-entry-title-5264" placeholder="'+(meeting?'Встреча с доверителем':'Подготовить апелляционную жалобу')+'" value="'+esc(t.title)+'" autocomplete="off" autocapitalize="sentences" autocorrect="on" spellcheck="true" data-form-type="other" ><button type="button" class="qe193-title-clear'+(t.title?' is-visible':'')+'" data-act="e-title-clear" aria-label="Очистить поле">'+ico('xmark','s')+'</button></div></div>':'')+
-  '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+
+  '<div class="fld editor-select-field"><label>'+(hearing?'Дело (необязательно)':(meeting?'Дело / доверитель (необязательно)':'Дело / доверитель'))+'</label><select id="e-mid">'+opts+'</select></div>'+calendarEditorCaseShortcut(t)+
   (hearing?'<div id="hearing-topic-field" class="fld hearing-topic-field"'+(t.mid?' style="display:none"':'')+'><label>Что за заседание *</label><input id="e-hearing-topic" placeholder="Например: мера пресечения, продление стражи" value="'+esc(t.hearingTopic||'')+'"><small class="fieldhint">Для разового заседания без дела укажите краткое пояснение.</small></div>':'')+
   (hearing?'<div id="hearing-standalone" class="hearing-standalone"'+(t.mid?' style="display:none"':'')+'><div class="two hearing-party-grid"><div class="fld"><label>Доверитель / подзащитный</label><input id="e-hclient" placeholder="Фамилия или ФИО" value="'+esc(t.hearingClient||'')+'"></div><div class="fld"><label>№ дела / материала</label><input id="e-hnumber" placeholder="Например: 1-123/2026" value="'+esc(t.hearingNumber||'')+'"></div></div><div class="fld hearing-judge-field"><label>Судья / председательствующий</label>'+inlineChoiceField('e-hjudge','e-hjudge-choice',t.hearingJudge||'','Фамилия И.О.',hearingJudgeChoiceOptions(t.hearingJudge||''),'judge-options')+'<small class="fieldhint">Стрелкой справа можно выбрать судью; для известного судьи суд подставится автоматически.</small>'+judgeDatalist(t.place||'')+'</div></div>':'')+
   (t.kind!=='deadline'?('<div class="two task-datetime'+(hearing?' hearing-datetime':'')+'">'+
@@ -4748,7 +4835,7 @@ function saveTask(){
   var returnPage=$('#page');
   var returnContext=returnPage&&returnPage.classList.contains('open')&&returnPage._mid?
     {mid:returnPage._mid,tab:returnPage._matterTab||'general',scroll:returnPage.scrollTop}:null;
-  save();closeSheet();render();
+  save();closeSheet();renderPreservingCalendarPosition();
   if(returnContext && matter(returnContext.mid)){
     openMatter(returnContext.mid,returnContext.tab);
     $('#page').scrollTop=returnContext.scroll;
@@ -7528,7 +7615,9 @@ function applyTpl(i,mid){
    КАЛЬКУЛЯТОР СРОКОВ
    ===================================================================== */
 function sheetDeadline(mid){
-  editTask(null,{kind:'deadline',mid:mid||'',sourceDate:today(),deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',pri:'high'});
+  // A calendar launch starts from its selected day as an *initial source* date.
+  // The due date is always derived by the established legal deadline calculator.
+  editTask(null,{kind:'deadline',mid:mid||'',sourceDate:calendarEntryDate(),deadlineCode:'GPK',deadlineRuleId:'gpk-appeal',pri:'high'});
 }
 
 /* =====================================================================
@@ -7543,7 +7632,7 @@ function sheetParticipationLog(){
 }
 
 function sheetQuickAdd(){
-  openSheet('<div class="quickintro">'+premiumHead('plus','Быстрая запись','Добавьте нужное действие без перехода по разделам.')+'</div><div class="quickgrid quickgrid-core">'+
+  openSheet('<div class="quickintro">'+premiumHead('plus','Быстрая запись',S.ui.tab==='cal'?'Дата: '+fmtD(calendarEntryDate(),true)+' · выберите тип записи.':'Добавьте нужное действие без перехода по разделам.')+'</div><div class="quickgrid quickgrid-core">'+
     quickItem('gavel','Заседание','qa-hearing','blue')+
     quickItem('user','Встреча','qa-meeting','purple')+
     quickItem('flag','Процессуальный срок','qa-deadline','red')+
@@ -8515,11 +8604,11 @@ document.addEventListener('click', function(ev){
     case 'matter-filter-reset': S.ui.matterScope='active';S.ui.matterStatus='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
 
     /* quick add */
-    case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:'',time:''});break;
-    case 'qa-meeting': closeSheet();editTask(null,{kind:'meeting',pri:'mid',due:today(),time:''});break;
+    case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:S.ui.tab==='cal'?calendarEntryDate():'',time:''});break;
+    case 'qa-meeting': closeSheet();editTask(null,{kind:'meeting',pri:'mid',due:calendarEntryDate(),time:''});break;
     case 'qa-deadline': closeSheet();sheetDeadline('');break;
-    case 'qa-task': closeSheet();editTask(null,{kind:'task',due:today()});break;
-    case 'qa-call': closeSheet();editTask(null,{kind:'task',due:today()});break;
+    case 'qa-task': closeSheet();editTask(null,{kind:'task',due:calendarEntryDate()});break;
+    case 'qa-call': closeSheet();editTask(null,{kind:'task',due:calendarEntryDate()});break;
     case 'qa-journal': closeSheet();if(!activeM().length){toast('Сначала создайте дело');break;}sheetJournal('');break;
 
     /* tasks */
@@ -8587,7 +8676,7 @@ document.addEventListener('click', function(ev){
     case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
     case 'hearing-result-save': saveHearingResult();break;
     case 'dossier-hearing-result-view': sheetHearingResultSummary(id); break;
-    case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk))completedHearingFeedback(tk);else editTask(tk);}break;}
+    case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk)){if(S.ui.tab==='cal'&&el.closest('#sc-cal'))sheetHearingResultSummary(tk.id);else completedHearingFeedback(tk);}else editTask(tk);}break;}
     case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
     case 'task-action-delete': deleteTaskById(id); break;
     case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
@@ -8596,6 +8685,11 @@ document.addEventListener('click', function(ev){
     case 'focus-field': {var fe=$('#'+(el.dataset.target||'')); if(fe){fe.focus({preventScroll:true}); if(fe.select)try{fe.select();}catch(_){}} break;}
     case 'task-del': deleteTaskById(id); break;
     case 'task-matter': if(matter(id)){ closeSheet(); openMatter(id); } break;
+    case 'cal-open-matter': {
+      if(!el.closest('#sheet')||!matter(id))break;
+      if(!confirm('Открыть связанное дело? Несохранённые изменения записи будут потеряны.'))break;
+      closeSheet();openMatter(id,'events');break;
+    }
     case 'task-group': setTaskGroupOpen(v,!taskGroupOpen(v)); renderTaskList(); break;
     case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
     case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(!ED.id&&(v==='task'||v==='meeting')){ED.title='';NEW_TITLE_USER_EDITED=false;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);if(!ED.id&&(v==='task'||v==='meeting'))armNewTitleManualGuard();break;}
@@ -8769,7 +8863,7 @@ document.addEventListener('click', function(ev){
       S.ui.calSel=next;S.ui.calM=next.slice(0,7);save();renderCal();break;
     }
     case 'cal-today': S.ui.calSel=today();S.ui.calM=S.ui.calSel.slice(0,7);save();renderCal();break;
-    case 'new-on-day': editTask(null,{due:S.ui.calSel});break;
+    case 'new-on-day': sheetQuickAdd();break;
 
     /* helpers */
     case 'templates': sheetTemplates('');break;
