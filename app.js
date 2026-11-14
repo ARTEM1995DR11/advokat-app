@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1293.1';
-var APP_BUILD='6294';
+var APP_VERSION='5.0.1295';
+var APP_BUILD='6296';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3903,6 +3903,25 @@ function profileInitials(name){
   return (parts[0].slice(0,1)+parts[1].slice(0,1)).toUpperCase();
 }
 
+/* Stage 5 / 5.0.1294: week header is generated from the selected date,
+   including weeks spanning two different months or calendar years. */
+function calWeekRangeLabel(startISO,endISO){
+  var a=parseD(startISO), b=parseD(endISO), y=a.getFullYear(), yy=b.getFullYear();
+  if(y!==yy)return a.getDate()+' '+MON[a.getMonth()]+' '+y+' — '+b.getDate()+' '+MON[b.getMonth()]+' '+yy;
+  if(a.getMonth()!==b.getMonth())return a.getDate()+' '+MON[a.getMonth()]+' — '+b.getDate()+' '+MON[b.getMonth()]+' '+yy;
+  return a.getDate()+' — '+b.getDate()+' '+MON[b.getMonth()]+' '+yy;
+}
+function calISOWeekNumber(s){
+  var local=parseD(s), d=new Date(Date.UTC(local.getFullYear(),local.getMonth(),local.getDate()));
+  d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));
+  var first=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d-first)/864e5)+1)/7);
+}
+/* Stage 6: the selected date is shared by month, week and day. */
+function calWeekSelectedHeading(iso){
+  var d=parseD(iso);
+  return ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'][d.getDay()]+', '+fmtD(iso,true);
+}
 /* =====================================================================
    SCREEN: КАЛЕНДАРЬ
    ===================================================================== */
@@ -3935,6 +3954,13 @@ function renderCal(){
   var dOpen=day.filter(isActiveRecord).length;
   var period=cal.period(u.calSel,mode);
   var weekDays=cal.weekDays(u.calSel);
+  /* Week KPIs cover Monday—Sunday, including dates from adjacent months.
+     No parallel storage: both KPIs and day agenda use the visible source records. */
+  var weekItems=weekDays.reduce(function(out,date){
+    return out.concat(byDay[date]||[]);
+  },[]);
+  var weekOpen=weekItems.filter(isActiveRecord).length;
+  var weekHearings=weekItems.filter(function(t){return t.kind==='hearing';}).length;
   var periodLabel=mode==='month'?cap(MONN[mo])+' '+y:
     mode==='week'?(fmtD(period.from,false)+' — '+fmtD(period.to,true)):
     fmtD(u.calSel,true);
@@ -3958,14 +3984,36 @@ function renderCal(){
       '<div class="cal-month-stat" aria-label="'+monthOpen+' активных записей">'+ico('brief','s')+'<span><b>'+monthOpen+'</b><small>активных '+plural(monthOpen,'запись','записи','записей')+'</small></span></div>'+
       '<div class="cal-month-stat" aria-label="'+monthHearings+' заседаний">'+ico('gavel','s')+'<span><b>'+monthHearings+'</b><small>'+plural(monthHearings,'заседание','заседания','заседаний')+'</small></span></div></div></div>';
   }else if(mode==='week'){
-    /* Stage 2 bridge: live week selection; its approved final layout is stage 5/6. */
-    periodContent='<div class="calendar-month-card cal-premium-bridge-week">'+periodTop+
-      '<div class="cal-premium-week-strip" aria-label="Дни недели">'+weekDays.map(function(date,i){
-        var count=(byDay[date]||[]).length;
+    /* Stage 5: the approved week strip, real ISO week, Monday-first dates,
+       single shared selection. Agenda/statistics refinement is stage 6. */
+    var weekLabel=calWeekRangeLabel(period.from,period.to);
+    var weekIndex=calISOWeekNumber(u.calSel);
+    periodContent='<section class="calendar-month-card cal-week-card" aria-label="Неделя: '+esc(weekLabel)+'">'+
+      '<div class="cal-week-header">'+
+        '<div class="cal-week-header-main">'+
+          '<button type="button" class="iconbtn cal-premium-arrow cal-week-arrow" data-act="cal-shift" data-v="-1" aria-label="Предыдущая неделя">'+ico('left')+'</button>'+
+          '<h2 class="cal-week-period-label">'+esc(weekLabel)+'</h2>'+
+          '<button type="button" class="iconbtn cal-premium-arrow cal-week-arrow" data-act="cal-shift" data-v="1" aria-label="Следующая неделя">'+ico('chev')+'</button>'+
+        '</div>'+
+        '<div class="cal-week-header-sub">'+
+          '<span class="cal-week-number">'+weekIndex+'-я неделя</span>'+
+          '<button type="button" class="calendar-today-btn cal-week-today" data-act="cal-today">Сегодня</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="cal-premium-week-strip cal-week-strip" role="group" aria-label="Выбор дня недели">'+weekDays.map(function(date,i){
+        var dayRecords=byDay[date]||[];
+        var dots=calMonthDotTypes(dayRecords);
         var selected=date===u.calSel;
-        return '<button class="cal-premium-weekday'+(selected?' is-selected':'')+(date===todayISO?' is-today':'')+'" data-act="cday" data-v="'+date+'" aria-pressed="'+selected+'" aria-label="'+esc(fmtD(date,true))+', записей: '+count+'">'+
-          '<small>'+['Пн','Вт','Ср','Чт','Пт','Сб','Вс'][i]+'</small><b>'+parseD(date).getDate()+'</b><i class="cal-premium-week-dot'+(count?' has-events':'')+'"></i></button>';
-      }).join('')+'</div></div>';
+        var isToday=date===todayISO;
+        return '<button type="button" class="cal-premium-weekday cal-weekday'+(selected?' is-selected':'')+(isToday?' is-today':'')+'" data-act="cday" data-v="'+date+'" aria-pressed="'+selected+'"'+(isToday?' aria-current="date"':'')+' aria-label="'+esc(['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'][i]+', '+fmtD(date,true)+', записей: '+dayRecords.length)+'">'+
+          '<small>'+['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'][i]+'</small>'+
+          '<b>'+parseD(date).getDate()+'</b>'+
+          '<span class="cal-week-dots" aria-hidden="true">'+(selected?'<i class="cal-week-selection-dot"></i>':dots.map(function(x){return '<i class="cal-dot-'+x+'"></i>';}).join(''))+'</span></button>';
+      }).join('')+'</div>'+ 
+      '<div class="cal-week-stats" role="group" aria-label="Показатели недели с '+esc(fmtD(period.from,true))+' по '+esc(fmtD(period.to,true))+'">'+
+        '<div class="cal-week-stat" aria-label="'+weekOpen+' активных записей за неделю">'+ico('brief','s')+'<span><b>'+weekOpen+'</b><small>активных '+plural(weekOpen,'запись','записи','записей')+'</small></span></div>'+
+        '<div class="cal-week-stat" aria-label="'+weekHearings+' судебных заседаний за неделю">'+ico('gavel','s')+'<span><b>'+weekHearings+'</b><small>'+plural(weekHearings,'заседание','заседания','заседаний')+'</small></span></div>'+
+      '</div></section>';
   }else{
     /* Stage 2 bridge: live day navigation + real agenda, awaiting stage 7 timeline. */
     periodContent='<div class="calendar-month-card cal-premium-bridge-day">'+periodTop+
@@ -3977,9 +4025,11 @@ function renderCal(){
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><div class="cal-title-sub"><i aria-hidden="true"></i><span>Адвокатский ежедневник</span></div></div>'+
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     switcher+periodContent+
-    (mode==='month'?
-      '<section class="calendar-day-card cal-month-agenda" aria-label="Повестка выбранного дня">'+
-        '<div class="cal-month-agenda-head"><h2>Повестка дня · '+esc(fmtD(u.calSel,true))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div>'+
+    (mode==='month'||mode==='week'?
+      '<section class="calendar-day-card cal-month-agenda'+(mode==='week'?' cal-week-agenda':'')+'" aria-label="Повестка выбранного дня">'+
+        (mode==='week'?
+          '<div class="cal-month-agenda-head cal-week-agenda-head"><div><h2>'+esc(calWeekSelectedHeading(u.calSel))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button type="button" class="calendar-add-btn" data-act="new-on-day">'+ico('plus','s')+'<span>Добавить</span></button></div>':
+          '<div class="cal-month-agenda-head"><h2>Повестка дня · '+esc(fmtD(u.calSel,true))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div>')+
         (day.length?'<div class="cal-month-timeline">'+day.slice().sort(calMonthAgendaSort).map(calMonthAgendaRow).join('')+'</div>':
           '<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span><button type="button" data-act="new-on-day">Добавить запись</button></div>')+
       '</section>':
@@ -9263,6 +9313,7 @@ function pageSwipeTargetAllowed(target){
   if(target.closest('#lock,.tabbar,#fab,.timerpill,input,textarea,select,[contenteditable="true"]')) return false;
   // Здесь уже существуют собственные горизонтальные жесты — не перехватываем их.
   if(target.closest('#tasklist .pt-row,#sc-today .today-hearing-swipe-row')) return false;
+  if(target.closest('#sc-cal .cal-week-strip')) return false; // week pagination has its own gesture
   if(hasHorizontalScrollAncestor(target)) return false;
   return true;
 }
@@ -9299,6 +9350,28 @@ document.addEventListener('touchmove',function(e){
 },{passive:false,capture:true});
 document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true});
 document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
+
+/* Stage 5: an intentional horizontal swipe on the seven day cards changes
+   the week, not the application's main tab. A vertical scroll is untouched. */
+var CAL_WEEK_TOUCH=null;
+document.addEventListener('touchstart',function(e){
+  CAL_WEEK_TOUCH=null;
+  if(S.ui.tab!=='cal'||S.ui.calView!=='week'||!unlocked||!e.touches||e.touches.length!==1)return;
+  var strip=e.target.closest&&e.target.closest('#sc-cal .cal-week-strip');
+  if(!strip||$('#sheet').classList.contains('open')||$('#page').classList.contains('open'))return;
+  var t=e.touches[0];CAL_WEEK_TOUCH={x:t.clientX,y:t.clientY};
+},{passive:true,capture:true});
+document.addEventListener('touchend',function(e){
+  var start=CAL_WEEK_TOUCH;CAL_WEEK_TOUCH=null;
+  if(!start||!e.changedTouches||e.changedTouches.length!==1||S.ui.calView!=='week')return;
+  var t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y;
+  if(Math.abs(dx)<60||Math.abs(dx)<=Math.abs(dy)*1.5||Math.abs(dy)>56)return;
+  SWIPE_CLICK_BLOCK_UNTIL=Date.now()+460;
+  var next=window.AdvokatCalendar.shift(S.ui.calSel,'week',dx<0?1:-1);
+  if(next){S.ui.calSel=next;S.ui.calM=next.slice(0,7);save();renderCal();vib(3);}
+},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){CAL_WEEK_TOUCH=null;},{passive:true,capture:true});
+
 
 /* =====================================================================
    5.0.1277 — stable bottom chrome / iPhone PWA.
