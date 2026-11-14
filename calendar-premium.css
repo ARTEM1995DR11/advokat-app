@@ -1859,3 +1859,71 @@ html body #sc-cal.screen{
     height:35px!important;
   }
 }
+
+/* 5.0.1297.12: Month KPI counts are informational only.
+   No chevron for the non-clickable hearings summary; also restore normal
+   padding after the previous chevron allowance. Scoped to MONTH ONLY. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child::after{
+  content:none!important;
+  display:none!important;
+  border:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{
+  padding-right:5px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{
+    padding-right:3px!important;
+  }
+}
+
+/* ========================================================================
+   5.0.1297.13 — fourth, restrained increase of the MONTH GRID ONLY.
+   From 5.0.1297.12: date numbers 14.7 → 15.4px; row 34 → 36px;
+   weekday 11.2 → 11.6px; selected square 41x36 → 43x38px.
+   Compact 320–360px: 14.2 → 14.9, row 33 → 35, gold 39x35 → 41x37.
+   No changes to switcher, header, statistics, agenda, all other screens.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:24px!important;
+  grid-auto-rows:36px!important;
+  row-gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:11.6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:36px!important;
+  max-height:36px!important;
+  font-size:15.4px!important;
+  line-height:20px!important;
+  padding-top:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:20px!important;
+  line-height:20px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-2px!important;
+  width:min(43px,100%)!important;
+  height:38px!important;
+}
+@media (max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+    grid-auto-rows:35px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+    height:35px!important;
+    max-height:35px!important;
+    font-size:14.9px!important;
+    line-height:19px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+    height:19px!important;
+    line-height:19px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+    width:min(41px,100%)!important;
+    height:37px!important;
+  }
+}
