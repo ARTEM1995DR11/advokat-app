@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.24';
-var APP_BUILD='6323';
+var APP_VERSION='5.0.1297.25';
+var APP_BUILD='6324';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4017,11 +4017,16 @@ function initCalendarStatusShield(){
     shield.setAttribute('aria-hidden','true');document.body.appendChild(shield);
   }
   var update=function(){
+    // Match the original calendar background scale; the shield itself is much
+    // shorter than the scroll viewport, so its own background-size:cover
+    // would otherwise enlarge the marble and create a visible horizontal band.
+    if(sc.clientHeight>0)shield.style.setProperty('--cal-shield-screen-h',sc.clientHeight+'px');
     shield.classList.toggle('is-visible',S.ui.tab==='cal'&&!sc.classList.contains('hide')&&sc.scrollTop>16);
   };
   if(!sc._calStatusShieldBound){
     sc._calStatusShieldBound=true;
     sc.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update,{passive:true});
   }
   update();
 }

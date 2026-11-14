@@ -2397,3 +2397,35 @@ html body #sc-cal.screen{
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
   color:#505b62!important;
 }
+
+
+/* ========================================================================
+   5.0.1297.25 — final month review; preserve the user-approved visual sizes.
+   Safe-area shield repeats the SAME original marble image at the actual
+   calendar-screen height, rather than resizing the texture to a 78px strip.
+   Opaque over the iOS status icons, feathered only below them. Neither the
+   shared viewport mechanism nor bottom tabbar / floating + are modified.
+   ======================================================================== */
+#cal-ios-status-shield{
+  height:calc(max(60px,env(safe-area-inset-top,0px)) + 20px)!important;
+  background-color:#f6efe3!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,251,245,.15),rgba(255,251,245,.15)),
+    url('bg-cal-marble-calendar.webp')!important;
+  background-position:center top,center top!important;
+  background-size:100% 100%,auto var(--cal-shield-screen-h,844px)!important;
+  background-repeat:no-repeat!important;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 20px),transparent 100%)!important;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 20px),transparent 100%)!important;
+}
+/* Slightly stronger third-level information; still subordinate to the note. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
+  color:#43515d!important;
+  font-weight:460!important;
+}
+/* Keep all seven approved date columns exactly equal in five-/six-row months.
+   No change to cell height, date size, selected gold plate or card padding. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+}
