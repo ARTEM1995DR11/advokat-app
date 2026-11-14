@@ -1158,3 +1158,77 @@ html body #sc-cal.screen{
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
   font-size:17.5px!important;
 }
+
+/* =======================================================================
+   5.0.1297.3 — final MONTH-header and metrics detail pass against the
+   September 2026 approved reference. Only calendar MONTH components:
+   original calendar background, custom masthead, agenda, week, day and
+   global navigation are intentionally out of scope.
+   ======================================================================= */
+/* Switcher: match muted, low-relief reference gold while keeping geometry. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode[aria-pressed="true"]{
+  border-color:rgba(173,119,36,.28)!important;
+  background:linear-gradient(147deg,#e7c573 0%,#d7a444 68%,#c38a30 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,248,214,.88),inset 0 -1px 0 rgba(145,93,23,.07),0 2px 5px rgba(111,76,36,.13)!important;
+}
+/* Reference period label is substantially bolder/larger than v1297.2.
+   Rebalance the action group so Today and the right chevron sit apart. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{
+  font-size:clamp(18px,6vw,23px)!important;
+  font-weight:700!important;
+  line-height:1.04!important;
+  letter-spacing:-.035em!important;
+  text-align:center!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{
+  gap:14px!important;
+}
+/* Use understated reference button outlines (not embossed). */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow{
+  border-color:rgba(190,164,131,.25)!important;
+  box-shadow:0 2px 4px rgba(65,47,28,.055),inset 0 1px rgba(255,255,255,.91)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-today-btn{
+  border-color:rgba(184,136,49,.26)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 1px 3px rgba(140,108,70,.05)!important;
+}
+/* The reference card content is slightly right-shifted relative to the
+   full-width surface; keep its grid width unchanged and preserve 7 columns. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  padding-left:14px!important;
+  padding-right:6px!important;
+  padding-bottom:11px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  margin-top:5px!important;
+}
+/* Preserve the five-/six-row topology, with a calmer 3D gold selection. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  border-color:rgba(154,101,27,.16)!important;
+  background:linear-gradient(145deg,#ebc875 0%,#dca54b 49%,#be822e 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,252,225,.88),0 3px 8px rgba(117,75,21,.17)!important;
+}
+/* Reference statistics use lighter type and subtler outlines; 2-digit
+   real counts must remain readable on small phones. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  border-color:rgba(200,167,125,.25)!important;
+  background:linear-gradient(160deg,rgba(255,251,245,.95),rgba(249,244,236,.92))!important;
+  box-shadow:0 1px 3px rgba(95,74,49,.055),inset 0 1px rgba(255,255,255,.97)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
+  font-size:17.2px!important;font-weight:680!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{
+  font-size:10.1px!important;font-weight:450!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child::after{
+  width:6px!important;height:6px!important;border-width:1.5px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{
+    font-size:clamp(17px,6.5vw,22px)!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:5px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{font-size:16px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{font-size:9.1px!important;}
+}
