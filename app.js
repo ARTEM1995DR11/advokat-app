@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.4';
-var APP_BUILD='6303';
+var APP_VERSION='5.0.1297.5';
+var APP_BUILD='6304';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4011,10 +4011,21 @@ function renderCal(){
     mode==='week'?(fmtD(period.from,false)+' — '+fmtD(period.to,true)):
     fmtD(u.calSel,true);
   var periodTitle=mode==='month'?'Месяц':(mode==='week'?'Неделя':'День');
+  /* Exact month-tab icon: calendar frame, binder rings and three calendar dots.
+     Only the Month tab uses this; other icons retain the shared application set. */
+  function monthTabGlyph(){
+    return '<svg class="ico cal-month-tab-glyph" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">'+
+      '<rect x="3.6" y="5.2" width="16.8" height="15.3" rx="2.4"/>'+
+      '<path d="M3.7 9.2h16.6M8.0 3.4v3.8M16 3.4v3.8"/>'+
+      '<circle cx="8.6" cy="12.9" r=".85" fill="currentColor" stroke="none"/>'+
+      '<circle cx="12" cy="12.9" r=".85" fill="currentColor" stroke="none"/>'+
+      '<circle cx="15.4" cy="12.9" r=".85" fill="currentColor" stroke="none"/>'+
+      '</svg>';
+  }
   var switcher='<div class="cal-premium-view-switcher" role="group" aria-label="Режим календаря">'+
     [['month','Месяц','cal'],['week','Неделя','cal'],['day','День','list']].map(function(item){
       var on=item[0]===mode;
-      return '<button type="button" class="cal-premium-mode'+(on?' is-active':'')+'" data-act="cal-view" data-v="'+item[0]+'" aria-pressed="'+on+'">'+ico(item[2],'s')+'<span>'+item[1]+'</span></button>';
+      return '<button type="button" class="cal-premium-mode'+(on?' is-active':'')+'" data-act="cal-view" data-v="'+item[0]+'" aria-pressed="'+on+'">'+(item[0]==='month'?monthTabGlyph():ico(item[2],'s'))+'<span>'+item[1]+'</span></button>';
     }).join('')+'</div>';
   var periodTop='<div class="calendar-month-top cal-premium-period-top">'+
     '<button class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="-1" aria-label="Предыдущий '+periodTitle.toLowerCase()+'">'+ico('left')+'</button>'+
@@ -4024,18 +4035,22 @@ function renderCal(){
   /* 5.0.1297.4: handcrafted MONTH statistics glyphs following approved
      briefcase and court-gavel silhouettes. The reference has a separate
      gavel strike base; the global icon system is intentionally unchanged. */
+  /* 5.0.1297.5: reference-style rectangular-head gavel and lighter briefcase.
+     Inline SVG avoids raster replacement and maintains responsive sharpness. */
   function monthStatGlyph(kind){
     if(kind==='gavel')return '<svg class="ico cal-month-glyph cal-month-glyph-gavel" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
-      '<path d="M10.8 13.0 19.3 4.5 29.9 15.1 21.4 23.6Z" stroke-width="2.8"/>'+
-      '<path d="M17.7 6.1 21.2 2.7 31.6 13.1 28.2 16.6" stroke-width="2.8"/>'+
-      '<path d="M24.4 22.4 36 34" stroke-width="3.1"/>'+
-      '<path d="M3.8 34.3h17.4l2.5 3.3H1.4l2.4-3.3Z" stroke-width="2.5"/>'+
+      '<g transform="rotate(-43 17.6 13.7)">'+
+        '<rect x="9.2" y="9.2" width="17.2" height="8.8" rx="1.25" stroke-width="2.65"/>'+
+        '<path d="M7.4 9.2v8.8M28.2 9.2v8.8" stroke-width="2.3"/>'+
+        '<path d="M17.8 18.0v20" stroke-width="2.85"/>'+
+      '</g>'+
+      '<path d="M4.9 33.4h17.8M2.9 36.8h21.5" stroke-width="2.7"/>'+
       '</svg>';
     return '<svg class="ico cal-month-glyph cal-month-glyph-brief" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
-      '<rect x="3.5" y="11.8" width="33" height="23" rx="3.8" stroke-width="2.7"/>'+
-      '<path d="M14.1 11.8V8.3c0-2.1 1.6-3.6 3.6-3.6h4.6c2.0 0 3.6 1.5 3.6 3.6v3.5" stroke-width="2.7"/>'+
-      '<path d="M3.5 20.4c6.2 3.1 10.9 4.2 14.7 4.2m3.6 0c5.0 0 9.7-1.1 14.7-4.2" stroke-width="2.5"/>'+
-      '<rect x="17.3" y="21.7" width="5.4" height="5" rx="1" fill="currentColor" stroke="none"/>'+
+      '<rect x="4.5" y="12.4" width="31" height="22.1" rx="3.6" stroke-width="2.55"/>'+
+      '<path d="M14.3 12.4V9.5c0-2.3 1.35-3.7 3.7-3.7h4c2.35 0 3.7 1.4 3.7 3.7v2.9" stroke-width="2.55"/>'+
+      '<path d="M4.5 20.4c5.3 2.8 10.2 4.4 13.0 4.4m5.0 0c4.5 0 9-1.55 13.0-4.4" stroke-width="2.45"/>'+
+      '<rect x="17.6" y="22.4" width="4.8" height="4.8" rx=".6" stroke-width="2.25"/>'+
       '</svg>';
   }
   var periodContent='';
