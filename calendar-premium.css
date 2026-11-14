@@ -1562,3 +1562,68 @@ html body #sc-cal.screen{
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{font-size:9px!important;}
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{padding-right:15px!important;}
 }
+
+
+/* ========================================================================
+   5.0.1297.6 — seven final MONTH-only reference corrections.
+   Preserve approved marble background, dynamic masthead, shared date/data,
+   weekly/daily components, agenda, FAB and the app-wide bottom navigation.
+   ======================================================================== */
+/* 1. Make tab rail ~10% slimmer without narrowing the three equal slots. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{
+  padding:3px!important;gap:0!important;min-height:0!important;
+  border-radius:19px!important;
+  margin-bottom:7px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.95),0 3px 8px rgba(89,58,27,.065)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{
+  min-height:28px!important;height:28px!important;padding:3px 2px!important;
+  border-radius:16px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode[aria-pressed="true"]{
+  border-color:rgba(170,119,41,.20)!important;
+  box-shadow:inset 0 1px rgba(255,253,222,.86),0 2px 4px rgba(117,77,28,.10)!important;
+}
+/* 2. Rounded subtle inset capsule around the central segment, not hard lines. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::before{
+  content:"";position:absolute;inset:1px 0;width:auto;height:auto;
+  border:1px solid rgba(193,168,137,.16);border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(250,246,239,.18));
+  pointer-events:none;z-index:-1;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::before{content:none!important;}
+/* 3. Slightly smaller navigation squares and chevrons. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow{
+  width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;
+  border-radius:9px!important;border-color:rgba(187,161,128,.20)!important;
+  box-shadow:0 1.5px 3px rgba(88,65,38,.045),inset 0 1px rgba(255,255,255,.96)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow .ico{
+  width:14px!important;height:14px!important;stroke-width:1.8!important;
+}
+/* 4. Lighter, shorter Today pill. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-today-btn{
+  min-height:26px!important;height:26px!important;padding:0 7px!important;
+  border-radius:9px!important;border-color:rgba(183,151,107,.19)!important;
+  background:linear-gradient(180deg,#fffaf2,#fcf6eb)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.92),0 1px 2px rgba(98,74,44,.023)!important;
+}
+/* 5. Date selection should be soft, not double-bevelled. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-3px!important;height:30px!important;width:min(35px,100%)!important;
+  border-radius:9px!important;border:1px solid rgba(164,112,37,.09)!important;
+  background:linear-gradient(143deg,#e6c272 0%,#d7a54c 57%,#c9943c 100%)!important;
+  box-shadow:inset 0 1px rgba(255,251,228,.62),0 2px 5px rgba(113,77,35,.105)!important;
+}
+/* 7. Reduce the extra blank area before the summary buttons. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  margin-top:4px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  padding-bottom:8px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{padding:3px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{height:28px!important;min-height:28px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:5px!important;}
+}

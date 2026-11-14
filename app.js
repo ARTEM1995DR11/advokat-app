@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.5';
-var APP_BUILD='6304';
+var APP_VERSION='5.0.1297.6';
+var APP_BUILD='6305';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4039,12 +4039,11 @@ function renderCal(){
      Inline SVG avoids raster replacement and maintains responsive sharpness. */
   function monthStatGlyph(kind){
     if(kind==='gavel')return '<svg class="ico cal-month-glyph cal-month-glyph-gavel" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
-      '<g transform="rotate(-43 17.6 13.7)">'+
-        '<rect x="9.2" y="9.2" width="17.2" height="8.8" rx="1.25" stroke-width="2.65"/>'+
-        '<path d="M7.4 9.2v8.8M28.2 9.2v8.8" stroke-width="2.3"/>'+
-        '<path d="M17.8 18.0v20" stroke-width="2.85"/>'+
-      '</g>'+
-      '<path d="M4.9 33.4h17.8M2.9 36.8h21.5" stroke-width="2.7"/>'+
+      /* Rectangular head, small side faces, diagonally angled handle, distinct anvil base. */
+      '<path d="M15.3 5.3 27.4 14.4 22.9 20.0 10.8 10.8Z" stroke-width="2.5"/>'+
+      '<path d="m12.6 3.4-4.5 5.7 3 2.2 4.5-5.7M27.4 14.4l3.1 2.3-4.5 5.8-3.1-2.5" stroke-width="2.1"/>'+
+      '<path d="M21.6 19.1 33.0 30.2" stroke-width="2.7"/>'+
+      '<path d="M6.0 31.1h16.3l1.3 3H4.6ZM3.6 36.3h21.1" stroke-width="2.4"/>'+
       '</svg>';
     return '<svg class="ico cal-month-glyph cal-month-glyph-brief" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
       '<rect x="4.5" y="12.4" width="31" height="22.1" rx="3.6" stroke-width="2.55"/>'+
