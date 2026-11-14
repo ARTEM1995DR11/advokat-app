@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1290';
-var APP_BUILD='6290';
+var APP_VERSION='5.0.1292';
+var APP_BUILD='6292';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -48,8 +48,7 @@ function mergeState(d){
   /* 5.0.553 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
   out.ui.tab='today';
-  /* 5.0.1290: one persisted view selection for month / week / day.
-     Current renderer remains month-only until the approved stage 2 switcher. */
+  /* 5.0.1292: shared selected calendar view across month / week / day. */
   out.ui.calView=(window.AdvokatCalendar?window.AdvokatCalendar.normalizeMode(out.ui.calView):'month');
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
@@ -3843,16 +3842,15 @@ function profileInitials(name){
    SCREEN: КАЛЕНДАРЬ
    ===================================================================== */
 function renderCal(){
-  var u=S.ui;
-  if(!u.calM) u.calM=today().slice(0,7);
-  if(!u.calSel) u.calSel=today();
+  var u=S.ui, cal=window.AdvokatCalendar;
+  u.calSel=cal.safeDate(u.calSel,today());
+  u.calView=cal.normalizeMode(u.calView);
+  u.calM=u.calSel.slice(0,7);
+  var mode=u.calView, todayISO=today();
   var y=+u.calM.slice(0,4), mo=+u.calM.slice(5,7)-1;
-  var first=new Date(y,mo,1), start=(first.getDay()+6)%7;
-  var dim=new Date(y,mo+1,0).getDate(), dimPrev=new Date(y,mo,0).getDate();
-  /* Shared month grid / record grouping for all three approved views.
-     In stage 1 the rendering and business rules stay the same. */
-  var cells=window.AdvokatCalendar.monthCells(u.calM);
-  var byDay=window.AdvokatCalendar.byDay(S.tasks,matterTaskVisible);
+  /* All modes use the exact same selection and the existing case/task records. */
+  var cells=cal.monthCells(u.calM);
+  var byDay=cal.byDay(S.tasks,matterTaskVisible);
   var monthItems=S.tasks.filter(function(t){ return matterTaskVisible(t) && t.due && t.due.slice(0,7)===u.calM; });
   var monthOpen=monthItems.filter(isActiveRecord).length;
   var monthHearings=monthItems.filter(function(t){ return t.kind==='hearing'; }).length;
@@ -3869,22 +3867,56 @@ function renderCal(){
     if(its.some(function(t){ return t.kind==='meeting'; })) dots.push('var(--purple)');
     if(its.some(function(t){ return t.kind==='task'; })) dots.push('var(--gold)');
     var wd=parseD(c.d).getDay();
-    return '<button class="cday'+(c.out?' out':'')+(c.d===today()?' today':'')+(c.d===u.calSel?' sel':'')+((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'">'+parseD(c.d).getDate()+'<span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
+    return '<button class="cday'+(c.out?' out':'')+(c.d===todayISO?' today':'')+(c.d===u.calSel?' sel':'')+((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'" aria-label="'+esc(fmtD(c.d,true))+'" aria-pressed="'+(c.d===u.calSel)+'">'+
+      '<span class="cal-day-num">'+parseD(c.d).getDate()+'</span><span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
   }).join('');
 
-  var day=(byDay[u.calSel]||[]).sort(sortT);
+  var day=(byDay[u.calSel]||[]).slice().sort(sortT);
   var dHear=day.filter(function(t){ return t.kind==='hearing'; }).length;
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
-  var html='<div class="calendar-project" data-calendar-foundation="premium-v1" data-calendar-view="month">'+
-    mainBrandHeader()+
-    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
-      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
-    '<div class="calendar-month-card">'+
-      '<div class="calendar-month-top"><button class="iconbtn" data-act="cal-m" data-v="-1" aria-label="Предыдущий месяц">'+ico('left')+'</button><div class="calendar-month-label">'+cap(MONN[mo])+' '+y+'</div><div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button><button class="iconbtn" data-act="cal-m" data-v="1" aria-label="Следующий месяц">'+ico('chev')+'</button></div></div>'+
+  var period=cal.period(u.calSel,mode);
+  var weekDays=cal.weekDays(u.calSel);
+  var periodLabel=mode==='month'?cap(MONN[mo])+' '+y:
+    mode==='week'?(fmtD(period.from,false)+' — '+fmtD(period.to,true)):
+    fmtD(u.calSel,true);
+  var periodTitle=mode==='month'?'Месяц':(mode==='week'?'Неделя':'День');
+  var switcher='<div class="cal-premium-view-switcher" role="group" aria-label="Режим календаря">'+
+    [['month','Месяц','cal'],['week','Неделя','cal'],['day','День','list']].map(function(item){
+      var on=item[0]===mode;
+      return '<button type="button" class="cal-premium-mode'+(on?' is-active':'')+'" data-act="cal-view" data-v="'+item[0]+'" aria-pressed="'+on+'">'+ico(item[2],'s')+'<span>'+item[1]+'</span></button>';
+    }).join('')+'</div>';
+  var periodTop='<div class="calendar-month-top cal-premium-period-top">'+
+    '<button class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="-1" aria-label="Предыдущий '+periodTitle.toLowerCase()+'">'+ico('left')+'</button>'+
+    '<div class="calendar-month-label">'+esc(periodLabel)+'</div>'+
+    '<div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button>'+ 
+      '<button class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="1" aria-label="Следующий '+periodTitle.toLowerCase()+'">'+ico('chev')+'</button></div></div>';
+  var periodContent='';
+  if(mode==='month'){
+    /* Stage 3: compact five-/six-week grid; KPI layout is scoped to stage 4. */
+    periodContent='<div class="calendar-month-card">'+periodTop+
       '<div class="cgrid calendar-grid">'+grid+'</div>'+
-      '<div class="calendar-month-stats"><span><b>'+monthOpen+'</b><small>в работе</small></span><span><b>'+monthHearings+'</b><small>заседаний</small></span><span><b>'+monthDeadlines+'</b><small>сроков</small></span></div>'+
-    '</div>'+
+      '<div class="calendar-month-stats"><span><b>'+monthOpen+'</b><small>в работе</small></span><span><b>'+monthHearings+'</b><small>заседаний</small></span><span><b>'+monthDeadlines+'</b><small>сроков</small></span></div></div>';
+  }else if(mode==='week'){
+    /* Stage 2 bridge: live week selection; its approved final layout is stage 5/6. */
+    periodContent='<div class="calendar-month-card cal-premium-bridge-week">'+periodTop+
+      '<div class="cal-premium-week-strip" aria-label="Дни недели">'+weekDays.map(function(date,i){
+        var count=(byDay[date]||[]).length;
+        var selected=date===u.calSel;
+        return '<button class="cal-premium-weekday'+(selected?' is-selected':'')+(date===todayISO?' is-today':'')+'" data-act="cday" data-v="'+date+'" aria-pressed="'+selected+'" aria-label="'+esc(fmtD(date,true))+', записей: '+count+'">'+
+          '<small>'+['Пн','Вт','Ср','Чт','Пт','Сб','Вс'][i]+'</small><b>'+parseD(date).getDate()+'</b><i class="cal-premium-week-dot'+(count?' has-events':'')+'"></i></button>';
+      }).join('')+'</div></div>';
+  }else{
+    /* Stage 2 bridge: live day navigation + real agenda, awaiting stage 7 timeline. */
+    periodContent='<div class="calendar-month-card cal-premium-bridge-day">'+periodTop+
+      '<div class="cal-premium-day-meta">'+cap(DOW[parseD(u.calSel).getDay()])+' · '+day.length+' '+plural(day.length,'событие','события','событий')+'</div></div>';
+  }
+
+  var html='<div class="calendar-project" data-calendar-foundation="premium-v1" data-calendar-view="'+mode+'">'+
+    mainBrandHeader()+
+    '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><div class="cal-title-sub"><i aria-hidden="true"></i><span>Адвокатский ежедневник</span></div></div>'+
+      '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
+    switcher+periodContent+
     '<div class="calendar-day-card">'+
       '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
       '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
@@ -8603,9 +8635,24 @@ document.addEventListener('click', function(ev){
     case 'part-del': {var pe=S.participation.filter(function(e){return e.id===id;})[0];S.participation=S.participation.filter(function(e){return e.id!==id;});save();if($('#page').classList.contains('open'))openMatter($('#page')._mid);else sheetParticipationLog();render();toast('День участия удалён');break;}
 
     /* calendar */
-    case 'cday': S.ui.calSel=v;save();renderCal();break;
-    case 'cal-m': {var pp=S.ui.calM.split('-'),d2=new Date(+pp[0],+pp[1]-1+(+v),1);S.ui.calM=iso(d2).slice(0,7);renderCal();break;}
-    case 'cal-today': S.ui.calM=today().slice(0,7);S.ui.calSel=today();renderCal();break;
+    case 'cday': {
+      var chosen=window.AdvokatCalendar.fromISO(v);
+      if(!chosen)break;
+      S.ui.calSel=v;S.ui.calM=v.slice(0,7);save();renderCal();break;
+    }
+    case 'cal-view': {
+      if(['month','week','day'].indexOf(v)<0)break;
+      S.ui.calView=v;S.ui.calSel=window.AdvokatCalendar.safeDate(S.ui.calSel,today());
+      S.ui.calM=S.ui.calSel.slice(0,7);save();renderCal();break;
+    }
+    case 'cal-shift': case 'cal-m': {
+      var next=window.AdvokatCalendar.shift(
+        window.AdvokatCalendar.safeDate(S.ui.calSel,today()),
+        window.AdvokatCalendar.normalizeMode(S.ui.calView), Number(v)===-1?-1:1);
+      if(!next)break;
+      S.ui.calSel=next;S.ui.calM=next.slice(0,7);save();renderCal();break;
+    }
+    case 'cal-today': S.ui.calSel=today();S.ui.calM=S.ui.calSel.slice(0,7);save();renderCal();break;
     case 'new-on-day': editTask(null,{due:S.ui.calSel});break;
 
     /* helpers */
