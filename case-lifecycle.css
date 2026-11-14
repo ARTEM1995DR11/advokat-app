@@ -1975,3 +1975,124 @@ body.matter-archive-backdrop-open #scrim.open {
    font-size:clamp(14px,4.65vw,16px)!important;gap:8px!important;
  }
 }
+
+
+/* ========================================================================
+   5.0.1289 — EXPORT / PRINT paper chooser, approved unified dossier style.
+   Only this panel is affected: keep real dossier behind it and existing
+   private/client report actions unchanged. Shared SVG outline is reused.
+   ======================================================================== */
+body.matter-export-backdrop-open #scrim.open{
+  z-index:41!important;
+  background:rgba(255,248,234,.15)!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  opacity:1!important;
+}
+#sheet.matter-export-paper-stage1.open{
+  position:fixed!important;inset:auto 0 max(7px,calc(env(safe-area-inset-bottom,0px) - 6px))!important;
+  width:100%!important;height:min(480px,calc(100dvh - 100px))!important;
+  max-height:calc(100dvh - 55px)!important;
+  box-sizing:border-box!important;
+  padding:0!important;margin:0!important;
+  background:transparent!important;box-shadow:none!important;border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;isolation:isolate!important;
+  transform:none!important;z-index:42!important;
+  color:#172c56!important;
+}
+#sheet.matter-export-paper-stage1::before,
+#sheet.matter-export-paper-stage1::after{content:none!important;display:none!important;}
+#sheet.matter-export-paper-stage1>.grab{display:none!important;}
+#sheet.matter-export-paper-stage1>.matter-finish-foundation{
+  display:block!important;position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;z-index:0!important;
+  pointer-events:none!important;filter:drop-shadow(0 6px 9px rgba(90,57,24,.17));
+}
+#sheet.matter-export-paper-stage1>.matter-export-layout{
+  position:relative!important;z-index:1!important;box-sizing:border-box!important;
+  height:100%!important;min-width:0!important;
+  padding:57px 25px 22px!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+#sheet.matter-export-paper-stage1 .matter-export-head{
+  margin:0 7px 17px!important;padding:0!important;
+}
+#sheet.matter-export-paper-stage1 .matter-export-eyebrow{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+  font:700 clamp(10.5px,2.84vw,12.5px)/1.25 Georgia,'Times New Roman',serif;
+  color:#a26e28;letter-spacing:.145em;white-space:nowrap;
+}
+#sheet.matter-export-paper-stage1 .matter-export-eyebrow i{
+  display:block;min-width:22px;max-width:48px;flex:1;height:2px;
+  border-radius:2px;background:#b77d2b;
+}
+#sheet.matter-export-paper-stage1 .matter-export-head h2{
+  margin:0 0 5px!important;
+  font:700 clamp(28px,7.75vw,34px)/1.10 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em;color:#091e55!important;
+  overflow-wrap:normal;word-break:normal;hyphens:none;
+}
+#sheet.matter-export-paper-stage1 .matter-export-head p{
+  margin:0!important;color:#697997;font:400 clamp(13px,3.6vw,16px)/1.32 -apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  overflow-wrap:anywhere;
+}
+#sheet.matter-export-paper-stage1 .matter-export-warning{
+  box-sizing:border-box;margin:0 5px 17px!important;
+  padding:10px 13px 10px 15px!important;
+  border:0!important;border-left:3px solid #b88834!important;
+  border-radius:0 5px 5px 0!important;
+  background:linear-gradient(115deg,rgba(252,230,190,.79),rgba(255,244,220,.85))!important;
+  box-shadow:none!important;
+  color:#775027!important;
+  font:400 clamp(12.2px,3.45vw,14.2px)/1.40 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+}
+#sheet.matter-export-paper-stage1 .matter-export-options{
+  display:grid!important;gap:13px!important;margin:0!important;padding:0!important;
+}
+#sheet.matter-export-paper-stage1 .matter-export-option{
+  box-sizing:border-box;display:flex;align-items:center;
+  gap:11px;width:100%;min-width:0;min-height:89px;
+  margin:0;padding:13px 14px!important;
+  border:1px solid #cfa976!important;border-radius:22px!important;
+  background:linear-gradient(158deg,#fffefa 0%,#fff8ed 72%,#f8eddb 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.97),0 6px 10px rgba(113,76,37,.16)!important;
+  color:#10265b!important;text-align:left;cursor:pointer;
+}
+#sheet.matter-export-paper-stage1 .matter-export-option:focus-visible{outline:2px solid #af7a2f;outline-offset:2px;}
+#sheet.matter-export-paper-stage1 .matter-export-option:active{transform:translateY(1px);}
+#sheet.matter-export-paper-stage1 .matter-export-icon{
+  flex:0 0 49px;width:49px;height:51px;display:grid;place-items:center;
+  border-radius:15px;border:1px solid #dcb879;
+  background:linear-gradient(145deg,#fffaf0 0%,#fce6bd 100%);
+  color:#ad7625;box-shadow:inset 0 1px 1px #fff,0 4px 7px rgba(121,86,40,.14);
+}
+#sheet.matter-export-paper-stage1 .matter-export-icon>.ico{width:27px;height:27px;stroke-width:1.9;}
+#sheet.matter-export-paper-stage1 .matter-export-option-copy{display:block;min-width:0;flex:1;}
+#sheet.matter-export-paper-stage1 .matter-export-option-copy>b{
+  display:block;margin:0;color:#0b2255;
+  font:700 clamp(16.8px,4.7vw,22px)/1.13 Georgia,'Times New Roman',serif;
+  overflow-wrap:normal;word-break:normal;hyphens:none;
+}
+#sheet.matter-export-paper-stage1 .matter-export-option-copy>small{
+  display:block;margin-top:5px;color:#5c6c8e;
+  font:400 clamp(11px,3.25vw,14px)/1.35 -apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  overflow-wrap:anywhere;
+}
+#sheet.matter-export-paper-stage1 .matter-export-arrow{
+  display:grid;place-items:center;flex:0 0 16px;color:#a9752b;
+}
+#sheet.matter-export-paper-stage1 .matter-export-arrow>.ico{width:17px;height:17px;stroke-width:2.15;}
+@media(max-width:355px){
+  #sheet.matter-export-paper-stage1>.matter-export-layout{padding:54px 17px 20px!important;}
+  #sheet.matter-export-paper-stage1 .matter-export-head{margin-left:7px!important;margin-right:7px!important;}
+  #sheet.matter-export-paper-stage1 .matter-export-eyebrow{letter-spacing:.115em;gap:6px;}
+  #sheet.matter-export-paper-stage1 .matter-export-option{gap:8px;padding:11px 10px!important;min-height:82px;}
+  #sheet.matter-export-paper-stage1 .matter-export-icon{flex-basis:43px;width:43px;height:45px;border-radius:12px;}
+  #sheet.matter-export-paper-stage1 .matter-export-icon>.ico{width:24px;height:24px;}
+}
+@media(max-height:630px){
+  #sheet.matter-export-paper-stage1.open{height:min(500px,calc(100dvh - 45px))!important;}
+  #sheet.matter-export-paper-stage1>.matter-export-layout{padding-bottom:30px!important;}
+}

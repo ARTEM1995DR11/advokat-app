@@ -1,0 +1,24 @@
+/* 5.0.1290 · Calendar foundation, phase 1.
+ * Strictly scoped: nothing in the approved current calendar is restyled yet.
+ * Phase 2 will add the approved header and segmented view switcher.
+ */
+#sc-cal .calendar-project[data-calendar-foundation="premium-v1"]{
+  --cal-premium-navy:#102847;
+  --cal-premium-muted:#64748a;
+  --cal-premium-gold:#bb8630;
+  --cal-premium-gold-bright:#dcac50;
+  --cal-premium-paper:#fffdf9;
+  --cal-premium-line:rgba(185,137,67,.38);
+  --cal-premium-shadow:0 8px 22px rgba(74,48,24,.12);
+}
+/* Future view-only components do not match any nodes in stage 1. */
+#sc-cal .calendar-project .cal-premium-view-switcher{
+  display:flex;align-items:center;min-width:0;isolation:isolate;
+}
+#sc-cal .calendar-project .cal-premium-view-switcher [aria-pressed="true"]{
+  color:#fff;background:linear-gradient(135deg,var(--cal-premium-gold-bright),var(--cal-premium-gold));
+}
+#sc-cal .calendar-project .cal-premium-week-strip,
+#sc-cal .calendar-project .cal-premium-day-timeline{
+  min-width:0;
+}

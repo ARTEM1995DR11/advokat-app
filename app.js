@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1287';
-var APP_BUILD='6287';
+var APP_VERSION='5.0.1290';
+var APP_BUILD='6290';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -22,7 +22,7 @@ var DEF = {
     lockOnReturn:true, version:3
   },
   ui: {
-    tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null,
+    tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null, calView:'month',
     showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterStatus:'', matterSort:'priority', matterQ:'', matterSearchOpen:false, taskGroupOpen:{}
   }
 };
@@ -48,6 +48,9 @@ function mergeState(d){
   /* 5.0.553 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
   out.ui.tab='today';
+  /* 5.0.1290: one persisted view selection for month / week / day.
+     Current renderer remains month-only until the approved stage 2 switcher. */
+  out.ui.calView=(window.AdvokatCalendar?window.AdvokatCalendar.normalizeMode(out.ui.calView):'month');
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
@@ -2207,7 +2210,7 @@ function mountMatterFinishFoundation(panel){
     '<rect class="mf6244-grip" width="37" height="4.5" rx="2.25" fill="url(#mf6244Grip)"/>';
   panel.insertBefore(svg,panel.firstChild);
   function redraw(){
-    if(!panel.isConnected||!(panel.classList.contains('matter-finish-paper-stage1')||panel.classList.contains('matter-archive-paper-stage1')))return;
+    if(!panel.isConnected||!(panel.classList.contains('matter-finish-paper-stage1')||panel.classList.contains('matter-archive-paper-stage1')||panel.classList.contains('matter-export-paper-stage1')))return;
     var w=Math.round(panel.clientWidth),h=Math.round(panel.clientHeight);
     if(w<245||h<160)return;
     var cx=w/2, shoulderL=cx-75,shoulderR=cx+75,crownL=cx-51,crownR=cx+51;
@@ -2382,8 +2385,8 @@ function openSheet(html){
     s.removeEventListener('scroll',s._matterEventPaperScroll);
     s._matterEventPaperScroll=null;
   }
-  document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2395,7 +2398,7 @@ function openSheet(html){
     s.appendChild(body); s.appendChild(f);
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
-  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
+  document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-export-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
   setTimeout(function(){upgradePremiumSelects(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
@@ -2404,9 +2407,9 @@ function closeAll(){
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
-  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
+  document.body.classList.remove('dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -3846,13 +3849,10 @@ function renderCal(){
   var y=+u.calM.slice(0,4), mo=+u.calM.slice(5,7)-1;
   var first=new Date(y,mo,1), start=(first.getDay()+6)%7;
   var dim=new Date(y,mo+1,0).getDate(), dimPrev=new Date(y,mo,0).getDate();
-  var cells=[];
-  for(var i=0;i<start;i++) cells.push({d:iso(new Date(y,mo-1,dimPrev-start+i+1)),out:true});
-  for(var j=1;j<=dim;j++) cells.push({d:iso(new Date(y,mo,j))});
-  while(cells.length%7) cells.push({d:iso(new Date(y,mo+1,cells.length-start-dim+1)),out:true});
-
-  var byDay={};
-  S.tasks.forEach(function(t){ if(matterTaskVisible(t)&&t.due){ (byDay[t.due]=byDay[t.due]||[]).push(t); } });
+  /* Shared month grid / record grouping for all three approved views.
+     In stage 1 the rendering and business rules stay the same. */
+  var cells=window.AdvokatCalendar.monthCells(u.calM);
+  var byDay=window.AdvokatCalendar.byDay(S.tasks,matterTaskVisible);
   var monthItems=S.tasks.filter(function(t){ return matterTaskVisible(t) && t.due && t.due.slice(0,7)===u.calM; });
   var monthOpen=monthItems.filter(isActiveRecord).length;
   var monthHearings=monthItems.filter(function(t){ return t.kind==='hearing'; }).length;
@@ -3876,7 +3876,7 @@ function renderCal(){
   var dHear=day.filter(function(t){ return t.kind==='hearing'; }).length;
   var dDead=day.filter(function(t){ return t.kind==='deadline'; }).length;
   var dOpen=day.filter(isActiveRecord).length;
-  var html='<div class="calendar-project">'+
+  var html='<div class="calendar-project" data-calendar-foundation="premium-v1" data-calendar-view="month">'+
     mainBrandHeader()+
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><p>'+fmtD(u.calSel,true)+' · '+cap(DOW[parseD(u.calSel).getDay()])+'</p></div>'+
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
@@ -5499,13 +5499,25 @@ function dossierEventsFooterArt(){
 /* 5.0.1078: Layer 9 follows the finished folder and kraft paper, rather than
    being positioned inside the last 8.3 paper leaf. Preserve approved art
    and existing data-act handlers; change compositing order only. */
+/* 5.0.1288 audit: archived dossiers are read-only. Every bottom CTA
+   must offer restoration, not an operation that inevitably gets rejected. */
+function dossierFooterAction(id,act,label){
+  var archived=!!(matter(id)&&matter(id).archived);
+  return {
+    act:archived?'m-reopen':act,
+    label:archived?'Вернуть в работу':label,
+    aria:archived?'Вернуть дело в работу':label,
+    icon:archived?'<path d="M4 8.5V19H20V8.5M3.5 4.5H20.5V8.5H3.5M10 13H14"/>':'<path d="M12 3v18M3 12h18"/>'
+  };
+}
 function dossierStage9Actions(id){
+  var primary=dossierFooterAction(id,'m-add','Добавить задачу');
   return ''+
             '<div class="dossier-stage9-blank-buttons" data-dossier-layer="stage9-bottom-actions" role="group" aria-label="Действия по делу">'+
               dossierStage9EmptyButtonArt()+
-              '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
-                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
-                '<span class="dossier-stage9-label">Добавить задачу</span>'+
+              '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="'+primary.act+'" data-id="'+esc(id)+'" aria-label="'+primary.aria+'">'+
+                '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">'+primary.icon+'</svg></span>'+
+                '<span class="dossier-stage9-label">'+primary.label+'</span>'+
               '</button>'+
               '<button type="button" class="dossier-stage9-action dossier-stage9-action-more" data-act="m-moremenu" data-id="'+esc(id)+'" aria-label="Ещё действия">'+
                 '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="5" r="1.69"/><circle cx="12" cy="12" r="1.69"/><circle cx="12" cy="19" r="1.69"/></svg></span>'+
@@ -5797,11 +5809,12 @@ function sheetDossierEventChoice(id){
   sheetMatterEventKind(String(m.id),'dossier-events');
 }
 function dossierEventsBottomActions(id){
+  var primary=dossierFooterAction(id,'dossier-event-choice','Добавить событие');
   return '<div class="dossier-stage9-blank-buttons dossier-events-stage9-actions is-single-action" data-dossier-layer="events-bottom-actions" role="group" aria-label="Действия с событиями">'+
       dossierEventsFooterArt()+
-      '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="dossier-event-choice" data-id="'+esc(id)+'" aria-label="Добавить событие">'+
-        '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
-        '<span class="dossier-stage9-label">Добавить событие</span></button>'+
+      '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="'+primary.act+'" data-id="'+esc(id)+'" aria-label="'+primary.aria+'">'+
+        '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">'+primary.icon+'</svg></span>'+
+        '<span class="dossier-stage9-label">'+primary.label+'</span></button>'+
     '</div>';
 }
 function dossierEventsListsBody(m,id,events){
@@ -6161,7 +6174,7 @@ function dossierAttentionRowMarkup(t){
 function dossierAttentionRowsLive(id){
   return dossierAttentionActiveTasks(id).map(dossierAttentionRowMarkup).join('');
 }
-/* 5.0.1287 — a single primary task action like Events and Journal.
+/* 5.0.1288 — a single primary task action like Events and Journal.
    Task templates remain available in the app's general templates area. */
 function dossierTasksFooterArt(){
   return dossierEventsFooterArt()
@@ -6169,11 +6182,12 @@ function dossierTasksFooterArt(){
     .replace('Золотая основа кнопки добавления события','Золотая основа кнопки добавления задачи');
 }
 function dossierTasksBottomActions(id){
+  var primary=dossierFooterAction(id,'m-add','Добавить задачу');
   return '<div class="dossier-stage9-blank-buttons dossier-tasks-bottom-actions is-single-action" role="group" aria-label="Действия с задачами">'+
     dossierTasksFooterArt()+
-    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-add" data-id="'+esc(id)+'" aria-label="Добавить задачу">'+
-      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>'+
-      '<span class="dossier-stage9-label">Добавить задачу</span></button>'+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="'+primary.act+'" data-id="'+esc(id)+'" aria-label="'+primary.aria+'">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24">'+primary.icon+'</svg></span>'+
+      '<span class="dossier-stage9-label">'+primary.label+'</span></button>'+
   '</div>';
 }
 function dossierIndexStage1008(id,current,openCount,m,events){
@@ -6300,11 +6314,12 @@ function dossierJournalFooterArt(){
     .replace('Золотая основа кнопки добавления события','Золотая основа кнопки новой записи');
 }
 function dossierJournalBottomActions(id){
+  var primary=dossierFooterAction(id,'m-journal','Новая запись');
   return '<div class="dossier-stage9-blank-buttons dossier-journal-bottom-actions is-single-action" data-dossier-layer="journal-stage9-actions" role="group" aria-label="Действия с журналом">'+
     dossierJournalFooterArt()+
-    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="m-journal" data-id="'+esc(id)+'" aria-label="Новая запись в журнале">'+
-      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v18M3 12h18" /></svg></span>'+
-      '<span class="dossier-stage9-label">Новая запись</span></button>'+
+    '<button type="button" class="dossier-stage9-action dossier-stage9-action-add" data-act="'+primary.act+'" data-id="'+esc(id)+'" aria-label="'+primary.aria+'">'+
+      '<span class="dossier-stage9-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">'+primary.icon+'</svg></span>'+
+      '<span class="dossier-stage9-label">'+primary.label+'</span></button>'+
   '</div>';
 }
 
@@ -7784,14 +7799,24 @@ function printDay(){
    limited client handout. Never leak private journal/strategy into client PDF. */
 function sheetMatterExport(id){
   var m=matter(id);if(!m)return;
-  openSheet('<div class="matter-action-choice-head"><small>СВЕДЕНИЯ ПО ДЕЛУ</small><h2>Экспорт / печать</h2><p>'+esc(m.client||m.number||'Дело')+'</p></div>'+ 
-    '<p class="matter-export-warning">Содержимое полной сводки предназначено только адвокату. Перед передачей документа доверителю выберите сокращённую версию.</p>'+ 
-    '<div class="matter-action-choice-list">'+
-    '<button type="button" data-act="m-print-private" data-id="'+esc(id)+'">'+ico('lock','s')+'<span><b>Полная сводка адвоката</b><small>Задачи, рабочие заметки, журнал и участие</small></span>'+ico('chev','s')+'</button>'+ 
-    '<button type="button" data-act="m-print-client" data-id="'+esc(id)+'">'+ico('doc','s')+'<span><b>Сводка для доверителя</b><small>Реквизиты и будущие события без внутреннего журнала</small></span>'+ico('chev','s')+'</button>'+ 
-    '</div>');
-  $('#sheet').classList.add('matter-event-choice-sheet','matter-export-choice-sheet');
+  /* 5.0.1289: paper-styled choice panel, same two export handlers.
+     The dossier remains underneath; no duplicate case screenshot or exported data. */
+  openSheet('<section class="matter-export-layout" aria-label="Экспорт и печать по делу">'+
+    '<header class="matter-export-head"><div class="matter-export-eyebrow"><span>СВЕДЕНИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
+    '<h2>Экспорт / печать</h2><p>'+esc(m.client||m.number||'Дело')+'</p></header>'+
+    '<p class="matter-export-warning">Содержимое полной сводки предназначено только адвокату. Перед передачей документа доверителю выберите сокращённую версию.</p>'+
+    '<div class="matter-export-options">'+
+    '<button class="matter-export-option" type="button" data-act="m-print-private" data-id="'+esc(id)+'" aria-label="Полная сводка адвоката">'+
+    '<span class="matter-export-icon" aria-hidden="true">'+ico('lock','s')+'</span><span class="matter-export-option-copy"><b>Полная сводка адвоката</b><small>Задачи, рабочие заметки, журнал и участие</small></span><span class="matter-export-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+    '<button class="matter-export-option" type="button" data-act="m-print-client" data-id="'+esc(id)+'" aria-label="Сводка для доверителя">'+
+    '<span class="matter-export-icon" aria-hidden="true">'+ico('doc','s')+'</span><span class="matter-export-option-copy"><b>Сводка для доверителя</b><small>Реквизиты и будущие события без внутреннего журнала</small></span><span class="matter-export-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+    '</div></section>');
+  var panel=$('#sheet');
+  panel.classList.add('matter-export-paper-stage1');
+  document.body.classList.add('matter-export-backdrop-open');
+  mountMatterFinishFoundation(panel);
 }
+
 function printMatterClient(id){
   var m=matter(id);if(!m)return;
   var ctx=matterPlaceContext(m.type||'other',m.stage||'',m.court||'');
