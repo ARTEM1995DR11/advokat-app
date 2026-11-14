@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.18';
-var APP_BUILD='6317';
+var APP_VERSION='5.0.1297.19';
+var APP_BUILD='6318';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3851,22 +3851,36 @@ function calMonthDotTypes(dayItems){
   has(function(t){return t.kind==='task';},'task');
   return tones.slice(0,4);
 }
+/* 5.0.1297.19: the same factual state descriptor for month, week and day.
+   Never infer a completed hearing or meeting solely from a past date. */
 function calMonthBadge(t){
   if(t.kind==='hearing'){
     var res=hearingResultInfo(t);
-    if(res)return {label:res.label,tone:'held'};
-    if(t.done)return {label:'Выполнено',tone:'held'};
+    if(res){
+      var resultTone=(t.hearingResultStatus==='held'||t.hearingResultStatus==='completed')?'held':
+        (t.hearingResultStatus==='cancelled'?'overdue':'attention');
+      return {label:res.label,tone:resultTone};
+    }
+    if(t.done)return {label:'Завершено',tone:'held'};
     if(hearingNeedsResult(t))return {label:'Нужен результат',tone:'attention'};
-    return {label:'Заседание',tone:'hearing'};
+    return {label:'Запланировано',tone:'planned'};
   }
-  if(t.done)return {label:'Выполнено',tone:'held'};
-  if(t.kind==='meeting')return {label:'Встреча',tone:'meeting'};
+  if(t.done)return {label:t.kind==='meeting'?'Завершено':'Выполнено',tone:'held'};
+  if(t.kind==='meeting'){
+    // An elapsed appointment is not automatically a confirmed meeting.
+    return meetingOccurred(t)?{label:'Без отметки',tone:'attention'}:
+      {label:'Запланировано',tone:'planned'};
+  }
   if(t.kind==='deadline'){
-    var d=dd(t.due);
-    return {label:d<0?'Просрочено':d===0?'Срок сегодня':'Срок',tone:d<0?'overdue':'deadline'};
+    if(!t.due)return {label:'Срок не указан',tone:'deadline'};
+    var n=dd(t.due);
+    if(n<0)return {label:'Просрочено',tone:'overdue'};
+    if(n===0)return {label:'Срок сегодня',tone:'deadline'};
+    return {label:'До срока '+n+' '+plural(n,'день','дня','дней'),tone:'deadline'};
   }
-  if(t.due&&dd(t.due)<0)return {label:'Просрочено',tone:'overdue'};
-  return {label:t.pri==='high'?'Срочно':t.pri==='low'?'Низкий':'Задача',tone:t.pri==='high'?'attention':'task'};
+  if(t.due && dd(t.due)<0)return {label:'Просрочено',tone:'overdue'};
+  if(t.pri==='high')return {label:'Срочно',tone:'attention'};
+  return {label:'В работе',tone:'inprogress'};
 }
 function calMonthAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
@@ -3967,6 +3981,24 @@ function calISOWeekNumber(s){
 function calWeekSelectedHeading(iso){
   var d=parseD(iso);
   return ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'][d.getDay()]+', '+fmtD(iso,true);
+}
+/* 5.0.1297.19: screen-scoped iOS status bar protection on scroll.
+   The top of the Calendar keeps its approved background when at scrollTop=0. */
+function initCalendarStatusShield(){
+  var sc=document.getElementById('sc-cal');if(!sc)return;
+  var shield=document.getElementById('cal-ios-status-shield');
+  if(!shield){
+    shield=document.createElement('div');shield.id='cal-ios-status-shield';
+    shield.setAttribute('aria-hidden','true');document.body.appendChild(shield);
+  }
+  var update=function(){
+    shield.classList.toggle('is-visible',S.ui.tab==='cal'&&!sc.classList.contains('hide')&&sc.scrollTop>16);
+  };
+  if(!sc._calStatusShieldBound){
+    sc._calStatusShieldBound=true;
+    sc.addEventListener('scroll',update,{passive:true});
+  }
+  update();
 }
 /* =====================================================================
    SCREEN: КАЛЕНДАРЬ
@@ -4118,6 +4150,7 @@ function renderCal(){
         calDayTimelineContent(day)+
       '</section>')+'</div>';
   $('#sc-cal').innerHTML=html;
+  initCalendarStatusShield();
 }
 
 /* =====================================================================
@@ -4250,6 +4283,8 @@ function render(){
   }
   TAB_TRANSITION='';
   applyTheme();
+  var calShield=document.getElementById('cal-ios-status-shield');
+  if(calShield)calShield.classList.toggle('is-visible',S.ui.tab==='cal'&&$('#sc-cal').scrollTop>16);
 }
 var NAV_TABS=[];
 function go(tab,replaceHistory,transition){
