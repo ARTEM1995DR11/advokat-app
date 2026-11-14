@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.13';
-var APP_BUILD='6312';
+var APP_VERSION='5.0.1297.16';
+var APP_BUILD='6315';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4038,14 +4038,7 @@ function renderCal(){
   /* 5.0.1297.5: reference-style rectangular-head gavel and lighter briefcase.
      Inline SVG avoids raster replacement and maintains responsive sharpness. */
   function monthStatGlyph(kind){
-    if(kind==='gavel')return '<svg class="ico cal-month-glyph cal-month-glyph-gavel" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
-      '<g transform="rotate(-43 17.6 13.7)">'+
-        '<rect x="9.2" y="9.2" width="17.2" height="8.8" rx="1.25" stroke-width="2.65"/>'+
-        '<path d="M7.4 9.2v8.8M28.2 9.2v8.8" stroke-width="2.3"/>'+
-        '<path d="M17.8 18.0v20" stroke-width="2.85"/>'+
-      '</g>'+
-      '<path d="M4.9 33.4h17.8M2.9 36.8h21.5" stroke-width="2.7"/>'+
-      '</svg>';
+    if(kind==='gavel')return '<img class="ico cal-month-glyph cal-month-glyph-gavel cal-month-gavel-art" src="calendar-gavel-gold-v6313.png?v=6313" alt="" aria-hidden="true" draggable="false">';
     return '<svg class="ico cal-month-glyph cal-month-glyph-brief" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
       '<rect x="4.5" y="12.4" width="31" height="22.1" rx="3.6" stroke-width="2.55"/>'+
       '<path d="M14.3 12.4V9.5c0-2.3 1.35-3.7 3.7-3.7h4c2.35 0 3.7 1.4 3.7 3.7v2.9" stroke-width="2.55"/>'+

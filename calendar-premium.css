@@ -1927,3 +1927,72 @@ html body #sc-cal.screen{
     height:37px!important;
   }
 }
+
+/* 5.0.1297.14 — replace ONLY the image of the month hearings statistic.
+   Crop of user-approved metallic gavel asset, rendered without color filters.
+   Do not alter the other KPI glyph, month grid, layout or shared icon set. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-gavel-art{
+  display:block!important;
+  box-sizing:content-box!important;
+  width:26px!important;
+  height:26px!important;
+  object-fit:contain!important;
+  flex:0 0 26px!important;
+  opacity:1!important;
+  filter:none!important;
+  overflow:visible!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-gavel-art{
+    width:22px!important;height:22px!important;flex-basis:22px!important;
+  }
+}
+
+
+/* ========================================================================
+   5.0.1297.15 — second approved correction: seamless three-mode switcher.
+   Keeps existing rail width/height and active gold pill unchanged.
+   Inactive sections have NO independent capsule outline; only delicate
+   inner divider lines. Applies equally in month/week/day states.
+   All rules remain isolated to #sc-cal; no app-wide navigation changes.
+   ======================================================================== */
+#sc-cal .calendar-project .cal-premium-view-switcher{
+  gap:0!important;
+}
+#sc-cal .calendar-project .cal-premium-mode:not([aria-pressed="true"]){
+  border-color:transparent!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+/* Neutralize older month-only inset oval outlines explicitly. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::before{
+  content:none!important;display:none!important;
+  border:0!important;box-shadow:none!important;background:none!important;
+}
+/* A faint mid-height seam, never a full oval around an inactive tab. */
+#sc-cal .calendar-project .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::after,
+#sc-cal .calendar-project .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::after{
+  content:"";position:absolute;left:0;top:22%;height:56%;width:1px;
+  background:linear-gradient(to bottom,rgba(187,152,106,0),rgba(187,152,106,.16) 35%,rgba(187,152,106,.16) 65%,rgba(187,152,106,0));
+  border:0;box-shadow:none;pointer-events:none;
+}
+
+
+/* ========================================================================
+   5.0.1297.16 — correction 3 of 3: month selected-date LIGHT ONLY.
+   Preserve the approved month dimensions 43 x 38 CSS px (41 x 37 on
+   compact phones), the number, white event dot, all calendar spacing and
+   all other PWA screens. Soften the embossed rim and the drop shadow.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  border-color:rgba(162,113,48,.105)!important;
+  background:linear-gradient(148deg,#e6c272 0%,#dca950 56%,#cb923f 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,247,219,.43),
+    0 2px 5px rgba(113,77,35,.11)!important;
+}
