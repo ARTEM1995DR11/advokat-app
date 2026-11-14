@@ -1627,3 +1627,79 @@ html body #sc-cal.screen{
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{height:28px!important;min-height:28px!important;}
   #sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:5px!important;}
 }
+
+
+/* ========================================================================
+   5.0.1297.7 — FOUR approved month-mode corrections only.
+   No changes to approved background/masthead, month dates/grid or day agenda.
+   ======================================================================== */
+/* 1. Identical soft, rounded separation of BOTH inactive switcher segments.
+   Removes the formerly disproportionate oval around only "Неделя". */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(2):not([aria-pressed="true"])::before,
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:nth-child(3):not([aria-pressed="true"])::before{
+  content:""!important;
+  position:absolute!important;inset:1px 1px!important;
+  width:auto!important;height:auto!important;left:1px!important;right:1px!important;
+  border:1px solid rgba(193,167,130,.115)!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(251,246,238,.16))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.39)!important;
+  pointer-events:none!important;z-index:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:not([aria-pressed="true"]){
+  border-color:transparent!important;box-shadow:none!important;background:transparent!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode .ico,
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode .cal-month-tab-glyph,
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode>span{
+  position:relative;z-index:1;
+}
+/* 2. Numeric metrics: protect actual counts/long captions at 320–430px.
+   Keep one-line captions when space permits; allow a tidy second line if not. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  grid-template-columns:minmax(0,1.06fr) minmax(0,1fr)!important;
+  gap:7px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  box-sizing:border-box!important;min-width:0!important;min-height:32px!important;height:auto!important;
+  gap:clamp(3px,.9vw,6px)!important;
+  padding:4px 5px!important;justify-content:flex-start!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-glyph{
+  flex:0 0 auto!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>span{
+  display:flex!important;min-width:0!important;max-width:100%!important;flex:1 1 auto!important;
+  gap:clamp(2px,.65vw,4px)!important;justify-content:center!important;align-items:baseline!important;
+  text-align:left!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
+  flex:0 0 auto!important;font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{
+  min-width:0!important;flex:0 1 auto!important;
+  font-size:clamp(8.75px,2.62vw,10.1px)!important;line-height:1.12!important;
+  overflow-wrap:normal!important;word-break:normal!important;
+  white-space:normal!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{
+  padding-right:17px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+    gap:3px!important;padding:4px 3px!important;min-height:33px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>span{gap:2px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{font-size:16px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{
+    font-size:8.6px!important;line-height:1.13!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{padding-right:15px!important;}
+}
+/* 3. Selected date: less white double-line and a less pronounced top edge. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  border:1px solid rgba(174,121,52,.085)!important;
+  background:linear-gradient(148deg,#e5be6f 0%,#d7a449 55%,#c99139 100%)!important;
+  box-shadow:inset 0 .7px 0 rgba(255,246,218,.38),0 2px 4px rgba(113,76,34,.105)!important;
+}
