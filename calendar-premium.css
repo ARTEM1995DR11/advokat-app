@@ -2366,3 +2366,34 @@ html body #sc-cal.screen{
   scroll-margin-top:calc(52px + env(safe-area-inset-top,0px));
   scroll-margin-bottom:calc(135px + env(safe-area-inset-bottom,0px));
 }
+
+
+/* ====================================================================
+   5.0.1297.24 — Part 3: actual iPhone safe-area visual occlusion.
+   Earlier translucent 48px shield faded while the iOS system time and
+   indicators were still above it; month stats were readable underneath.
+   Protect the complete status-bar zone with an opaque copy of the ORIGINAL
+   calendar background and fade ONLY below that zone. This is independent
+   of the app's global viewport sizing and does not affect FAB or tab bar.
+   ==================================================================== */
+#cal-ios-status-shield{
+  height:calc(max(60px, env(safe-area-inset-top,0px)) + 18px)!important;
+  background-color:#f6efe3!important;
+  background-image:
+    linear-gradient(180deg,rgba(255,251,245,.13),rgba(250,244,234,.20)),
+    url('bg-cal-marble-calendar.webp')!important;
+  background-position:center top, center top!important;
+  background-size:100% 100%, cover!important;
+  background-repeat:no-repeat!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 18px),transparent 100%)!important;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 18px),transparent 100%)!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+/* Keep the third text level subordinate but readable on iPhone. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
+  color:#505b62!important;
+}
