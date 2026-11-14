@@ -1232,3 +1232,190 @@ html body #sc-cal.screen{
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{font-size:16px!important;}
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{font-size:9.1px!important;}
 }
+
+/* ========================================================================
+   V 5.0.1297.4 — second-pass reference detail corrections, items 1 through
+   12. Month mode only. Do not touch approved masthead, marble backdrop,
+   weekly/daily layouts, common navigation, FAB, or stored records.
+   Reference: user's September 2026 5-row month at equivalent viewport width.
+   ======================================================================== */
+/* 12: three-part rail, internal seams, luminous but soft gold button */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{
+  width:calc(100% - 12px)!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  min-height:0!important;
+  gap:0!important;
+  padding:4px!important;
+  border-radius:19px!important;
+  border-color:rgba(190,160,111,.21)!important;
+  background:linear-gradient(180deg,rgba(255,254,250,.98),rgba(248,242,230,.96))!important;
+  box-shadow:0 4px 11px rgba(85,60,27,.085),inset 0 1px 0 rgba(255,255,255,.93)!important;
+  margin-bottom:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{
+  height:30px!important;min-height:30px!important;
+  padding:4px 2px!important;
+  border-radius:16px!important;
+  font-size:11.5px!important;font-weight:620!important;gap:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode:not([aria-pressed="true"]){
+  border:1px solid rgba(197,170,135,.13)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(248,243,235,.32))!important;
+  box-shadow:inset 0 0 0 .4px rgba(235,221,197,.2)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode[aria-pressed="true"]{
+  border:1px solid rgba(170,119,43,.31)!important;
+  background:linear-gradient(145deg,#e6c474,#d4a142 62%,#bf8830)!important;
+  box-shadow:inset 0 1px 0 rgba(255,253,222,.9),inset 0 -1px 0 rgba(155,105,32,.09),0 2px 5px rgba(110,76,35,.13)!important;
+}
+/* 11: porcelain-like paper surface and reduced shadow spread */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  border-radius:16px!important;
+  border:1px solid rgba(191,159,116,.18)!important;
+  background:linear-gradient(165deg,rgba(255,255,255,.99),rgba(255,252,248,.98))!important;
+  box-shadow:0 5px 15px rgba(78,58,37,.095),inset 0 1px 0 #fff!important;
+  padding-left:12px!important;padding-right:10px!important;
+  padding-top:8px!important;padding-bottom:10px!important;
+}
+/* 4,5: pale navigation keys, inner arrow size, today button */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-top{
+  min-height:29px!important;margin-bottom:5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow{
+  width:28px!important;min-width:28px!important;height:29px!important;min-height:29px!important;
+  border-radius:10px!important;
+  background:linear-gradient(150deg,#fffefa,#f7f1e9)!important;
+  border-color:rgba(189,163,128,.29)!important;
+  box-shadow:0 2px 4px rgba(80,58,35,.066),inset 0 1px 0 rgba(255,255,255,.97)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-arrow .ico{
+  width:15.5px!important;height:15.5px!important;stroke-width:1.8!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-today-btn{
+  height:28px!important;min-height:28px!important;
+  padding:0 8px!important;
+  border-radius:10px!important;
+  font-size:11px!important;font-weight:620!important;
+  border-color:rgba(189,148,84,.29)!important;
+  color:#98651f!important;
+  background:linear-gradient(#fff9ee,#fbf1e1)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.94),0 1px 2px rgba(95,70,40,.035)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:11px!important;}
+/* 6: heading center and type tuned without overlap on 320 px */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{
+  font-size:clamp(18px,5.5vw,22px)!important;
+  font-weight:700!important;line-height:1.08!important;letter-spacing:-.033em!important;
+  text-align:center!important;
+}
+/* 7/9/10: row height stays equal for five and six-week calendar months.
+   Six-row months GROW: never squeeze extra dates into five rows. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:21px!important;
+  grid-auto-rows:28px!important;
+  row-gap:1px!important;
+  column-gap:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:10px!important;font-weight:725!important;letter-spacing:.044em!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:28px!important;max-height:28px!important;
+  padding-top:2px!important;gap:1px!important;
+  font-size:12.5px!important;line-height:15px!important;font-weight:710!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:15px!important;line-height:15px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday .cdots{
+  gap:3px!important;min-height:5px!important;height:5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday .cdots i,
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel .cdots::after{
+  width:4.3px!important;height:4.3px!important;
+}
+/* 8: less outline-heavy, subtle luminous inset and drop shadow */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-3px!important;width:min(36px,100%)!important;height:32px!important;
+  border-radius:9px!important;
+  border:1px solid rgba(167,112,36,.18)!important;
+  background:linear-gradient(148deg,#ebca79 0%,#dbaa50 47%,#c78d33 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,250,225,.86),0 3px 8px rgba(111,72,24,.15)!important;
+}
+/* 1,2: local-only bespoke gavel and briefcase symbols. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-glyph{
+  width:21px!important;height:21px!important;flex:none;stroke-width:inherit!important;
+  color:#a6752a!important;overflow:visible;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-glyph-gavel{
+  width:23px!important;height:23px!important;
+}
+/* 3: footer metrics; match light border, rounded shape and exact icon/count/label baselines. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  grid-template-columns:1fr 1.08fr!important;
+  gap:8px!important;margin-top:7px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  gap:7px!important;min-height:31px!important;
+  padding:3px 5px!important;
+  border-radius:11px!important;
+  border-color:rgba(200,170,133,.26)!important;
+  background:linear-gradient(160deg,rgba(255,251,246,.98),rgba(249,244,236,.95))!important;
+  box-shadow:0 1px 3px rgba(91,65,39,.055),inset 0 1px rgba(255,255,255,.96)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat span{
+  gap:4px!important;align-items:baseline!important;justify-content:center!important;
+  min-width:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat b{
+  font-size:17.3px!important;line-height:1.1!important;font-weight:700!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{
+  font-size:10.25px!important;line-height:1.08!important;font-weight:460!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{
+  padding-right:17px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child::after{
+  width:6px!important;height:6px!important;right:8px!important;
+  border-width:1.55px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-view-switcher{width:calc(100% - 7px)!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode{font-size:10.5px!important;gap:3px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-mode .ico{width:13px!important;height:13px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-actions{gap:5px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-premium-period-top .calendar-month-label{font-size:clamp(15px,5.1vw,19px)!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{grid-auto-rows:27px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{height:27px!important;max-height:27px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{gap:4px!important;padding-left:3px!important;padding-right:3px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-glyph{width:18px!important;height:18px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat>.cal-month-glyph-gavel{width:20px!important;height:20px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat small{font-size:9px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat:last-child{padding-right:15px!important;}
+}
+/* Empirical 1:1 card-width comparison with approved five-week September:
+   preserve its 241px CSS height while keeping all six-week rows intact. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  padding-top:7px!important;padding-bottom:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-top{margin-bottom:4px!important;}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:20px!important;grid-auto-rows:26px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:26px!important;max-height:26px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-3px!important;height:31px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  margin-top:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  min-height:30px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{grid-auto-rows:26px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{height:26px!important;max-height:26px!important;}
+}

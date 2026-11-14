@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.3';
-var APP_BUILD='6302';
+var APP_VERSION='5.0.1297.4';
+var APP_BUILD='6303';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4021,14 +4021,31 @@ function renderCal(){
     '<div class="calendar-month-label">'+esc(periodLabel)+'</div>'+
     '<div class="calendar-month-actions"><button class="calendar-today-btn" data-act="cal-today">Сегодня</button>'+ 
       '<button class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="1" aria-label="Следующий '+periodTitle.toLowerCase()+'">'+ico('chev')+'</button></div></div>';
+  /* 5.0.1297.4: handcrafted MONTH statistics glyphs following approved
+     briefcase and court-gavel silhouettes. The reference has a separate
+     gavel strike base; the global icon system is intentionally unchanged. */
+  function monthStatGlyph(kind){
+    if(kind==='gavel')return '<svg class="ico cal-month-glyph cal-month-glyph-gavel" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
+      '<path d="M10.8 13.0 19.3 4.5 29.9 15.1 21.4 23.6Z" stroke-width="2.8"/>'+
+      '<path d="M17.7 6.1 21.2 2.7 31.6 13.1 28.2 16.6" stroke-width="2.8"/>'+
+      '<path d="M24.4 22.4 36 34" stroke-width="3.1"/>'+
+      '<path d="M3.8 34.3h17.4l2.5 3.3H1.4l2.4-3.3Z" stroke-width="2.5"/>'+
+      '</svg>';
+    return '<svg class="ico cal-month-glyph cal-month-glyph-brief" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+
+      '<rect x="3.5" y="11.8" width="33" height="23" rx="3.8" stroke-width="2.7"/>'+
+      '<path d="M14.1 11.8V8.3c0-2.1 1.6-3.6 3.6-3.6h4.6c2.0 0 3.6 1.5 3.6 3.6v3.5" stroke-width="2.7"/>'+
+      '<path d="M3.5 20.4c6.2 3.1 10.9 4.2 14.7 4.2m3.6 0c5.0 0 9.7-1.1 14.7-4.2" stroke-width="2.5"/>'+
+      '<rect x="17.3" y="21.7" width="5.4" height="5" rx="1" fill="currentColor" stroke="none"/>'+
+      '</svg>';
+  }
   var periodContent='';
   if(mode==='month'){
     /* Stage 3: compact five-/six-week grid; KPI layout is scoped to stage 4. */
     periodContent='<div class="calendar-month-card">'+periodTop+
       '<div class="cgrid calendar-grid">'+grid+'</div>'+
       '<div class="calendar-month-stats cal-month-premium-stats" aria-label="Показатели за '+esc(cap(MONN[mo])+' '+y)+'">'+
-      '<div class="cal-month-stat" aria-label="'+monthOpen+' активных записей">'+ico('brief','s')+'<span><b>'+monthOpen+'</b><small>активных '+plural(monthOpen,'запись','записи','записей')+'</small></span></div>'+
-      '<div class="cal-month-stat" aria-label="'+monthHearings+' заседаний">'+ico('gavel','s')+'<span><b>'+monthHearings+'</b><small>'+plural(monthHearings,'заседание','заседания','заседаний')+'</small></span></div></div></div>';
+      '<div class="cal-month-stat" aria-label="'+monthOpen+' активных записей">'+monthStatGlyph('brief')+'<span><b>'+monthOpen+'</b><small>активных '+plural(monthOpen,'запись','записи','записей')+'</small></span></div>'+
+      '<div class="cal-month-stat" aria-label="'+monthHearings+' заседаний">'+monthStatGlyph('gavel')+'<span><b>'+monthHearings+'</b><small>'+plural(monthHearings,'заседание','заседания','заседаний')+'</small></span></div></div></div>';
   }else if(mode==='week'){
     /* Stage 5: the approved week strip, real ISO week, Monday-first dates,
        single shared selection. Agenda/statistics refinement is stage 6. */
