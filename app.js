@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297';
-var APP_BUILD='6299';
+var APP_VERSION='5.0.1297.1';
+var APP_BUILD='6300';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3890,7 +3890,7 @@ function calMonthAgendaRow(t){
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   return '<button type="button" class="cal-month-event '+kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+heading+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('user','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
+    '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('events-people','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
     '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b><em class="cal-month-status '+badge.tone+'">'+esc(badge.label)+'</em></span>'+
        (context.length?'<small>'+esc(context.join(' · '))+'</small>':'')+'</span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
@@ -3920,7 +3920,7 @@ function calDayTimelineRow(t){
   if(m)caseMeta=[m.number?('Дело № '+m.number):'',m.client||''].filter(Boolean).join(' · ');
   if(detail===head)detail='';
   if(detail===location)location='';
-  var icon=kind==='hearing'?'court':kind==='meeting'?'user':kind==='deadline'?'doc':'check';
+  var icon=kind==='hearing'?'court':kind==='meeting'?'events-people':kind==='deadline'?'doc':'check';
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   return '<div class="cal-day-timeline-row '+(stamp?'timed':'untimed')+'">'+
     '<span class="cal-day-clock">'+(stamp?esc(stamp):'—')+'</span>'+

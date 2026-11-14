@@ -844,3 +844,166 @@ html body #sc-cal.screen{padding-bottom:calc(135px + env(safe-area-inset-bottom,
 #sheet .cal-editor-case-shortcut .ico{width:18px;height:18px;flex:none;color:#b58946}
 #sheet .cal-editor-case-shortcut span{flex:1;text-align:left}
 #sheet .cal-editor-case-shortcut:focus-visible{outline:2px solid #173852;outline-offset:2px}
+
+/* ========================================================================
+   5.0.1297.1 — controlled visual parity corrections before stages 9–10.
+   Only #sc-cal calendar components; legacy marble illustration, custom
+   title + selected date, case data, global nav and scroll mechanics preserved.
+   Target is component geometry in approved 3-mode references. The references
+   use a different viewport ratio and fixture contents, so sizes are measured
+   in CSS pixels and flex layout rather than by screenshot-pixel cropping.
+   ======================================================================== */
+/* Prevent the iOS status bar from visually intersecting the calendar masthead
+   in installs where viewport-fit safe-area unexpectedly evaluates to zero. */
+html body #sc-cal.screen{
+  padding-top:max(calc(env(safe-area-inset-top,0px) + 10px),30px)!important;
+}
+/* Single, denser three-mode switcher: a common 39–40 CSS-px control. */
+#sc-cal .calendar-project .cal-premium-view-switcher{
+  padding:4px!important;gap:3px!important;margin-bottom:10px!important;
+  border-radius:19px!important;
+}
+#sc-cal .calendar-project .cal-premium-mode{
+  min-height:31px!important;padding:5px 3px!important;border-radius:15px!important;
+  font-size:12px!important;line-height:1.12!important;gap:6px!important;
+}
+#sc-cal .calendar-project .cal-premium-mode .ico{
+  width:16px!important;height:16px!important;
+}
+/* Uniform light card radii and horizontal alignment across all 3 modes. */
+#sc-cal .calendar-project .calendar-month-card,
+#sc-cal .calendar-project .calendar-day-card{
+  border-radius:16px!important;
+}
+/* MONTH: retain real 5/6-row calendar, but match the slimmer target rhythm. */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-card{
+  padding:11px 11px 12px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-auto-rows:29px!important;row-gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:29px!important;max-height:29px!important;font-size:13px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-3px!important;height:34px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-month-stats.cal-month-premium-stats{
+  margin-top:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-stat{
+  min-height:34px!important;padding:4px 5px!important;
+}
+/* WEEK: 7 cards remain exactly one row; compact like approved strip. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-card{
+  padding:11px 10px 12px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header{
+  margin-bottom:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header-sub{
+  min-height:25px!important;margin-top:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday{
+  min-height:72px!important;padding:8px 1px 5px!important;border-radius:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday b{
+  margin-top:5px!important;font-size:clamp(17px,4.8vw,22px)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots{
+  margin-top:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{
+  margin-top:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{
+  min-height:34px!important;padding:5px 6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda{
+  padding:12px 11px 15px!important;
+}
+/* Shared compact line items; do not truncate lengthy matter descriptions. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event{
+  padding-top:8px!important;padding-bottom:8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top>b,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-top>b{
+  font-size:12.3px!important;line-height:1.23!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small,
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small{
+  margin-top:3px!important;line-height:1.28!important;
+}
+/* DAY: reduce oversized padding; preserve separate unscheduled section. */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-overview{
+  padding:10px 10px 11px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-kpis{
+  margin-top:9px!important;gap:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-kpi{
+  min-height:46px!important;padding:6px 4px!important;gap:5px!important;
+  background:linear-gradient(155deg,#fffdf9,#fbf6ed)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-kpi .ico{
+  width:21px!important;height:21px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-kpi b{
+  font-size:21px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-schedule{
+  padding:13px 10px 21px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-schedule-heading{
+  margin-bottom:12px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-timeline{
+  gap:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-timeline-row{
+  grid-template-columns:57px minmax(0,1fr)!important;gap:4px!important;
+  padding-left:14px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-clock{
+  min-width:47px!important;font-size:11.8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event{
+  padding:9px 7px 10px!important;gap:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head b{
+  font-size:12px!important;line-height:1.22!important;flex-basis:110px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-status{
+  font-size:8.5px!important;padding:4px 5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-desc,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-case,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-location{
+  margin-top:4px!important;font-size:10.6px!important;line-height:1.27!important;
+}
+/* On compact phones keep 7 dates, 3 KPIs and all event text visible. */
+@media(max-width:360px){
+  #sc-cal .calendar-project .cal-premium-mode{font-size:11px!important;gap:3px!important;}
+  #sc-cal .calendar-project .cal-premium-mode .ico{width:14px!important;height:14px!important;}
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+    grid-auto-rows:27px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+    height:27px!important;max-height:27px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+    height:32px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday{
+    min-height:69px!important;padding:7px 0 4px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-timeline-row{
+    grid-template-columns:47px minmax(0,1fr)!important;gap:4px!important;padding-left:13px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-kpi{min-height:44px!important;}
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head b{font-size:11.5px!important;}
+}
+
+/* Approved month agenda has the heading itself, without a duplicate record-count caption. */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-head p{display:none!important;}
