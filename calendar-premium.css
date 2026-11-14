@@ -1809,3 +1809,53 @@ html body #sc-cal.screen{
     height:33px!important;
   }
 }
+
+/* ========================================================================
+   5.0.1297.11 — THIRD, small enlargement of MONTH grid ONLY.
+   Dates 14 → 14.7px; row 32 → 34px; weekday 10.8 → 11.2px;
+   selected gold plate 39x34 → 41x36px. Narrow widths scale back gently.
+   This does not touch weekly/daily modes, headings, nav, agenda, stats, data.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:23px!important;
+  grid-auto-rows:34px!important;
+  row-gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:11.2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:34px!important;
+  max-height:34px!important;
+  font-size:14.7px!important;
+  line-height:19px!important;
+  padding-top:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:19px!important;
+  line-height:19px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-2px!important;
+  width:min(41px,100%)!important;
+  height:36px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+    grid-auto-rows:33px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+    height:33px!important;
+    max-height:33px!important;
+    font-size:14.2px!important;
+    line-height:18px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+    height:18px!important;
+    line-height:18px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+    width:min(39px,100%)!important;
+    height:35px!important;
+  }
+}
