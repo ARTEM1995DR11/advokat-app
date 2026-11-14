@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.20';
-var APP_BUILD='6319';
+var APP_VERSION='5.0.1297.21';
+var APP_BUILD='6320';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3897,44 +3897,41 @@ function calStateBadgeHTML(badge,klass){
   return '<em class="'+klass+' '+esc(badge.tone)+'">'+
     (iconName?ico(iconName,'s'):'')+'<span>'+esc(badge.label)+'</span></em>';
 }
+/* 5.0.1297.21 — Agenda pass 2.1: separate event narrative from
+   venue/case metadata, and reserve a right-aligned status column. No record
+   fields are changed: the two lines are a presentation of source records. */
 function calMonthAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
   var stamp=calMonthItemTime(t);
   var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
   var badge=calMonthBadge(t);
   var heading=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
-  // Show actual description for every type, not only tasks. Keep the case
-  // reference without duplicating a note/place/heading already shown.
-  var context=[];
-  function addInfo(value){
-    var v=String(value||'').trim();
-    if(v&&v!==heading&&context.indexOf(v)<0)context.push(v);
+  var narrative=[], context=[];
+  function addUnique(list,value){
+    var s=String(value||'').trim();
+    if(s&&s!==heading&&narrative.indexOf(s)<0&&context.indexOf(s)<0)list.push(s);
   }
   if(kind==='hearing'){
-    addInfo(t.hearingTopic);
-    addInfo(t.note);
-    addInfo(t.place);
+    addUnique(narrative,t.hearingTopic);
+    addUnique(narrative,t.note);
   }else if(kind==='meeting'){
-    addInfo(t.note);
-    addInfo(t.place);
+    addUnique(narrative,t.note);
   }else if(kind==='deadline'){
-    addInfo(t.rule);
-    addInfo(t.note);
-    addInfo(t.place);
-  }else{
-    addInfo(t.note);
-    addInfo(t.place);
-  }
+    addUnique(narrative,t.rule);
+    addUnique(narrative,t.note);
+  }else addUnique(narrative,t.note);
+  addUnique(context,t.place);
   if(m){
-    if(m.number)addInfo('Дело № '+m.number);
-    if(m.client)addInfo(m.client);
+    if(m.number)addUnique(context,'Дело № '+m.number);
+    if(m.client)addUnique(context,m.client);
   }
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   return '<button type="button" class="cal-month-event '+kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+heading+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
     '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('events-people','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
     '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
-       (context.length?'<small>'+esc(context.join(' · '))+'</small>':'')+'</span>'+
+       (narrative.length?'<small class="cal-month-event-desc">'+esc(narrative.join(' · '))+'</small>':'')+
+       (context.length?'<small class="cal-month-event-meta">'+esc(context.join(' · '))+'</small>':'')+'</span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
 /* Stage 7 / 5.0.1296: full day timeline built from the SAME records as month/week.
