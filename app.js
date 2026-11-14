@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1292';
-var APP_BUILD='6292';
+var APP_VERSION='5.0.1293.1';
+var APP_BUILD='6294';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3830,6 +3830,71 @@ function calAgendaRow(t){
     '<span class="cal-agenda-side"><span class="cal-agenda-badge '+tone+'">'+esc(label)+'</span><i>'+ico('chev','s')+'</i></span>'+
   '</button>';
 }
+/* Calendar / stage 4: one chronological day agenda, no duplicated records. */
+function calMonthItemTime(t){
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(String(t&&t.time||''))?t.time:null;
+}
+function calMonthAgendaSort(a,b){
+  var at=calMonthItemTime(a),bt=calMonthItemTime(b);
+  if(!!at!==!!bt)return at?-1:1;
+  if(at&&bt&&at!==bt)return at<bt?-1:1;
+  return sortT(a,b);
+}
+function calMonthDotTypes(dayItems){
+  var tones=[];
+  function has(fn,tone){if(dayItems.some(fn))tones.push(tone);}
+  // Same categories in all dates; a confirmed hearing result is not an active hearing.
+  has(function(t){return t.kind==='hearing'&&hearingHasResult(t);},'held');
+  has(function(t){return t.kind==='hearing'&&!hearingHasResult(t);},'hearing');
+  has(function(t){return t.kind==='meeting';},'meeting');
+  has(function(t){return t.kind==='deadline';},'deadline');
+  has(function(t){return t.kind==='task';},'task');
+  return tones.slice(0,4);
+}
+function calMonthBadge(t){
+  if(t.kind==='hearing'){
+    var res=hearingResultInfo(t);
+    if(res)return {label:res.label,tone:'held'};
+    if(t.done)return {label:'Выполнено',tone:'held'};
+    if(hearingNeedsResult(t))return {label:'Нужен результат',tone:'attention'};
+    return {label:'Заседание',tone:'hearing'};
+  }
+  if(t.done)return {label:'Выполнено',tone:'held'};
+  if(t.kind==='meeting')return {label:'Встреча',tone:'meeting'};
+  if(t.kind==='deadline'){
+    var d=dd(t.due);
+    return {label:d<0?'Просрочено':d===0?'Срок сегодня':'Срок',tone:d<0?'overdue':'deadline'};
+  }
+  if(t.due&&dd(t.due)<0)return {label:'Просрочено',tone:'overdue'};
+  return {label:t.pri==='high'?'Срочно':t.pri==='low'?'Низкий':'Задача',tone:t.pri==='high'?'attention':'task'};
+}
+function calMonthAgendaRow(t){
+  var m=t.mid?matter(t.mid):null;
+  var stamp=calMonthItemTime(t);
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var badge=calMonthBadge(t);
+  var heading=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
+  var context=[];
+  if(t.kind==='hearing'){
+    if(t.hearingTopic&&t.hearingTopic!==heading)context.push(t.hearingTopic);
+    if(t.place)context.push(t.place);
+  }else if(t.kind==='meeting'){
+    if(t.place)context.push(t.place);
+  }else if(t.kind==='deadline'){
+    if(t.rule)context.push(t.rule);
+  }else if(t.note){context.push(t.note);}
+  if(m){
+    if(m.number)context.push('Дело № '+m.number);
+    if(m.client&&m.client!==heading)context.push(m.client);
+  }
+  var act=hearingNeedsResult(t)?'hearing-result':'task';
+  return '<button type="button" class="cal-month-event '+kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+heading+', '+badge.label)+'">'+
+    '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
+    '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('user','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
+    '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b><em class="cal-month-status '+badge.tone+'">'+esc(badge.label)+'</em></span>'+
+       (context.length?'<small>'+esc(context.join(' · '))+'</small>':'')+'</span>'+
+    '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+}
 function profileInitials(name){
   var raw=(name||'Адвокат').trim();
   if(!raw) return 'АК';
@@ -3858,17 +3923,10 @@ function renderCal(){
 
   var grid=['пн','вт','ср','чт','пт','сб','вс'].map(function(d){ return '<div class="cdow">'+d+'</div>'; }).join('');
   grid += cells.map(function(c){
-    var dayItems=(byDay[c.d]||[]), its=dayItems.filter(function(t){ return !t.done; });
-    var dots=[];
-    if(its.some(function(t){ return t.kind==='hearing'&&!hearingNeedsResult(t); })) dots.push('var(--blue)');
-    if(its.some(hearingNeedsResult)) dots.push('var(--warn)');
-    if(dayItems.some(function(t){ return t.kind==='hearing'&&hearingHasResult(t); })) dots.push('var(--ok)');
-    if(its.some(function(t){ return t.kind==='deadline'; })) dots.push('var(--dang)');
-    if(its.some(function(t){ return t.kind==='meeting'; })) dots.push('var(--purple)');
-    if(its.some(function(t){ return t.kind==='task'; })) dots.push('var(--gold)');
+    var dayItems=(byDay[c.d]||[]), dots=calMonthDotTypes(dayItems);
     var wd=parseD(c.d).getDay();
     return '<button class="cday'+(c.out?' out':'')+(c.d===todayISO?' today':'')+(c.d===u.calSel?' sel':'')+((wd===0||wd===6)?' wk':'')+'" data-act="cday" data-v="'+c.d+'" aria-label="'+esc(fmtD(c.d,true))+'" aria-pressed="'+(c.d===u.calSel)+'">'+
-      '<span class="cal-day-num">'+parseD(c.d).getDate()+'</span><span class="cdots">'+dots.slice(0,3).map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span></button>';
+      '<span class="cal-day-num">'+parseD(c.d).getDate()+'</span><span class="cdots">'+dots.map(function(x){ return '<i class="cal-dot-'+x+'"></i>'; }).join('')+'</span></button>';
   }).join('');
 
   var day=(byDay[u.calSel]||[]).slice().sort(sortT);
@@ -3896,7 +3954,9 @@ function renderCal(){
     /* Stage 3: compact five-/six-week grid; KPI layout is scoped to stage 4. */
     periodContent='<div class="calendar-month-card">'+periodTop+
       '<div class="cgrid calendar-grid">'+grid+'</div>'+
-      '<div class="calendar-month-stats"><span><b>'+monthOpen+'</b><small>в работе</small></span><span><b>'+monthHearings+'</b><small>заседаний</small></span><span><b>'+monthDeadlines+'</b><small>сроков</small></span></div></div>';
+      '<div class="calendar-month-stats cal-month-premium-stats" aria-label="Показатели за '+esc(cap(MONN[mo])+' '+y)+'">'+
+      '<div class="cal-month-stat" aria-label="'+monthOpen+' активных записей">'+ico('brief','s')+'<span><b>'+monthOpen+'</b><small>активных '+plural(monthOpen,'запись','записи','записей')+'</small></span></div>'+
+      '<div class="cal-month-stat" aria-label="'+monthHearings+' заседаний">'+ico('gavel','s')+'<span><b>'+monthHearings+'</b><small>'+plural(monthHearings,'заседание','заседания','заседаний')+'</small></span></div></div></div>';
   }else if(mode==='week'){
     /* Stage 2 bridge: live week selection; its approved final layout is stage 5/6. */
     periodContent='<div class="calendar-month-card cal-premium-bridge-week">'+periodTop+
@@ -3917,11 +3977,17 @@ function renderCal(){
     '<div class="today-head calendar-title-head"><div><h1>Календарь</h1><div class="cal-title-sub"><i aria-hidden="true"></i><span>Адвокатский ежедневник</span></div></div>'+
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     switcher+periodContent+
-    '<div class="calendar-day-card">'+
-      '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
-      '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
-      (day.length?('<div class="calendar-agenda-list">'+day.map(calAgendaRow).join('')+'</div>'):'<div class="calendar-empty">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',[{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>')+
-    '</div></div>';
+    (mode==='month'?
+      '<section class="calendar-day-card cal-month-agenda" aria-label="Повестка выбранного дня">'+
+        '<div class="cal-month-agenda-head"><h2>Повестка дня · '+esc(fmtD(u.calSel,true))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div>'+
+        (day.length?'<div class="cal-month-timeline">'+day.slice().sort(calMonthAgendaSort).map(calMonthAgendaRow).join('')+'</div>':
+          '<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span><button type="button" data-act="new-on-day">Добавить запись</button></div>')+
+      '</section>':
+      '<div class="calendar-day-card">'+
+        '<div class="calendar-day-head"><div><h2>'+fmtD(u.calSel,true)+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button class="calendar-add-btn" data-act="new-on-day">Добавить</button></div>'+
+        '<div class="calendar-day-stats"><span><b>'+dOpen+'</b><small>в работе</small></span><span><b>'+dHear+'</b><small>заседаний</small></span><span><b>'+dDead+'</b><small>сроков</small></span></div>'+
+        (day.length?('<div class="calendar-agenda-list">'+day.slice().sort(calMonthAgendaSort).map(calAgendaRow).join('')+'</div>'):'<div class="calendar-empty">'+empty('cal','Свободный день','На эту дату ничего не запланировано.',[{act:'new-on-day',t:'Запланировать на этот день'}])+'</div>')+
+      '</div>')+'</div>';
   $('#sc-cal').innerHTML=html;
 }
 
@@ -9389,7 +9455,7 @@ async function checkForAppUpdate(){
     var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store'});
     if(!response.ok)throw new Error('HTTP '+response.status);
     var versionText=(await response.text()).trim();
-    var match=versionText.match(/(5\.0\.\d+)\s*\/\s*(\d+)/);
+    var match=versionText.match(/(5\.0\.\d+(?:\.\d+)?)\s*\/\s*(\d+)/);
     if(!match)throw new Error('Invalid VERSION.txt');
     var remoteBuild=Number(match[2]), currentBuild=Number(APP_BUILD);
     if(remoteBuild>currentBuild){
