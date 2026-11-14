@@ -2182,3 +2182,31 @@ html body #sc-cal.screen{
   transition:opacity .12s ease,visibility .12s ease;
 }
 #cal-ios-status-shield.is-visible{opacity:1;visibility:visible;}
+
+
+/* 5.0.1297.20 — Calendar agenda pass 2: verified factual-state badges.
+   Applies to all three views. No changes to header, timeline, grid, FAB or
+   global navigation. Icon/label never rely on color alone for meaning. */
+#sc-cal .calendar-project .cal-month-status,
+#sc-cal .calendar-project .cal-day-event-status{
+  gap:4px!important;vertical-align:middle;
+}
+#sc-cal .calendar-project .cal-month-status .ico,
+#sc-cal .calendar-project .cal-day-event-status .ico{
+  flex:0 0 auto;width:11px!important;height:11px!important;
+  stroke-width:2.3;display:block;
+}
+#sc-cal .calendar-project .cal-month-status>span,
+#sc-cal .calendar-project .cal-day-event-status>span{
+  min-width:0;overflow-wrap:normal;
+}
+#sc-cal .calendar-project .cal-month-status.cancelled,
+#sc-cal .calendar-project .cal-day-event-status.cancelled{
+  color:#795d4b!important;background:#f0e9e0!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project .cal-month-status,
+  #sc-cal .calendar-project .cal-day-event-status{gap:3px!important;}
+  #sc-cal .calendar-project .cal-month-status .ico,
+  #sc-cal .calendar-project .cal-day-event-status .ico{width:10px!important;height:10px!important;}
+}

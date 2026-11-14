@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.19';
-var APP_BUILD='6318';
+var APP_VERSION='5.0.1297.20';
+var APP_BUILD='6319';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3851,23 +3851,24 @@ function calMonthDotTypes(dayItems){
   has(function(t){return t.kind==='task';},'task');
   return tones.slice(0,4);
 }
-/* 5.0.1297.19: the same factual state descriptor for month, week and day.
-   Never infer a completed hearing or meeting solely from a past date. */
+/* 5.0.1297.20 / Agenda pass 2: factual record state is shared by month,
+   week and day. Do not infer attendance/completion from elapsed time. */
 function calMonthBadge(t){
   if(t.kind==='hearing'){
     var res=hearingResultInfo(t);
     if(res){
       var resultTone=(t.hearingResultStatus==='held'||t.hearingResultStatus==='completed')?'held':
-        (t.hearingResultStatus==='cancelled'?'overdue':'attention');
+        (t.hearingResultStatus==='cancelled'?'cancelled':'attention');
       return {label:res.label,tone:resultTone};
     }
-    if(t.done)return {label:'Завершено',tone:'held'};
+    // A legacy completed checkbox is not evidence that a hearing took place.
+    if(t.done)return {label:'Результат не указан',tone:'attention'};
     if(hearingNeedsResult(t))return {label:'Нужен результат',tone:'attention'};
     return {label:'Запланировано',tone:'planned'};
   }
   if(t.done)return {label:t.kind==='meeting'?'Завершено':'Выполнено',tone:'held'};
   if(t.kind==='meeting'){
-    // An elapsed appointment is not automatically a confirmed meeting.
+    // A past meeting is never silently treated as confirmed attendance.
     return meetingOccurred(t)?{label:'Без отметки',tone:'attention'}:
       {label:'Запланировано',tone:'planned'};
   }
@@ -3878,9 +3879,23 @@ function calMonthBadge(t){
     if(n===0)return {label:'Срок сегодня',tone:'deadline'};
     return {label:'До срока '+n+' '+plural(n,'день','дня','дней'),tone:'deadline'};
   }
-  if(t.due && dd(t.due)<0)return {label:'Просрочено',tone:'overdue'};
+  if(t.due&&dd(t.due)<0)return {label:'Просрочено',tone:'overdue'};
   if(t.pri==='high')return {label:'Срочно',tone:'attention'};
   return {label:'В работе',tone:'inprogress'};
+}
+/* Compact pictograms echo the approved held / scheduled / deadline badges.
+   Icons only describe the existing state; none is stored as record data. */
+function calStateIcon(tone){
+  if(tone==='held')return 'check';
+  if(tone==='cancelled')return 'xmark';
+  if(tone==='overdue'||tone==='attention')return 'alert';
+  if(tone==='planned'||tone==='deadline'||tone==='inprogress')return 'clock';
+  return '';
+}
+function calStateBadgeHTML(badge,klass){
+  var iconName=calStateIcon(badge.tone);
+  return '<em class="'+klass+' '+esc(badge.tone)+'">'+
+    (iconName?ico(iconName,'s'):'')+'<span>'+esc(badge.label)+'</span></em>';
 }
 function calMonthAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
@@ -3888,24 +3903,37 @@ function calMonthAgendaRow(t){
   var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
   var badge=calMonthBadge(t);
   var heading=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
+  // Show actual description for every type, not only tasks. Keep the case
+  // reference without duplicating a note/place/heading already shown.
   var context=[];
-  if(t.kind==='hearing'){
-    if(t.hearingTopic&&t.hearingTopic!==heading)context.push(t.hearingTopic);
-    if(t.place)context.push(t.place);
-  }else if(t.kind==='meeting'){
-    if(t.place)context.push(t.place);
-  }else if(t.kind==='deadline'){
-    if(t.rule)context.push(t.rule);
-  }else if(t.note){context.push(t.note);}
+  function addInfo(value){
+    var v=String(value||'').trim();
+    if(v&&v!==heading&&context.indexOf(v)<0)context.push(v);
+  }
+  if(kind==='hearing'){
+    addInfo(t.hearingTopic);
+    addInfo(t.note);
+    addInfo(t.place);
+  }else if(kind==='meeting'){
+    addInfo(t.note);
+    addInfo(t.place);
+  }else if(kind==='deadline'){
+    addInfo(t.rule);
+    addInfo(t.note);
+    addInfo(t.place);
+  }else{
+    addInfo(t.note);
+    addInfo(t.place);
+  }
   if(m){
-    if(m.number)context.push('Дело № '+m.number);
-    if(m.client&&m.client!==heading)context.push(m.client);
+    if(m.number)addInfo('Дело № '+m.number);
+    if(m.client)addInfo(m.client);
   }
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   return '<button type="button" class="cal-month-event '+kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+heading+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
     '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('events-people','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
-    '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b><em class="cal-month-status '+badge.tone+'">'+esc(badge.label)+'</em></span>'+
+    '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
        (context.length?'<small>'+esc(context.join(' · '))+'</small>':'')+'</span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
@@ -3941,7 +3969,7 @@ function calDayTimelineRow(t){
     '<button type="button" class="cal-day-event '+kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+head+', '+badge.label)+'">'+
       '<span class="cal-day-event-icon">'+ico(icon,'s')+'</span>'+
       '<span class="cal-day-event-copy">'+
-        '<span class="cal-day-event-head"><b>'+esc(head)+'</b><em class="cal-day-event-status '+badge.tone+'">'+esc(badge.label)+'</em></span>'+
+        '<span class="cal-day-event-head"><b>'+esc(head)+'</b>'+calStateBadgeHTML(badge,'cal-day-event-status')+'</span>'+
         (detail?'<span class="cal-day-event-desc">'+esc(detail)+'</span>':'')+
         (location?'<span class="cal-day-event-location">'+ico('pin','s')+esc(location)+'</span>':'')+
         (caseMeta?'<span class="cal-day-event-case">'+esc(caseMeta)+'</span>':'')+
