@@ -1996,3 +1996,126 @@ html body #sc-cal.screen{
     inset 0 1px 0 rgba(255,247,219,.43),
     0 2px 5px rgba(113,77,35,.11)!important;
 }
+
+
+/* ======================================================================
+   5.0.1297.17 — MONTH AGENDA, VISUAL PASS 1 (GEOMETRY + TYPOGRAPHY)
+   Only month agenda is affected. State, badges, quick-add and other modes
+   are unchanged. Connector runs from each dot precisely to the next dot,
+   rather than extending beyond the final event's dot. One item has no line.
+   ====================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda{
+  padding:12px 12px 15px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-head{
+  margin:0 0 7px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-head h2{
+  font-size:clamp(17px,4.8vw,20px)!important;
+  line-height:1.17!important;
+  letter-spacing:-.018em!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-timeline{
+  padding-left:15px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-timeline::before{
+  content:none!important;display:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event{
+  grid-template-columns:42px 30px minmax(0,1fr) 12px!important;
+  column-gap:6px!important;
+  padding:9px 0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event::before{
+  left:-15px!important;
+  top:18px!important;
+  width:9px!important;
+  height:9px!important;
+  border:1.5px solid #b78839!important;
+  background:#fffaf3!important;
+  z-index:2!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event:not(:last-child)::after{
+  content:''!important;
+  display:block!important;
+  position:absolute;
+  left:-11.25px;
+  top:22px;
+  bottom:-22px;
+  width:1.5px;
+  border-radius:2px;
+  background:linear-gradient(#bc8d40,#c5a164);
+  pointer-events:none;
+  z-index:0;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event:last-child::after{
+  content:none!important;
+  display:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-clock{
+  padding:3.5px 1px!important;
+  border-radius:11px!important;
+  font-size:10.4px!important;
+  line-height:1.2!important;
+  font-weight:750!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-icon{
+  width:30px!important;
+  height:30px!important;
+  border-radius:9px!important;
+  border-color:#e9ddcb!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-icon .ico{
+  width:19px!important;
+  height:19px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy{
+  padding-top:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top{
+  column-gap:6px!important;
+  row-gap:4px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top>b{
+  font-size:11.8px!important;
+  line-height:1.24!important;
+  font-weight:720!important;
+  overflow-wrap:break-word!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small{
+  font-size:10px!important;
+  line-height:1.32!important;
+  margin-top:3px!important;
+  overflow-wrap:break-word!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-next{
+  padding-top:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-next .ico{
+  width:12px!important;height:12px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda{
+    padding-left:9px!important;padding-right:9px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event{
+    grid-template-columns:39px 28px minmax(0,1fr) 11px!important;
+    column-gap:5px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-icon{
+    width:28px!important;height:28px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-icon .ico{
+    width:18px!important;height:18px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top>b{
+    font-size:11.4px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small{
+    font-size:9.7px!important;
+  }
+}
