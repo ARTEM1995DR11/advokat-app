@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.17';
-var APP_BUILD='6316';
+var APP_VERSION='5.0.1297.18';
+var APP_BUILD='6317';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4199,6 +4199,10 @@ function renderMore(){
     '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
       row('info','Проверить обновление','Установлена '+APP_VERSION+' · проверить версию на сервере','app-update-check')+
       row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
+      (calendarQaMatter()?
+        row('cal','Открыть тестовый день календаря','10 записей: заседания, встречи, сроки и задачи · '+fmtD(calendarQaMatter().qaDay,true),'calendar-qa-open')+
+        row('trash','Удалить тестовый день календаря','Только учебное дело и связанные записи','calendar-qa-remove'):
+        row('cal','Создать тестовый день календаря','10 вымышленных записей на выбранную дату · можно удалить','calendar-qa-open'))+
       (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?
         row('list','Открыть тестовую карточку','12 задач · 10 событий · выполненные записи','demo-scenario-open')+
         row('trash','Удалить тестовую карточку','Только демонстрационные записи, без остальных дел','demo-scenario-remove'):
@@ -8330,6 +8334,72 @@ async function wipeAll(){
   await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
+/* 5.0.1297.18: opt-in calendar agenda QA day. Real data is never replaced.
+ * All generated records belong to one clearly flagged fictional case and can
+ * be deleted independently from real cases. No calendar-only data store. */
+function calendarQaMatter(){
+  return S.matters.filter(function(m){return m&&m.isCalendarQaDay;})[0]||null;
+}
+function openCalendarQaDay(){
+  var existing=calendarQaMatter(),d;
+  if(existing){
+    d=(window.AdvokatCalendar&&window.AdvokatCalendar.safeDate(existing.qaDay,today()))||today();
+    S.ui.calSel=d;S.ui.calM=d.slice(0,7);S.ui.calView='month';
+    save();closeAll();go('cal');toast('Открыт тестовый день · '+fmtD(d,true));return;
+  }
+  d=window.AdvokatCalendar?window.AdvokatCalendar.safeDate(S.ui.calSel,today()):today();
+  if(!confirm('Создать ТЕСТОВЫЙ день '+fmtD(d,true)+' с 10 вымышленными записями: заседания, встречи, сроки, задачи, завершённые и длинные записи, записи без времени? Данные ваших реальных дел останутся без изменений. В разделе «Ещё» будет отдельная команда удаления тестового дня.'))return;
+  var id='calqa-m-'+uid(),now=new Date().toISOString(),seq=0;
+  var m={id:id,type:'civil',basis:'agreement',client:'Демов Алексей Сергеевич',number:'2-0000/2026',
+    court:'Учебный городской суд',judge:'Петрова А. А.',role:'истец',stage:'Первая инстанция',
+    notes:'УЧЕБНЫЙ ДЕНЬ КАЛЕНДАРЯ. Только вымышленные сведения для проверки оформления и сортировки записей.',
+    archived:false,isCalendarQaDay:true,qaDay:d,created:now};
+  m.title=matterAutoTitle(m);
+  var rows=[];
+  function make(kind,title,time,more){
+    var x={id:'calqa-t-'+uid()+'-'+(++seq),mid:id,kind:kind,title:title,due:d,time:time||'',
+      pri:'mid',done:false,doneAt:null,note:'',place:'',steps:[],created:now,isCalendarQaDay:true};
+    Object.assign(x,more||{});rows.push(x);return x;
+  }
+  // Both state and kind, with real existing record fields. Time ordering is
+  // deliberately chronological, followed by untimed tasks/deadlines.
+  make('hearing','Судебное заседание','09:00',{
+    hearingTopic:'Исследование письменных доказательств',place:'Учебный городской суд',
+    hearingResultStatus:'held',hearingResultText:'Судебное заседание состоялось',done:true});
+  make('meeting','Встреча с доверителем','10:15',{
+    place:'Офис',note:'Обсуждение стратегии защиты и согласование процессуальных документов'});
+  make('deadline','Процессуальный срок','11:40',{
+    rule:'Подача апелляционной жалобы',pri:'high'});
+  make('task','Подготовить правовую позицию','12:30',{
+    done:true,doneAt:d+'T12:35:00.000Z',note:'Материалы изучены, правовая позиция согласована'});
+  make('hearing','Предварительное судебное заседание','14:00',{
+    hearingTopic:'Подготовка дела к рассмотрению',place:'Учебный районный суд'});
+  make('meeting','Встреча с экспертом','15:45',{
+    place:'Учебный экспертный центр',note:'Обсуждение заключения и перечня дополнительных вопросов'});
+  make('task','Срочно подготовить адвокатский запрос','17:20',{
+    pri:'high',note:'Собрать копии документов и согласовать адресата'});
+  make('task','Ознакомиться с дополнительными материалами гражданского дела и подготовить подробные письменные замечания на протокол судебного заседания','',{
+    pri:'mid',note:'Проверить приложения и листы дела; длинный заголовок не должен обрезаться'});
+  make('deadline','Контроль процессуального срока без времени','',{
+    rule:'Проверить соблюдение установленного судом срока'});
+  make('task','Проверить поступление документов без времени','',{
+    pri:'low',note:'Контроль передачи оригиналов в канцелярию суда'});
+  S.matters.unshift(m);S.tasks=rows.concat(S.tasks);
+  S.ui.calSel=d;S.ui.calM=d.slice(0,7);S.ui.calView='month';
+  save();closeAll();go('cal');toast('Создан тестовый день · 10 вымышленных записей');
+}
+function removeCalendarQaDay(){
+  var m=calendarQaMatter();
+  if(!m){toast('Тестовый день не найден');return;}
+  if(!confirm('Удалить только учебное дело календаря и его 10 тестовых записей? Другие дела и записи останутся без изменений.'))return;
+  var id=m.id;
+  S.matters=S.matters.filter(function(x){return x&&x.id!==id;});
+  S.tasks=S.tasks.filter(function(x){return x&&!sameRecordId(x.mid,id);});
+  S.journal=S.journal.filter(function(x){return x&&!sameRecordId(x.mid,id);});
+  S.participation=S.participation.filter(function(x){return x&&!sameRecordId(x.mid,id);});
+  save();closeAll();go('more');toast('Учебный день и записи удалены');schedule();
+}
+
 /* 5.0.1165 — opt-in isolated DEMO case for visual and functional QA.
    No actual client data or records are changed. A clear explicit action is
    required before the encrypted local database receives test entries. */
@@ -8917,6 +8987,8 @@ document.addEventListener('click', function(ev){
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
     case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus);});save();render();toast('Выполненные задачи удалены');}break;}
+    case 'calendar-qa-open': openCalendarQaDay();break;
+    case 'calendar-qa-remove': removeCalendarQaDay();break;
     case 'demo-scenario-open': openDemoScenario1165();break;
     case 'demo-scenario-remove': removeDemoScenario1165();break;
     case 'demo': loadCompleteDemoCases();break;
