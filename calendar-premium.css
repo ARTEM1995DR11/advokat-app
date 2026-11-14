@@ -1759,3 +1759,53 @@ html body #sc-cal.screen{
     height:31px!important;
   }
 }
+
+/* ========================================================================
+   5.0.1297.10 — SECOND SMALL ENLARGEMENT, approved MONTH grid only.
+   +2 CSS px per calendar week, +~4% number size; no changes to controls,
+   statistics, event logic, week/day modes or approved background/header.
+   5-row and 6-row months each use an identical row pitch at a given width.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:22px!important;
+  grid-auto-rows:32px!important;
+  row-gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:10.8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:32px!important;
+  max-height:32px!important;
+  font-size:14px!important;
+  line-height:18px!important;
+  padding-top:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:18px!important;
+  line-height:18px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-2px!important;
+  width:min(39px,100%)!important;
+  height:34px!important;
+}
+@media (max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+    grid-auto-rows:31px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+    height:31px!important;
+    max-height:31px!important;
+    font-size:13.5px!important;
+    line-height:17px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+    height:17px!important;
+    line-height:17px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+    width:min(37px,100%)!important;
+    height:33px!important;
+  }
+}
