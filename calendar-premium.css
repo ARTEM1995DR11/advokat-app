@@ -1703,3 +1703,59 @@ html body #sc-cal.screen{
   background:linear-gradient(148deg,#e5be6f 0%,#d7a449 55%,#c99139 100%)!important;
   box-shadow:inset 0 .7px 0 rgba(255,246,218,.38),0 2px 4px rgba(113,76,34,.105)!important;
 }
+
+/* ========================================================================
+   5.0.1297.9 — second-pass legibility adjustment requested for MONTH only.
+   Slightly enlarge the date grid without touching the approved masthead,
+   switcher, calendar navigation, summary glyphs, agenda or other modes.
+   Both 5- and 6-row calendars retain the same pitch; the sixth row extends
+   the card naturally and is never compressed to fit the viewport.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+  grid-template-rows:21px!important;
+  grid-auto-rows:30px!important;
+  row-gap:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cdow{
+  font-size:10.4px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+  height:30px!important;
+  max-height:30px!important;
+  font-size:13.4px!important;
+  line-height:17px!important;
+  padding-top:2px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+  height:17px!important;
+  line-height:17px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday .cdots i,
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel .cdots::after{
+  width:4.5px!important;
+  height:4.5px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+  top:-2px!important;
+  width:min(37px,100%)!important;
+  height:32px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
+    grid-auto-rows:29px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday{
+    height:29px!important;
+    max-height:29px!important;
+    font-size:13px!important;
+    line-height:16px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .cday .cal-day-num{
+    height:16px!important;
+    line-height:16px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid .cday.sel::before{
+    width:min(35px,100%)!important;
+    height:31px!important;
+  }
+}
