@@ -4072,7 +4072,7 @@ function calDayTimelineRow(t){
     (info.venue?', '+info.venue:'')+(info.caseMeta?', '+info.caseMeta:'')+', '+badge.label;
   return '<div class="cal-day-timeline-row '+(stamp?'timed':'untimed')+'">'+
     '<span class="cal-day-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<button type="button" class="cal-day-event '+info.kind+' status-'+badge.tone+(info.head.length>=17?' long-action-title':'')+(info.head.length>=17 && badge.label.length>=11?' status-wide':'')+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
+    '<button type="button" class="cal-day-event '+info.kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="cal-day-event-icon">'+ico(icon,'s')+'</span>'+
       '<span class="cal-day-event-copy">'+
         '<span class="cal-day-event-head"><b>'+esc(info.head)+'</b>'+calStateBadgeHTML(badge,'cal-day-event-status')+'</span>'+
@@ -4126,10 +4126,35 @@ function initCalendarStatusShield(){
     shield.setAttribute('aria-hidden','true');document.body.appendChild(shield);
   }
   var update=function(){
-    // Match the original calendar background scale; the shield itself is much
-    // shorter than the scroll viewport, so its own background-size:cover
-    // would otherwise enlarge the marble and create a visible horizontal band.
-    if(sc.clientHeight>0)shield.style.setProperty('--cal-shield-screen-h',sc.clientHeight+'px');
+    // 5.0.1297.41.6: paint the status zone with the very same backdrop as
+    // the fixed calendar viewport. No translucent fades: scrolling text cannot
+    // bleed through the iOS time and Dynamic Island area. Reuse the existing
+    // approved marble/background geometry rather than inventing a new strip.
+    var screenHeight=sc.clientHeight;
+    if(screenHeight>0 && shield._calBackdropHeight!==screenHeight){
+      shield._calBackdropHeight=screenHeight;
+      var style=getComputedStyle(sc);
+      // background-size / position have no commas within a single layer.
+      var sizes=style.backgroundSize.split(',').map(function(x){return x.trim();});
+      var positions=style.backgroundPosition.split(',').map(function(x){return x.trim();});
+      var exactSizes=[],exactPositions=[];
+      // CSS background-size supplies a comma-delimited value per image layer.
+      for(var i=0;i<sizes.length;i++){
+        var size=sizes[i]||sizes[sizes.length-1]||'auto';
+        var pos=positions[i]||positions[positions.length-1]||'center';
+        if(size==='100% 100%'){
+          exactSizes.push('100% '+screenHeight+'px');
+          exactPositions.push('center top');
+        }else{
+          exactSizes.push(size);exactPositions.push(pos);
+        }
+      }
+      shield.style.setProperty('background-image',style.backgroundImage,'important');
+      shield.style.setProperty('background-color',style.backgroundColor,'important');
+      shield.style.setProperty('background-size',exactSizes.join(', '),'important');
+      shield.style.setProperty('background-position',exactPositions.join(', '),'important');
+      shield.style.setProperty('background-repeat',style.backgroundRepeat,'important');
+    }
     shield.classList.toggle('is-visible',S.ui.tab==='cal'&&!sc.classList.contains('hide')&&sc.scrollTop>16);
   };
   if(!sc._calStatusShieldBound){

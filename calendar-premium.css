@@ -3819,17 +3819,6 @@ html body #sc-cal.screen{
 #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{
   overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
 }
-/* Long, real-life status labels require two deliberate header rows rather
-   than breaking words inside 'Судебное заседание' / 'Процессуальный срок'. */
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-wide .cal-day-event-head{
-  display:flex!important;flex-wrap:wrap!important;row-gap:2px!important;
-}
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-wide .cal-day-event-head>b{
-  flex:0 0 100%!important;order:2!important;
-}
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-wide .cal-day-event-status{
-  order:1!important;margin-left:auto!important;
-}
 #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event{
   align-items:start!important;
 }
@@ -3857,13 +3846,6 @@ html body #sc-cal.screen{
   #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{font-size:11.6px!important;}
 }
 
-/* Standard legal-action names retain a full line when the long status
-   is on its own row; true narrow 320px screens can wrap safely. */
-@media(min-width:361px){
- #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-wide .cal-day-event-head>b{
-   font-size:11.9px!important;letter-spacing:-.055em!important;
- }
-}
 
 
 /* 5.0.1297.41.5 — iOS Calendar scroll audit, without moving the approved FAB.
@@ -3871,19 +3853,17 @@ html body #sc-cal.screen{
    The additional end-of-list travel lets the user fully expose the last
    event and its chevron above the existing bottom navigation / + button. */
 #cal-ios-status-shield{
-  height:max(54px,env(safe-area-inset-top,0px))!important;
-  background-color:transparent!important;
-  background-image:linear-gradient(180deg,
-    rgba(249,244,235,.98) 0%,
-    rgba(249,244,235,.97) 65%,
-    rgba(249,244,235,.68) 79%,
-    rgba(249,244,235,0) 100%)!important;
-  background-size:100% 100%!important;
-  background-position:0 0!important;
+  height:max(62px,env(safe-area-inset-top,0px))!important;
+  /* Fallback until JS copies the exact calendar wallpaper geometry. */
+  background-color:#f6efe3!important;
+  background-image:url('bg-cal-marble-calendar.webp')!important;
+  background-size:100% auto!important;
+  background-position:center top!important;
   background-repeat:no-repeat!important;
   -webkit-mask-image:none!important;mask-image:none!important;
   box-shadow:none!important;border:0!important;
   -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  transition:none!important;
 }
 /* Container-level end clearance; content cards and the floating + are
    untouched, including fixed navigation geometry and z-index. */
@@ -3896,17 +3876,49 @@ html body #sc-cal.screen{
   overflow:visible!important;
 }
 
-/* 375px iPhones: allow the standard deadline heading a full line even
-   while its long overdue status occupies the preceding narrow header row. */
-@media(min-width:361px) and (max-width:380px){
- #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-wide.deadline .cal-day-event-head>b{
-  font-size:10.9px!important;letter-spacing:-.063em!important;
- }
-}
 
-/* Action title receives a complete row on compact iPhones (long badge above). */
-@media(max-width:380px){
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.long-action-title .cal-day-event-head{flex-wrap:wrap!important;row-gap:2px!important;}
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.long-action-title .cal-day-event-head>b{order:2!important;flex:0 0 100%!important;}
-#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.long-action-title .cal-day-event-status{order:1!important;margin-left:auto!important;}
+
+/* 5.0.1297.41.6 — Day title always begins beside the icon. A longer status
+   wraps BELOW the complete title (never above it). The layout remains flexible
+   for short badges, narrow screens and user-defined meeting captions. */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head{
+  display:flex!important;flex-wrap:wrap!important;
+  align-items:center!important;justify-content:flex-start!important;
+  column-gap:5px!important;row-gap:3px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{
+  order:0!important;
+  flex:0 0 auto!important;
+  width:auto!important;max-width:100%!important;min-width:0!important;
+  white-space:normal!important;overflow-wrap:break-word!important;
+  font-size:12px!important;letter-spacing:-.049em!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-status{
+  order:1!important;flex:0 0 auto!important;
+  max-width:100%!important;margin-left:auto!important;
+  white-space:normal!important;overflow-wrap:normal!important;
+  text-align:center!important;
+}
+/* Keep a small visible separation below the forward arrow without
+   colliding with the counters beneath the date. */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-overview-nav{
+  min-height:61px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-today{
+  top:36px!important;height:23px!important;min-height:23px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{
+    font-size:11.4px!important;letter-spacing:-.059em!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-overview-nav{
+    min-height:61px!important;
+  }
+}
+/* One scroll-container clearance wins over the older global Calendar rule.
+   At full scroll, the last record (including its arrow) clears the fixed FAB
+   and bottom navigation without modifying either approved control. */
+html body #sc-cal.screen{
+  scroll-padding-bottom:190px!important;
+  padding-bottom:max(190px,calc(190px + env(safe-area-inset-bottom,0px)))!important;
 }
