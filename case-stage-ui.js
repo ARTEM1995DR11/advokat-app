@@ -7,12 +7,12 @@ function stageNextSuggested(m){
   var arr=MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other;
   var at=arr.indexOf(m.stage);return arr[Math.min(Math.max(at+1,0),arr.length-1)]||m.stage;
 }
-function stageTaskLabel(t){return ({hearing:'Судебное заседание',meeting:'Встреча',deadline:'Процессуальный срок',task:'Задача'})[t.kind]||'Запись';}
+function stageTaskLabel(t){return ({hearing:'Судебное заседание',meeting:'Встреча',investigation:'Следственное действие',deadline:'Процессуальный срок',task:'Задача'})[t.kind]||'Запись';}
 function stageWizardStart(id){
   var m=matter(id);
   if(!m||m.archived||m.stageClosed){toast('Продолжить можно только действующий этап');return;}
   var pending=stageEligibleTasks(m);
-  STAGE_WIZARD={sourceId:String(m.id),step:0,closeDate:today(),startDate:today(),result:'',note:'',
+  STAGE_WIZARD={operationId:'stage-op-'+uid(),sourceId:String(m.id),step:0,closeDate:today(),startDate:today(),result:'',note:'',
     stage:stageNextSuggested(m),stageBase:stageNextSuggested(m),stageCustom:'',basis:m.basis,place:'',copyNotes:true,copyPosition:false,
     moveIds:pending.filter(function(t){return ['task','meeting'].includes(t.kind);}).map(function(t){return String(t.id);}),
     acknowledgeRemaining:false,acknowledgeCritical:false,confirm:false,
@@ -73,8 +73,11 @@ function stageWizardValidateStep(){
   if(step===2){
     var all=stageEligibleTasks(m),picked=new Set(d.moveIds.map(String));
     if(all.some(function(t){return !picked.has(String(t.id));})&&!d.acknowledgeRemaining)return 'Подтвердите судьбу оставшихся незавершённых записей';
-    if(all.some(function(t){return picked.has(String(t.id))&&['deadline','hearing'].includes(t.kind);})&&!d.acknowledgeCritical)
-      return 'Отдельно подтвердите перенос сроков и заседаний';
+    if(all.some(function(t){return picked.has(String(t.id))&&['deadline','hearing','investigation'].includes(t.kind);})&&!d.acknowledgeCritical)
+      return 'Отдельно подтвердите перенос сроков, заседаний и следственных действий';
+    if(all.some(function(t){return picked.has(String(t.id))&&t.kind==='investigation';})&&
+      !stageInvestigationApplicable({type:m.type,stage:d.stage==='__other__'?d.stageBase:d.stage}))
+      return 'Следственное действие нельзя переносить в судебную стадию; оставьте его в истории';
   }
   if(step===3&&m.basis==='assigned'){
     for(var line of d.payment.lines){
@@ -93,7 +96,7 @@ function stageWizardNext(){
 }
 function stageWizardPrev(){
   if(!STAGE_WIZARD)return;
-  if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;sheetMatterMore(id);return;}
+  if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;sheetMatterFinishChoice(id);return;}
   stageWizardCapture();var m=matter(STAGE_WIZARD.sourceId);STAGE_WIZARD.step-=(STAGE_WIZARD.step===4&&m.basis!=='assigned')?2:1;stageWizardRender();
 }
 function stageWizardHead(){
@@ -131,10 +134,10 @@ function stageWizardTasksHTML(d,m){
   var items=stageEligibleTasks(m),selected=new Set(d.moveIds.map(String));
   return '<p class="stage-wizard-sub">Отметьте записи, которые остаются в работе. Перенесённая запись появится в календаре только один раз — уже в новой папке.</p>'+
     (items.length?'<div class="stage-wizard-task-list">'+items.map(function(t){
-       return '<label class="stage-wizard-task"><input type="checkbox" data-stage-move="'+esc(t.id)+'"'+(selected.has(String(t.id))?' checked':'')+'><span><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+'</small></span>'+(['deadline','hearing'].includes(t.kind)?'<em>Проверить срок/заседание</em>':'')+'</label>';
+       return '<label class="stage-wizard-task"><input type="checkbox" data-stage-move="'+esc(t.id)+'"'+(selected.has(String(t.id))?' checked':'')+'><span><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+'</small></span>'+(['deadline','hearing','investigation'].includes(t.kind)?'<em>Проверить срок/заседание</em>':'')+'</label>';
     }).join('')+'</div>':'<div class="stage-wizard-info">Незавершённых записей нет. Можно сразу продолжить.</div>')+
     '<label class="stage-wizard-check"><input id="st-ack-remaining" type="checkbox"'+(d.acknowledgeRemaining?' checked':'')+'><span>Проверил(а): неперенесённые записи останутся в истории и не будут показываться в активных списках</span></label>'+
-    '<label class="stage-wizard-check"><input id="st-ack-critical" type="checkbox"'+(d.acknowledgeCritical?' checked':'')+'><span>Отдельно проверил(а) юридическую актуальность выбранных процессуальных сроков и заседаний</span></label>';
+    '<label class="stage-wizard-check"><input id="st-ack-critical" type="checkbox"'+(d.acknowledgeCritical?' checked':'')+'><span>Отдельно проверил(а) юридическую актуальность выбранных сроков, заседаний и следственных действий</span></label>';
 }
 function appointmentFeeRowsHTML(lines,days){
  var byDate=Object.create(null);(lines||[]).forEach(function(x){byDate[x.date]=x;});
@@ -159,7 +162,7 @@ function stageWizardPaymentHTML(d,m){
       '<div class="stage-wizard-info">Для этого вида производства уголовные ставки автоматически не применяются: укажите проверенную ставку вручную.</div>')+
     (days.length?'<div class="appointment-fee-days">'+appointmentFeeRowsHTML(p.lines,days)+'</div>':
       '<div class="stage-wizard-alert">Дней фактического участия пока нет. Внесите их в журнал участия; переход возможен с пустым расчётом.</div>')+
-    '<div class="stage-wizard-info">Выходной определяется по дню недели как подсказка, но праздничные и перенесённые дни проверяются вручную. Периоды до 01.10.2025 и после 2026 года требуют проверки ставки.</div>'+ 
+    '<div class="stage-wizard-info">Для каждой даты действует <b>свой режим и своя ставка</b>: изменение режима одного дня не меняет остальные. Выходной по дню недели — только подсказка; праздничные и перенесённые дни проверяются вручную. Периоды до 01.10.2025 и после 2026 года требуют проверки ставки.</div>'+ 
     '<div class="appointment-fee-summary"><small>Предварительно, без уже заявленных дней</small><strong id="stage-wizard-pay-total">'+esc(money(appointmentFeeLineTotal(p.lines)))+'</strong></div>'+ 
     '<label class="stage-wizard-field">Примечание к расчёту<textarea id="st-payment-note" rows="2" placeholder="Решение о категории сложности, дополнительные документы">'+esc(p.note||'')+'</textarea></label>';
 }
@@ -184,7 +187,7 @@ function stageWizardConfirmHTML(d,m){
     '<div><small>Завершаемая папка</small><b>'+esc(stageCaseHeading(m))+'</b><span>'+esc(fmtD(d.closeDate,true))+' · будет в архиве</span></div>'+
     '<div><small>Новая папка</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span></div>'+
     '<div><small>Перенос записей</small><b>'+picked.size+' из '+items.length+'</b><span>Выбранные записи останутся активны без дублирования</span></div>'+
-    (m.basis==='assigned'?'<div><small>Расчёт оплаты</small><b>Черновик · по назначению</b><span>Один оплачиваемый день на дату; подтверждения и ставки нужно проверить</span></div>':'')+
+    (m.basis==='assigned'?'<div><small>Расчёт оплаты · по назначению</small><b>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+'</b><span>'+d.payment.lines.filter(function(x){return x.included&&!x.alreadyClaimed;}).length+' дней к расчёту. Ставка и режим проверяются отдельно по каждой дате; результат — черновик.</span></div>':'')+
     '</div><label class="stage-wizard-check stage-wizard-confirm"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span>Проверил(а) сведения, выбранные задачи и расчёт. Подтверждаю завершение этапа и создание новой папки.</span></label>';
 }
 function stageWizardRender(){
@@ -204,10 +207,12 @@ function stageWizardUpdatePaymentTotal(){
    rate:el.querySelector('[data-fee-rate]').value};});
  t.textContent=money(appointmentFeeLineTotal(lines));
 }
+var STAGE_WIZARD_COMMIT_BUSY=false;
 async function stageWizardCommit(){
-  if(!STAGE_WIZARD)return;
+  if(!STAGE_WIZARD||STAGE_WIZARD_COMMIT_BUSY)return;
   stageWizardCapture();var err=stageWizardValidateStep();if(err){toast(err);return;}
   var d=clone(STAGE_WIZARD),btn=document.querySelector('.stage-wizard-primary');
+  STAGE_WIZARD_COMMIT_BUSY=true;
   if(btn){btn.disabled=true;btn.textContent='Сохраняется…';}
   try{
     var result=await stageCommitTransfer(d);
@@ -217,7 +222,7 @@ async function stageWizardCommit(){
     toast('Новая стадия создана · перенесено записей: '+result.moved);
   }catch(e){toast(e&&e.message||'Не удалось сохранить переход');
     if(btn){btn.disabled=false;btn.textContent='Завершить этап и продолжить дело';}
-  }
+  }finally{STAGE_WIZARD_COMMIT_BUSY=false;}
 }
 function stageHistoryButtonHTML(m){
   if(!m||!stageCaseHasLinks(m))return '';
@@ -371,4 +376,19 @@ document.addEventListener('change',function(e){if(e.target&&e.target.id==='st-ne
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='st-new-stage')stageWizardToggleCustom();});
 
 document.addEventListener('input',function(e){if(e.target&&e.target.closest&&e.target.closest('[data-fee-date]'))stageWizardUpdatePaymentTotal();});
-document.addEventListener('change',function(e){if(e.target&&e.target.closest&&e.target.closest('[data-fee-date]'))stageWizardUpdatePaymentTotal();});
+document.addEventListener('change',function(e){
+  if(!e.target||!e.target.closest)return;
+  var day=e.target.closest('[data-fee-date]');if(!day)return;
+  if(e.target.matches('[data-fee-type]')){
+    var category=document.getElementById('st-payment-category'),m=null;
+    if(STAGE_WIZARD&&document.getElementById('st-payment-note'))m=matter(STAGE_WIZARD.sourceId);
+    if(!m){var saved=document.querySelector('[data-act="stage-payment-save"]');
+      if(saved){var pd=(S.stagePayments||[]).find(function(x){return x.id===saved.dataset.id;});m=pd&&matter(pd.mid);}}
+    if(m&&m.type==='criminal'&&category&&appointmentFeeCategory(category.value)){
+      var suggested=appointmentFeeRate(m,day.dataset.feeDate,category.value,e.target.value);
+      if(suggested!==null){day.querySelector('[data-fee-rate]').value=suggested;
+        day.querySelector('[data-fee-verified]').checked=false;}
+    }
+  }
+  stageWizardUpdatePaymentTotal();
+});

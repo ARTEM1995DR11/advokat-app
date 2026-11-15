@@ -65,3 +65,28 @@
 .case-stage-sheet .appointment-fee-day .stage-wizard-check{padding:7px 0;min-height:28px}
 
 .case-stage-sheet .appointment-fee-hint{display:block;margin-top:6px;font:600 11px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#a36c2e}
+
+/* Stage 5 — investigative action sheet; case design and all paper layers remain untouched. */
+#sheet.stage-investigation-sheet .stage-investigation-card{padding:12px 12px 4px;display:grid;gap:12px}
+#sheet.stage-investigation-sheet .stage-investigation-card .stage-wizard-field{margin:0}
+#sheet.matter-event-stage1-open .matter-event-stage4-card.event-investigation>.matter-event-stage4-icon{color:#8065aa;border-color:#c6b8df;background:linear-gradient(145deg,#fffdf9,#f0eaf9)}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="events"] .dossier-events-filter-row.has-investigation{grid-template-columns:.7fr 1.13fr .7fr .88fr 1.12fr;gap:3px}
+#page.dossier-page .dossier-rear-stage .dossier-events-filter-row.has-investigation .dossier-events-filter{font-size:clamp(7.3px,2vw,9px);padding:0 1px;gap:1px}
+#page.dossier-page .dossier-rear-stage .dossier-events-filter-row.has-investigation .dossier-events-filter-count{min-width:13px;width:13px;height:13px;font-size:8px}
+
+/* 41.17: Nested completion choice; approved «Действия по делу» stays untouched. */
+#sheet.stage-finish-choice-sheet .shbody {padding:16px 16px 22px;}
+.stage-finish-choice {border:1px solid #dfd0b6;background:linear-gradient(155deg,#fffdf8,#fff9ef);border-radius:23px;padding:17px 14px 18px;box-shadow:0 9px 32px rgba(50,43,31,.10)}
+.stage-finish-choice .stage-wizard-header {margin-bottom:18px}
+.stage-finish-options {display:grid;gap:12px}
+.stage-finish-option {display:flex;align-items:center;gap:12px;width:100%;min-width:0;text-align:left;padding:14px 10px;border-radius:17px;border:1px solid #dac9ae;background:linear-gradient(125deg,#fff,#fbf4e8);color:#24354b;box-shadow:0 3px 10px rgba(54,40,20,.08);min-height:92px}
+.stage-finish-option:active {transform:scale(.993);background:#faf0dd}
+.stage-finish-option:focus-visible {outline:3px solid #ba904e;outline-offset:2px}
+.stage-finish-option-icon {display:grid;place-items:center;flex:0 0 45px;width:45px;height:45px;border:1px solid #d9bc8d;background:#f9eed7;border-radius:13px;color:#aa8046}
+.stage-finish-option-icon .ico {width:26px;height:26px}
+.stage-finish-option>span:nth-child(2) {flex:1;min-width:0}
+.stage-finish-option b {display:block;font:700 18px/1.2 Georgia,'Times New Roman',serif;overflow-wrap:anywhere}
+.stage-finish-option small {display:block;font:400 12px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#68788a;margin-top:5px}
+.stage-finish-option>.ico {flex:0 0 18px;color:#a57a40}
+.stage-finish-note {font-size:12px;line-height:1.5;color:#748090;margin:15px 2px 0}
+@media(max-width:360px) {.stage-finish-choice {padding:12px 9px 14px}.stage-finish-option {padding:11px 8px;gap:8px}.stage-finish-option b {font-size:16px}.stage-finish-option-icon {flex-basis:39px;width:39px;height:39px}}

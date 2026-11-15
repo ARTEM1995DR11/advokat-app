@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.15';
-var APP_BUILD='6361';
+var APP_VERSION='5.0.1297.41.17';
+var APP_BUILD='6363';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -969,6 +969,7 @@ var KIND = {
   task:    {n:'Задача',      i:'check'},
   hearing: {n:'Заседание',   i:'gavel'},
   meeting: {n:'Встреча',     i:'user'},
+  investigation:{n:'Следственное действие',i:'brief'},
   call:    {n:'Звонок',      i:'phone'},
   doc:     {n:'Документ',    i:'doc'},
   deadline:{n:'Процессуальный срок', i:'flag'}
@@ -2023,7 +2024,7 @@ function matterPendingWorkHTML(id){
   var linked=tasksOf(id).filter(isActiveRecord);
   if(!linked.length)return '';
   var lines=linked.map(function(t){
-    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
+    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='investigation'?'Следственное действие':t.kind==='deadline'?'Процессуальный срок':'Задача';
     return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
        (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
        (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
@@ -2186,7 +2187,7 @@ function matterFinishWarningMarkup(id){
    '<span class="matter-finish-warning-divider" aria-hidden="true"></span>'+ 
    '<span class="matter-finish-warning-copy"><strong>Не завершено: '+count+'</strong><span>После переноса дела в архив эти записи останутся в истории, но исчезнут из активных списков «Сегодня» и «Задачи». При возврате дела в работу они снова появятся.</span></span></div>';
   var entries=linked.map(function(t){
-    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='deadline'?'Процессуальный срок':'Задача';
+    var label=t.kind==='hearing'?'Заседание':t.kind==='meeting'?'Встреча':t.kind==='investigation'?'Следственное действие':t.kind==='deadline'?'Процессуальный срок':'Задача';
     return '<li><b>'+esc(label)+':</b> '+esc(t.title||'Без названия')+
       (t.due?' <small>· '+esc(fmtD(t.due,true))+(t.time?', '+esc(t.time):'')+'</small>':'')+
       (t.kind==='hearing'&&hearingNeedsResult(t)?' <strong>· требуется результат</strong>':'')+'</li>';
@@ -2197,11 +2198,25 @@ function matterFinishWarningMarkup(id){
     '<label class="matter-finish-ack"><input id="matter-close-ack" type="checkbox"><span>Я проверил(а) оставшиеся задачи, сроки и заседания</span></label></section>';
 }
 
+/* 41.17: Preserve the seven approved case-action rows. The existing
+   «Завершить дело» opens a nested choice, not another menu row. */
+function sheetMatterFinishChoice(id){
+  var m=matter(id);if(!m||m.archived)return;
+  openSheet('<section class="stage-finish-choice" aria-labelledby="stage-finish-choice-title">'+
+    '<header class="stage-wizard-header"><button class="stage-wizard-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button><div><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
+    '<p class="stage-wizard-sub">Выберите, завершается ли всё поручение или работа продолжится в новой связанной папке.</p>'+
+    '<div class="stage-finish-options">'+
+      '<button class="stage-finish-option" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon">'+ico('matter-finish','s')+'</span><span><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span>'+ico('chev','s')+'</button>'+
+      '<button class="stage-finish-option" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon">'+ico('folder','s')+'</span><span><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span>'+ico('chev','s')+'</button>'+
+    '</div><p class="stage-finish-note">Предыдущие этапы и записи сохраняются. Рассчитать вознаграждение можно только по делам по назначению.</p></section>');
+  $('#sheet').classList.add('case-stage-sheet','stage-finish-choice-sheet');
+}
+
 function sheetMatterFinish(id){
   var m=matter(id);if(!m||m.archived)return;
   var open=tasksOf(id).filter(isActiveRecord), pending=open.filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);});
   /* 5.0.1242: paper form shell, stage 1. Keep the form field IDs and archival logic unchanged. */
-  openSheet('<header class="matter-finish-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
+  openSheet('<header class="matter-finish-head"><button type="button" class="matter-finish-back" data-act="m-finish-choice" data-id="'+esc(id)+'" aria-label="Назад к выбору завершения">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
     '<div class="matter-finish-intro" role="note"><span class="matter-finish-intro-mark" aria-hidden="true">'+ico('arch','s')+'</span><span class="matter-finish-intro-rule" aria-hidden="true"></span><span class="matter-finish-intro-copy">Завершение поручения отдельно от результата заседания. После подтверждения дело перейдёт в архив, без удаления данных.</span></div>'+
     matterFinishDateMarkup()+
     matterFinishOutcomeMarkup()+
@@ -2419,7 +2434,7 @@ function openSheet(html){
     s._matterEventPaperScroll=null;
   }
   document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2803,7 +2818,7 @@ function renderToday(){
      в блок и сохраняют хронологическую сортировку. */
   var next7Pool=allOpen.filter(function(t){
     return t.due&&dd(t.due)>0&&dd(t.due)<=7&&
-      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
+      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='investigation'||t.kind==='deadline');
   }).sort(sortT);
   var next7=next7Pool.slice(0,5);
   var next7Ids={};
@@ -3822,6 +3837,7 @@ function calAgendaTone(t){
   if(t.done) return 'done';
   if(t.kind==='hearing') return 'hearing';
   if(t.kind==='meeting') return 'meeting';
+  if(t.kind==='investigation')return 'meeting';
   if(t.kind==='deadline') return 'deadline';
   if(t.pri==='high') return 'high';
   if(t.pri==='mid') return 'mid';
@@ -3833,6 +3849,7 @@ function calAgendaLabel(t){
   if(hearingNeedsResult(t)) return 'Результат';
   if(t.kind==='hearing') return 'Заседание';
   if(t.kind==='meeting') return 'Встреча';
+  if(t.kind==='investigation')return 'Следственное действие';
   if(t.kind==='deadline') return 'Срок';
   if(t.done) return 'Готово';
   if(t.pri==='high') return 'Срочно';
@@ -3844,6 +3861,7 @@ function calAgendaIcon(t){
   if(hearingNeedsResult(t)) return ico('clock','s');
   if(t.kind==='hearing') return ico(hearingHasResult(t)?'check':'gavel','s');
   if(t.kind==='meeting') return ico('user','s');
+  if(t.kind==='investigation')return ico('brief','s');
   if(t.kind==='deadline') return ico('clock','s');
   return ico('check','s');
 }
@@ -3887,7 +3905,7 @@ function calMonthDotTypes(dayItems){
   // Same categories in all dates; a confirmed hearing result is not an active hearing.
   has(function(t){return t.kind==='hearing'&&hearingHasResult(t);},'held');
   has(function(t){return t.kind==='hearing'&&!hearingHasResult(t);},'hearing');
-  has(function(t){return t.kind==='meeting';},'meeting');
+  has(function(t){return t.kind==='meeting'||t.kind==='investigation';},'meeting');
   has(function(t){return t.kind==='deadline';},'deadline');
   has(function(t){return t.kind==='task';},'task');
   return tones.slice(0,4);
@@ -3905,6 +3923,12 @@ function calMonthBadge(t){
     // A legacy completed checkbox is not evidence that a hearing took place.
     if(t.done)return {label:'Результат не указан',tone:'attention'};
     if(hearingNeedsResult(t))return {label:'Нужен результат',tone:'attention'};
+    return {label:'Запланировано',tone:'planned'};
+  }
+  if(t.kind==='investigation'){
+    if(t.investigationStatus==='cancelled')return {label:'Отменено',tone:'cancelled'};
+    if(t.done&&t.investigationStatus==='held')return {label:'Состоялось',tone:'held'};
+    if(t.due&&t.due<today())return {label:'Без отметки',tone:'attention'};
     return {label:'Запланировано',tone:'planned'};
   }
   if(t.done)return {label:t.kind==='meeting'?'Завершено':'Выполнено',tone:'held'};
@@ -3951,6 +3975,7 @@ function calBriefGeneric(value,kind){
   if(!s)return true;
   if(kind==='hearing')return /^(судебное заседание|заседание|слушание|суд)$/.test(s);
   if(kind==='meeting')return /^(встреча|встреча с клиентом|встреча с доверителем)$/.test(s);
+  if(kind==='investigation')return /^(следственное действие|следственные действия)$/.test(s);
   if(kind==='deadline')return /^(процессуальный срок|срок)$/.test(s);
   return /^(задача|новая задача)$/.test(s);
 }
@@ -3963,12 +3988,14 @@ function calBriefShort(value,limit){
   return cut.replace(/[\s,;:.–—-]+$/,'')+'…';
 }
 function calCompactAgendaInfo(t,m){
-  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='investigation'?'investigation':t.kind==='deadline'?'deadline':'task';
   var title=calBriefClean(t.title),narrative='',heading='';
   if(kind==='hearing'){
     heading='Судебное заседание';
     narrative=calBriefClean(hearingCaption(t,m));
     if(calBriefGeneric(narrative,kind))narrative=calBriefClean(t.hearingTopic||t.note);
+  }else if(kind==='investigation'){
+    heading='Следственное действие';narrative=calBriefClean(t.title||t.note);
   }else if(kind==='meeting'){
     heading=/^встреча(?:\s|$)/i.test(title)&&title.length<=35?title:'Встреча';
     narrative=calBriefClean(t.note);
@@ -4017,7 +4044,7 @@ function calMonthAgendaRow(t){
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   return '<button type="button" class="cal-month-event cal-agenda-compact '+info.kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+info.heading+', '+info.fullBrief+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<span class="cal-month-event-icon">'+(info.kind==='hearing'?ico('court','s'):info.kind==='meeting'?ico('events-people','s'):info.kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
+    '<span class="cal-month-event-icon">'+(info.kind==='hearing'?ico('court','s'):(info.kind==='meeting'||info.kind==='investigation')?ico('events-people','s'):info.kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
     '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(info.heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
       '<small class="cal-month-event-brief" title="'+esc(info.fullBrief)+'">'+esc(info.brief)+'</small></span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
@@ -4041,7 +4068,7 @@ function calDaySubjectClean(value,number){
   return s;
 }
 function calDayPresentation(t,m){
-  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='investigation'?'investigation':t.kind==='deadline'?'deadline':'task';
   var title=calBriefClean(t.title),head='',subject='',venue=calBriefClean(t.place||''),
       number=calBriefClean((m&&m.number)||(kind==='hearing'?t.hearingNumber:'')),
       client=calBriefClean((m&&m.client)||(kind==='hearing'?t.hearingClient:''));
@@ -4053,6 +4080,8 @@ function calDayPresentation(t,m){
     // bare client surname. Do not discard details such as article / subject.
     if(!calBriefGeneric(title,kind)&&title.length>subject.length+4)subject=title;
     if(!venue&&m)venue=calBriefClean(m.court||'');
+  }else if(kind==='investigation'){
+    head='Следственное действие';subject=calBriefClean(t.title||t.note);
   }else if(kind==='meeting'){
     // A short meeting title can itself describe the action, like the mockup's
     // 'Встреча с клиентом'. The note then becomes its useful short purpose.
@@ -4104,7 +4133,7 @@ function calDayPresentation(t,m){
 function calDayTimelineRow(t){
   var m=t.mid?matter(t.mid):null;
   var info=calDayPresentation(t,m),badge=calMonthBadge(t),stamp=calMonthItemTime(t);
-  var icon=info.kind==='hearing'?'court':info.kind==='meeting'?'events-people':info.kind==='deadline'?'doc':'check';
+  var icon=info.kind==='hearing'?'court':(info.kind==='meeting'||info.kind==='investigation')?'events-people':info.kind==='deadline'?'doc':'check';
   var act=hearingNeedsResult(t)?'hearing-result':'task';
   var accessibility=(stamp||'Без времени')+', '+info.head+', '+info.fullDetail+
     (info.venue?', '+info.venue:'')+(info.caseMeta?', '+info.caseMeta:'')+', '+badge.label;
@@ -4474,6 +4503,20 @@ function appBack(){
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
   if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
+  // Nested completion workflow: swipe/back follows the same history as visible arrows.
+  var completionSheet=$('#sheet');
+  if(completionSheet&&completionSheet.classList.contains('open')){
+    if(completionSheet.classList.contains('matter-finish-sheet')&&
+       completionSheet.querySelector('.matter-finish-head')&&
+       MATTER_ACTION_RETURN&&matter(MATTER_ACTION_RETURN.mid)){
+      sheetMatterFinishChoice(MATTER_ACTION_RETURN.mid);vib(5);return true;
+    }
+    if(completionSheet.classList.contains('case-stage-sheet')&&
+       completionSheet.querySelector('.stage-wizard-card')&&
+       typeof STAGE_WIZARD!=='undefined'&&STAGE_WIZARD){
+      stageWizardPrev();vib(5);return true;
+    }
+  }
   if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
@@ -5125,6 +5168,7 @@ function matterPremiumTaskRow(t,m){
   var subtitle='';
   if(t.kind==='hearing') subtitle=[hearingPlace(t,m).replace(/<br>/g,' · '), hearingJudgeName(t,m), hearingClientName(t,m)].filter(Boolean).join(' · ');
   else if(t.kind==='meeting') subtitle=t.place||'Встреча';
+  else if(t.kind==='investigation')subtitle=t.place||'Следственное действие';
   else if(t.kind==='deadline') subtitle=t.ruleCode||t.rule||'Процессуальный срок';
   else subtitle=(m&&m.number)?('По делу № '+m.number):(m&&m.client?m.client:'');
   var dateBadge='';
@@ -5135,14 +5179,16 @@ function matterPremiumTaskRow(t,m){
   var kindLabel='';
   if(t.kind==='hearing') kindLabel=matterPremiumBadge('hearing','Заседание');
   else if(t.kind==='meeting') kindLabel=matterPremiumBadge('meeting'+(meetingOccurred(t)?' past':''),meetingOccurred(t)?'Прошло':'Встреча');
+  else if(t.kind==='investigation')kindLabel=matterPremiumBadge('meeting',t.investigationStatus==='cancelled'?'Отменено':t.investigationStatus==='held'?'Состоялось':'Запланировано');
   else if(t.kind==='deadline') kindLabel=matterPremiumBadge('deadline','Срок');
   else kindLabel=matterPremiumBadge('task','Задача');
   var lead=t.kind==='hearing'
     ? '<span class="matter-event-check icon">'+ico(hearingHasResult(t)?'check':'gavel','s')+'</span>'
+    : t.kind==='investigation' ? '<span class="matter-event-check icon">'+ico(t.done?'check':'brief','s')+'</span>'
     : (meetingOccurred(t)
         ? '<span class="matter-event-check past meeting-past">'+ico('clock','s')+'</span>'
         : '<button class="matter-event-check'+(t.done?' done':'')+'" data-act="toggle" data-id="'+t.id+'">'+ico('check','s')+'</button>');
-  return '<div class="matter-event-card'+(t.done?' done':'')+(t.kind==='hearing'?' hearing':'')+(t.kind==='meeting'?' meeting':'')+(t.kind==='deadline'?' deadline':'')+'">'+
+  return '<div class="matter-event-card'+(t.done?' done':'')+(t.kind==='hearing'?' hearing':'')+(t.kind==='meeting'||t.kind==='investigation'?' meeting':'')+(t.kind==='deadline'?' deadline':'')+'">'+
     lead+
     '<div class="matter-event-main"><button class="matter-event-open" data-act="'+(hearingNeedsResult(t)?'hearing-result':'task')+'" data-id="'+t.id+'"><b>'+esc(title)+'</b>'+
     (subtitle?'<small>'+esc(subtitle)+'</small>':'')+'</button></div>'+
@@ -5315,10 +5361,8 @@ function sheetMatterMore(id){
       row('m-event','#3776c6','cal','Добавить событие','Заседание, встреча или процессуальный срок')+
       row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
       row('m-finish','#19865c','matter-finish','Завершить дело','Результат, дата и архивирование')+
-      row('m-stage-start','#b18a51','folder','Завершить этап и продолжить','Новая связанная папка, задачи и расчёт')+
-      (stageCaseHasLinks(m)?row('stage-history','#9d7e51','folder','Этапы производства','Вся история связанных стадий'):'' )+
       row('m-arch','#607997','arch','Архивировать без завершения','Переместить неоконченное дело в архив')+
-      (stageCaseHasLinks(m)?'':row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
+      (stageCaseHasLinks(m)?row('stage-history','#9d7e51','folder','Этапы производства','Связанные стадии и история'):row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
   }
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();
@@ -5420,6 +5464,9 @@ function sheetMatterEventKind(id,origin){
           '<span class="matter-event-stage4-copy"><b>Судебное заседание</b><small>Дата, время, суд и судья</small></span>'+
           '<span class="matter-event-stage4-arrow">'+ico('chev','s')+'</span>'+
         '</button>'+ 
+        (m.type==='criminal'&&stageInvestigationApplicable(m)?
+        '<button class="matter-event-stage4-card event-investigation" type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="investigation" aria-label="Следственное действие — допрос, очная ставка, ознакомление и другие действия">'+
+          '<span class="matter-event-stage4-icon">'+ico('brief','s')+'</span><span class="matter-event-stage4-copy"><b>Следственное действие</b><small>Дата, вид, следователь и результат</small></span><span class="matter-event-stage4-arrow">'+ico('chev','s')+'</span></button>':'' )+
         '<button class="matter-event-stage4-card event-meeting" type="button" data-act="m-event-kind" data-id="'+esc(id)+'" data-v="meeting" aria-label="Встреча с доверителем — время, место и цель встречи">'+
           '<span class="matter-event-stage4-icon">'+ico('user','s')+'</span>'+
           '<span class="matter-event-stage4-copy"><b>Встреча с доверителем</b><small>Время, место и цель встречи</small></span>'+
@@ -5581,6 +5628,7 @@ function dossierEventPast(t){
   if(t.due>today())return false;
   if(t.kind==='hearing')return hearingNeedsResult(t);
   if(t.kind==='meeting')return meetingOccurred(t);
+  if(t.kind==='investigation')return false;
   return false;
 }
 function dossierEventFuture(t){
@@ -5591,7 +5639,7 @@ function dossierNearestRecord(m,items){
   if(!m || m.archived)return null;
   return (items||[]).filter(function(t){
     return dossierEventFuture(t) &&
-      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='deadline');
+      (t.kind==='hearing'||t.kind==='meeting'||t.kind==='investigation'||t.kind==='deadline');
   }).sort(sortT)[0]||null;
 }
 /* 5.0.1037 / stage 8.1.3 — live event summary. No changes to the approved artwork. */
@@ -6016,18 +6064,20 @@ var DOSSIER_EVENT_FILTER_STATE = Object.create(null);
 function dossierEventFilterOf(id){
   var key=String(id||'');
   var value=DOSSIER_EVENT_FILTER_STATE[key]||'all';
-  return ['all','hearing','deadline','meeting'].indexOf(value)>=0?value:'all';
+  return ['all','hearing','deadline','meeting','investigation'].indexOf(value)>=0?value:'all';
 }
 function dossierFilteredEventsOf(id,events){
   var kind=dossierEventFilterOf(id);
-  var source=events||tasksOf(id).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+  var source=events||tasksOf(id).filter(function(t){return ['hearing','deadline','meeting','investigation'].indexOf(t.kind)>=0;});
   return kind==='all'?source:source.filter(function(t){return t.kind===kind;});
 }
 function dossierEventsFiltersRow(id,events){
+  var mm=matter(id),hasInv=mm&&mm.type==='criminal'&&stageInvestigationApplicable(mm);
   var types=[['all','Все'],['hearing','Заседания'],['deadline','Сроки'],['meeting','Встречи']];
-  var source=(events||[]).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+  if(hasInv)types.push(['investigation','Следств.']);
+  var source=(events||[]).filter(function(t){return ['hearing','deadline','meeting','investigation'].indexOf(t.kind)>=0;});
   var current=dossierEventFilterOf(id);
-  return '<div class="dossier-events-filter-row" role="group" aria-label="Фильтры событий по виду" data-events-filter="'+current+'">'+
+  return '<div class="dossier-events-filter-row'+(hasInv?' has-investigation':'')+'" role="group" aria-label="Фильтры событий по виду" data-events-filter="'+current+'">'+
     types.map(function(pair){
       var key=pair[0],qty=key==='all'?source.length:source.filter(function(t){return t.kind===key;}).length;
       var selected=key===current;
@@ -6100,6 +6150,7 @@ function dossierEventsHeadline(t){
   if(title)return dossierEventsDisplayText(title);
   if(t&&t.kind==='deadline')return 'Процессуальный срок';
   if(t&&t.kind==='meeting')return 'Встреча';
+  if(t&&t.kind==='investigation')return 'Следственное действие';
   return 'Событие';
 }
 
@@ -6109,6 +6160,7 @@ function dossierEventsIconKey(t,past){
   if(!t||t.kind==='hearing')return 'event-scales';
   if(t.kind==='deadline')return 'doc';
   if(t.kind==='meeting')return 'events-people';
+  if(t.kind==='investigation')return 'doc';
   return 'doc';
 }
 function dossierEventsIconTone(t,past){
@@ -6138,6 +6190,9 @@ function dossierEventsMetaLines(t,m,past){
     }else if(t.kind==='deadline'){
       top=t.done?'Срок выполнен.':'Срок истёк, исполнение не подтверждено.';
       bottom=note||(!/^процессуальный\s+срок\.?$/iu.test(title)?title:'');
+    }else if(t.kind==='investigation'){
+      top=t.investigationStatus==='cancelled'?'Следственное действие отменено.':t.done?'Проведение отмечено и требует подтверждений для оплаты.':'Дата действия прошла, результат не указан.';
+      bottom=note;
     }else if(t.kind==='meeting'){
       top=t.done?'Встреча отмечена завершённой.':'Дата встречи прошла, итог не указан.';
       bottom=note;
@@ -6205,6 +6260,9 @@ function dossierEventsUpcomingInfo(t,m){
     if(rawNote && rawNote.toLocaleLowerCase('ru')!==rawTitle.toLocaleLowerCase('ru'))distinctPush(rawNote);
     if(!details.length && t.ruleArticle)distinctPush(t.ruleArticle);
     if(!details.length && t.rule)distinctPush(t.rule);
+  }else if(t.kind==='investigation'){
+    label='Следственное действие';distinctPush(rawTitle);
+    if(rawNote)distinctPush(rawNote);if(rawPlace)distinctPush(rawPlace);
   }else if(t.kind==='meeting'){
     // The editor accepts free-form meeting topics. Never invent the other party:
     // show “с доверителем” only if the author actually entered that wording.
@@ -6257,7 +6315,7 @@ function dossierEventsTimelineItem(t,m,past){
   var rowOpen=past
     ? '<div class="dossier-events-row dossier-events-row-static" role="group" aria-label="'+esc(accessibility)+'">'
     : '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">';
-  return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+' is-'+(t.kind==='hearing'?'hearing':t.kind==='deadline'?'deadline':t.kind==='meeting'?'meeting':'other')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
+  return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+' is-'+(t.kind==='hearing'?'hearing':t.kind==='deadline'?'deadline':t.kind==='meeting'?'meeting':t.kind==='investigation'?'meeting':'other')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+rowOpen+
       '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+(dt.noTime?' is-no-time':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
@@ -6311,7 +6369,7 @@ function dossierEventsListsBody(m,id,events){
     if((a.time||'')!==(b.time||''))return (a.time||'')>(b.time||'')?-1:1;
     return 0;
   });
-  var emptyMap={all:'Предстоящих событий пока нет.',hearing:'Предстоящих заседаний пока нет.',deadline:'Предстоящих сроков пока нет.',meeting:'Предстоящих встреч пока нет.'};
+  var emptyMap={all:'Предстоящих событий пока нет.',hearing:'Предстоящих заседаний пока нет.',deadline:'Предстоящих сроков пока нет.',meeting:'Предстоящих встреч пока нет.',investigation:'Следственных действий пока нет.'};
   return '<div class="dossier-events-lists-live">'+
     dossierEventsSection('ПРЕДСТОЯЩИЕ СОБЫТИЯ','upcoming',upcoming,m,emptyMap[current]||emptyMap.all)+
     dossierEventsSection('ПРОШЕДШИЕ СОБЫТИЯ','past',past,m,'Прошедших событий пока нет.')+
@@ -7012,7 +7070,7 @@ function dossierLayoutPreview(m,id,tab,p){
   var statusText=esc(matterStatusText(m));
   var statusClass='dossier-overlay-status '+(m&&(m.archived||m.stage==='Завершено')?'is-complete':'is-active');
   var dossierTasks=tasksOf(id).slice().sort(sortT);
-  var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
+  var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline','investigation'].indexOf(t.kind)>=0;});
   var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
   var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
   var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
@@ -7489,7 +7547,7 @@ function openMatter(id,tab){
   if(tab==='journal')delete DOSSIER_JOURNAL_FILTERS[String(id)];
   if(DOSSIER_LAYOUT_ONLY){dossierLayoutPreview(m,id,tab,p);return;}
   var ts=tasksOf(id).slice().sort(sortT);
-  var events=ts.filter(function(t){return ['hearing','meeting','deadline'].indexOf(t.kind)>=0;});
+  var events=ts.filter(function(t){return ['hearing','meeting','deadline','investigation'].indexOf(t.kind)>=0;});
   var future=events.filter(dossierEventFuture);
   var past=events.filter(dossierEventPast);
   var nextEvent=m.archived?null:future.slice().sort(sortT)[0]||null;
@@ -8997,7 +9055,7 @@ document.addEventListener('click', function(ev){
     case 'hearing-result-pick': pullHearingResult();if(HR){HR.status=v;drawHearingResultSheet();}break;
     case 'hearing-result-save': saveHearingResult();break;
     case 'dossier-hearing-result-view': sheetHearingResultSummary(id); break;
-    case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk)){if(S.ui.tab==='cal'&&el.closest('#sc-cal'))sheetHearingResultSummary(tk.id);else completedHearingFeedback(tk);}else editTask(tk);}break;}
+    case 'task': {var tk=S.tasks.filter(function(x){return x.id===id;})[0];if(tk){if(tk.kind==='investigation')stageInvestigationSheet(tk.mid,tk.id);else if(hearingNeedsResult(tk))sheetHearingResult(tk.id);else if(hearingHasResult(tk)){if(S.ui.tab==='cal'&&el.closest('#sc-cal'))sheetHearingResultSummary(tk.id);else completedHearingFeedback(tk);}else editTask(tk);}break;}
     case 'task-action-edit': {var tae=S.tasks.filter(function(x){return x.id===id;})[0];if(tae){closeSheet();editTask(tae);}break;}
     case 'task-action-delete': deleteTaskById(id); break;
     case 'premium-delete-cancel': closePremiumDeleteConfirm(); break;
@@ -9037,7 +9095,7 @@ document.addEventListener('click', function(ev){
     case 'matter-jump': {var mj=$('#'+v);if(mj){mj.scrollIntoView({behavior:'smooth',block:'start'});}break;}
     case 'dossier-events-filter': {
       var efid=id||$('#page')._mid, efkind=v||'all';
-      if(['all','hearing','deadline','meeting'].indexOf(efkind)<0)break;
+      if(['all','hearing','deadline','meeting','investigation'].indexOf(efkind)<0)break;
       DOSSIER_EVENT_FILTER_STATE[String(efid)]=efkind;
       var row=el.closest('.dossier-events-filter-row');
       if(row){
@@ -9056,7 +9114,7 @@ document.addEventListener('click', function(ev){
         var out=stage.querySelector('[data-events-nearest-output]');
         var selectedMatter=matter(efid);
         if(selectedMatter){
-          var related=tasksOf(efid).filter(function(t){return ['hearing','deadline','meeting'].indexOf(t.kind)>=0;});
+          var related=tasksOf(efid).filter(function(t){return ['hearing','deadline','meeting','investigation'].indexOf(t.kind)>=0;});
           if(out)out.innerHTML=dossierEventsNearestLiveBody(selectedMatter,efid,related);
           var listOut=stage.querySelector('[data-events-lists-output]');
           if(listOut)listOut.innerHTML=dossierEventsListsBody(selectedMatter,efid,related);
@@ -9072,6 +9130,7 @@ document.addEventListener('click', function(ev){
       if(v==='hearing') editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});
       else if(v==='deadline') sheetDeadline(id);
       else if(v==='meeting') editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});
+      else if(v==='investigation')stageInvestigationSheet(id);
       break;
     }
     case 'm-view': openMatter(id||$('#page')._mid,v);break;
@@ -9079,7 +9138,8 @@ document.addEventListener('click', function(ev){
     case 'm-view-info': {if(matter(id)){var backInfo=$('#sheet').classList.contains('matter-actions-premium');closeSheet();openMatter(id,'general');if(backInfo)MATTER_ACTION_RETURN={mid:String(id),stack:['actions'],pageView:true};}break;}
     case 'm-open-journal': {if(matter(id)){var backJournal=$('#sheet').classList.contains('matter-actions-premium');closeSheet();openMatter(id,'journal');if(backJournal)MATTER_ACTION_RETURN={mid:String(id),stack:['actions'],pageView:true};}break;}
     case 'm-event': sheetMatterEventKind(id||$('#page')._mid);break;
-    case 'm-event-kind': {var evm=matter(id);if(!evm)break;if(evm.archived){toast('Сначала верните дело в работу');break;}if(v==='hearing')editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});else if(v==='meeting')editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});else if(v==='deadline')sheetDeadline(id);break;}
+    case 'investigation-save': stageInvestigationSave();break;
+    case 'm-event-kind': {var evm=matter(id);if(!evm)break;if(evm.archived){toast('Сначала верните дело в работу');break;}if(v==='hearing')editTask(null,{mid:id,kind:'hearing',pri:'mid',due:'',time:''});else if(v==='meeting')editTask(null,{mid:id,kind:'meeting',pri:'mid',due:today(),time:''});else if(v==='deadline')sheetDeadline(id);else if(v==='investigation')stageInvestigationSheet(id);break;}
     case 'm-position-view': sheetMatterPositionView(id||$('#page')._mid);break;
     case 'm-position-edit': sheetMatterPosition(id||$('#page')._mid);break;
     case 'm-position-save': saveMatterPosition(id||$('#page')._mid);break;
@@ -9090,6 +9150,7 @@ document.addEventListener('click', function(ev){
     case 'm-deadline': {var md=matter(id);if(md&&md.archived){toast('Сначала верните дело в работу');break;}sheetDeadline(id);break;}
     case 'm-tpl': sheetTemplates(id);break;
     case 'm-part': sheetParticipation(id);break;
+    case 'm-investigation': stageInvestigationSheet(id||$('#page')._mid);break;
     case 'm-journal': {var mj=matter(id);if(!mj){toast('Дело не найдено');break;}if(mj.archived){toast('Сначала верните дело в работу');break;}sheetJournal(String(mj.id));break;}
     case 'dossier-journal-filter-open': {
       var fp=$('#page');if(fp&&fp._matterTab==='journal'&&sameRecordId(fp._mid,id))dossierJournalFilterSheet(id);
@@ -9117,7 +9178,11 @@ document.addEventListener('click', function(ev){
     case 'm-print': sheetMatterExport(id||$('#page')._mid);break;
     case 'm-print-private': if(matter(id)){closeSheet();printMatter(id);}break;
     case 'm-print-client': if(matter(id)){closeSheet();printMatterClient(id);}break;
-    case 'm-stage-start': stageWizardStart(id);break;
+    case 'm-finish-choice': sheetMatterFinishChoice(id);break;
+    case 'm-finish-choice-back': sheetMatterMore(id);break;
+    case 'm-finish-full': sheetMatterFinish(id);break;
+    case 'm-finish-stage': stageWizardStart(id);break;
+    case 'm-stage-start': stageWizardStart(id);break; // legacy action compatibility
     case 'stage-wizard-next': stageWizardNext();break;
     case 'stage-wizard-prev': stageWizardPrev();break;
     case 'stage-wizard-commit': stageWizardCommit();break;
@@ -9130,7 +9195,7 @@ document.addEventListener('click', function(ev){
     case 'stage-payment-print': stagePaymentPrint(id);break;
     case 'stage-payment-edit': stagePaymentEdit(id);break;
     case 'stage-payment-save': stagePaymentEditSave(id);break;
-    case 'm-finish': sheetMatterFinish(id);break;
+    case 'm-finish': sheetMatterFinishChoice(id);break;
     case 'm-finish-save': finishMatter(id);break;
     case 'm-reopen': reopenMatter(id);break;
     case 'm-arch': sheetMatterArchive(id);break;
@@ -10131,6 +10196,7 @@ function matterFolderEventLabel(t){
   var title=String(t.title||'').trim();
   if(title) return title;
   if(t.kind==='meeting') return 'Встреча';
+  if(t.kind==='investigation')return 'Следственное действие';
   if(t.kind==='deadline') return 'Срок';
   if(t.kind==='task') return 'Событие';
   return 'Ближайшее событие';

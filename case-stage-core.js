@@ -77,7 +77,17 @@ async function stageCommitTransfer(d){
   var before=null;
   try{
     var src=matter(d.sourceId);
+    // A repeated request with the same token returns the already committed
+    // result and never creates a second folder, fee draft or journal event.
+    if(src&&src.stageClosed&&d.operationId&&src.stageClosed.operationId===d.operationId){
+      var oldNext=matter(src.stageClosed.nextStageId);
+      if(oldNext)return {newId:String(oldNext.id),operationId:d.operationId,
+        moved:S.tasks.filter(function(t){return (t.stageTransfers||[]).some(function(x){return x.operationId===d.operationId;});}).length,
+        paymentId:((S.stagePayments||[]).find(function(x){return x.operationId===d.operationId;})||{}).id||null,
+        replayed:true};
+    }
     if(!src||src.archived||src.stageClosed)throw new Error('Исходный этап уже завершён');
+    if(d.confirm!==true)throw new Error('Не подтверждено завершение этапа');
     if(!stageISODateValid(d.closeDate)||d.closeDate>today())throw new Error('Укажите допустимую дату завершения');
     if(!stageISODateValid(d.startDate))throw new Error('Укажите дату начала новой стадии');
     if(d.startDate<d.closeDate)throw new Error('Новая стадия не может начинаться раньше даты завершения предыдущей');
@@ -93,15 +103,26 @@ async function stageCommitTransfer(d){
     for(var id of selection){if(!eligibleIds.has(id))throw new Error('Список переноса устарел. Проверьте задачи заново');}
     if(eligible.some(function(t){return !selection.has(String(t.id));})&&!d.acknowledgeRemaining)
       throw new Error('Подтвердите судьбу незавершённых записей, оставленных в старой папке');
-    if(eligible.some(function(t){return selection.has(String(t.id))&&['deadline','hearing'].includes(t.kind);})&&!d.acknowledgeCritical)
-      throw new Error('Отдельно подтвердите перенос сроков и заседаний');
+    if(eligible.some(function(t){return selection.has(String(t.id))&&['deadline','hearing','investigation'].includes(t.kind);})&&!d.acknowledgeCritical)
+      throw new Error('Отдельно подтвердите перенос сроков, заседаний и следственных действий');
+    if(eligible.some(function(t){return selection.has(String(t.id))&&t.kind==='investigation';})&&
+       !stageInvestigationApplicable({type:src.type,stage:d.stage==='__other__'?d.stageBase:d.stage}))
+      throw new Error('Следственное действие нельзя переносить в судебный этап: оставьте в истории или создайте задачу в новом этапе');
     if(!(await flushSave()))throw new Error('Не удалось сохранить последние изменения перед переносом');
     // Re-read the live record after any queued persistence has completed.
     src=matter(d.sourceId);
     if(!src||src.archived||src.stageClosed)throw new Error('Исходный этап был изменён');
+    var liveEligible=stageEligibleTasks(src), liveIds=new Set(liveEligible.map(function(x){return String(x.id);}));
+    for(var tid of selection){if(!liveIds.has(tid))throw new Error('Записи изменились во время подготовки перехода');}
+    if(liveEligible.some(function(t){return !selection.has(String(t.id));})&&!d.acknowledgeRemaining)
+      throw new Error('Подтвердите оставшиеся незавершённые записи');
+    if(stageUnresolvedHearings(src).length)throw new Error('Не указаны результаты судебных заседаний');
     before=clone(S);
-    var op='stage-op-'+uid(),newId='stage-m-'+uid(),now=new Date().toISOString();
+    var op=String(d.operationId||'stage-op-'+uid()),newId='stage-m-'+uid(),now=new Date().toISOString();
+    if(S.matters.some(function(x){return x.stageClosed&&x.stageClosed.operationId===op;}))
+      throw new Error('Эта операция завершения уже зарегистрирована');
     var next=stagePrepareNewMatter(src,d,newId,now);
+    next.createdByStageOperationId=op;
     var moved=[];
     S.matters.unshift(next);
     src.caseGroupId=stageCaseGroupId(src);

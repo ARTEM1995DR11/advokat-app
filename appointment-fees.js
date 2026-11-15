@@ -50,10 +50,11 @@ function appointmentFeeDays(m,toDate){
     if(!t||!stageISODateValid(t.due)||t.due>toDate)return;
     var hearing=t.kind==='hearing'&&(t.done||['held','postponed','break','completed'].includes(t.hearingResultStatus));
     var meeting=t.kind==='meeting'&&t.done;
-    if(!hearing&&!meeting)return;
+    var investigation=t.kind==='investigation'&&t.done&&t.investigationStatus==='held';
+    if(!hearing&&!meeting&&!investigation)return;
     if(t.hearingResultStatus==='cancelled')return;
-    var row=get(t.due);row.taskIds.push(String(t.id));
-    row.kinds.push(hearing?'Заседание (запись календаря)':'Встреча (запись календаря)');
+    var row=get(t.due);row.taskIds.push(String(t.id));if(!row.participationIds.length)row.kind=t.kind;
+    row.kinds.push(hearing?'Заседание (запись календаря)':investigation?'Следственное действие (событие, требует подтверждения)':'Встреча (запись календаря)');
     if(t.title)row.details.push(String(t.title));
     if(t.place)row.places.push(String(t.place));
   });
