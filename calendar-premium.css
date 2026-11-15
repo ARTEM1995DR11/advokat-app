@@ -2429,3 +2429,171 @@ html body #sc-cal.screen{
 #sc-cal .calendar-project[data-calendar-view="month"] .calendar-grid{
   grid-template-columns:repeat(7,minmax(0,1fr))!important;
 }
+
+
+/* ========================================================================
+   5.0.1297.26 — WEEK / visual and functional pass 1 against approved mockup.
+   Scoped to data-calendar-view=week; approved MONTH and DAY geometry,
+   original header/background, common date state and bottom-nav/FAB intact.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-card{
+  padding:12px 10px 13px!important;
+  border-radius:18px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header{
+  margin:0 0 11px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header-main{
+  display:grid;grid-template-columns:36px minmax(0,1fr) 36px;
+  gap:7px;align-items:center;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-arrow{
+  width:36px;min-width:36px;height:37px;min-height:37px;
+  border:1px solid rgba(196,166,121,.48);border-radius:11px;
+  background:linear-gradient(158deg,#fffefa,#f7efe3);
+  box-shadow:0 2px 5px rgba(76,56,34,.09),inset 0 1px rgba(255,255,255,.85);
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-period-label{
+  font:700 clamp(17px,4.7vw,22px)/1.16 Georgia,'Times New Roman',serif;
+  letter-spacing:-.026em;text-align:center;word-break:normal;
+  overflow-wrap:normal;text-wrap:balance;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header-sub{
+  min-height:28px!important;margin-top:1px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-number{
+  color:#627080;font-size:11.5px;letter-spacing:.01em;
+}
+/* Today is required for actual-date navigation but keeps a subordinate role
+   below the period title, instead of shifting the centered header. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-today{
+  height:25px!important;min-height:25px!important;padding:0 9px!important;
+  border-radius:9px!important;box-shadow:none!important;
+  font-size:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-strip{
+  grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday{
+  min-height:78px!important;padding:9px 1px 6px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(194,169,136,.31);
+  background:linear-gradient(162deg,rgba(255,255,255,.96),rgba(250,244,235,.9));
+  box-shadow:0 1px 2px rgba(90,66,38,.035),inset 0 1px rgba(255,255,255,.9);
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday small{
+  font-size:11px!important;line-height:1.17;letter-spacing:.015em;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday b{
+  margin-top:7px!important;font-size:clamp(18px,5vw,24px)!important;
+  line-height:1.02;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots{
+  margin-top:8px!important;min-height:6px;height:6px;gap:3px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots i{
+  width:5px;height:5px;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday.is-selected{
+  border-color:#bc8b3f!important;
+  background:linear-gradient(152deg,#e6be66 0%,#d9a44a 58%,#c9953d 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,244,211,.64),0 3px 7px rgba(119,79,31,.16)!important;
+  transform:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots .cal-week-selection-dot{
+  width:6px;height:6px;background:#fff;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{
+  margin-top:12px!important;gap:8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{
+  min-height:37px!important;padding:6px 8px!important;
+  gap:8px;justify-content:center;
+  background:linear-gradient(145deg,#fffaf2,#f8f0e4);
+  border:1px solid rgba(198,166,116,.43);border-radius:11px;
+  box-shadow:0 2px 6px rgba(85,64,36,.055),inset 0 1px rgba(255,255,255,.92);
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.ico{
+  flex:none;width:22px;height:22px;color:#a77c2f;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-gavel-art{
+  width:26px!important;height:26px!important;object-fit:contain;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat span{
+  min-width:0;gap:5px;align-items:baseline;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat b{
+  font-size:20px!important;font-weight:760;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{
+  font-size:10.4px!important;line-height:1.18;
+}
+/* The same approved month agenda rows, state badges and real data are used. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda{
+  margin-top:11px!important;padding:13px 12px 19px!important;
+  border-radius:17px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head{
+  align-items:flex-start!important;gap:8px;margin-bottom:13px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head h2{
+  font:700 clamp(16px,4.25vw,21px)/1.13 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.03em;overflow-wrap:normal;text-wrap:balance;hyphens:none;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head p{
+  margin-top:6px;font-size:11px;color:#626d7d;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head .calendar-add-btn{
+  min-height:32px!important;height:32px!important;padding:0 9px!important;
+  border-radius:10px!important;white-space:nowrap;
+}
+/* Avoid the older full-height rule extending through the last long event.
+   Each connector ends at the next dot; one event has only a single dot. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline:before{
+  content:none!important;display:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event:not(:last-child)::after{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  left:-11.6px;top:24px;bottom:-20px;width:1.65px;
+  border-radius:2px;background:#bb914d;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event{
+  margin-block:0!important;border-bottom-color:rgba(138,124,103,.16)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event-top>b{
+  font-size:12px!important;line-height:1.27!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event-copy>small{
+  line-height:1.3!important;hyphens:none!important;word-break:normal!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-month-agenda-empty{
+  justify-content:flex-start;min-height:50px;padding:13px 4px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-card{padding:10px 7px 12px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header-main{grid-template-columns:32px minmax(0,1fr) 32px;gap:5px;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-arrow{width:32px;min-width:32px;height:34px;min-height:34px;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-period-label{font-size:16px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-strip{gap:3px;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday{min-height:73px!important;padding:7px 0 5px!important;border-radius:9px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday small{font-size:10px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday b{font-size:17.5px!important;margin-top:6px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots{gap:2px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-dots i{width:4px;height:4px;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{gap:5px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{padding:5px 3px!important;gap:4px;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat b{font-size:18px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{font-size:9.4px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head h2{font-size:15px!important;}
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head .calendar-add-btn{padding:0 7px!important;font-size:10px!important;}
+}
+
+/* 5.0.1297.27 — WEEK: hearings count is a read-only KPI, never a link.
+   Suppress any inherited/legacy chevron without altering its dimensions,
+   typography, gold gavel, date strip, background or floating add button. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats .cal-week-stat:last-child::after{
+  content:none!important;display:none!important;border:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats .cal-week-stat:last-child{
+  cursor:default;
+}

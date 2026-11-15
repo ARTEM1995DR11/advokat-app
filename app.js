@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.25';
-var APP_BUILD='6324';
+var APP_VERSION='5.0.1297.26';
+var APP_BUILD='6325';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4117,7 +4117,7 @@ function renderCal(){
       '<div class="cal-month-stat" aria-label="'+monthOpen+' активных записей">'+monthStatGlyph('brief')+'<span><b>'+monthOpen+'</b><small>активных '+plural(monthOpen,'запись','записи','записей')+'</small></span></div>'+
       '<div class="cal-month-stat" aria-label="'+monthHearings+' заседаний">'+monthStatGlyph('gavel')+'<span><b>'+monthHearings+'</b><small>'+plural(monthHearings,'заседание','заседания','заседаний')+'</small></span></div></div></div>';
   }else if(mode==='week'){
-    /* Stage 5: the approved week strip, real ISO week, Monday-first dates,
+    /* 5.0.1297.26: week visual pass, real ISO week, Monday-first dates,
        single shared selection. Agenda/statistics refinement is stage 6. */
     var weekLabel=calWeekRangeLabel(period.from,period.to);
     var weekIndex=calISOWeekNumber(u.calSel);
@@ -4144,8 +4144,8 @@ function renderCal(){
           '<span class="cal-week-dots" aria-hidden="true">'+(selected?'<i class="cal-week-selection-dot"></i>':dots.map(function(x){return '<i class="cal-dot-'+x+'"></i>';}).join(''))+'</span></button>';
       }).join('')+'</div>'+ 
       '<div class="cal-week-stats" role="group" aria-label="Показатели недели с '+esc(fmtD(period.from,true))+' по '+esc(fmtD(period.to,true))+'">'+
-        '<div class="cal-week-stat" aria-label="'+weekOpen+' активных записей за неделю">'+ico('brief','s')+'<span><b>'+weekOpen+'</b><small>активных '+plural(weekOpen,'запись','записи','записей')+'</small></span></div>'+
-        '<div class="cal-week-stat" aria-label="'+weekHearings+' судебных заседаний за неделю">'+ico('gavel','s')+'<span><b>'+weekHearings+'</b><small>'+plural(weekHearings,'заседание','заседания','заседаний')+'</small></span></div>'+
+        '<div class="cal-week-stat" aria-label="'+weekOpen+' активных записей за неделю">'+monthStatGlyph('brief')+'<span><b>'+weekOpen+'</b><small>активных '+plural(weekOpen,'запись','записи','записей')+'</small></span></div>'+
+        '<div class="cal-week-stat" aria-label="'+weekHearings+' судебных заседаний за неделю">'+monthStatGlyph('gavel')+'<span><b>'+weekHearings+'</b><small>'+plural(weekHearings,'заседание','заседания','заседаний')+'</small></span></div>'+
       '</div></section>';
   }else{
     /* Stage 7: approved full-day overview, actual calendar date and real KPIs. */
@@ -4173,7 +4173,8 @@ function renderCal(){
           '<div class="cal-month-agenda-head cal-week-agenda-head"><div><h2>'+esc(calWeekSelectedHeading(u.calSel))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button type="button" class="calendar-add-btn" data-act="new-on-day">'+ico('plus','s')+'<span>Добавить</span></button></div>':
           '<div class="cal-month-agenda-head"><h2>Повестка дня · '+esc(fmtD(u.calSel,true))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div>')+
         (day.length?'<div class="cal-month-timeline">'+day.slice().sort(calMonthAgendaSort).map(calMonthAgendaRow).join('')+'</div>':
-          '<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span><button type="button" data-act="new-on-day">Добавить запись</button></div>')+
+          (mode==='week'?'<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span></div>':
+          '<div class="cal-month-agenda-empty"><span>На эту дату записей нет</span><button type="button" data-act="new-on-day">Добавить запись</button></div>'))+
       '</section>':
       '<section class="calendar-day-card cal-day-schedule" aria-label="Расписание выбранного дня">'+
         '<div class="cal-day-schedule-heading"><h2>РАСПИСАНИЕ ДНЯ</h2><i aria-hidden="true"></i></div>'+
