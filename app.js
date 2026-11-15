@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.29';
-var APP_BUILD='6328';
+var APP_VERSION='5.0.1297.29.3';
+var APP_BUILD='6331';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -48,8 +48,11 @@ function mergeState(d){
   /* 5.0.553 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
   out.ui.tab='today';
-  /* 5.0.1292: shared selected calendar view across month / week / day. */
-  out.ui.calView=(window.AdvokatCalendar?window.AdvokatCalendar.normalizeMode(out.ui.calView):'month');
+  /* 5.0.1297.29.3: a new app launch always starts on Today; the first
+     entrance into Calendar must open MONTH, not the last saved Week/Day.
+     Selected calendar DATE is preserved, and mode still stays shared
+     during subsequent switches inside the same running session. */
+  out.ui.calView='month';
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
@@ -3945,9 +3948,20 @@ function calCompactAgendaInfo(t,m){
     narrative=calBriefClean(m&&(m.client||m.title))||calBriefClean(t.hearingClient)||'';
   }
   var number=calBriefClean((m&&m.number)||(kind==='hearing'?t.hearingNumber:''));
-  var subject=calBriefShort(narrative,72);
-  if(number && subject.indexOf(number)===-1){
-    subject+=(subject?' · ':'')+'дело № '+number;
+  // Compact agenda: the case identifier must NEVER disappear behind a
+  // two-line ellipsis. Display it first, followed by a short subject.
+  // Keep full notes and original task fields untouched for the editor.
+  var subject='';
+  if(number){
+    var shortNarrative=narrative;
+    // A hearing caption may already contain its case number: avoid repeating it.
+    if(shortNarrative.indexOf(number)!==-1){
+      shortNarrative=shortNarrative.split(number).join('').replace(/(?:дело\s*№|№)\s*$/i,'').replace(/[\s,;:.·–—-]+$/,'').trim();
+    }
+    subject='Дело № '+number;
+    if(shortNarrative)subject+=' · '+calBriefShort(shortNarrative,42);
+  }else{
+    subject=calBriefShort(narrative,64);
   }
   if(!subject)subject=calBriefClean(t.place)||'Без уточнения дела';
   return {kind:kind,heading:heading,brief:subject,fullHeading:title||hearingCaption(t,m)};
@@ -9715,6 +9729,7 @@ function afterUnlock(){
   }catch(e){}
   if(!APP_STARTED){
     S.ui.tab='today';
+    S.ui.calView='month'; // first Calendar entry after unlock always opens Month
     S.ui.q='';
     S.ui._sq=false;
 
@@ -9780,6 +9795,7 @@ document.addEventListener('visibilitychange',function(){
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
     if(hiddenAt){
       S.ui.tab='today';
+      S.ui.calView='month'; // iOS PWA resume: no stale Week/Day mode
       S.ui.q='';
       S.ui._sq=false;
       NAV_TABS=[];
@@ -9798,6 +9814,7 @@ window.addEventListener('pageshow',function(event){
   /* 5.0.926: initial load is already rendered by boot(); only BFCache restores need a refresh. */
   if(!event.persisted || !unlocked)return;
   S.ui.tab='today';
+  S.ui.calView='month'; // restored from BFCache: first entry defaults to Month
   S.ui.q='';
   S.ui._sq=false;
   NAV_TABS=[];
