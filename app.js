@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.34';
-var APP_BUILD='6338';
+var APP_VERSION='5.0.1297.35';
+var APP_BUILD='6339';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4206,9 +4206,9 @@ function renderCal(){
         '<div class="cal-day-overview-right"><button type="button" class="calendar-today-btn cal-day-today" data-act="cal-today">Сегодня</button><button type="button" class="iconbtn cal-premium-arrow" data-act="cal-shift" data-v="1" aria-label="Следующий день">'+ico('chev')+'</button></div>'+
       '</div>'+
       '<div class="cal-day-kpis" aria-label="Показатели за выбранный день">'+
-        '<div class="cal-day-kpi">'+ico('brief','s')+'<span><b>'+day.length+'</b><small>'+plural(day.length,'запись','записи','записей')+'</small></span></div>'+
-        '<div class="cal-day-kpi">'+ico('gavel','s')+'<span><b>'+dHear+'</b><small>'+plural(dHear,'заседание','заседания','заседаний')+'</small></span></div>'+
-        '<div class="cal-day-kpi">'+ico('clock','s')+'<span><b>'+dDead+'</b><small>'+plural(dDead,'срок','срока','сроков')+'</small></span></div>'+
+        '<div class="cal-day-kpi" aria-label="'+day.length+' '+plural(day.length,'запись','записи','записей')+' за день">'+ico('brief','s')+'<span><b>'+day.length+'</b><small>'+plural(day.length,'запись','записи','записей')+'</small></span></div>'+
+        '<div class="cal-day-kpi" aria-label="'+dHear+' '+plural(dHear,'заседание','заседания','заседаний')+' за день">'+ico('gavel','s')+'<span><b>'+dHear+'</b><small>'+plural(dHear,'заседание','заседания','заседаний')+'</small></span></div>'+
+        '<div class="cal-day-kpi" aria-label="'+dDead+' '+plural(dDead,'срок','срока','сроков')+' за день">'+ico('clock','s')+'<span><b>'+dDead+'</b><small>'+plural(dDead,'срок','срока','сроков')+'</small></span></div>'+
       '</div></section>';
   }
 
