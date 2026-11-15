@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.3';
-var APP_BUILD='6349';
+var APP_VERSION='5.0.1297.41.5';
+var APP_BUILD='6351';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4072,7 +4072,7 @@ function calDayTimelineRow(t){
     (info.venue?', '+info.venue:'')+(info.caseMeta?', '+info.caseMeta:'')+', '+badge.label;
   return '<div class="cal-day-timeline-row '+(stamp?'timed':'untimed')+'">'+
     '<span class="cal-day-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<button type="button" class="cal-day-event '+info.kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
+    '<button type="button" class="cal-day-event '+info.kind+' status-'+badge.tone+(info.head.length>=17?' long-action-title':'')+(info.head.length>=17 && badge.label.length>=11?' status-wide':'')+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="cal-day-event-icon">'+ico(icon,'s')+'</span>'+
       '<span class="cal-day-event-copy">'+
         '<span class="cal-day-event-head"><b>'+esc(info.head)+'</b>'+calStateBadgeHTML(badge,'cal-day-event-status')+'</span>'+
