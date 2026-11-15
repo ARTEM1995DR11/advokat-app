@@ -1,0 +1,67 @@
+/* Isolated stage transition UI; does not override dossier, calendar or page design. */
+#sheet.case-stage-sheet { --stage-ink:#24354b; --stage-gold:#ad834b; --stage-border:#e6d9c4; color:var(--stage-ink); }
+#sheet.case-stage-sheet .shbody {padding:16px 16px 10px; overflow-y:auto;}
+.case-stage-sheet .stage-wizard-card,.case-stage-sheet .stage-history-sheet{border:1px solid #dfd0b6;background:linear-gradient(155deg,#fffdf8,#fff9ef);border-radius:23px;padding:16px;box-shadow:0 9px 32px rgba(50,43,31,.10)}
+.case-stage-sheet .stage-wizard-header{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px}
+.case-stage-sheet .stage-wizard-back,.case-stage-sheet .stage-sheet-title button{background:#fbf5e9;color:#8d693b;border:1px solid #e4d2b5;border-radius:12px;min-width:35px;height:35px;display:flex;align-items:center;justify-content:center}
+.case-stage-sheet .stage-wizard-header small,.case-stage-sheet .stage-sheet-title small{font-size:10px;color:#917447;letter-spacing:.12em;font-weight:800}
+.case-stage-sheet .stage-wizard-header h2,.case-stage-sheet .stage-sheet-title h2{font:600 25px/1.1 Georgia,serif;color:#24354b;margin:3px 0 5px}
+.case-stage-sheet .stage-wizard-header p{margin:0;font-size:12px;color:#716f6a}
+.case-stage-sheet .stage-wizard-progress{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:12px 0 18px}
+.case-stage-sheet .stage-wizard-progress i{display:block;height:4px;border-radius:9px;background:#e5dfd1}
+.case-stage-sheet .stage-wizard-progress i.passed{background:#c69c59}
+.case-stage-sheet .stage-wizard-sub{color:#697482;font-size:13px;line-height:1.5;margin:0 0 14px}
+.case-stage-sheet .stage-wizard-field{display:block;font-size:12px;font-weight:700;color:#415269;margin:0 0 13px}
+.case-stage-sheet .stage-wizard-field input,.case-stage-sheet .stage-wizard-field textarea,.case-stage-sheet .stage-wizard-field select{box-sizing:border-box;width:100%;display:block;margin:6px 0 0;background:#fff;border:1px solid #dfd5c6;border-radius:12px;padding:12px;font:400 15px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#263b54;max-width:100%;min-height:44px}
+.case-stage-sheet .stage-wizard-field textarea{resize:vertical;min-height:80px}
+.case-stage-sheet .stage-wizard-check{display:flex;align-items:flex-start;gap:11px;color:#40536b;font-size:13px;line-height:1.4;padding:10px 0;min-height:36px}
+.case-stage-sheet .stage-wizard-check input,.case-stage-sheet .stage-wizard-task input{accent-color:#b18a50;flex:0 0 18px;width:18px;height:18px;margin:1px 0 0}
+.case-stage-sheet .stage-wizard-info{padding:11px 13px;border-radius:13px;border:1px solid #e8dfd0;background:#f7f3ec;color:#667080;font-size:12px;line-height:1.5;margin:10px 0}
+.case-stage-sheet .stage-wizard-alert{padding:10px 13px;border-radius:12px;border:1px solid #efd2b5;background:#fff2e8;color:#945b2c;font-size:12px;line-height:1.5;margin:10px 0}
+.case-stage-sheet .stage-wizard-primary{margin-top:13px;min-height:51px;background:linear-gradient(100deg,#b48745,#d9b46f)!important;border:1px solid #ad8446!important;color:#2a3444!important;border-radius:16px!important;font-weight:750!important;box-shadow:0 4px 11px rgba(100,75,38,.16)}
+.case-stage-sheet .stage-wizard-task-list,.case-stage-sheet .stage-wizard-payment-lines{display:flex;flex-direction:column;gap:8px}
+.case-stage-sheet .stage-wizard-task,.case-stage-sheet .stage-wizard-pay-line{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e5dbcd;border-radius:13px;padding:11px}
+.case-stage-sheet .stage-wizard-task span,.case-stage-sheet .stage-wizard-pay-line span{flex:1;min-width:0}
+.case-stage-sheet .stage-wizard-task b,.case-stage-sheet .stage-wizard-pay-line b{font-size:13px;display:block;overflow-wrap:anywhere}
+.case-stage-sheet .stage-wizard-task small,.case-stage-sheet .stage-wizard-pay-line small{font-size:11px;line-height:1.35;display:block;color:#78808a;margin-top:3px}
+.case-stage-sheet .stage-wizard-task em{color:#a46b26;font-size:10px;font-style:normal;max-width:74px;line-height:1.2}
+.case-stage-sheet .stage-wizard-pay-line input{max-width:94px;min-width:77px;flex:0 0 90px;border:1px solid #d9c9b3;background:#fff;border-radius:9px;font-size:16px;padding:8px;text-align:right;color:#20374d}
+.case-stage-sheet .stage-wizard-pay-total{text-align:right;font:600 25px Georgia,serif;color:#8f6632;margin:14px 0}
+.case-stage-sheet .stage-wizard-summary{display:flex;flex-direction:column;gap:9px}
+.case-stage-sheet .stage-wizard-summary>div{background:#fff;border:1px solid #eee2d1;padding:12px;border-radius:13px;display:flex;flex-direction:column;gap:3px}
+.case-stage-sheet .stage-wizard-summary small{color:#a08256;font-size:11px}
+.case-stage-sheet .stage-wizard-summary b{color:#25394f;font-size:15px}
+.case-stage-sheet .stage-wizard-summary span{color:#667283;font-size:12px}
+.case-stage-sheet .stage-wizard-confirm{font-weight:650}
+.case-stage-sheet .stage-sheet-title{display:flex;align-items:flex-start;gap:12px;margin-bottom:15px}
+.case-stage-sheet .stage-history-list{display:flex;flex-direction:column;gap:8px}
+.case-stage-sheet .stage-history-row{display:flex;text-align:left;align-items:center;gap:10px;background:#fff;border:1px solid #e7dcc9;border-radius:14px;padding:12px 10px;min-width:0;color:#24354b}
+.case-stage-sheet .stage-history-order{display:flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:9px;color:#b28a52;background:#fff4df;flex:0 0 27px;font-weight:700}
+.case-stage-sheet .stage-history-row>span:nth-child(2){flex:1;min-width:0}
+.case-stage-sheet .stage-history-row b{display:block;font-size:13px}
+.case-stage-sheet .stage-history-row small{display:block;color:#7b8590;font-size:11px;margin-top:3px}
+.case-stage-sheet .stage-history-row em{font-size:10px;color:#986f35;font-style:normal;white-space:nowrap}
+.case-stage-sheet .stage-history-payment-link{display:flex;width:100%;gap:8px;align-items:center;padding:13px;background:#f7f1e8;border:1px solid #e6d7bf;border-radius:12px;color:#314760;margin-top:12px;font-weight:650;text-align:left}
+.stage-history-inline{border:1px solid #d9caaf;background:linear-gradient(110deg,#fffdf6,#f8f0e5);border-radius:13px;padding:12px;display:flex;align-items:center;gap:12px;text-align:left;color:#304056;width:100%;margin:13px 0}
+.stage-history-inline .stage-history-inline-icon{color:#ad864b;background:#f8ead2;border-radius:9px;padding:8px;display:flex;align-items:center;justify-content:center}
+.stage-history-inline>span:nth-child(2){flex:1}.stage-history-inline b{display:block;font-size:13px}.stage-history-inline small{display:block;font-size:11px;color:#6f7580;margin-top:3px}
+.case-stage-sheet .stage-payment-card{background:#fff;border:1px solid #e5dccf;border-radius:14px;padding:13px;margin-top:10px}
+.case-stage-sheet .stage-payment-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}.case-stage-sheet .stage-payment-heading span{font-size:11px;color:#ac7939}.case-stage-sheet .stage-payment-heading b{font-size:14px}
+.case-stage-sheet .stage-pay-lines>div{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #eee7dd;padding:9px 0;font-size:12px;line-height:1.35}
+.case-stage-sheet .stage-pay-lines>div span{flex:1}.case-stage-sheet .stage-pay-lines>div b{white-space:nowrap}.case-stage-sheet .stage-payment-total{display:flex;justify-content:space-between;padding:12px 0;color:#826538}.case-stage-sheet .stage-payment-disclaimer{font-size:11px;color:#75808a;line-height:1.5}
+
+
+/* 41.15 — appointment-only fee worksheet (inside approved stage sheet) */
+.case-stage-sheet .appointment-fee-days{display:grid;gap:12px}
+.case-stage-sheet .appointment-fee-day{border:1px solid #dfcfae;border-radius:17px;background:#fffdf8;padding:13px;box-shadow:0 3px 10px rgba(42,33,18,.05)}
+.case-stage-sheet .appointment-fee-date{margin-bottom:9px;color:#283b50}
+.case-stage-sheet .appointment-fee-date b{font:700 19px Georgia,serif;display:block}
+.case-stage-sheet .appointment-fee-date small{display:block;color:#728091;font-size:12px;margin-top:3px;line-height:1.4}
+.case-stage-sheet .appointment-fee-apply{display:block;width:100%;border:1px solid #cca460;border-radius:12px;min-height:44px;background:#fff3d9;color:#805f2b;padding:9px;font-weight:700;margin:5px 0 14px}
+.case-stage-sheet .appointment-fee-summary{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px;background:#f7f1e4;border:1px solid #dac399;border-radius:14px;margin:14px 0}
+.case-stage-sheet .appointment-fee-summary small{color:#58697c;max-width:52%;line-height:1.3}
+.case-stage-sheet .appointment-fee-summary strong{font:700 23px Georgia,serif;color:#a07037;white-space:nowrap}
+.case-stage-sheet .appointment-fee-day .stage-wizard-field{margin-bottom:9px}
+.case-stage-sheet .appointment-fee-day .stage-wizard-check{padding:7px 0;min-height:28px}
+
+.case-stage-sheet .appointment-fee-hint{display:block;margin-top:6px;font:600 11px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#a36c2e}

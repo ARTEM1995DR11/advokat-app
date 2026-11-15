@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.9';
-var APP_BUILD='6355';
+var APP_VERSION='5.0.1297.41.15';
+var APP_BUILD='6361';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -15,7 +15,7 @@ var DB_STORE = 'vault';
 var DB_VER = 1;
 
 var DEF = {
-  matters: [], tasks: [], participation: [], journal: [], time: [],
+  matters: [], tasks: [], participation: [], journal: [], time: [], stagePayments: [],
   settings: {
     name:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:1, lastBackup:'', backupDailyV3132:true,
@@ -72,6 +72,7 @@ function mergeState(d){
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.participation = Array.isArray(d.participation)?d.participation:[];
   out.journal = Array.isArray(d.journal)?d.journal:[];
+  out.stagePayments = Array.isArray(d.stagePayments)?d.stagePayments:[];
   // 5.0.05: legacy builds could store numeric IDs. DOM data-* always returns strings,
   // so normalize every record and relation ID on load to keep old matters clickable.
   out.matters.forEach(function(m){ if(m && m.id!=null) m.id=String(m.id); });
@@ -2010,7 +2011,7 @@ function matterClosureCard(m){
   if(!m||!m.archived)return '';
   var x=m.closure||null;
   if(!x)return '<section class="matter-closure-card"><h2>В архиве</h2><p>Дело архивировано без отметки о завершении поручения.</p></section>';
-  return '<section class="matter-closure-card"><div class="matter-closure-head"><span>'+ico('check','s')+'</span><h2>Дело завершено</h2></div>'+
+  return '<section class="matter-closure-card"><div class="matter-closure-head"><span>'+ico('check','s')+'</span><h2>'+(m.stageClosed?'Этап завершён':'Дело завершено')+'</h2></div>'+
     '<p><b>Дата завершения:</b> '+esc(fmtD(x.date||today(),true))+'</p>'+ 
     '<p><b>Результат:</b> '+esc(matterCloseOutcome(m))+'</p>'+ 
     (x.summary?'<p class="matter-closure-summary"><b>Итог работы:</b> '+esc(x.summary)+'</p>':'')+
@@ -2279,6 +2280,7 @@ function finishMatter(id){
 }
 function reopenMatter(id){
   var m=matter(id);if(!m||!m.archived)return;
+  if(m.stageClosed){toast('Этот этап завершён переходом. Для продолжения откройте связанную папку.');return;}
   if(!confirm('Вернуть дело в производство? Все прежние записи и история завершения сохранятся, незавершённые задачи снова станут активными.'))return;
   if(m.closure){m.closureHistory=m.closureHistory||[];m.closureHistory.push(m.closure);delete m.closure;}
   m.archived=false;addJournal(id,'Дело возвращено в производство из архива',today(),'system',true);
@@ -2374,7 +2376,7 @@ function matterActionReturnTrack(act,id,trigger){
   var mid=String(id||'');
   if(sh.classList.contains('matter-actions-premium') &&
       trigger.closest('.matter-actions-card .matter-act-row') &&
-      ['m-edit','m-add','m-event','m-journal','m-finish','m-arch'].indexOf(act)>=0 && matter(mid)){
+      ['m-edit','m-add','m-event','m-journal','m-finish','m-stage-start','m-arch'].indexOf(act)>=0 && matter(mid)){
     MATTER_ACTION_RETURN={mid:mid,stack:['actions']};
     return;
   }
@@ -2417,7 +2419,7 @@ function openSheet(html){
     s._matterEventPaperScroll=null;
   }
   document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2948,6 +2950,7 @@ function openPremiumDeleteConfirm(id){
 function openPremiumMatterDeleteConfirm(id){
   var m=matter(id);
   if(!m)return;
+  if(typeof stageCaseHasLinks==='function'&&stageCaseHasLinks(m)){toast('Связанную папку нельзя удалить отдельно: сохраняется история всех этапов.');return;}
   closePremiumDeleteConfirm();
   var root=document.createElement('div');
   root.id='premium-delete-confirm-root';
@@ -2969,6 +2972,7 @@ function openPremiumMatterDeleteConfirm(id){
 function performDeleteMatterById(id){
   var m=matter(id);
   if(!m)return;
+  if(typeof stageCaseHasLinks==='function'&&stageCaseHasLinks(m)){toast('Удаление связанного этапа заблокировано для сохранения истории.');return;}
   // 5.0.1230: tolerate numeric/string relation IDs in older imports and
   // ensure deleting one dossier never leaves its related records orphaned.
   S.tasks=S.tasks.filter(function(t){return !sameRecordId(t.mid,id);});
@@ -5301,16 +5305,20 @@ function sheetMatterMore(id){
     // Archived dossiers are read-only until explicitly returned to work.
     rows+=row('m-view-info','#5279a7','folder','Просмотреть карточку','Сведения дела без редактирования')+
       row('m-open-journal','#258f6f','doc','Просмотреть журнал','Хронология действий без изменения')+
-      row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи')+
-      row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
+      (m.stageClosed?'':row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи'))+
+      (stageCaseHasLinks(m)?row('stage-history','#ae8654','folder','Этапы производства','Посмотреть связанные стадии и историю'):'' )+
+      (m.basis==='assigned'&&stagePaymentDrafts(m).length?row('stage-payment-view','#b08c53','doc','Расчёт по назначению','Проверить черновик оплаты'):'' )+
+      (stageCaseHasLinks(m)?'':row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
   }else{
     rows+=row('m-edit','#5279a7','edit','Редактировать дело','Реквизиты, суд, доверитель, стадия')+
       row('m-add','#198b69','matter-task','Добавить задачу','Поручение, контроль, подготовка документов')+
       row('m-event','#3776c6','cal','Добавить событие','Заседание, встреча или процессуальный срок')+
       row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
       row('m-finish','#19865c','matter-finish','Завершить дело','Результат, дата и архивирование')+
+      row('m-stage-start','#b18a51','folder','Завершить этап и продолжить','Новая связанная папка, задачи и расчёт')+
+      (stageCaseHasLinks(m)?row('stage-history','#9d7e51','folder','Этапы производства','Вся история связанных стадий'):'' )+
       row('m-arch','#607997','arch','Архивировать без завершения','Переместить неоконченное дело в архив')+
-      row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger');
+      (stageCaseHasLinks(m)?'':row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
   }
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();
@@ -5726,7 +5734,7 @@ function dossierMainInfoRows(m){
     {label:'Статус доверителя',value:matterRoleDisplayLabel(m.type||'other',m.stage||'',m.role),icon:'person'},
     {label:catLabel,value:catValue,icon:'category'},
     {label:'Основание ведения',value:matterBasisLabel(m.basis),icon:'document'},
-    {label:'Стадия',value:m.stage,icon:'clock'}
+    {label:'Стадия',value:(m.stageInstanceLabel||m.stage),icon:'clock'}
   ];
 }
 function dossierMainInfoIcon(name){
@@ -5978,11 +5986,11 @@ function dossierEventsFooterArt(){
 /* 5.0.1288 audit: archived dossiers are read-only. Every bottom CTA
    must offer restoration, not an operation that inevitably gets rejected. */
 function dossierFooterAction(id,act,label){
-  var archived=!!(matter(id)&&matter(id).archived);
+  var entry=matter(id),archived=!!(entry&&entry.archived),continuation=!!(entry&&entry.stageClosed);
   return {
-    act:archived?'m-reopen':act,
-    label:archived?'Вернуть в работу':label,
-    aria:archived?'Вернуть дело в работу':label,
+    act:continuation?'stage-history':archived?'m-reopen':act,
+    label:continuation?'Этапы производства':archived?'Вернуть в работу':label,
+    aria:continuation?'Открыть связанные стадии':archived?'Вернуть дело в работу':label,
     icon:archived?'<path d="M4 8.5V19H20V8.5M3.5 4.5H20.5V8.5H3.5M10 13H14"/>':'<path d="M12 3v18M3 12h18"/>'
   };
 }
@@ -7572,6 +7580,9 @@ function saveMatter(){
   var o={title:'',type:MED.type||'other',basis:MED.basis,client:MED.client||'',phone:MED.phone||'',number:MED.number||'',stage:MED.stage||'',executionIssue:MED.executionIssue||'',executionInstitution:MED.executionInstitution||'',court:MED.court||'',judge:MED.judge||'',investigator:MED.investigator||'',article:MED.article||'',role:MED.role||'',restraint:MED.restraint||'',opponent:MED.opponent||'',dayRate:+MED.dayRate||0,notes:notes,position:normalizeMatterPosition(MED.position)};
   o=sanitizeMatterByType(o);
   o.title=matterAutoTitle(o);
+  // Linked stage labels must not drift after explicit stage edits in the dossier.
+  // Unchanged stages retain their custom descriptive name.
+  if(MED.id&&matter(MED.id)&&matter(MED.id).stage!==o.stage)o.stageInstanceLabel=o.stage;
   var wasNew=!MED.id;
   var oldPosition=MED.id?normalizeMatterPosition((matter(MED.id)||{}).position):normalizeMatterPosition({});
   var positionChanged=MATTER_POSITION_FIELDS.some(function(f){return oldPosition[f[0]]!==o.position[f[0]];});
@@ -9106,6 +9117,19 @@ document.addEventListener('click', function(ev){
     case 'm-print': sheetMatterExport(id||$('#page')._mid);break;
     case 'm-print-private': if(matter(id)){closeSheet();printMatter(id);}break;
     case 'm-print-client': if(matter(id)){closeSheet();printMatterClient(id);}break;
+    case 'm-stage-start': stageWizardStart(id);break;
+    case 'stage-wizard-next': stageWizardNext();break;
+    case 'stage-wizard-prev': stageWizardPrev();break;
+    case 'stage-wizard-commit': stageWizardCommit();break;
+    case 'stage-payment-apply-rates': stageWizardApplyRates();break;
+    case 'stage-payment-editor-apply': stagePaymentEditorApplyRates(id);break;
+    case 'stage-payment-application': stagePaymentApplication(id);break;
+    case 'stage-history': stageHistorySheet(id||$('#page')._mid);break;
+    case 'stage-jump': if(matter(id)){closeSheet();openMatter(id,'general');}break;
+    case 'stage-payment-view': stagePaymentSheet(id||$('#page')._mid);break;
+    case 'stage-payment-print': stagePaymentPrint(id);break;
+    case 'stage-payment-edit': stagePaymentEdit(id);break;
+    case 'stage-payment-save': stagePaymentEditSave(id);break;
     case 'm-finish': sheetMatterFinish(id);break;
     case 'm-finish-save': finishMatter(id);break;
     case 'm-reopen': reopenMatter(id);break;
