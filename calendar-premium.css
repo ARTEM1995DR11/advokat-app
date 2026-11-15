@@ -2597,3 +2597,95 @@ html body #sc-cal.screen{
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats .cal-week-stat:last-child{
   cursor:default;
 }
+
+
+/* ============================================================================
+   5.0.1297.28 — Compact MONTH + WEEK agenda / agreed visual hierarchy.
+   Line one: action type and actual status. Line two: concise case context.
+   No full notes, venues or duplicate client details in preview; existing
+   event click still opens the complete record. DAY, FAB, header, period grids,
+   fixed bottom navigation and original background are not modified.
+   ============================================================================ */
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact{
+  padding:7px 0 8px!important;
+  grid-template-columns:40px 30px minmax(0,1fr) 11px!important;
+  column-gap:6px!important;
+  align-items:start!important;
+  min-height:48px!important;
+  row-gap:0!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact::before{
+  top:16px!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact:not(:last-child)::after{
+  top:21px!important;
+  bottom:-21px!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-icon{
+  width:30px!important;height:30px!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-copy{
+  padding-top:0!important;
+  min-width:0!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-top{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  justify-content:stretch!important;
+  gap:4px!important;
+  min-width:0!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-top>b{
+  min-width:0!important;max-width:100%!important;
+  margin:0!important;
+  font-size:12.2px!important;line-height:1.19!important;
+  font-weight:710!important;
+  word-break:normal!important;overflow-wrap:break-word!important;hyphens:none!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-top .cal-month-status{
+  max-width:106px!important;
+  min-width:0!important;
+  margin:0!important;
+  font-size:9px!important;
+  line-height:1.12!important;
+  padding:3px 5px!important;
+  border-radius:50px!important;
+  align-self:start!important;
+  justify-self:end!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-copy>small.cal-month-event-brief{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  line-clamp:2!important;
+  max-height:2.62em!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  margin-top:3px!important;
+  padding:0!important;
+  font-size:10.8px!important;
+  line-height:1.31!important;
+  font-weight:445!important;
+  color:#465361!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-clock{
+  padding:3px 1px!important;
+  font-size:10.5px!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-next{
+  padding-top:9px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact{
+    grid-template-columns:37px 27px minmax(0,1fr) 10px!important;column-gap:4px!important;
+  }
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-icon{width:27px!important;height:27px!important;}
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-icon .ico{width:17px!important;height:17px!important;}
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-top>b{font-size:11px!important;}
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-top .cal-month-status{max-width:90px!important;font-size:8.2px!important;padding:3px 4px!important;}
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"]) .cal-month-event.cal-agenda-compact .cal-month-event-copy>small.cal-month-event-brief{font-size:10px!important;}
+}

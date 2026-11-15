@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.26';
-var APP_BUILD='6325';
+var APP_VERSION='5.0.1297.28';
+var APP_BUILD='6327';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3897,41 +3897,71 @@ function calStateBadgeHTML(badge,klass){
   return '<em class="'+klass+' '+esc(badge.tone)+'">'+
     (iconName?ico(iconName,'s'):'')+'<span>'+esc(badge.label)+'</span></em>';
 }
-/* 5.0.1297.24 — Agenda pass 2.1: separate event narrative from
-   venue/case metadata, and reserve a right-aligned status column. No record
-   fields are changed: the two lines are a presentation of source records. */
+/* 5.0.1297.28 — compact, shared MONTH/WEEK agenda from the approved mockup.
+   The row has two levels only: WHAT action and a short case context.
+   Full record, long narrative, venue and client details remain in the original
+   task/hearing editor, opened with its existing data-act and immutable id.
+   No test records or duplicate storage are created here. DAY is unchanged. */
+function calBriefClean(value){
+  return String(value||'').replace(/\s+/g,' ').trim();
+}
+function calBriefGeneric(value,kind){
+  var s=calBriefClean(value).toLowerCase();
+  if(!s)return true;
+  if(kind==='hearing')return /^(судебное заседание|заседание|слушание|суд)$/.test(s);
+  if(kind==='meeting')return /^(встреча|встреча с клиентом|встреча с доверителем)$/.test(s);
+  if(kind==='deadline')return /^(процессуальный срок|срок)$/.test(s);
+  return /^(задача|новая задача)$/.test(s);
+}
+function calBriefShort(value,limit){
+  var s=calBriefClean(value);
+  if(s.length<=limit)return s;
+  var cut=s.slice(0,limit+1),at=cut.lastIndexOf(' ');
+  if(at>Math.floor(limit*.58))cut=cut.slice(0,at);
+  else cut=cut.slice(0,limit);
+  return cut.replace(/[\s,;:.–—-]+$/,'')+'…';
+}
+function calCompactAgendaInfo(t,m){
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var title=calBriefClean(t.title),narrative='',heading='';
+  if(kind==='hearing'){
+    heading='Судебное заседание';
+    narrative=calBriefClean(hearingCaption(t,m));
+    if(calBriefGeneric(narrative,kind))narrative=calBriefClean(t.hearingTopic||t.note);
+  }else if(kind==='meeting'){
+    heading=/^встреча(?:\s|$)/i.test(title)&&title.length<=35?title:'Встреча';
+    narrative=calBriefClean(t.note);
+    if(!narrative&&!calBriefGeneric(title,kind)&&heading!==title)narrative=title;
+  }else if(kind==='deadline'){
+    heading='Процессуальный срок';
+    narrative=!calBriefGeneric(title,kind)?title:calBriefClean(t.rule||t.note);
+  }else{
+    heading='Задача';
+    narrative=!calBriefGeneric(title,kind)?title:calBriefClean(t.note);
+  }
+  // Prefer the action-specific short line. Use the linked case number as an
+  // identifier, but don't duplicate it when it is already in the subject.
+  if(!narrative){
+    narrative=calBriefClean(m&&(m.client||m.title))||calBriefClean(t.hearingClient)||'';
+  }
+  var number=calBriefClean((m&&m.number)||(kind==='hearing'?t.hearingNumber:''));
+  var subject=calBriefShort(narrative,72);
+  if(number && subject.indexOf(number)===-1){
+    subject+=(subject?' · ':'')+'дело № '+number;
+  }
+  if(!subject)subject=calBriefClean(t.place)||'Без уточнения дела';
+  return {kind:kind,heading:heading,brief:subject,fullHeading:title||hearingCaption(t,m)};
+}
 function calMonthAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
-  var stamp=calMonthItemTime(t);
-  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var stamp=calMonthItemTime(t),info=calCompactAgendaInfo(t,m);
   var badge=calMonthBadge(t);
-  var heading=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
-  var narrative=[], context=[];
-  function addUnique(list,value){
-    var s=String(value||'').trim();
-    if(s&&s!==heading&&narrative.indexOf(s)<0&&context.indexOf(s)<0)list.push(s);
-  }
-  if(kind==='hearing'){
-    addUnique(narrative,t.hearingTopic);
-    addUnique(narrative,t.note);
-  }else if(kind==='meeting'){
-    addUnique(narrative,t.note);
-  }else if(kind==='deadline'){
-    addUnique(narrative,t.rule);
-    addUnique(narrative,t.note);
-  }else addUnique(narrative,t.note);
-  addUnique(context,t.place);
-  if(m){
-    if(m.number)addUnique(context,'Дело № '+m.number);
-    if(m.client)addUnique(context,m.client);
-  }
   var act=hearingNeedsResult(t)?'hearing-result':'task';
-  return '<button type="button" class="cal-month-event '+kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+heading+', '+badge.label)+'">'+
+  return '<button type="button" class="cal-month-event cal-agenda-compact '+info.kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+info.heading+', '+info.brief+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<span class="cal-month-event-icon">'+(kind==='hearing'?ico('court','s'):kind==='meeting'?ico('events-people','s'):kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
-    '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
-       (narrative.length?'<small class="cal-month-event-desc">'+esc(narrative.join(' · '))+'</small>':'')+
-       (context.length?'<small class="cal-month-event-meta">'+esc(context.join(' · '))+'</small>':'')+'</span>'+
+    '<span class="cal-month-event-icon">'+(info.kind==='hearing'?ico('court','s'):info.kind==='meeting'?ico('events-people','s'):info.kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
+    '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(info.heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
+      '<small class="cal-month-event-brief" title="'+esc(info.brief)+'">'+esc(info.brief)+'</small></span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
 /* Stage 7 / 5.0.1296: full day timeline built from the SAME records as month/week.
