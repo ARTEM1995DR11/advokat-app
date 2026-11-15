@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41';
-var APP_BUILD='6346';
+var APP_VERSION='5.0.1297.41.3';
+var APP_BUILD='6349';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4011,6 +4011,9 @@ function calDayPresentation(t,m){
     head='Судебное заседание';
     subject=calBriefClean(hearingCaption(t,m));
     if(calBriefGeneric(subject,kind))subject=calBriefClean(t.hearingTopic||t.note);
+    // If the hearing record has a meaningful case caption, prefer it to a
+    // bare client surname. Do not discard details such as article / subject.
+    if(!calBriefGeneric(title,kind)&&title.length>subject.length+4)subject=title;
     if(!venue&&m)venue=calBriefClean(m.court||'');
   }else if(kind==='meeting'){
     // A short meeting title can itself describe the action, like the mockup's
@@ -4044,11 +4047,21 @@ function calDayPresentation(t,m){
     var surname=client.split(/\s+/)[0];
     if(!calDayContextContains(subject,surname)&&!calDayContextContains(head,surname))caseBits.push(client);
   }
-  // If a venue or a complete case reference already appears in the subject,
-  // retain it once only. No source record is modified.
-  var brief=calBriefShort(subject,130);
-  return {kind:kind,head:head,detail:brief,fullDetail:fullSubject,
-    venue:venue,caseMeta:caseBits.join(' · ')};
+  // Final Day audit: two compact semantic lines, without a redundant
+  // separately positioned case-number row. The identifier has priority and
+  // stays at the beginning of the short detail, ahead of a possible ellipsis.
+  // Full subject, location and client remain in the source record/editor.
+  var displaySubject=subject;
+  if(number){
+    displaySubject='Дело № '+number+(subject?' · '+subject:'');
+  }else if(caseBits.length){
+    displaySubject=subject+' · '+caseBits.join(' · ');
+  }
+  var brief=calBriefShort(displaySubject,155);
+  var accessibleDetail=number&&!calDayContextContains(fullSubject,number)
+    ?'Дело № '+number+' · '+fullSubject : fullSubject;
+  return {kind:kind,head:head,detail:brief,fullDetail:accessibleDetail,
+    venue:venue,caseMeta:''};
 }
 function calDayTimelineRow(t){
   var m=t.mid?matter(t.mid):null;
@@ -9910,7 +9923,7 @@ async function checkForAppUpdate(){
     var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store'});
     if(!response.ok)throw new Error('HTTP '+response.status);
     var versionText=(await response.text()).trim();
-    var match=versionText.match(/(5\.0\.\d+(?:\.\d+)?)\s*\/\s*(\d+)/);
+    var match=versionText.match(/(5\.0\.\d+(?:\.\d+)*)\s*\/\s*(\d+)/);
     if(!match)throw new Error('Invalid VERSION.txt');
     var remoteBuild=Number(match[2]), currentBuild=Number(APP_BUILD);
     if(remoteBuild>currentBuild){
