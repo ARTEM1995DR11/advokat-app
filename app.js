@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.29.3';
-var APP_BUILD='6333';
+var APP_VERSION='5.0.1297.32';
+var APP_BUILD='6335';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4212,7 +4212,7 @@ function renderCal(){
       '<div class="today-actions">'+headerSearch('global-search',false,'Глобальный поиск')+'</div></div>'+
     switcher+periodContent+
     (mode==='month'||mode==='week'?
-      '<section class="calendar-day-card cal-month-agenda'+(mode==='week'?' cal-week-agenda':'')+'" aria-label="Повестка выбранного дня">'+
+      '<section class="calendar-day-card cal-month-agenda'+(mode==='week'?' cal-week-agenda'+(day.length?' is-filled':' is-empty'):'')+'" aria-label="Повестка выбранного дня">'+
         (mode==='week'?
           '<div class="cal-month-agenda-head cal-week-agenda-head"><div><h2>'+esc(calWeekSelectedHeading(u.calSel))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div><button type="button" class="calendar-add-btn" data-act="new-on-day">'+ico('plus','s')+'<span>Добавить</span></button></div>':
           '<div class="cal-month-agenda-head"><h2>Повестка дня · '+esc(fmtD(u.calSel,true))+'</h2><p>'+day.length+' '+plural(day.length,'запись','записи','записей')+' на дату</p></div>')+
