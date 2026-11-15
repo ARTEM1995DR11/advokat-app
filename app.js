@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.37.1';
-var APP_BUILD='6342';
+var APP_VERSION='5.0.1297.41';
+var APP_BUILD='6346';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4072,7 +4072,7 @@ function calDayTimelineContent(day){
   var ordered=day.slice().sort(calMonthAgendaSort);
   var timed=ordered.filter(function(t){return !!calMonthItemTime(t);});
   var untimed=ordered.filter(function(t){return !calMonthItemTime(t);});
-  if(!day.length)return '<div class="cal-day-empty"><p>На этот день записей нет</p><button type="button" data-act="new-on-day">Добавить запись</button></div>';
+  if(!day.length)return '<div class="cal-day-empty"><p>На эту дату записей нет</p></div>';
   return (timed.length?'<div class="cal-day-timeline" aria-label="События по времени">'+timed.map(calDayTimelineRow).join('')+'</div>':'')+
     (untimed.length?'<div class="cal-day-untimed"><h3>БЕЗ УКАЗАННОГО ВРЕМЕНИ</h3><div class="cal-day-untimed-list" aria-label="Записи без указанного времени">'+untimed.map(calDayTimelineRow).join('')+'</div></div>':'');
 }
@@ -4459,6 +4459,21 @@ function appBack(){
   }
   if(S.ui.tab!=='today'){ go('today',true); vib(5); return true; }
   return false;
+}
+
+/* 5.0.1297.40 / Day stage 6: one validated action for choosing a new
+   calendar date in Month, Week or Day. The original stored records are never
+   copied or mutated. On a date change, start from the top of the new period;
+   mode-only changes retain the selected date and existing navigation flow. */
+function calendarSelectDate(nextDate){
+  var cal=window.AdvokatCalendar;
+  if(!cal || !cal.fromISO(nextDate))return false;
+  S.ui.calSel=nextDate;
+  S.ui.calM=nextDate.slice(0,7);
+  save();renderCal();
+  var screen=document.getElementById('sc-cal');
+  if(screen)screen.scrollTop=0;
+  return true;
 }
 
 /* Calendar stage 8 (5.0.1297): modal navigation never creates a second
@@ -9113,9 +9128,7 @@ document.addEventListener('click', function(ev){
 
     /* calendar */
     case 'cday': {
-      var chosen=window.AdvokatCalendar.fromISO(v);
-      if(!chosen)break;
-      S.ui.calSel=v;S.ui.calM=v.slice(0,7);save();renderCal();break;
+      calendarSelectDate(v);break;
     }
     case 'cal-view': {
       if(['month','week','day'].indexOf(v)<0)break;
@@ -9127,9 +9140,9 @@ document.addEventListener('click', function(ev){
         window.AdvokatCalendar.safeDate(S.ui.calSel,today()),
         window.AdvokatCalendar.normalizeMode(S.ui.calView), Number(v)===-1?-1:1);
       if(!next)break;
-      S.ui.calSel=next;S.ui.calM=next.slice(0,7);save();renderCal();break;
+      calendarSelectDate(next);break;
     }
-    case 'cal-today': S.ui.calSel=today();S.ui.calM=S.ui.calSel.slice(0,7);save();renderCal();break;
+    case 'cal-today': calendarSelectDate(today());break;
     case 'new-on-day': sheetQuickAdd();break;
 
     /* helpers */

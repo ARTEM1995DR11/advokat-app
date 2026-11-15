@@ -3487,3 +3487,141 @@ html body #sc-cal.screen{
     min-width:43px!important;font-size:11px!important;padding:5px 2px!important;
   }
 }
+
+
+/* ========================================================================
+   5.0.1297.38 | DAY stage 4: appointment cards only.
+   The time rail, month/week agenda, FAB, shared header and nav are unchanged.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-timeline,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-untimed-list{
+  gap:9px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event{
+  grid-template-columns:31px minmax(0,1fr) 12px!important;
+  gap:7px!important;position:relative!important;
+  min-height:78px!important;padding:11px 8px 12px!important;
+  border:1px solid rgba(202,176,139,.51)!important;
+  border-left:3px solid #bc8b33!important;
+  border-radius:15px!important;
+  background:linear-gradient(145deg,#fffdf9 0%,#fdf9f2 100%)!important;
+  box-shadow:0 3px 7px rgba(83,60,33,.085),inset 0 1px 0 rgba(255,255,255,.96)!important;
+  overflow-wrap:normal!important;word-break:normal!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.hearing{border-left-color:#b98a35!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-held,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-done{border-left-color:#149464!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.meeting{border-left-color:#207cc9!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.deadline{border-left-color:#ed8617!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-overdue{border-left-color:#d95845!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-attention:not(.meeting){border-left-color:#ce941f!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.task{border-left-color:#b5893b!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event.status-done.task{border-left-color:#149464!important}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon{
+  width:31px!important;height:31px!important;flex-shrink:0!important;
+  border:1px solid #e6d7c0!important;border-radius:10px!important;
+  color:#ac771e!important;
+  background:linear-gradient(145deg,#fffdf8,#f6ead7)!important;
+  box-shadow:0 1px 3px rgba(101,73,40,.1)!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon .ico{
+  width:21px!important;height:21px!important;stroke-width:1.8!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-copy{
+  padding-top:0!important;min-width:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head{
+  display:flex!important;align-items:flex-start!important;flex-wrap:wrap!important;
+  column-gap:6px!important;row-gap:3px!important;min-width:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{
+  flex:1 1 95px!important;min-width:0!important;
+  font:700 13.1px/1.17 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.01em!important;color:#14283e!important;
+  overflow-wrap:break-word!important;word-break:normal!important;hyphens:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-status{
+  flex:0 0 auto!important;max-width:100%!important;
+  min-height:20px!important;padding:3px 7px!important;
+  border-radius:999px!important;white-space:nowrap!important;
+  font-size:9px!important;line-height:1.2!important;
+  overflow-wrap:normal!important;word-break:normal!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-desc,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-location,
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-case{
+  margin-top:5px!important;font:450 11.4px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  overflow-wrap:break-word!important;word-break:normal!important;color:#495568!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-case{
+  color:#405068!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-location>.ico{
+  color:#b5812b!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-chevron{
+  align-self:center!important;margin:0!important;color:#182d43!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-chevron .ico{
+  width:14px!important;height:14px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event{
+    grid-template-columns:26px minmax(0,1fr) 10px!important;
+    gap:5px!important;padding:9px 6px 10px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon{width:26px!important;height:26px!important}
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon .ico{width:18px!important;height:18px!important}
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-head>b{font-size:11.8px!important;flex-basis:79px!important}
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-status{font-size:8.1px!important;padding:3px 5px!important}
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-desc,
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-case,
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-location{font-size:10.2px!important;line-height:1.28!important}
+}
+
+
+
+/* ========================================================================
+   5.0.1297.39 | DAY stage 5: variable-length rows, untimed and empty days.
+   Keep actual contents available in original record editor / accessible labels.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-desc{
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:3!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-location{
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;overflow:hidden!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-case{
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:3!important;overflow:hidden!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-untimed{
+  margin-top:19px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-untimed h3{
+  margin:0 0 11px 15px!important;color:#987339!important;
+  letter-spacing:.12em!important;font:700 10.5px/1.3 Georgia,'Times New Roman',serif!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-untimed-list{
+  gap:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-timeline-row.untimed .cal-day-clock{
+  font-weight:750!important;color:#32445b!important;background:#f3eee5!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-empty{
+  padding:18px 8px 21px!important;gap:0!important;
+  color:#78818d!important;min-height:66px!important;
+  align-items:flex-start!important;text-align:left!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-empty p{
+  font-size:12px!important;line-height:1.4!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-untimed h3{
+    font-size:9.5px!important;letter-spacing:.075em!important;
+  }
+}
+
