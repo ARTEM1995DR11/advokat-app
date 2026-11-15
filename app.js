@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.5';
-var APP_BUILD='6351';
+var APP_VERSION='5.0.1297.41.8';
+var APP_BUILD='6354';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4116,74 +4116,10 @@ function calWeekSelectedHeading(iso){
   var d=parseD(iso);
   return ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'][d.getDay()]+', '+fmtD(iso,true);
 }
-/* 5.0.1297.19: screen-scoped iOS status bar protection on scroll.
-   The top of the Calendar keeps its approved background when at scrollTop=0. */
-function initCalendarStatusShield(){
-  var sc=document.getElementById('sc-cal');if(!sc)return;
-  var shield=document.getElementById('cal-ios-status-shield');
-  if(!shield){
-    shield=document.createElement('div');shield.id='cal-ios-status-shield';
-    shield.setAttribute('aria-hidden','true');document.body.appendChild(shield);
-  }
-  var update=function(){
-    // 5.0.1297.41.7: keep the iOS clock/indicators fully protected while
-    // scrolling controls disappear smoothly BELOW the status-safe zone.
-    // Repeat the calendar backdrop at its full scroll-viewport dimensions:
-    // painting "cover" on a short overlay would resize the marble artwork.
-    var screenWidth=sc.clientWidth, screenHeight=sc.clientHeight;
-    if(screenHeight>0 && screenWidth>0 &&
-       (shield._calBackdropHeight!==screenHeight || shield._calBackdropWidth!==screenWidth)){
-      shield._calBackdropHeight=screenHeight;
-      shield._calBackdropWidth=screenWidth;
-      var style=getComputedStyle(sc);
-      // Preserve the computed dimensions of EVERY calendar background layer.
-      // A 100% height on the 104px shield is not 100% of the full viewport:
-      // replace that size with the scroll viewport's actual pixel dimensions.
-      var sizes=style.backgroundSize.split(',').map(function(v){return v.trim();});
-      var positions=style.backgroundPosition.split(',').map(function(v){return v.trim();});
-      var resolvedSizes=[],resolvedPositions=[];
-      for(var i=0;i<sizes.length;i++){
-        var size=sizes[i].replace(/\s+/g,' ');
-        var pos=positions[i]||positions[positions.length-1]||'center top';
-        if(size==='100% 100%'){
-          resolvedSizes.push(screenWidth+'px '+screenHeight+'px');
-          resolvedPositions.push('center top');
-        }else if(size==='cover'){
-          // The approved wallpaper has natural dimensions 941 × 1672.
-          // Match cover against the FULL scroll container, not this overlay.
-          var k=Math.max(screenWidth/941,screenHeight/1672);
-          resolvedSizes.push(Math.ceil(941*k)+'px '+Math.ceil(1672*k)+'px');
-          resolvedPositions.push(pos);
-        }else{
-          resolvedSizes.push(size);
-          resolvedPositions.push(pos);
-        }
-      }
-      shield.style.setProperty('background-image',style.backgroundImage,'important');
-      shield.style.setProperty('background-color',style.backgroundColor,'important');
-      shield.style.setProperty('background-size',resolvedSizes.join(', '),'important');
-      shield.style.setProperty('background-position',resolvedPositions.join(', '),'important');
-      shield.style.setProperty('background-repeat',style.backgroundRepeat,'important');
-    }
-    // The segmented mode selector must never be left visibly half-cut under
-    // the system bar. Fade it out BEFORE its edge reaches the protected zone,
-    // then restore it automatically when scrolling back to the top.
-    var modeSelector=sc.querySelector('.cal-premium-view-switcher');
-    if(modeSelector){
-      var selectorTop=modeSelector.getBoundingClientRect().top-sc.getBoundingClientRect().top;
-      var selectorOpacity=Math.max(0,Math.min(1,(selectorTop-96)/46));
-      modeSelector.style.opacity=selectorOpacity>=.999?'':String(Math.round(selectorOpacity*100)/100);
-      modeSelector.style.pointerEvents=selectorOpacity<.65?'none':'';
-    }
-    shield.classList.toggle('is-visible',S.ui.tab==='cal'&&!sc.classList.contains('hide')&&sc.scrollTop>16);
-  };
-  if(!sc._calStatusShieldBound){
-    sc._calStatusShieldBound=true;
-    sc.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update,{passive:true});
-  }
-  update();
-}
+/* 5.0.1297.41.8 — Calendar now follows the standard PWA scroll behavior.
+   No calendar-specific iOS status overlay, mask, or mode-switcher fade:
+   content scrolls underneath the Dynamic Island/status indicators, exactly
+   like the other screens. The shared viewport, date logic and layout stay. */
 /* =====================================================================
    SCREEN: КАЛЕНДАРЬ
    ===================================================================== */
@@ -4335,7 +4271,6 @@ function renderCal(){
         calDayTimelineContent(day)+
       '</section>')+'</div>';
   $('#sc-cal').innerHTML=html;
-  initCalendarStatusShield();
 }
 
 /* =====================================================================
@@ -4468,8 +4403,6 @@ function render(){
   }
   TAB_TRANSITION='';
   applyTheme();
-  var calShield=document.getElementById('cal-ios-status-shield');
-  if(calShield)calShield.classList.toggle('is-visible',S.ui.tab==='cal'&&$('#sc-cal').scrollTop>16);
 }
 var NAV_TABS=[];
 function go(tab,replaceHistory,transition,preserveCalendarDate){

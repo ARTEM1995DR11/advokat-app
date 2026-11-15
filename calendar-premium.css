@@ -2171,17 +2171,8 @@ html body #sc-cal.screen{
 }
 /* Protect the standalone iPhone system time and signal icons from scrolled
    calendar entries; do not change overall height, fixed bottom nav or FAB. */
-#cal-ios-status-shield{
-  position:fixed;top:0;left:0;right:0;
-  height:max(44px,env(safe-area-inset-top,0px));
-  z-index:910;pointer-events:none;
-  opacity:0;visibility:hidden;
-  background:#f8f0e1;
-  -webkit-backdrop-filter:none;backdrop-filter:none;
-  border-bottom:1px solid rgba(188,158,107,.12);
-  transition:opacity .12s ease,visibility .12s ease;
-}
-#cal-ios-status-shield.is-visible{opacity:1;visibility:visible;}
+
+
 
 
 /* 5.0.1297.20 — Calendar agenda pass 2: verified factual-state badges.
@@ -2212,11 +2203,7 @@ html body #sc-cal.screen{
 }
 
 
-/* =====================================================================
-   5.0.1297.21 — Agenda pass 2.1 visual corrections.
-   Only calendar agenda presentation + existing iOS status shield.
-   Main month grid, fixed footer, floating + and data storage are unchanged.
-   ===================================================================== */
+
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top,
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-top{
   display:grid!important;
@@ -2288,19 +2275,8 @@ html body #sc-cal.screen{
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-top>b{font-size:10.8px!important;}
   #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta{font-size:8.8px!important;}
 }
-/* Blend the protective iOS safe area into the approved marble: the top remains
-   opaque enough to hide scrolled text beneath the iPhone status icons, but
-   there is no hard horizontal beige cut at the bottom of the shield. */
-#cal-ios-status-shield{
-  background-color:#f5eddf!important;
-  background-image:linear-gradient(to bottom,rgba(249,244,233,.99) 0%,rgba(249,244,233,.98) 76%,rgba(249,244,233,.88) 92%,rgba(249,244,233,.54) 100%),url('bg-cal-marble-calendar.webp')!important;
-  background-repeat:no-repeat!important;
-  background-position:center top!important;
-  background-size:100% 100%,100% auto!important;
-  border-bottom:0!important;
-  -webkit-backdrop-filter:blur(13px) saturate(.8)!important;
-  backdrop-filter:blur(13px) saturate(.8)!important;
-}
+
+
 
 
 /* ====================================================================
@@ -2332,24 +2308,8 @@ html body #sc-cal.screen{
   color:#626b6c!important;
   font-weight:460!important;
 }
-/* Only the screen-scoped shield changes. Shared height and safe-area layout
-   remain unchanged. Keep it solid behind status icons and fade its bottom. */
-#cal-ios-status-shield{
-  height:max(48px,env(safe-area-inset-top,0px))!important;
-  background-color:transparent!important;
-  background-image:linear-gradient(to bottom,
-    rgba(249,243,233,.995) 0%,
-    rgba(249,243,233,.99) 61%,
-    rgba(249,243,233,.82) 78%,
-    rgba(249,243,233,0) 100%)!important;
-  background-position:0 0!important;
-  background-size:100% 100%!important;
-  background-repeat:no-repeat!important;
-  border:none!important;
-  box-shadow:none!important;
-  -webkit-backdrop-filter:none!important;
-  backdrop-filter:none!important;
-}
+
+
 
 
 /* ====================================================================
@@ -2368,30 +2328,8 @@ html body #sc-cal.screen{
 }
 
 
-/* ====================================================================
-   5.0.1297.24 — Part 3: actual iPhone safe-area visual occlusion.
-   Earlier translucent 48px shield faded while the iOS system time and
-   indicators were still above it; month stats were readable underneath.
-   Protect the complete status-bar zone with an opaque copy of the ORIGINAL
-   calendar background and fade ONLY below that zone. This is independent
-   of the app's global viewport sizing and does not affect FAB or tab bar.
-   ==================================================================== */
-#cal-ios-status-shield{
-  height:calc(max(60px, env(safe-area-inset-top,0px)) + 18px)!important;
-  background-color:#f6efe3!important;
-  background-image:
-    linear-gradient(180deg,rgba(255,251,245,.13),rgba(250,244,234,.20)),
-    url('bg-cal-marble-calendar.webp')!important;
-  background-position:center top, center top!important;
-  background-size:100% 100%, cover!important;
-  background-repeat:no-repeat!important;
-  -webkit-backdrop-filter:none!important;
-  backdrop-filter:none!important;
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 18px),transparent 100%)!important;
-  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 18px),transparent 100%)!important;
-  border:0!important;
-  box-shadow:none!important;
-}
+
+
 /* Keep the third text level subordinate but readable on iPhone. */
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta,
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
@@ -2399,25 +2337,8 @@ html body #sc-cal.screen{
 }
 
 
-/* ========================================================================
-   5.0.1297.25 — final month review; preserve the user-approved visual sizes.
-   Safe-area shield repeats the SAME original marble image at the actual
-   calendar-screen height, rather than resizing the texture to a 78px strip.
-   Opaque over the iOS status icons, feathered only below them. Neither the
-   shared viewport mechanism nor bottom tabbar / floating + are modified.
-   ======================================================================== */
-#cal-ios-status-shield{
-  height:calc(max(60px,env(safe-area-inset-top,0px)) + 20px)!important;
-  background-color:#f6efe3!important;
-  background-image:
-    linear-gradient(180deg,rgba(255,251,245,.15),rgba(255,251,245,.15)),
-    url('bg-cal-marble-calendar.webp')!important;
-  background-position:center top,center top!important;
-  background-size:100% 100%,auto var(--cal-shield-screen-h,844px)!important;
-  background-repeat:no-repeat!important;
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 20px),transparent 100%)!important;
-  mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - 20px),transparent 100%)!important;
-}
+
+
 /* Slightly stronger third-level information; still subordinate to the note. */
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-copy>small.cal-month-event-meta,
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-copy>small.cal-month-event-meta{
@@ -3852,19 +3773,7 @@ html body #sc-cal.screen{
    A protected safe area uses a gradual fade rather than a hard opaque band.
    The additional end-of-list travel lets the user fully expose the last
    event and its chevron above the existing bottom navigation / + button. */
-#cal-ios-status-shield{
-  height:max(62px,env(safe-area-inset-top,0px))!important;
-  /* Fallback until JS copies the exact calendar wallpaper geometry. */
-  background-color:#f6efe3!important;
-  background-image:url('bg-cal-marble-calendar.webp')!important;
-  background-size:100% auto!important;
-  background-position:center top!important;
-  background-repeat:no-repeat!important;
-  -webkit-mask-image:none!important;mask-image:none!important;
-  box-shadow:none!important;border:0!important;
-  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
-  transition:none!important;
-}
+
 /* Container-level end clearance; content cards and the floating + are
    untouched, including fixed navigation geometry and z-index. */
 #sc-cal.screen{
@@ -3924,29 +3833,11 @@ html body #sc-cal.screen{
 }
 
 
-/* 5.0.1297.41.7 — iOS calendar top-scroll handoff. On the approved
-   background, the calendar controls now fade out beneath the system status
-   area instead of being hard-cut at a horizontal 62px border. Only this
-   screen-specific protective overlay changes; no header/grid/card/Nav/FAB
-   geometry is altered. Clock and cellular icons always have an opaque base. */
-#cal-ios-status-shield{
-  height:calc(max(58px,env(safe-area-inset-top,0px)) + 46px)!important;
-  -webkit-mask-image:linear-gradient(to bottom,
-    #000 0%,
-    #000 calc(100% - 46px),
-    rgba(0,0,0,.98) calc(100% - 39px),
-    rgba(0,0,0,.70) calc(100% - 26px),
-    rgba(0,0,0,.27) calc(100% - 12px),
-    transparent 100%)!important;
-  mask-image:linear-gradient(to bottom,
-    #000 0%,
-    #000 calc(100% - 46px),
-    rgba(0,0,0,.98) calc(100% - 39px),
-    rgba(0,0,0,.70) calc(100% - 26px),
-    rgba(0,0,0,.27) calc(100% - 12px),
-    transparent 100%)!important;
-  pointer-events:none!important;
-  box-shadow:none!important;border:0!important;
-  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
-  transition:none!important;
-}
+
+
+
+
+/* 5.0.1297.41.8 — Native iOS top scrolling, matching the "Дела" page.
+   The Calendar's previous status-bar shield + mode selector fade are removed
+   in app.js. No mask or opacity is applied when the three-mode switcher
+   scrolls past the iPhone status bar. Approved month/week/day layouts stay. */
