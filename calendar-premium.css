@@ -3269,3 +3269,36 @@ html body #sc-cal.screen{
     margin-top:2px!important;
   }
 }
+
+/* ========================================================================
+   5.0.1297.33 — WEEK stage 6 / compact agenda final alignment.
+   Render the vertical connector continuously between the centers of actual
+   row markers, regardless of content height. Never draw after final record.
+   All state badges remain data-derived; these rules do not touch MONTH, DAY,
+   top cards, brand, global FAB, or navigation.
+   ======================================================================== */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline{
+  row-gap:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline>.cal-month-event.cal-agenda-compact{
+  margin-block:0!important;
+  overflow:visible!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline>.cal-month-event.cal-agenda-compact::before{
+  left:-15px!important;top:16px!important;
+  width:8px!important;height:8px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline>.cal-month-event.cal-agenda-compact:not(:last-child)::after{
+  left:-11px!important;top:20px!important;bottom:-20px!important;
+  width:1.6px!important;display:block!important;
+  background:#bb914d!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-timeline>.cal-month-event.cal-agenda-compact:last-child::after{
+  content:none!important;display:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event.cal-agenda-compact .cal-month-event-top>b{
+  word-break:normal!important;hyphens:none!important;-webkit-hyphens:none!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda .cal-month-event.cal-agenda-compact .cal-month-event-brief{
+  overflow-wrap:break-word!important;hyphens:none!important;-webkit-hyphens:none!important;
+}

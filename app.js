@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.32.1';
-var APP_BUILD='6336';
+var APP_VERSION='5.0.1297.33';
+var APP_BUILD='6337';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3964,18 +3964,24 @@ function calCompactAgendaInfo(t,m){
     subject=calBriefShort(narrative,64);
   }
   if(!subject)subject=calBriefClean(t.place)||'Без уточнения дела';
-  return {kind:kind,heading:heading,brief:subject,fullHeading:title||hearingCaption(t,m)};
+  // Stage 6: keep the SHORT visual preview, but expose the complete case
+  // context to accessibility tools and the native title hint. No record data
+  // are shortened or changed; tapping the row still opens its existing editor.
+  var fullBrief=number?('Дело № '+number+(narrative?' · '+narrative:'')):
+    (narrative||calBriefClean(t.place)||'Без уточнения дела');
+  return {kind:kind,heading:heading,brief:subject,fullBrief:fullBrief,
+    fullHeading:title||hearingCaption(t,m)};
 }
 function calMonthAgendaRow(t){
   var m=t.mid?matter(t.mid):null;
   var stamp=calMonthItemTime(t),info=calCompactAgendaInfo(t,m);
   var badge=calMonthBadge(t);
   var act=hearingNeedsResult(t)?'hearing-result':'task';
-  return '<button type="button" class="cal-month-event cal-agenda-compact '+info.kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+info.heading+', '+info.brief+', '+badge.label)+'">'+
+  return '<button type="button" class="cal-month-event cal-agenda-compact '+info.kind+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+info.heading+', '+info.fullBrief+', '+badge.label)+'">'+
     '<span class="cal-month-event-clock">'+(stamp?esc(stamp):'—')+'</span>'+
     '<span class="cal-month-event-icon">'+(info.kind==='hearing'?ico('court','s'):info.kind==='meeting'?ico('events-people','s'):info.kind==='deadline'?ico('doc','s'):ico('check','s'))+'</span>'+
     '<span class="cal-month-event-copy"><span class="cal-month-event-top"><b>'+esc(info.heading)+'</b>'+calStateBadgeHTML(badge,'cal-month-status')+'</span>'+
-      '<small class="cal-month-event-brief" title="'+esc(info.brief)+'">'+esc(info.brief)+'</small></span>'+
+      '<small class="cal-month-event-brief" title="'+esc(info.fullBrief)+'">'+esc(info.brief)+'</small></span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
 /* Stage 7 / 5.0.1296: full day timeline built from the SAME records as month/week.
