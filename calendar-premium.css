@@ -2960,3 +2960,92 @@ html body #sc-cal.screen{
     width:6px!important;height:6px!important;
   }
 }
+
+
+/* 5.0.1297.31 — WEEK stage 4. KPI styling-only, scoped to week.
+   The number remains sourced from existing calendar records; no duplicate
+   records, links, or buttons are introduced. MONTH/DAY and global navigation
+   are deliberately untouched. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;margin-top:12px!important;
+  align-items:stretch!important;min-width:0!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{
+  box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;
+  justify-content:center!important;min-width:0!important;
+  min-height:39px!important;height:auto!important;
+  padding:7px 7px!important;gap:7px!important;
+  border-radius:12px!important;
+  border:1px solid rgba(194,159,108,.35)!important;
+  background:linear-gradient(154deg,#fffbf5 0%,#f8f1e7 100%)!important;
+  box-shadow:0 2px 5px rgba(98,72,40,.065),inset 0 1px 0 rgba(255,255,255,.97)!important;
+  cursor:default!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-glyph{
+  box-sizing:content-box!important;
+  flex:0 0 auto!important;
+  width:23px!important;height:23px!important;
+  color:#a4772b!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-gavel-art{
+  width:28px!important;height:28px!important;
+  object-fit:contain!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat span{
+  display:flex!important;flex:0 1 auto!important;
+  align-items:baseline!important;justify-content:center!important;
+  gap:4px!important;min-width:0!important;
+  text-align:left!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat b{
+  flex:0 0 auto!important;
+  color:#10263d!important;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  font-size:21px!important;line-height:1.03!important;font-weight:730!important;
+  font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{
+  flex:0 1 auto!important;min-width:0!important;
+  color:#243449!important;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  font-size:10.7px!important;line-height:1.16!important;font-weight:500!important;
+  overflow-wrap:normal!important;word-break:normal!important;
+}
+/* Information only; no legacy chevrons on either metric. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat::after{
+  display:none!important;content:none!important;
+}
+@media (min-width:361px){
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{
+    white-space:normal!important;
+  }
+}
+@media (max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{
+    gap:5px!important;margin-top:11px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{
+    min-height:37px!important;padding:5px 3px!important;gap:4px!important;
+    border-radius:10px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-glyph{
+    width:19px!important;height:19px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-gavel-art{
+    width:23px!important;height:23px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat span{
+    gap:3px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat b{
+    font-size:18px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{
+    font-size:9.3px!important;line-height:1.14!important;
+    white-space:normal!important;
+  }
+}
