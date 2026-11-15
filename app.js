@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.8';
-var APP_BUILD='6354';
+var APP_VERSION='5.0.1297.41.9';
+var APP_BUILD='6355';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -28,6 +28,9 @@ var DEF = {
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
 var DBP = null, META = null, SESSION_KEY = null, saveTimer = null, unlocked = false;
+/* 5.0.1297.41.9: serialize encrypted writes; never let two saves finish
+   out of order or silently claim that a failed IndexedDB write succeeded. */
+var PERSIST_QUEUE=Promise.resolve(), PERSIST_ERROR_NOTIFIED=false;
 /* 5.0.553 AUDIT: duplicate runtime/event block removed. Keep boot guard as a safety net. */
 var BOOT_ONCE=false;
 
@@ -177,10 +180,30 @@ async function decryptObj(payload,key){
   var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(payload.iv)},key,unb64(payload.data));
   return JSON.parse(new TextDecoder().decode(pt));
 }
-async function persistNow(){
-  if(!SESSION_KEY || !unlocked) return;
-  try{ await idbSet('state',await encryptObj(S,SESSION_KEY)); mem=clone(S); }
-  catch(e){ mem=clone(S); }
+function persistNow(){
+  if(!SESSION_KEY || !unlocked) return Promise.resolve(false);
+  // Capture the state at save time, not after a later asynchronous write.
+  var snapshot=clone(S), activeKey=SESSION_KEY;
+  var write=async function(){
+    // Pending writes must never overwrite a database re-encrypted with a new key.
+    if(activeKey!==SESSION_KEY) return false;
+    try{
+      await idbSet('state',await encryptObj(snapshot,activeKey));
+      mem=snapshot;
+      PERSIST_ERROR_NOTIFIED=false;
+      return true;
+    }catch(e){
+      mem=clone(S);
+      try{console.error('Encrypted local save failed',e);}catch(_e){}
+      if(!PERSIST_ERROR_NOTIFIED && unlocked){
+        PERSIST_ERROR_NOTIFIED=true;
+        try{toast('Данные не сохранены на устройстве. Проверьте свободное место и создайте резервную копию.');}catch(_e){}
+      }
+      return false;
+    }
+  };
+  PERSIST_QUEUE=PERSIST_QUEUE.then(write,write);
+  return PERSIST_QUEUE;
 }
 function save(){
   mem=clone(S); clearTimeout(saveTimer); saveTimer=setTimeout(function(){ persistNow(); },70);
@@ -214,7 +237,8 @@ async function loadForSecret(secret){
   var legacy=null;
   try{ legacy=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
   S=mergeState(legacy||DEF); SESSION_KEY=key; unlocked=true;
-  await persistNow();
+  // Never delete the last plaintext copy until encrypted migration is verified.
+  if(!(await persistNow()))throw new Error('Не удалось перенести локальную базу в защищённое хранилище');
   try{ localStorage.removeItem(KEY); }catch(e){}
   return S;
 }
@@ -230,6 +254,7 @@ async function unlockWithPin(pin){
   try{ await loadForSecret(pin); return true; }catch(e){ SESSION_KEY=null; unlocked=false; return false; }
 }
 async function enablePinEncryption(pin){
+  if(!(await flushSave()))throw new Error('Текущие данные не сохранены');
   META=getMeta();
   var oldState=clone(S), oldKey=SESSION_KEY;
   var next={v:3,mode:'pin',salt:randomB64(16),created:META.created||new Date().toISOString(),changed:new Date().toISOString()};
@@ -240,15 +265,19 @@ async function enablePinEncryption(pin){
   return true;
 }
 async function disablePinEncryption(){
+  if(!(await flushSave()))throw new Error('Текущие данные не сохранены');
   var next={v:3,mode:'device',salt:randomB64(16),deviceSecret:randomB64(32),created:(META&&META.created)||new Date().toISOString(),changed:new Date().toISOString()};
   var key=await deriveKey(next.deviceSecret,next.salt);
   await idbSet('state',await encryptObj(S,key));
   META=next; SESSION_KEY=key; unlocked=true; putMeta();
 }
 async function clearSecureStorage(){
-  try{ await idbDel('state'); }catch(e){}
+  clearTimeout(saveTimer);saveTimer=null;
+  await PERSIST_QUEUE; // finish any pending write before deliberately deleting the vault
+  await idbDel('state');
   META={v:3,mode:'device',salt:randomB64(16),deviceSecret:randomB64(32),created:new Date().toISOString()}; putMeta();
-  SESSION_KEY=await deriveKey(META.deviceSecret,META.salt); S=clone(DEF); unlocked=true; await persistNow();
+  SESSION_KEY=await deriveKey(META.deviceSecret,META.salt); S=clone(DEF); unlocked=true;
+  if(!(await persistNow()))throw new Error('Не удалось создать пустое защищённое хранилище');
 }
 
 /* ------------------------- utils ------------------------- */
@@ -3043,7 +3072,7 @@ function drawHearingResultSheet(){
   var m=t.mid?matter(t.mid):null;
   var hrDate=fmtD(t.due,true)+(t.time?' · '+t.time:'');
   var hrJudge=(hearingJudgeName(t,m)||t.hearingJudge||'Судья не указан').trim();
-  if(hrJudge && !/^судья/i.test(hrJudge) && hrJudge!=='Судья не указан') hrJudge='Судья '+hrJudge;
+  if(hrJudge && !/^судья\b/i.test(hrJudge) && hrJudge!=='Судья не указан') hrJudge='Судья '+hrJudge;
   var hrCourt=hearingPlace(t,m)||'Суд не указан';
   var noteValue=HR.note||'';
   var meta='<div class="hearing-result-v355-meta">'+
@@ -3359,12 +3388,17 @@ function taskProjectBase(){
     return hay.indexOf(q)>=0;
   }).sort(sortT);
 }
+function daysUntilWeekSunday(){
+  // Monday is day 0. This is the remaining part of the calendar week,
+  // not a rolling seven-day window (which caused the label mismatch).
+  return 6-((parseD(today()).getDay()+6)%7);
+}
 function taskProjectMatch(t,chip){
   var active=!t.done && !meetingOccurred(t), urgent=urgentTaskNeedsToday(t);
   if(chip==='late') return active && (t.kind==='task'||t.kind==='deadline') && t.due && dd(t.due)<0;
   if(chip==='today') return active && ((t.due && dd(t.due)===0) || urgent);
-  if(chip==='week') return active && !urgent && t.due && dd(t.due)>0 && dd(t.due)<=7;
-  if(chip==='later') return active && !urgent && t.due && dd(t.due)>7;
+  if(chip==='week') return active && !urgent && t.due && dd(t.due)>0 && dd(t.due)<=daysUntilWeekSunday();
+  if(chip==='later') return active && !urgent && t.due && dd(t.due)>daysUntilWeekSunday();
   if(chip==='nodue') return active && !urgent && !t.due;
   if(chip==='done') return !!t.done || meetingOccurred(t);
   return true;
@@ -3377,8 +3411,8 @@ function taskProjectCounts(){
     work:active.length,
     late:active.filter(function(t){return (t.kind==='task'||t.kind==='deadline')&&t.due&&dd(t.due)<0;}).length,
     today:active.filter(function(t){return (t.due&&dd(t.due)===0)||urgentTaskNeedsToday(t);}).length,
-    week:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>0&&dd(t.due)<=7;}).length,
-    later:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>7;}).length,
+    week:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>0&&dd(t.due)<=daysUntilWeekSunday();}).length,
+    later:active.filter(function(t){return !urgentTaskNeedsToday(t)&&t.due&&dd(t.due)>daysUntilWeekSunday();}).length,
     nodue:active.filter(function(t){return !urgentTaskNeedsToday(t)&&!t.due;}).length,
     done:all.filter(function(t){return !!t.done || meetingOccurred(t);}).length
   };
@@ -3453,7 +3487,7 @@ function taskProjectGroups(list){
     if(meetingOccurred(t)){out[8].items.push(t);return;}
     if(d<0){out[3].items.push(t);return;}
     if(d===0){out[4].items.push(t);return;}
-    if(d<=7){out[5].items.push(t);return;}
+    if(d<=daysUntilWeekSunday()){out[5].items.push(t);return;}
     out[6].items.push(t);
   });
   out[4].items.sort(sortTodayTasks);
@@ -8175,7 +8209,9 @@ async function restoreBackupObject(obj,password){
   var data=obj;
   if(obj&&obj.encrypted&&obj.payload){var key=await deriveKey(password,obj.salt);data=await decryptObj(obj.payload,key);}
   if(!data||!Array.isArray(data.tasks)||!Array.isArray(data.matters))throw new Error('bad backup');
-  S=mergeState(data);save();await persistNow();closeAll();render();toast('Данные восстановлены');
+  S=mergeState(data);save();
+  if(!(await flushSave()))throw new Error('Не удалось сохранить восстановленную базу');
+  closeAll();render();toast('Данные восстановлены');
 }
 
 /* =====================================================================
@@ -8509,7 +8545,8 @@ function showIntro(){
 }
 async function wipeAll(){
   if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
-  await clearSecureStorage();S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
+  try{await clearSecureStorage();}catch(e){toast('Не удалось очистить защищённое хранилище. Перезапустите приложение.');return;}
+  S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
 
 /* 5.0.1297.18: opt-in calendar agenda QA day. Real data is never replaced.
@@ -9156,13 +9193,13 @@ document.addEventListener('click', function(ev){
     case 'p-save': S.settings.name=$('#p-name').value.trim();S.settings.dayRate=+$('#p-dayrate').value||0;S.settings.cur=$('#p-cur').value.trim()||'₽';S.settings.backupEveryDays=Math.min(90,Math.max(1,+$('#p-backdays').value||7));save();closeSheet();render();toast('Профиль сохранён');break;
     case 'pin': sheetPin();break;
     case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
-    case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');});break;
+    case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');}).catch(function(){toast('Не удалось отключить PIN: сохранение не завершено');});break;
     case 'notify': toggleNotify();break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
-    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus);});save();render();toast('Выполненные задачи удалены');}break;}
+    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus)&&!(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus)||(t.mid&&matter(t.mid)&&matter(t.mid).archived);});save();render();toast('Выполненные задачи удалены');}break;}
     case 'calendar-qa-open': openCalendarQaDay();break;
     case 'calendar-qa-remove': removeCalendarQaDay();break;
     case 'demo-scenario-open': openDemoScenario1165();break;
@@ -9906,7 +9943,7 @@ async function checkForAppUpdate(){
     var remoteBuild=Number(match[2]), currentBuild=Number(APP_BUILD);
     if(remoteBuild>currentBuild){
       if(!confirm('Доступна версия '+match[1]+' (установлена '+APP_VERSION+'). Обновить приложение сейчас?'))return;
-      if(unlocked)flushSave();
+      if(unlocked && !(await flushSave())){toast('Обновление отложено: сначала сохраните данные или резервную копию');return;}
       if('serviceWorker' in navigator){
         try{var reg=await navigator.serviceWorker.getRegistration();if(reg)await reg.update();}catch(_e){}
       }
