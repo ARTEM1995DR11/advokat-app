@@ -3190,3 +3190,82 @@ html body #sc-cal.screen{
     flex-basis:12px!important;width:12px!important;height:12px!important;
   }
 }
+
+
+/* ================================================================
+   5.0.1297.32.1 — WEEK correction after stages 1–5 visual audit.
+   Strictly local to Week; no Month, Day, shared tabs, bottom nav,
+   golden floating +, event model, or brand background changes.
+   ================================================================ */
+/* 1. Seven weekday cards: narrower regular gaps, full touch targets. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-strip{
+  gap:2px!important;
+}
+/* 2. Selected date: slightly lighter, reference-like gold and subtle rim. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-weekday.is-selected{
+  background:linear-gradient(152deg,#edc773 0%,#e0ae58 56%,#ce963c 100%)!important;
+  border-color:#c89948!important;
+  box-shadow:inset 0 1px 0 rgba(255,252,226,.93),
+             0 3px 7px rgba(133,90,31,.16)!important;
+}
+/* 3. Reduce only the excess vertical whitespace of Week card. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-card{
+  padding-top:11px!important;
+  padding-bottom:11px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header{
+  margin-bottom:6px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stats{
+  margin-top:10px!important;
+}
+/* 4. Refine weekly KPI proportions; captions fit a single line on
+      usual iPhones and can still wrap naturally at 320 px. */
+@media(min-width:361px){
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat{
+    gap:4px!important;
+    padding-left:4px!important;
+    padding-right:4px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat>.cal-month-glyph:not(.cal-month-gavel-art){
+    width:19px!important;height:19px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat span{
+    gap:3px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-stat small{
+    font-size:9.85px!important;
+    white-space:nowrap!important;
+  }
+}
+/* 5. Selected-day card heading and inline Add button: optical centering
+      and a shorter gap before first agenda row, preserving their actions. */
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda{
+  padding-top:12px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head{
+  margin-bottom:10px!important;
+}
+#sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head .calendar-add-btn{
+  margin-top:3px!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-strip{
+    gap:2px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-card{
+    padding-top:10px!important;padding-bottom:10px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-header{
+    margin-bottom:6px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda{
+    padding-top:11px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head{
+    margin-bottom:8px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-agenda-head .calendar-add-btn{
+    margin-top:2px!important;
+  }
+}
