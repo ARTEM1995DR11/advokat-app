@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.36';
-var APP_BUILD='6340';
+var APP_VERSION='5.0.1297.37.1';
+var APP_BUILD='6342';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -48,11 +48,11 @@ function mergeState(d){
   /* 5.0.553 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
   out.ui.tab='today';
-  /* 5.0.1297.29.3: a new app launch always starts on Today; the first
-     entrance into Calendar must open MONTH, not the last saved Week/Day.
-     Selected calendar DATE is preserved, and mode still stays shared
-     during subsequent switches inside the same running session. */
+  /* 5.0.1297.37.1: on EVERY launch, the Calendar must start at the
+     device's LOCAL today, not a previously saved date or period. */
   out.ui.calView='month';
+  out.ui.calSel=today();
+  out.ui.calM=out.ui.calSel.slice(0,7);
   if(!out.ui.taskGroupOpen || typeof out.ui.taskGroupOpen!=='object') out.ui.taskGroupOpen={};
   if(!out.ui.matterScope) out.ui.matterScope=out.ui.showArch?'archive':'active';
   if(typeof out.ui.matterBasis!=='string') out.ui.matterBasis='';
@@ -3984,42 +3984,88 @@ function calMonthAgendaRow(t){
       '<small class="cal-month-event-brief" title="'+esc(info.fullBrief)+'">'+esc(info.brief)+'</small></span>'+
     '<span class="cal-month-event-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
-/* Stage 7 / 5.0.1296: full day timeline built from the SAME records as month/week.
-   The visual rows are views only: no copies, fixtures, or alternative storage. */
+/* 5.0.1297.37 / DAY stage 3: show WHAT happens before case information.
+   This is a presentation-only projection of the same task and matter records.
+   The complete title, notes, parties and venue remain in the original editor.
+   MONTH and WEEK retain their approved compact agenda format. */
+function calDayContextContains(hay,needle){
+  var a=calBriefClean(hay).toLocaleLowerCase('ru'),b=calBriefClean(needle).toLocaleLowerCase('ru');
+  return !!(a&&b&&a.indexOf(b)!==-1);
+}
+function calDaySubjectClean(value,number){
+  var s=calBriefClean(value);
+  // Do not place the same case number in the subject and in the case line.
+  if(number&&s){
+    var escaped=String(number).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    s=s.replace(new RegExp('(?:дело\\s*№\\s*|№\\s*)?'+escaped,'gi'),'')
+      .replace(/^[\s,;:·–—-]+|[\s,;:·–—-]+$/g,'').trim();
+  }
+  return s;
+}
+function calDayPresentation(t,m){
+  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
+  var title=calBriefClean(t.title),head='',subject='',venue=calBriefClean(t.place||''),
+      number=calBriefClean((m&&m.number)||(kind==='hearing'?t.hearingNumber:'')),
+      client=calBriefClean((m&&m.client)||(kind==='hearing'?t.hearingClient:''));
+  if(kind==='hearing'){
+    head='Судебное заседание';
+    subject=calBriefClean(hearingCaption(t,m));
+    if(calBriefGeneric(subject,kind))subject=calBriefClean(t.hearingTopic||t.note);
+    if(!venue&&m)venue=calBriefClean(m.court||'');
+  }else if(kind==='meeting'){
+    // A short meeting title can itself describe the action, like the mockup's
+    // 'Встреча с клиентом'. The note then becomes its useful short purpose.
+    head=/^встреча(?:\s|$)/i.test(title)&&title.length<=36?title:'Встреча';
+    subject=calBriefClean(t.note)||(!calBriefGeneric(title,kind)&&title!==head?title:'');
+  }else if(kind==='deadline'){
+    head='Процессуальный срок';
+    subject=!calBriefGeneric(title,kind)?title:calBriefClean(t.rule||t.note);
+  }else{
+    head='Задача';
+    subject=!calBriefGeneric(title,kind)?title:calBriefClean(t.note);
+  }
+  // Preserve the meaningful action. Avoid repeating number, venue and client
+  // across the second, third and fourth lines; the case ID remains visible.
+  if(!subject&&m)subject=calBriefClean(m.title||'');
+  if(!subject&&client)subject=client;
+  if(!subject)subject='Без уточнения содержания';
+  var fullSubject=subject;
+  // Keep the case number intact in a dedicated line, not hidden by ellipsis.
+  var hasNumber=number&&calDayContextContains(subject,number);
+  if(hasNumber){
+    var cleaned=calDaySubjectClean(subject,number);
+    if(cleaned)subject=cleaned;
+  }
+  if(venue&&(calDayContextContains(subject,venue)||calDayContextContains(head,venue)))venue='';
+  var caseBits=[];
+  if(number)caseBits.push('Дело № '+number);
+  // A client's surname already in the subject is not repeated in full below.
+  if(client){
+    var surname=client.split(/\s+/)[0];
+    if(!calDayContextContains(subject,surname)&&!calDayContextContains(head,surname))caseBits.push(client);
+  }
+  // If a venue or a complete case reference already appears in the subject,
+  // retain it once only. No source record is modified.
+  var brief=calBriefShort(subject,130);
+  return {kind:kind,head:head,detail:brief,fullDetail:fullSubject,
+    venue:venue,caseMeta:caseBits.join(' · ')};
+}
 function calDayTimelineRow(t){
   var m=t.mid?matter(t.mid):null;
-  var kind=t.kind==='hearing'?'hearing':t.kind==='meeting'?'meeting':t.kind==='deadline'?'deadline':'task';
-  var badge=calMonthBadge(t);
-  var stamp=calMonthItemTime(t);
-  var head=t.kind==='hearing'?hearingCaption(t,m):(t.title||({meeting:'Встреча',deadline:'Процессуальный срок'}[kind]||'Задача'));
-  var detail='',location='',caseMeta='';
-  if(kind==='hearing'){
-    detail=hearingContextText(t)||t.hearingTopic||t.note||'';
-    location=t.place||'';
-  }else if(kind==='meeting'){
-    detail=t.note||'';
-    location=t.place||'';
-  }else if(kind==='deadline'){
-    detail=t.rule||t.note||'';
-    location=t.place||'';
-  }else{
-    detail=t.note||'';
-    location=t.place||'';
-  }
-  if(m)caseMeta=[m.number?('Дело № '+m.number):'',m.client||''].filter(Boolean).join(' · ');
-  if(detail===head)detail='';
-  if(detail===location)location='';
-  var icon=kind==='hearing'?'court':kind==='meeting'?'events-people':kind==='deadline'?'doc':'check';
+  var info=calDayPresentation(t,m),badge=calMonthBadge(t),stamp=calMonthItemTime(t);
+  var icon=info.kind==='hearing'?'court':info.kind==='meeting'?'events-people':info.kind==='deadline'?'doc':'check';
   var act=hearingNeedsResult(t)?'hearing-result':'task';
+  var accessibility=(stamp||'Без времени')+', '+info.head+', '+info.fullDetail+
+    (info.venue?', '+info.venue:'')+(info.caseMeta?', '+info.caseMeta:'')+', '+badge.label;
   return '<div class="cal-day-timeline-row '+(stamp?'timed':'untimed')+'">'+
     '<span class="cal-day-clock">'+(stamp?esc(stamp):'—')+'</span>'+
-    '<button type="button" class="cal-day-event '+kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc((stamp||'Без времени')+', '+head+', '+badge.label)+'">'+
+    '<button type="button" class="cal-day-event '+info.kind+' status-'+badge.tone+'" data-act="'+act+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">'+
       '<span class="cal-day-event-icon">'+ico(icon,'s')+'</span>'+
       '<span class="cal-day-event-copy">'+
-        '<span class="cal-day-event-head"><b>'+esc(head)+'</b>'+calStateBadgeHTML(badge,'cal-day-event-status')+'</span>'+
-        (detail?'<span class="cal-day-event-desc">'+esc(detail)+'</span>':'')+
-        (location?'<span class="cal-day-event-location">'+ico('pin','s')+esc(location)+'</span>':'')+
-        (caseMeta?'<span class="cal-day-event-case">'+esc(caseMeta)+'</span>':'')+
+        '<span class="cal-day-event-head"><b>'+esc(info.head)+'</b>'+calStateBadgeHTML(badge,'cal-day-event-status')+'</span>'+
+        '<span class="cal-day-event-desc" title="'+esc(info.fullDetail)+'">'+esc(info.detail)+'</span>'+
+        (info.venue?'<span class="cal-day-event-location">'+ico('pin','s')+esc(info.venue)+'</span>':'')+
+        (info.caseMeta?'<span class="cal-day-event-case">'+esc(info.caseMeta)+'</span>':'')+
       '</span><span class="cal-day-event-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button></div>';
 }
 function calDayTimelineContent(day){
@@ -4368,8 +4414,18 @@ function render(){
   if(calShield)calShield.classList.toggle('is-visible',S.ui.tab==='cal'&&$('#sc-cal').scrollTop>16);
 }
 var NAV_TABS=[];
-function go(tab,replaceHistory,transition){
+function go(tab,replaceHistory,transition,preserveCalendarDate){
   var cur=S.ui.tab;
+  /* 5.0.1297.37.1: tapping the Calendar navigation (including tapping
+     its already-active icon) enters MONTH at the real local date.
+     Switching Month/Week/Day inside Calendar never calls go(), and the
+     history back-route explicitly retains the date via replaceHistory. */
+  if(tab==='cal' && !replaceHistory && !preserveCalendarDate){
+    var entryToday=today();
+    S.ui.calSel=entryToday;
+    S.ui.calM=entryToday.slice(0,7);
+    S.ui.calView='month';
+  }
   if(tab!==cur){
     /* Сворачиваем локальный поиск по делам при любом переходе между вкладками. */
     S.ui.matterSearchOpen=false;
@@ -8461,7 +8517,7 @@ function openCalendarQaDay(){
   if(existing){
     d=(window.AdvokatCalendar&&window.AdvokatCalendar.safeDate(existing.qaDay,today()))||today();
     S.ui.calSel=d;S.ui.calM=d.slice(0,7);S.ui.calView='month';
-    save();closeAll();go('cal');toast('Открыт тестовый день · '+fmtD(d,true));return;
+    save();closeAll();go('cal',false,'',true);toast('Открыт тестовый день · '+fmtD(d,true));return;
   }
   d=window.AdvokatCalendar?window.AdvokatCalendar.safeDate(S.ui.calSel,today()):today();
   if(!confirm('Создать ТЕСТОВЫЙ день '+fmtD(d,true)+' с 10 вымышленными записями: заседания, встречи, сроки, задачи, завершённые и длинные записи, записи без времени? Данные ваших реальных дел останутся без изменений. В разделе «Ещё» будет отдельная команда удаления тестового дня.'))return;
@@ -8502,7 +8558,7 @@ function openCalendarQaDay(){
     pri:'low',note:'Контроль передачи оригиналов в канцелярию суда'});
   S.matters.unshift(m);S.tasks=rows.concat(S.tasks);
   S.ui.calSel=d;S.ui.calM=d.slice(0,7);S.ui.calView='month';
-  save();closeAll();go('cal');toast('Создан тестовый день · 10 вымышленных записей');
+  save();closeAll();go('cal',false,'',true);toast('Создан тестовый день · 10 вымышленных записей');
 }
 function removeCalendarQaDay(){
   var m=calendarQaMatter();
@@ -9736,6 +9792,7 @@ function afterUnlock(){
   if(!APP_STARTED){
     S.ui.tab='today';
     S.ui.calView='month'; // first Calendar entry after unlock always opens Month
+    S.ui.calSel=today(); S.ui.calM=S.ui.calSel.slice(0,7);
     S.ui.q='';
     S.ui._sq=false;
 
@@ -9802,6 +9859,7 @@ document.addEventListener('visibilitychange',function(){
     if(hiddenAt){
       S.ui.tab='today';
       S.ui.calView='month'; // iOS PWA resume: no stale Week/Day mode
+      S.ui.calSel=today(); S.ui.calM=S.ui.calSel.slice(0,7);
       S.ui.q='';
       S.ui._sq=false;
       NAV_TABS=[];
@@ -9821,6 +9879,7 @@ window.addEventListener('pageshow',function(event){
   if(!event.persisted || !unlocked)return;
   S.ui.tab='today';
   S.ui.calView='month'; // restored from BFCache: first entry defaults to Month
+  S.ui.calSel=today(); S.ui.calM=S.ui.calSel.slice(0,7);
   S.ui.q='';
   S.ui._sq=false;
   NAV_TABS=[];
