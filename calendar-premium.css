@@ -3922,3 +3922,31 @@ html body #sc-cal.screen{
   scroll-padding-bottom:190px!important;
   padding-bottom:max(190px,calc(190px + env(safe-area-inset-bottom,0px)))!important;
 }
+
+
+/* 5.0.1297.41.7 — iOS calendar top-scroll handoff. On the approved
+   background, the calendar controls now fade out beneath the system status
+   area instead of being hard-cut at a horizontal 62px border. Only this
+   screen-specific protective overlay changes; no header/grid/card/Nav/FAB
+   geometry is altered. Clock and cellular icons always have an opaque base. */
+#cal-ios-status-shield{
+  height:calc(max(58px,env(safe-area-inset-top,0px)) + 46px)!important;
+  -webkit-mask-image:linear-gradient(to bottom,
+    #000 0%,
+    #000 calc(100% - 46px),
+    rgba(0,0,0,.98) calc(100% - 39px),
+    rgba(0,0,0,.70) calc(100% - 26px),
+    rgba(0,0,0,.27) calc(100% - 12px),
+    transparent 100%)!important;
+  mask-image:linear-gradient(to bottom,
+    #000 0%,
+    #000 calc(100% - 46px),
+    rgba(0,0,0,.98) calc(100% - 39px),
+    rgba(0,0,0,.70) calc(100% - 26px),
+    rgba(0,0,0,.27) calc(100% - 12px),
+    transparent 100%)!important;
+  pointer-events:none!important;
+  box-shadow:none!important;border:0!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  transition:none!important;
+}
