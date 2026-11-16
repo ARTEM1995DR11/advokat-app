@@ -49087,3 +49087,27 @@ body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #page.dossier
 body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #sheet.matter-event-stage1-open{
   z-index:42!important;
 }
+
+/* 5.0.1297.41.21 — Journal entry: eliminate large empty space between
+   the note and the Save button. Retain the APPROVED raised paper-folder SVG,
+   text fields, footer and background. Only this journal view is affected.
+   Use intrinsic form height, capped for short/landscape screens. */
+#sheet.journal-premium-sheet.journal-paper-v1259.open {
+  bottom:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(100dvh - clamp(54px,calc(10dvh + 30px),128px) - max(24px,env(safe-area-inset-bottom,0px) + 8px))!important;
+}
+#sheet.journal-paper-v1259.open>.shbody {
+  flex:0 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+}
+#sheet.journal-paper-v1259.open>.shfoot {
+  flex:0 0 auto!important;
+}
+@media(max-height:620px){
+  #sheet.journal-premium-sheet.journal-paper-v1259.open {
+    max-height:calc(100dvh - max(54px,env(safe-area-inset-top,0px) + 7px) - max(12px,env(safe-area-inset-bottom,0px)))!important;
+  }
+}
