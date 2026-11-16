@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.24';
-var APP_BUILD='6370';
+var APP_VERSION='5.0.1297.41.25';
+var APP_BUILD='6371';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2206,8 +2206,10 @@ function sheetMatterFinishChoice(id){
      Keep the two existing actions and return navigation untouched. */
   openSheet('<section class="stage-finish-choice" aria-labelledby="stage-finish-choice-title">'+
     '<header class="stage-finish-header">'+
-      '<div class="stage-finish-navline"><button class="stage-wizard-back stage-finish-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
-      '<div class="stage-finish-heading"><span class="stage-finish-title-icon" aria-hidden="true">'+ico('arch','s')+'</span><div class="stage-finish-heading-copy"><h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+
+      '<button class="stage-wizard-back stage-finish-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button>'+
+      '<div class="stage-finish-heading"><span class="stage-finish-title-icon" aria-hidden="true">'+ico('arch','s')+'</span><div class="stage-finish-heading-copy">'+
+        '<div class="stage-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
+        '<h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+
     '</header>'+
     '<p class="stage-wizard-sub stage-finish-intro">Выберите, завершается ли всё поручение или работа продолжится в новой связанной папке.</p>'+
     '<div class="stage-finish-options" role="group" aria-label="Способ завершения дела">'+

@@ -403,3 +403,120 @@ body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open::after {
 body.light #sheet.stage-finish-choice-sheet.open {
   z-index:42!important;
 }
+
+/* 5.0.1297.41.25 — finish-choice visual regression corrections only.
+   Keep the exact approved notched outline, backdrop, bottom anchoring,
+   and both completion handlers. Header is now a single compact identity row;
+   no separate eyebrow row or vertically displaced fake rule. */
+#sheet.stage-finish-choice-sheet .stage-finish-header {
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:0 0 11px!important;
+  min-width:0!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-back {
+  flex:0 0 36px!important;
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+  border-radius:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading {
+  display:flex!important;
+  flex:1 1 auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-width:0!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-title-icon {
+  flex:0 0 43px!important;
+  width:43px!important;
+  height:46px!important;
+  border-radius:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-title-icon .ico {
+  width:25px!important;height:25px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading-copy {
+  flex:1 1 auto!important;min-width:0!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow {
+  display:flex;align-items:center;gap:8px;
+  margin:0 0 3px;
+  color:#9d7337;
+  font:800 clamp(8.5px,2.55vw,10.5px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:.13em;
+  white-space:nowrap;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow>span {
+  flex:0 0 auto;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow>i {
+  flex:1 1 auto;min-width:0;max-width:55px;height:2px;
+  border-radius:3px;
+  background:linear-gradient(90deg,#c49248,#e7cb95);
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading h2 {
+  margin:0 0 3px!important;
+  font:700 clamp(20px,5.8vw,27px)/1.08 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.032em!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading p {
+  font-size:clamp(11px,3.05vw,13px)!important;
+  line-height:1.25!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-intro {
+  margin:10px 3px 14px!important;
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-options {
+  gap:10px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option {
+  min-height:80px!important;
+  padding:9px 9px!important;
+  gap:8px!important;
+  border-radius:20px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon {
+  flex:0 0 40px!important;width:40px!important;height:40px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon .ico {
+  width:24px!important;height:24px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option b {
+  font-size:clamp(13.5px,4vw,16px)!important;
+  line-height:1.16!important;
+  letter-spacing:-.039em!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option small {
+  margin-top:4px!important;font-size:11.2px!important;line-height:1.33!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note {
+  margin:14px 0 0!important;
+  padding:10px 10px!important;
+  gap:8px!important;
+  font-size:11.5px!important;
+  line-height:1.38!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note-icon {
+  flex:0 0 28px!important;width:28px!important;
+  height:33px!important;padding-right:7px!important;
+}
+@media(max-width:360px) {
+  #sheet.stage-finish-choice-sheet .stage-finish-header{gap:6px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-back {flex-basis:33px!important;width:33px!important;min-width:33px!important;height:33px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-title-icon{flex-basis:39px!important;width:39px!important;height:42px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-heading {gap:6px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-eyebrow{font-size:8.5px!important;letter-spacing:.11em!important;gap:5px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option{min-height:76px!important;padding:8px 7px!important;gap:7px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option-icon{flex-basis:36px!important;width:36px!important;height:36px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option b{font-size:clamp(12.6px,4.15vw,14.5px)!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option small{font-size:10.6px!important;}
+}
+@media(max-height:690px) {
+  #sheet.stage-finish-choice-sheet .stage-finish-intro {margin-top:9px!important;margin-bottom:11px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option {min-height:75px!important;}
+}
