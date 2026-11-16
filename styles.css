@@ -49132,3 +49132,43 @@ body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #sheet.matter
     max-height:calc(100dvh - max(54px,env(safe-area-inset-top,0px) + 7px) - max(12px,env(safe-area-inset-bottom,0px)))!important;
   }
 }
+
+
+/* 5.0.1297.41.23 — Journal background seam correction.
+   After the compact folder was lowered, the formerly hidden mismatch between
+   three competing background layers became visible around the old sheet top.
+   Keep ONE full-viewport approved marble image on the existing clickable scrim.
+   Neither the new sheet position/height nor any other screen is modified. */
+body.journal-sheet-open::before {
+  content:none!important;
+  display:none!important;
+}
+body.light.journal-sheet-open #scrim.open {
+  position:fixed!important;
+  top:0!important;
+  right:0!important;
+  bottom:auto!important;
+  left:0!important;
+  inset:0 0 auto 0!important;
+  width:100%!important;
+  height:calc(100lvh + 200px)!important;
+  min-height:calc(100lvh + 200px)!important;
+  z-index:41!important;
+  pointer-events:auto!important;
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  opacity:1!important;
+  transform:none!important;
+}
+body.light.journal-sheet-open #scrim.open::after {
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+}
