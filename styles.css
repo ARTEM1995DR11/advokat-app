@@ -49111,3 +49111,24 @@ body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #sheet.matter
     max-height:calc(100dvh - max(54px,env(safe-area-inset-top,0px) + 7px) - max(12px,env(safe-area-inset-bottom,0px)))!important;
   }
 }
+
+
+/* 5.0.1297.41.22 — Journal entry ONLY: align the compact paper folder
+   with the lower safe area, preserving its intrinsic height and approved
+   raised top tab, two golden outlines, inputs and Save button. Previously
+   top anchoring left an empty marble band below the short folder. The same
+   max-height constraint from 41.21 protects small and landscape devices. */
+#sheet.journal-premium-sheet.journal-paper-v1259.open {
+  top:auto!important;
+  bottom:max(24px,calc(env(safe-area-inset-bottom,0px) + 8px))!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(100dvh - clamp(54px,calc(10dvh + 30px),128px) - max(24px,env(safe-area-inset-bottom,0px) + 8px))!important;
+}
+@media(max-height:620px){
+  #sheet.journal-premium-sheet.journal-paper-v1259.open {
+    top:auto!important;
+    bottom:max(12px,env(safe-area-inset-bottom,0px))!important;
+    max-height:calc(100dvh - max(54px,env(safe-area-inset-top,0px) + 7px) - max(12px,env(safe-area-inset-bottom,0px)))!important;
+  }
+}
