@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.29';
-var APP_BUILD='6375';
+var APP_VERSION='5.0.1297.41.30';
+var APP_BUILD='6376';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2198,6 +2198,19 @@ function matterFinishWarningMarkup(id){
     '<label class="matter-finish-ack"><input id="matter-close-ack" type="checkbox"><span>Я проверил(а) оставшиеся задачи, сроки и заседания</span></label></section>';
 }
 
+/* 5.0.1297.41.30 — premium, high-contrast vector icons for the approved
+   finish-choice form only. Other screens keep their own established icons. */
+function finishChoiceIcon(name){
+  var parts={
+    arch:'<rect x="3.2" y="4.2" width="17.6" height="4.5" rx="1.25" fill="#f4ddae" stroke="#865516" stroke-width="1.65"/><path d="M5.3 9V18.6A2.15 2.15 0 0 0 7.45 20.75h9.1a2.15 2.15 0 0 0 2.15-2.15V9" fill="#fff7e9" stroke="#93621d" stroke-width="1.75"/><path d="M9.4 13.1h5.2" stroke="#8a5918" stroke-width="2.05" stroke-linecap="round"/><path d="M6.4 10.2h11.2" stroke="#edc984" stroke-width=".85" opacity=".85"/>',
+    check:'<circle cx="12" cy="12" r="8.8" fill="#effff4" stroke="#14875f" stroke-width="1.9"/><path d="m7.4 12.4 3 2.75 6.1-6.35" stroke="#087e56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    folder:'<path d="M3.5 8.6V7.6c0-1.2 1-2.2 2.2-2.2h3.2c.6 0 1.1.25 1.45.65l1.45 1.55h6.55c1.05 0 2 .9 2 2v7.35c0 1.35-1.05 2.35-2.35 2.35H5.9a2.35 2.35 0 0 1-2.4-2.35z" fill="#e4f3ff" stroke="#2176b1" stroke-width="1.75" stroke-linejoin="round"/><path d="M4.3 10.25h15" stroke="#2176b1" stroke-width="1.75"/><path d="M5.7 12.05h12.8" stroke="#fff" stroke-width=".8" opacity=".82"/>',
+    info:'<circle cx="12" cy="12" r="9" fill="#fff7e6" stroke="#95671f" stroke-width="1.85"/><circle cx="12" cy="7.65" r="1.1" fill="#95671f"/><path d="M12 11.2v5.5" stroke="#95671f" stroke-width="2.3" stroke-linecap="round"/>',
+    chev:'<path d="m9.2 5.4 6.1 6.6-6.1 6.6" fill="none" stroke="#91621d" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+  return '<svg class="stage-finish-glyph stage-finish-glyph-'+name+'" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">'+(parts[name]||'')+'</svg>';
+}
+
 /* 41.17: Preserve the seven approved case-action rows. The existing
    «Завершить дело» opens a nested choice, not another menu row. */
 function sheetMatterFinishChoice(id){
@@ -2206,16 +2219,15 @@ function sheetMatterFinishChoice(id){
      Keep the two existing actions and return navigation untouched. */
   openSheet('<section class="stage-finish-choice" aria-labelledby="stage-finish-choice-title">'+
     '<header class="stage-finish-header">'+
-      '<button class="stage-wizard-back stage-finish-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button>'+
-      '<div class="stage-finish-heading"><span class="stage-finish-title-icon" aria-hidden="true">'+ico('arch','s')+'</span><div class="stage-finish-heading-copy">'+
+      '<div class="stage-finish-heading"><span class="stage-finish-title-icon" aria-hidden="true">'+finishChoiceIcon('arch')+'</span><div class="stage-finish-heading-copy">'+
         '<div class="stage-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
         '<h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+
     '</header>'+
     '<p class="stage-wizard-sub stage-finish-intro">Выберите, завершается ли всё поручение или работа продолжится в новой связанной папке.</p>'+
     '<div class="stage-finish-options" role="group" aria-label="Способ завершения дела">'+
-      '<button class="stage-finish-option stage-finish-option-complete" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+ico('matter-finish','s')+'</span><span class="stage-finish-option-copy"><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span><span class="stage-finish-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
-      '<button class="stage-finish-option stage-finish-option-continue" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+ico('folder','s')+'</span><span class="stage-finish-option-copy"><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span><span class="stage-finish-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
-    '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+ico('info','s')+'</span><span>Предыдущие этапы и записи сохраняются. Расчёт вознаграждения возможен только по делам по назначению.</span></div></section>');
+      '<button class="stage-finish-option stage-finish-option-complete" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+finishChoiceIcon('check')+'</span><span class="stage-finish-option-copy"><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span><span class="stage-finish-chevron" aria-hidden="true">'+finishChoiceIcon('chev')+'</span></button>'+
+      '<button class="stage-finish-option stage-finish-option-continue" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+finishChoiceIcon('folder')+'</span><span class="stage-finish-option-copy"><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span><span class="stage-finish-chevron" aria-hidden="true">'+finishChoiceIcon('chev')+'</span></button>'+
+    '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+finishChoiceIcon('info')+'</span><span>Предыдущие этапы и записи сохраняются. Расчёт вознаграждения возможен только по делам по назначению.</span></div></section>');
   var panel=$('#sheet');
   panel.classList.add('case-stage-sheet','stage-finish-choice-sheet');
   mountMatterActionsOutline(panel);
