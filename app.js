@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.17';
-var APP_BUILD='6363';
+var APP_VERSION='5.0.1297.41.18';
+var APP_BUILD='6364';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2202,14 +2202,21 @@ function matterFinishWarningMarkup(id){
    «Завершить дело» opens a nested choice, not another menu row. */
 function sheetMatterFinishChoice(id){
   var m=matter(id);if(!m||m.archived)return;
+  /* 41.18: Reuse the approved notched dossier-paper outline from "Действия по делу".
+     Keep the two existing actions and return navigation untouched. */
   openSheet('<section class="stage-finish-choice" aria-labelledby="stage-finish-choice-title">'+
-    '<header class="stage-wizard-header"><button class="stage-wizard-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button><div><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+
-    '<p class="stage-wizard-sub">Выберите, завершается ли всё поручение или работа продолжится в новой связанной папке.</p>'+
-    '<div class="stage-finish-options">'+
-      '<button class="stage-finish-option" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon">'+ico('matter-finish','s')+'</span><span><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span>'+ico('chev','s')+'</button>'+
-      '<button class="stage-finish-option" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon">'+ico('folder','s')+'</span><span><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span>'+ico('chev','s')+'</button>'+
-    '</div><p class="stage-finish-note">Предыдущие этапы и записи сохраняются. Рассчитать вознаграждение можно только по делам по назначению.</p></section>');
-  $('#sheet').classList.add('case-stage-sheet','stage-finish-choice-sheet');
+    '<header class="stage-finish-header">'+
+      '<div class="stage-finish-navline"><button class="stage-wizard-back stage-finish-back" type="button" data-act="m-finish-choice-back" data-id="'+esc(id)+'" aria-label="Назад к действиям по делу">'+ico('left','s')+'</button><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div>'+
+      '<div class="stage-finish-heading"><span class="stage-finish-title-icon" aria-hidden="true">'+ico('arch','s')+'</span><div class="stage-finish-heading-copy"><h2 id="stage-finish-choice-title">Завершить дело</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></div>'+
+    '</header>'+
+    '<p class="stage-wizard-sub stage-finish-intro">Выберите, завершается ли всё поручение или работа продолжится в новой связанной папке.</p>'+
+    '<div class="stage-finish-options" role="group" aria-label="Способ завершения дела">'+
+      '<button class="stage-finish-option stage-finish-option-complete" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+ico('matter-finish','s')+'</span><span class="stage-finish-option-copy"><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span><span class="stage-finish-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+      '<button class="stage-finish-option stage-finish-option-continue" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+ico('folder','s')+'</span><span class="stage-finish-option-copy"><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span><span class="stage-finish-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+    '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+ico('info','s')+'</span><span>Предыдущие этапы и записи сохраняются. Расчёт вознаграждения возможен только по делам по назначению.</span></div></section>');
+  var panel=$('#sheet');
+  panel.classList.add('case-stage-sheet','stage-finish-choice-sheet');
+  mountMatterActionsOutline(panel);
 }
 
 function sheetMatterFinish(id){
@@ -2432,6 +2439,15 @@ function openSheet(html){
   if(s._matterEventPaperScroll){
     s.removeEventListener('scroll',s._matterEventPaperScroll);
     s._matterEventPaperScroll=null;
+  }
+  // Release the approved raised-folder SVG listener when changing sheet.
+  if(s._maOutlineScrollHandler){
+    s.removeEventListener('scroll',s._maOutlineScrollHandler);
+    s._maOutlineScrollHandler=null;
+  }
+  if(MATTER_ACTIONS_OUTLINE_OBSERVER){
+    MATTER_ACTIONS_OUTLINE_OBSERVER.disconnect();
+    MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
   s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet');
