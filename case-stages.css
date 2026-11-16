@@ -608,3 +608,62 @@ body.light #sheet.stage-finish-choice-sheet.open {
     flex:0 0 31px!important;width:31px!important;
   }
 }
+
+
+/* 5.0.1297.41.27 — approved finish-choice: final typography and vertical alignment.
+   Intentional scope: only the two-choice screen, not the dossier/action menus,
+   sheet background, notched paper outline or completed-work handlers.
+   Keep the back control in its dedicated upper-left row. */
+#sheet.stage-finish-choice-sheet .stage-finish-header{
+  margin-bottom:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-intro{
+  margin-top:10px!important;
+  margin-bottom:16px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-options{
+  gap:10px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option{
+  min-height:81px!important;
+  padding:9px 8px!important;
+  gap:8px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option b{
+  font-size:clamp(15.7px,4.9vw,20.4px)!important;
+  line-height:1.12!important;
+  letter-spacing:-.052em!important;
+  white-space:nowrap!important;
+  overflow-wrap:normal!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option small{
+  margin-top:5px!important;
+  line-height:1.34!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note{
+  margin:21px -5px 0!important;
+  padding:11px 11px!important;
+  gap:12px!important;
+  color:#56677e!important;
+  font-size:12.3px!important;
+  line-height:1.4!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note-icon{
+  flex:0 0 34px!important;
+  width:34px!important;
+}
+@media(max-width:360px){
+  #sheet.stage-finish-choice-sheet .stage-finish-option{
+    min-height:79px!important;
+    padding:8px 7px!important;
+    gap:7px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-note{
+    padding:10px 8px!important;
+    gap:9px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-note-icon{
+    flex:0 0 31px!important;
+    width:31px!important;
+  }
+}
