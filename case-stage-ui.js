@@ -62,6 +62,7 @@ function stageWizardValidateStep(){
   if(step===0){
     if(!stageISODateValid(d.closeDate)||d.closeDate>today())return 'Проверьте дату завершения';
     if(!d.result||!d.note)return 'Укажите результат и заключительную запись';
+    if(!stageClosureOutcomeOptions(m).some(function(x){return x[0]===d.result;}))return 'Выберите фактический результат текущей стадии';
     if(stageUnresolvedHearings(m).length)return 'Сначала укажите результат всех прошедших заседаний';
   }
   if(step===1){
@@ -108,10 +109,10 @@ function stageWizardHead(){
 }
 function stageWizardClosureHTML(d,m){
   var n=stageUnresolvedHearings(m).length;
-  return '<p class="stage-wizard-sub">Завершится только текущая стадия. Юридическое дело продолжится в новой связанной папке.</p>'+
+  return '<p class="stage-wizard-sub">Завершится только текущая стадия. <b>В этом сценарии создание новой связанной папки обязательно.</b> Если поручение заканчивается без продолжения, используйте «Завершить дело полностью».</p>'+
     '<label class="stage-wizard-field">Дата завершения<input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'"></label>'+
-    '<label class="stage-wizard-field">Результат работы / производства<select id="st-close-result">'+
-      [['','Выберите результат'],['Направлено в суд','Дело направлено в суд'],['Завершено расследование','Расследование завершено'],['Вынесен судебный акт','Вынесен судебный акт'],['Рассмотрение окончено','Рассмотрение окончено'],['Продолжение в другой стадии','Продолжение в другой стадии'],['Иной результат','Иной результат']]
+    '<label class="stage-wizard-field">Фактический результат завершённого этапа<select id="st-close-result">'+
+      stageClosureOutcomeOptions(m)
       .map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===d.result?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select></label>'+
     '<label class="stage-wizard-field">Заключительная запись<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
     (n?'<div class="stage-wizard-alert">Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.</div>':'');

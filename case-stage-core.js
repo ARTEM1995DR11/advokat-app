@@ -20,6 +20,35 @@ function stageISODateValid(iso){
   return d.getUTCFullYear()===a[0]&&d.getUTCMonth()+1===a[1]&&d.getUTCDate()===a[2];
 }
 function stageAllowedStage(m,stage){return !!(m&&((MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other)||[]).includes(stage));}
+/* The result describes WHAT HAPPENED during the stage, never WHETHER
+   there will be a next stage: this wizard always creates a linked folder.
+   Keep non-standard outcomes available without inventing a procedural fact. */
+function stageClosureOutcomeOptions(m){
+  var type=m&&m.type||'other', stage=m&&m.stage||'', opts=[];
+  var later=/Апелляция|Кассация|Надзор|Пересмотр/.test(stage);
+  var preTrial=/Материал проверки|Дознание|Следствие|Проверка \/ административное расследование|Досудебная работа/.test(stage);
+  if(type==='criminal' && stage==='Материал проверки'){
+    opts=[['Возбуждено уголовное дело','Возбуждено уголовное дело'],['Передано по подследственности','Материал передан по подследственности'],['Вынесено процессуальное решение','Принято процессуальное решение']];
+  }else if(type==='criminal' && preTrial){
+    opts=[['Направлено в суд','Дело направлено в суд'],['Завершено расследование','Расследование завершено'],['Передано по подследственности','Дело передано по подследственности'],['Возвращено на дополнительное расследование','Возвращено на дополнительное расследование']];
+  }else if(type==='criminal' && later){
+    opts=[['Акт оставлен без изменения','Судебный акт оставлен без изменения'],['Акт изменён','Судебный акт изменён'],['Акт отменён','Судебный акт отменён'],['Направлено на новое рассмотрение','Дело направлено на новое рассмотрение']];
+  }else if(type==='criminal'){
+    opts=[['Вынесен судебный акт','Вынесен судебный акт'],['Рассмотрение окончено','Рассмотрение окончено'],['Дело возвращено прокурору','Дело возвращено прокурору']];
+  }else if(type==='koap' && preTrial){
+    opts=[['Материал направлен на рассмотрение','Материал направлен на рассмотрение'],['Вынесено постановление','Вынесено постановление']];
+  }else if(type==='civil' || type==='admin'){
+    opts=preTrial?[['Заявление подано в суд','Заявление подано в суд'],['Досудебная работа завершена','Досудебная работа завершена']]:
+      later?[['Акт оставлен без изменения','Судебный акт оставлен без изменения'],['Акт изменён','Судебный акт изменён'],['Акт отменён','Судебный акт отменён'],['Направлено на новое рассмотрение','Дело направлено на новое рассмотрение']]:
+      [['Вынесен судебный акт','Вынесен судебный акт'],['Рассмотрение окончено','Рассмотрение окончено']];
+  }else{
+    opts=[['Вынесен судебный акт','Вынесен судебный акт'],['Рассмотрение окончено','Рассмотрение окончено']];
+    if(later)opts.push(['Направлено на новое рассмотрение','Дело направлено на новое рассмотрение']);
+  }
+  opts.push(['Иной результат','Иной результат (указать в заключительной записи)']);
+  return [['','Выберите фактический результат']].concat(opts);
+}
+
 function stagePrepareNewMatter(src,d,id,now){
   var custom=d.stage==='__other__'?String(d.stageCustom||'').trim():'',stage=d.stage==='__other__'?d.stageBase:d.stage;
   var out={id:id,type:src.type,basis:d.basis,client:src.client||'',phone:src.phone||'',number:'',
@@ -92,6 +121,7 @@ async function stageCommitTransfer(d){
     if(!stageISODateValid(d.startDate))throw new Error('Укажите дату начала новой стадии');
     if(d.startDate<d.closeDate)throw new Error('Новая стадия не может начинаться раньше даты завершения предыдущей');
     if(!String(d.result||'').trim()||!String(d.note||'').trim())throw new Error('Заполните результат и заключительную запись');
+    if(!stageClosureOutcomeOptions(src).some(function(x){return x[0]===d.result;}))throw new Error('Выбран недопустимый результат для текущей стадии');
     if(!MATTER_BASIS[d.basis])throw new Error('Выберите основание участия в новом этапе');
     if(d.stage==='__other__'){
       if(String(d.stageCustom||'').trim().length<3)throw new Error('Введите название нового этапа');

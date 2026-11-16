@@ -536,7 +536,8 @@ function listPickerMeta(target){
     'm-basis':{title:'Основание ведения',sub:'Выберите основание работы по делу',search:'Поиск…',icon:'brief'},
     'e-deadline-code':{title:'Производство / кодекс',sub:'Выберите применимый кодекс',search:'Поиск…',icon:'doc'},
     'e-deadline-rule':{title:'Процессуальный срок',sub:'Выберите правило расчёта · '+legalDeadlineCount()+' сроков в базе',search:'Поиск по сроку или статье…',icon:'clock'},
-    'pt-kind':{title:'Вид участия',sub:'Выберите вид процессуального действия',search:'Поиск…',icon:'gavel'}
+    'pt-kind':{title:'Вид участия',sub:'Выберите вид процессуального действия',search:'Поиск…',icon:'gavel'},
+    'st-close-result':{title:'Результат этапа',sub:'Фактический итог завершённой стадии',search:'',icon:'flag'}
   };
   return map[target]||{title:'Выбор',sub:'Выберите значение из списка',search:'Поиск…',icon:'list'};
 }
@@ -691,11 +692,11 @@ function closePremiumListPicker(){
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid','st-close-result'].indexOf(target)>=0;
 }
 function matterEditorPickerWithoutSearch(target){
   // Для вопроса исполнения приговора поиск оставляем: вариантов много.
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice','st-close-result'].indexOf(target)>=0;
 }
 function premiumMatterPickerRow(it){
   var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
