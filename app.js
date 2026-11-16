@@ -4,8 +4,10 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.30';
-var APP_BUILD='6376';
+/* Read the visible version and build from the same HTML metadata as the app shell.
+   This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.37';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6383';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2228,7 +2230,7 @@ function sheetMatterFinishChoice(id){
     '<div class="stage-finish-options" role="group" aria-label="Способ завершения дела">'+
       '<button class="stage-finish-option stage-finish-option-complete" type="button" data-act="m-finish-full" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+finishChoiceIcon('check')+'</span><span class="stage-finish-option-copy"><b>Завершить дело полностью</b><small>Результат, заключительная запись и архивирование без создания новой стадии</small></span><span class="stage-finish-chevron" aria-hidden="true">'+finishChoiceIcon('chev')+'</span></button>'+
       '<button class="stage-finish-option stage-finish-option-continue" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+finishChoiceIcon('folder')+'</span><span class="stage-finish-option-copy"><b>Завершить этап и продолжить</b><small>Новая связанная папка, перенос задач и расчёт по назначению</small></span><span class="stage-finish-chevron" aria-hidden="true">'+finishChoiceIcon('chev')+'</span></button>'+
-    '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+finishChoiceIcon('info')+'</span><span>Предыдущие этапы и записи сохраняются. Расчёт вознаграждения возможен только по делам по назначению.</span></div></section>');
+    '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+finishChoiceIcon('info')+'</span><span class="stage-finish-note-copy"><span class="stage-finish-note-line">Предыдущие этапы и записи сохраняются.</span> <span class="stage-finish-note-line">Расчёт вознаграждения возможен только</span> <span class="stage-finish-note-line">по делам по назначению.</span></span></div></section>');
   var panel=$('#sheet');
   panel.classList.add('case-stage-sheet','stage-finish-choice-sheet');
   mountMatterActionsOutline(panel);
@@ -10083,9 +10085,12 @@ async function checkForAppUpdate(){
     var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store'});
     if(!response.ok)throw new Error('HTTP '+response.status);
     var versionText=(await response.text()).trim();
-    var match=versionText.match(/(5\.0\.\d+(?:\.\d+)*)\s*\/\s*(\d+)/);
-    if(!match)throw new Error('Invalid VERSION.txt');
-    var remoteBuild=Number(match[2]), currentBuild=Number(APP_BUILD);
+    /* Accept the published two-line VERSION.txt ("Build: N") and older N / N format. */
+    var match=versionText.match(/(5\.0\.\d+(?:\.\d+)*)/);
+    var buildMatch=versionText.match(/(?:^|\n)\s*Build\s*:\s*(\d+)\b/i)
+      || versionText.match(/5\.0\.\d+(?:\.\d+)*\s*\/\s*(\d+)/);
+    if(!match || !buildMatch)throw new Error('Invalid VERSION.txt');
+    var remoteBuild=Number(buildMatch[1]), currentBuild=Number(APP_BUILD);
     if(remoteBuild>currentBuild){
       if(!confirm('Доступна версия '+match[1]+' (установлена '+APP_VERSION+'). Обновить приложение сейчас?'))return;
       if(unlocked && !(await flushSave())){toast('Обновление отложено: сначала сохраните данные или резервную копию');return;}
