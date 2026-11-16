@@ -667,3 +667,97 @@ body.light #sheet.stage-finish-choice-sheet.open {
     width:31px!important;
   }
 }
+
+/* 5.0.1297.41.29 — reference-matched finishing-choice composition.
+   Four local corrections: upper identity, safe one-line scenario titles,
+   reference-like card geometry/spacing, and the three-line note.
+   Do not change the established background, paper outline, menu or actions. */
+#sheet.stage-finish-choice-sheet.open{
+  padding-top:32px!important;
+  padding-bottom:max(57px, calc(env(safe-area-inset-bottom, 0px) + 50px))!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-header{
+  padding-top:31px!important;
+  margin-bottom:10px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-back{
+  top:0!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-intro{
+  margin-top:9px!important;
+  margin-bottom:15px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-options{
+  gap:8px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option{
+  min-height:72px!important;
+  padding:7px 9px!important;
+  gap:8px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-copy{
+  min-width:0!important;
+  padding-right:2px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option b{
+  font-size:clamp(15px,4.73vw,20px)!important;
+  line-height:1.12!important;
+  letter-spacing:-.055em!important;
+  white-space:nowrap!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-continue b{
+  font-size:clamp(14.1px,4.43vw,18.7px)!important;
+  letter-spacing:-.063em!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-chevron{
+  flex:0 0 13px!important;
+  width:13px!important;
+  margin-left:5px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option small{
+  margin-top:4px!important;
+  line-height:1.31!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note{
+  margin-top:17px!important;
+  padding:10px clamp(25px, calc(24vw - 60px), 48px) 10px 11px!important;
+  gap:11px!important;
+  font-size:12.1px!important;
+  line-height:1.42!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note>span:last-child{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+@media(max-width:360px){
+  #sheet.stage-finish-choice-sheet.open{
+    padding-top:31px!important;
+    padding-bottom:max(51px, calc(env(safe-area-inset-bottom, 0px) + 44px))!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-header{padding-top:29px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option{
+    min-height:71px!important;
+    padding:7px 6px!important;
+    gap:6px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-option b{
+    font-size:clamp(14.3px,4.73vw,17px)!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-option-continue b{
+    font-size:clamp(13.65px,4.37vw,15.75px)!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-chevron{
+    margin-left:3px!important;
+    flex-basis:12px!important;
+    width:12px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-note{
+    padding:10px clamp(17px, calc(24vw - 60px), 25px) 10px 8px!important;
+    gap:9px!important;
+  }
+}
+@media(max-height:650px){
+  #sheet.stage-finish-choice-sheet.open{
+    padding-bottom:max(20px, env(safe-area-inset-bottom,0px))!important;
+  }
+}
