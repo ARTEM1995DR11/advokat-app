@@ -341,3 +341,23 @@
 #sheet.stage-finish-choice-sheet .stage-finish-navline>i{
   transform:translateY(19px);
 }
+
+/* 5.0.1297.41.20 — fit the approved notched "Завершить дело" sheet to its
+   actual content instead of reserving ~91vh (which leaves ~200px blank on
+   iPhone). Scope only this choice sheet; keep the same SVG outline and cards.
+   The flex item shrinks and becomes scrollable on compact / landscape screens. */
+#sheet.stage-finish-choice-sheet.open {
+  display:flex!important;
+  flex-direction:column!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(100dvh - max(72px, env(safe-area-inset-top, 0px) + 18px))!important;
+  padding-bottom:max(23px, calc(env(safe-area-inset-bottom, 0px) + 17px))!important;
+}
+#sheet.stage-finish-choice-sheet.open>.stage-finish-choice {
+  flex:0 1 auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding-bottom:7px!important;
+}
