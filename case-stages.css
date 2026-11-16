@@ -520,3 +520,91 @@ body.light #sheet.stage-finish-choice-sheet.open {
   #sheet.stage-finish-choice-sheet .stage-finish-intro {margin-top:9px!important;margin-bottom:11px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-option {min-height:75px!important;}
 }
+
+/* 5.0.1297.41.26 — final approved-reference alignment for the choice sheet.
+   Preserve a functional upper-left back arrow without pushing the archive
+   emblem/title to the right. Scope exclusively to the finish-choice UI. */
+#sheet.stage-finish-choice-sheet .stage-finish-header{
+  position:relative!important;
+  padding-top:35px!important;
+  margin-bottom:11px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading{
+  flex:1 1 100%!important;
+  width:100%!important;
+  margin:0!important;
+  gap:10px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-back{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  z-index:2!important;
+  flex:none!important;
+  width:35px!important;
+  min-width:35px!important;
+  height:35px!important;
+  margin:0!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-title-icon{
+  flex:0 0 46px!important;
+  width:46px!important;
+  height:48px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow{
+  margin-bottom:4px!important;
+  letter-spacing:.13em!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow>i{max-width:50px!important;}
+#sheet.stage-finish-choice-sheet .stage-finish-intro{
+  margin-top:10px!important;
+  margin-bottom:14px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-options{
+  margin-left:-5px!important;
+  margin-right:-5px!important;
+  gap:8px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option{
+  min-height:72px!important;
+  padding:7px 8px!important;
+  gap:8px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option b{line-height:1.16!important;}
+#sheet.stage-finish-choice-sheet .stage-finish-option small{
+  margin-top:4px!important;
+  line-height:1.31!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note{
+  margin:18px -5px 0!important;
+  padding:10px 11px!important;
+  gap:12px!important;
+  line-height:1.4!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note-icon{
+  flex:0 0 34px!important;
+  width:34px!important;
+  padding-right:9px!important;
+}
+#sheet.stage-finish-choice-sheet.open{
+  padding-bottom:max(14px, calc(env(safe-area-inset-bottom, 0px) + 10px))!important;
+}
+#sheet.stage-finish-choice-sheet.open>.stage-finish-choice{padding-bottom:0!important;}
+@media(max-width:360px){
+  #sheet.stage-finish-choice-sheet .stage-finish-heading{gap:8px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-back{
+    width:33px!important;min-width:33px!important;height:33px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-title-icon{
+    flex:0 0 44px!important;width:44px!important;height:46px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-option{
+    min-height:70px!important;padding:7px!important;gap:7px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-note{
+    gap:9px!important;padding:9px 8px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-note-icon{
+    flex:0 0 31px!important;width:31px!important;
+  }
+}
