@@ -881,3 +881,40 @@ body.light #sheet.stage-finish-choice-sheet.open {
 @media(max-height:650px){
   #sheet.stage-finish-choice-sheet.open{padding-bottom:max(18px,env(safe-area-inset-bottom,0px))!important;}
 }
+
+
+/* 5.0.1297.41.33 — STAGE 1 / typography only on finish-choice screen.
+   Restore the reference's lighter secondary text without losing contrast.
+   Dimensions, icon styles, button geometry and functionality remain untouched. */
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow {
+  font-weight:700!important;
+  letter-spacing:.145em!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading p {
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#4d5d76!important;
+  letter-spacing:0!important;
+  line-height:1.3!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-intro {
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#44546c!important;
+  letter-spacing:0!important;
+  line-height:1.47!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option small {
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#506078!important;
+  letter-spacing:0!important;
+  line-height:1.37!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note {
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-weight:400!important;
+  color:#4b5a70!important;
+  letter-spacing:0!important;
+  line-height:1.45!important;
+}
