@@ -49134,7 +49134,7 @@ body.matter-event-backdrop-open.matter-event-dossier-backdrop-open #sheet.matter
 }
 
 
-/* 5.0.1297.41.23 — Journal background seam correction.
+/* 5.0.1297.41.24 — Journal background seam correction.
    After the compact folder was lowered, the formerly hidden mismatch between
    three competing background layers became visible around the old sheet top.
    Keep ONE full-viewport approved marble image on the existing clickable scrim.

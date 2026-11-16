@@ -361,3 +361,45 @@
   max-height:none!important;
   padding-bottom:7px!important;
 }
+
+/* 5.0.1297.41.24 — The nested «Завершить дело» choice uses the SAME
+   uninterrupted, approved marble backdrop as «Запись в журнал дела».
+   Previously the default translucent scrim revealed the underlying dossier
+   («Ближайшее событие», «Основная информация») above the raised paper tab.
+   Target the OPEN sheet itself, so navigating away cleans up automatically;
+   no change to the case page, sheet dimensions, or finish-stage handlers. */
+html:has(> body.light:has(#sheet.stage-finish-choice-sheet.open)),
+body.light:has(#sheet.stage-finish-choice-sheet.open) {
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+  min-height:100lvh!important;
+}
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open {
+  position:fixed!important;
+  inset:0 0 auto 0!important;
+  top:0!important;
+  right:0!important;
+  bottom:auto!important;
+  left:0!important;
+  width:100%!important;
+  height:calc(100lvh + 200px)!important;
+  min-height:calc(100lvh + 200px)!important;
+  z-index:41!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  background:#f8f0e2 url('bg-matters-approved-v487.png') center top / 100% 100lvh no-repeat!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  transform:none!important;
+}
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open::before,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open::after {
+  content:none!important;
+  display:none!important;
+}
+body.light #sheet.stage-finish-choice-sheet.open {
+  z-index:42!important;
+}
