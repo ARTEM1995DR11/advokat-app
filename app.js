@@ -4,8 +4,8 @@
    ===================================================================== */
 'use strict';
 
-var APP_VERSION='5.0.1297.41.27';
-var APP_BUILD='6373';
+var APP_VERSION='5.0.1297.41.28';
+var APP_BUILD='6374';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4521,13 +4521,30 @@ function appBack(){
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
   if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
-  // Nested completion workflow: swipe/back follows the same history as visible arrows.
+  // 5.0.1297.41.28: The route belongs to the OPEN completion form, not
+  // to the optional menu stack. iOS may lose that stack after modal changes.
+  // The Back arrow and a right swipe must therefore reach the same screen:
+  // full completion -> two choices -> seven actions -> dossier.
   var completionSheet=$('#sheet');
   if(completionSheet&&completionSheet.classList.contains('open')){
     if(completionSheet.classList.contains('matter-finish-sheet')&&
-       completionSheet.querySelector('.matter-finish-head')&&
-       MATTER_ACTION_RETURN&&matter(MATTER_ACTION_RETURN.mid)){
-      sheetMatterFinishChoice(MATTER_ACTION_RETURN.mid);vib(5);return true;
+       completionSheet.querySelector('.matter-finish-head')){
+      if(completionSheet.classList.contains('matter-archive-sheet')){
+        // «Архивировать без завершения» starts directly from the actions menu.
+        var archiveButton=completionSheet.querySelector('[data-act="m-archive-save"][data-id]');
+        var archiveId=archiveButton&&archiveButton.dataset.id;
+        if(archiveId&&matter(archiveId)){sheetMatterMore(archiveId);vib(5);return true;}
+      }else{
+        // «Завершить дело полностью» has its own preceding choice screen.
+        var finishButton=completionSheet.querySelector('[data-act="m-finish-choice"][data-id]');
+        var finishId=finishButton&&finishButton.dataset.id;
+        if(finishId&&matter(finishId)&&!matter(finishId).archived){
+          if(!MATTER_ACTION_RETURN||!sameRecordId(MATTER_ACTION_RETURN.mid,finishId)){
+            MATTER_ACTION_RETURN={mid:String(finishId),stack:['actions']};
+          }
+          sheetMatterFinishChoice(finishId);vib(5);return true;
+        }
+      }
     }
     if(completionSheet.classList.contains('case-stage-sheet')&&
        completionSheet.querySelector('.stage-wizard-card')&&
@@ -9569,8 +9586,16 @@ document.addEventListener('touchstart',function(e){
   // «Действия по делу» menu; appBack() preserves each originating route.
   var chooser=sh.classList.contains('open')&&sh.classList.contains('matter-event-stage1-open')&&
     sh.contains(e.target)&&!LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER;
-  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser);
-  EDGE_SWIPE.choice=chooser;
+  // 41.28: A horizontal right swipe on the paper completion screens also
+  // matches the visible Back arrow. Never hijack text editing or pickers.
+  var finishFlowSwipe=sh.classList.contains('open')&&sh.contains(e.target)&&
+    (sh.classList.contains('stage-finish-choice-sheet')||
+     (sh.classList.contains('matter-finish-sheet')&&!!sh.querySelector('.matter-finish-head'))||
+     (sh.classList.contains('case-stage-sheet')&&!!sh.querySelector('.stage-wizard-card')))&&
+    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN&&
+    !(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable="true"]'));
+  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe);
+  EDGE_SWIPE.choice=chooser||finishFlowSwipe;
   EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
