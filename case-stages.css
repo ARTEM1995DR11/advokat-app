@@ -245,3 +245,99 @@
   #sheet.stage-finish-choice-sheet .stage-finish-option{min-height:98px!important}
   #sheet.stage-finish-choice-sheet .stage-finish-intro{margin-top:13px!important;margin-bottom:13px!important}
 }
+
+/* 5.0.1297.41.19 — visual acceptance pass for the approved
+   «Завершить дело» paper tab. Scoped strictly to this nested choice.
+   Keep the original raised-tab SVG, return button and both handlers. */
+#sheet.stage-finish-choice-sheet.open{
+  padding-top:44px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-header{
+  margin-bottom:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-navline{
+  min-height:36px!important;
+  margin-bottom:3px!important;
+  gap:9px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-navline>span{
+  margin-left:15px;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-back{
+  flex-basis:36px;width:36px;min-width:36px;height:36px;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading{
+  gap:12px;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading h2{
+  letter-spacing:-.028em;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-intro{
+  margin:15px 3px 17px!important;
+  font-size:13.5px;
+  line-height:1.45;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-options{
+  gap:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option{
+  min-height:88px!important;
+  padding:11px 10px!important;
+  gap:8px!important;
+  border-radius:21px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon{
+  flex:0 0 42px!important;
+  width:42px!important;height:42px!important;
+  border-radius:13px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon .ico{
+  width:26px;height:26px;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option b{
+  font-size:clamp(14.5px,4.05vw,16.5px)!important;
+  line-height:1.17!important;
+  letter-spacing:-.042em!important;
+  overflow-wrap:normal;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-option small{
+  margin-top:4px!important;
+  font-size:11.4px!important;
+  line-height:1.35!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-chevron{
+  flex:0 0 12px!important;width:12px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note{
+  margin:18px 0 0!important;
+  padding:11px 10px!important;
+  font-size:11.8px!important;
+  line-height:1.39!important;
+  gap:9px!important;
+  border-radius:17px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note-icon{
+  flex:0 0 29px!important;width:29px!important;
+  height:36px!important;padding-right:8px!important;
+}
+@media(max-width:360px){
+  #sheet.stage-finish-choice-sheet.open{padding-top:43px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option{
+    min-height:84px!important;
+    padding:10px 7px!important;
+    gap:7px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-option-icon{
+    flex-basis:36px!important;width:36px!important;height:36px!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-option b{font-size:14.5px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option small{font-size:10.8px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-heading h2{font-size:24px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-navline>span{margin-left:13px;}
+}
+/* Align the eyebrow and gold hairline with the title/archival emblem,
+   exactly as on the approved reference, without relocating the back arrow. */
+#sheet.stage-finish-choice-sheet .stage-finish-navline>span,
+#sheet.stage-finish-choice-sheet .stage-finish-navline>i{
+  transform:translateY(19px);
+}
