@@ -208,8 +208,24 @@ function stageWizardFirstFolderPaint(panel){
   var c=document.createElementNS(ns,'stop');c.setAttribute('stop-color','#fffaf2');
   var d=document.createElementNS(ns,'stop');d.setAttribute('stop-color','#fffaf2');
   [a,b,c,d].forEach(function(el){grad.appendChild(el);});defs.appendChild(grad);
-  // A single thin dark-blue hairline runs BETWEEN the existing gold paths
-  // along the ivory side rails and bottom. It is not a filled navy border.
+  // A continuous inset-navy ribbon runs BETWEEN the two gold contours.
+  // Its upper section fades in gradually beneath the cream paper crown;
+  // this avoids the short, abruptly capped vertical marks visible in Safari.
+  var ink=document.createElementNS(ns,'linearGradient');
+  ink.setAttribute('id','stageFirstRimInk');
+  ink.setAttribute('gradientUnits','userSpaceOnUse');
+  ink.setAttribute('x1','0');ink.setAttribute('y1','0');
+  ink.setAttribute('x2','0');ink.setAttribute('y2','1');
+  var inkZero=document.createElementNS(ns,'stop');inkZero.setAttribute('offset','0%');
+  inkZero.setAttribute('stop-color','#08213f');inkZero.setAttribute('stop-opacity','0');
+  var inkStart=document.createElementNS(ns,'stop');
+  inkStart.setAttribute('stop-color','#08213f');inkStart.setAttribute('stop-opacity','0');
+  var inkEnd=document.createElementNS(ns,'stop');
+  inkEnd.setAttribute('stop-color','#08213f');inkEnd.setAttribute('stop-opacity','1');
+  var inkFull=document.createElementNS(ns,'stop');inkFull.setAttribute('offset','100%');
+  inkFull.setAttribute('stop-color','#08213f');inkFull.setAttribute('stop-opacity','1');
+  [inkZero,inkStart,inkEnd,inkFull].forEach(function(stop){ink.appendChild(stop);});
+  defs.appendChild(ink);
   var rim=document.createElementNS(ns,'path');
   rim.classList.add('stage-first-lower-rim');
   rim.setAttribute('aria-hidden','true');
@@ -234,14 +250,19 @@ function stageWizardFirstFolderPaint(panel){
     c.setAttribute('offset',hi.toFixed(3)+'%');d.setAttribute('offset','100%');
     var view=svg.viewBox.baseVal,w=view&&view.width||rect.width;
     var h=view&&view.height||rect.height;
-    // Outer gold outline x=2; inner gold outline x=9. Hairline x=5.6.
-    // Keep only the lower ivory portion, below the curved paper crown.
-    var edge=5.6,bottom=h-5.2,turn=bottom-27,start=Math.max(65,pivot+9);
-    var endLeft=30,endRight=w-30,right=w-edge;
-    rim.setAttribute('d','M '+edge+' '+start+' V '+turn+
-      ' Q '+edge+' '+bottom+' '+endLeft+' '+bottom+
-      ' H '+endRight+' Q '+right+' '+bottom+' '+right+' '+turn+
-      ' V '+start);
+    // The outer and inner gold edges are x=2 / x=9 (bottom h-2 / h-9).
+    // Center the ~3.8px navy accent inside their genuine free gap. Unlike a
+    // clipped partial path, the stroke has NO loose endpoints at the join.
+    // It extends up beneath the dark crown and fades into view across 64px.
+    ink.setAttribute('y2',String(h));
+    inkStart.setAttribute('offset',Math.max(0,100*(pivot-40)/h).toFixed(3)+'%');
+    inkEnd.setAttribute('offset',Math.min(100,100*(pivot+24)/h).toFixed(3)+'%');
+    var edge=5.75,bottom=h-5.5,turn=bottom-27.0;
+    var endLeft=31.8,endRight=w-endLeft,right=w-edge;
+    rim.setAttribute('d','M '+edge+' 63 V '+turn+
+      ' C '+edge+' '+(bottom-10)+' '+(edge+9)+' '+bottom+' '+endLeft+' '+bottom+
+      ' H '+endRight+' C '+(right-9)+' '+bottom+' '+right+' '+(bottom-10)+' '+right+' '+turn+
+      ' V 63');
   }
   if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();}
   if(typeof ResizeObserver!=='undefined'){

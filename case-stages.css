@@ -771,9 +771,13 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
    on each side. The fine navy line is drawn strictly between existing
    gold rim paths by stageWizardFirstFolderPaint; only step one is affected. */
 #sheet.stage-wizard-first-sheet .matter-actions-outline .stage-first-lower-rim {
-  fill:none!important;stroke:#08213f!important;stroke-width:1.55px!important;
-  stroke-opacity:1!important;stroke-linecap:round!important;
-  stroke-linejoin:round!important;pointer-events:none!important;
+  fill:none!important;
+  stroke:url(#stageFirstRimInk)!important;
+  stroke-width:3.8px!important;
+  stroke-opacity:1!important;
+  stroke-linecap:butt!important;
+  stroke-linejoin:round!important;
+  pointer-events:none!important;
 }
 
 /* 5.0.1297.41.43.5 — final stage-1 contour acceptance.
@@ -781,3 +785,6 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
    fixed to the viewport; strengthen the extremely fine navy hairline below
    the cream paper. The shoulder spline is refined only for stage wizard #1
    by the local branch in mountMatterActionsOutline(). */
+
+/* 5.0.1297.41.43.6: continuous navy lower accent with a gradient-softened
+   transition across the paper crown; no detached vertical side strokes. */
