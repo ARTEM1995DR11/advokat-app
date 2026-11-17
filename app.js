@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.40';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6386';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.43';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6389';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2232,7 +2232,7 @@ function sheetMatterFinishChoice(id){
       '<button class="stage-finish-option stage-finish-option-continue" type="button" data-act="m-finish-stage" data-id="'+esc(id)+'"><span class="stage-finish-option-icon" aria-hidden="true">'+finishChoiceIcon('folder')+'</span><span class="stage-finish-option-copy"><b>Завершить этап и продолжить</b><small><span class="stage-finish-desc-line">Новая связанная папка, перенос задач</span><span class="stage-finish-desc-line">и расчёт по назначению</span></small></span><span class="stage-finish-chevron" aria-hidden="true">'+finishChoiceIcon('chev')+'</span></button>'+
     '</div><div class="stage-finish-note" role="note"><span class="stage-finish-note-icon" aria-hidden="true">'+finishChoiceIcon('info')+'</span><span class="stage-finish-note-copy"><span class="stage-finish-note-line">Предыдущие этапы и записи сохраняются.</span> <span class="stage-finish-note-line">Расчёт вознаграждения возможен только</span> <span class="stage-finish-note-line">по делам по назначению.</span></span></div></section>');
   var panel=$('#sheet');
-  panel.classList.add('case-stage-sheet','stage-finish-choice-sheet');
+  panel.classList.add('case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet');
   mountMatterActionsOutline(panel);
 }
 

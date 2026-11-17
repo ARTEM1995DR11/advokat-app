@@ -629,3 +629,114 @@ body.light #sheet.stage-finish-choice-sheet.open {
   #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:18px!important;}
 }
 
+
+
+/* 5.0.1297.41.43 — approved stage wizard step 1: folder foundation ONLY.
+   A single, responsive notched SVG contour (existing dossier helper) frames
+   the navy header and ivory form. The fields, alerts, labels, and data flow
+   are deliberately not redesigned until subsequent planned stages.
+   Scoped to the step-one sheet; steps 2–5 and all approved pages stay intact. */
+body:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  position:fixed!important;inset:0!important;width:100%!important;
+  min-height:100lvh!important;opacity:1!important;pointer-events:auto!important;
+  background:#f8f0e2 url('bg-matters-approved-v487.png') center top / 100% 100lvh no-repeat!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+#sheet.case-stage-sheet.stage-wizard-first-sheet.open {
+  position:fixed!important;left:0!important;right:0!important;top:auto!important;
+  bottom:max(12px,calc(env(safe-area-inset-bottom,0px) + 9px))!important;
+  height:min(90dvh,870px)!important;
+  max-height:calc(100dvh - max(67px,calc(env(safe-area-inset-top,0px) + 18px)))!important;
+  min-height:0!important;width:100%!important;box-sizing:border-box!important;
+  margin:0!important;padding:43px 17px 10px!important;
+  overflow:hidden!important;display:block!important;
+  border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  isolation:isolate!important;
+}
+#sheet.stage-wizard-first-sheet.open>.grab {display:none!important;}
+#sheet.stage-wizard-first-sheet.open>.matter-actions-outline {
+  display:block!important;position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;z-index:0!important;
+  overflow:visible!important;pointer-events:none!important;
+  filter:drop-shadow(0 5px 9px rgba(73,49,27,.17))!important;
+}
+#sheet.stage-wizard-first-sheet .matter-actions-outline .ma6224-paper {
+  fill:#0d2748!important;stroke:#b88b4c!important;
+}
+#sheet.stage-wizard-first-sheet .matter-actions-outline .ma6224-foil {
+  fill:#112b4c!important;stroke:#ddba7f!important;
+}
+#sheet.stage-wizard-first-sheet .matter-actions-outline .ma6225-light {fill:none!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-card {
+  position:relative!important;z-index:1!important;
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  height:100%!important;min-height:0!important;margin:0!important;
+  padding:3px 2px 0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-header {
+  flex:0 0 auto!important;background:transparent!important;
+  padding:0 13px 15px!important;color:#fff!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-header {margin-bottom:9px!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-header small {color:#e8c68b!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-header h2 {color:#fffdf9!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-header p {color:#e3e9f2!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-back {
+  border:1px solid #e5c58e!important;background:linear-gradient(145deg,#fffaf0,#f8e7c8)!important;
+  color:#90672f!important;box-shadow:0 3px 7px rgba(0,0,0,.13)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress {margin:10px 0 0!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i {background:rgba(210,221,232,.56)!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i.passed {background:linear-gradient(90deg,#d1a34d,#f2c96f)!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper {
+  display:flex!important;flex-direction:column!important;flex:1 0 auto!important;
+  min-height:0!important;box-sizing:border-box!important;
+  padding:17px 14px 17px!important;
+  border-radius:22px 22px 25px 25px!important;
+  background:linear-gradient(135deg,#fffefa 0%,#fffaf3 54%,#f9f0e4 100%)!important;
+  border:1px solid rgba(234,211,173,.86)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper>.stage-wizard-body {flex:1 0 auto;}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action {flex:0 0 auto;margin-top:11px;}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  width:100%!important;margin-top:0!important;
+}
+@media(max-width:350px){
+  #sheet.stage-wizard-first-sheet.open {padding-left:12px!important;padding-right:12px!important;}
+  #sheet.stage-wizard-first-sheet .stage-wizard-first-header {padding-left:10px!important;padding-right:10px!important;}
+  #sheet.stage-wizard-first-sheet .stage-wizard-first-paper {padding-left:10px!important;padding-right:10px!important;}
+}
+@media(max-height:690px){
+  #sheet.stage-wizard-first-sheet.open {
+    height:calc(100dvh - 50px)!important;
+    max-height:calc(100dvh - 50px)!important;
+    bottom:5px!important;padding-top:39px!important;
+  }
+}
+
+/* Stage-one foundation: keep action inside the folder and reachable without
+   scrolling past the curved lower border. Only the light form area scrolls. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-card {
+  overflow:hidden!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper {
+  flex:1 1 auto!important;min-height:0!important;
+  overflow:hidden!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper>.stage-wizard-body {
+  flex:1 1 auto!important;min-height:0!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  padding-bottom:7px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action {
+  position:relative;z-index:2;flex:0 0 auto!important;
+  padding-top:8px;margin-top:0!important;
+  background:linear-gradient(180deg,rgba(255,251,245,.95),#fbf3e7);
+}

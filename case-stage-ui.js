@@ -195,9 +195,19 @@ function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
   var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
-  var html='<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+
-    '<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Завершить этап и продолжить дело':'Продолжить')+'</button>';
-  openSheet(html);$('#sheet').classList.add('case-stage-sheet');
+  // The approved step-one folder is a single surface: dark header, light form.
+  // Later steps keep their existing sheet markup until their own design stages.
+  var firstStep=d.step===0;
+  var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Завершить этап и продолжить дело':'Продолжить')+'</button>';
+  var html=firstStep
+    ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="Завершение этапа — первый шаг">'+
+      '<div class="stage-wizard-first-header">'+stageWizardHead()+'</div>'+
+      '<div class="stage-wizard-first-paper"><div class="stage-wizard-body">'+inner+'</div>'+
+      '<div class="stage-wizard-first-action">'+action+'</div></div></section>'
+    :'<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+action;
+  openSheet(html);
+  var panel=$('#sheet');panel.classList.add('case-stage-sheet');
+  if(firstStep){panel.classList.add('stage-wizard-first-sheet');mountMatterActionsOutline(panel);}
   if(d.step===3&&m.basis==='assigned')stageWizardUpdatePaymentTotal();
 }
 function stageWizardUpdatePaymentTotal(){
