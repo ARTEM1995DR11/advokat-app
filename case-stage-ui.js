@@ -194,42 +194,41 @@ function stageWizardConfirmHTML(d,m){
 /* Step 1 only: the navy folder shell changes to ivory below its curved
    inner paper. SVG paths are shared with approved action screens, so the
    two-tone gradient is attached to this instance only, never globally. */
+/* 41.43.7 — stage-one acceptance: an opaque, shape-matched ivory leaf.
+   The old vertical two-tone SVG gradient caused pale bands at both side joins.
+   Draw the navy silhouette first, then clip the ivory leaf inside the inner
+   gold outline. No transparent transition passes through the side contours.
+   This function is called ONLY for the first stage-wizard screen. */
 function stageWizardFirstFolderPaint(panel){
   var svg=panel.querySelector(':scope > .matter-actions-outline');
   if(!svg)return;
-  var ns='http://www.w3.org/2000/svg';
-  var defs=svg.querySelector('defs');
-  var grad=document.createElementNS(ns,'linearGradient');
-  grad.setAttribute('id','stageFirstTwoTone');
-  grad.setAttribute('x1','0');grad.setAttribute('y1','0');
-  grad.setAttribute('x2','0');grad.setAttribute('y2','1');
-  var a=document.createElementNS(ns,'stop');a.setAttribute('stop-color','#102748');
-  var b=document.createElementNS(ns,'stop');b.setAttribute('stop-color','#102748');
-  var c=document.createElementNS(ns,'stop');c.setAttribute('stop-color','#fffaf2');
-  var d=document.createElementNS(ns,'stop');d.setAttribute('stop-color','#fffaf2');
-  [a,b,c,d].forEach(function(el){grad.appendChild(el);});defs.appendChild(grad);
-  // A continuous inset-navy ribbon runs BETWEEN the two gold contours.
-  // Its upper section fades in gradually beneath the cream paper crown;
-  // this avoids the short, abruptly capped vertical marks visible in Safari.
-  var ink=document.createElementNS(ns,'linearGradient');
-  ink.setAttribute('id','stageFirstRimInk');
-  ink.setAttribute('gradientUnits','userSpaceOnUse');
-  ink.setAttribute('x1','0');ink.setAttribute('y1','0');
-  ink.setAttribute('x2','0');ink.setAttribute('y2','1');
-  var inkZero=document.createElementNS(ns,'stop');inkZero.setAttribute('offset','0%');
-  inkZero.setAttribute('stop-color','#08213f');inkZero.setAttribute('stop-opacity','0');
-  var inkStart=document.createElementNS(ns,'stop');
-  inkStart.setAttribute('stop-color','#08213f');inkStart.setAttribute('stop-opacity','0');
-  var inkEnd=document.createElementNS(ns,'stop');
-  inkEnd.setAttribute('stop-color','#08213f');inkEnd.setAttribute('stop-opacity','1');
-  var inkFull=document.createElementNS(ns,'stop');inkFull.setAttribute('offset','100%');
-  inkFull.setAttribute('stop-color','#08213f');inkFull.setAttribute('stop-opacity','1');
-  [inkZero,inkStart,inkEnd,inkFull].forEach(function(stop){ink.appendChild(stop);});
-  defs.appendChild(ink);
+  var ns='http://www.w3.org/2000/svg',defs=svg.querySelector('defs');
+  var light=document.createElementNS(ns,'linearGradient');
+  light.setAttribute('id','stageFirstIvory');
+  light.setAttribute('x1','0');light.setAttribute('y1','0');
+  light.setAttribute('x2','0');light.setAttribute('y2','1');
+  [['0%','#fffefa'],['58%','#fffaf2'],['100%','#f9efe2']].forEach(function(item){
+    var el=document.createElementNS(ns,'stop');
+    el.setAttribute('offset',item[0]);el.setAttribute('stop-color',item[1]);
+    light.appendChild(el);
+  });
+  defs.appendChild(light);
+  var clip=document.createElementNS(ns,'clipPath');
+  clip.setAttribute('id','stageFirstIvoryClip');
+  clip.setAttribute('clipPathUnits','userSpaceOnUse');
+  var clipPath=document.createElementNS(ns,'path');
+  clip.appendChild(clipPath);defs.appendChild(clip);
+  var ivory=document.createElementNS(ns,'path');
+  ivory.classList.add('stage-first-ivory-fill');
+  ivory.setAttribute('aria-hidden','true');
+  ivory.setAttribute('clip-path','url(#stageFirstIvoryClip)');
+  var foil=svg.querySelector('.ma6224-foil');
+  svg.insertBefore(ivory,foil);
+  // The ink line has no gradient, loose endpoints or partly transparent pixels.
+  // It follows exactly the gap between the two existing gold contours.
   var rim=document.createElementNS(ns,'path');
   rim.classList.add('stage-first-lower-rim');
-  rim.setAttribute('aria-hidden','true');
-  rim.setAttribute('fill','none');
+  rim.setAttribute('aria-hidden','true');rim.setAttribute('fill','none');
   var grip=svg.querySelector('.ma6224-grip');
   if(grip)svg.insertBefore(rim,grip);else svg.appendChild(rim);
   function repaint(){
@@ -241,34 +240,39 @@ function stageWizardFirstFolderPaint(panel){
     if(!paper)return;
     var rect=panel.getBoundingClientRect(),pr=paper.getBoundingClientRect();
     if(rect.height<100)return;
-    // The color transition sits inside the paper's rounded upper corners:
-    // a dark crown, followed by an ivory leaf extending to the gold rim.
-    var pivot=pr.top-rect.top+17;
-    var lo=Math.max(0,Math.min(99.3,100*(pivot-11)/rect.height));
-    var hi=Math.max(lo+.15,Math.min(100,100*(pivot+8)/rect.height));
-    a.setAttribute('offset','0%');b.setAttribute('offset',lo.toFixed(3)+'%');
-    c.setAttribute('offset',hi.toFixed(3)+'%');d.setAttribute('offset','100%');
     var view=svg.viewBox.baseVal,w=view&&view.width||rect.width;
     var h=view&&view.height||rect.height;
-    // The outer and inner gold edges are x=2 / x=9 (bottom h-2 / h-9).
-    // Center the ~3.8px navy accent inside their genuine free gap. Unlike a
-    // clipped partial path, the stroke has NO loose endpoints at the join.
-    // It extends up beneath the dark crown and fades into view across 64px.
-    ink.setAttribute('y2',String(h));
-    inkStart.setAttribute('offset',Math.max(0,100*(pivot-40)/h).toFixed(3)+'%');
-    inkEnd.setAttribute('offset',Math.min(100,100*(pivot+24)/h).toFixed(3)+'%');
-    var edge=5.75,bottom=h-5.5,turn=bottom-27.0;
+    // Match the true top corners of the HTML paper. The ivory spreads to the
+    // bottom gold rim below the corner, rather than fading across the rim.
+    var top=pr.top-rect.top;
+    var xL=Math.max(13,pr.left-rect.left+1);
+    var xR=Math.min(w-13,pr.right-rect.left-1);
+    var rad=Math.min(22,(xR-xL)/5);
+    var innerEdge=11.35,rightEdge=w-innerEdge;
+    var spread=top+60;
+    ivory.setAttribute('d',
+      'M '+(xL+rad)+' '+top+
+      ' H '+(xR-rad)+' Q '+xR+' '+top+' '+xR+' '+(top+rad)+
+      ' C '+xR+' '+(top+38)+' '+rightEdge+' '+(top+41)+' '+rightEdge+' '+spread+
+      ' V '+h+' H '+innerEdge+' V '+spread+
+      ' C '+innerEdge+' '+(top+41)+' '+xL+' '+(top+38)+' '+xL+' '+(top+rad)+
+      ' Q '+xL+' '+top+' '+(xL+rad)+' '+top+' Z');
+    var foilPath=svg.querySelector('.ma6224-foil');
+    if(foilPath)clipPath.setAttribute('d',foilPath.getAttribute('d')||'');
+    // A constant dark-navy accent, centred in the double-gold clearance.
+    var edge=5.75,bottom=h-5.5,turn=bottom-27;
     var endLeft=31.8,endRight=w-endLeft,right=w-edge;
     rim.setAttribute('d','M '+edge+' 63 V '+turn+
       ' C '+edge+' '+(bottom-10)+' '+(edge+9)+' '+bottom+' '+endLeft+' '+bottom+
       ' H '+endRight+' C '+(right-9)+' '+bottom+' '+right+' '+(bottom-10)+' '+right+' '+turn+
       ' V 63');
   }
-  if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();}
+  if(panel._stageFirstPaintObserver)panel._stageFirstPaintObserver.disconnect();
   if(typeof ResizeObserver!=='undefined'){
     panel._stageFirstPaintObserver=new ResizeObserver(repaint);
     panel._stageFirstPaintObserver.observe(panel);
-    var paper=panel.querySelector('.stage-wizard-first-paper');if(paper)panel._stageFirstPaintObserver.observe(paper);
+    var paper=panel.querySelector('.stage-wizard-first-paper');
+    if(paper)panel._stageFirstPaintObserver.observe(paper);
   }
   repaint();requestAnimationFrame(repaint);
 }

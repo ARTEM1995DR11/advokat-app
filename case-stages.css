@@ -682,10 +682,10 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
   filter:drop-shadow(0 5px 9px rgba(73,49,27,.17))!important;
 }
 #sheet.stage-wizard-first-sheet .matter-actions-outline .ma6224-paper {
-  fill:url(#stageFirstTwoTone)!important;stroke:url(#ma6224Gold)!important;stroke-width:2.55px!important;
+  fill:#102748!important;stroke:url(#ma6224Gold)!important;stroke-width:2.55px!important;
 }
 #sheet.stage-wizard-first-sheet .matter-actions-outline .ma6224-foil {
-  fill:url(#stageFirstTwoTone)!important;stroke:#e4bc7f!important;stroke-width:1.14px!important;
+  fill:none!important;stroke:#e4bc7f!important;stroke-width:1.14px!important;
 }
 #sheet.stage-wizard-first-sheet .matter-actions-outline .ma6225-light {fill:none!important;}
 #sheet.stage-wizard-first-sheet .stage-wizard-first-card {
@@ -772,7 +772,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
    gold rim paths by stageWizardFirstFolderPaint; only step one is affected. */
 #sheet.stage-wizard-first-sheet .matter-actions-outline .stage-first-lower-rim {
   fill:none!important;
-  stroke:url(#stageFirstRimInk)!important;
+  stroke:#061c38!important;
   stroke-width:3.8px!important;
   stroke-opacity:1!important;
   stroke-linecap:butt!important;
@@ -788,3 +788,10 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
 
 /* 5.0.1297.41.43.6: continuous navy lower accent with a gradient-softened
    transition across the paper crown; no detached vertical side strokes. */
+
+/* 5.0.1297.41.43.7 — no halo at the navy/ivory transition.
+   This opaque leaf is clipped to the approved inner gold SVG contour. */
+#sheet.stage-wizard-first-sheet .matter-actions-outline .stage-first-ivory-fill {
+  fill:url(#stageFirstIvory)!important;stroke:none!important;opacity:1!important;
+  pointer-events:none!important;
+}
