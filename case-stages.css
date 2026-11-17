@@ -598,3 +598,25 @@ body.light #sheet.stage-finish-choice-sheet.open {
 @media(max-width:340px) and (orientation:portrait){
  #sheet.stage-finish-choice-sheet.open {padding-bottom:65px!important;}
 }
+
+/* 5.0.1297.41.39: inset the completion choices within their scroll viewport.
+   Older negative margins (-9px) protruded beyond this clipping surface,
+   cutting off the right curved borders and card shadows in iOS Safari.
+   Keep the responsive content widths and the approved SVG paper outline. */
+#sheet.stage-finish-choice-sheet .stage-finish-options {
+  margin:0 -1px!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-note {
+  margin:21px -1px 0!important;
+}
+@media(max-width:340px) and (orientation:portrait) {
+  #sheet.stage-finish-choice-sheet .stage-finish-options {margin:0 -5px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-right:-5px!important;margin-left:-5px!important;}
+}
+@media(max-width:369px) and (orientation:portrait){
+  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:18px!important;}
+}
+@media(min-width:390px) and (orientation:portrait){
+  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:23px!important;}
+}
+
