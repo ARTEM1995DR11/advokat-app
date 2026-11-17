@@ -5472,6 +5472,30 @@ function mountMatterActionsOutline(panel){
     var outer='M 31 30 H '+shoulderL+' C '+(shoulderL+12)+' 30 '+(crownL-11)+' 22 '+(crownL-7)+' 14 C '+(crownL-3)+' 6 '+(crownL+1)+' 4 '+(crownL+15)+' 4 H '+(crownR-15)+' C '+(crownR-1)+' 4 '+(crownR+3)+' 6 '+(crownR+7)+' 14 C '+(crownR+11)+' 22 '+(shoulderR-12)+' 30 '+shoulderR+' 30 H '+(w-31)+' C '+(w-13)+' 30 '+rt+' 43 '+rt+' 61 V '+bottomStart+' Q '+rt+' '+bottom+' '+(w-30)+' '+bottom+' H 30 Q '+lf+' '+bottom+' '+lf+' '+bottomStart+' V 61 C '+lf+' 43 13 30 31 30 Z';
     var a=9,b=w-9, ib=bottom-7, iStart=ib-24;
     var inner='M 35 36 H '+(shoulderL+1)+' C '+(shoulderL+17)+' 36 '+(crownL-7)+' 27 '+(crownL-1)+' 18 C '+(crownL+2)+' 12 '+(crownL+5)+' 11 '+(crownL+17)+' 11 H '+(crownR-17)+' C '+(crownR-5)+' 11 '+(crownR-2)+' 12 '+(crownR+1)+' 18 C '+(crownR+7)+' 27 '+(shoulderR-17)+' 36 '+(shoulderR-1)+' 36 H '+(w-35)+' C '+(w-17)+' 36 '+b+' 46 '+b+' 64 V '+iStart+' Q '+b+' '+ib+' '+(w-35)+' '+ib+' H 35 Q '+a+' '+ib+' '+a+' '+iStart+' V 64 C '+a+' 46 17 36 35 36 Z';
+    // Stage wizard step 1 only: gently rounded shoulders from the approved
+    // reference. Other paper sheets retain their established SVG spline.
+    if(panel.classList.contains('stage-wizard-first-sheet')){
+      outer='M 31 30 H '+shoulderL+
+        ' C '+(shoulderL+13)+' 30 '+(crownL-13)+' 22 '+(crownL-8)+' 13'+
+        ' C '+(crownL-3)+' 4 '+(crownL+3)+' 4 '+(crownL+15)+' 4'+
+        ' H '+(crownR-15)+
+        ' C '+(crownR-3)+' 4 '+(crownR+3)+' 4 '+(crownR+8)+' 13'+
+        ' C '+(crownR+13)+' 22 '+(shoulderR-13)+' 30 '+shoulderR+' 30'+
+        ' H '+(w-31)+' C '+(w-13)+' 30 '+rt+' 43 '+rt+' 61'+
+        ' V '+bottomStart+' Q '+rt+' '+bottom+' '+(w-30)+' '+bottom+
+        ' H 30 Q '+lf+' '+bottom+' '+lf+' '+bottomStart+
+        ' V 61 C '+lf+' 43 13 30 31 30 Z';
+      inner='M 35 36 H '+(shoulderL+1)+
+        ' C '+(shoulderL+14)+' 36 '+(crownL-9)+' 28 '+(crownL-2)+' 18'+
+        ' C '+(crownL+5)+' 11 '+(crownL+7)+' 11 '+(crownL+17)+' 11'+
+        ' H '+(crownR-17)+
+        ' C '+(crownR-7)+' 11 '+(crownR-5)+' 11 '+(crownR+2)+' 18'+
+        ' C '+(crownR+9)+' 28 '+(shoulderR-14)+' 36 '+(shoulderR-1)+' 36'+
+        ' H '+(w-35)+' C '+(w-17)+' 36 '+b+' 46 '+b+' 64'+
+        ' V '+iStart+' Q '+b+' '+ib+' '+(w-35)+' '+ib+
+        ' H 35 Q '+a+' '+ib+' '+a+' '+iStart+
+        ' V 64 C '+a+' 46 17 36 35 36 Z';
+    }
     svg.setAttribute('viewBox','0 0 '+w+' '+h);
     svg.querySelector('.ma6224-paper').setAttribute('d',outer);
     svg.querySelector('.ma6224-foil').setAttribute('d',inner);

@@ -665,7 +665,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
   z-index:42!important;
   /* Reference: lower crown and fully visible lower gold rim on iPhone. */
   bottom:0!important;
-  height:min(calc(92.5dvh - 12px),858px)!important;
+  height:min(calc(92.5dvh - 18px),858px)!important;
   max-height:calc(100dvh - max(45px,calc(env(safe-area-inset-top,0px) + 10px)))!important;
   min-height:0!important;width:calc(100% - 4px)!important;box-sizing:border-box!important;
   margin:0!important;padding:58px 10px 10px!important;
@@ -771,7 +771,13 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
    on each side. The fine navy line is drawn strictly between existing
    gold rim paths by stageWizardFirstFolderPaint; only step one is affected. */
 #sheet.stage-wizard-first-sheet .matter-actions-outline .stage-first-lower-rim {
-  fill:none!important;stroke:#152f4d!important;stroke-width:1.15px!important;
-  stroke-opacity:.94!important;stroke-linecap:round!important;
+  fill:none!important;stroke:#08213f!important;stroke-width:1.55px!important;
+  stroke-opacity:1!important;stroke-linecap:round!important;
   stroke-linejoin:round!important;pointer-events:none!important;
 }
+
+/* 5.0.1297.41.43.5 — final stage-1 contour acceptance.
+   Shorten ONLY the crown by another 6 CSS px while the lower rim stays
+   fixed to the viewport; strengthen the extremely fine navy hairline below
+   the cream paper. The shoulder spline is refined only for stage wizard #1
+   by the local branch in mountMatterActionsOutline(). */
