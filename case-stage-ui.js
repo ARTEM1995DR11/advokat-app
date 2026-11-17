@@ -191,6 +191,48 @@ function stageWizardConfirmHTML(d,m){
     (m.basis==='assigned'?'<div><small>Расчёт оплаты · по назначению</small><b>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+'</b><span>'+d.payment.lines.filter(function(x){return x.included&&!x.alreadyClaimed;}).length+' дней к расчёту. Ставка и режим проверяются отдельно по каждой дате; результат — черновик.</span></div>':'')+
     '</div><label class="stage-wizard-check stage-wizard-confirm"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span>Проверил(а) сведения, выбранные задачи и расчёт. Подтверждаю завершение этапа и создание новой папки.</span></label>';
 }
+/* Step 1 only: the navy folder shell changes to ivory below its curved
+   inner paper. SVG paths are shared with approved action screens, so the
+   two-tone gradient is attached to this instance only, never globally. */
+function stageWizardFirstFolderPaint(panel){
+  var svg=panel.querySelector(':scope > .matter-actions-outline');
+  if(!svg)return;
+  var ns='http://www.w3.org/2000/svg';
+  var defs=svg.querySelector('defs');
+  var grad=document.createElementNS(ns,'linearGradient');
+  grad.setAttribute('id','stageFirstTwoTone');
+  grad.setAttribute('x1','0');grad.setAttribute('y1','0');
+  grad.setAttribute('x2','0');grad.setAttribute('y2','1');
+  var a=document.createElementNS(ns,'stop');a.setAttribute('stop-color','#102748');
+  var b=document.createElementNS(ns,'stop');b.setAttribute('stop-color','#102748');
+  var c=document.createElementNS(ns,'stop');c.setAttribute('stop-color','#fffaf2');
+  var d=document.createElementNS(ns,'stop');d.setAttribute('stop-color','#fffaf2');
+  [a,b,c,d].forEach(function(el){grad.appendChild(el);});defs.appendChild(grad);
+  function repaint(){
+    if(!panel.isConnected||!panel.classList.contains('stage-wizard-first-sheet')){
+      if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
+      return;
+    }
+    var paper=panel.querySelector('.stage-wizard-first-paper');
+    if(!paper)return;
+    var rect=panel.getBoundingClientRect(),pr=paper.getBoundingClientRect();
+    if(rect.height<100)return;
+    // The color transition sits inside the paper's rounded upper corners:
+    // a dark crown, followed by an ivory leaf extending to the gold rim.
+    var pivot=pr.top-rect.top+17;
+    var lo=Math.max(0,Math.min(99.3,100*(pivot-11)/rect.height));
+    var hi=Math.max(lo+.15,Math.min(100,100*(pivot+8)/rect.height));
+    a.setAttribute('offset','0%');b.setAttribute('offset',lo.toFixed(3)+'%');
+    c.setAttribute('offset',hi.toFixed(3)+'%');d.setAttribute('offset','100%');
+  }
+  if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();}
+  if(typeof ResizeObserver!=='undefined'){
+    panel._stageFirstPaintObserver=new ResizeObserver(repaint);
+    panel._stageFirstPaintObserver.observe(panel);
+    var paper=panel.querySelector('.stage-wizard-first-paper');if(paper)panel._stageFirstPaintObserver.observe(paper);
+  }
+  repaint();requestAnimationFrame(repaint);
+}
 function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
@@ -207,7 +249,7 @@ function stageWizardRender(){
     :'<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+action;
   openSheet(html);
   var panel=$('#sheet');panel.classList.add('case-stage-sheet');
-  if(firstStep){panel.classList.add('stage-wizard-first-sheet');mountMatterActionsOutline(panel);}
+  if(firstStep){panel.classList.add('stage-wizard-first-sheet');mountMatterActionsOutline(panel);stageWizardFirstFolderPaint(panel);}
   if(d.step===3&&m.basis==='assigned')stageWizardUpdatePaymentTotal();
 }
 function stageWizardUpdatePaymentTotal(){
