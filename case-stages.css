@@ -636,19 +636,39 @@ body.light #sheet.stage-finish-choice-sheet.open {
    the navy header and ivory form. The fields, alerts, labels, and data flow
    are deliberately not redesigned until subsequent planned stages.
    Scoped to the step-one sheet; steps 2–5 and all approved pages stay intact. */
-body:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+/* 41.43.2 — isolate the first step from the underlying dossier page.
+   The scrim MUST be above #page (both previously had z-index 40), while
+   the stage folder remains above the scrim. The same approved marble fills
+   the status-bar space and the area below the folder. */
+html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+  background-repeat:no-repeat!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   position:fixed!important;inset:0!important;width:100%!important;
-  min-height:100lvh!important;opacity:1!important;pointer-events:auto!important;
+  height:calc(100lvh + 120px)!important;min-height:calc(100lvh + 120px)!important;
+  z-index:41!important;opacity:1!important;pointer-events:auto!important;
   background:#f8f0e2 url('bg-matters-approved-v487.png') center top / 100% 100lvh no-repeat!important;
   -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  transform:none!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::before,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
+  display:none!important;content:none!important;
 }
 #sheet.case-stage-sheet.stage-wizard-first-sheet.open {
   position:fixed!important;left:0!important;right:0!important;top:auto!important;
-  bottom:max(12px,calc(env(safe-area-inset-bottom,0px) + 9px))!important;
-  height:min(90dvh,870px)!important;
-  max-height:calc(100dvh - max(67px,calc(env(safe-area-inset-top,0px) + 18px)))!important;
+  z-index:42!important;
+  /* Reference: lower crown and fully visible lower gold rim on iPhone. */
+  bottom:0!important;
+  height:min(92.5dvh,870px)!important;
+  max-height:calc(100dvh - max(45px,calc(env(safe-area-inset-top,0px) + 10px)))!important;
   min-height:0!important;width:100%!important;box-sizing:border-box!important;
-  margin:0!important;padding:43px 17px 10px!important;
+  margin:0!important;padding:58px 17px 10px!important;
   overflow:hidden!important;display:block!important;
   border:0!important;border-radius:0!important;
   background:transparent!important;box-shadow:none!important;
@@ -679,7 +699,7 @@ body:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
 }
 #sheet.stage-wizard-first-sheet .stage-wizard-first-header {
   flex:0 0 auto!important;background:transparent!important;
-  padding:0 13px 15px!important;color:#fff!important;
+  padding:0 13px 12px!important;color:#fff!important;
 }
 #sheet.stage-wizard-first-sheet .stage-wizard-header {margin-bottom:9px!important;}
 #sheet.stage-wizard-first-sheet .stage-wizard-header small {color:#e8c68b!important;}
@@ -713,9 +733,9 @@ body:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
 }
 @media(max-height:690px){
   #sheet.stage-wizard-first-sheet.open {
-    height:calc(100dvh - 50px)!important;
-    max-height:calc(100dvh - 50px)!important;
-    bottom:5px!important;padding-top:39px!important;
+    height:calc(100dvh - max(44px,env(safe-area-inset-top,0px)))!important;
+    max-height:calc(100dvh - max(44px,env(safe-area-inset-top,0px)))!important;
+    bottom:0!important;padding-top:52px!important;
   }
 }
 
