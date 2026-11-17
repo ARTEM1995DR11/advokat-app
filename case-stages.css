@@ -444,7 +444,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
   height:clamp(27px,7.9vw,31px)!important;
   filter:drop-shadow(0 1.5px 1px rgba(122,78,23,.24));
 }
-#sheet.stage-finish-choice-sheet .stage-finish-heading-copy{flex:1 1 auto!important;min-width:0!important}
+#sheet.stage-finish-choice-sheet .stage-finish-heading-copy{flex:1 1 auto!important;min-width:0!important;padding-left:4px!important}
 #sheet.stage-finish-choice-sheet .stage-finish-eyebrow {
   display:flex!important;align-items:center!important;gap:7px!important;
   margin:0 0 2px!important;color:#956522!important;
@@ -508,7 +508,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
 #sheet.stage-finish-choice-sheet .stage-finish-glyph-check path{stroke:#088157;stroke-width:2.55}
 #sheet.stage-finish-choice-sheet .stage-finish-glyph-folder path:first-child{stroke:#237cb7;stroke-width:1.9}
 #sheet.stage-finish-choice-sheet .stage-finish-option-copy {
-  flex:1 1 0!important;min-width:0!important;padding:0!important;
+  flex:1 1 0!important;min-width:0!important;padding:0 0 0 4px!important;
 }
 #sheet.stage-finish-choice-sheet .stage-finish-option b {
   display:block!important;color:#142a50!important;
@@ -521,7 +521,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
 }
 #sheet.stage-finish-choice-sheet .stage-finish-option small {
   display:block!important;margin:4px 0 0!important;
-  color:#344765!important;font:400 clamp(10.1px,2.99vw,12.6px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  color:#304368!important;font:400 clamp(10.1px,2.99vw,12.6px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
   letter-spacing:0!important;
 }
 #sheet.stage-finish-choice-sheet .stage-finish-desc-line {display:block!important;}
@@ -537,11 +537,11 @@ body.light #sheet.stage-finish-choice-sheet.open {
 #sheet.stage-finish-choice-sheet .stage-finish-note {
   box-sizing:border-box!important;display:flex!important;align-items:center!important;
   gap:18px!important;margin:16px -9px 0!important;
-  min-height:0!important;padding:9px 10px 9px 8px!important;
+  min-height:0!important;padding:9px 10px 9px 12px!important;
   border:1px solid #dfbf8e!important;border-radius:18px!important;
   background:linear-gradient(109deg,#fffaf1,#fff8ee 55%,#fbefdf)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.72)!important;
-  color:#364865!important;
+  color:#33456a!important;
   font:400 clamp(10.2px,2.85vw,11.9px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
   letter-spacing:-.01em!important;
 }
@@ -574,7 +574,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
   #sheet.stage-finish-choice-sheet .stage-finish-option small {font-size:10.25px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-chevron {margin-left:2px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-note {
-    margin-top:18px!important;gap:15px!important;padding:8px 7px!important;font-size:10.2px!important;
+    margin-top:18px!important;gap:15px!important;padding:8px 7px 8px 10px!important;font-size:10.2px!important;
   }
   #sheet.stage-finish-choice-sheet .stage-finish-note-icon {
     flex-basis:36px!important;width:36px!important;height:35px!important;padding-right:7px!important;
@@ -599,7 +599,8 @@ body.light #sheet.stage-finish-choice-sheet.open {
  #sheet.stage-finish-choice-sheet.open {padding-bottom:65px!important;}
 }
 
-/* 5.0.1297.41.41: final scoped visual alignment: stronger copy, safe wider cards,
+/* 5.0.1297.41.42: final small horizontal alignment and copy tone adjustments.
+   5.0.1297.41.41: final scoped visual alignment: stronger copy, safe wider cards,
    note text inset and vertical alignment.
    5.0.1297.41.40: widen the approved cards within the safe scroll viewport.
    Keep 4px on standard phones and 3px on 320px screens for full border/shadow.
@@ -615,6 +616,9 @@ body.light #sheet.stage-finish-choice-sheet.open {
   margin:16px -5px 0!important;
 }
 @media(max-width:340px) and (orientation:portrait) {
+  #sheet.stage-finish-choice-sheet .stage-finish-heading-copy{padding-left:1px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-option-copy{padding-left:1px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note{padding-left:8px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-options {margin:0 -5px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-note {margin-right:-5px!important;margin-left:-5px!important;gap:10px!important;}
 }
