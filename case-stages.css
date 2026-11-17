@@ -476,8 +476,8 @@ body.light #sheet.stage-finish-choice-sheet.open {
 }
 #sheet.stage-finish-choice-sheet .stage-finish-option {
   display:flex!important;align-items:center!important;box-sizing:border-box!important;
-  width:100%!important;min-width:0!important;min-height:74px!important;
-  padding:8px 9px!important;gap:8px!important;border-radius:20px!important;
+  width:100%!important;min-width:0!important;min-height:78px!important;
+  padding:10px 9px!important;gap:8px!important;border-radius:20px!important;
   border:1px solid #d6b58a!important;
   background:linear-gradient(137deg,#fffefd 0%,#fffaf2 72%,#f9efdf 100%)!important;
   box-shadow:0 4px 9px rgba(99,70,39,.13),inset 0 1px 0 rgba(255,255,255,.98)!important;
@@ -521,7 +521,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
 }
 #sheet.stage-finish-choice-sheet .stage-finish-option small {
   display:block!important;margin:4px 0 0!important;
-  color:#506078!important;font:400 clamp(10.1px,2.99vw,12.6px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  color:#43546e!important;font:400 clamp(10.1px,2.99vw,12.6px)/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
   letter-spacing:0!important;
 }
 #sheet.stage-finish-choice-sheet .stage-finish-desc-line {display:block!important;}
@@ -536,7 +536,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
 }
 #sheet.stage-finish-choice-sheet .stage-finish-note {
   box-sizing:border-box!important;display:flex!important;align-items:center!important;
-  gap:9px!important;margin:21px -9px 0!important;
+  gap:12px!important;margin:22px -9px 0!important;
   min-height:0!important;padding:9px 10px 9px 8px!important;
   border:1px solid #dfbf8e!important;border-radius:18px!important;
   background:linear-gradient(109deg,#fffaf1,#fff8ee 55%,#fbefdf)!important;
@@ -547,7 +547,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
 }
 #sheet.stage-finish-choice-sheet .stage-finish-note-icon {
   box-sizing:border-box!important;display:grid!important;place-items:center!important;
-  flex:0 0 36px!important;width:36px!important;height:37px!important;
+  flex:0 0 38px!important;width:38px!important;height:37px!important;
   padding:0 9px 0 0!important;border-right:1px solid #d5ac70!important;color:#946d2e!important;
 }
 #sheet.stage-finish-choice-sheet .stage-finish-note-icon .stage-finish-glyph {
@@ -564,7 +564,7 @@ body.light #sheet.stage-finish-choice-sheet.open {
   }
   #sheet.stage-finish-choice-sheet .stage-finish-heading{gap:9px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-option {
-    min-height:70px!important;padding:7px 7px!important;gap:7px!important;
+    min-height:74px!important;padding:9px 7px!important;gap:7px!important;
   }
   #sheet.stage-finish-choice-sheet .stage-finish-option-icon {
     flex-basis:clamp(34px,9.95vw,36px)!important;
@@ -574,19 +574,19 @@ body.light #sheet.stage-finish-choice-sheet.open {
   #sheet.stage-finish-choice-sheet .stage-finish-option small {font-size:10.25px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-chevron {margin-left:2px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-note {
-    margin-top:18px!important;gap:7px!important;padding:8px 7px!important;font-size:10.2px!important;
+    margin-top:20px!important;gap:9.5px!important;padding:8px 7px!important;font-size:10.2px!important;
   }
   #sheet.stage-finish-choice-sheet .stage-finish-note-icon {
-    flex-basis:34px!important;width:34px!important;height:35px!important;padding-right:7px!important;
+    flex-basis:36px!important;width:36px!important;height:35px!important;padding-right:7px!important;
   }
 }
 @media(min-width:390px) and (max-width:415px) and (orientation:portrait){
   #sheet.stage-finish-choice-sheet.open{padding-top:53px!important;padding-bottom:66px!important;}
-  #sheet.stage-finish-choice-sheet .stage-finish-note{margin-top:23px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note{margin-top:24px!important;}
 }
 @media(min-width:416px) and (orientation:portrait){
   #sheet.stage-finish-choice-sheet.open{padding-top:57px!important;padding-bottom:70px!important;}
-  #sheet.stage-finish-choice-sheet .stage-finish-note{margin-top:23px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note{margin-top:24px!important;}
 }
 @media(max-height:650px){
   #sheet.stage-finish-choice-sheet.open{
@@ -599,24 +599,27 @@ body.light #sheet.stage-finish-choice-sheet.open {
  #sheet.stage-finish-choice-sheet.open {padding-bottom:65px!important;}
 }
 
-/* 5.0.1297.41.39: inset the completion choices within their scroll viewport.
+/* 5.0.1297.41.40: widen the approved cards within the safe scroll viewport.
+   Keep 4px on standard phones and 3px on 320px screens for full border/shadow.
+   Four fixes: deeper description color, wider cards, note inset, vertical rhythm.
+   5.0.1297.41.39 originally: inset the completion choices within their scroll viewport.
    Older negative margins (-9px) protruded beyond this clipping surface,
    cutting off the right curved borders and card shadows in iOS Safari.
    Keep the responsive content widths and the approved SVG paper outline. */
 #sheet.stage-finish-choice-sheet .stage-finish-options {
-  margin:0 -1px!important;
+  margin:0 -4px!important;
 }
 #sheet.stage-finish-choice-sheet .stage-finish-note {
-  margin:21px -1px 0!important;
+  margin:22px -4px 0!important;
 }
 @media(max-width:340px) and (orientation:portrait) {
   #sheet.stage-finish-choice-sheet .stage-finish-options {margin:0 -5px!important;}
   #sheet.stage-finish-choice-sheet .stage-finish-note {margin-right:-5px!important;margin-left:-5px!important;}
 }
 @media(max-width:369px) and (orientation:portrait){
-  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:18px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:20px!important;}
 }
 @media(min-width:390px) and (orientation:portrait){
-  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:23px!important;}
+  #sheet.stage-finish-choice-sheet .stage-finish-note {margin-top:24px!important;}
 }
 
