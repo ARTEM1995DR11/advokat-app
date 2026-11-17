@@ -661,13 +661,13 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
   display:none!important;content:none!important;
 }
 #sheet.case-stage-sheet.stage-wizard-first-sheet.open {
-  position:fixed!important;left:0!important;right:0!important;top:auto!important;
+  position:fixed!important;left:2px!important;right:2px!important;top:auto!important;
   z-index:42!important;
   /* Reference: lower crown and fully visible lower gold rim on iPhone. */
   bottom:0!important;
-  height:min(calc(92.5dvh - 6px),864px)!important;
+  height:min(calc(92.5dvh - 12px),858px)!important;
   max-height:calc(100dvh - max(45px,calc(env(safe-area-inset-top,0px) + 10px)))!important;
-  min-height:0!important;width:100%!important;box-sizing:border-box!important;
+  min-height:0!important;width:calc(100% - 4px)!important;box-sizing:border-box!important;
   margin:0!important;padding:58px 10px 10px!important;
   overflow:hidden!important;display:block!important;
   border:0!important;border-radius:0!important;
@@ -764,3 +764,14 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
 /* 41.43.3: finish the foundation without touching the approved choice screen.
    The adaptive two-tone SVG paints the full lower silhouette ivory, not dark
    side-rails; the inner form is inset only 10px within the double gold rim. */
+
+/* 5.0.1297.41.43.4 — final stage-one silhouette geometry.
+   The crown is 6 CSS pixels lower but its bottom rim is anchored to the
+   same screen position. Two-pixel outer margins reveal the approved marble
+   on each side. The fine navy line is drawn strictly between existing
+   gold rim paths by stageWizardFirstFolderPaint; only step one is affected. */
+#sheet.stage-wizard-first-sheet .matter-actions-outline .stage-first-lower-rim {
+  fill:none!important;stroke:#152f4d!important;stroke-width:1.15px!important;
+  stroke-opacity:.94!important;stroke-linecap:round!important;
+  stroke-linejoin:round!important;pointer-events:none!important;
+}

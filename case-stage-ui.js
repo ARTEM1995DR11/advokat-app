@@ -208,6 +208,14 @@ function stageWizardFirstFolderPaint(panel){
   var c=document.createElementNS(ns,'stop');c.setAttribute('stop-color','#fffaf2');
   var d=document.createElementNS(ns,'stop');d.setAttribute('stop-color','#fffaf2');
   [a,b,c,d].forEach(function(el){grad.appendChild(el);});defs.appendChild(grad);
+  // A single thin dark-blue hairline runs BETWEEN the existing gold paths
+  // along the ivory side rails and bottom. It is not a filled navy border.
+  var rim=document.createElementNS(ns,'path');
+  rim.classList.add('stage-first-lower-rim');
+  rim.setAttribute('aria-hidden','true');
+  rim.setAttribute('fill','none');
+  var grip=svg.querySelector('.ma6224-grip');
+  if(grip)svg.insertBefore(rim,grip);else svg.appendChild(rim);
   function repaint(){
     if(!panel.isConnected||!panel.classList.contains('stage-wizard-first-sheet')){
       if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
@@ -224,6 +232,16 @@ function stageWizardFirstFolderPaint(panel){
     var hi=Math.max(lo+.15,Math.min(100,100*(pivot+8)/rect.height));
     a.setAttribute('offset','0%');b.setAttribute('offset',lo.toFixed(3)+'%');
     c.setAttribute('offset',hi.toFixed(3)+'%');d.setAttribute('offset','100%');
+    var view=svg.viewBox.baseVal,w=view&&view.width||rect.width;
+    var h=view&&view.height||rect.height;
+    // Outer gold outline x=2; inner gold outline x=9. Hairline x=5.6.
+    // Keep only the lower ivory portion, below the curved paper crown.
+    var edge=5.6,bottom=h-5.2,turn=bottom-27,start=Math.max(65,pivot+9);
+    var endLeft=30,endRight=w-30,right=w-edge;
+    rim.setAttribute('d','M '+edge+' '+start+' V '+turn+
+      ' Q '+edge+' '+bottom+' '+endLeft+' '+bottom+
+      ' H '+endRight+' Q '+right+' '+bottom+' '+right+' '+turn+
+      ' V '+start);
   }
   if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();}
   if(typeof ResizeObserver!=='undefined'){
