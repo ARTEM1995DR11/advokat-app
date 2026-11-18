@@ -1272,3 +1272,24 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     filter:brightness(1.035);
   }
 }
+
+
+/* 5.0.1297.41.50 — pixel-level finishing against the approved iPhone mockup.
+   The native stage wizard, archive guards and previous geometry remain as-is.
+   Typography is adjusted only on full-width phones: 5 reference text rows
+   have the exact word grouping of the approved notice, with constant line
+   advance (12.5 * 1.392 = 12.8 * 1.36). Compact phones retain adaptive type. */
+@media (min-width:361px) {
+  #sheet.stage-wizard-first-sheet .stage-first-notice-text {
+    font-size:12.5px!important;
+    line-height:1.392!important;
+  }
+  /* Reference: physical CTA x~38–668 in a 706px-wide mockup.
+     In iPhone CSS coords that is x~21–381 at width 402; earlier was x29–379.
+     Expand only the interactive button, keeping the approved paper and rim. */
+  #sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+    width:calc(100% + 10px)!important;
+    margin-left:-8px!important;
+    height:47px!important;min-height:47px!important;max-height:47px!important;
+  }
+}
