@@ -118,7 +118,7 @@ function stageWizardHead(){
   return header+'<div class="stage-wizard-progress" role="progressbar" aria-label="Этапы завершения дела" aria-valuemin="1" aria-valuemax="'+total+'" aria-valuenow="'+count+'" style="grid-template-columns:repeat('+total+',minmax(0,1fr))">'+
     steps.map(function(x,i){return '<i class="'+(i<=at?'passed':'')+'" aria-hidden="true"></i>';}).join('')+'</div>';
 }
-/* 5.0.1297.41.45 — phase 3: approved illustrated information card and
+/* 5.0.1297.41.46 — refined step-3 information card and
    form fields. No changes to transition data or workflow validation. */
 function stageWizardFirstIcon(kind){
   var paths={
@@ -126,7 +126,8 @@ function stageWizardFirstIcon(kind){
     calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2.1"/><path d="M7.8 3v4.1M16.2 3v4.1M3.5 9.6h17M7.7 13.1h2.1M12.2 13.1h2.1M7.7 16.7h2.1M12.2 16.7h2.1"/>',
     result:'<circle cx="12" cy="12" r="9"/><path d="m7.2 12.1 3.25 3.15 6.45-6.5"/>',
     note:'<rect x="5" y="2.8" width="14" height="18.4" rx="1.65"/><path d="M8.3 7.5h7.4M8.3 11h7.4M8.3 14.5h5.2M8.3 18h3.4"/>',
-    arrow:'<path d="m9 5 7 7-7 7"/>'
+    arrow:'<path d="m9 5 7 7-7 7"/>',
+    warning:'<circle cx="12" cy="12" r="9"/><path d="M12 7.2v6.5"/><circle cx="12" cy="17.2" r=".8" fill="currentColor" stroke="none"/>'
   };
   return '<svg class="stage-first-glyph stage-first-glyph-'+kind+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+paths[kind]+'</svg>';
 }
@@ -139,14 +140,18 @@ function stageWizardClosureHTML(d,m){
     '<span class="stage-first-notice-rule" aria-hidden="true"></span>'+
     '<p class="stage-first-notice-text">Завершится только текущая стадия. <strong>В этом сценарии создание новой связанной папки обязательно.</strong> Если поручение заканчивается без продолжения, используйте «Завершить дело полностью».</p></div>'+
     '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('calendar','Дата завершения')+
-      '<input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'"></label>'+
-    '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('result','Фактический результат завершённого этапа')+
+      '<span class="stage-first-date-wrap"><input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'">'+
+      '<span class="stage-first-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></span></label>'+
+    '<label class="stage-wizard-field stage-first-field stage-first-outcome-field">'+stageWizardFirstFieldHeading('result','Фактический результат завершённого этапа')+
       '<span class="stage-first-result-wrap"><select id="st-close-result">'+stageClosureOutcomeOptions(m)
         .map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===d.result?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select>'+
       '<span class="stage-first-result-arrow">'+stageWizardFirstIcon('arrow')+'</span></span></label>'+
     '<label class="stage-wizard-field stage-first-field stage-first-note-field">'+stageWizardFirstFieldHeading('note','Заключительная запись')+
       '<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
-    (n?'<div class="stage-wizard-alert">Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.</div>':'');
+    (n?'<div class="stage-wizard-alert stage-first-hearing-alert" role="alert">'+
+       '<span class="stage-first-hearing-icon">'+stageWizardFirstIcon('warning')+'</span>'+
+       '<span class="stage-first-hearing-rule" aria-hidden="true"></span>'+
+       '<p>Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.</p></div>':'');
 }
 function stageWizardNextHTML(d,m){
   var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
