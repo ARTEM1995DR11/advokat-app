@@ -104,8 +104,19 @@ function stageWizardHead(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),assigned=m.basis==='assigned';
   var steps=assigned?STAGE_WIZARD_STEPS:STAGE_WIZARD_STEPS.filter(function(x){return x!=='Расчёт оплаты';});
   var at=assigned?d.step:(d.step===4?3:d.step);
-  return '<header class="stage-wizard-header"><button class="stage-wizard-back" data-act="stage-wizard-prev" aria-label="Предыдущий шаг">'+ico('left','s')+'</button><div><small>ДЕЙСТВИЯ ПО ДЕЛУ · ШАГ '+(at+1)+' / '+steps.length+'</small><h2>'+esc(stageStepTitle())+'</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+ 
-    '<div class="stage-wizard-progress" aria-label="Шаг '+(at+1)+' из '+steps.length+'" style="grid-template-columns:repeat('+steps.length+',1fr)">'+steps.map(function(x,i){return '<i class="'+(i<=at?'passed':'')+'"></i>';}).join('')+'</div>';
+  var first=d.step===0;
+  var count=at+1,total=steps.length;
+  // The approved gold badge belongs exclusively to the first, navy/ivory
+  // folder. Later steps keep the legacy sheet until their design phase.
+  var header=first
+    ?'<header class="stage-wizard-header stage-wizard-header-premium">'+
+      '<button class="stage-wizard-back" type="button" data-act="stage-wizard-prev" aria-label="Назад к выбору завершения">'+ico('left','s')+'</button>'+
+      '<div class="stage-wizard-head-copy"><div class="stage-wizard-eyebrow"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><i aria-hidden="true"></i></div>'+
+      '<h2>'+esc(stageStepTitle())+'</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
+      '<span class="stage-wizard-step-pill" aria-label="Шаг '+count+' из '+total+'">Шаг '+count+' из '+total+'</span></header>'
+    :'<header class="stage-wizard-header"><button class="stage-wizard-back" type="button" data-act="stage-wizard-prev" aria-label="Предыдущий шаг">'+ico('left','s')+'</button><div><small>ДЕЙСТВИЯ ПО ДЕЛУ · ШАГ '+count+' / '+total+'</small><h2>'+esc(stageStepTitle())+'</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>';
+  return header+'<div class="stage-wizard-progress" role="progressbar" aria-label="Этапы завершения дела" aria-valuemin="1" aria-valuemax="'+total+'" aria-valuenow="'+count+'" style="grid-template-columns:repeat('+total+',minmax(0,1fr))">'+
+    steps.map(function(x,i){return '<i class="'+(i<=at?'passed':'')+'" aria-hidden="true"></i>';}).join('')+'</div>';
 }
 function stageWizardClosureHTML(d,m){
   var n=stageUnresolvedHearings(m).length;
@@ -234,6 +245,7 @@ function stageWizardFirstFolderPaint(panel){
   function repaint(){
     if(!panel.isConnected||!panel.classList.contains('stage-wizard-first-sheet')){
       if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
+      if(panel._stageFirstResizeFallback){window.removeEventListener('resize',panel._stageFirstResizeFallback);panel._stageFirstResizeFallback=null;}
       return;
     }
     var paper=panel.querySelector('.stage-wizard-first-paper');
@@ -267,12 +279,17 @@ function stageWizardFirstFolderPaint(panel){
       ' H '+endRight+' C '+(right-9)+' '+bottom+' '+right+' '+(bottom-10)+' '+right+' '+turn+
       ' V 63');
   }
-  if(panel._stageFirstPaintObserver)panel._stageFirstPaintObserver.disconnect();
+  if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
+  if(panel._stageFirstResizeFallback){window.removeEventListener('resize',panel._stageFirstResizeFallback);panel._stageFirstResizeFallback=null;}
   if(typeof ResizeObserver!=='undefined'){
     panel._stageFirstPaintObserver=new ResizeObserver(repaint);
     panel._stageFirstPaintObserver.observe(panel);
     var paper=panel.querySelector('.stage-wizard-first-paper');
     if(paper)panel._stageFirstPaintObserver.observe(paper);
+  } else {
+    // Older WebKit: repaint the ivory leaf together with the adaptive folder.
+    panel._stageFirstResizeFallback=repaint;
+    window.addEventListener('resize',repaint,{passive:true});
   }
   repaint();requestAnimationFrame(repaint);
 }
