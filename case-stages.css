@@ -1293,3 +1293,52 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     height:47px!important;min-height:47px!important;max-height:47px!important;
   }
 }
+
+
+/* 5.0.1297.41.51 — final two mockup fidelity fixes; scoped to first wizard page.
+   Safari slightly differs from Chromium in text metrics: reserve extra room
+   for the full 'создание новой связанной папки' without forced line breaks. */
+@media (min-width:361px) {
+  #sheet.stage-wizard-first-sheet .stage-first-notice-text {
+    font-size:12.35px!important;line-height:1.41!important;
+    letter-spacing:-.34px!important;
+  }
+}
+@media (max-width:360px) {
+  #sheet.stage-wizard-first-sheet .stage-first-notice-text {
+    letter-spacing:-.55px!important;
+  }
+}
+/* Single warm metal rim, deeper amber in the corners, brighter toward centre. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  border:1px solid #a16b13!important;
+  background:
+    radial-gradient(ellipse 72% 74% at 50% -5%,rgba(255,246,182,.60) 0%,rgba(255,240,163,.18) 53%,transparent 96%),
+    linear-gradient(90deg,rgba(111,62,6,.25) 0%,rgba(111,62,6,.045) 20%,transparent 45%,rgba(111,62,6,.05) 80%,rgba(111,62,6,.30) 100%),
+    linear-gradient(180deg,#edb858 0%,#dca244 54%,#b77810 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,246,211,.37),
+    inset 0 -1px 0 rgba(97,57,6,.18),
+    0 5px 10px rgba(103,67,12,.19)!important;
+}
+
+/* Only the approved wide-phone reference uses the exact editorial row breaks.
+   CSS white-space:normal on smaller phones collapses these to regular spaces. */
+@media (min-width:400px) {
+  #sheet.stage-wizard-first-sheet .stage-first-notice-text {white-space:pre-line!important;}
+}
+
+
+/* 5.0.1297.41.52 — stage 5, adaptive and interaction edge cases.
+   A real picked label may be arbitrarily long, whereas the empty state must
+   always show the full approved prompt. Keep the gold arrow separate. */
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field:not(.empty) .premium-select-field-copy b,
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field:not(.empty) .premium-select-field-copy b {
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+/* Oversized client names must not deform the approved header geometry. */
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-head-copy p {
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}

@@ -138,7 +138,7 @@ function stageWizardClosureHTML(d,m){
   var n=stageUnresolvedHearings(m).length;
   return '<div class="stage-first-notice" role="note"><span class="stage-first-notice-icon">'+stageWizardFirstIcon('info')+'</span>'+
     '<span class="stage-first-notice-rule" aria-hidden="true"></span>'+
-    '<p class="stage-first-notice-text">Завершится только текущая стадия. <strong>В этом сценарии создание новой связанной папки обязательно.</strong> Если поручение заканчивается без продолжения, используйте «Завершить дело полностью».</p></div>'+
+    '<p class="stage-first-notice-text">Завершится только текущая стадия. <strong>В этом\nсценарии создание новой связанной папки\nобязательно.</strong> Если поручение заканчивается\nбез продолжения, используйте «Завершить\nдело полностью».</p></div>'+
     '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('calendar','Дата завершения')+
       '<span class="stage-first-date-wrap"><input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'">'+
       '<span class="stage-first-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></span></label>'+
