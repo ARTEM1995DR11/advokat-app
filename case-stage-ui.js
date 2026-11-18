@@ -118,14 +118,34 @@ function stageWizardHead(){
   return header+'<div class="stage-wizard-progress" role="progressbar" aria-label="Этапы завершения дела" aria-valuemin="1" aria-valuemax="'+total+'" aria-valuenow="'+count+'" style="grid-template-columns:repeat('+total+',minmax(0,1fr))">'+
     steps.map(function(x,i){return '<i class="'+(i<=at?'passed':'')+'" aria-hidden="true"></i>';}).join('')+'</div>';
 }
+/* 5.0.1297.41.45 — phase 3: approved illustrated information card and
+   form fields. No changes to transition data or workflow validation. */
+function stageWizardFirstIcon(kind){
+  var paths={
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 10.7v5"/><circle cx="12" cy="7.5" r=".85" fill="currentColor" stroke="none"/>',
+    calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2.1"/><path d="M7.8 3v4.1M16.2 3v4.1M3.5 9.6h17M7.7 13.1h2.1M12.2 13.1h2.1M7.7 16.7h2.1M12.2 16.7h2.1"/>',
+    result:'<circle cx="12" cy="12" r="9"/><path d="m7.2 12.1 3.25 3.15 6.45-6.5"/>',
+    note:'<rect x="5" y="2.8" width="14" height="18.4" rx="1.65"/><path d="M8.3 7.5h7.4M8.3 11h7.4M8.3 14.5h5.2M8.3 18h3.4"/>',
+    arrow:'<path d="m9 5 7 7-7 7"/>'
+  };
+  return '<svg class="stage-first-glyph stage-first-glyph-'+kind+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+paths[kind]+'</svg>';
+}
+function stageWizardFirstFieldHeading(kind,title){
+  return '<span class="stage-first-field-heading"><span class="stage-first-field-icon">'+stageWizardFirstIcon(kind)+'</span><span class="stage-first-field-caption">'+title+'</span></span>';
+}
 function stageWizardClosureHTML(d,m){
   var n=stageUnresolvedHearings(m).length;
-  return '<p class="stage-wizard-sub">Завершится только текущая стадия. <b>В этом сценарии создание новой связанной папки обязательно.</b> Если поручение заканчивается без продолжения, используйте «Завершить дело полностью».</p>'+
-    '<label class="stage-wizard-field">Дата завершения<input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'"></label>'+
-    '<label class="stage-wizard-field">Фактический результат завершённого этапа<select id="st-close-result">'+
-      stageClosureOutcomeOptions(m)
-      .map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===d.result?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select></label>'+
-    '<label class="stage-wizard-field">Заключительная запись<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
+  return '<div class="stage-first-notice" role="note"><span class="stage-first-notice-icon">'+stageWizardFirstIcon('info')+'</span>'+
+    '<span class="stage-first-notice-rule" aria-hidden="true"></span>'+
+    '<p class="stage-first-notice-text">Завершится только текущая стадия. <strong>В этом сценарии создание новой связанной папки обязательно.</strong> Если поручение заканчивается без продолжения, используйте «Завершить дело полностью».</p></div>'+
+    '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('calendar','Дата завершения')+
+      '<input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'"></label>'+
+    '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('result','Фактический результат завершённого этапа')+
+      '<span class="stage-first-result-wrap"><select id="st-close-result">'+stageClosureOutcomeOptions(m)
+        .map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===d.result?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select>'+
+      '<span class="stage-first-result-arrow">'+stageWizardFirstIcon('arrow')+'</span></span></label>'+
+    '<label class="stage-wizard-field stage-first-field stage-first-note-field">'+stageWizardFirstFieldHeading('note','Заключительная запись')+
+      '<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
     (n?'<div class="stage-wizard-alert">Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.</div>':'');
 }
 function stageWizardNextHTML(d,m){

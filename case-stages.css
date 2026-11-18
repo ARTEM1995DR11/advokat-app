@@ -874,3 +874,112 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
   #sheet.stage-wizard-first-sheet .stage-wizard-header-premium h2 {font-size:clamp(20px,6.7vw,23px)!important;}
   #sheet.stage-wizard-first-sheet .stage-wizard-step-pill {font-size:10.7px;padding:5px 7px;min-height:22px;}
 }
+
+
+/* 5.0.1297.41.45 — step 3. The information card and all three form inputs
+   now match the approved premium layout. Scoped to the first wizard sheet. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  box-sizing:border-box;display:grid;
+  grid-template-columns:35px 1.5px minmax(0,1fr);
+  gap:10px;align-items:center;width:100%;margin:0 0 15px;
+  border:1px solid rgba(234,218,194,.35);border-radius:17px;
+  padding:12px 10px 12px 10px;
+  background:linear-gradient(130deg,#fdf7ec 0%,#fff8ef 55%,#fcf0df 100%);
+  color:#10264a;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-icon {
+  display:grid;place-items:center;align-self:center;
+  color:#95691e;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-icon .stage-first-glyph {
+  width:31px;height:31px;stroke-width:1.7;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-rule {
+  display:block;align-self:stretch;min-height:32px;
+  border-radius:2px;background:linear-gradient(180deg,#9e742e,#cda25b,#a9772f);
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-text {
+  margin:0;color:#182a4d;font-size:13.1px;font-weight:400;
+  line-height:1.44;overflow-wrap:break-word;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-text strong {font-weight:800;color:#10224a;}
+#sheet.stage-wizard-first-sheet .stage-first-field {
+  display:block!important;margin:0 0 15px!important;
+  padding:0!important;color:#10264b!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field-heading {
+  display:flex;align-items:center;gap:10px;
+  min-height:32px;min-width:0;margin:0 0 3px;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field-icon {
+  box-sizing:border-box;display:grid;place-items:center;
+  width:31px;height:31px;min-width:31px;flex:0 0 31px;
+  border:1px solid #e7c48b;border-radius:10px;
+  background:linear-gradient(145deg,#fffefa,#fff1d5 92%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 2px 4px rgba(119,79,18,.15);
+  color:#996b1f;
+}
+#sheet.stage-wizard-first-sheet .stage-first-glyph {display:block;width:22px;height:22px;flex-shrink:0;}
+#sheet.stage-wizard-first-sheet .stage-first-field-icon .stage-first-glyph {width:22px;height:22px;}
+#sheet.stage-wizard-first-sheet .stage-first-field-caption {
+  flex:1;min-width:0;color:#0b2350;font-weight:750;
+  font-size:13.3px;line-height:1.25;letter-spacing:0;overflow-wrap:break-word;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field input,
+#sheet.stage-wizard-first-sheet .stage-first-field textarea,
+#sheet.stage-wizard-first-sheet .stage-first-field select {
+  display:block;box-sizing:border-box;
+  width:calc(100% - 35px)!important;margin:2px 0 0 35px!important;
+  border:1px solid #d9c9b6!important;border-radius:13px!important;
+  background:linear-gradient(150deg,#ffffff,#fffefd)!important;
+  color:#152b4a!important;
+  box-shadow:0 3px 9px rgba(70,48,26,.06),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  font:400 15.5px/1.35 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  min-height:47px!important;padding:11px 12px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field input[type=date] {
+  text-align:center!important;text-align-last:center!important;
+  font-weight:500!important;
+  padding:9px 11px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field input[type=date]::-webkit-date-and-time-value {text-align:center;}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap {display:block;position:relative;}
+#sheet.stage-wizard-first-sheet .stage-first-field select {
+  -webkit-appearance:none!important;appearance:none!important;
+  padding-right:43px!important;
+  text-overflow:ellipsis;white-space:nowrap;
+  cursor:pointer;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field select:invalid {color:#8e9aaa!important;}
+#sheet.stage-wizard-first-sheet .stage-first-result-arrow {
+  pointer-events:none;display:grid;place-items:center;
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  width:30px;height:31px;border:1px solid #e9cf9f;
+  border-radius:10px;background:linear-gradient(145deg,#fffaf0,#ffedcf);
+  box-shadow:inset 0 1px 0 #fff;
+  color:#956724;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-arrow .stage-first-glyph {width:16px;height:16px;stroke-width:2.3;}
+#sheet.stage-wizard-first-sheet .stage-first-note-field textarea {
+  min-height:85px!important;resize:vertical;line-height:1.35!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field textarea::placeholder,
+#sheet.stage-wizard-first-sheet .stage-first-field input::placeholder {color:#98a2b2;opacity:1;}
+#sheet.stage-wizard-first-sheet .stage-first-field select:focus-visible,
+#sheet.stage-wizard-first-sheet .stage-first-field input:focus-visible,
+#sheet.stage-wizard-first-sheet .stage-first-field textarea:focus-visible {
+  outline:2px solid #caa25c!important;outline-offset:1px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-alert {margin:7px 0 13px 35px!important;}
+@media(max-width:360px){
+  #sheet.stage-wizard-first-sheet .stage-first-notice {gap:8px;grid-template-columns:30px 1.5px minmax(0,1fr);padding:10px 8px;}
+  #sheet.stage-wizard-first-sheet .stage-first-notice-text {font-size:12.5px;line-height:1.4;}
+  #sheet.stage-wizard-first-sheet .stage-first-notice-icon .stage-first-glyph {width:27px;height:27px;}
+  #sheet.stage-wizard-first-sheet .stage-first-field-caption {font-size:12.7px;}
+  #sheet.stage-wizard-first-sheet .stage-first-field-heading {gap:8px;}
+  #sheet.stage-wizard-first-sheet .stage-first-field-icon {width:29px;height:29px;min-width:29px;flex-basis:29px;}
+  #sheet.stage-wizard-first-sheet .stage-first-field input,
+  #sheet.stage-wizard-first-sheet .stage-first-field textarea,
+  #sheet.stage-wizard-first-sheet .stage-first-field select {margin-left:33px!important;width:calc(100% - 33px)!important;font-size:14.5px!important;}
+  #sheet.stage-wizard-first-sheet .stage-wizard-alert {margin-left:33px!important;}
+}
