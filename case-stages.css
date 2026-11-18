@@ -1065,3 +1065,132 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
     grid-template-columns:27px 1.5px minmax(0,1fr);gap:7px;
   }
 }
+
+
+/* 5.0.1297.41.47 — final pixel alignment for approved stages 1–3.
+   The global upgradePremiumSelects() transforms #st-close-result into
+   .premium-select-wrap > .premium-select-field; previous selectors only
+   sized the hidden native SELECT, leaving a 62px button + two arrow badges.
+   These overrides target that REAL interactive control (premium list picker).
+   Other screens, original native options and wizard validation are untouched. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-header {
+  padding-bottom:20px!important; /* paper +8px, upper header and progress remain fixed */
+}
+#sheet.stage-wizard-first-sheet .stage-first-field:not(.stage-first-outcome-field):not(.stage-first-note-field) {
+  margin-bottom:12px!important; /* +7px before outcome: matches approved row spacing */
+}
+#sheet.stage-wizard-first-sheet .stage-first-outcome-field {
+  margin-bottom:24px!important; /* absorb the actual upgraded field height reduction */
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap {
+  box-sizing:border-box!important;
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:38px!important;
+  min-height:38px!important;
+  max-height:38px!important;
+  margin:2px 0 0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap>.premium-select-field {
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  box-sizing:border-box!important;
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  height:38px!important;
+  min-height:38px!important;
+  max-height:38px!important;
+  margin:0!important;
+  padding:0 5px 0 11px!important;
+  gap:4px!important;
+  border:1px solid #dcccb9!important;
+  border-radius:12px!important;
+  background:linear-gradient(150deg,#fff,#fffefd)!important;
+  box-shadow:0 3px 9px rgba(70,48,26,.07),inset 0 1px 0 #fff!important;
+  color:#152b4a!important;
+  text-align:left!important;
+  -webkit-tap-highlight-color:transparent;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-copy {
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-copy b,
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-copy b,
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty b {
+  box-sizing:border-box!important;
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  white-space:nowrap!important;
+  text-overflow:clip!important;
+  font:500 clamp(11.7px,3.48vw,13px)/1.16 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  letter-spacing:-.016em!important;
+  color:#8a96a7!important;
+}
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field:not(.empty) .premium-select-field-copy b {
+  color:#152b4a!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-arrow {
+  box-sizing:border-box!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 29px!important;
+  width:29px!important;
+  height:29px!important;
+  min-width:29px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid #e8c996!important;
+  border-radius:10px!important;
+  background:linear-gradient(145deg,#fffaf0,#ffedcf)!important;
+  box-shadow:inset 0 1px 0 #fff!important;
+  color:#956724!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-arrow .ico {
+  width:16px!important;height:16px!important;stroke-width:2.2!important;
+}
+/* The old decorative arrow was a second badge placed over the premium picker. */
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap~.stage-first-result-arrow {
+  display:none!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap .premium-select-native {
+  display:none!important; /* data source for the existing premium picker */
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field:focus-visible {
+  outline:2px solid #caa25c!important;outline-offset:2px!important;
+}
+@media(max-width:350px) {
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap,
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap>.premium-select-wrap>.premium-select-field {
+    height:45px!important;min-height:45px!important;max-height:45px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-copy b,
+  body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-copy b,
+  body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty b {
+    white-space:normal!important;
+    overflow-wrap:break-word!important;
+    font-size:11.5px!important;
+    line-height:1.13!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-arrow {
+    flex-basis:26px!important;width:26px!important;min-width:26px!important;height:27px!important;
+  }
+}
+/* One confident gold chevron in the unselected state, too. */
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field-arrow .ico {
+  opacity:1!important;
+  color:#956724!important;
+  stroke:#956724!important;
+}

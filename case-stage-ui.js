@@ -118,7 +118,7 @@ function stageWizardHead(){
   return header+'<div class="stage-wizard-progress" role="progressbar" aria-label="Этапы завершения дела" aria-valuemin="1" aria-valuemax="'+total+'" aria-valuenow="'+count+'" style="grid-template-columns:repeat('+total+',minmax(0,1fr))">'+
     steps.map(function(x,i){return '<i class="'+(i<=at?'passed':'')+'" aria-hidden="true"></i>';}).join('')+'</div>';
 }
-/* 5.0.1297.41.46 — refined step-3 information card and
+/* 5.0.1297.41.47 — refined step-3 information card and
    form fields. No changes to transition data or workflow validation. */
 function stageWizardFirstIcon(kind){
   var paths={
