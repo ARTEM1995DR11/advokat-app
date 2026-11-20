@@ -1824,3 +1824,44 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
    separate dossier-entry path is intentionally excluded above. */
 body.matter-actions-open #scrim.open,
 body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open {z-index:41!important;}
+
+
+/* 5.0.1297.41.57.10 / 6424 — stage 3 visual calibration, 706×1536.
+   Background, SVG silhouette, paper height, fields and workflow unchanged.
+   Measurements from the actual iPhone and approved static reference:
+   title pixels y285→target y281; eyebrow width about 236→223;
+   badge upper edge y235→target y239; silver/gold indicator height
+   y379..386→target y379..389. Do not shift the first paper. */
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium h2 {
+  transform:translateY(2px)!important; /* -2 CSS px, position only */
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small {
+  font-size:10.9px!important;
+  letter-spacing:.065em!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-step-pill {
+  top:-2.5px!important; /* +2 CSS px; keep width and height */
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-back {
+  height:33px!important;
+  transform:translate(-1px,-14.5px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress {
+  margin-left:3px!important;
+  margin-right:2px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i {
+  height:5.5px!important;min-height:5.5px!important;max-height:5.5px!important;
+  border-radius:7px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i.passed {
+  background:linear-gradient(90deg,#e1a83f,#f3c56b)!important;
+}
+@media(max-width:350px){
+ #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small {
+   font-size:9.3px!important;letter-spacing:.065em!important;
+ }
+ #sheet.stage-wizard-first-sheet .stage-wizard-progress {
+   margin-left:2px!important;margin-right:2px!important;
+ }
+}
