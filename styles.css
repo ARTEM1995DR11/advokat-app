@@ -49172,3 +49172,81 @@ body.light.journal-sheet-open #scrim.open::after {
   -webkit-mask-image:none!important;
   mask-image:none!important;
 }
+
+
+/* 5.0.1297.41.57.5 / build 6419 — ONE CONTINUOUS MARBLE BACKDROP.
+   The finish chooser, stage wizard, journal sheet and matter-actions sheet
+   previously painted different assets and used cover / 100lvh / 100% auto
+   independently. That made the desk objects and marble veins visibly jump
+   during navigation. All four states now use one identical wallpaper layer,
+   anchored to the large viewport and painted from the same top-left origin.
+   Keep the sheet/paper surfaces and their scroll containers untouched. */
+:root:has(body.matter-actions-open),
+:root:has(body.journal-sheet-open),
+:root:has(body.matter-finish-backdrop-open),
+:root:has(body.light:has(#sheet.stage-finish-choice-sheet.open)),
+:root:has(body.light:has(#sheet.stage-wizard-first-sheet.open)) {
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+}
+body.matter-actions-open,
+body.journal-sheet-open,
+body.matter-finish-backdrop-open,
+body.light:has(#sheet.stage-finish-choice-sheet.open),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  background-color:#f8f0e2!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+}
+body.matter-actions-open::before,
+body.journal-sheet-open::before,
+body.matter-finish-backdrop-open::before,
+body.light:has(#sheet.stage-finish-choice-sheet.open)::before,
+body.light:has(#sheet.stage-wizard-first-sheet.open)::before {
+  content:''!important;
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100%!important;
+  height:100lvh!important;
+  z-index:39!important;
+  pointer-events:none!important;
+  background:#f8f0e2 url('bg-matters-approved-v487.png') center top / 100% 100lvh no-repeat!important;
+  transform:none!important;
+}
+body.matter-actions-open #scrim.open,
+body.journal-sheet-open #scrim.open,
+body.matter-finish-backdrop-open #scrim.open,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  background-color:#f8f0e2!important;
+  background-image:linear-gradient(180deg,rgba(255,250,238,.035),rgba(255,248,236,.045)),url('bg-matters-approved-v487.png')!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:center top,center top!important;
+  background-size:100% 100lvh,100% 100lvh!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  transform:none!important;
+}
+/* The actions modal used to reveal a different, extra-tall dossier photo. */
+body.matter-actions-open #scrim.open { opacity:1!important; }
+
+/* 41.57.5 follow-up: override the wizard's legacy high-z image layer too. */
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop::after {
+  display:none!important;content:none!important;background:none!important;
+}
+body.matter-actions-open #scrim.open,
+body.journal-sheet-open #scrim.open,
+body.matter-finish-backdrop-open #scrim.open,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  position:fixed!important;inset:0!important;left:0!important;right:0!important;
+  top:0!important;bottom:0!important;width:100%!important;
+  height:100lvh!important;min-height:100lvh!important;
+}
