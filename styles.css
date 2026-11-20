@@ -49182,6 +49182,7 @@ body.light.journal-sheet-open #scrim.open::after {
    anchored to the large viewport and painted from the same top-left origin.
    Keep the sheet/paper surfaces and their scroll containers untouched. */
 :root:has(body.matter-actions-open),
+:root:has(body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)),
 :root:has(body.journal-sheet-open),
 :root:has(body.matter-finish-backdrop-open),
 :root:has(body.light:has(#sheet.stage-finish-choice-sheet.open)),
@@ -49193,6 +49194,7 @@ body.light.journal-sheet-open #scrim.open::after {
   background-size:100% 100lvh!important;
 }
 body.matter-actions-open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open),
 body.journal-sheet-open,
 body.matter-finish-backdrop-open,
 body.light:has(#sheet.stage-finish-choice-sheet.open),
@@ -49204,6 +49206,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) {
   background-size:100% 100lvh!important;
 }
 body.matter-actions-open::before,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)::before,
 body.journal-sheet-open::before,
 body.matter-finish-backdrop-open::before,
 body.light:has(#sheet.stage-finish-choice-sheet.open)::before,
@@ -49220,6 +49223,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open)::before {
   transform:none!important;
 }
 body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open,
 body.journal-sheet-open #scrim.open,
 body.matter-finish-backdrop-open #scrim.open,
 body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
@@ -49242,6 +49246,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   display:none!important;content:none!important;background:none!important;
 }
 body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open,
 body.journal-sheet-open #scrim.open,
 body.matter-finish-backdrop-open #scrim.open,
 body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
@@ -49249,4 +49254,15 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   position:fixed!important;inset:0!important;left:0!important;right:0!important;
   top:0!important;bottom:0!important;width:100%!important;
   height:100lvh!important;min-height:100lvh!important;
+}
+
+/* 5.0.1297.41.57.6 / build 6420 — Add event now shares the exact same
+   global marble and transform-free scrim as journal and matter actions.
+   Deliberately EXCLUDES entry from dossier Events tab, which must still
+   reveal the underlying dossier through its translucent overlay. */
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open{
+  opacity:1!important;
+  z-index:41!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
 }
