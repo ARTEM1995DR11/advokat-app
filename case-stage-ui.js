@@ -246,7 +246,7 @@ function stageWizardFirstFolderPaint(panel){
   stageNavy.setAttribute('gradientUnits','userSpaceOnUse');
   stageNavy.setAttribute('x1','0');stageNavy.setAttribute('x2','0');
   stageNavy.setAttribute('y1','0');stageNavy.setAttribute('y2','430');
-  [['0%','#082044'],['36%','#07203f'],['78%','#061c35'],['100%','#061831']].forEach(function(pair){
+  [['0%','#0d2144'],['20%','#0c2043'],['32%','#0c1f3f'],['43%','#0c1b38'],['100%','#0a1832']].forEach(function(pair){
     var stop=document.createElementNS(ns,'stop');stop.setAttribute('offset',pair[0]);
     stop.setAttribute('stop-color',pair[1]);stageNavy.appendChild(stop);
   });

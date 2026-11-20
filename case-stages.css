@@ -1976,3 +1976,46 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
   height:45px!important;min-height:45px!important;max-height:45px!important;
  }
 }
+
+
+/* 5.0.1297.41.59.1 / 6427 — targeted pixel correction of stages 3–5.
+   Based on direct comparison of the real 706x1536 iPhone screenshot with
+   the approved mockup. No changes to the background image, folder SVG
+   geometry, fields' IDs, validation, warning logic, or other pages. */
+/* Reference: more substantial back chevron without enlarging its button. */
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-back .ico.s {
+  width:17px!important;height:17px!important;stroke-width:2.5!important;
+}
+/* Reference: 4–5 physical pixels to the right for the eyebrow gold line. */
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+  transform:translate(2px,2.5px)!important;
+}
+/* Reference: progress segments are 1 physical pixel lower, same geometry. */
+#sheet.stage-wizard-first-sheet .stage-wizard-progress {
+  transform:translateY(.5px)!important;
+}
+/* Lighter, softer notice border and a 2px CSS inner offset; text wraps
+   naturally into the same five lines and the paper contour stays fixed. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  padding-left:10px!important;padding-right:6px!important;
+  border-color:rgba(231,215,191,.12)!important;
+  background:linear-gradient(130deg,#fdfaf4 0%,#fffbf5 52%,#fcf2e6 100%)!important;
+}
+/* Headings and glyph tiles 2 CSS pixels right; boxes and values remain
+   at their approved horizontal coordinates. */
+#sheet.stage-wizard-first-sheet .stage-first-field-heading {
+  margin-left:3.5px!important;
+}
+/* Input upper edges were 4–5 physical pixels lower than the reference.
+   Move ONLY the two affected editable controls: labels/date and the
+   hearing-warning flow stay unchanged. */
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap {
+  position:relative;top:-2px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-note-field textarea {
+  position:relative;top:-2.5px!important;
+}
+@media(max-width:350px) {
+  /* Preserve tightly fitting single-row caption on small iPhones. */
+  #sheet.stage-wizard-first-sheet .stage-first-field-heading {margin-left:2px!important;}
+}
