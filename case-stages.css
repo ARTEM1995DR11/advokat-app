@@ -2198,3 +2198,59 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   background-position:center top,center 100lvh!important;
   background-repeat:no-repeat,repeat-y!important;
 }
+
+
+/* 5.0.1297.41.62.1 / build 6432 — approved mockup, final scoped visual match.
+   User-approved plain background beneath the folder remains deliberately
+   UNCHANGED. Do not modify background layers, page positions, or workflow.
+   The 353 CSS-px iPhone reference has a three-line hearing warning. */
+#sheet.stage-wizard-first-sheet .stage-first-hearing-alert.stage-wizard-alert {
+  margin-top:16.5px!important;
+  padding:7.5px 10px!important;
+  background:linear-gradient(110deg,#fee8da 0%,#ffeadd 54%,#fce6d9 100%)!important;
+  border-color:#f0c8b7!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {
+  font:400 11.85px/14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  letter-spacing:-.031em!important;
+}
+@media (min-width:351px) and (max-width:420px) {
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert .stage-first-alert-line {
+    display:block!important;
+    white-space:nowrap;
+  }
+}
+@media (max-width:350px), (min-width:421px) {
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert .stage-first-alert-line {
+    display:inline!important;
+    white-space:normal!important;
+  }
+}
+/* A warmer, more parchment-toned information box, with the same five rows. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  background:linear-gradient(125deg,#fcf4e8 0%,#fdf7eb 55%,#fcf0e3 100%)!important;
+  border-color:rgba(230,215,190,.13)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-icon {
+  transform:translate(-2px,-1px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-rule {
+  transform:translateX(-2px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-notice-text {
+  transform:translate(-2px,-1.5px)!important;
+}
+/* Stronger warm-gold centre and bronze edges: existing button geometry, text
+   and click target are left untouched. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  background:
+    radial-gradient(ellipse 78% 108% at 50% -9%,rgba(255,246,190,.72) 0%,rgba(255,232,145,.27) 51%,rgba(255,232,145,0) 88%),
+    linear-gradient(90deg,rgba(111,55,5,.24) 0%,rgba(111,55,5,.035) 20%,transparent 41%,transparent 61%,rgba(111,55,5,.11) 80%,rgba(111,55,5,.32) 100%),
+    linear-gradient(180deg,#f4c15f 0%,#e9b44f 49%,#c28010 100%)!important;
+  border-color:#9f6815!important;
+  box-shadow:inset 0 1px 0 rgba(255,246,204,.55),inset 0 -1px 0 rgba(101,51,3,.18),0 5px 10px rgba(102,63,9,.18)!important;
+}
+/* The reference places two text inputs approximately 1–2 px higher; their
+   dimensions, labels, accessibility and handlers remain unchanged. */
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap {top:-2.5px!important;}
+#sheet.stage-wizard-first-sheet .stage-first-note-field textarea {top:-3.5px!important;}

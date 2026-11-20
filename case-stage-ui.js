@@ -151,7 +151,7 @@ function stageWizardClosureHTML(d,m){
     (n?'<div class="stage-wizard-alert stage-first-hearing-alert" role="alert">'+
        '<span class="stage-first-hearing-icon">'+stageWizardFirstIcon('warning')+'</span>'+
        '<span class="stage-first-hearing-rule" aria-hidden="true"></span>'+
-       '<p>Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.</p></div>':'');
+       '<p>'+(n<10?'<span class="stage-first-alert-line">Не указаны результаты '+n+' прошедших</span> <span class="stage-first-alert-line">заседаний. Перед переходом их необходимо</span> <span class="stage-first-alert-line">завершить.</span>':'Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.')+'</p></div>':'');
 }
 function stageWizardNextHTML(d,m){
   var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
