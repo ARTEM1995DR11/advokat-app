@@ -2019,3 +2019,182 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
   /* Preserve tightly fitting single-row caption on small iPhones. */
   #sheet.stage-wizard-first-sheet .stage-first-field-heading {margin-left:2px!important;}
 }
+
+
+/* 5.0.1297.41.59.2 / build 6428 — keep the APPROVED case-actions wallpaper fixed.
+   The previous 100lvh no-repeat image stopped beneath the sheet on iOS and
+   exposed beige. Continue ONLY the lower marble, without moving the sheet or
+   rescaling the existing wallpaper. The tail is a reflected crop from the
+   bottom 35% of the same approved image, joined at 100lvh with no seam.
+   All five case-action screens use the same background layers and geometry;
+   dossier Events-tab translucent overlay remains deliberately excluded. */
+:root { --advokat-case-actions-tail:url('bg-matters-marble-tail-v6428.webp'); }
+html:has(body.matter-actions-open),
+html:has(body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)),
+html:has(body.journal-sheet-open),
+html:has(body.matter-finish-backdrop-open),
+html:has(body.light:has(#sheet.stage-finish-choice-sheet.open)),
+html:has(body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.matter-actions-open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open),
+body.journal-sheet-open,
+body.matter-finish-backdrop-open,
+body.light:has(#sheet.stage-finish-choice-sheet.open),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+ background-color:#f8f0e2!important;
+ background-image:var(--advokat-case-actions-marble),var(--advokat-case-actions-tail)!important;
+ background-position:center top,center 100lvh!important;
+ background-size:100% 100lvh,100% 35lvh!important;
+ background-repeat:no-repeat,no-repeat!important;
+}
+body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open,
+body.journal-sheet-open #scrim.open,
+body.matter-finish-backdrop-open #scrim.open,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+ position:fixed!important;
+ inset:0 0 auto 0!important;
+ width:100%!important;
+ height:135lvh!important;
+ min-height:135lvh!important;
+ max-height:none!important;
+ opacity:1!important;
+ background-color:#f8f0e2!important;
+ background-image:var(--advokat-case-actions-marble),var(--advokat-case-actions-tail)!important;
+ background-position:center top,center 100lvh!important;
+ background-size:100% 100lvh,100% 35lvh!important;
+ background-repeat:no-repeat,no-repeat!important;
+ -webkit-backdrop-filter:none!important;
+ backdrop-filter:none!important;
+ transform:none!important;
+}
+
+
+/* v5.0.1297.41.60 / build 6429 — step 6: alert and footer CTA.
+   Scoped to the FIRST stage-closing wizard page. Retain its existing hearing
+   guard and actual button actions; only visual, scroll, focus behaviour. */
+#sheet.stage-wizard-first-sheet .stage-first-hearing-alert.stage-wizard-alert {
+  grid-template-columns:31px 1.5px minmax(0,1fr)!important;
+  gap:9px!important;
+  padding:8px 10px!important;
+  margin:18px 0 11px!important;
+  border-radius:14px!important;
+  border-color:#efc7b9!important;
+  background:linear-gradient(113deg,#fde9e1 0%,#feece5 56%,#fce3d9 100%)!important;
+  color:#833126!important;
+  box-shadow:none!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-icon {color:#993224!important;}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-icon .stage-first-glyph {
+  width:25px!important;height:25px!important;stroke-width:1.8!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-rule {
+  min-height:36px!important;background:#aa594b!important;width:1.5px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {
+  font:400 11.65px/1.31 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  letter-spacing:-.015em!important;overflow-wrap:break-word;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper:has(.stage-first-hearing-alert)>.stage-wizard-body {
+  scroll-padding-bottom:18px!important;
+  padding-bottom:16px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  border:1px solid #a46d17!important;
+  background:
+    radial-gradient(ellipse 80% 85% at 50% -17%,rgba(255,250,204,.65),rgba(255,250,204,0) 82%),
+    linear-gradient(180deg,#f8cc73 0%,#eeb74d 48%,#cc8711 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,244,194,.78),inset 0 -1px 0 rgba(104,57,4,.18),0 5px 11px rgba(100,65,13,.18)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary:focus-visible {
+  outline:2px solid #8f6219!important;outline-offset:2px!important;
+}
+
+
+/* v5.0.1297.41.61 / build 6430 — stage 7 accessibility + adaptive edge cases.
+   Normal reference-sized iPhone layout remains unchanged. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-paper>.stage-wizard-body {
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scroll-behavior:auto;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-head-copy {
+  min-width:0!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field-caption {overflow-wrap:normal;}
+#sheet.stage-wizard-first-sheet .stage-first-note-field textarea {
+  max-width:calc(100% - 40px)!important;
+}
+@media(max-width:345px){
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert.stage-wizard-alert {
+    grid-template-columns:25px 1.5px minmax(0,1fr)!important;gap:7px!important;padding:7px 8px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {
+    font-size:11px!important;line-height:1.34!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-field-caption {
+    font-size:clamp(10.4px,3.25vw,11.75px)!important;
+    letter-spacing:-.035em!important;
+  }
+}
+@media(max-height:660px){
+  #sheet.stage-wizard-first-sheet .stage-wizard-first-paper>.stage-wizard-body {
+    scroll-padding-top:10px!important;
+    scroll-padding-bottom:22px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-first-action {
+    padding-top:5px!important;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+ #sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+    transition:none!important;
+ }
+}
+
+
+/* v5.0.1297.41.62 / build 6431 — stage 8 root background safety net.
+   On iOS standalone viewport, the visual screen can be taller than 100lvh;
+   always let the already-approved marble tail paint beyond that boundary.
+   Same two original image resources and positions on all 5 action screens.
+   No extra duplicated assets, no folder or form layout changes. */
+html:has(body.matter-actions-open),
+html:has(body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)),
+html:has(body.journal-sheet-open),
+html:has(body.matter-finish-backdrop-open),
+html:has(body.light:has(#sheet.stage-finish-choice-sheet.open)),
+html:has(body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.matter-actions-open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open),
+body.journal-sheet-open,
+body.matter-finish-backdrop-open,
+body.light:has(#sheet.stage-finish-choice-sheet.open),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  min-height:max(100%,calc(100lvh + 140px))!important;
+  background-image:var(--advokat-case-actions-marble),var(--advokat-case-actions-tail)!important;
+  background-size:100% 100lvh,100% 35lvh!important;
+  background-position:center top,center 100lvh!important;
+  background-repeat:no-repeat,repeat-y!important;
+}
+body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open,
+body.journal-sheet-open #scrim.open,
+body.matter-finish-backdrop-open #scrim.open,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  height:max(135lvh,calc(100lvh + 180px))!important;
+  min-height:max(135lvh,calc(100lvh + 180px))!important;
+  background-image:var(--advokat-case-actions-marble),var(--advokat-case-actions-tail)!important;
+  background-size:100% 100lvh,100% 35lvh!important;
+  background-position:center top,center 100lvh!important;
+  background-repeat:no-repeat,repeat-y!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop {
+  min-height:max(100dvh,calc(100lvh + 140px))!important;
+  height:max(100dvh,calc(100lvh + 140px))!important;
+  background-image:var(--advokat-case-actions-marble),var(--advokat-case-actions-tail)!important;
+  background-size:100% 100lvh,100% 35lvh!important;
+  background-position:center top,center 100lvh!important;
+  background-repeat:no-repeat,repeat-y!important;
+}
