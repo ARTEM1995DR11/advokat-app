@@ -1656,3 +1656,95 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   background:url('stage-wizard-marble-footer-v6415.webp') center bottom / 100% 100% no-repeat!important;
   pointer-events:none!important;
 }
+
+
+/* 5.0.1297.41.57.4 (6418) — stage 2–3 acceptance corrections.
+   Use the ORIGINAL approved geometry: do not shift the progress or paper.
+   The iOS screenshot: badge x~543/y~217 (physical 706-wide); reference
+   x~527/y~238. Change ONLY the badge and hairline, not the whole header.
+   The root background and document-sized underlay cover the bottom safe-area
+   where fixed 100dvh layers stopped painting on iOS home-screen PWAs. */
+#sheet.stage-wizard-first-sheet .stage-wizard-step-pill {
+  top:-4.5px!important;
+  right:-5px!important;
+  width:80px!important;
+  height:24px!important;
+  min-height:24px!important;
+  max-height:24px!important;
+  padding:0 5px!important;
+  box-sizing:border-box!important;
+  border-radius:13px!important;
+  font-size:11.5px!important;
+  line-height:1.04!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow {
+  width:calc(100% - 80px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+  flex:0 1 62px!important;
+  width:62px!important;
+  min-width:8px!important;
+  max-width:62px!important;
+}
+@media(max-width:350px) {
+  #sheet.stage-wizard-first-sheet .stage-wizard-step-pill {
+    width:73px!important; height:23px!important;
+    min-height:23px!important;max-height:23px!important;
+    font-size:10.4px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow {
+    width:calc(100% - 85px)!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+    flex:1 1 auto!important;width:auto!important;min-width:7px!important;
+  }
+}
+/* The wallpaper itself must span the DOCUMENT, not only the live viewport.
+   CSS backgrounds on html/body are fallback for the iOS underlay. */
+html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  background-color:#faf1e4!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-size:100% auto!important;
+  background-repeat:repeat-y!important;
+  background-position:center top!important;
+  min-height:100%!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  background-color:#faf1e4!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-size:100% auto!important;
+  background-position:center top!important;
+  background-repeat:repeat-y!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop {
+  position:absolute!important;
+  top:0!important;left:0!important;right:0!important;
+  bottom:auto!important;
+  width:100%!important;
+  height:max(calc(100lvh + 170px),260vw)!important;
+  min-height:max(calc(100lvh + 170px),260vw)!important;
+  background-color:#faf1e4!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-position:center top!important;
+  background-size:100% auto!important;
+  background-repeat:repeat-y!important;
+  pointer-events:none!important;
+  z-index:41!important;
+  transform:none!important;
+}
+/* Repeat the approved photographic marble strip across the lower safe-area,
+   not a beige fill. The 110px tile is kept at source aspect ratio. */
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop::after {
+  content:''!important;display:block!important;
+  position:absolute!important;
+  left:0!important;right:0!important;
+  top:calc(100lvh - 6px)!important;
+  bottom:auto!important;
+  width:100%!important;
+  height:120px!important;
+  background:url('stage-wizard-marble-footer-v6415.webp') center top / 100% 100% no-repeat!important;
+  pointer-events:none!important;
+}
