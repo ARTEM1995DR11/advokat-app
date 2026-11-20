@@ -1352,7 +1352,7 @@ html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   min-height:calc(100lvh + 150px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6410.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6411.webp')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:100% calc(100lvh + 150px)!important;
@@ -1361,7 +1361,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   height:calc(100lvh + 160px)!important;
   min-height:calc(100lvh + 160px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6410.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6411.webp')!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
   background-size:100% 100%!important;
@@ -1377,4 +1377,40 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   box-shadow:inset 0 1px 0 rgba(255,246,212,.60),
              inset 0 -1px 0 rgba(113,70,6,.14),
              0 5px 11px rgba(107,70,15,.18)!important;
+}
+
+
+/* 5.0.1297.41.56 — stage 2: background & folder foundation ONLY.
+   Match the approved top/background composition and reference navy.
+   No changes to fields, typography, action routing, date, validation or wizard steps.
+   The fixed footer paint also covers the extra iOS home-safe strip. */
+html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  background-color:#fbf5ea!important;
+  background-image:url('stage-wizard-marble-pen-v6411.webp')!important;
+  background-position:center top!important;
+  background-size:100% 100dvh!important;
+  background-repeat:repeat-y!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  background-color:#fbf5ea!important;
+  background-image:url('stage-wizard-marble-pen-v6411.webp')!important;
+  background-position:center top!important;
+  background-size:100% 100dvh!important;
+  background-repeat:repeat-y!important;
+}
+/* iOS can expose 40–80 CSS px below the original fixed scrim: paint the
+   photographic continuation explicitly rather than exposing a solid color. */
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
+  content:""!important;display:block!important;pointer-events:none!important;
+  position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:max(13dvh,95px)!important;
+  z-index:0!important;
+  background: url('stage-wizard-marble-pen-v6411.webp') center bottom / 100% auto no-repeat!important;
+}
+/* A dark navy tone with a subtle top-to-bottom change, not flat blue.
+   SVG is cloned only for the first wizard step; other dossier folders retain
+   their own gradient/ink and geometry. */
+#sheet.stage-wizard-first-sheet .matter-actions-outline .ma6224-paper {
+  fill:url(#stageFirstNavyV6411)!important;
 }
