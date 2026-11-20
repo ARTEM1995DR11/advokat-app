@@ -1352,7 +1352,7 @@ html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   min-height:calc(100lvh + 150px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6413.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:100% calc(100lvh + 150px)!important;
@@ -1361,7 +1361,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   height:calc(100lvh + 160px)!important;
   min-height:calc(100lvh + 160px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6413.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
   background-size:100% 100%!important;
@@ -1389,7 +1389,7 @@ html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   min-height:100%!important;
   background-color:#fbf4e8!important;
-  background-image:url('stage-wizard-marble-pen-v6413.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
   background-position:center top!important;
   background-size:100% auto!important;
   background-repeat:no-repeat!important;
@@ -1401,7 +1401,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   height:max(calc(100lvh + 110px),249vw)!important;
   min-height:max(calc(100lvh + 110px),249vw)!important;
   background-color:#fbf4e8!important;
-  background-image:url('stage-wizard-marble-pen-v6413.webp')!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
   background-size:100% auto!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
@@ -1493,4 +1493,91 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::before {
   #sheet.stage-wizard-first-sheet .stage-wizard-step-pill {
     font-size:10.7px!important;padding:5px 7px 6px!important;
   }
+}
+
+/* 5.0.1297.41.57.1 — reference-calibrated header and full-screen marble.
+   All selectors are isolated to the FIRST stage-wizard sheet.
+   Preserve the approved notched SVG shape, the form and all handlers. */
+html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.light:has(#sheet.stage-wizard-first-sheet.open){
+  background-color:#fbf3e8!important;
+  background-image:url('stage-wizard-marble-footer-v6415.webp'),url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-position:center bottom,center top!important;
+  background-size:100% 55px,100% auto!important;
+  background-repeat:no-repeat,no-repeat!important;
+  min-height:100%!important;
+}
+/* Draw the reference marble at the bottom of the visual viewport, including
+   the iOS safe-area. It stays behind the folder and does not intercept taps. */
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open{
+  background-color:#fbf3e8!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-size:100% auto!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+  min-height:max(calc(100lvh + 110px),249vw)!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after{
+  content:''!important;display:block!important;
+  position:fixed!important;
+  inset:auto 0 0 0!important;
+  width:100%!important;
+  height:55px!important;
+  pointer-events:none!important;
+  background:url('stage-wizard-marble-footer-v6415.webp') center bottom / 100% 100% no-repeat!important;
+  opacity:1!important;
+  z-index:0!important;
+}
+/* Header: reference target at 706x1536, scaled with the iPhone viewport. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-header{
+  transform:translateY(-2px)!important; /* +3 CSS px from prior version */
+  padding-bottom:15px!important; /* paper starts ~7 image px lower */
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium{gap:12px!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-back{
+  width:32px!important;min-width:32px!important;flex:0 0 32px!important;
+  height:34px!important;
+  transform:translate(-1.5px,-13px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow{gap:9px!important;}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small{
+  font-size:11px!important;letter-spacing:.09em!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i{
+  flex:0 0 62px!important;width:62px!important;min-width:62px!important;
+  height:1.6px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-step-pill{
+  top:-10.5px!important;right:-5px!important;
+  height:24px!important;min-height:24px!important;max-height:24px!important;
+  padding:0 8px!important;border-radius:13px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress{
+  margin:18px 2px 0!important;gap:5px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i{
+  height:6px!important;min-height:6px!important;max-height:6px!important;
+  border-radius:6px!important;
+}
+@media(max-width:350px){
+  #sheet.stage-wizard-first-sheet .stage-wizard-header-premium{gap:9px!important;}
+  #sheet.stage-wizard-first-sheet .stage-wizard-header-premium .stage-wizard-back{
+    width:30px!important;min-width:30px!important;flex-basis:30px!important;height:32px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small{font-size:9.3px!important;}
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i{
+    flex:1 1 auto!important;width:auto!important;min-width:8px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-step-pill{
+    font-size:10.5px!important;height:23px!important;min-height:23px!important;max-height:23px!important;
+  }
+}
+
+/* 6415 mobile guard: the gold hairline must never run beneath the step badge.
+   Large phones retain the measured 62 CSS px reference length. */
+@media (max-width:385px){
+ #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow{width:calc(100% - 82px)!important;}
+ #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i{
+   flex:1 1 auto!important;width:auto!important;min-width:8px!important;
+ }
 }
