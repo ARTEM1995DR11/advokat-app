@@ -2254,3 +2254,94 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
    dimensions, labels, accessibility and handlers remain unchanged. */
 #sheet.stage-wizard-first-sheet .stage-first-result-wrap {top:-2.5px!important;}
 #sheet.stage-wizard-first-sheet .stage-first-note-field textarea {top:-3.5px!important;}
+
+
+/* 5.0.1297.41.62.2 / build 6433 — four remaining differences against
+   the signed-off 706x1536 mockup. Only first wizard sheet. The approved
+   common background, notched folder, header, input bounds, flow and other
+   views are unchanged. */
+
+/* (1) Alert in Safari: 3 editorial lines, reference-height warning and
+   matching divider. Current 41.62.1 painted ~104 px; target ~118 px in the
+   user-provided normalized screenshot. Desktop Chrome and smaller phones may
+   use different pixel ratios, so width-specific minimums are intentional. */
+@media (min-width:386px) and (max-width:430px) {
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert.stage-wizard-alert {
+    min-height:67px!important;
+    padding:7px 10px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {
+    font-size:13px!important;
+    line-height:17px!important;
+    letter-spacing:-.031em!important;
+  }
+}
+@media (min-width:351px) and (max-width:385px) {
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert.stage-wizard-alert {
+    min-height:61px!important;
+    padding:6px 8px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {
+    font-size:12.15px!important;
+    line-height:15.5px!important;
+    letter-spacing:-.045em!important;
+  }
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-rule {
+  min-height:43px!important;
+  align-self:stretch!important;
+  background:#a95549!important;
+}
+@media (max-width:350px) {
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-rule {min-height:34px!important;}
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-alert .stage-first-alert-line {
+    white-space:normal!important;
+    display:inline!important;
+  }
+}
+/* Prevent an editorial nowrap row from spilling past the red border at any
+   large accessibility text setting; true text remains in the DOM/ARIA alert. */
+#sheet.stage-wizard-first-sheet .stage-first-hearing-alert p {min-width:0;}
+
+/* (2) Stronger, warmer gold in the centre; geometry and actual button unchanged. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  background:
+    radial-gradient(ellipse 78% 108% at 50% -9%,rgba(255,247,189,.72) 0%,rgba(255,234,153,.27) 51%,rgba(255,232,145,0) 88%),
+    linear-gradient(90deg,rgba(111,55,5,.22) 0%,rgba(111,55,5,.025) 20%,transparent 41%,transparent 61%,rgba(111,55,5,.10) 80%,rgba(111,55,5,.31) 100%),
+    linear-gradient(180deg,#f6c66a 0%,#f1c15c 49%,#c88b20 100%)!important;
+  border-color:#a16a16!important;
+  box-shadow:inset 0 1px 0 rgba(255,247,208,.58),inset 0 -1px 0 rgba(101,51,3,.18),0 5px 10px rgba(102,63,9,.18)!important;
+}
+
+/* (3) Softer, less peach-coloured information box, without altering its
+   five lines, glyph, divider, grid widths or the surrounding form. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  background:linear-gradient(125deg,#fcf4e8 0%,#fdf8ed 55%,#fcf5eb 100%)!important;
+  border-color:rgba(230,215,190,.11)!important;
+}
+
+/* (4) Fine input treatment: placeholder tone, native select display type,
+   neutral warm border and shadow. Labels, field sizes, offsets, IDs and
+   all native handlers stay as previously approved. */
+#sheet.stage-wizard-first-sheet .stage-first-field input,
+#sheet.stage-wizard-first-sheet .stage-first-field textarea,
+#sheet.stage-wizard-first-sheet .stage-first-field select {
+  border-color:#d8c8b9!important;
+  box-shadow:0 3px 9px rgba(80,56,35,.083),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field textarea::placeholder,
+#sheet.stage-wizard-first-sheet .stage-first-field input::placeholder {
+  color:#929db0!important;
+  opacity:1!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b,
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b {
+  color:#8995aa!important;
+}
+@media (min-width:386px) {
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b,
+  body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b {
+    font-size:13.7px!important;
+    letter-spacing:-.022em!important;
+  }
+}
