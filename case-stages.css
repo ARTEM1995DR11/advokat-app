@@ -1352,7 +1352,7 @@ html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   min-height:calc(100lvh + 150px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:100% calc(100lvh + 150px)!important;
@@ -1361,7 +1361,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   height:calc(100lvh + 160px)!important;
   min-height:calc(100lvh + 160px)!important;
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
   background-size:100% 100%!important;
@@ -1389,7 +1389,7 @@ html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   min-height:100%!important;
   background-color:#fbf4e8!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-position:center top!important;
   background-size:100% auto!important;
   background-repeat:no-repeat!important;
@@ -1401,7 +1401,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   height:max(calc(100lvh + 110px),249vw)!important;
   min-height:max(calc(100lvh + 110px),249vw)!important;
   background-color:#fbf4e8!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-size:100% auto!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
@@ -1501,7 +1501,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::before {
 html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open){
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-footer-v6415.webp'),url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png'),url('bg-matters-approved-v487.png')!important;
   background-position:center bottom,center top!important;
   background-size:100% 55px,100% auto!important;
   background-repeat:no-repeat,no-repeat!important;
@@ -1511,7 +1511,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open){
    the iOS safe-area. It stays behind the folder and does not intercept taps. */
 body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open{
   background-color:#fbf3e8!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-size:100% auto!important;
   background-position:center top!important;
   background-repeat:no-repeat!important;
@@ -1524,7 +1524,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after{
   width:100%!important;
   height:55px!important;
   pointer-events:none!important;
-  background:url('stage-wizard-marble-footer-v6415.webp') center bottom / 100% 100% no-repeat!important;
+  background:url('bg-matters-approved-v487.png') center bottom / 100% 100% no-repeat!important;
   opacity:1!important;
   z-index:0!important;
 }
@@ -1640,7 +1640,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   pointer-events:none!important;
   z-index:41!important;
   background-color:#fcf4e7!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-size:100% auto!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
@@ -1653,7 +1653,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   left:0!important;right:0!important;bottom:0!important;
   width:100%!important;
   height:55px!important;
-  background:url('stage-wizard-marble-footer-v6415.webp') center bottom / 100% 100% no-repeat!important;
+  background:url('bg-matters-approved-v487.png') center bottom / 100% 100% no-repeat!important;
   pointer-events:none!important;
 }
 
@@ -1706,7 +1706,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
 html:has(> body.light:has(#sheet.stage-wizard-first-sheet.open)),
 body.light:has(#sheet.stage-wizard-first-sheet.open) {
   background-color:#faf1e4!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-size:100% auto!important;
   background-repeat:repeat-y!important;
   background-position:center top!important;
@@ -1714,7 +1714,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) {
 }
 body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
   background-color:#faf1e4!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-size:100% auto!important;
   background-position:center top!important;
   background-repeat:repeat-y!important;
@@ -1727,7 +1727,7 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   height:max(calc(100lvh + 170px),260vw)!important;
   min-height:max(calc(100lvh + 170px),260vw)!important;
   background-color:#faf1e4!important;
-  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-image:url('bg-matters-approved-v487.png')!important;
   background-position:center top!important;
   background-size:100% auto!important;
   background-repeat:repeat-y!important;
@@ -1745,6 +1745,82 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-back
   bottom:auto!important;
   width:100%!important;
   height:120px!important;
-  background:url('stage-wizard-marble-footer-v6415.webp') center top / 100% 100% no-repeat!important;
+  background:url('bg-matters-approved-v487.png') center top / 100% 100% no-repeat!important;
   pointer-events:none!important;
 }
+
+
+/* 5.0.1297.41.57.7 / 6421 — original app wallpaper, shared in case actions.
+   The source is the unmodified main background: bg-matters-approved-v487.png.
+   The former stage-wizard pen/footer images are not needed.
+   Exactly one visible photographic backdrop on the scrim; inherited page and
+   pseudo backgrounds are only fallbacks, never independent moving layers.
+   The dossier Events-tab overlay retains its intentional transparency. */
+:root { --advokat-case-actions-marble:url('bg-matters-approved-v487.png'); }
+html:has(body.matter-actions-open),
+html:has(body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)),
+html:has(body.journal-sheet-open),
+html:has(body.matter-finish-backdrop-open),
+html:has(body.light:has(#sheet.stage-finish-choice-sheet.open)),
+html:has(body.light:has(#sheet.stage-wizard-first-sheet.open)),
+body.matter-actions-open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open),
+body.journal-sheet-open,
+body.matter-finish-backdrop-open,
+body.light:has(#sheet.stage-finish-choice-sheet.open),
+body.light:has(#sheet.stage-wizard-first-sheet.open) {
+  background-color:#f8f0e2!important;
+  background-image:var(--advokat-case-actions-marble)!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  background-size:100% 100lvh!important;
+}
+body.matter-actions-open::before,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open)::before,
+body.journal-sheet-open::before,
+body.matter-finish-backdrop-open::before,
+body.light:has(#sheet.stage-finish-choice-sheet.open)::before,
+body.light:has(#sheet.stage-wizard-first-sheet.open)::before {
+  content:none!important;display:none!important;
+}
+body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open,
+body.journal-sheet-open #scrim.open,
+body.matter-finish-backdrop-open #scrim.open,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open {
+  position:fixed!important;
+  inset:0!important;left:0!important;top:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:100lvh!important;min-height:100lvh!important;
+  opacity:1!important;transform:none!important;
+  background-color:#f8f0e2!important;
+  background-image:var(--advokat-case-actions-marble)!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 100lvh!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+body.matter-actions-open #scrim.open::before,
+body.matter-actions-open #scrim.open::after,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open::before,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open::after,
+body.journal-sheet-open #scrim.open::before,
+body.journal-sheet-open #scrim.open::after,
+body.matter-finish-backdrop-open #scrim.open::before,
+body.matter-finish-backdrop-open #scrim.open::after,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open::before,
+body.light:has(#sheet.stage-finish-choice-sheet.open) #scrim.open::after,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::before,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after {
+  content:none!important;display:none!important;
+}
+/* No second high-z wallpaper for the first wizard step. */
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop::before,
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop::after {
+  content:none!important;display:none!important;background:none!important;
+}
+/* Keep the previous opaque scrim for modal entry from the action flow; the
+   separate dossier-entry path is intentionally excluded above. */
+body.matter-actions-open #scrim.open,
+body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.open {z-index:41!important;}
