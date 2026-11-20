@@ -346,7 +346,20 @@ function stageWizardRender(){
     :'<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+action;
   openSheet(html);
   var panel=$('#sheet');panel.classList.add('case-stage-sheet');
-  if(firstStep){panel.classList.add('stage-wizard-first-sheet');mountMatterActionsOutline(panel);stageWizardFirstFolderPaint(panel);}
+  if(firstStep){
+    panel.classList.add('stage-wizard-first-sheet');
+    mountMatterActionsOutline(panel);
+    stageWizardFirstFolderPaint(panel);
+    // Independent viewport background, below SVG folder and above old scrim.
+    // Avoids the solid iOS home-screen strip beyond the page's 100lvh canvas.
+    var bg=document.getElementById('stage-wizard-viewport-backdrop');
+    if(!bg){
+      bg=document.createElement('div');
+      bg.id='stage-wizard-viewport-backdrop';
+      bg.setAttribute('aria-hidden','true');
+      document.body.appendChild(bg);
+    }
+  }
   if(d.step===3&&m.basis==='assigned')stageWizardUpdatePaymentTotal();
 }
 function stageWizardUpdatePaymentTotal(){

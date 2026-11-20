@@ -1581,3 +1581,78 @@ body.light:has(#sheet.stage-wizard-first-sheet.open) #scrim.open::after{
    flex:1 1 auto!important;width:auto!important;min-width:8px!important;
  }
 }
+
+
+/* 5.0.1297.41.57.3 / 6417 — correction after 41.57.2 screenshot audit.
+   The badge was clipped by the stage-card overflow, not by its text or colors.
+   The real paper body remains the sole scrolling region. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-card{
+  overflow:visible!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-step-pill{
+  top:-15px!important;
+  right:-5px!important;
+  height:21px!important;
+  min-height:21px!important;
+  max-height:21px!important;
+  width:71px!important;
+  padding:0 5px!important;
+  border-radius:12px!important;
+  font-size:11.4px!important;
+  line-height:1!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress{
+  margin:16.5px 2px 0!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i{
+  height:5px!important;min-height:5px!important;max-height:5px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow{
+  gap:5px!important;
+  width:calc(100% - 89px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i{
+  flex:0 1 53px!important;
+  max-width:53px!important;
+  min-width:8px!important;
+  width:53px!important;
+}
+@media(max-width:350px){
+  #sheet.stage-wizard-first-sheet .stage-wizard-step-pill{
+    width:68px!important;font-size:10.5px!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i{
+    flex:1 1 auto!important;width:auto!important;min-width:7px!important;
+  }
+}
+/* A dedicated viewport sibling is painted in front of the scrim but BEHIND
+   the approved SVG folder. This avoids body/scrim PWA viewport height bugs.
+   It is inert and exists only while the first step is active. */
+#stage-wizard-viewport-backdrop{display:none!important;}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop{
+  display:block!important;
+  position:fixed!important;
+  top:0!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;
+  height:100dvh!important;
+  pointer-events:none!important;
+  z-index:41!important;
+  background-color:#fcf4e7!important;
+  background-image:url('stage-wizard-marble-pen-v6415.webp')!important;
+  background-size:100% auto!important;
+  background-repeat:no-repeat!important;
+  background-position:center top!important;
+  transform:translateZ(0)!important;
+}
+body.light:has(#sheet.stage-wizard-first-sheet.open) #stage-wizard-viewport-backdrop::after{
+  content:''!important;
+  display:block!important;
+  position:fixed!important;
+  left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;
+  height:55px!important;
+  background:url('stage-wizard-marble-footer-v6415.webp') center bottom / 100% 100% no-repeat!important;
+  pointer-events:none!important;
+}
