@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.28';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6468';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.29';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6469';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -785,6 +785,15 @@ function premiumMatterPickerGroups(rows){
   if(other.length) html+=groupHtml({key:'other',label:'Другие дела',color:'#9A8A70',icon:'folder'},other);
   return html;
 }
+
+function stageOutcomeArtMarkup(kind, extraClass){
+  var k=(kind||'doc');
+  var known={flag:1,gavel:1,doc:1,folder:1,court:1,check:1,clock:1,refresh:1};
+  if(!known[k]) return '<span class="stage-outcome-option-icon'+(extraClass?' '+extraClass:'')+'">'+ico(k==='court'?'scale':k,'s')+'</span>';
+  return '<span class="stage-outcome-option-icon is-art'+(extraClass?' '+extraClass:'')+'">'+
+    '<span class="stage-outcome-art stage-outcome-art-'+k+'" aria-hidden="true"></span></span>';
+}
+
 function renderStageOutcomePicker(modal){
   var lp=LIST_PICKER,m=STAGE_WIZARD?matter(STAGE_WIZARD.sourceId):null;
   var options=(lp.items||[]).filter(function(it){return !!it.value;});
@@ -793,19 +802,15 @@ function renderStageOutcomePicker(modal){
   modal.setAttribute('data-list-target','st-close-result');
   modal.setAttribute('aria-label','Выбор фактического результата этапа');
   var context=((MATTER_TYPES[(m&&m.type)||'other']||MATTER_TYPES.other).n||'')+(m&&m.stage?' · '+m.stage:'');
-  var head='<div class="stage-outcome-head"><span class="stage-outcome-head-icon">'+ico('flag')+'</span>'+
+  var head='<div class="stage-outcome-head">'+stageOutcomeArtMarkup('flag','stage-outcome-head-icon')+
       '<div class="stage-outcome-head-copy"><h3>Результат этапа</h3><p>Фактический итог завершённой стадии</p></div>'+
       '<button type="button" class="stage-outcome-close" data-act="list-close" aria-label="Закрыть выбор">'+ico('xmark','s')+'</button></div>';
   var rows=options.map(function(it){
     var meta=stageClosureOutcomeDetails(m,it.value)||{title:it.label,description:'',icon:'flag'};
     var chosen=it.value===lp.selected;
-    var icon=meta.icon==='refresh'?'doc':(meta.icon||'flag');
-    var judicialGavel=icon==='gavel';
-    var outcomeIcon=judicialGavel
-      ?'<img class="stage-outcome-gavel-art" src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false">'
-      :ico(icon,'s');
+    var icon=(meta.icon||'flag');
     return '<button class="stage-outcome-option'+(chosen?' is-selected':'')+'" type="button" role="option" aria-selected="'+(chosen?'true':'false')+'" data-act="list-pick" data-v="'+esc(it.value)+'">'+
-      '<span class="stage-outcome-option-icon'+(judicialGavel?' is-gavel':'')+'">'+outcomeIcon+'</span>'+
+      stageOutcomeArtMarkup(icon)+
       '<span class="stage-outcome-option-copy"><strong>'+esc(meta.title)+'</strong><small>'+esc(meta.description||'')+'</small></span>'+
       '<span class="stage-outcome-option-radio">'+(chosen?ico('check','s'):'')+'</span></button>';
   }).join('');
