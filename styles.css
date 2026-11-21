@@ -49267,13 +49267,13 @@ body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.
   backdrop-filter:none!important;
 }
 
-/* Build 6472: centralized gold relief asset with content-only application. */
-.adv-emboss-art{display:inline-block!important;flex:none!important;width:var(--emboss-size,26px)!important;height:var(--emboss-size,26px)!important;background-image:url('stage-emboss-icons-v6472.webp?v=6472')!important;background-repeat:no-repeat!important;background-size:3500% 100%!important;background-position:0 50%;vertical-align:middle;pointer-events:none}
+/* Build 6473: centralized gold relief asset with content-only application. */
+.adv-emboss-art{display:inline-block!important;flex:none!important;width:var(--emboss-size,26px)!important;height:var(--emboss-size,26px)!important;background-image:url('stage-emboss-icons-v6473.webp?v=6473')!important;background-repeat:no-repeat!important;background-size:3500% 100%!important;background-position:0 50%;vertical-align:middle;pointer-events:none}
 .adv-emboss-flag{background-position:0.00000% 50%!important}
 .adv-emboss-gavel{background-position:2.94118% 50%!important}
 .adv-emboss-doc{background-position:5.88235% 50%!important}
 .adv-emboss-folder{background-position:8.82353% 50%!important}
-.adv-emboss-court{background-position:11.76472% 50%!important}
+.adv-emboss-court{background-position:11.76473% 50%!important}
 .adv-emboss-check{background-position:14.70588% 50%!important}
 .adv-emboss-clock{background-position:17.64706% 50%!important}
 .adv-emboss-refresh{background-position:20.58824% 50%!important}
@@ -49290,7 +49290,7 @@ body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.
 .adv-emboss-bell{background-position:52.94118% 50%!important}
 .adv-emboss-edit{background-position:55.88235% 50%!important}
 .adv-emboss-plus{background-position:58.82353% 50%!important}
-.adv-emboss-meeting{background-position:61.76472% 50%!important}
+.adv-emboss-meeting{background-position:61.76473% 50%!important}
 .adv-emboss-task{background-position:64.70588% 50%!important}
 .adv-emboss-search{background-position:67.64706% 50%!important}
 .adv-emboss-list{background-position:70.58824% 50%!important}
@@ -49337,7 +49337,7 @@ body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-ro
   body.light .premium-list-modal .premium-list-row-mark .adv-emboss-art{--emboss-size:28px}
 }
 
-/* Build 6472: remaining populated top-level screens. */
+/* Build 6473: remaining populated top-level screens. */
 #sc-today .today-sec-ico .adv-emboss-art{--emboss-size:23px}
 #sc-cal .cal-day-event-icon .adv-emboss-art{--emboss-size:23px}
 #sc-more .settings-card .row>.adv-emboss-art{--emboss-size:23px;flex:none;margin-right:5px}
@@ -49347,7 +49347,7 @@ body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-ro
 .adv-emboss-share{background-position:97.05882% 50%!important}
 .adv-emboss-sun{background-position:100.00000% 50%!important}
 
-/* 6472 — unified optical margin for embossed content icons. Outer tile sizes,
+/* 6473 — unified optical margin for embossed content icons. Outer tile sizes,
    borders, text and actions remain unchanged; reduce only art inside tiles. */
 #sheet :is(.stage-first-field-icon,.stage-first-date-icon,.stage-second-date-icon,
  .stage-first-notice-icon,.stage-second-notice-icon,.stage-second-hint,
@@ -49365,10 +49365,10 @@ body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-ro
 #sheet .stage-second-date-icon .adv-emboss-art{--emboss-size:25px}
 #sheet .journal-premium-save-icon .adv-emboss-art{--emboss-size:25px}
 #sheet .stage-second-hint .adv-emboss-art{--emboss-size:20px}
-/* 6472: small inline artwork never determines a square field's dimensions. */
+/* 6473: small inline artwork never determines a square field's dimensions. */
 #sheet .adv-emboss-art{box-sizing:border-box!important;max-width:none;max-height:none}
 
-/* 6472 — secondary content tiles across main pages; the approved dossier
+/* 6473 — secondary content tiles across main pages; the approved dossier
    information plate and navigation art deliberately remain untouched. */
 #sc-today :is(.eventmark,.today-row-ico,.today-sec-ico) .adv-emboss-art,
 #sc-tasks :is(.pt-hearing-state,.task-row-icon,.task-status-icon) .adv-emboss-art,
@@ -49379,4 +49379,35 @@ body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-ro
 #sheet :is(.hearing-result-v355-meta-icon,.rem116-card-icon) .adv-emboss-art{
   transform:scale(.82)!important;
   transform-origin:center!important;
+}
+
+
+/* 6473 — optical centering and spacing in semantic icon squares. */
+#sheet :is(.stage-first-field-icon,.stage-first-date-icon,.stage-second-date-icon,
+ .matter-event-stage4-icon,.journal-field-leading,.journal-note-icon,
+ .matter-editor-section-icon,.matter-editor-field-leading,
+ .matter-finish-date-icon,.matter-finish-outcome-icon,
+ .hearing-result-head-icon,.qe192-leading,.qe194-note-icon) {
+  box-sizing:border-box!important;
+  align-items:center!important;justify-content:center!important;
+}
+#sheet :is(.stage-first-field-icon,.stage-first-date-icon,.stage-second-date-icon,
+ .matter-event-stage4-icon,.journal-field-leading,.journal-note-icon,
+ .matter-editor-section-icon,.matter-editor-field-leading,
+ .matter-finish-date-icon,.matter-finish-outcome-icon,
+ .hearing-result-head-icon,.qe192-leading,.qe194-note-icon) .adv-emboss-art {
+  flex:none!important;position:relative!important;top:0!important;left:0!important;
+  margin:auto!important;transform:scale(.73)!important;transform-origin:50% 50%!important;
+}
+#sheet .stage-first-field-icon .adv-emboss-art {--emboss-size:25px!important;}
+#sheet .stage-second-date-icon .adv-emboss-art {--emboss-size:25px!important;}
+#sheet .stage-first-date-icon .adv-emboss-art {--emboss-size:25px!important;}
+#sheet .stage-first-field-icon {display:grid!important;place-items:center!important;}
+#sheet .stage-second-date-icon {display:grid!important;place-items:center!important;}
+#sc-cal .cal-agenda-icon {
+  display:grid!important;place-items:center!important;
+}
+#sc-cal .cal-agenda-icon .adv-emboss-art {
+  --emboss-size:25px;transform:scale(.88)!important;transform-origin:center!important;
+  margin:auto!important;
 }

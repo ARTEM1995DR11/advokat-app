@@ -125,3 +125,25 @@ body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control .
 body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control>textarea{
   padding-left:53px!important;
 }
+
+
+/* 6473 — unify legacy stage-field SVGs with one centered dimensional sprite. */
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon]::before {
+  background-image:none!important;background-position:center!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon]::after {
+  content:''!important;display:block!important;position:absolute!important;
+  left:9px!important;top:50%!important;bottom:auto!important;
+  width:25px!important;height:25px!important;z-index:2!important;
+  background-image:url('stage-emboss-icons-v6473.webp?v=6473')!important;
+  background-size:3500% 100%!important;background-repeat:no-repeat!important;
+  transform:translateY(-50%)!important;pointer-events:none!important;
+}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="flag"]::after{background-position:0.00000% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="gavel"]::after{background-position:2.94118% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="court"]::after{background-position:11.76471% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="user"]::after{background-position:26.47059% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="users"]::after{background-position:29.41176% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="notes"]::after{background-position:79.41176% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="book"]::after{background-position:5.88235% 50%!important;}
+body.light #sheet.matter-editor-sheet .matter-editor-card-stage .stage-control[data-stage-icon="lock"]::after{background-position:38.23529% 50%!important;}
