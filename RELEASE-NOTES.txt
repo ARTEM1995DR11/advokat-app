@@ -1,3 +1,8 @@
+5.0.1297.41.66.37 — build 6477
+- Форма «Новое дело»/«Редактировать дело»: в строке «Судья» вместо неудачного молотка теперь используется контурный значок судьи из оригинального SVG-набора.
+- Значок выровнен по центру левой части поля и соответствует палитре и геометрии остальных контурных иконок версии .28.
+- Остальные поля и другие разделы приложения не изменены. Сохранение/выбор судьи работают прежним образом.
+
 5.0.1297.41.66.36 — build 6476
 1. Only the New Matter / Edit Matter page iconography has been reverted to the approved pre-3D version 5.0.1297.41.66.28.
 2. Restored original outlined stage/section icons, thin field symbols and legacy case number # sign. Removed the 3D atlas overlay from section 03.

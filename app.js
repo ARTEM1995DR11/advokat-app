@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.36';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6476';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.37';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6477';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2051,7 +2051,7 @@ function matterDynamicFields(){
 }
 function styleMatterStageFields(root){
   var card=root.querySelector('.matter-editor-card-stage');if(!card)return;
-  var icons={'m-stage':'flag','m-court':'court','m-judge':'gavel','m-investigator':'user','m-role':'user','m-opponent':'users','m-notes':'notes','m-article':'book','m-restraint':'lock','m-execution-issue':'gavel','m-execution-institution':'court'};
+  var icons={'m-stage':'flag','m-court':'court','m-judge':'judge','m-investigator':'user','m-role':'user','m-opponent':'users','m-notes':'notes','m-article':'book','m-restraint':'lock','m-execution-issue':'gavel','m-execution-institution':'court'};
   Object.keys(icons).forEach(function(id){
     var input=card.querySelector('#'+id);if(!input)return;
     var field=input.closest('.fld');if(!field)return;
