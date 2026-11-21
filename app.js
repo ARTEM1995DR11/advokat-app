@@ -373,7 +373,7 @@ function openPremiumDatePicker(target,value,mode,taskId){
   var selected=value||((target&&$('#'+target))?$('#'+target).value:'')||'';
   DATE_PICKER={target:target||'',selected:selected,month:(selected||today()).slice(0,7),mode:mode||'field',taskId:taskId||''};
   document.body.classList.toggle('matter-finish-date-picker-open',target==='matter-close-date');
-  document.body.classList.toggle('stage-first-date-picker-open',target==='st-close-date');
+  document.body.classList.toggle('stage-first-date-picker-open',target==='st-close-date'||target==='st-new-date');
   renderPremiumDatePicker();
   var modal=$('#premium-date-modal'), scr=$('#date-scrim');
   if(modal)modal.classList.add('open'); if(scr)scr.classList.add('open');
@@ -389,27 +389,29 @@ function renderPremiumDatePicker(){
   if(!DATE_PICKER)return;
   var modal=$('#premium-date-modal');if(!modal)return;
   var finishDate=DATE_PICKER.target==='matter-close-date'||DATE_PICKER.target==='st-close-date';
+  var newStageDate=DATE_PICKER.target==='st-new-date',stageMin=newStageDate&&typeof STAGE_WIZARD!=='undefined'&&STAGE_WIZARD?STAGE_WIZARD.closeDate:'';
   var p=DATE_PICKER.month.split('-'), y=+p[0],m=+p[1], first=new Date(y,m-1,1);
   var offset=(first.getDay()+6)%7,start=new Date(y,m-1,1-offset), cells='';
   for(var i=0;i<42;i++){
     var d=new Date(start);d.setDate(start.getDate()+i);var ds=iso(d),outside=d.getMonth()!==(m-1),sel=DATE_PICKER.selected===ds,isToday=ds===today();
-    var blocked=finishDate&&ds>today();
+    var blocked=(finishDate&&ds>today())||(newStageDate&&stageMin&&ds<stageMin);
     cells+='<button type="button" class="premium-date-day'+(outside?' outside':'')+(sel?' selected':'')+(isToday?' today':'')+(blocked?' unavailable':'')+'" data-act="date-day" data-v="'+ds+'" aria-label="'+esc(fmtD(ds,true))+'"'+(blocked?' disabled aria-disabled="true"':'')+'><span>'+d.getDate()+'</span></button>';
   }
   modal.innerHTML='<div class="premium-date-grab"></div>'+
-    '<div class="premium-date-head"><div><small>'+(finishDate?'ДАТА ЗАВЕРШЕНИЯ':'Выбор даты')+'</small><h3>'+esc(datePickerMonthLabel(DATE_PICKER.month))+'</h3></div><div class="premium-date-nav"><button type="button" data-act="date-prev" aria-label="Предыдущий месяц">'+ico('left')+'</button><button type="button" data-act="date-next" aria-label="Следующий месяц"'+(finishDate&&DATE_PICKER.month>=today().slice(0,7)?' disabled':'')+'>'+ico('chev')+'</button></div></div>'+
+    '<div class="premium-date-head"><div><small>'+(finishDate?'ДАТА ЗАВЕРШЕНИЯ':newStageDate?'НАЧАЛО НОВОЙ СТАДИИ':'Выбор даты')+'</small><h3>'+esc(datePickerMonthLabel(DATE_PICKER.month))+'</h3></div><div class="premium-date-nav"><button type="button" data-act="date-prev" aria-label="Предыдущий месяц">'+ico('left')+'</button><button type="button" data-act="date-next" aria-label="Следующий месяц"'+(finishDate&&DATE_PICKER.month>=today().slice(0,7)?' disabled':'')+'>'+ico('chev')+'</button></div></div>'+
     '<div class="premium-date-week"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div>'+
     '<div class="premium-date-grid">'+cells+'</div>'+
     '<div class="premium-date-selected"><span>'+ico('cal','s')+'</span><div><small>Выбрано</small><b>'+(DATE_PICKER.selected?esc(fmtD(DATE_PICKER.selected,true)):'Дата не выбрана')+'</b></div></div>'+
     '<div class="premium-date-actions">'+
       '<button type="button" class="premium-date-secondary" data-act="date-today">Сегодня</button>'+
-      (DATE_PICKER.mode==='field'&&!finishDate?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
+      (DATE_PICKER.mode==='field'&&!finishDate&&!newStageDate?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
       '<button type="button" class="premium-date-primary" data-act="date-apply">Готово '+ico('check','s')+'</button>'+
     '</div>';
 }
 function applyPremiumDatePicker(){
   if(!DATE_PICKER)return; var dp=DATE_PICKER;
   if((dp.target==='matter-close-date'||dp.target==='st-close-date')&&(!dp.selected||dp.selected>today())){toast('Выберите дату не позднее сегодняшней');return;}
+  if(dp.target==='st-new-date'&&(!dp.selected||(typeof STAGE_WIZARD!=='undefined'&&STAGE_WIZARD&&dp.selected<STAGE_WIZARD.closeDate))){toast('Дата новой стадии не может быть раньше завершения предыдущей');return;}
   if(dp.mode==='task'){
     if(!dp.selected){toast('Выберите дату');return;}
     closePremiumDatePicker();closeSheet();moveTaskToDate(dp.taskId,dp.selected,'Дата изменена');return;
@@ -2561,7 +2563,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-hearings-sheet','hearing-result-v355');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -9130,9 +9132,9 @@ document.addEventListener('click', function(ev){
     case 'global-search-mic': {var gi=$('#gq'); if(gi)gi.focus(); toast('Голосовой поиск можно добавить позже'); break;}
     case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
     case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
-    case 'date-prev': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,-1);renderPremiumDatePicker();}break;
+    case 'date-prev': if(DATE_PICKER){var prevMonth=datePickerShiftMonth(DATE_PICKER.month,-1);if(DATE_PICKER.target!=='st-new-date'||!STAGE_WIZARD||prevMonth>=STAGE_WIZARD.closeDate.slice(0,7)){DATE_PICKER.month=prevMonth;renderPremiumDatePicker();}}break;
     case 'date-next': if(DATE_PICKER){var nextMonth=datePickerShiftMonth(DATE_PICKER.month,1);if(!['matter-close-date','st-close-date'].includes(DATE_PICKER.target)||nextMonth<=today().slice(0,7)){DATE_PICKER.month=nextMonth;renderPremiumDatePicker();}}break;
-    case 'date-day': if(DATE_PICKER&&(!['matter-close-date','st-close-date'].includes(DATE_PICKER.target)||v<=today())){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
+    case 'date-day': if(DATE_PICKER&&(!['matter-close-date','st-close-date'].includes(DATE_PICKER.target)||v<=today())&&(DATE_PICKER.target!=='st-new-date'||!STAGE_WIZARD||v>=STAGE_WIZARD.closeDate)){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
     case 'date-today': if(DATE_PICKER){DATE_PICKER.selected=today();DATE_PICKER.month=today().slice(0,7);renderPremiumDatePicker();}break;
     case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
     case 'date-apply': applyPremiumDatePicker();break;

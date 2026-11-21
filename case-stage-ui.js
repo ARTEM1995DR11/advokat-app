@@ -106,13 +106,13 @@ function stageWizardHead(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),assigned=m.basis==='assigned';
   var steps=assigned?STAGE_WIZARD_STEPS:STAGE_WIZARD_STEPS.filter(function(x){return x!=='Расчёт оплаты';});
   var at=assigned?d.step:(d.step===4?3:d.step);
-  var first=d.step===0;
+  var first=d.step<=1; // Steps 1 and 2 share the approved premium folder.
   var count=at+1,total=steps.length;
-  // The approved gold badge belongs exclusively to the first, navy/ivory
-  // folder. Later steps keep the legacy sheet until their design phase.
+  // Approved navy/ivory folder is shared by steps 1 and 2.
+  // Subsequent steps retain their original presentation.
   var header=first
     ?'<header class="stage-wizard-header stage-wizard-header-premium">'+
-      '<button class="stage-wizard-back" type="button" data-act="stage-wizard-prev" aria-label="Назад к выбору завершения">'+ico('left','s')+'</button>'+
+      '<button class="stage-wizard-back" type="button" data-act="stage-wizard-prev" aria-label="К предыдущему шагу">'+ico('left','s')+'</button>'+
       '<div class="stage-wizard-head-copy"><div class="stage-wizard-eyebrow"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><i aria-hidden="true"></i></div>'+
       '<h2>'+esc(stageStepTitle())+'</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
       '<span class="stage-wizard-step-pill" aria-label="Шаг '+count+' из '+total+'">Шаг '+count+' из '+total+'</span></header>'
@@ -129,7 +129,10 @@ function stageWizardFirstIcon(kind){
     result:'<circle cx="12" cy="12" r="9"/><path d="m7.2 12.1 3.25 3.15 6.45-6.5"/>',
     note:'<rect x="5" y="2.8" width="14" height="18.4" rx="1.65"/><path d="M8.3 7.5h7.4M8.3 11h7.4M8.3 14.5h5.2M8.3 18h3.4"/>',
     arrow:'<path d="m9 5 7 7-7 7"/>',
-    warning:'<circle cx="12" cy="12" r="9"/><path d="M12 7.2v6.5"/><circle cx="12" cy="17.2" r=".8" fill="currentColor" stroke="none"/>'
+    warning:'<circle cx="12" cy="12" r="9"/><path d="M12 7.2v6.5"/><circle cx="12" cy="17.2" r=".8" fill="currentColor" stroke="none"/>',
+    stage:'<path d="M5 20V5l7-2 7 2v15"/><path d="M3 20h18M8.5 9h1M14.5 9h1M8.5 13h1M14.5 13h1M10 20v-4h4v4"/>',
+    court:'<path d="m3 9 9-5 9 5M4 20h16M6 11v7M10 11v7M14 11v7M18 11v7M2 9h20"/>',
+    basis:'<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M8 11h8M8 15h6"/>'
   };
   return '<svg class="stage-first-glyph stage-first-glyph-'+kind+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+paths[kind]+'</svg>';
 }
@@ -301,19 +304,50 @@ function stageWizardHearingBack(){
   }
   return false;
 }
+function stageWizardSecondField(kind,title,control){
+  return '<div class="stage-second-field">'+
+    stageWizardFirstFieldHeading(kind,esc(title))+
+    '<div class="stage-second-field-control">'+control+'</div></div>';
+}
 function stageWizardNextHTML(d,m){
   var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
   var isOther=d.stage==='__other__';
-  return '<p class="stage-wizard-sub">Выберите новую стадию <b>вручную</b> по фактическому движению дела. Результат прошлого этапа не определяет её автоматически. Если поручение окончено, используйте «Завершить дело полностью».</p>'+
-    '<label class="stage-wizard-field">Стадия производства<select id="st-new-stage"><option value=""'+(!d.stage?' selected':'')+'>— Выберите стадию новой папки —</option>'+stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stage===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+'<option value="__other__"'+(isOther?' selected':'')+'>Иной этап — собственное название</option></select></label>'+
-    '<label class="stage-wizard-field" id="st-new-custom-wrap"'+(isOther?'':' style="display:none"')+'>Название иного этапа<input id="st-new-custom" maxlength="100" value="'+esc(d.stageCustom)+'" placeholder="Например, повторное рассмотрение"></label>'+ 
-    '<label class="stage-wizard-field" id="st-new-base-wrap"'+(isOther?'':' style="display:none"')+'>Процессуальный тип для полей новой папки<select id="st-new-base-stage">'+stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stageBase===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+'</select></label>'+
-    '<label class="stage-wizard-field">Дата начала новой стадии<input id="st-new-date" type="date" value="'+esc(d.startDate)+'"></label>'+
-    '<label class="stage-wizard-field">Суд или орган новой стадии (при наличии)<input id="st-new-place" value="'+esc(d.place)+'" placeholder="Можно заполнить позднее"></label>'+
-    '<label class="stage-wizard-field">Основание участия<select id="st-new-basis">'+Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(d.basis===k?' selected':'')+'>'+esc(MATTER_BASIS[k].n)+'</option>';}).join('')+'</select></label>'+
-    '<label class="stage-wizard-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span>Перенести рабочие заметки и правовую позицию</span></label>'+
-    '<label class="stage-wizard-check"><input type="checkbox" id="st-copy-position"'+(d.copyPosition?' checked':'')+'><span>Перенести проект позиции по делу (отдельная копия)</span></label>'+
-    '<div class="stage-wizard-info">Номер дела, судья, следователь и прошедшие события <b>не дублируются</b>. При необходимости их заполните в новой карточке.</div>';
+  return '<div class="stage-second-notice" role="note">'+
+    '<span class="stage-second-notice-icon">'+stageWizardFirstIcon('info')+'</span>'+
+    '<span class="stage-second-notice-rule" aria-hidden="true"></span>'+
+    '<p>Выберите новую стадию <strong>вручную</strong> по фактическому движению дела. ' +
+    'Результат прошлого этапа не определяет её автоматически. ' +
+    'Если поручение завершено, используйте «Завершить дело полностью».</p></div>'+
+    stageWizardSecondField('stage','Стадия производства',
+      '<div class="stage-second-select"><select id="st-new-stage" aria-label="Стадия производства">'+
+        '<option value=""'+(!d.stage?' selected':'')+'>Выберите новую стадию</option>'+
+        stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stage===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+
+        '<option value="__other__"'+(isOther?' selected':'')+'>Иной этап — собственное название</option></select></div>')+
+    '<div class="stage-second-custom" id="st-new-custom-wrap"'+(isOther?'':' style="display:none"')+'>'+
+      stageWizardSecondField('note','Название иного этапа',
+        '<input id="st-new-custom" maxlength="100" value="'+esc(d.stageCustom)+'" placeholder="Например, повторное рассмотрение">')+'</div>'+
+    '<div class="stage-second-custom" id="st-new-base-wrap"'+(isOther?'':' style="display:none"')+'>'+
+      stageWizardSecondField('stage','Процессуальный тип нового этапа',
+        '<div class="stage-second-select"><select id="st-new-base-stage" aria-label="Процессуальный тип нового этапа">'+
+        stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stageBase===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+
+        '</select></div>')+'</div>'+
+    stageWizardSecondField('calendar','Дата начала новой стадии',
+      '<div class="stage-second-date-wrap"><input id="st-new-date" type="hidden" value="'+esc(d.startDate)+'">'+
+      '<button class="stage-second-date-trigger" type="button" data-act="date-open" data-target="st-new-date" data-date-for="st-new-date" aria-haspopup="dialog" aria-label="Выбрать дату начала новой стадии">'+
+      '<span class="premium-date-field-copy"><b>'+esc(fmtD(d.startDate,true))+'</b></span>'+
+      '<span class="stage-second-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></button></div>')+
+    stageWizardSecondField('court','Суд или орган новой стадии (при наличии)',
+      '<input id="st-new-place" maxlength="300" value="'+esc(d.place)+'" placeholder="Можно заполнить позднее">')+
+    stageWizardSecondField('basis','Основание участия',
+      '<div class="stage-second-select"><select id="st-new-basis" aria-label="Основание участия">'+
+        Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(d.basis===k?' selected':'')+'>'+esc(MATTER_BASIS[k].n)+'</option>';}).join('')+
+      '</select></div>')+
+    '<section class="stage-second-transfers" aria-label="Перенос материалов">'+
+      '<h3>Перенести в новую папку</h3>'+
+      '<label class="stage-second-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Рабочие заметки</span></label>'+
+      '<label class="stage-second-check"><input type="checkbox" id="st-copy-position"'+(d.copyPosition?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Проект правовой позиции (копия)</span></label>'+
+    '</section>'+
+    '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+'<span>Номер дела, судья, следователь и прошедшие события <strong>не дублируются</strong>. Их можно внести в новую карточку позднее.</span></div>';
 }
 function stageWizardTasksHTML(d,m){
   var items=stageEligibleTasks(m),selected=new Set(d.moveIds.map(String));
@@ -482,20 +516,22 @@ function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
   var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
-  // The approved step-one folder is a single surface: dark header, light form.
-  // Later steps keep their existing sheet markup until their own design stages.
+  // Steps 1 and 2 share the approved single-surface folder, but keep
+  // independent field designs and validation. Other steps are unchanged.
   var firstStep=d.step===0;
+  var premiumStep=d.step<=1;
   var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Завершить этап и продолжить дело':'Продолжить')+'</button>';
-  var html=firstStep
-    ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="Завершение этапа — первый шаг">'+
+  var html=premiumStep
+    ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="'+esc(stageStepTitle())+' — шаг '+(d.step+1)+'">'+
       '<div class="stage-wizard-first-header">'+stageWizardHead()+'</div>'+
       '<div class="stage-wizard-first-paper"><div class="stage-wizard-body">'+inner+'</div>'+
       '<div class="stage-wizard-first-action">'+action+'</div></div></section>'
     :'<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+action;
   openSheet(html);
   var panel=$('#sheet');panel.classList.add('case-stage-sheet');
-  if(firstStep){
+  if(premiumStep){
     panel.classList.add('stage-wizard-first-sheet');
+    if(d.step===1)panel.classList.add('stage-wizard-second-sheet');
     mountMatterActionsOutline(panel);
     stageWizardFirstFolderPaint(panel);
     // Independent viewport background, below SVG folder and above old scrim.

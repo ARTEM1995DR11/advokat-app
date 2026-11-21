@@ -3658,3 +3658,215 @@ body.stage-hearings-backdrop-open #scrim.open::after {
 @media(prefers-reduced-motion:reduce){
   #stage-hearings-overlay .stage-hearings-row {transition:none;}
 }
+
+/* 5.0.1297.41.66.21 / build 6461 — NEW STAGE (wizard step 2).
+   Uses the approved step-one outline and chrome. Only second-step form
+   elements are restyled here. No changes to subsequent steps or dossier. */
+#sheet.stage-wizard-second-sheet .stage-wizard-first-paper {
+  padding:12px 12px 13px!important;
+}
+#sheet.stage-wizard-second-sheet .stage-wizard-first-paper>.stage-wizard-body {
+  width:100%!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  padding:0 3px 15px!important;
+  scrollbar-width:thin;
+  scrollbar-color:#d0b78f transparent;
+}
+#sheet.stage-wizard-second-sheet .stage-wizard-first-header {padding-bottom:11px!important;}
+#sheet.stage-wizard-second-sheet .stage-wizard-first-action {padding-top:9px!important;}
+#sheet.stage-wizard-second-sheet .stage-second-notice {
+  box-sizing:border-box;
+  width:100%;
+  display:grid;grid-template-columns:27px 2px minmax(0,1fr);
+  align-items:center;gap:10px;
+  margin:0 0 15px;padding:10px;
+  border:1px solid #ebddc9;border-radius:16px;
+  background:linear-gradient(125deg,#fff9ef,#fcf0df);
+  color:#213454;
+}
+#sheet.stage-wizard-second-sheet .stage-second-notice-icon {color:#a07327;display:grid;place-items:center;}
+#sheet.stage-wizard-second-sheet .stage-second-notice-icon .stage-first-glyph {width:24px;height:24px;}
+#sheet.stage-wizard-second-sheet .stage-second-notice-rule {
+  align-self:stretch;min-height:48px;border-radius:2px;
+  background:linear-gradient(180deg,#98702d,#d5ab63,#9b7234);
+}
+#sheet.stage-wizard-second-sheet .stage-second-notice p {
+  margin:0;font:400 12.5px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  overflow-wrap:break-word;
+}
+#sheet.stage-wizard-second-sheet .stage-second-notice strong {font-weight:800;color:#142a4d;}
+#sheet.stage-wizard-second-sheet .stage-second-field {min-width:0;margin:0 0 14px;}
+#sheet.stage-wizard-second-sheet .stage-second-field .stage-first-field-heading {margin-bottom:7px;gap:9px;}
+#sheet.stage-wizard-second-sheet .stage-second-field .stage-first-field-caption {
+  color:#10284c;font-size:12.5px;line-height:1.25;font-weight:750;
+}
+#sheet.stage-wizard-second-sheet .stage-second-field-control {
+  box-sizing:border-box;min-width:0;
+  padding:0 0 0 36px;
+}
+#sheet.stage-wizard-second-sheet .stage-second-field-control>input,
+#sheet.stage-wizard-second-sheet .stage-second-field-control>.stage-second-date-wrap,
+#sheet.stage-wizard-second-sheet .stage-second-field-control>.stage-second-select,
+#sheet.stage-wizard-second-sheet .stage-second-field-control>.premium-select-wrap {
+  box-sizing:border-box;max-width:100%;width:100%;
+}
+#sheet.stage-wizard-second-sheet .stage-second-field-control>input,
+#sheet.stage-wizard-second-sheet .stage-second-date-wrap input[type="date"] {
+  box-sizing:border-box;display:block;width:100%;min-width:0;
+  min-height:46px;margin:0;padding:10px 13px;
+  border:1px solid #dccbb6;border-radius:14px;
+  background:linear-gradient(180deg,#fffefd,#ffffff);
+  box-shadow:0 2px 4px rgba(88,65,33,.05);
+  color:#1b3150;font:500 14px/1.35 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+#sheet.stage-wizard-second-sheet .stage-second-field-control input::placeholder {color:#8c96a3;font-size:13px;}
+#sheet.stage-wizard-second-sheet .stage-second-date-wrap {position:relative;}
+#sheet.stage-wizard-second-sheet .stage-second-date-wrap input[type="date"] {
+  padding-right:49px;
+  text-align:center;
+  color-scheme:light;
+}
+#sheet.stage-wizard-second-sheet .stage-second-date-wrap input[type="date"]::-webkit-date-and-time-value {text-align:center;}
+#sheet.stage-wizard-second-sheet .stage-second-date-icon {
+  pointer-events:none;position:absolute;top:50%;right:7px;transform:translateY(-50%);
+  box-sizing:border-box;display:grid;place-items:center;
+  width:34px;height:34px;border:1px solid #ead2ab;border-radius:10px;
+  background:linear-gradient(145deg,#fffdf7,#f9ecd4);color:#956923;
+}
+#sheet.stage-wizard-second-sheet .stage-second-date-icon .stage-first-glyph {width:19px;height:19px;}
+#sheet.stage-wizard-second-sheet .stage-second-select select {width:100%;}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-wrap {
+  box-sizing:border-box!important;position:relative;display:block!important;width:100%!important;
+  margin:0!important;padding:0!important;max-width:100%!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field {
+  box-sizing:border-box!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:8px!important;
+  width:100%!important;max-width:100%!important;
+  min-height:47px!important;height:auto!important;margin:0!important;
+  padding:7px 8px 7px 12px!important;
+  border:1px solid #d9c8b4!important;border-radius:14px!important;
+  background:linear-gradient(145deg,#fffefd,#fffaf4)!important;
+  box-shadow:0 2px 5px rgba(81,64,34,.08)!important;
+  color:#243654!important;
+  text-align:left!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-copy {
+  box-sizing:border-box!important;display:block!important;flex:1 1 auto!important;
+  min-width:0!important;max-width:100%!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-copy b,
+body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-copy b {
+  display:block!important;width:100%!important;
+  font:600 13px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  letter-spacing:-.012em!important;
+  color:#1b2f4d!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  overflow-wrap:anywhere!important;
+  text-overflow:clip!important;
+}
+body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field.empty .premium-select-field-copy b {
+  color:#8794a5!important;font-weight:500!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-arrow {
+  box-sizing:border-box!important;display:grid!important;place-items:center!important;
+  flex:0 0 29px!important;width:29px!important;height:30px!important;
+  padding:0!important;margin:0!important;
+  border:1px solid #e4c994!important;border-radius:10px!important;
+  background:linear-gradient(135deg,#fffbf1,#f8ead0)!important;
+  color:#a17127!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-arrow .ico {width:16px!important;height:16px!important;stroke-width:2!important;}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-native {display:none!important;}
+#sheet.stage-wizard-second-sheet .stage-second-custom {
+  border-left:2px solid #d8b780;margin:3px 0 14px 12px;padding-left:8px;
+}
+#sheet.stage-wizard-second-sheet .stage-second-custom .stage-second-field {margin-bottom:9px;}
+#sheet.stage-wizard-second-sheet .stage-second-custom .stage-second-field-control {padding-left:35px;}
+#sheet.stage-wizard-second-sheet .stage-second-transfers {
+  box-sizing:border-box;margin:3px 0 13px;padding:13px 11px 10px;
+  border:1px solid #dfc9a7;border-radius:16px;
+  background:linear-gradient(125deg,#fffaf1,#f9eedf);
+}
+#sheet.stage-wizard-second-sheet .stage-second-transfers h3 {
+  margin:0 0 8px;color:#173052;
+  font:700 13.5px/1.3 Georgia,'Times New Roman',serif;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check {
+  display:flex;align-items:center;gap:10px;position:relative;
+  box-sizing:border-box;min-height:41px;margin:0;padding:6px 3px;
+  color:#263b58;font:500 12.5px/1.35 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  cursor:pointer;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check input {
+  position:absolute!important;width:24px!important;height:24px!important;
+  left:0;top:50%;transform:translateY(-50%);
+  opacity:0;z-index:1;cursor:pointer;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check-box {
+  flex:0 0 22px;width:22px;height:22px;display:grid;place-items:center;
+  border:1.5px solid #bca37b;border-radius:7px;background:#fff;
+  color:transparent;box-sizing:border-box;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check-box .stage-first-glyph {width:18px;height:18px;}
+#sheet.stage-wizard-second-sheet .stage-second-check input:checked+.stage-second-check-box {
+  background:linear-gradient(160deg,#f9d475,#ddac43);border-color:#ae8033;color:#6d501f;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check input:focus-visible+.stage-second-check-box {
+  outline:2px solid #926a2d;outline-offset:2px;
+}
+#sheet.stage-wizard-second-sheet .stage-second-hint {
+  box-sizing:border-box;display:flex;align-items:flex-start;gap:9px;
+  margin:0 0 5px;padding:10px 12px;
+  border:1px solid #e5d2b4;border-radius:14px;
+  background:#fcf7ef;color:#6b7382;
+  font:400 11.4px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+#sheet.stage-wizard-second-sheet .stage-second-hint .stage-first-glyph {
+  flex:0 0 19px;width:19px;height:19px;color:#a18453;
+}
+#sheet.stage-wizard-second-sheet .stage-second-hint strong {color:#465b72;}
+#sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field:focus-visible,
+#sheet.stage-wizard-second-sheet .stage-second-field-control input:focus-visible {
+  outline:2px solid #bb8c38!important;outline-offset:2px!important;
+}
+@media(max-width:360px){
+  #sheet.stage-wizard-second-sheet .stage-wizard-first-paper {padding-left:9px!important;padding-right:9px!important;}
+  #sheet.stage-wizard-second-sheet .stage-second-notice {gap:7px;padding:8px;}
+  #sheet.stage-wizard-second-sheet .stage-second-notice p {font-size:11.4px;}
+  #sheet.stage-wizard-second-sheet .stage-second-field .stage-first-field-caption {font-size:11.5px;}
+  #sheet.stage-wizard-second-sheet .stage-second-field-control {padding-left:33px;}
+  #sheet.stage-wizard-second-sheet .stage-second-select .premium-select-field-copy b {font-size:11.7px!important;}
+  #sheet.stage-wizard-second-sheet .stage-second-check {font-size:11.7px;}
+}
+@media(max-height:650px){
+  #sheet.stage-wizard-second-sheet .stage-wizard-first-paper {padding-top:10px!important;padding-bottom:10px!important;}
+  #sheet.stage-wizard-second-sheet .stage-second-notice {margin-bottom:10px;}
+  #sheet.stage-wizard-second-sheet .stage-second-field {margin-bottom:10px;}
+}
+
+/* Use the already-approved in-app calendar instead of the platform-native
+   locale-specific date control (11/21/2026 vs 21 ноября 2026). */
+#sheet.stage-wizard-second-sheet .stage-second-date-wrap input[type="hidden"] {display:none!important;}
+#sheet.stage-wizard-second-sheet .stage-second-date-trigger {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  box-sizing:border-box!important;position:relative!important;width:100%!important;
+  min-height:46px!important;height:46px!important;margin:0!important;
+  padding:5px 43px 5px 14px!important;
+  background:linear-gradient(145deg,#fffefd,#fffaf5)!important;
+  border:1px solid #dccbb6!important;border-radius:14px!important;
+  box-shadow:0 2px 4px rgba(88,65,33,.05)!important;
+  color:#1b3150!important;cursor:pointer!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-date-trigger .premium-date-field-copy {
+  display:flex;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;
+}
+#sheet.stage-wizard-second-sheet .stage-second-date-trigger .premium-date-field-copy b {
+  font:500 14px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  color:#193152!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#sheet.stage-wizard-second-sheet .stage-second-date-trigger:focus-visible {
+  outline:2px solid #bc8e43!important;outline-offset:2px!important;
+}
