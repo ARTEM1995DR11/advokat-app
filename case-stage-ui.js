@@ -125,6 +125,8 @@ function stageWizardHead(){
 /* 5.0.1297.41.47 — refined step-3 information card and
    form fields. No changes to transition data or workflow validation. */
 function stageWizardFirstIcon(kind){
+  var artwork={calendar:'calendar',result:'check',note:'doc',stage:'flag',court:'court',basis:'brief'};
+  if(artwork[kind]&&typeof advEmbossIcon==='function')return advEmbossIcon(artwork[kind]);
   var paths={
     info:'<circle cx="12" cy="12" r="9"/><path d="M12 10.7v5"/><circle cx="12" cy="7.5" r=".85" fill="currentColor" stroke="none"/>',
     calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2.1"/><path d="M7.8 3v4.1M16.2 3v4.1M3.5 9.6h17M7.7 13.1h2.1M12.2 13.1h2.1M7.7 16.7h2.1M12.2 16.7h2.1"/>',

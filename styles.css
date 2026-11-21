@@ -49267,31 +49267,82 @@ body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.
   backdrop-filter:none!important;
 }
 
-
-/* 6470 — same dimensional pictograms across approved stage/result/basis/overview screens. */
-.adv-emboss-art{display:inline-block!important;flex:none!important;width:var(--emboss-size,26px)!important;height:var(--emboss-size,26px)!important;background-image:url('stage-emboss-icons-v6470.webp?v=6470')!important;background-repeat:no-repeat!important;background-size:1400% 100%!important;background-position:0 50%;vertical-align:middle;pointer-events:none}
+/* Build 6471: centralized gold relief asset with content-only application. */
+.adv-emboss-art{display:inline-block!important;flex:none!important;width:var(--emboss-size,26px)!important;height:var(--emboss-size,26px)!important;background-image:url('stage-emboss-icons-v6471.webp?v=6471')!important;background-repeat:no-repeat!important;background-size:3500% 100%!important;background-position:0 50%;vertical-align:middle;pointer-events:none}
 .adv-emboss-flag{background-position:0.00000% 50%!important}
-.adv-emboss-gavel{background-position:7.69231% 50%!important}
-.adv-emboss-doc{background-position:15.38462% 50%!important}
-.adv-emboss-folder{background-position:23.07692% 50%!important}
-.adv-emboss-court{background-position:30.76923% 50%!important}
-.adv-emboss-check{background-position:38.46154% 50%!important}
-.adv-emboss-clock{background-position:46.15385% 50%!important}
-.adv-emboss-refresh{background-position:53.84615% 50%!important}
-.adv-emboss-brief{background-position:61.53846% 50%!important}
-.adv-emboss-person{background-position:69.23077% 50%!important}
-.adv-emboss-people{background-position:76.92308% 50%!important}
-.adv-emboss-scroll{background-position:84.61538% 50%!important}
-.adv-emboss-scale{background-position:92.30769% 50%!important}
-.adv-emboss-lock{background-position:100.00000% 50%!important}
+.adv-emboss-gavel{background-position:2.94118% 50%!important}
+.adv-emboss-doc{background-position:5.88235% 50%!important}
+.adv-emboss-folder{background-position:8.82353% 50%!important}
+.adv-emboss-court{background-position:11.76471% 50%!important}
+.adv-emboss-check{background-position:14.70588% 50%!important}
+.adv-emboss-clock{background-position:17.64706% 50%!important}
+.adv-emboss-refresh{background-position:20.58824% 50%!important}
+.adv-emboss-brief{background-position:23.52941% 50%!important}
+.adv-emboss-person{background-position:26.47059% 50%!important}
+.adv-emboss-people{background-position:29.41176% 50%!important}
+.adv-emboss-scroll{background-position:32.35294% 50%!important}
+.adv-emboss-scale{background-position:35.29412% 50%!important}
+.adv-emboss-lock{background-position:38.23529% 50%!important}
+.adv-emboss-calendar{background-position:41.17647% 50%!important}
+.adv-emboss-save{background-position:44.11765% 50%!important}
+.adv-emboss-info{background-position:47.05882% 50%!important}
+.adv-emboss-pin{background-position:50.00000% 50%!important}
+.adv-emboss-bell{background-position:52.94118% 50%!important}
+.adv-emboss-edit{background-position:55.88235% 50%!important}
+.adv-emboss-plus{background-position:58.82353% 50%!important}
+.adv-emboss-meeting{background-position:61.76471% 50%!important}
+.adv-emboss-task{background-position:64.70588% 50%!important}
+.adv-emboss-search{background-position:67.64706% 50%!important}
+.adv-emboss-list{background-position:70.58824% 50%!important}
+.adv-emboss-archive{background-position:73.52941% 50%!important}
+.adv-emboss-warning{background-position:76.47059% 50%!important}
+.adv-emboss-note{background-position:79.41176% 50%!important}
+.adv-emboss-phone{background-position:82.35294% 50%!important}
+.adv-emboss-document-check{background-position:85.29412% 50%!important}
+.adv-emboss-justice{background-position:88.23529% 50%!important}
+.adv-emboss-arrow-up{background-position:91.17647% 50%!important}
 
-body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark .adv-emboss-art,
-body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark .adv-emboss-art{--emboss-size:32px}
+/* All picker art retains the contextual colored stripe; pictograms are gold. */
+body.light .premium-list-modal .premium-list-row-mark .adv-emboss-art{--emboss-size:31px}
+body.light .premium-list-modal .premium-list-head-icon .adv-emboss-art{--emboss-size:35px}
 body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark[data-emboss-icon="1"],
-body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark[data-emboss-icon="1"]{
-  background:linear-gradient(140deg,#fffaf0,#f4e3bb)!important;border-color:rgba(185,137,55,.34)!important;
-}
+body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark[data-emboss-icon="1"]{background:linear-gradient(140deg,#fffaf0,#f4e3bb)!important;border-color:rgba(185,137,55,.34)!important}
+/* Dynamic journal and event sheets: large icon in exactly the former space. */
+#sheet.matter-event-stage1-open .matter-event-stage4-icon .adv-emboss-art{--emboss-size:34px}
+#sheet.journal-premium-sheet .journal-field-leading .adv-emboss-art{--emboss-size:30px}
+#sheet.journal-premium-sheet .journal-note-icon .adv-emboss-art{--emboss-size:29px}
+#sheet.journal-premium-sheet .journal-premium-save-icon .adv-emboss-art{--emboss-size:25px;filter:brightness(.23) sepia(.25) hue-rotate(170deg)}
+#sheet .qe192-leading .adv-emboss-art,#sheet .qe194-note-icon .adv-emboss-art{--emboss-size:26px}
+#sheet .qe192-save-icon .adv-emboss-art,#sheet .task-editor-save .save-icon .adv-emboss-art{--emboss-size:25px;filter:brightness(.23)}
+#sheet .hearing-result-head-icon .adv-emboss-art{--emboss-size:34px}
+#sheet .hearing-result-v355-meta-icon .adv-emboss-art{--emboss-size:19px}
+#sheet .matter-editor-section-icon .adv-emboss-art,#sheet .matter-editor-field-leading .adv-emboss-art{--emboss-size:25px}
+#sheet .matter-finish-date-icon .adv-emboss-art,#sheet .matter-finish-outcome-icon .adv-emboss-art,#sheet .matter-finish-intro-mark .adv-emboss-art{--emboss-size:26px}
+#sheet .matter-actions-head-icon .adv-emboss-art{--emboss-size:32px}
+#sheet .deadline-calculator-title .adv-emboss-art,#sheet .deadline-premium-shield .adv-emboss-art{--emboss-size:24px}
+/* Calendar and day badges use smaller optical size, without resizing their cards. */
+#sc-cal .cal-month-event-icon .adv-emboss-art{--emboss-size:25px}
+#sc-cal .cal-day-kpi .adv-emboss-art{--emboss-size:20px}
+#sc-today .eventmark .adv-emboss-art,#sc-today .today-row-ico .adv-emboss-art{--emboss-size:22px}
+#sc-tasks .pt-hearing-state .adv-emboss-art{--emboss-size:20px}
+#page.dossier-page .dossier-time-ico .adv-emboss-art,#page.dossier-page .dossier-attention-hearing-icon .adv-emboss-art{--emboss-size:24px}
+#premium-date-modal .premium-date-selected>span .adv-emboss-art{--emboss-size:24px}
+#sheet .rem116-card-icon .adv-emboss-art{--emboss-size:24px}
+#sc-more .backup-safety-icon .adv-emboss-art{--emboss-size:26px}
+.search-premium-result-ico .adv-emboss-art{--emboss-size:26px}
+#sheet .stage-first-field-icon .adv-emboss-art{--emboss-size:25px}
 @media(max-width:390px){
- body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark .adv-emboss-art,
- body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark .adv-emboss-art{--emboss-size:30px}
+  #sheet.matter-event-stage1-open .matter-event-stage4-icon .adv-emboss-art{--emboss-size:30px}
+  #sheet.journal-premium-sheet .journal-field-leading .adv-emboss-art{--emboss-size:27px}
+  body.light .premium-list-modal .premium-list-row-mark .adv-emboss-art{--emboss-size:28px}
 }
+
+/* Build 6471: remaining populated top-level screens. */
+#sc-today .today-sec-ico .adv-emboss-art{--emboss-size:23px}
+#sc-cal .cal-day-event-icon .adv-emboss-art{--emboss-size:23px}
+#sc-more .settings-card .row>.adv-emboss-art{--emboss-size:23px;flex:none;margin-right:5px}
+#sc-more .backupwarn .adv-emboss-art{--emboss-size:23px}
+
+.adv-emboss-tpl{background-position:94.11765% 50%!important}
+.adv-emboss-share{background-position:97.05882% 50%!important}
+.adv-emboss-sun{background-position:100.00000% 50%!important}

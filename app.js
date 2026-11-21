@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.30';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6470';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.31';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6471';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -296,7 +296,7 @@ function iconBody(n){
 function ico(n,c){
   /* 5.0.249: inline SVG geometry instead of <use href="#...">.
      iOS PWA can paint <use> references a frame or several frames late after launch. */
-  return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24" aria-hidden="true">'+iconBody(n)+'</svg>';
+  return '<svg class="ico '+(c||'')+'" data-adv-icon="'+esc(n)+'" viewBox="0 0 24 24" aria-hidden="true">'+iconBody(n)+'</svg>';
 }
 function materializeUseIcons(){
   /* Also convert icons that are already present in index.html before the first render. */
@@ -407,6 +407,7 @@ function renderPremiumDatePicker(){
       (DATE_PICKER.mode==='field'&&!finishDate&&!newStageDate?'<button type="button" class="premium-date-secondary reset" data-act="date-clear">Сбросить</button>':'')+
       '<button type="button" class="premium-date-primary" data-act="date-apply">Готово '+ico('check','s')+'</button>'+
     '</div>';
+  advUpgradeIconSurfaces(modal);
 }
 function applyPremiumDatePicker(){
   if(!DATE_PICKER)return; var dp=DATE_PICKER;
@@ -789,12 +790,67 @@ function premiumMatterPickerGroups(rows){
 
 function advEmbossIcon(kind){
   var k=String(kind||'doc').replace(/[^a-z-]/g,'');
-  var aliases={document:'doc',category:'scroll',agency:'court',judge:'gavel',user:'person'};
+  var aliases={document:'doc',category:'scroll',agency:'court',judge:'gavel',user:'person',cal:'calendar','qe-save':'save',
+    'qe-document':'doc','qe-person':'person','qe-judge':'gavel','qe-court':'court','qe-clock':'clock','qe-folder':'folder',
+    'nm-folder':'folder','nm-page':'doc','nm-scale':'scale','events-people':'meeting','client-building':'court',
+    'arrow-back':'arrow-up','arch':'archive', 'briefcase':'brief'};
   k=aliases[k]||k;
-  var known={flag:1,gavel:1,doc:1,folder:1,court:1,check:1,clock:1,refresh:1,brief:1,person:1,people:1,scroll:1,scale:1,lock:1};
+  var known={'flag':1,'gavel':1,'doc':1,'folder':1,'court':1,'check':1,'clock':1,'refresh':1,'brief':1,'person':1,'people':1,'scroll':1,'scale':1,'lock':1,'calendar':1,'save':1,'info':1,'pin':1,'bell':1,'edit':1,'plus':1,'meeting':1,'task':1,'search':1,'list':1,'archive':1,'warning':1,'note':1,'phone':1,'document-check':1,'justice':1,'arrow-up':1,'tpl':1,'share':1,'sun':1};
   if(!known[k])k='doc';
   return '<span class="adv-emboss-art adv-emboss-'+k+'" aria-hidden="true"></span>';
 }
+
+/* 6471: content icons only. Navigation, delete, close, chevrons and photo-based
+   illustrated controls keep their existing accessible/approved appearance.
+   No DOM observer: one bounded pass when a page, sheet or picker is rendered. */
+var ADV_ICON_SURFACES=[
+  '#sheet.matter-event-stage1-open .matter-event-stage4-icon',
+  '#sheet.journal-premium-sheet .journal-field-leading',
+  '#sheet.journal-premium-sheet .journal-note-icon',
+  '#sheet.journal-premium-sheet .journal-premium-save-icon',
+  '#sheet .qe192-leading','#sheet .qe194-note-icon','#sheet .qe192-save-icon',
+  '#sheet .task-editor-save .save-icon','#sheet .hearing-result-head-icon',
+  '#sheet .hearing-result-v355-meta-icon','#sheet .deadline-calculator-title>span',
+  '#sheet .deadline-premium-shield','#sheet .matter-actions-head-icon',
+  '#sheet .matter-editor-section-icon','#sheet .matter-editor-field-leading',
+  '#sheet .matter-finish-date-icon','#sheet .matter-finish-outcome-icon',
+  '#sheet .matter-finish-intro-mark','#sheet .matter-finish-submit-check',
+  '#sheet .journal-premium-head-icon','#sheet .rem116-card-icon',
+  '#premium-list-modal .premium-list-row-mark',
+  '#premium-list-modal .premium-list-head-icon:not(.premium-court-head-scales)',
+  '#premium-date-modal .premium-date-selected>span',
+  '#sc-today .eventmark','#sc-today .today-row-ico','#sc-today .today-sec-ico',
+  '#sc-tasks .pt-hearing-state',
+  '#sc-cal .cal-month-event-icon','#sc-cal .cal-day-kpi','#sc-cal .cal-day-event-icon',
+  '#page.dossier-page .dossier-time-ico','#page.dossier-page .dossier-attention-hearing-icon',
+  '#sc-more .backup-safety-icon','#sc-more .settings-card .row','#sc-more .backupwarn',
+  '.search-premium-result-ico',
+  '#sheet .matter-event-stage4-icon'
+].join(',');
+function advUpgradeIconSurfaces(root){
+  root=root||document;
+  if(!root.querySelectorAll)return;
+  var targets=root.querySelectorAll(ADV_ICON_SURFACES);
+  for(var i=0;i<targets.length;i++){
+    var host=targets[i];
+    if(host.classList.contains('adv-content-icon-done'))continue;
+    var svg=host.querySelector('svg.ico[data-adv-icon]');
+    if(!svg)continue;
+    var name=svg.getAttribute('data-adv-icon')||'doc';
+    // A few controls are semantic in their layout but are not background artwork.
+    if(['chev','left','right','xmark','trash','arrow-back'].indexOf(name)>=0)continue;
+    // Do not substitute a generic document for an unsupported semantic icon.
+    var available=['flag','gavel','doc','folder','court','check','clock','refresh','brief','person','people','scroll','scale','lock',
+      'calendar','save','info','pin','bell','edit','plus','meeting','task','search','list','archive','warning','note','phone',
+      'document-check','justice','arrow-up','tpl','share','sun','cal','qe-save','qe-document','qe-person','qe-judge','qe-court','qe-clock','qe-folder',
+      'nm-folder','nm-page','nm-scale','events-people','client-building','arch','user','judge','category','agency','document','alert'];
+    if(available.indexOf(name)<0)continue;
+    var temp=document.createElement('span');
+    temp.innerHTML=advEmbossIcon(name);
+    if(temp.firstChild){svg.replaceWith(temp.firstChild);host.classList.add('adv-content-icon-done');}
+  }
+}
+
 function stageOutcomeArtMarkup(kind,extraClass){
   return '<span class="stage-outcome-option-icon is-art'+(extraClass?' '+extraClass:'')+'">'+advEmbossIcon(kind)+'</span>';
 }
@@ -863,7 +919,7 @@ function renderPremiumListPicker(){
     '<div class="premium-list-head">'+headIconHtml+'<div><h3>'+esc(LIST_PICKER.meta.title)+'</h3><p>'+esc(LIST_PICKER.meta.sub)+'</p></div><button type="button" class="premium-list-close" data-act="list-close" aria-label="Закрыть">'+ico('xmark','s')+'</button></div>'+ 
     '<div class="premium-list-ornament" aria-hidden="true"><i></i><span></span><i></i></div>'+ 
     search+'<div class="premium-list-body">'+list+'</div>'+clearMatter+ 
-    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5966" alt="Весы правосудия"></span><i></i></div>';
+    '<div class="premium-list-sign"><i></i><span><img class="premium-list-sign-logo" src="scale-gold.webp?v=5966" alt="Весы правосудия"></span><i></i></div>';  advUpgradeIconSurfaces(modal);
 }
 
 function syncPremiumSelectButton(id){
@@ -2617,10 +2673,10 @@ function openSheet(html){
     s.classList.add('withfoot');
   } else s.classList.remove('withfoot');
   document.body.classList.remove('matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-export-backdrop-open'); s.classList.add('open'); $('#scrim').classList.add('open'); s.scrollTop = 0;
-  setTimeout(function(){upgradePremiumSelects(s);},0);
+  setTimeout(function(){upgradePremiumSelects(s);advUpgradeIconSurfaces(s);},0);
 }
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
-  p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
+  p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; requestAnimationFrame(function(){advUpgradeIconSurfaces(p);}); }
 function closeAll(){
   if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
   if(typeof STAGE_HEARING_NAV!=='undefined')STAGE_HEARING_NAV=null;
@@ -4649,6 +4705,7 @@ function render(){
   }
   TAB_TRANSITION='';
   applyTheme();
+  advUpgradeIconSurfaces(active);
 }
 var NAV_TABS=[];
 function go(tab,replaceHistory,transition,preserveCalendarDate){
@@ -7963,6 +8020,7 @@ function decorateJournalPremiumControls(){
     dateBtn.setAttribute('aria-label','Выбрать дату записи в журнал');
   }
   syncJournalMatterMeta();
+  advUpgradeIconSurfaces(sh);
 }
 /* 5.0.1259 — separate continuous paper shell, matching approved case-action sheets.
    It is decorative, never changes journal data or event handlers. */
