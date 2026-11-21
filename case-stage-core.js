@@ -19,7 +19,7 @@ function stageISODateValid(iso){
   var a=iso.split('-').map(Number),d=new Date(Date.UTC(a[0],a[1]-1,a[2]));
   return d.getUTCFullYear()===a[0]&&d.getUTCMonth()+1===a[1]&&d.getUTCDate()===a[2];
 }
-/* 6462: procedural routes are recommendations with real restrictions, not a linear
+/* 6464: procedural routes are recommendations with real restrictions, not a linear
    numeric ordering. The final choice remains with counsel, but a completed
    first-instance lawsuit can never go back to pre-trial through this wizard. */
 function stageTransitionOptions(m,outcome){

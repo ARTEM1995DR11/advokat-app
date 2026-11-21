@@ -312,7 +312,10 @@ function stageWizardSecondField(kind,title,control){
     '<div class="stage-second-field-control">'+control+'</div></div>';
 }
 function stageWizardNextHTML(d,m){
-  var stages=stageTransitionOptions(m,d.result),isOther=d.stage==='__other__';
+  var stages=stageTransitionOptions(m,d.result),isOther=false;
+  if(d.stage==='__other__'){
+    d.stage='';d.stageBase='';d.stageCustom='';d.stageReason='';d.routeVerified=false;
+  }
   var currentStage=stageTransitionActualStage(d);
   var review=stageTransitionReview(m,d.result,currentStage);
   var currentAllowed=stages.includes(currentStage);
@@ -325,9 +328,8 @@ function stageWizardNextHTML(d,m){
     '<div class="stage-second-route-context"><b>Завершено: '+esc(m.stage)+'</b><span>Результат: '+esc(d.result||'Не указан')+'</span></div>'+
     stageWizardSecondField('stage','Следующая стадия производства',
       '<div class="stage-second-select"><select id="st-new-stage" aria-label="Следующая стадия производства">'+
-        '<option value=""'+(!d.stage?' selected':'')+'>Выберите допустимую стадию</option>'+
+        '<option value=""'+(!d.stage?' selected':'')+' disabled hidden>Выберите допустимую стадию</option>'+
         stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stage===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+
-        (stages.length?'<option value="__other__"'+(isOther?' selected':'')+'>Иной этап в рамках допустимой стадии</option>':'')+
       '</select></div>')+
     '<div class="stage-second-custom" id="st-new-custom-wrap"'+(isOther?'':' style="display:none"')+'>'+
       stageWizardSecondField('note','Название иного этапа',

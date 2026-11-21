@@ -543,6 +543,8 @@ function listPickerMeta(target){
     'e-deadline-code':{title:'Производство / кодекс',sub:'Выберите применимый кодекс',search:'Поиск…',icon:'doc'},
     'e-deadline-rule':{title:'Процессуальный срок',sub:'Выберите правило расчёта · '+legalDeadlineCount()+' сроков в базе',search:'Поиск по сроку или статье…',icon:'clock'},
     'pt-kind':{title:'Вид участия',sub:'Выберите вид процессуального действия',search:'Поиск…',icon:'gavel'},
+    'st-new-stage':{title:'Следующая стадия',sub:'Допустимые варианты продолжения дела',search:'',icon:'flag'},
+    'st-new-basis':{title:'Основание участия',sub:'Как будет вестись новая стадия',search:'',icon:'brief'},
     'st-close-result':{title:'Результат этапа',sub:'Фактический итог завершённой стадии',search:'',icon:'flag'}
   };
   return map[target]||{title:'Выбор',sub:'Выберите значение из списка',search:'Поиск…',icon:'list'};
@@ -640,7 +642,7 @@ function premiumListIsMatterPicker(target){
   return ['e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
 }
 function premiumListUsesApprovedMarble(target){
-  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind'].indexOf(target)>=0;
+  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind','st-new-stage','st-new-basis'].indexOf(target)>=0;
 }
 function premiumMatterPickerBasis(value){
   if(!value)return null;
@@ -710,21 +712,24 @@ document.addEventListener('touchend',function(e){
 },{passive:true});
 document.addEventListener('touchcancel',function(){STAGE_OUTCOME_TOUCH=null;},{passive:true});
 function closePremiumListPicker(){
-  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker','premium-matter-choice-v1','stage-outcome-picker');}if(scr)scr.classList.remove('open');
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker','premium-matter-choice-v1','stage-outcome-picker','stage-choice-picker');}if(scr)scr.classList.remove('open');
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid','st-close-result'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid','st-close-result','st-new-stage','st-new-basis'].indexOf(target)>=0;
 }
 function matterEditorPickerWithoutSearch(target){
   // Для вопроса исполнения приговора поиск оставляем: вариантов много.
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice','st-close-result'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice','st-close-result','st-new-stage','st-new-basis'].indexOf(target)>=0;
 }
 function premiumMatterPickerRow(it){
   var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
-  var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'');
+  var stageChoice=!!(LIST_PICKER&&['st-new-stage','st-new-basis'].indexOf(LIST_PICKER.target)>=0);
+  var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'')+(stageChoice?' stage-choice-row':'');
   var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
   var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
+  if(stageChoice&&LIST_PICKER.target==='st-new-stage')markIcon='flag';
+  if(stageChoice&&LIST_PICKER.target==='st-new-basis')markIcon=String(it.value)==='assigned'?'user':'brief';
   var isCourtPicker=!!(LIST_PICKER&&['e-court-choice','m-court-choice'].indexOf(LIST_PICKER.target)>=0);
   var end=selected?(isCourtPicker?'<em class="premium-court-selected-badge">'+ico('check','s')+'<span>Выбрано</span></em>':'<em>Выбрано</em>'):'<span class="premium-list-row-chevron">'+ico('chev','s')+'</span>';
   return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
@@ -803,6 +808,7 @@ function renderPremiumListPicker(){
   modal.classList.toggle('premium-matter-picker',useApprovedMarble);
   modal.classList.toggle('premium-matter-choice-v1',isMatterPicker);
   modal.classList.toggle('premium-matter-single',isMatterPicker&&rows.length===1);
+  modal.classList.toggle('stage-choice-picker',['st-new-stage','st-new-basis'].indexOf(LIST_PICKER.target)>=0);
   modal.setAttribute('data-list-target',LIST_PICKER.target||'');
   var hasQuery=!!String(LIST_PICKER.query||'').trim();
   var isCourtPicker=['e-court-choice','m-court-choice'].indexOf(LIST_PICKER.target)>=0;
