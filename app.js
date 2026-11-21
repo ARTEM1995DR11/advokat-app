@@ -2541,6 +2541,7 @@ function matterActionReturnBack(){
 /* Шторка: содержимое прокручивается, а кнопки действий закреплены внизу —
    их всегда видно и не нужно доскролливать до конца длинной формы. */
 function openSheet(html){
+  if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
   var s = $('#sheet');
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
@@ -2578,13 +2579,14 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
+  if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
   if(typeof STAGE_HEARING_NAV!=='undefined')STAGE_HEARING_NAV=null;
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
   document.body.classList.remove('stage-hearings-backdrop-open','dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove(); if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4632,6 +4634,7 @@ function go(tab,replaceHistory,transition,preserveCalendarDate){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(typeof stageWizardHearingBack==='function' && typeof STAGE_HEARING_NAV!=='undefined' && STAGE_HEARING_NAV && STAGE_HEARING_NAV.mode==='list' && document.getElementById('stage-hearings-overlay')){stageWizardHearingBack();vib(5);return true;}
   if(FINISH_OUTCOME_OPEN){closeMatterFinishOutcomePicker();vib(5);return true;}
   if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
@@ -9937,7 +9940,7 @@ document.addEventListener('touchcancel',function(){
 var SHEET_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
 document.addEventListener('touchstart',function(e){
   if(!unlocked || !e.touches || e.touches.length!==1) return;
-  var s=$('#sheet');
+  var s=document.getElementById('stage-hearings-overlay')||$('#sheet');
   if(!s || !s.classList.contains('open') || s.classList.contains('full')) return;
   var t=e.touches[0],r=s.getBoundingClientRect();
   // The whole visual handle/header zone is draggable, not just the 4px grabber.

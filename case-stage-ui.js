@@ -174,6 +174,27 @@ function stageWizardHearingReleasePaint(){
   if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
   if(panel._stageFirstResizeFallback){window.removeEventListener('resize',panel._stageFirstResizeFallback);panel._stageFirstResizeFallback=null;}
 }
+/* 41.66.17: the review folder is a SECOND visual layer above the live
+   first step.  Do not replace #sheet: that would expose the underlying case
+   dossier instead of the step from which the user entered this flow. */
+function stageWizardHearingOverlayRemove(){
+  var overlay=document.getElementById('stage-hearings-overlay');
+  if(overlay){
+    if(overlay._maOutlineScrollHandler)overlay.removeEventListener('scroll',overlay._maOutlineScrollHandler);
+    overlay.remove();
+  }
+  var veil=document.getElementById('stage-hearings-veil');if(veil)veil.remove();
+  document.body.classList.remove('stage-hearings-overlay-active','stage-hearings-backdrop-open');
+  var wizard=document.getElementById('sheet');
+  if(wizard){wizard.inert=false;wizard.removeAttribute('aria-hidden');}
+}
+function stageWizardHearingRestoreFirstOutline(){
+  var panel=document.getElementById('sheet');
+  if(panel&&panel.classList.contains('stage-wizard-first-sheet')&&panel.classList.contains('open')){
+    if(typeof mountMatterActionsOutline==='function')mountMatterActionsOutline(panel);
+    if(typeof stageWizardFirstFolderPaint==='function')stageWizardFirstFolderPaint(panel);
+  }
+}
 function stageWizardHearingOpen(){
   if(!STAGE_WIZARD||STAGE_WIZARD.step!==0)return;
   var m=matter(STAGE_WIZARD.sourceId);
@@ -181,7 +202,6 @@ function stageWizardHearingOpen(){
   stageWizardCapture();
   if(!stageUnresolvedHearings(m).length){stageWizardRender();return;}
   STAGE_HEARING_NAV={sourceId:String(m.id),mode:'list'};
-  stageWizardHearingReleasePaint();
   stageWizardHearingListRender();
 }
 function stageWizardHearingListRender(){
@@ -191,7 +211,7 @@ function stageWizardHearingListRender(){
   var hearings=stageUnresolvedHearings(m).slice().sort(function(a,b){
     return (a.due||'').localeCompare(b.due||'') || (a.time||'').localeCompare(b.time||'');
   });
-  if(!hearings.length){STAGE_HEARING_NAV=null;stageWizardRender();return true;}
+  if(!hearings.length){stageWizardHearingOverlayRemove();STAGE_HEARING_NAV=null;stageWizardRender();return true;}
   nav.mode='list';
   var items=hearings.map(function(t){
     var date=t.due?fmtD(t.due,true):'Дата не указана';
@@ -206,7 +226,7 @@ function stageWizardHearingListRender(){
       '<em><span class="stage-hearings-status-dot" aria-hidden="true"></span>Требуется результат</em></span>'+
       '<span class="stage-hearings-row-arrow">'+stageWizardFirstIcon('arrow')+'</span></button>';
   }).join('');
-  openSheet('<section class="stage-hearings-card" aria-label="Заседания без результата">'+
+  var markup='<section class="stage-hearings-card" aria-label="Заседания без результата">'+
     '<header class="stage-hearings-header"><button type="button" class="stage-hearings-back" data-act="stage-hearings-back" aria-label="Назад к завершению этапа">'+ico('left','s')+'</button>'+
     '<div class="stage-hearings-heading"><div class="stage-hearings-eyebrow"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><i aria-hidden="true"></i></div>'+
     '<h2>Заседания без результата</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
@@ -216,12 +236,31 @@ function stageWizardHearingListRender(){
     '<div class="stage-hearings-list" aria-label="Судебные заседания, требующие результата">'+items+'</div>'+
     '<div class="stage-hearings-hint"><span class="stage-hearings-hint-icon">'+stageWizardFirstIcon('info')+'</span><span>Заседания остаются в истории дела. Результаты сохраняются отдельно по каждому событию.</span></div>'+
     '<div class="stage-hearings-ornament" aria-hidden="true"><span></span><i></i><span></span></div>'+ 
-    '<button type="button" class="stage-hearings-return" data-act="stage-hearings-back">'+stageWizardFirstIcon('arrow')+'<span>Вернуться к завершению этапа</span></button></section>');
-  var hearingPanel=document.getElementById('sheet');
-  hearingPanel.classList.add('case-stage-sheet','stage-hearings-sheet');
-  document.body.classList.add('stage-hearings-backdrop-open');
-  // Reuse the same continuous two-line folder outline as the approved
-  // «Действия по делу» screen; no independent approximation of its curves.
+    '<button type="button" class="stage-hearings-return" data-act="stage-hearings-back">'+stageWizardFirstIcon('arrow')+'<span>Вернуться к завершению этапа</span></button></section>';
+  // Restore the actual first-step DOM when returning from the hearing editor.
+  var wizardPanel=document.getElementById('sheet');
+  if(!wizardPanel||!wizardPanel.classList.contains('stage-wizard-first-sheet')||!wizardPanel.classList.contains('open')){
+    stageWizardRender();
+    wizardPanel=document.getElementById('sheet');
+  }
+  if(!wizardPanel||!wizardPanel.classList.contains('stage-wizard-first-sheet'))return false;
+  stageWizardHearingOverlayRemove();
+  var veil=document.createElement('div');
+  veil.id='stage-hearings-veil';
+  veil.setAttribute('aria-hidden','true');
+  veil.dataset.act='stage-hearings-back';
+  var hearingPanel=document.createElement('section');
+  hearingPanel.id='stage-hearings-overlay';
+  hearingPanel.className='case-stage-sheet stage-hearings-sheet open';
+  hearingPanel.setAttribute('role','dialog');
+  hearingPanel.setAttribute('aria-modal','true');
+  hearingPanel.setAttribute('aria-label','Заседания без результата');
+  hearingPanel.innerHTML='<div class="grab" aria-hidden="true"></div>'+markup;
+  document.body.appendChild(veil);
+  document.body.appendChild(hearingPanel);
+  document.body.classList.add('stage-hearings-overlay-active');
+  wizardPanel.inert=true;wizardPanel.setAttribute('aria-hidden','true');
+  // Decorate only the top folder. Underlying wizard and its form are retained.
   if(typeof mountMatterActionsOutline==='function')mountMatterActionsOutline(hearingPanel);
   return true;
 }
@@ -232,6 +271,7 @@ function stageWizardHearingEdit(id){
   var t=S.tasks.find(function(x){return String(x.id)===String(id);});
   if(!m||!t||String(t.mid)!==nav.sourceId||!stageUnresolvedHearings(m).some(function(x){return String(x.id)===String(id);})){stageWizardHearingListRender();return;}
   nav.mode='editor';nav.hearingId=String(id);
+  stageWizardHearingOverlayRemove();
   sheetHearingResult(t.id);
 }
 function stageWizardHearingIsEditing(t){
@@ -254,7 +294,10 @@ function stageWizardHearingBack(){
     HR=null;nav.mode='list';nav.hearingId='';stageWizardHearingListRender();return true;
   }
   if(nav.mode==='list'){
-    STAGE_HEARING_NAV=null;stageWizardRender();return true;
+    stageWizardHearingOverlayRemove();
+    STAGE_HEARING_NAV=null;
+    stageWizardHearingRestoreFirstOutline();
+    return true;
   }
   return false;
 }
