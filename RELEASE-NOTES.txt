@@ -1,3 +1,15 @@
+5.0.1297.41.66.36 — build 6476
+1. Only the New Matter / Edit Matter page iconography has been reverted to the approved pre-3D version 5.0.1297.41.66.28.
+2. Restored original outlined stage/section icons, thin field symbols and legacy case number # sign. Removed the 3D atlas overlay from section 03.
+3. Prevented runtime replacement of icons inside matter-editor-sheet only; elsewhere the new 3D icon system and subsequent functional changes remain.
+4. Advanced PWA release number, build and resource version. No user data changes.
+
+5.0.1297.41.66.35 — Build: 6475
+- Календарь, повестка месяца и недели: унифицирован размер и центрирование содержательных объёмных значков для всех типов событий, включая повторяющиеся судебные заседания.
+- Иконки больше не зависят от количества строк в подписи. Уменьшено визуальное переполнение внутри квадратов на узких экранах.
+- Аналогичная посадка объёмных значков применена в режиме «День» без изменения геометрии записей.
+- Никакие данные, статусы, переходы и пользовательские записи не затронуты; версия и кеш ресурсов обновлены.
+
 5.0.1297.41.66.34 — Build: 6474
 - Архивная кнопка выровнена строго по золотой кнопке «Добавить в журнал» (фон, двойной кант, шрифт, тень, высота), без ложной доступности до подтверждения.
 - В редакторе дела «Стадия производства»: вместо тяжёлого составного значка — единый золотой флажок.

@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.34';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6474';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.36';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6476';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -800,7 +800,7 @@ function advEmbossIcon(kind){
   return '<span class="adv-emboss-art adv-emboss-'+k+'" aria-hidden="true"></span>';
 }
 
-/* 6474: content icons only. Navigation, delete, close, chevrons and photo-based
+/* 6475: content icons only. Navigation, delete, close, chevrons and photo-based
    illustrated controls keep their existing accessible/approved appearance.
    No DOM observer: one bounded pass when a page, sheet or picker is rendered. */
 var ADV_ICON_SURFACES=[
@@ -833,6 +833,9 @@ function advUpgradeIconSurfaces(root){
   var targets=root.querySelectorAll(ADV_ICON_SURFACES);
   for(var i=0;i<targets.length;i++){
     var host=targets[i];
+    // The New Matter / Edit Matter form retains its approved pre-embossment
+    // icon system; other pages keep the unified dimensional artwork.
+    if(host.closest('#sheet.matter-editor-sheet'))continue;
     if(host.classList.contains('adv-content-icon-done'))continue;
     var svg=host.querySelector('svg.ico[data-adv-icon]');
     if(!svg)continue;
@@ -947,12 +950,7 @@ function matterEditorControlIconName(id){
   return map[id]||'';
 }
 function matterEditorInputShell(id,icon,html){
-  // The case number is a number, not a calendar, briefcase or process stage.
-  // It previously displayed two stacked marks (legacy '#' plus 3D icon).
-  var art=id==='m-number'
-    ?'<span class="editor-number-sign" aria-hidden="true">№</span>'
-    :ico(icon||matterEditorControlIconName(id)||'doc','s');
-  return '<div class="matter-editor-input-shell" data-field="'+esc(id)+'"><span class="matter-editor-field-leading"'+(id==='m-number'?' style="background:none!important;background-image:none!important"':'')+'>'+art+'</span>'+html+'</div>';
+  return '<div class="matter-editor-input-shell" data-field="'+esc(id)+'"><span class="matter-editor-field-leading">'+ico(icon||matterEditorControlIconName(id)||'doc','s')+'</span>'+html+'</div>';
 }
 function upgradePremiumSelects(root){
   root=root||document;

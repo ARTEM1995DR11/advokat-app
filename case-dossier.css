@@ -71,7 +71,7 @@
 #page.dossier-page .dossier-timeline-item p{font:11.5px/1.23 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;color:#526c8c;overflow-wrap:anywhere}
 #page.dossier-page .dossier-time-ico{color:#5e7c9d}
 #page.dossier-page .dossier-time-ico .ico{width:15px;height:15px}
-#page.dossier-page .dossier-empty-note{padding:12px 5px;margin:0;color:#64748a;font:13px/1.4 Georgia,serif}
+#page.dossier-page .dossier-empty-note{padding:12px 5px;margin:0;color:#64758a;font:13px/1.4 Georgia,serif}
 #page.dossier-page .dossier-working-list{display:flex;flex-direction:column;gap:7px}
 #page.dossier-page .dossier-working-row{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid #e6d5b9;background:#fffaf1;border-radius:11px;min-height:58px;padding:9px;color:#142b57}
 #page.dossier-page .dossier-work-icon{background:#f6e6ce;border-radius:9px;width:35px;height:35px;display:flex;align-items:center;justify-content:center;flex:none;color:#9e6f2e}

@@ -351,7 +351,7 @@ html body #sc-cal .calendar-project .calendar-title-head p{
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-event-next .ico{width:13px;height:13px;}
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-empty{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:14px 4px;font-size:12px;color:#647486;
+  padding:14px 4px;font-size:12px;color:#647586;
 }
 #sc-cal .calendar-project[data-calendar-view="month"] .cal-month-agenda-empty button{
   border:1px solid #d9bf92;border-radius:9px;padding:8px;background:#fff7e8;
@@ -403,7 +403,7 @@ html body #sc-cal.screen{padding-bottom:calc(135px + env(safe-area-inset-bottom,
   min-height:28px;margin-top:1px;
 }
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-number{
-  color:#64747f;font:550 11.5px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:#64757f;font:550 11.5px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   text-align:center;
 }
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-today{
@@ -588,7 +588,7 @@ html body #sc-cal.screen{padding-bottom:calc(135px + env(safe-area-inset-bottom,
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-event-next .ico{width:13px;height:13px;}
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-agenda-empty{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:14px 4px;font-size:12px;color:#647486;
+  padding:14px 4px;font-size:12px;color:#647586;
 }
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-month-agenda-empty button{
   border:1px solid #d9bf92;border-radius:9px;padding:8px;background:#fff7e8;
@@ -3841,3 +3841,74 @@ html body #sc-cal.screen{
    The Calendar's previous status-bar shield + mode selector fade are removed
    in app.js. No mask or opacity is applied when the three-mode switcher
    scrolls past the iPhone status bar. Approved month/week/day layouts stay. */
+
+
+/* 6475 — optical-centering audit after iPhone calendar screenshot.
+   Every monthly/weekly agenda icon gets exactly the same square, centered
+   3D artwork and breathing room; one hearing must match every other hearing.
+   Align to the top line rather than the row height, which varies with text.
+   No event data, status badges or button handlers are changed. */
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"])
+ .cal-month-event.cal-agenda-compact .cal-month-event-icon {
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  flex:none!important;
+  width:30px!important;height:30px!important;
+  min-width:30px!important;min-height:30px!important;
+  max-width:30px!important;max-height:30px!important;
+  padding:0!important;margin:0!important;
+  align-self:start!important;
+  overflow:hidden!important;
+  border-radius:9px!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"])
+ .cal-month-event.cal-agenda-compact .cal-month-event-icon .adv-emboss-art {
+  --emboss-size:23px!important;
+  width:23px!important;height:23px!important;
+  min-width:23px!important;min-height:23px!important;
+  max-width:23px!important;max-height:23px!important;
+  position:static!important;
+  display:block!important;
+  margin:0!important;padding:0!important;
+  transform:none!important;
+  filter:none!important;
+  vertical-align:middle!important;
+  background-repeat:no-repeat!important;
+}
+#sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"])
+ .cal-month-event.cal-agenda-compact .cal-month-event-copy{
+  align-self:start!important;
+}
+/* Consistent optical fit in the Day view; keep the existing day row geometry. */
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon{
+  display:grid!important;place-items:center!important;
+  box-sizing:border-box!important;
+  padding:0!important;overflow:hidden!important;
+}
+#sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon .adv-emboss-art{
+  --emboss-size:22px!important;
+  width:22px!important;height:22px!important;
+  flex:none!important;position:static!important;
+  margin:0!important;padding:0!important;
+  transform:none!important;
+  filter:none!important;
+}
+@media(max-width:360px){
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"])
+   .cal-month-event.cal-agenda-compact .cal-month-event-icon{
+    width:27px!important;height:27px!important;
+    min-width:27px!important;min-height:27px!important;
+    max-width:27px!important;max-height:27px!important;
+  }
+  #sc-cal .calendar-project:is([data-calendar-view="month"],[data-calendar-view="week"])
+   .cal-month-event.cal-agenda-compact .cal-month-event-icon .adv-emboss-art{
+    --emboss-size:21px!important;
+    width:21px!important;height:21px!important;
+    min-width:21px!important;min-height:21px!important;
+    max-width:21px!important;max-height:21px!important;
+  }
+  #sc-cal .calendar-project[data-calendar-view="day"] .cal-day-event-icon .adv-emboss-art{
+    --emboss-size:20px!important;width:20px!important;height:20px!important;
+  }
+}
