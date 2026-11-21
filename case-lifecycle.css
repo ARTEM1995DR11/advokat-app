@@ -2096,3 +2096,51 @@ body.matter-export-backdrop-open #scrim.open{
   #sheet.matter-export-paper-stage1.open{height:min(500px,calc(100dvh - 45px))!important;}
   #sheet.matter-export-paper-stage1>.matter-export-layout{padding-bottom:30px!important;}
 }
+
+
+/* 5.0.1297.41.66.2 / 6442: the last incomplete-records summary and
+   checkbox must scroll completely above the fixed green footer. The header
+   crown remains outside the scrollport; button coordinates are untouched. */
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open>.shbody{
+ overscroll-behavior-y:contain!important;
+ -webkit-overflow-scrolling:touch!important;
+ scroll-padding-bottom:108px!important;
+ padding-bottom:max(98px,calc(env(safe-area-inset-bottom,0px) + 78px))!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-warning{
+ position:relative!important;z-index:1!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details{
+ position:relative!important;z-index:1!important;
+}
+#sheet.matter-finish-paper-stage1 .matter-finish-pending-details summary{
+ min-height:44px!important;box-sizing:border-box!important;
+ touch-action:manipulation!important;
+}
+#sheet.matter-finish-sheet.matter-finish-paper-stage1.open>.shfoot{
+ flex:0 0 auto!important;position:relative!important;z-index:2!important;
+}
+@media(max-height:640px){
+ #sheet.matter-finish-sheet.matter-finish-paper-stage1.open>.shbody{
+  padding-bottom:112px!important;scroll-padding-bottom:112px!important;
+ }
+}
+
+
+
+/* 5.0.1297.41.66.3 / 6443: clear non-active state before archive ACK.
+   Existing validation remains authoritative; no false completion state. */
+#sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled{
+ cursor:not-allowed!important;
+ opacity:.72!important;
+ filter:saturate(.64) contrast(.94)!important;
+ box-shadow:inset 0 1px 0 #fff,0 2px 6px rgba(91,70,38,.12)!important;
+ transform:none!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled:active{
+ transform:none!important;filter:saturate(.64) contrast(.94)!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-submit:not(:disabled){
+ cursor:pointer!important;opacity:1!important;filter:none!important;
+}
+

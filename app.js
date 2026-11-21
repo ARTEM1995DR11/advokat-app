@@ -2044,10 +2044,24 @@ function sheetMatterArchive(id){
   openSheet('<header class="matter-finish-head matter-archive-head"><button type="button" class="matter-finish-back" data-act="close" aria-label="Назад к действиям по делу">'+ico('arrow-back','s')+'</button><div class="matter-finish-heading"><div class="matter-finish-eyebrow"><span>ДЕЙСТВИЯ ПО ДЕЛУ</span><i aria-hidden="true"></i></div><h2>Архивировать без завершения</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div></header>'+ 
     '<p class="matter-archive-intro">Дело останется неоконченным. Его задачи и события будут сохранены в истории, но исключены из активной работы.</p>'+matterPendingWorkHTML(id)+
     (count?'<label class="matter-archive-ack"><input type="checkbox" id="matter-archive-ack"><span class="matter-archive-ack-box" aria-hidden="true">'+ico('check','s')+'</span><span class="matter-archive-ack-copy">Проверил(а) незавершённые задачи, сроки и заседания</span></label>':'')+
-    '<button class="btn matter-archive-submit" type="button" data-act="m-archive-save" data-id="'+esc(id)+'"><span class="matter-archive-submit-icon" aria-hidden="true">'+ico('arch','s')+'</span><span>Архивировать дело</span></button>');
+    '<button class="btn matter-archive-submit" type="button" data-act="m-archive-save" data-id="'+esc(id)+'"'+(count?' disabled aria-disabled="true" title="Сначала подтвердите проверку незавершённых записей"':'')+'><span class="matter-archive-submit-icon" aria-hidden="true">'+ico('arch','s')+'</span><span>Архивировать дело</span></button>');
   $('#sheet').classList.add('matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1');
   document.body.classList.add('matter-archive-backdrop-open');
-  mountMatterFinishFoundation($('#sheet')); // 5.0.1265: paper geometry only, no field/logic restyling
+  mountMatterFinishFoundation($('#sheet')); // Paper geometry unchanged.
+  // 5.0.1297.41.66.3: mirror the existing hard validation in the button UI.
+  // Keeping archiveMatter() guard protects programmatic calls as well.
+  var archiveAck=document.getElementById('matter-archive-ack');
+  var archiveSubmit=$('#sheet').querySelector('.matter-archive-submit');
+  if(archiveAck&&archiveSubmit){
+    var syncArchiveConfirmation=function(){
+      archiveSubmit.disabled=!archiveAck.checked;
+      archiveSubmit.setAttribute('aria-disabled',String(!archiveAck.checked));
+      if(archiveAck.checked)archiveSubmit.removeAttribute('title');
+      else archiveSubmit.setAttribute('title','Сначала подтвердите проверку незавершённых записей');
+    };
+    archiveAck.addEventListener('change',syncArchiveConfirmation);
+    syncArchiveConfirmation();
+  }
 }
 function archiveMatter(id){
   var m=matter(id);if(!m||m.archived)return;

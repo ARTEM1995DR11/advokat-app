@@ -2712,3 +2712,122 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     transition:none!important;
   }
 }
+
+
+/* 5.0.1297.41.66.1 / 6441: finish and archive join the six-screen
+   typography contract. Distinct 1-line/2-line titles preserve legibility.
+   No dark wizard or dossier-global selectors are affected. */
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1){
+ --ca-ui-ink:#12264c;
+ --ca-ui-muted:#5d6b82;
+ --ca-ui-gold:#98702b;
+ --ca-ui-gold-line:linear-gradient(90deg,#b88740,#d6b16c);
+ --ca-ui-title-size:clamp(21px,6.48vw,26px);
+ --ca-ui-kicker-size:clamp(9px,2.78vw,10.4px);
+ --ca-ui-meta-size:clamp(11px,3.22vw,13px);
+ --ca-ui-head-tile:46px;
+ --ca-ui-head-gap:11px;
+ --ca-ui-plate-radius:14px;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-head{
+ display:grid!important;
+ grid-template-columns:var(--ca-ui-head-tile) minmax(0,1fr)!important;
+ align-items:center!important;
+ column-gap:var(--ca-ui-head-gap)!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-eyebrow{
+ display:flex!important;align-items:center!important;gap:8px!important;
+ margin:0 0 3px!important;
+ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+ font-size:var(--ca-ui-kicker-size)!important;font-weight:800!important;
+ letter-spacing:.15em!important;line-height:1.18!important;
+ color:var(--ca-ui-gold)!important;white-space:nowrap!important;min-width:0!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-eyebrow i{
+ content:''!important;display:block!important;
+ flex:0 1 42px!important;width:42px!important;min-width:8px!important;max-width:42px!important;
+ height:2px!important;border:0!important;border-radius:2px!important;
+ background:var(--ca-ui-gold-line)!important;box-shadow:none!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-head h2{
+ font-family:Georgia,'Times New Roman',serif!important;
+ font-size:var(--ca-ui-title-size)!important;font-weight:700!important;
+ line-height:1.08!important;letter-spacing:-.036em!important;
+ color:var(--ca-ui-ink)!important;
+ margin:0 0 3px!important;padding:0!important;
+ white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+ overflow-wrap:normal!important;word-break:normal!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-head p{
+ margin:0!important;padding:0!important;color:var(--ca-ui-muted)!important;
+ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+ font-size:var(--ca-ui-meta-size)!important;font-weight:400!important;
+ line-height:1.28!important;letter-spacing:0!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-back{
+ box-sizing:border-box!important;
+ flex:0 0 var(--ca-ui-head-tile)!important;
+ width:var(--ca-ui-head-tile)!important;
+ min-width:var(--ca-ui-head-tile)!important;max-width:var(--ca-ui-head-tile)!important;
+ height:var(--ca-ui-head-tile)!important;border-radius:var(--ca-ui-plate-radius)!important;
+ border:1px solid #d1a76d!important;
+ background:linear-gradient(145deg,#fffdf7 0%,#f9e9cd 69%,#efd7b0 100%)!important;
+ box-shadow:inset 0 1px 0 #fff,0 4px 8px rgba(112,78,34,.17)!important;
+ color:#986924!important;touch-action:manipulation!important;
+}
+#sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-back .ico{
+ width:26px!important;height:26px!important;stroke-width:2.1!important;
+}
+@media(max-width:360px){
+ #sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1){
+  --ca-ui-head-tile:42px;--ca-ui-head-gap:9px;
+  --ca-ui-kicker-size:9px;--ca-ui-title-size:clamp(20px,6.28vw,22px);
+  --ca-ui-meta-size:11px;
+ }
+ #sheet:is(.matter-finish-paper-stage1,.matter-archive-paper-stage1) .matter-finish-eyebrow i{
+  flex-basis:clamp(8px,5vw,20px)!important;max-width:20px!important;width:20px!important;
+ }
+}
+
+
+ 
+/* Additional specificity for legacy finish/archive paper styles: the archive
+   used a three-class selector with an !important serif font shorthand. */
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-eyebrow,
+#sheet.matter-finish-paper-stage1 .matter-finish-head .matter-finish-eyebrow{
+ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+ font-size:var(--ca-ui-kicker-size)!important;
+ font-weight:800!important;
+ line-height:1.18!important;letter-spacing:.15em!important;
+ margin:0 0 3px!important;
+}
+#sheet.matter-archive-paper-stage1 .matter-archive-head .matter-finish-back,
+#sheet.matter-finish-paper-stage1 .matter-finish-head .matter-finish-back{
+ width:var(--ca-ui-head-tile)!important;height:var(--ca-ui-head-tile)!important;
+ flex:0 0 var(--ca-ui-head-tile)!important;
+ min-width:var(--ca-ui-head-tile)!important;max-width:var(--ca-ui-head-tile)!important;
+ border-radius:var(--ca-ui-plate-radius)!important;
+}
+
+
+
+/* 5.0.1297.41.66.2 / 6442: Journal subtitle must be readable in full.
+   The paper height is intrinsic; allowing two lines is safer than ellipsis. */
+#sheet.journal-paper-v1259 .journal-premium-head p{
+ white-space:normal!important;
+ text-overflow:clip!important;overflow:visible!important;
+ overflow-wrap:normal!important;word-break:normal!important;
+ display:block!important;max-width:100%!important;
+ line-height:1.28!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-head-copy{
+ min-width:0!important;max-width:100%!important;overflow:visible!important;
+}
+/* Geometry has two intentional variants: edge-to-edge navigation sheets,
+   inset form sheets. Do not force all six to an arbitrary common height. */
+#sheet:is(.journal-paper-v1259,.matter-finish-paper-stage1,.matter-archive-paper-stage1).open{
+ --ca-paper-form-side:12px;
+ max-width:calc(100% - 2*var(--ca-paper-form-side))!important;
+}
+
