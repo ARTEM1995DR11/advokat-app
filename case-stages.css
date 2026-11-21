@@ -3319,3 +3319,65 @@ body.stage-hearings-backdrop-open #scrim.open {
 @media(max-height:650px){
   #sheet.stage-hearings-sheet.open{max-height:calc(100dvh - 36px)!important;}
 }
+
+/* ======================================================================
+   5.0.1297.41.66.14 | build 6454
+   «Заседания без результата»: bottom-anchored folder, not a centered card.
+   The SVG outline reaches the bottom of the viewport even for a single
+   hearing. Only the hearing list scrolls when there are many entries;
+   the heading and return control remain visible. No workflow changes.
+   ====================================================================== */
+#sheet.stage-hearings-sheet.open {
+  top:auto!important;
+  bottom:0!important;
+  transform:none!important;
+  height:82dvh!important;
+  max-height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
+  min-height:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  overflow:hidden!important;
+  padding-bottom:max(10px, env(safe-area-inset-bottom, 0px))!important;
+}
+#sheet.stage-hearings-sheet.open > .stage-hearings-card {
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  overflow:hidden!important;
+}
+#sheet.stage-hearings-sheet .stage-hearings-header,
+#sheet.stage-hearings-sheet .stage-hearings-intro,
+#sheet.stage-hearings-sheet .stage-hearings-hint,
+#sheet.stage-hearings-sheet .stage-hearings-ornament,
+#sheet.stage-hearings-sheet .stage-hearings-return {
+  flex-shrink:0!important;
+}
+#sheet.stage-hearings-sheet .stage-hearings-list {
+  display:grid!important;
+  grid-auto-rows:max-content!important;
+  align-content:start!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:2px 3px 8px 2px;
+  scrollbar-width:thin;
+  scrollbar-color:#d5bd97 transparent;
+}
+#sheet.stage-hearings-sheet .stage-hearings-return {
+  margin-top:0!important;
+}
+@media (max-height:700px) {
+  #sheet.stage-hearings-sheet.open {
+    height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
+  }
+  #sheet.stage-hearings-sheet .stage-hearings-intro {margin-top:9px;margin-bottom:8px;}
+  #sheet.stage-hearings-sheet .stage-hearings-hint {margin-top:8px;margin-bottom:6px;padding:8px 10px;}
+  #sheet.stage-hearings-sheet .stage-hearings-ornament {margin-top:7px;margin-bottom:8px;}
+}
