@@ -2426,3 +2426,33 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
 body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b {
   color:#8b96af!important;
 }
+
+
+/* 5.0.1297.41.62.4 / build 6435 — final micro-alignment on step 1.
+   Based on the iPhone 706x1536 comparison: notice visually 2–4 physical
+   pixels low, result field ~2 physical pixels low, first-step CTA ~2
+   physical pixels high. Keep all paper/outer geometry, progress, header,
+   warning, common marble and logic unchanged. All offsets are local and
+   do not change layout flow or hit targets. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  transform:translateY(-1.25px)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap {
+  top:-3.5px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  position:relative!important;
+  top:1px!important;
+}
+/* Restore reference text proportions without increasing the form fields.
+   A slight width adjustment targets placeholder and one-line captions only;
+   the 320 px fallback remains unchanged to prevent wrapping. */
+@media (min-width:351px) {
+  #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b,
+  body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b {
+    letter-spacing:-.014em!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-first-note-field textarea::placeholder {
+    letter-spacing:.004em!important;
+  }
+}
