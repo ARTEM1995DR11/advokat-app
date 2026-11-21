@@ -3878,3 +3878,19 @@ body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select
 #sheet.stage-wizard-second-sheet .stage-second-route-review{margin:10px 0 15px;padding:11px 12px;border:1px solid #d9b889;border-radius:14px;background:#fff5e5}
 #sheet.stage-wizard-second-sheet .stage-second-route-review p{margin:0 0 8px;color:#70572d;font-size:12px;line-height:1.5}
 #sheet.stage-wizard-second-sheet .stage-second-route-review .stage-second-check{margin:0;align-items:center}
+
+/* Build 6468: approved dimensional gold court gavel from Calendar, not the generic SVG. */
+body .stage-outcome-option-icon.is-gavel {
+  background:linear-gradient(145deg,#fffefa,#fff7e8)!important;
+  border-color:#e7d1a4!important;
+  overflow:hidden;
+}
+body .stage-outcome-option-icon .stage-outcome-gavel-art {
+  display:block!important;
+  width:38px!important;height:36px!important;max-width:100%!important;
+  object-fit:contain!important;object-position:center!important;
+  filter:none!important;flex:none!important;
+}
+@media(max-width:360px){
+  body .stage-outcome-option-icon .stage-outcome-gavel-art {width:35px!important;height:33px!important;}
+}
