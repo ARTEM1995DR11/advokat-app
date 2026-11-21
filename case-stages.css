@@ -3870,3 +3870,11 @@ body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select
 #sheet.stage-wizard-second-sheet .stage-second-date-trigger:focus-visible {
   outline:2px solid #bc8e43!important;outline-offset:2px!important;
 }
+
+/* 6462: Stage transition context and legal review, compact and in-paper. */
+#sheet.stage-wizard-second-sheet .stage-second-route-context{display:grid;gap:3px;padding:10px 13px;margin:0 0 14px;border:1px solid #e0ccaa;border-radius:14px;background:#fff8ed;color:#253b55;font:500 12px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#sheet.stage-wizard-second-sheet .stage-second-route-context b{font-weight:750}
+#sheet.stage-wizard-second-sheet .stage-second-route-context span{color:#766a5c;overflow-wrap:anywhere}
+#sheet.stage-wizard-second-sheet .stage-second-route-review{margin:10px 0 15px;padding:11px 12px;border:1px solid #d9b889;border-radius:14px;background:#fff5e5}
+#sheet.stage-wizard-second-sheet .stage-second-route-review p{margin:0 0 8px;color:#70572d;font-size:12px;line-height:1.5}
+#sheet.stage-wizard-second-sheet .stage-second-route-review .stage-second-check{margin:0;align-items:center}

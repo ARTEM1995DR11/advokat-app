@@ -14,7 +14,7 @@ function stageWizardStart(id){
   if(!m||m.archived||m.stageClosed){toast('Продолжить можно только действующий этап');return;}
   var pending=stageEligibleTasks(m);
   STAGE_WIZARD={operationId:'stage-op-'+uid(),sourceId:String(m.id),step:0,closeDate:today(),startDate:today(),result:'',note:'',
-    stage:'',stageBase:m.stage,stageCustom:'',basis:m.basis,place:'',copyNotes:true,copyPosition:false,
+    stage:'',stageBase:'',stageCustom:'',stageReason:'',routeVerified:false,basis:m.basis,place:'',copyNotes:true,copyPosition:false,
     moveIds:pending.filter(function(t){return ['task','meeting'].includes(t.kind);}).map(function(t){return String(t.id);}),
     acknowledgeRemaining:false,acknowledgeCritical:false,confirm:false,
     payment:{category:'',lines:m.basis==='assigned'?appointmentFeeDays(m,today()).map(function(x){return {date:x.date,rate:0,included:x.source==='participation',alreadyClaimed:false,verified:false,proof:'',dayType:appointmentFeeSuggestedDayType(x.date)};}):[],note:''}};
@@ -33,9 +33,10 @@ function stageWizardCapture(){
   }
   if(d.step===1){
     d.stage=get('st-new-stage')||'';d.stageCustom=(get('st-new-custom')||'').trim();d.stageBase=get('st-new-base-stage')||d.stageBase;
+    d.stageReason=(get('st-new-reason')||'').trim();d.routeVerified=check('st-next-review');
     d.startDate=get('st-new-date')||d.startDate;d.place=(get('st-new-place')||'').trim();
     d.basis=get('st-new-basis')||d.basis;d.copyNotes=check('st-copy-notes');
-    d.copyPosition=check('st-copy-position');
+    d.copyPosition=false; // правовая позиция новой стадии формируется заново
   }
   if(d.step===2){
     d.moveIds=[].slice.call(document.querySelectorAll('#sheet input[data-stage-move]'))
@@ -69,8 +70,9 @@ function stageWizardValidateStep(){
   }
   if(step===1){
     if(!stageISODateValid(d.startDate)||d.startDate<d.closeDate)return 'Дата следующего этапа не может быть раньше завершения предыдущего';
-    if(d.stage==='__other__'){if(d.stageCustom.length<3)return 'Укажите название другого этапа';if(!stageAllowedStage(m,d.stageBase))return 'Выберите процессуальный тип новой стадии';}
-    else if(!stageAllowedStage(m,d.stage))return 'Выберите стадию новой папки вручную';
+    if(d.stage==='__other__'){if(d.stageCustom.length<3)return 'Укажите название другого этапа';if(!stageAllowedTransition(m,d.result,d.stageBase))return 'Этот процессуальный тип не соответствует результату предыдущего этапа';if(d.stageReason.length<10)return 'Укажите основание индивидуального маршрута (не менее 10 символов)';if(!stageCustomLabelValid(m,d.stageCustom,d.stageBase))return 'Название этапа противоречит выбранной стадии';}
+    else if(!stageAllowedTransition(m,d.result,d.stage))return 'Выберите стадию из допустимых вариантов';
+    if(stageTransitionReview(m,d.result,stageTransitionActualStage(d))&&!d.routeVerified)return 'Подтвердите проверку условий выбранного перехода';
     if(!MATTER_BASIS[d.basis])return 'Укажите основание участия';
   }
   if(step===2){
@@ -310,27 +312,37 @@ function stageWizardSecondField(kind,title,control){
     '<div class="stage-second-field-control">'+control+'</div></div>';
 }
 function stageWizardNextHTML(d,m){
-  var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
-  var isOther=d.stage==='__other__';
+  var stages=stageTransitionOptions(m,d.result),isOther=d.stage==='__other__';
+  var currentStage=stageTransitionActualStage(d);
+  var review=stageTransitionReview(m,d.result,currentStage);
+  var currentAllowed=stages.includes(currentStage);
   return '<div class="stage-second-notice" role="note">'+
     '<span class="stage-second-notice-icon">'+stageWizardFirstIcon('info')+'</span>'+
     '<span class="stage-second-notice-rule" aria-hidden="true"></span>'+
-    '<p>Выберите новую стадию <strong>вручную</strong> по фактическому движению дела. ' +
-    'Результат прошлого этапа не определяет её автоматически. ' +
-    'Если поручение завершено, используйте «Завершить дело полностью».</p></div>'+
-    stageWizardSecondField('stage','Стадия производства',
-      '<div class="stage-second-select"><select id="st-new-stage" aria-label="Стадия производства">'+
-        '<option value=""'+(!d.stage?' selected':'')+'>Выберите новую стадию</option>'+
+    '<p>Следующая стадия подбирается по <strong>виду дела, завершённому этапу и его результату</strong>. ' +
+    'Проверьте фактическое движение производства и выберите подходящий вариант. ' +
+    'Если работа прекращается — используйте «Завершить дело полностью».</p></div>'+
+    '<div class="stage-second-route-context"><b>Завершено: '+esc(m.stage)+'</b><span>Результат: '+esc(d.result||'Не указан')+'</span></div>'+
+    stageWizardSecondField('stage','Следующая стадия производства',
+      '<div class="stage-second-select"><select id="st-new-stage" aria-label="Следующая стадия производства">'+
+        '<option value=""'+(!d.stage?' selected':'')+'>Выберите допустимую стадию</option>'+
         stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stage===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+
-        '<option value="__other__"'+(isOther?' selected':'')+'>Иной этап — собственное название</option></select></div>')+
+        (stages.length?'<option value="__other__"'+(isOther?' selected':'')+'>Иной этап в рамках допустимой стадии</option>':'')+
+      '</select></div>')+
     '<div class="stage-second-custom" id="st-new-custom-wrap"'+(isOther?'':' style="display:none"')+'>'+
       stageWizardSecondField('note','Название иного этапа',
         '<input id="st-new-custom" maxlength="100" value="'+esc(d.stageCustom)+'" placeholder="Например, повторное рассмотрение">')+'</div>'+
     '<div class="stage-second-custom" id="st-new-base-wrap"'+(isOther?'':' style="display:none"')+'>'+
       stageWizardSecondField('stage','Процессуальный тип нового этапа',
         '<div class="stage-second-select"><select id="st-new-base-stage" aria-label="Процессуальный тип нового этапа">'+
+        '<option value="">Выберите тип</option>'+
         stages.map(function(v){return '<option value="'+esc(v)+'"'+(d.stageBase===v?' selected':'')+'>'+esc(v)+'</option>';}).join('')+
-        '</select></div>')+'</div>'+
+        '</select></div>')+
+      stageWizardSecondField('note','Почему необходим индивидуальный этап',
+        '<input id="st-new-reason" maxlength="300" value="'+esc(d.stageReason||'')+'" placeholder="Например, дело возвращено на новое рассмотрение">')+'</div>'+
+    '<div class="stage-second-route-review" id="st-next-review-wrap"'+(review&&currentAllowed?'':' style="display:none"')+'>'+
+      '<p id="st-next-review-text">'+esc(review)+'</p>'+
+      '<label class="stage-second-check"><input type="checkbox" id="st-next-review"'+(d.routeVerified&&review?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Процессуальные условия проверены адвокатом</span></label></div>'+
     stageWizardSecondField('calendar','Дата начала новой стадии',
       '<div class="stage-second-date-wrap"><input id="st-new-date" type="hidden" value="'+esc(d.startDate)+'">'+
       '<button class="stage-second-date-trigger" type="button" data-act="date-open" data-target="st-new-date" data-date-for="st-new-date" aria-haspopup="dialog" aria-label="Выбрать дату начала новой стадии">'+
@@ -345,9 +357,9 @@ function stageWizardNextHTML(d,m){
     '<section class="stage-second-transfers" aria-label="Перенос материалов">'+
       '<h3>Перенести в новую папку</h3>'+
       '<label class="stage-second-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Рабочие заметки</span></label>'+
-      '<label class="stage-second-check"><input type="checkbox" id="st-copy-position"'+(d.copyPosition?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Проект правовой позиции (копия)</span></label>'+
     '</section>'+
-    '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+'<span>Номер дела, судья, следователь и прошедшие события <strong>не дублируются</strong>. Их можно внести в новую карточку позднее.</span></div>';
+    '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+'<span>Прежняя правовая позиция доступна в <strong>связанной завершённой папке</strong>. ' +
+    'Новая позиция формируется отдельно; номер дела, судья, следователь и прошедшие события не дублируются.</span></div>';
 }
 function stageWizardTasksHTML(d,m){
   var items=stageEligibleTasks(m),selected=new Set(d.moveIds.map(String));
@@ -406,6 +418,8 @@ function stageWizardConfirmHTML(d,m){
     '<div><small>Завершаемая папка</small><b>'+esc(stageCaseHeading(m))+'</b><span>'+esc(fmtD(d.closeDate,true))+' · будет в архиве</span></div>'+
     '<div><small>Новая папка</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span></div>'+
     '<div><small>Перенос записей</small><b>'+picked.size+' из '+items.length+'</b><span>Выбранные записи останутся активны без дублирования</span></div>'+
+    (d.routeVerified?'<div><small>Проверка перехода</small><b>Процессуальные условия подтверждены</b></div>':'')+
+    (d.stage==='__other__'?'<div><small>Индивидуальный маршрут</small><b>'+esc(d.stageReason||'')+'</b></div>':'')+
     (m.basis==='assigned'?'<div><small>Расчёт оплаты · по назначению</small><b>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+'</b><span>'+d.payment.lines.filter(function(x){return x.included&&!x.alreadyClaimed;}).length+' дней к расчёту. Ставка и режим проверяются отдельно по каждой дате; результат — черновик.</span></div>':'')+
     '</div><label class="stage-wizard-check stage-wizard-confirm"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span>Проверил(а) сведения, выбранные задачи и расчёт. Подтверждаю завершение этапа и создание новой папки.</span></label>';
 }
@@ -715,12 +729,19 @@ async function stagePaymentEditSave(id){
  finally{STAGE_PAYMENT_SAVE_BUSY=false;}
 }
 function stageWizardToggleCustom(){
-  var select=document.getElementById('st-new-stage');if(!select)return;
+  var select=document.getElementById('st-new-stage');if(!select||!STAGE_WIZARD)return;
   var active=select.value==='__other__';
   ['st-new-custom-wrap','st-new-base-wrap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=active?'block':'none';});
+  var base=document.getElementById('st-new-base-stage');
+  var stage=active?(base&&base.value||''):select.value;
+  var review=stageTransitionReview(matter(STAGE_WIZARD.sourceId),STAGE_WIZARD.result,stage);
+  var box=document.getElementById('st-next-review-wrap');
+  if(box)box.style.display=review?'block':'none';
+  var hint=document.getElementById('st-next-review-text');if(hint)hint.textContent=review;
+  var checkbox=document.getElementById('st-next-review');if(checkbox)checkbox.checked=false;
 }
-document.addEventListener('change',function(e){if(e.target&&e.target.id==='st-new-stage')stageWizardToggleCustom();});
-document.addEventListener('input',function(e){if(e.target&&e.target.id==='st-new-stage')stageWizardToggleCustom();});
+document.addEventListener('change',function(e){if(e.target&&['st-new-stage','st-new-base-stage'].includes(e.target.id))stageWizardToggleCustom();});
+document.addEventListener('input',function(e){if(e.target&&['st-new-stage','st-new-base-stage'].includes(e.target.id))stageWizardToggleCustom();});
 
 document.addEventListener('input',function(e){if(e.target&&e.target.closest&&e.target.closest('[data-fee-date]'))stageWizardUpdatePaymentTotal();});
 document.addEventListener('change',function(e){

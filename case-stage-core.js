@@ -19,6 +19,86 @@ function stageISODateValid(iso){
   var a=iso.split('-').map(Number),d=new Date(Date.UTC(a[0],a[1]-1,a[2]));
   return d.getUTCFullYear()===a[0]&&d.getUTCMonth()+1===a[1]&&d.getUTCDate()===a[2];
 }
+/* 6462: procedural routes are recommendations with real restrictions, not a linear
+   numeric ordering. The final choice remains with counsel, but a completed
+   first-instance lawsuit can never go back to pre-trial through this wizard. */
+function stageTransitionOptions(m,outcome){
+  if(!m)return [];
+  var type=m.type||'other',stage=m.stage||'',v=String(outcome||'');
+  var choices=[];
+  if(type==='civil'||type==='admin'){
+    if(stage==='Досудебная работа')choices=['Первая инстанция'];
+    else if(stage==='Первая инстанция'){
+      if(/оставлено без рассмотрения/i.test(v))choices=['Первая инстанция','Апелляция','Кассация'];
+      else if(/судебный приказ/i.test(v))choices=['Исполнение','Первая инстанция'];
+      else if(/прекращено/i.test(v))choices=['Апелляция','Кассация'];
+      else choices=['Апелляция','Кассация','Исполнение'];
+    }else if(stage==='Апелляция'){
+      choices=/жалоба оставлена без рассмотрения/i.test(v)?['Апелляция','Кассация']:['Кассация','Исполнение'];
+    }else if(stage==='Кассация'){
+      choices=/новое рассмотрение/i.test(v)?['Первая инстанция','Апелляция','Кассация']:['Кассация','Надзор','Исполнение'];
+    }else if(stage==='Надзор'){
+      choices=/новое рассмотрение/i.test(v)?['Первая инстанция','Апелляция','Кассация']:['Исполнение'];
+    }else if(stage==='Исполнение')choices=['Исполнение'];
+  }else if(type==='criminal'){
+    if(stage==='Материал проверки'){
+      if(/частное обвинение/i.test(v))choices=['Первая инстанция'];
+      else if(/возбуждено уголовное дело/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
+      else if(/отменён отказ|проверка возобновлена|передано по подследственности/i.test(v))choices=['Материал проверки','Дознание','Следствие МВД','Следствие СК'];
+      else choices=['Материал проверки','Первая инстанция'];
+    }else if(['Дознание','Следствие МВД','Следствие СК'].includes(stage)){
+      if(/направлено в суд/i.test(v))choices=['Первая инстанция'];
+      else if(/передано по подследственности/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
+      else choices=['Дознание','Следствие МВД','Следствие СК','Первая инстанция'];
+    }else if(stage==='Первая инстанция'){
+      if(/возвращено прокурору/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
+      else if(/передано по подсудности/i.test(v))choices=['Первая инстанция'];
+      else choices=['Апелляция','Кассация','Исполнение приговора'];
+    }else if(stage==='Апелляция'){
+      choices=/новое рассмотрение/i.test(v)?['Первая инстанция','Кассация','Исполнение приговора']:['Кассация','Исполнение приговора'];
+    }else if(stage==='Кассация'){
+      choices=/новое рассмотрение/i.test(v)?['Первая инстанция','Апелляция','Кассация']:['Кассация','Надзор','Исполнение приговора'];
+    }else if(stage==='Надзор')choices=/новое рассмотрение/i.test(v)?['Первая инстанция','Апелляция','Кассация']:['Исполнение приговора'];
+    else if(stage==='Исполнение приговора')choices=['Исполнение приговора','Апелляция','Кассация'];
+  }else if(type==='koap'){
+    if(stage==='Проверка / административное расследование')choices=['Первая инстанция','Проверка / административное расследование'];
+    else if(stage==='Первая инстанция'){
+      if(/возвращён|возвращен/i.test(v))choices=['Проверка / административное расследование','Первая инстанция'];
+      else if(/подведомственности/i.test(v))choices=['Первая инстанция'];
+      else choices=['Пересмотр / апелляция','Исполнение'];
+    }else if(stage==='Пересмотр / апелляция')choices=/новое рассмотрение|подведомственности/i.test(v)?['Первая инстанция','Пересмотр / апелляция']:['Пересмотр / апелляция','Исполнение'];
+    else if(stage==='Исполнение')choices=['Исполнение','Пересмотр / апелляция'];
+  }else{
+    var all=MATTER_STAGE_MAP.other||[];
+    var start=all.indexOf(stage);
+    choices=all.filter(function(x,i){return i>=start&&x!==stage;});
+    if(!choices.length)choices=[stage];
+  }
+  var possible=(typeof matterStageList==='function'?matterStageList(type,m.basis):(MATTER_STAGE_MAP[type]||MATTER_STAGE_MAP.other));
+  return choices.filter(function(x,i){return choices.indexOf(x)===i&&possible.includes(x);});
+}
+function stageTransitionActualStage(d){return d.stage==='__other__'?d.stageBase:d.stage;}
+function stageAllowedTransition(m,outcome,nextStage){return stageTransitionOptions(m,outcome).includes(nextStage);}
+function stageCustomLabelValid(m,custom,base){
+  var label=String(custom||'').trim().toLowerCase().replace(/ё/g,'е');
+  if(!label)return false;
+  var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
+  if(stages.some(function(x){return x.toLowerCase().replace(/ё/g,'е')===label&&x!==base;}))return false;
+  // The free-form label must not disguise a forbidden procedural rollback.
+  if(['civil','admin'].includes(m.type)&&m.stage!=='Досудебная работа'&&/досудебн|претензионн/i.test(label))return false;
+  return true;
+}
+function stageTransitionReview(m,outcome,nextStage){
+  if(!m||!nextStage)return '';
+  if(['civil','admin'].includes(m.type)&&m.stage==='Первая инстанция'&&nextStage==='Кассация')
+    return 'Прямая кассация возможна только при соблюдении процессуальных условий. Проверьте вступление акта в силу и исчерпание доступных способов обжалования.';
+  if(['civil','admin'].includes(m.type)&&m.stage==='Первая инстанция'&&nextStage==='Исполнение')
+    return 'Проверьте вступление судебного акта в силу, возможность немедленного исполнения и наличие исполнительного документа.';
+  if(nextStage==='Надзор')return 'Надзор не является обычной очередной инстанцией. Проверьте, допускается ли пересмотр именно этого судебного акта.';
+  if(m.type==='criminal'&&m.stage==='Исполнение приговора'&&['Апелляция','Кассация'].includes(nextStage))
+    return 'Проверьте, что обжалуется именно постановление по вопросу исполнения приговора и выбран правильный порядок пересмотра.';
+  return '';
+}
 function stageAllowedStage(m,stage){return !!(m&&((MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other)||[]).includes(stage));}
 /* The result describes WHAT HAPPENED during the stage, never WHETHER
    there will be a next stage: this wizard always creates a linked folder.
@@ -35,11 +115,12 @@ function stagePrepareNewMatter(src,d,id,now){
     stage:stage,stageInstanceLabel:custom||stage,article:src.article||'',role:src.role||'',
     court:String(d.place||'').trim(),investigator:'',judge:'',opponent:src.opponent||'',
     restraint:src.restraint||'',executionIssue:'',executionInstitution:'',
-    notes:d.copyNotes?String(src.notes||''):'',position:d.copyPosition?clone(src.position||{}):{},
+    notes:d.copyNotes?String(src.notes||''):'',position:{}, // новая самостоятельная позиция; прежняя доступна в связанной папке
     dayRate:+src.dayRate||0,archived:false,created:now,
     caseGroupId:stageCaseGroupId(src),previousStageId:String(src.id),
     stageInstanceId:id,stageIndex:stageRelatedCases(src).reduce(function(n,x){return Math.max(n,+x.stageIndex||0);},0)+1,
-    stageStartedAt:d.startDate,stageClosed:null,nextStageIds:[]};
+    stageStartedAt:d.startDate,stageClosed:null,nextStageIds:[],
+    stageTransition:{from:String(src.id),outcome:String(d.result||''),reviewed:!!d.routeVerified,reason:String(d.stageReason||'').trim()}};
   out=sanitizeMatterByType(out);
   if(custom)out.stageInstanceLabel=custom;
   out.title=matterAutoTitle(out);
@@ -106,8 +187,11 @@ async function stageCommitTransfer(d){
     if(!MATTER_BASIS[d.basis])throw new Error('Выберите основание участия в новом этапе');
     if(d.stage==='__other__'){
       if(String(d.stageCustom||'').trim().length<3)throw new Error('Введите название нового этапа');
-      if(!stageAllowedStage(src,d.stageBase))throw new Error('Укажите процессуальный тип нового этапа');
-    }else if(!stageAllowedStage(src,d.stage))throw new Error('Выбрана недопустимая стадия');
+      if(!stageAllowedTransition(src,d.result,d.stageBase))throw new Error('Этот процессуальный тип не соответствует итогам предыдущей стадии');
+      if(String(d.stageReason||'').trim().length<10)throw new Error('Поясните причину индивидуального маршрута (не менее 10 символов)');
+      if(!stageCustomLabelValid(src,d.stageCustom,d.stageBase))throw new Error('Название индивидуального этапа противоречит выбранному процессуальному типу');
+    }else if(!stageAllowedTransition(src,d.result,d.stage))throw new Error('Новая стадия не соответствует результату предыдущего этапа');
+    if(stageTransitionReview(src,d.result,stageTransitionActualStage(d))&&!d.routeVerified)throw new Error('Подтвердите проверку процессуальных условий выбранного перехода');
     if(stageUnresolvedHearings(src).length)throw new Error('Укажите результат прошедших заседаний до завершения этапа');
     var eligible=stageEligibleTasks(src),eligibleIds=new Set(eligible.map(function(x){return String(x.id);}));
     var selection=new Set(Array.isArray(d.moveIds)?d.moveIds.map(String):[]);
