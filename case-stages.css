@@ -2485,3 +2485,230 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     linear-gradient(90deg,rgba(111,55,5,.22) 0%,rgba(111,55,5,.027) 20%,transparent 41%,transparent 61%,rgba(111,55,5,.11) 80%,rgba(111,55,5,.34) 100%),
     linear-gradient(180deg,#ffd15e 0%,#f1b83b 49%,#ce8b0c 100%)!important;
 }
+
+
+/* ========================================================================
+   5.0.1297.41.63 — One typography system for four approved light
+   case-action sheets. No changes to routes, dark stage wizard or content.
+   The long journal title uses its compact optical size to fit one row.
+   ======================================================================== */
+#sheet:is(.matter-actions-premium,.matter-event-stage1-open,.journal-paper-v1259,.stage-finish-choice-sheet){
+ --ca-ui-ink:#12264c;
+ --ca-ui-muted:#5d6b82;
+ --ca-ui-gold:#98702b;
+ --ca-ui-gold-line:linear-gradient(90deg,#b88740,#d6b16c);
+ --ca-ui-title-size:clamp(21px,6.48vw,26px);
+ --ca-ui-kicker-size:clamp(9px,2.78vw,10.4px);
+ --ca-ui-meta-size:clamp(11px,3.22vw,13px);
+ --ca-ui-head-tile:46px;
+ --ca-ui-head-gap:11px;
+ --ca-ui-plate-radius:14px;
+}
+/* Identical family, weight, tracking, line-height and gold color. */
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small,
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow,
+#sheet.journal-paper-v1259 .journal-premium-eyebrow,
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-size:var(--ca-ui-kicker-size)!important;
+  font-weight:800!important;
+  line-height:1.18!important;
+  letter-spacing:.15em!important;
+  color:var(--ca-ui-gold)!important;
+  display:flex!important;align-items:center!important;gap:8px!important;
+  min-width:0!important;white-space:nowrap!important;margin:0 0 3px!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>small::after,
+#sheet.matter-event-stage1-open .matter-event-stage2-eyebrow i,
+#sheet.journal-paper-v1259 .journal-premium-eyebrow i,
+#sheet.stage-finish-choice-sheet .stage-finish-eyebrow i{
+  content:'';display:block!important;
+  flex:0 1 42px!important;width:42px!important;max-width:42px!important;
+  min-width:8px!important;height:2px!important;border-radius:2px!important;
+  background:var(--ca-ui-gold-line)!important;box-shadow:none!important;
+}
+/* Shared serif title geometry. Long title intentionally uses fit variant. */
+#sheet.matter-actions-premium.open .matter-actions-head-copy>h2,
+#sheet.matter-event-stage1-open .matter-event-stage2-copy>h2,
+#sheet.journal-paper-v1259 .journal-premium-head h2,
+#sheet.stage-finish-choice-sheet .stage-finish-heading h2{
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:var(--ca-ui-title-size)!important;
+  font-weight:700!important;line-height:1.08!important;
+  letter-spacing:-.036em!important;color:var(--ca-ui-ink)!important;
+  display:block!important;margin:0 0 3px!important;padding:0!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  min-width:0!important;
+}
+#sheet.journal-paper-v1259 .journal-premium-head h2{
+  font-size:clamp(18.5px,5.66vw,22.5px)!important;
+  letter-spacing:-.046em!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-copy>p,
+#sheet.matter-event-stage1-open .matter-event-stage2-copy>p,
+#sheet.journal-paper-v1259 .journal-premium-head p,
+#sheet.stage-finish-choice-sheet .stage-finish-heading p{
+  margin:0!important;padding:0!important;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-size:var(--ca-ui-meta-size)!important;font-weight:400!important;
+  line-height:1.28!important;letter-spacing:0!important;
+  color:var(--ca-ui-muted)!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+/* Same navigation/header tile dimensions, corner radius and icon weight. */
+#sheet.matter-actions-premium.open .matter-actions-head-icon,
+#sheet.matter-event-stage1-open .matter-event-stage2-back,
+#sheet.journal-paper-v1259 .journal-premium-back,
+#sheet.stage-finish-choice-sheet .stage-finish-title-icon{
+  box-sizing:border-box!important;flex:0 0 var(--ca-ui-head-tile)!important;
+  width:var(--ca-ui-head-tile)!important;height:var(--ca-ui-head-tile)!important;
+  min-width:var(--ca-ui-head-tile)!important;max-width:var(--ca-ui-head-tile)!important;
+  border-radius:var(--ca-ui-plate-radius)!important;
+  border:1px solid #d1a76d!important;
+  background:linear-gradient(145deg,#fffdf7 0%,#f9e9cd 69%,#efd7b0 100%)!important;
+  box-shadow:inset 0 1px 0 #fff,0 4px 8px rgba(112,78,34,.17)!important;
+  color:#986924!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head-icon .ico,
+#sheet.matter-event-stage1-open .matter-event-stage2-back .ico,
+#sheet.journal-paper-v1259 .journal-premium-back .ico,
+#sheet.stage-finish-choice-sheet .stage-finish-title-icon .stage-finish-glyph{
+  width:26px!important;height:26px!important;stroke-width:2.1!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-head,
+#sheet.matter-event-stage1-open .matter-event-stage2-header,
+#sheet.journal-paper-v1259 .journal-premium-head,
+#sheet.stage-finish-choice-sheet .stage-finish-heading{
+  align-items:center!important;column-gap:var(--ca-ui-head-gap)!important;
+}
+#sheet.stage-finish-choice-sheet .stage-finish-heading-copy{
+  padding-left:0!important;
+}
+@media(max-width:360px){
+  #sheet:is(.matter-actions-premium,.matter-event-stage1-open,.journal-paper-v1259,.stage-finish-choice-sheet){
+    --ca-ui-head-tile:42px;--ca-ui-head-gap:9px;
+    --ca-ui-kicker-size:9px;
+    --ca-ui-title-size:clamp(20px,6.28vw,22px);
+    --ca-ui-meta-size:11px;
+  }
+  #sheet.journal-paper-v1259 .journal-premium-head h2{font-size:clamp(17.5px,5.48vw,19px)!important;}
+  #sheet.matter-actions-premium.open .matter-actions-head-copy>small::after,
+  #sheet.matter-event-stage1-open .matter-event-stage2-eyebrow i,
+  #sheet.journal-paper-v1259 .journal-premium-eyebrow i,
+  #sheet.stage-finish-choice-sheet .stage-finish-eyebrow i{
+    flex-basis:clamp(8px,5vw,20px)!important;max-width:20px!important;width:20px!important;
+  }
+}
+
+
+/* ========================================================================
+   5.0.1297.41.64 — Shared card surfaces and scale.
+   Two purposeful height variants remain: compact menu and spacious choice.
+   The journal preserves its field-specific, editable structure.
+   ======================================================================== */
+#sheet:is(.matter-actions-premium,.matter-event-stage1-open,.journal-paper-v1259,.stage-finish-choice-sheet){
+ --ca-ui-card-border:#d5b48a;
+ --ca-ui-card-background:linear-gradient(145deg,#fffefb 0%,#fffbf4 68%,#f9eedf 100%);
+ --ca-ui-card-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 2px 0 rgba(178,130,75,.11),0 5px 10px rgba(103,68,33,.12);
+ --ca-ui-card-radius:20px;
+ --ca-ui-icon-tile:44px;
+ --ca-ui-body:clamp(10.5px,3.08vw,12.5px);
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row:not(.danger),
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card,
+#sheet.stage-finish-choice-sheet .stage-finish-option,
+#sheet.journal-paper-v1259 .journal-fixed-matter,
+#sheet.journal-paper-v1259 .premium-date-field.journal-premium-picker,
+#sheet.journal-paper-v1259 .premium-select-field.journal-premium-picker{
+  border-color:var(--ca-ui-card-border)!important;
+  background:var(--ca-ui-card-background)!important;
+  box-shadow:var(--ca-ui-card-shadow)!important;
+  border-radius:var(--ca-ui-card-radius)!important;
+}
+/* Shared glyph plate size; preserve color cues for task/event/result kinds. */
+#sheet.matter-actions-premium.open .matter-act-ico,
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-icon,
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon{
+  box-sizing:border-box!important;
+  flex:0 0 var(--ca-ui-icon-tile)!important;
+  width:var(--ca-ui-icon-tile)!important;min-width:var(--ca-ui-icon-tile)!important;
+  height:var(--ca-ui-icon-tile)!important;border-radius:14px!important;
+}
+#sheet.matter-actions-premium.open .matter-act-ico .ico,
+#sheet.matter-event-stage1-open .matter-event-stage4-icon .ico,
+#sheet.stage-finish-choice-sheet .stage-finish-option-icon .stage-finish-glyph{
+  width:25px!important;height:25px!important;stroke-width:2!important;
+}
+/* Shared card text palette and baseline metrics, not forced font size on
+   different information densities. */
+#sheet.matter-actions-premium.open .matter-act-copy b,
+#sheet.matter-event-stage1-open .matter-event-stage4-copy>b,
+#sheet.stage-finish-choice-sheet .stage-finish-option b{
+  color:var(--ca-ui-ink)!important;font-family:Georgia,'Times New Roman',serif!important;
+  font-weight:700!important;line-height:1.14!important;
+}
+#sheet.matter-actions-premium.open .matter-act-copy small,
+#sheet.matter-event-stage1-open .matter-event-stage4-copy>small,
+#sheet.stage-finish-choice-sheet .stage-finish-option small{
+  color:#50617c!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  font-weight:400!important;line-height:1.31!important;
+}
+#sheet.matter-actions-premium.open .matter-act-tail .ico,
+#sheet.matter-event-stage1-open .matter-event-stage4-arrow .ico,
+#sheet.stage-finish-choice-sheet .stage-finish-chevron .stage-finish-glyph{
+  width:17px!important;height:17px!important;
+}
+/* Do not modify row heights: seven-row menu, event types, and finish choice
+   have explicitly different information density. */
+@media(max-width:360px){
+ #sheet:is(.matter-actions-premium,.matter-event-stage1-open,.journal-paper-v1259,.stage-finish-choice-sheet){--ca-ui-icon-tile:40px;--ca-ui-card-radius:18px;}
+ #sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card>.matter-event-stage4-icon,
+ #sheet.stage-finish-choice-sheet .stage-finish-option-icon,
+ #sheet.matter-actions-premium.open .matter-act-ico{border-radius:12px!important;}
+}
+
+
+/* ========================================================================
+   5.0.1297.41.65 — Sheet geometry contract for four light case actions.
+   No forced common height or centering: each sheet retains its content height.
+   No change to SVG outlines, scroll ownership, backdrop or safe-area logic.
+   ======================================================================== */
+#sheet.matter-actions-premium.open .matter-actions-head-copy,
+#sheet.matter-event-stage1-open .matter-event-stage2-copy,
+#sheet.journal-paper-v1259 .journal-premium-head-copy,
+#sheet.stage-finish-choice-sheet .stage-finish-heading-copy,
+#sheet.matter-actions-premium.open .matter-act-copy,
+#sheet.matter-event-stage1-open .matter-event-stage4-copy,
+#sheet.stage-finish-choice-sheet .stage-finish-option-copy{
+  min-width:0!important;max-width:100%!important;box-sizing:border-box!important;
+}
+#sheet.matter-actions-premium.open .matter-actions-card>.matter-act-row,
+#sheet.matter-event-stage1-open .matter-event-stage4-cards>.matter-event-stage4-card,
+#sheet.stage-finish-choice-sheet .stage-finish-option{
+  min-width:0!important;box-sizing:border-box!important;
+}
+/* Keep a consistent minimum touch area for icon/navigation tiles. */
+#sheet.matter-event-stage1-open .matter-event-stage2-back,
+#sheet.journal-paper-v1259 .journal-premium-back{
+  touch-action:manipulation!important;
+}
+/* Dedicated long heading uses a guaranteed single line; narrow devices
+   reduce only typography (never shrink hit targets or clip the whole sheet). */
+@media(max-width:340px){
+  #sheet.journal-paper-v1259 .journal-premium-head h2{
+    font-size:17px!important;letter-spacing:-.055em!important;
+  }
+  #sheet.matter-event-stage1-open .matter-event-stage2-copy h2{
+    font-size:21px!important;letter-spacing:-.045em!important;
+  }
+  #sheet.stage-finish-choice-sheet .stage-finish-heading h2{
+    font-size:21px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #sheet.matter-actions-premium.open .matter-act-row,
+  #sheet.matter-event-stage1-open .matter-event-stage4-card,
+  #sheet.stage-finish-choice-sheet .stage-finish-option{
+    transition:none!important;
+  }
+}
