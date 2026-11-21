@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.31';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6471';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.32';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6472';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -800,7 +800,7 @@ function advEmbossIcon(kind){
   return '<span class="adv-emboss-art adv-emboss-'+k+'" aria-hidden="true"></span>';
 }
 
-/* 6471: content icons only. Navigation, delete, close, chevrons and photo-based
+/* 6472: content icons only. Navigation, delete, close, chevrons and photo-based
    illustrated controls keep their existing accessible/approved appearance.
    No DOM observer: one bounded pass when a page, sheet or picker is rendered. */
 var ADV_ICON_SURFACES=[

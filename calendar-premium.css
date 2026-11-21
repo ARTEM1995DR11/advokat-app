@@ -403,7 +403,7 @@ html body #sc-cal.screen{padding-bottom:calc(135px + env(safe-area-inset-bottom,
   min-height:28px;margin-top:1px;
 }
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-number{
-  color:#64717f;font:550 11.5px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:#64727f;font:550 11.5px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   text-align:center;
 }
 #sc-cal .calendar-project[data-calendar-view="week"] .cal-week-today{

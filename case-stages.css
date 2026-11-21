@@ -3879,9 +3879,26 @@ body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select
 #sheet.stage-wizard-second-sheet .stage-second-route-review p{margin:0 0 8px;color:#70572d;font-size:12px;line-height:1.5}
 #sheet.stage-wizard-second-sheet .stage-second-route-review .stage-second-check{margin:0;align-items:center}
 
-/* Build 6471: unified, optically scaled gold dimensional icons for stage actions. */
+/* Build 6472: unified, optically scaled gold dimensional icons for stage actions. */
 body .stage-outcome-head .stage-outcome-head-icon.is-art{display:flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:18px}
 body .stage-outcome-option-icon.is-art{background:linear-gradient(145deg,#fffdf8,#f5e7c9)!important;border-color:#e4c990!important;box-shadow:inset 0 1px 0 #fff,0 2px 5px rgba(96,71,17,.07)}
 body .stage-outcome-option-icon.is-art .adv-emboss-art{--emboss-size:35px}
 body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
 @media(max-width:360px){body .stage-outcome-option-icon.is-art .adv-emboss-art{--emboss-size:30px}}
+
+
+/* 6472 — centered checkmarks in the new-stage form; not an embossed icon. */
+#sheet.stage-wizard-second-sheet .stage-second-check-box{
+  display:grid!important;place-items:center!important;overflow:hidden!important;
+  width:22px!important;height:22px!important;flex:0 0 22px!important;
+  box-sizing:border-box!important;padding:0!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check-box>.ico{
+  display:block!important;position:relative!important;
+  width:14px!important;height:14px!important;
+  min-width:14px!important;min-height:14px!important;
+  margin:0!important;stroke-width:2.45!important;
+  transform:translate(.35px,-.3px)!important;
+}
+#sheet.stage-wizard-second-sheet .stage-second-check input:not(:checked)+.stage-second-check-box>.ico{opacity:0!important}
+#sheet.stage-wizard-second-sheet .stage-second-check input:checked+.stage-second-check-box>.ico{opacity:1!important}

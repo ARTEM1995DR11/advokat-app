@@ -346,7 +346,7 @@ function stageWizardNextHTML(d,m){
         '<input id="st-new-reason" maxlength="300" value="'+esc(d.stageReason||'')+'" placeholder="Например, дело возвращено на новое рассмотрение">')+'</div>'+
     '<div class="stage-second-route-review" id="st-next-review-wrap"'+(review&&currentAllowed?'':' style="display:none"')+'>'+
       '<p id="st-next-review-text">'+esc(review)+'</p>'+
-      '<label class="stage-second-check"><input type="checkbox" id="st-next-review"'+(d.routeVerified&&review?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Процессуальные условия проверены адвокатом</span></label></div>'+
+      '<label class="stage-second-check"><input type="checkbox" id="st-next-review"'+(d.routeVerified&&review?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+ico('check','s')+'</span><span>Процессуальные условия проверены адвокатом</span></label></div>'+
     stageWizardSecondField('calendar','Дата начала новой стадии',
       '<div class="stage-second-date-wrap"><input id="st-new-date" type="hidden" value="'+esc(d.startDate)+'">'+
       '<button class="stage-second-date-trigger" type="button" data-act="date-open" data-target="st-new-date" data-date-for="st-new-date" aria-haspopup="dialog" aria-label="Выбрать дату начала новой стадии">'+
@@ -360,7 +360,7 @@ function stageWizardNextHTML(d,m){
       '</select></div>')+
     '<section class="stage-second-transfers" aria-label="Перенос материалов">'+
       '<h3>Перенести в новую папку</h3>'+
-      '<label class="stage-second-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+stageWizardFirstIcon('result')+'</span><span>Рабочие заметки</span></label>'+
+      '<label class="stage-second-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+ico('check','s')+'</span><span>Рабочие заметки</span></label>'+
     '</section>'+
     '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+'<span>Прежняя правовая позиция доступна в <strong>связанной завершённой папке</strong>. ' +
     'Новая позиция формируется отдельно; номер дела, судья, следователь и прошедшие события не дублируются.</span></div>';
