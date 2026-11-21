@@ -2456,3 +2456,32 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     letter-spacing:.004em!important;
   }
 }
+
+
+/* 5.0.1297.41.62.5 / build 6436 — single FINAL visual polish.
+   Reference: approved 706x1536 screenshot. ONLY the first stage-wizard screen.
+   Keep folder geometry, common marble, fields, warning, CTA hit target,
+   workflow, and all other views untouched. */
+@media (min-width:351px) {
+  /* The eyebrow gold hairline was 2 physical px too low. */
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+    transform:translate(3px,-.5px)!important;
+  }
+  /* Four-step indicator: existing widths/heights/gaps approved; move the
+     complete row upward ~2.2 physical px on the reference iPhone. */
+  #sheet.stage-wizard-first-sheet .stage-wizard-progress {
+    transform:translateY(-.6px)!important;
+  }
+}
+/* Brighter neutral parchment; preserved text columns, height and wrapping. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  background:linear-gradient(125deg,#fdf6e9 0%,#fef8ed 55%,#fdf2e5 100%)!important;
+}
+/* Final gold treatment: reference has less chalky blue and deeper
+   amber saturation. Retain original button geometry and text styling. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  background:
+    radial-gradient(ellipse 78% 108% at 50% -9%,rgba(255,244,156,.66) 0%,rgba(255,229,123,.18) 51%,rgba(255,232,145,0) 88%),
+    linear-gradient(90deg,rgba(111,55,5,.22) 0%,rgba(111,55,5,.027) 20%,transparent 41%,transparent 61%,rgba(111,55,5,.11) 80%,rgba(111,55,5,.34) 100%),
+    linear-gradient(180deg,#ffd15e 0%,#f1b83b 49%,#ce8b0c 100%)!important;
+}
