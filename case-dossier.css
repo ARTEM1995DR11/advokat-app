@@ -5361,3 +5361,80 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
     font-size:clamp(11px,3.55vw,13px)!important;
   }
 }
+
+
+/* 5.0.1297.41.66.19 — clickable pending hearing in the approved case-task
+   attention paper. No checkbox: this is a linked court event, not a task. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-hearing-icon{
+  position:absolute;top:35%;left:4%;transform:translateY(-50%);
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(22px,5.9vw,26px);height:clamp(22px,5.9vw,26px);
+  box-sizing:border-box;border:1px solid #c69a55;border-radius:7px;
+  color:#96651d;background:linear-gradient(140deg,#fff8e8,#f0dfbd);
+  box-shadow:0 1px 3px #8d68422b,inset 0 1px #fffaf0;
+  pointer-events:none;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-hearing-icon .ico{
+  width:clamp(14px,3.9vw,18px);height:clamp(14px,3.9vw,18px);
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-task-name{right:33%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-status.is-hearing-result{
+  background:#fbe2dc;color:#a84332;max-width:33%;padding:0 5px;
+  font-weight:700;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-status.is-hearing-result .dossier-attention-chip-icon{
+  background:#a84332;color:#fff;font:700 8px/1 -apple-system,sans-serif;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-meta{right:4%;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-cat{color:#94663d;}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-hearing-open{
+  position:absolute;inset:0;z-index:9;display:block;width:100%;height:100%;
+  border:0;background:transparent;padding:0;margin:0;appearance:none;-webkit-appearance:none;
+  pointer-events:auto;cursor:pointer;touch-action:manipulation;
+}
+#page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+.dossier-attention-structure-row.is-hearing-result .dossier-attention-hearing-open:focus-visible{
+  outline:2px solid #9b652c;outline-offset:-3px;border-radius:8px;
+}
+/* The approved Tasks tab's printed task-count circle stays unchanged.
+   A tiny warning dot is independent of that counter and conveys case actions. */
+#page.dossier-page .dossier-rear-stage .dossier-stage7-head .dossier-stage7-hearing-alert{
+  position:absolute;top:28.5%;left:70.2%;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(11px,3.45vw,15px);height:clamp(11px,3.45vw,15px);
+  padding:0;box-sizing:border-box;border:1px solid #ffeedc;border-radius:50%;
+  background:#b64d38;color:#fff;font:700 clamp(8px,2.25vw,10px)/1 -apple-system,sans-serif;
+  box-shadow:0 1px 3px #3a251b55;pointer-events:none;
+}
+/* Passed hearings normally remain read-only in the history. The one
+   actionable state has its own tap target and keeps the same timeline grid. */
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-past
+.dossier-events-row-needs-result{
+  cursor:pointer;touch-action:manipulation;
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-past
+.dossier-events-row-needs-result .dossier-events-copy span:first-child{
+  color:#a24335;font-weight:700;
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-past
+.dossier-events-row-needs-result .dossier-events-row-chevron{
+  visibility:visible;color:#a47836;
+}
+#page.dossier-page .dossier-rear-stage .dossier-events-paper-section-past
+.dossier-events-row-needs-result:focus-visible{
+  outline:2px solid #9b652c;outline-offset:-2px;border-radius:9px;
+}
+@media(max-width:355px){
+  #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+  .dossier-attention-structure-row.is-hearing-result .dossier-attention-task-name{right:35%;}
+  #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
+  .dossier-attention-structure-row.is-hearing-result .dossier-attention-status.is-hearing-result{font-size:7px;padding:0 3px;}
+}

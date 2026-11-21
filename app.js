@@ -6488,19 +6488,20 @@ function dossierEventsTimelineItem(t,m,past){
     (meta.top?'<span>'+esc(meta.top)+'</span>':'')+
     (meta.bottom?'<small>'+esc(meta.bottom)+'</small>':'');
   var accessibility=upcoming?[title].concat(upcoming.details).join('. '):[title,meta.top,meta.bottom].filter(Boolean).join('. ');
-  // Past events on this summary page are a chronological history, not actions.
-  // Preserve their complete content and semantic accessibility without a
-  // clickable row or a misleading chevron. Editing lives in the event editor.
-  var rowOpen=past
+  // Completed history remains static. Only hearings requiring a result
+  // become actionable; the same stored event is opened, not a new task.
+  var actionablePast=!!(past && t.kind==='hearing' && hearingNeedsResult(t));
+  var staticPast=!!(past && !actionablePast);
+  var rowOpen=staticPast
     ? '<div class="dossier-events-row dossier-events-row-static" role="group" aria-label="'+esc(accessibility)+'">'
-    : '<button type="button" class="dossier-events-row" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(accessibility)+'">';
+    : '<button type="button" class="dossier-events-row'+(actionablePast?' dossier-events-row-needs-result':'')+'" data-act="'+dossierEventActionName(t)+'" data-id="'+esc(t.id)+'" aria-label="'+esc(actionablePast?'Указать результат заседания. '+accessibility:accessibility)+'">';
   return '<li class="dossier-events-timeline-item'+(past?' is-past':' is-upcoming')+' is-'+(t.kind==='hearing'?'hearing':t.kind==='deadline'?'deadline':t.kind==='meeting'?'meeting':t.kind==='investigation'?'meeting':'other')+(confirmed?' is-confirmed':'')+(detailedPast?' has-detailed-result':'')+'">'+
     '<span class="dossier-events-timeline-node" aria-hidden="true"></span>'+rowOpen+
       '<span class="dossier-events-datebox'+(longPastDate?' is-long-date':'')+(dt.noTime?' is-no-time':'')+'"><b>'+esc(dt.date)+'</b>'+(dt.meta?'<em>'+esc(dt.meta)+'</em>':'')+'</span>'+
       '<span class="dossier-events-iconbox is-'+tone+'">'+(icon==='event-scales'?'<img class="dossier-event-scales-exact" src="dossier-scales-exact-v6106.png" alt="" aria-hidden="true" draggable="false">':ico(icon,'s'))+'</span>'+
       '<span class="dossier-events-copy"><b>'+esc(title)+'</b>'+description+'</span>'+
-      (past?'<span class="dossier-events-row-chevron is-empty" aria-hidden="true"></span>':'<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>')+
-    (past?'</div>':'</button>')+'</li>';
+      (staticPast?'<span class="dossier-events-row-chevron is-empty" aria-hidden="true"></span>':'<span class="dossier-events-row-chevron" aria-hidden="true">'+ico('chev','s')+'</span>')+
+    (staticPast?'</div>':'</button>')+'</li>';
 }
 function dossierEventsEmptySection(text){
   return '<p class="dossier-events-section-empty">'+esc(text)+'</p>';
@@ -6780,6 +6781,17 @@ function dossierNeedsAttention(t){
 function dossierOpenWorkTasks(id){
   return tasksOf(id).filter(function(t){return !t.done && (!t.kind||t.kind==='task');});
 }
+/* 5.0.1297.41.66.19 — a past hearing without a factual result is
+   actionable CASE attention, but never an ordinary task. Single source of
+   truth: the original hearing in S.tasks; no shadow records or task counters. */
+function dossierPendingHearingResults(id){
+  return tasksOf(id).filter(hearingNeedsResult).sort(function(a,b){
+    return (a.due||'').localeCompare(b.due||'') || (a.time||'').localeCompare(b.time||'') || String(a.id).localeCompare(String(b.id));
+  });
+}
+function dossierAttentionEntries(id){
+  return dossierPendingHearingResults(id).concat(dossierAttentionActiveTasks(id));
+}
 function dossierAttentionActiveTasks(id){
   var entries=dossierOpenWorkTasks(id).filter(dossierNeedsAttention);
   entries.sort(function(a,b){
@@ -6892,8 +6904,26 @@ function dossierAttentionRowMarkup(t){
     '<button type="button" class="dossier-attention-open-hit" data-act="task" data-id="'+tid+'" aria-label="Открыть задачу: '+esc(name)+'" title="Открыть задачу"></button>'+
     '</div>';
 }
+/* Display-only referral to an existing court event. One accessible action
+   opens the established result sheet; no checkbox, task or duplicate journal. */
+function dossierPendingHearingRowMarkup(t){
+  var tid=esc(t.id), when=fmtD(t.due,true)+(t.time?' · '+t.time:'');
+  return '<div class="dossier-attention-structure-row has-task is-hearing-result" data-hearing-id="'+tid+'">'+
+    '<span class="dossier-attention-hearing-icon" aria-hidden="true">'+ico('gavel','s')+'</span>'+
+    '<span class="dossier-attention-structure-arrow" aria-hidden="true"></span>'+
+    '<div class="dossier-attention-row-copy">'+
+      '<strong class="dossier-attention-task-name">Указать результат заседания</strong>'+
+      '<span class="dossier-attention-status is-hearing-result"><span class="dossier-attention-chip-icon">!</span>Нет результата</span>'+
+      '<div class="dossier-attention-meta">'+
+        '<span class="dossier-attention-when is-late">'+dossierAttentionIcon('calendar')+'<span>'+esc(when)+'</span></span>'+
+        '<span class="dossier-attention-cat">'+dossierAttentionIcon('doc')+'<span>Событие · заседание</span></span>'+
+      '</div></div>'+
+    '<button type="button" class="dossier-attention-hearing-open" data-act="hearing-result" data-id="'+tid+'" aria-label="Указать результат судебного заседания '+esc(when)+'" title="Указать результат заседания"></button>'+
+  '</div>';
+}
 function dossierAttentionRowsLive(id){
-  return dossierAttentionActiveTasks(id).map(dossierAttentionRowMarkup).join('');
+  return dossierPendingHearingResults(id).map(dossierPendingHearingRowMarkup).join('')+
+    dossierAttentionActiveTasks(id).map(dossierAttentionRowMarkup).join('');
 }
 /* 5.0.1288 — a single primary task action like Events and Journal.
    Task templates remain available in the app's general templates area. */
@@ -6920,16 +6950,18 @@ function dossierIndexStage1008(id,current,openCount,m,events){
   };
   var state=stateArt[current]?current:'general';
   var count=Math.max(0,Number(openCount)||0);
+  var pendingResultCount=dossierPendingHearingResults(id).length;
   var buttons=['general','events','tasks','journal'].map(function(key){
     var selected=key===state;
     return '<button type="button" class="dossier-stage7-hit dossier-stage7-hit-'+key+'"'+
       ' role="tab" aria-selected="'+selected+'" aria-controls="dossier-content996"'+
       ' data-act="m-view" data-id="'+esc(id)+'" data-v="'+key+'"'+
-      ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', задач в работе: '+count:'')+'"'+
+      ' aria-label="'+esc(DOSSIER_TABS[key])+(key==='tasks'?', задач в работе: '+count+(pendingResultCount?', заседаний без результата: '+pendingResultCount:''):'')+'"'+
       ' tabindex="0"></button>';
   }).join('');
   // Numeric overlay appears only for linked, unfinished case tasks; at zero the artwork circle stays empty.
   var badge=count>0?'<span class="dossier-stage7-task-count" data-digits="'+String(count).length+'" aria-hidden="true"><span class="dossier-stage7-task-number">'+count+'</span></span>':'';
+  var resultMark=pendingResultCount?'<span class="dossier-stage7-hearing-alert" aria-hidden="true" title="Есть заседания без результата">!</span>':'';
   // 5.0.1168: papers are content-sized and stacked in normal flow.
   // All rows are visible inside the same paper; there are no placeholder
   // rows, stitched extensions or manual shifts between sections.
@@ -6937,7 +6969,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
     '<div class="dossier-stage7-head">'+
       '<img class="dossier-stage7-art" src="'+stateArt[state]+'?v='+APP_BUILD+'"'+
       ' alt="" aria-hidden="true" draggable="false" fetchpriority="high" decoding="async" width="1448" height="540">'+
-      '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+
+      '<div class="dossier-stage7-actions" role="tablist" aria-label="Разделы дела">'+buttons+'</div>'+badge+resultMark+
       // 5.0.1025: use the user's approved TEXT-FREE calendar-paper visual on General only.
       // Other three tabs and the established dossier layers remain unchanged.
       (state==='general' ?
@@ -6979,7 +7011,7 @@ function dossierIndexStage1008(id,current,openCount,m,events){
           // 5.0.1170: all three physical paper layers remain in the folder
           // even in a completely empty case. Empty layers have only their
           // approved headings and blank parchment, never synthetic tasks.
-          '<section class="dossier-tasks-attention-blank'+(dossierAttentionActiveTasks(id).length?'':' is-empty')+'" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+
+          '<section class="dossier-tasks-attention-blank'+(dossierAttentionEntries(id).length?'':' is-empty')+'" data-dossier-layer="tasks-attention-responsive" aria-label="Требуют внимания">'+
             '<h2 class="dossier-attention-title">ТРЕБУЮТ ВНИМАНИЯ</h2>'+
             '<div class="dossier-attention-row-structure">'+dossierAttentionRowsLive(id)+'</div>'+
           '</section>'+
@@ -7252,7 +7284,7 @@ function dossierLayoutPreview(m,id,tab,p){
   var dossierEvents=dossierTasks.filter(function(t){return ['hearing','meeting','deadline','investigation'].indexOf(t.kind)>=0;});
   var dossierLogs=journalOf(id).slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.created||'').localeCompare(a.created||'');});
   var dossierOpenCount=dossierTasksSummaryStats(id).open; // Same source as the «В работе» metric, including overdue tasks.
-  var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionActiveTasks(id).length-3):0;
+  var dossierAdditionalTaskRows=tab==='tasks'?Math.max(0,dossierAttentionEntries(id).length-3):0;
   var dossierAdditionalOtherRows=tab==='tasks'?Math.max(0,dossierOtherActiveTasks(id).length-2):0;
   var dossierAdditionalDoneRows=tab==='tasks'?Math.max(0,dossierDoneWorkTasks(id).length-2):0;
   var dossierExtraListSpace=(dossierAdditionalTaskRows?dossierAdditionalTaskRows*78+75:0)+
