@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.29';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6469';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.30';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6470';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -752,8 +752,9 @@ function premiumMatterPickerRow(it){
   var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
   var isCourtPicker=!!(LIST_PICKER&&['e-court-choice','m-court-choice'].indexOf(LIST_PICKER.target)>=0);
   var end=selected?(isCourtPicker?'<em class="premium-court-selected-badge">'+ico('check','s')+'<span>Выбрано</span></em>':'<em>Выбрано</em>'):'<span class="premium-list-row-chevron">'+ico('chev','s')+'</span>';
+  var mark=stageChoice?advEmbossIcon(selected?'check':(markIcon==='user'?'person':markIcon)):ico(selected?'check':markIcon,'s');
   return '<button type="button" class="'+rowClass+'"'+rowStyle+' data-act="list-pick" data-v="'+esc(it.value)+'"'+(it.disabled?' disabled':'')+'>'+ 
-    '<span class="premium-list-row-mark">'+(selected?ico('check','s'):ico(markIcon,'s'))+'</span>'+ 
+    '<span class="premium-list-row-mark"'+(stageChoice?' data-emboss-icon="1"':'')+'>'+mark+'</span>'+ 
     '<span class="premium-list-row-copy"><b>'+esc(it.label||'— выбрать —')+'</b>'+(it.extra?'<small>'+esc(it.extra)+'</small>':'')+'</span>'+ 
     '<span class="premium-list-row-end">'+end+'</span></button>';
 }
@@ -786,12 +787,16 @@ function premiumMatterPickerGroups(rows){
   return html;
 }
 
-function stageOutcomeArtMarkup(kind, extraClass){
-  var k=(kind||'doc');
-  var known={flag:1,gavel:1,doc:1,folder:1,court:1,check:1,clock:1,refresh:1};
-  if(!known[k]) return '<span class="stage-outcome-option-icon'+(extraClass?' '+extraClass:'')+'">'+ico(k==='court'?'scale':k,'s')+'</span>';
-  return '<span class="stage-outcome-option-icon is-art'+(extraClass?' '+extraClass:'')+'">'+
-    '<span class="stage-outcome-art stage-outcome-art-'+k+'" aria-hidden="true"></span></span>';
+function advEmbossIcon(kind){
+  var k=String(kind||'doc').replace(/[^a-z-]/g,'');
+  var aliases={document:'doc',category:'scroll',agency:'court',judge:'gavel',user:'person'};
+  k=aliases[k]||k;
+  var known={flag:1,gavel:1,doc:1,folder:1,court:1,check:1,clock:1,refresh:1,brief:1,person:1,people:1,scroll:1,scale:1,lock:1};
+  if(!known[k])k='doc';
+  return '<span class="adv-emboss-art adv-emboss-'+k+'" aria-hidden="true"></span>';
+}
+function stageOutcomeArtMarkup(kind,extraClass){
+  return '<span class="stage-outcome-option-icon is-art'+(extraClass?' '+extraClass:'')+'">'+advEmbossIcon(kind)+'</span>';
 }
 
 function renderStageOutcomePicker(modal){
@@ -6003,19 +6008,9 @@ function dossierMainInfoRows(m){
   ];
 }
 function dossierMainInfoIcon(name){
-  var pictograms={
-    folder:'<path d="M3.6 8.2V6.5c0-1.2.9-2 2-2h5.1l2.1 2.5h5.8c1.2 0 2 .9 2 2v9.7c0 1.1-.9 2-2 2H5.6c-1.1 0-2-.9-2-2z"/><path d="M3.7 10.4h16.8"/>',
-    court:'<path d="M2.8 8.5 12 3.6l9.2 4.9v1.6H2.8zM4.2 20.3h15.6M2.7 22h18.6M5.5 10.2v9.8M9.8 10.2v9.8M14.2 10.2v9.8M18.5 10.2v9.8"/>',
-    agency:'<path d="M4 21V6l8-3 8 3v15M2.8 21h18.4M8 8h1M15 8h1M8 12h1M15 12h1M10 21v-5h4v5"/>',
-    gavel:'<path d="m13.7 3.4 6.8 6.8-2.4 2.4-6.8-6.8zM10.1 7.1l-4 4 2.8 2.8 4-4M8.9 14l7.8 7.7M3.5 21h11.8M5.5 18.6h7.8"/>',
-    person:'<circle cx="12" cy="7.2" r="3.1"/><path d="M4.5 20.5c.8-4.3 3.3-6.5 7.5-6.5s6.7 2.2 7.5 6.5z"/>',
-    people:'<circle cx="9" cy="7.5" r="3"/><circle cx="17.3" cy="9" r="2.1"/><path d="M3.1 20.5c.6-4.6 2.9-7 6.1-7 3.5 0 5.8 2.4 6.1 7zM15.5 14.4c3.6-.3 5.6 1.9 5.7 5.6"/>',
-    category:'<path d="M7 3.3h7l4.4 4.5v12.8H7zM14 3.4v4.8h4.4M10 13.4h5.1M10 16.3h4.3"/><path d="m9.5 10.4 1.5 1.5 2.6-2.6"/>',
-    document:'<path d="M6.5 3h8l4 4.4V21h-12zM14.5 3v4.9h4M9.5 12h6.7M9.5 15.2h6.7M9.5 18.4h4.5"/>',
-    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6.8v5.7l3.6 2.2"/>'
-  };
-  return '<svg class="dossier-stage8-info-svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">'+(pictograms[name]||pictograms.document)+'</svg>';
+  return advEmbossIcon(name);
 }
+
 /* 5.0.1053 — Uppercase the first letter of each visible information entry.
    Presentation-only: original data, abbreviations and case-sensitive field logic
    stay unchanged. A multi-line entry is handled line by line. */

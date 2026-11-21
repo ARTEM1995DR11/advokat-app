@@ -49266,3 +49266,32 @@ body.matter-event-backdrop-open:not(.matter-event-dossier-backdrop-open) #scrim.
   -webkit-backdrop-filter:none!important;
   backdrop-filter:none!important;
 }
+
+
+/* 6470 — same dimensional pictograms across approved stage/result/basis/overview screens. */
+.adv-emboss-art{display:inline-block!important;flex:none!important;width:var(--emboss-size,26px)!important;height:var(--emboss-size,26px)!important;background-image:url('stage-emboss-icons-v6470.webp?v=6470')!important;background-repeat:no-repeat!important;background-size:1400% 100%!important;background-position:0 50%;vertical-align:middle;pointer-events:none}
+.adv-emboss-flag{background-position:0.00000% 50%!important}
+.adv-emboss-gavel{background-position:7.69231% 50%!important}
+.adv-emboss-doc{background-position:15.38462% 50%!important}
+.adv-emboss-folder{background-position:23.07692% 50%!important}
+.adv-emboss-court{background-position:30.76923% 50%!important}
+.adv-emboss-check{background-position:38.46154% 50%!important}
+.adv-emboss-clock{background-position:46.15385% 50%!important}
+.adv-emboss-refresh{background-position:53.84615% 50%!important}
+.adv-emboss-brief{background-position:61.53846% 50%!important}
+.adv-emboss-person{background-position:69.23077% 50%!important}
+.adv-emboss-people{background-position:76.92308% 50%!important}
+.adv-emboss-scroll{background-position:84.61538% 50%!important}
+.adv-emboss-scale{background-position:92.30769% 50%!important}
+.adv-emboss-lock{background-position:100.00000% 50%!important}
+
+body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark .adv-emboss-art,
+body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark .adv-emboss-art{--emboss-size:32px}
+body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark[data-emboss-icon="1"],
+body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark[data-emboss-icon="1"]{
+  background:linear-gradient(140deg,#fffaf0,#f4e3bb)!important;border-color:rgba(185,137,55,.34)!important;
+}
+@media(max-width:390px){
+ body.light .premium-list-modal[data-list-target="st-new-stage"] .premium-list-row-mark .adv-emboss-art,
+ body.light .premium-list-modal[data-list-target="st-new-basis"] .premium-list-row-mark .adv-emboss-art{--emboss-size:30px}
+}

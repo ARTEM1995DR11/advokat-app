@@ -5438,3 +5438,9 @@ body.dossier-status-masked:has(#lock.on)::before{display:none;}
   #page.dossier-page .dossier-rear-stage .dossier-stage7[data-active-tab="tasks"]
   .dossier-attention-structure-row.is-hearing-result .dossier-attention-status.is-hearing-result{font-size:7px;padding:0 3px;}
 }
+
+
+/* 6470: identical gold relief pictograms in General dossier (not a second gavel). */
+#page.dossier-page .dossier-rear-stage .dossier-stage8-main-info-icon .adv-emboss-art{
+ --emboss-size:calc(100% - 3px);min-width:0;min-height:0
+}
