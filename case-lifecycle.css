@@ -2144,7 +2144,7 @@ body.matter-export-backdrop-open #scrim.open{
  cursor:pointer!important;opacity:1!important;filter:none!important;
 }
 
-/* 6473 — archive CTA uses exactly the approved "Сохранить дело" gold artwork.
+/* 6474 — archive CTA uses exactly the approved "Сохранить дело" gold artwork.
    Its acknowledgement gate remains native disabled; no visual greying of the golden plate. */
 body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit {
   position:relative!important;isolation:isolate!important;box-sizing:border-box!important;
@@ -2153,7 +2153,7 @@ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit {
   margin:0!important;padding:0 22px!important;overflow:hidden!important;
   min-height:64px!important;height:64px!important;max-height:64px!important;
   border:0!important;border-radius:30px!important;
-  background:#d9a326 url('premium-gold-save-v5249.webp?v=6473') center/100% 100% no-repeat!important;
+  background:#d9a326 url('premium-gold-save-v5249.webp?v=6474') center/100% 100% no-repeat!important;
   color:#17191c!important;
   box-shadow:0 12px 26px rgba(141,91,13,.17),inset 0 1px 0 rgba(255,255,255,.56)!important;
   font:700 21px/1 Georgia,'Times New Roman',serif!important;
@@ -2199,4 +2199,67 @@ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:not(:disabl
  body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit-icon .ico {
    width:23px!important;height:23px!important;min-width:23px!important;min-height:23px!important;
  }
+}
+
+
+/* Build 6474 — EXACT visual parity with "Добавить в журнал" CTA.
+   The archive confirmation's disabled attribute is preserved, but the gold
+   plate, text and icon are not artificially greyed out. */
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit,
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled {
+  box-sizing:border-box!important;position:relative!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:10px!important;width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0 10px!important;overflow:hidden!important;
+  min-height:60px!important;height:60px!important;max-height:60px!important;
+  border:2px solid #ac7922!important;border-radius:26px!important;
+  background:#d8a32c url('premium-gold-save-v5249.webp?v=6474') center/100% 100% no-repeat!important;
+  box-shadow:0 5px 12px rgba(103,67,14,.20),inset 0 0 0 2px #ffeab1,inset 0 0 0 3px #bd8625!important;
+  font:700 clamp(18px,5.05vw,24px)/1.05 Georgia,'Times New Roman',serif!important;
+  color:#18222a!important;text-shadow:none!important;letter-spacing:0!important;
+  opacity:1!important;filter:none!important;transform:none!important;
+  appearance:none!important;-webkit-appearance:none!important;
+}
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled > span,
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:not(:disabled) > span {
+  opacity:1!important;filter:none!important;color:inherit!important;
+}
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit-icon {
+  width:27px!important;height:27px!important;min-width:27px!important;
+  flex:0 0 27px!important;display:grid!important;place-items:center!important;
+}
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit-icon .ico {
+  width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;
+  stroke:#18222a!important;color:#18222a!important;
+}
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled {cursor:not-allowed!important;}
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:not(:disabled):active {
+  filter:brightness(.97)!important;transform:translateY(1px)!important;
+}
+@media(max-width:355px){
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit,
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled {
+  min-height:54px!important;height:54px!important;max-height:54px!important;
+  font-size:clamp(16px,4.85vw,22px)!important;border-radius:24px!important;
+ }
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit-icon,
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit-icon .ico{width:23px!important;height:23px!important;}
+}
+
+/* Build 6474 final optical parity: retain the journal CTA's 26px radius also
+   on narrow phones; the earlier 24px fallback is deliberately overridden. */
+@media(max-width:355px){
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit,
+ body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled{
+  border-radius:26px!important;
+ }
+}
+
+/* Build 6474: the actual journal CTA measures 54px at all tested mobile
+   widths; keep archive height and font identical even on larger phones. */
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit,
+body.light #sheet.matter-archive-paper-stage1 .matter-archive-submit:disabled {
+ min-height:54px!important;height:54px!important;max-height:54px!important;
+ border-radius:26px!important;
+ font:700 clamp(16px,4.85vw,22px)/1.05 Georgia,'Times New Roman',serif!important;
 }

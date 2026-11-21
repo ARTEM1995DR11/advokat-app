@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.33';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6473';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.34';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6474';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -800,7 +800,7 @@ function advEmbossIcon(kind){
   return '<span class="adv-emboss-art adv-emboss-'+k+'" aria-hidden="true"></span>';
 }
 
-/* 6473: content icons only. Navigation, delete, close, chevrons and photo-based
+/* 6474: content icons only. Navigation, delete, close, chevrons and photo-based
    illustrated controls keep their existing accessible/approved appearance.
    No DOM observer: one bounded pass when a page, sheet or picker is rendered. */
 var ADV_ICON_SURFACES=[
@@ -947,7 +947,12 @@ function matterEditorControlIconName(id){
   return map[id]||'';
 }
 function matterEditorInputShell(id,icon,html){
-  return '<div class="matter-editor-input-shell" data-field="'+esc(id)+'"><span class="matter-editor-field-leading">'+ico(icon||matterEditorControlIconName(id)||'doc','s')+'</span>'+html+'</div>';
+  // The case number is a number, not a calendar, briefcase or process stage.
+  // It previously displayed two stacked marks (legacy '#' plus 3D icon).
+  var art=id==='m-number'
+    ?'<span class="editor-number-sign" aria-hidden="true">№</span>'
+    :ico(icon||matterEditorControlIconName(id)||'doc','s');
+  return '<div class="matter-editor-input-shell" data-field="'+esc(id)+'"><span class="matter-editor-field-leading"'+(id==='m-number'?' style="background:none!important;background-image:none!important"':'')+'>'+art+'</span>'+html+'</div>';
 }
 function upgradePremiumSelects(root){
   root=root||document;
@@ -1995,7 +2000,7 @@ function matterDynamicFields(){
       '<div class="fld"><label>Телефон</label>'+matterEditorInputShell('m-phone','phone','<input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" value="'+esc(formatRussianPhone(MED.phone))+'" placeholder="+7 (___) ___-__-__">')+'</div>'+ 
       '<div class="fld matter-number-field"><label>'+esc(cfg.numberLabel)+'</label>'+matterEditorInputShell('m-number','brief','<input id="m-number" value="'+esc(MED.number)+'" placeholder="">')+'</div>'+ 
     '</section>'+ 
-    '<section class="matter-editor-card matter-editor-card-stage">'+matterEditorSectionHead('tpl','Стадия производства','03')+
+    '<section class="matter-editor-card matter-editor-card-stage">'+matterEditorSectionHead('flag','Стадия производства','03')+
       '<div class="fld matter-stage-field matter-stage-field-full"><label>Стадия</label>'+stageField+'</div>'+ 
       executionBlock+
       '<div class="matter-editor-stage-extra">'+
