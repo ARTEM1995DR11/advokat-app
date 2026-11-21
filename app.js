@@ -373,6 +373,7 @@ function openPremiumDatePicker(target,value,mode,taskId){
   var selected=value||((target&&$('#'+target))?$('#'+target).value:'')||'';
   DATE_PICKER={target:target||'',selected:selected,month:(selected||today()).slice(0,7),mode:mode||'field',taskId:taskId||''};
   document.body.classList.toggle('matter-finish-date-picker-open',target==='matter-close-date');
+  document.body.classList.toggle('stage-first-date-picker-open',target==='st-close-date');
   renderPremiumDatePicker();
   var modal=$('#premium-date-modal'), scr=$('#date-scrim');
   if(modal)modal.classList.add('open'); if(scr)scr.classList.add('open');
@@ -382,12 +383,12 @@ function openPremiumDatePicker(target,value,mode,taskId){
 function closePremiumDatePicker(){
   var modal=$('#premium-date-modal'),scr=$('#date-scrim');
   if(modal)modal.classList.remove('open'); if(scr)scr.classList.remove('open');
-  document.body.classList.remove('premium-date-open','matter-finish-date-picker-open'); DATE_PICKER=null;
+  document.body.classList.remove('premium-date-open','matter-finish-date-picker-open','stage-first-date-picker-open'); DATE_PICKER=null;
 }
 function renderPremiumDatePicker(){
   if(!DATE_PICKER)return;
   var modal=$('#premium-date-modal');if(!modal)return;
-  var finishDate=DATE_PICKER.target==='matter-close-date';
+  var finishDate=DATE_PICKER.target==='matter-close-date'||DATE_PICKER.target==='st-close-date';
   var p=DATE_PICKER.month.split('-'), y=+p[0],m=+p[1], first=new Date(y,m-1,1);
   var offset=(first.getDay()+6)%7,start=new Date(y,m-1,1-offset), cells='';
   for(var i=0;i<42;i++){
@@ -408,7 +409,7 @@ function renderPremiumDatePicker(){
 }
 function applyPremiumDatePicker(){
   if(!DATE_PICKER)return; var dp=DATE_PICKER;
-  if(dp.target==='matter-close-date'&&(!dp.selected||dp.selected>today())){toast('Выберите дату не позднее сегодняшней');return;}
+  if((dp.target==='matter-close-date'||dp.target==='st-close-date')&&(!dp.selected||dp.selected>today())){toast('Выберите дату не позднее сегодняшней');return;}
   if(dp.mode==='task'){
     if(!dp.selected){toast('Выберите дату');return;}
     closePremiumDatePicker();closeSheet();moveTaskToDate(dp.taskId,dp.selected,'Дата изменена');return;
@@ -416,6 +417,7 @@ function applyPremiumDatePicker(){
   var value=dp.selected||'';
   var inp=dp.target?$('#'+dp.target):null;
   if(inp)inp.value=value;
+  if(dp.target==='st-close-date'&&typeof STAGE_WIZARD!=='undefined'&&STAGE_WIZARD){STAGE_WIZARD.closeDate=value;}
 
   // Все кнопки выбора даты, включая специальную форму «Заседание»,
   // синхронизируются одинаково. Раньше hearing-кнопка не обновлялась,
@@ -427,7 +429,7 @@ function applyPremiumDatePicker(){
     if(!b)b=btn.querySelector('b');
     if(b){
       var compact=btn.dataset.dateCompact==='1'||btn.classList.contains('hearing-premium-picker-date');
-      b.textContent=value?fmtD(value,!compact):'Выберите дату';
+      b.textContent=value?(dp.target==='st-close-date'?stageWizardShortDate(value):fmtD(value,!compact)):'Выберите дату';
     }
   }
 
@@ -9007,8 +9009,8 @@ document.addEventListener('click', function(ev){
     case 'date-open': {var dt=el.dataset.target||'',di=dt?$('#'+dt):null;openPremiumDatePicker(dt,di?di.value:'','field','');break;}
     case 'date-open-task': openPremiumDatePicker('',el.dataset.dateValue||today(),'task',id);break;
     case 'date-prev': if(DATE_PICKER){DATE_PICKER.month=datePickerShiftMonth(DATE_PICKER.month,-1);renderPremiumDatePicker();}break;
-    case 'date-next': if(DATE_PICKER){var nextMonth=datePickerShiftMonth(DATE_PICKER.month,1);if(DATE_PICKER.target!=='matter-close-date'||nextMonth<=today().slice(0,7)){DATE_PICKER.month=nextMonth;renderPremiumDatePicker();}}break;
-    case 'date-day': if(DATE_PICKER&&(DATE_PICKER.target!=='matter-close-date'||v<=today())){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
+    case 'date-next': if(DATE_PICKER){var nextMonth=datePickerShiftMonth(DATE_PICKER.month,1);if(!['matter-close-date','st-close-date'].includes(DATE_PICKER.target)||nextMonth<=today().slice(0,7)){DATE_PICKER.month=nextMonth;renderPremiumDatePicker();}}break;
+    case 'date-day': if(DATE_PICKER&&(!['matter-close-date','st-close-date'].includes(DATE_PICKER.target)||v<=today())){DATE_PICKER.selected=v;DATE_PICKER.month=v.slice(0,7);renderPremiumDatePicker();vib(4);}break;
     case 'date-today': if(DATE_PICKER){DATE_PICKER.selected=today();DATE_PICKER.month=today().slice(0,7);renderPremiumDatePicker();}break;
     case 'date-clear': if(DATE_PICKER){DATE_PICKER.selected='';renderPremiumDatePicker();}break;
     case 'date-apply': applyPremiumDatePicker();break;

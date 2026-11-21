@@ -61,7 +61,8 @@ function stageWizardValidateStep(){
   if(!m||m.archived||m.stageClosed)return 'Дело уже архивировано или не найдено';
   if(step===0){
     if(!stageISODateValid(d.closeDate)||d.closeDate>today())return 'Проверьте дату завершения';
-    if(!d.result||!d.note)return 'Укажите результат и заключительную запись';
+    if(!d.result)return 'Укажите фактический результат завершённой стадии';
+    if(d.result==='Иной результат'&&!d.note)return 'Для иного результата уточните итог в заключительной записи';
     if(!stageClosureOutcomeOptions(m).some(function(x){return x[0]===d.result;}))return 'Выберите фактический результат текущей стадии';
     if(stageUnresolvedHearings(m).length)return 'Сначала укажите результат всех прошедших заседаний';
   }
@@ -134,19 +135,26 @@ function stageWizardFirstIcon(kind){
 function stageWizardFirstFieldHeading(kind,title){
   return '<span class="stage-first-field-heading"><span class="stage-first-field-icon">'+stageWizardFirstIcon(kind)+'</span><span class="stage-first-field-caption">'+title+'</span></span>';
 }
+function stageWizardShortDate(value){
+  if(!value||!stageISODateValid(value))return 'Выберите дату';
+  var date=parseD(value);
+  return new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short',year:'numeric'}).format(date);
+}
 function stageWizardClosureHTML(d,m){
   var n=stageUnresolvedHearings(m).length;
   return '<div class="stage-first-notice" role="note"><span class="stage-first-notice-icon">'+stageWizardFirstIcon('info')+'</span>'+
     '<span class="stage-first-notice-rule" aria-hidden="true"></span>'+
     '<p class="stage-first-notice-text">Завершится только текущая стадия. <strong>В этом\nсценарии создание новой связанной папки\nобязательно.</strong> Если поручение заканчивается\nбез продолжения, используйте «Завершить\nдело полностью».</p></div>'+
-    '<label class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('calendar','Дата завершения')+
-      '<span class="stage-first-date-wrap"><input id="st-close-date" type="date" max="'+today()+'" value="'+esc(d.closeDate)+'">'+
-      '<span class="stage-first-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></span></label>'+
+    '<div class="stage-wizard-field stage-first-field">'+stageWizardFirstFieldHeading('calendar','Дата завершения')+
+      '<span class="stage-first-date-wrap"><input id="st-close-date" type="hidden" value="'+esc(d.closeDate)+'">'+
+      '<button class="stage-first-date-trigger" type="button" data-act="date-open" data-target="st-close-date" data-date-for="st-close-date" aria-haspopup="dialog" aria-label="Выбрать дату завершения">'+
+      '<span class="premium-date-field-copy"><b>'+esc(stageWizardShortDate(d.closeDate))+'</b></span>'+
+      '<span class="stage-first-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></button></span></div>'+
     '<label class="stage-wizard-field stage-first-field stage-first-outcome-field">'+stageWizardFirstFieldHeading('result','Фактический результат завершённого этапа')+
       '<span class="stage-first-result-wrap"><select id="st-close-result">'+stageClosureOutcomeOptions(m)
         .map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===d.result?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select>'+
       '<span class="stage-first-result-arrow">'+stageWizardFirstIcon('arrow')+'</span></span></label>'+
-    '<label class="stage-wizard-field stage-first-field stage-first-note-field">'+stageWizardFirstFieldHeading('note','Заключительная запись')+
+    '<label class="stage-wizard-field stage-first-field stage-first-note-field">'+stageWizardFirstFieldHeading('note','Заключительная запись (необязательно)')+
       '<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
     (n?'<div class="stage-wizard-alert stage-first-hearing-alert" role="alert">'+
        '<span class="stage-first-hearing-icon">'+stageWizardFirstIcon('warning')+'</span>'+

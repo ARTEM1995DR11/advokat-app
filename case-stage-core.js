@@ -120,7 +120,8 @@ async function stageCommitTransfer(d){
     if(!stageISODateValid(d.closeDate)||d.closeDate>today())throw new Error('Укажите допустимую дату завершения');
     if(!stageISODateValid(d.startDate))throw new Error('Укажите дату начала новой стадии');
     if(d.startDate<d.closeDate)throw new Error('Новая стадия не может начинаться раньше даты завершения предыдущей');
-    if(!String(d.result||'').trim()||!String(d.note||'').trim())throw new Error('Заполните результат и заключительную запись');
+    if(!String(d.result||'').trim())throw new Error('Укажите фактический результат завершённой стадии');
+    if(d.result==='Иной результат'&&!String(d.note||'').trim())throw new Error('Уточните иной результат в заключительной записи');
     if(!stageClosureOutcomeOptions(src).some(function(x){return x[0]===d.result;}))throw new Error('Выбран недопустимый результат для текущей стадии');
     if(!MATTER_BASIS[d.basis])throw new Error('Выберите основание участия в новом этапе');
     if(d.stage==='__other__'){
@@ -173,7 +174,7 @@ async function stageCommitTransfer(d){
     S.stagePayments=S.stagePayments||[];
     var payment=stageBuildPaymentDraft(src,d,now,op);
     if(payment)S.stagePayments.unshift(payment);
-    addJournal(src.id,'Этап завершён: '+String(d.result).trim()+'. '+String(d.note).trim(),d.closeDate,'closure',true);
+    addJournal(src.id,'Этап завершён: '+String(d.result).trim()+'.'+(String(d.note||'').trim()?' '+String(d.note).trim():''),d.closeDate,'closure',true);
     addJournal(src.id,'Продолжение дела: «'+stageCaseHeading(next)+'». Перенесено записей: '+moved.length,d.closeDate,'system',true);
     addJournal(newId,'Создан новый этап из папки «'+stageCaseHeading(src)+'». Перенесено записей: '+moved.length,d.startDate,'system',true);
     moved.forEach(function(t){

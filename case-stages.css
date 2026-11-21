@@ -2831,3 +2831,87 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
  max-width:calc(100% - 2*var(--ca-paper-form-side))!important;
 }
 
+
+
+/* 41.66.5 · In-app completion-date calendar; no native iOS picker. */
+#sheet.stage-wizard-first-sheet .stage-first-date-wrap input[type="hidden"] {display:none!important;}
+#sheet.stage-wizard-first-sheet .stage-first-date-trigger {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  position:relative!important;box-sizing:border-box!important;
+  width:calc(100% - 38px)!important;min-height:38px!important;height:38px!important;
+  margin:2px 0 0 38px!important;padding:4px 40px!important;
+  border:1px solid #d9c9b6!important;border-radius:12px!important;
+  background:linear-gradient(150deg,#fff,#fffefd)!important;color:#152b4a!important;
+  box-shadow:0 3px 9px rgba(70,48,26,.06),inset 0 1px 0 rgba(255,255,255,.98)!important;
+  cursor:pointer!important;-webkit-tap-highlight-color:transparent!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-date-trigger .premium-date-field-copy {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-date-trigger .premium-date-field-copy b {
+  font:500 14px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif!important;
+  text-align:center!important;color:#152b4a!important;letter-spacing:0!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-date-trigger .stage-first-date-icon {
+  top:50%!important;right:5px!important;transform:translateY(-50%)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-date-trigger:focus-visible {
+  outline:2px solid #c49746!important;outline-offset:2px!important;
+}
+body.stage-first-date-picker-open #premium-date-modal {
+  box-sizing:border-box!important;
+  max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;
+  background:linear-gradient(145deg,#fffefb,#fff8ed 72%,#f6ead9)!important;
+  border:2px solid #c79c59!important;border-radius:26px!important;
+  box-shadow:0 25px 65px rgba(15,25,39,.30),inset 0 0 0 3px rgba(255,255,255,.66)!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-grab{
+  background:linear-gradient(90deg,#aa824b,#e3c18b,#aa824b)!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-head small {
+  color:#9c722d!important;letter-spacing:.14em!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-head h3{
+  font:700 clamp(23px,6vw,27px)/1.08 Georgia,'Times New Roman',serif!important;
+  color:#102748!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-nav button{
+  background:linear-gradient(140deg,#fffefa,#f8eacb)!important;
+  color:#9c6c26!important;border:1px solid #dcc196!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-nav button:disabled{opacity:.3!important;}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day{color:#192e52!important;}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day.outside{color:#baa995!important;}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day.today{border-color:#cba15d!important;}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day.selected{
+  background:linear-gradient(145deg,#dcb45f,#b78430)!important;
+  border-color:#95671e!important;color:#fffefa!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day.unavailable,
+body.stage-first-date-picker-open #premium-date-modal .premium-date-day:disabled{
+  opacity:.28!important;pointer-events:none!important;color:#a8a8a8!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-selected{
+  background:#fff7e8!important;border:1px solid #e3caa4!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-selected b {color:#102748!important;}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-primary{
+  background:linear-gradient(135deg,#e9c97c,#bc8a31)!important;
+  color:#172b4f!important;border-color:#a57932!important;
+}
+body.stage-first-date-picker-open #premium-date-modal .premium-date-actions{
+  grid-template-columns:1fr 1.5fr!important;
+}
+body.stage-first-date-picker-open #date-scrim{background:rgba(10,22,42,.46)!important;}
+@media(max-width:350px){
+  #sheet.stage-wizard-first-sheet .stage-first-date-trigger{margin-left:38px!important;width:calc(100% - 38px)!important;}
+}
+
+/* 41.66.6 · Narrative is optional; preserve compact heading without clipping. */
+#sheet.stage-wizard-first-sheet .stage-first-note-field .stage-first-field-caption {
+  font-size:clamp(10.3px,3.0vw,12.05px)!important;
+  white-space:normal!important;
+}
