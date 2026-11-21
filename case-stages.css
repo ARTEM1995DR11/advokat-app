@@ -2345,3 +2345,84 @@ body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-sel
     letter-spacing:-.022em!important;
   }
 }
+
+
+/* 5.0.1297.41.62.3 / build 6434 — final scoped reference corrections.
+   Measured on original iPhone screenshot vs approved 706x1536 mockup:
+   gold header text current (125..353,248..264), target (125..349,247..267);
+   header hairline current (368..476,257..260), target (370..479,253..257);
+   progress current y379..389, target y379..391. Preserve the notched
+   folder, fixed master wallpaper, white panel, status label and real controls. */
+
+/* A — Upper eyebrow: slightly taller glyphs, more compact tracking.
+   Reference hairline starts +2 screen pixels, rises ~4 screen pixels. */
+@media (min-width:351px) {
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small {
+    font-size:11.9px!important;
+    line-height:1.15!important;
+    letter-spacing:0!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+    transform:translate(3px,.5px)!important;
+    height:2px!important;
+  }
+}
+@media (max-width:350px) {
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow small {
+    font-size:9.3px!important;
+    letter-spacing:.035em!important;
+  }
+  #sheet.stage-wizard-first-sheet .stage-wizard-eyebrow i {
+    transform:translate(1px,.5px)!important;
+  }
+}
+
+/* B — 4 equal progress segments. The reference sits at the same y as
+   the release screenshot, but its gold and slate lines are 1–2 px thicker. */
+#sheet.stage-wizard-first-sheet .stage-wizard-progress {
+  margin-left:2.5px!important;
+  margin-right:2.5px!important;
+  gap:5px!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i {
+  height:6px!important;
+  min-height:6px!important;
+  max-height:6px!important;
+  border-radius:6px!important;
+  background:#899bb4!important;
+}
+#sheet.stage-wizard-first-sheet .stage-wizard-progress i.passed {
+  background:linear-gradient(90deg,#dfa43e 0%,#f0c364 100%)!important;
+}
+
+/* C — Gold action, colour-only adjustment. Button box and click handler stay
+   as in 41.62.2; warmer ivory top, deeper amber bottom and softer edge glow. */
+#sheet.stage-wizard-first-sheet .stage-wizard-first-action>.stage-wizard-primary {
+  background:
+    radial-gradient(ellipse 78% 108% at 50% -9%,rgba(255,249,188,.73) 0%,rgba(255,234,152,.29) 51%,rgba(255,232,145,0) 88%),
+    linear-gradient(90deg,rgba(111,55,5,.22) 0%,rgba(111,55,5,.027) 20%,transparent 41%,transparent 61%,rgba(111,55,5,.11) 80%,rgba(111,55,5,.34) 100%),
+    linear-gradient(180deg,#f9c86e 0%,#edb753 49%,#c18218 100%)!important;
+  border-color:#9d6816!important;
+  box-shadow:inset 0 1px 0 rgba(255,248,208,.61),inset 0 -1px 0 rgba(98,51,5,.19),0 5px 11px rgba(100,65,13,.18)!important;
+}
+
+/* D — Reference parchment notice and subtle form borders. No changes to
+   the warning wording, date, field IDs, layout, scroll or validation. */
+#sheet.stage-wizard-first-sheet .stage-first-notice {
+  background:linear-gradient(125deg,#fbf3e6 0%,#fcf5e9 55%,#fbeee0 100%)!important;
+  border-color:rgba(224,208,184,.16)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field input,
+#sheet.stage-wizard-first-sheet .stage-first-field textarea,
+#sheet.stage-wizard-first-sheet .stage-first-field select {
+  border-color:#dacbbb!important;
+  box-shadow:0 3px 9px rgba(84,56,32,.09),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-field textarea::placeholder,
+#sheet.stage-wizard-first-sheet .stage-first-field input::placeholder {
+  color:#8d98b0!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b,
+body.light #sheet.stage-wizard-first-sheet .stage-first-result-wrap .premium-select-field.empty .premium-select-field-copy b {
+  color:#8b96af!important;
+}
