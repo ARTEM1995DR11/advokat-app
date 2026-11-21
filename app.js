@@ -642,7 +642,7 @@ function premiumListIsMatterPicker(target){
   return ['e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
 }
 function premiumListUsesApprovedMarble(target){
-  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind','st-new-stage','st-new-basis'].indexOf(target)>=0;
+  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind'].indexOf(target)>=0;
 }
 function premiumMatterPickerBasis(value){
   if(!value)return null;
@@ -792,10 +792,49 @@ function renderStageOutcomePicker(modal){
     '<div class="stage-outcome-items" role="listbox" aria-label="Варианты фактического результата">'+rows+'</div>'+ 
     '<div class="stage-outcome-footer"><i></i><span><img src="scale-gold.webp" alt="" aria-hidden="true"></span><i></i></div>';
 }
+/* 6465: consistent dossier-folder chooser for step 2; the legal route is
+   still supplied by stageTransitionOptions and validated by the wizard. */
+function renderStageChoiceFolderPicker(modal){
+  var lp=LIST_PICKER;
+  if(!lp)return;
+  var isStage=lp.target==='st-new-stage';
+  var title=isStage?'Следующая стадия':'Основание участия';
+  var prompt=isStage?'Доступные варианты продолжения':'Выберите основание новой стадии';
+  // The placeholder and the legacy custom-stage option are not real choices.
+  var options=(lp.items||[]).filter(function(it){
+    return !!String(it.value||'').trim() && it.value!=='__other__' && !it.disabled;
+  });
+  var rows=options.map(function(it){
+    var selected=String(it.value)===String(lp.selected||'');
+    var iconName=isStage?'flag':(String(it.value)==='assigned'?'user':'brief');
+    return '<button type="button" class="stage-choice-folder-row'+(selected?' selected':'')+'" role="option" aria-selected="'+(selected?'true':'false')+'" data-act="list-pick" data-v="'+esc(it.value)+'">'+
+      '<span class="stage-choice-folder-icon">'+(selected?ico('check','s'):ico(iconName,'s'))+'</span>'+
+      '<span class="stage-choice-folder-row-label">'+esc(it.label)+'</span>'+
+      '<span class="stage-choice-folder-row-end">'+(selected?'<span class="stage-choice-folder-chosen">Выбрано</span>':ico('chev','s'))+'</span>'+
+      '</button>';
+  }).join('');
+  modal.classList.remove('premium-matter-picker','premium-matter-choice-v1','premium-matter-single','stage-choice-picker','stage-outcome-picker');
+  modal.classList.add('stage-choice-folder');
+  modal.dataset.listTarget=lp.target;
+  modal.setAttribute('aria-label',title);
+  modal.innerHTML='<div class="stage-choice-folder-tab" aria-hidden="true"><span></span></div>'+
+    '<div class="stage-choice-folder-head">'+
+      '<span class="stage-choice-folder-head-icon">'+ico(isStage?'flag':'brief','s')+'</span>'+
+      '<div class="stage-choice-folder-head-copy"><div class="stage-choice-folder-eyebrow">ДЕЙСТВИЯ ПО ДЕЛУ<span></span></div>'+
+        '<h3>'+title+'</h3><p>'+prompt+'</p></div>'+
+      '<button type="button" class="stage-choice-folder-close" data-act="list-close" aria-label="Закрыть окно выбора">'+ico('xmark','s')+'</button>'+
+    '</div>'+
+    '<div class="stage-choice-folder-separator" aria-hidden="true"><i></i><span></span><i></i></div>'+
+    '<div class="stage-choice-folder-list" role="listbox" aria-label="'+title+'">'+(rows||'<p class="stage-choice-folder-empty">Нет доступных вариантов. Вернитесь к предыдущему шагу.</p>')+'</div>'+
+    '<div class="stage-choice-folder-foot" aria-hidden="true"><i></i><span></span><i></i></div>';
+}
 function renderPremiumListPicker(){
   if(!LIST_PICKER)return;var modal=$('#premium-list-modal');if(!modal)return;
   if(LIST_PICKER.target==='st-close-result'){renderStageOutcomePicker(modal);return;}
-  modal.classList.remove('stage-outcome-picker');
+  if(LIST_PICKER.target==='st-new-stage'||LIST_PICKER.target==='st-new-basis'){
+    renderStageChoiceFolderPicker(modal);return;
+  }
+  modal.classList.remove('stage-outcome-picker','stage-choice-folder');
   var noSearch=matterEditorPickerWithoutSearch(LIST_PICKER.target);
   var q=noSearch?'':(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
   var rows=LIST_PICKER.items.filter(function(it){
