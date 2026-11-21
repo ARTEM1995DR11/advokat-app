@@ -6018,14 +6018,15 @@ function dossierMainInfoLive(m){
    recorded or the entry was actually CREATED on that same local day. */
 
 var DOSSIER_ASSETS_WARMED=false;
+/* 5.0.1297.41.66.20 — prefetch bytes, not decoded multi-megabyte bitmap surfaces.
+   Decoding 4 dossier papers eagerly increased Safari memory pressure and slowed
+   opening other folders. The SW owns persistent caching; this is an optional
+   HTTP-cache warm-up if the worker has not yet taken control. */
 function warmImageAsset(src){
   try{
-    var img=new Image();
-    img.decoding='async';
-    img.fetchPriority='high';
-    img.src=src;
-    if(typeof img.decode==='function') img.decode().catch(function(){});
-  }catch(e){}
+    if(navigator.serviceWorker && navigator.serviceWorker.controller) return;
+    fetch(src,{cache:'force-cache'}).catch(function(){});
+  }catch(_e){}
 }
 function warmDossierAssets(){
   if(DOSSIER_ASSETS_WARMED) return;
@@ -6038,7 +6039,7 @@ function warmDossierAssets(){
     'dossier-general-main-information-v6049.webp?v='+APP_BUILD,
     'dossier-general-recent-actions-blank-v6056.webp?v='+APP_BUILD
   ].forEach(function(src,idx){
-    setTimeout(function(){warmImageAsset(src);},idx*110);
+    setTimeout(function(){warmImageAsset(src);},idx*550);
   });
 }
 
@@ -10280,10 +10281,24 @@ if('serviceWorker' in navigator){
     setTimeout(function(){
       navigator.serviceWorker.register('./sw.js?v='+APP_BUILD,{updateViaCache:'none'})
         .then(function(reg){
-          setTimeout(function(){
-            var worker=reg.active || navigator.serviceWorker.controller;
-            if(worker)worker.postMessage('WARM_OFFLINE_ASSETS');
-          },9000);
+          /* Only ask THIS build's active worker to fill its optional cache.
+             An older worker may remain active for several seconds while a
+             new bundle installs; a one-time timer alone misses that update. */
+          var requestWarm=function(){
+            var worker=reg.active;
+            if(worker && worker.scriptURL.indexOf('v='+APP_BUILD)>=0){
+              worker.postMessage('WARM_OFFLINE_ASSETS');
+            }
+          };
+          setTimeout(requestWarm,3500);
+          navigator.serviceWorker.addEventListener('controllerchange',function(){
+            setTimeout(requestWarm,650);
+          },{once:true});
+          if(reg.installing){
+            reg.installing.addEventListener('statechange',function(){
+              if(reg.installing && reg.installing.state==='activated')requestWarm();
+            });
+          }
           return reg;
         })
         .catch(function(){});

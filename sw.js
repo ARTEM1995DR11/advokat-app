@@ -1,113 +1,114 @@
-const CACHE = 'advokat-iphone-offline-v196-premium-6459';
+const CACHE = 'advokat-iphone-offline-v196-premium-6460';
 
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=6459',
-  './cases-folders.css?v=6459',
-  './case-lifecycle.css?v=6459',
-  './case-stages.css?v=6459',
-  './case-dossier.css?v=6459',
-  './calendar-premium.css?v=6459',
-  './calendar-gavel-gold-v6313.png?v=6459',
-  './calendar-foundation.js?v=6459',
-  './bg-matters-approved-v487.png?v=6459',
-  './bg-matters-marble-tail-v6428.webp?v=6459',
-  './bg-dossier-continuous-v5833.webp?v=6459',
-  './app.js?v=6459',
-  './appointment-fees.js?v=6459',
-  './stage-outcomes.js?v=6459',
-  './case-stage-core.js?v=6459',
-  './case-stage-ui.js?v=6459', './investigation-actions.js?v=6459',
-  './manifest.webmanifest?v=6459',
+  './styles.css?v=6460',
+  './cases-folders.css?v=6460',
+  './case-lifecycle.css?v=6460',
+  './case-stages.css?v=6460',
+  './case-dossier.css?v=6460',
+  './calendar-premium.css?v=6460',
+  './calendar-gavel-gold-v6313.png?v=6460',
+  './calendar-foundation.js?v=6460',
+  './bg-matters-approved-v487.png?v=6460',
+  './bg-matters-marble-tail-v6428.webp?v=6460',
+  './bg-dossier-continuous-v5833.webp?v=6460',
+  './app.js?v=6460',
+  './appointment-fees.js?v=6460',
+  './stage-outcomes.js?v=6460',
+  './case-stage-core.js?v=6460',
+  './case-stage-ui.js?v=6460', './investigation-actions.js?v=6460',
+  './manifest.webmanifest?v=6460',
   './VERSION.txt',
-  './dossier-layer3-single-sheet-v5995.svg?v=6459',
-  './dossier-index-top-general-v6014.webp?v=6459',
-  './dossier-index-top-events-v6014.webp?v=6459',
-  './dossier-index-top-tasks-v6014.webp?v=6459',
-  './dossier-tasks-summary-paper-v6127.webp?v=6459',
-  './dossier-tasks-attention-blank-v6170.png?v=6459',
-  './dossier-tasks-other-blank-v6170.png?v=6459',
-  './dossier-tasks-done-paper-empty-v6173.png?v=6459',
-  './dossier-index-top-journal-v6014.webp?v=6459',
-  './dossier-journal-paper-empty-v6187.webp?v=6459',
-  './dossier-general-nearest-card-v6045.webp?v=6459',
-  './dossier-events-upcoming-paper-v6092.webp?v=6459',
+  './dossier-layer3-single-sheet-v5995.svg?v=6460',
+  './dossier-index-top-general-v6014.webp?v=6460',
+  './dossier-index-top-events-v6014.webp?v=6460',
+  './dossier-index-top-tasks-v6014.webp?v=6460',
+  './dossier-tasks-summary-paper-v6127.webp?v=6460',
+  './dossier-tasks-attention-blank-v6170.png?v=6460',
+  './dossier-tasks-other-blank-v6170.png?v=6460',
+  './dossier-tasks-done-paper-empty-v6173.png?v=6460',
+  './dossier-index-top-journal-v6014.webp?v=6460',
+  './dossier-journal-paper-empty-v6187.webp?v=6460',
+  './dossier-general-nearest-card-v6045.webp?v=6460',
+  './dossier-events-upcoming-paper-v6092.webp?v=6460',
   './dossier-scales-exact-v6106.png',
-  './dossier-general-main-information-v6049.webp?v=6459',
-  './dossier-general-recent-actions-blank-v6056.webp?v=6459',
-  './dossier-paper-middle-v6009.webp?v=6459',
-  './dossier-paper-foot-v6009.webp?v=6459',
+  './dossier-general-main-information-v6049.webp?v=6460',
+  './dossier-general-recent-actions-blank-v6056.webp?v=6460',
+  './dossier-paper-middle-v6009.webp?v=6460',
+  './dossier-paper-foot-v6009.webp?v=6460',
   './premium-icon-180.png',
   './premium-icon-192.png',
   './premium-icon-512.png',
   './bg-today-desk.webp',
   './bg-tasks-planner.webp',
   './bg-matters-folders.webp',
-  './scale-gold.webp?v=6459',
+  './scale-gold.webp?v=6460',
   './bg-cal-marble-calendar.webp',
-  './bg-new-matter-approved.webp?v=6459',
+  './bg-new-matter-approved.webp?v=6460',
   './bg-more-marble-office.webp',
-  './header-bell-premium.png?v=6459',
-  './header-search-premium.png?v=6459',
-  './header-filter-premium.png?v=6459',
-  './fab-plus-square-premium.png?v=6459',
+  './header-bell-premium.png?v=6460',
+  './header-search-premium.png?v=6460',
+  './header-filter-premium.png?v=6460',
+  './fab-plus-square-premium.png?v=6460',
   './nav-panel-light.png',
-  './nav-panel-light.png?v=6459',
-  './nav-active-today.png?v=6459',
-  './nav-active-tasks.png?v=6459',
-  './nav-active-cases.png?v=6459',
-  './nav-active-calendar.png?v=6459',
-  './nav-active-more.png?v=6459',
-  './folder-icon-scale-kas-v779-fast5926.webp?v=6459',
-  './folder-icon-gavel-criminal-v770-fast5926.webp?v=6459',
-  './folder-icon-house-document-civil-v789-fast5926.webp?v=6459',
-  './folder-icon-doc-koap-v770-fast5926.webp?v=6459'
+  './nav-panel-light.png?v=6460',
+  './nav-active-today.png?v=6460',
+  './nav-active-tasks.png?v=6460',
+  './nav-active-cases.png?v=6460',
+  './nav-active-calendar.png?v=6460',
+  './nav-active-more.png?v=6460',
+  './folder-icon-scale-kas-v779-fast5926.webp?v=6460',
+  './folder-icon-gavel-criminal-v770-fast5926.webp?v=6460',
+  './folder-icon-house-document-civil-v789-fast5926.webp?v=6460',
+  './folder-icon-doc-koap-v770-fast5926.webp?v=6460'
 ];
 const OPTIONAL = [
-  './dossier-layer1-koap-v5925.png?v=6459',
-  './dossier-layer1-civil-v5925.png?v=6459',
-  './dossier-layer1-criminal-v5925.png?v=6459',
-  './dossier-layer1-admin-v5925.png?v=6459',
-  './dossier-kraft-layer2-v5942.webp?v=6459',
-  './dossier-layer4-front-v5947.webp?v=6459',
-  './dossier-front-parchment-v5839.png?v=6459',
-  './dossier-header-button-premium-v5859.png?v=6459',
-  './new-matter-client.css?v=6459',
-  './new-matter-stage.css?v=6459',
-  './new-matter-values.css?v=6459',
-  './new-matter-save.css?v=6459',
-  './premium-icon-180.png?v=6459',
-  './premium-icon-192.png?v=6459',
+  './dossier-layer1-koap-v5925.png?v=6460',
+  './dossier-layer1-civil-v5925.png?v=6460',
+  './dossier-layer1-criminal-v5925.png?v=6460',
+  './dossier-layer1-admin-v5925.png?v=6460',
+  './dossier-kraft-layer2-v5942.webp?v=6460',
+  './dossier-layer4-front-v5947.webp?v=6460',
+  './dossier-front-parchment-v5839.png?v=6460',
+  './dossier-header-button-premium-v5859.png?v=6460',
+  './new-matter-client.css?v=6460',
+  './new-matter-stage.css?v=6460',
+  './new-matter-values.css?v=6460',
+  './new-matter-save.css?v=6460',
+  './premium-icon-180.png?v=6460',
+  './premium-icon-192.png?v=6460',
   './bg-matters-approved-v487.png',
-  './premium-gold-type-v5249.webp?v=6459',
-  './premium-gold-save-v5249.webp?v=6459',
-  './quick-sheet-mobile-approved-v5211.webp?v=6459',
-  './quick-sheet-marble-approved.webp?v=6459',
-  './columns-light.png?v=6459',
-  './nm-folder-mockup.png?v=6459',
-  './nm-scale-mockup.png?v=6459',
-  './nm-doc-mockup.png?v=6459',
-  './global-search-head-motif-v173.png?v=6459',
-  './nav-active-base.png?v=6459',
-  './reminder-head-motif-exact.png?v=6459',
-  './reminder-footer-scales-exact.png?v=6459',
-  './quick-card-task-v5100.png?v=6459',
-  './quick-card-hearing-v5100.png?v=6459',
-  './quick-card-meeting-v5100.png?v=6459',
-  './quick-card-deadline-v5100.png?v=6459',
-  './quick-card-journal-v5100.png?v=6459'
+  './premium-gold-type-v5249.webp?v=6460',
+  './premium-gold-save-v5249.webp?v=6460',
+  './quick-sheet-mobile-approved-v5211.webp?v=6460',
+  './quick-sheet-marble-approved.webp?v=6460',
+  './picker-choice-marble-v5333.png?v=6460',
+  './columns-light.png?v=6460',
+  './nm-folder-mockup.png?v=6460',
+  './nm-scale-mockup.png?v=6460',
+  './nm-doc-mockup.png?v=6460',
+  './global-search-head-motif-v173.png?v=6460',
+  './nav-active-base.png?v=6460',
+  './reminder-head-motif-exact.png?v=6460',
+  './reminder-footer-scales-exact.png?v=6460',
+  './quick-card-task-v5100.png?v=6460',
+  './quick-card-hearing-v5100.png?v=6460',
+  './quick-card-meeting-v5100.png?v=6460',
+  './quick-card-deadline-v5100.png?v=6460',
+  './quick-card-journal-v5100.png?v=6460'
 ];
 
 /* 5.0.1281: an update must not activate if any application shell file is missing.
    Earlier versions swallowed all precache errors and deleted old caches anyway. */
 const REQUIRED = [
-  './index.html', './app.js?v=6459', './stage-outcomes.js?v=6459',
-  './case-stage-core.js?v=6459', './case-stage-ui.js?v=6459', './investigation-actions.js?v=6459', './appointment-fees.js?v=6459', './styles.css?v=6459',
-  './cases-folders.css?v=6459', './case-lifecycle.css?v=6459',
-  './case-dossier.css?v=6459', './case-stages.css?v=6459', './calendar-premium.css?v=6459', './calendar-foundation.js?v=6459', './new-matter-client.css?v=6459',
-  './new-matter-stage.css?v=6459', './new-matter-values.css?v=6459',
-  './new-matter-save.css?v=6459', './manifest.webmanifest?v=6459',
+  './index.html', './app.js?v=6460', './stage-outcomes.js?v=6460',
+  './case-stage-core.js?v=6460', './case-stage-ui.js?v=6460', './investigation-actions.js?v=6460', './appointment-fees.js?v=6460', './styles.css?v=6460',
+  './cases-folders.css?v=6460', './case-lifecycle.css?v=6460',
+  './case-dossier.css?v=6460', './case-stages.css?v=6460', './calendar-premium.css?v=6460', './calendar-foundation.js?v=6460', './new-matter-client.css?v=6460',
+  './new-matter-stage.css?v=6460', './new-matter-values.css?v=6460',
+  './new-matter-save.css?v=6460', './manifest.webmanifest?v=6460',
   './VERSION.txt'
 ];
 async function cacheRequiredResource(cache, url){
@@ -132,21 +133,46 @@ async function cacheCoreResource(cache, url) {
     await cache.add(url);
   } catch (_) { /* A single offline asset must not abort the entire install. */ }
 }
+/* Bound concurrency on iOS: dozens of simultaneous images were competing
+   with the main UI for memory and connections during a new installation. */
+async function populateLimited(cache, urls, concurrency){
+  let index=0;
+  const job=async()=>{
+    while(index<urls.length){
+      const u=urls[index++];
+      await cacheCoreResource(cache,u);
+    }
+  };
+  await Promise.all(Array.from({length:Math.min(concurrency,urls.length)},()=>job()));
+}
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache=await caches.open(CACHE);
-    // Fail the install and retain the previously active worker if core files
-    // cannot be fetched; do not claim a broken partial update as successful.
-    await Promise.all(REQUIRED.map(url=>cacheRequiredResource(cache,url)));
+    /* Required application files are atomic; a failed update cannot replace
+       the previous functional worker. */
+    await populateRequired(cache,REQUIRED,3);
     const shell=await cache.match('./index.html');
     if(shell)await cache.put('./',shell.clone());
-    await Promise.all(CORE.filter(url=>url!=='./' && !REQUIRED.includes(url))
-      .map(url=>cacheCoreResource(cache,url)));
+    await populateLimited(cache,CORE.filter(url=>url!=='./'&&!REQUIRED.includes(url)),3);
     await self.skipWaiting();
   })());
 });
+async function populateRequired(cache, urls, concurrency){
+  let index=0;
+  const job=async()=>{
+    while(index<urls.length)await cacheRequiredResource(cache,urls[index++]);
+  };
+  await Promise.all(Array.from({length:Math.min(concurrency,urls.length)},()=>job()));
+}
 
+let optionalWarmPromise=null;
 async function cacheOptionalAtLowPriority(){
+  if(optionalWarmPromise)return optionalWarmPromise;
+  optionalWarmPromise=doCacheOptionalAtLowPriority();
+  try{return await optionalWarmPromise;}
+  finally{optionalWarmPromise=null;}
+}
+async function doCacheOptionalAtLowPriority(){
   const cache = await caches.open(CACHE);
   let cursor = 0;
   const worker = async () => {
@@ -157,67 +183,96 @@ async function cacheOptionalAtLowPriority(){
     }
   };
   await Promise.all([worker(), worker()]);
+  /* Old caches are retained until every optional illustration has a
+     verified copy in the new cache. Offline upgrades therefore never leave
+     folders missing backgrounds. */
+  if(await allOptionalCached(cache)){
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(key=>key.startsWith('advokat-iphone-offline-')&&key!==CACHE)
+      .map(key=>caches.delete(key)));
+  }
 }
-
+async function allOptionalCached(cache){
+  for(const url of OPTIONAL){if(!(await cache.match(url,{ignoreSearch:true})))return false;}
+  return true;
+}
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys
-          .filter(key => key.startsWith('advokat-iphone-offline-') && key !== CACHE)
-          .map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async()=>{
+    /* Preserve the most recent previous version for offline image fallback.
+       Evict still older releases so repeated upgrades do not exhaust iOS storage. */
+    const keys=await caches.keys();
+    const old=keys.filter(key=>key.startsWith('advokat-iphone-offline-')&&key!==CACHE)
+      .sort((a,b)=>Number((a.match(/-(\d+)$/)||[])[1]||0)-Number((b.match(/-(\d+)$/)||[])[1]||0));
+    await Promise.all(old.slice(0,-1).map(key=>caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
 
-function refreshSilently(req, cache, key){
-  fetch(req, {cache:'no-store'}).then(response => {
-    if(response && response.ok){
-      cache.put(key || req, response.clone()).catch(() => {});
+/* 5.0.1297.41.66.20 — Stable offline navigation + version-neutral image lookup.
+   Historical CSS files use image ?v=6036 / 6111 / 6241, while the cache
+   contains the same immutable filename at ?v=6460. The URL must be matched
+   by pathname for image assets ONLY; JS, CSS and HTML stay build-exact. */
+async function cachedAsset(cache,req,asset){
+  let cached=await cache.match(req,asset?{ignoreSearch:true}:undefined);
+  if(cached)return cached;
+  if(asset){
+    cached=await caches.match(req,{ignoreSearch:true});
+    if(cached&&cached.ok){
+      await cache.put(req,cached.clone()).catch(()=>{});
+      return cached;
     }
-  }).catch(() => {});
-}
-
-self.addEventListener('fetch', event => {
-  const req = event.request;
-  if(req.method !== 'GET') return;
-
-  const url = new URL(req.url);
-  if(url.origin !== self.location.origin) return;
-
-  /* 5.0.383 — on an online launch prefer the freshly deployed shell.
-     If the network is unavailable, fall back to the cached offline shell. */
-  if(req.mode === 'navigate'){
-    event.respondWith(
-      caches.open(CACHE).then(cache =>
-        fetch(req, {cache:'no-store'}).then(response => {
-          if(response && response.ok){
-            cache.put('./index.html', response.clone()).catch(() => {});
-          }
-          return response;
-        }).catch(() => cache.match('./index.html').then(cached => cached || cache.match('./')))
-      )
-    );
-    return;
   }
-
-  /* Versioned JS/CSS/images load locally first for immediate interaction. */
-  event.respondWith(
-    caches.match(req).then(cached => {
-      if(cached) return cached;
-      return fetch(req).then(response => {
-        if(response && response.ok){
-          caches.open(CACHE).then(cache => cache.put(req, response.clone())).catch(() => {});
-        }
-        return response;
-      });
-    })
-  );
+  return null;
+}
+async function navigateSafely(req){
+  const cache=await caches.open(CACHE);
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),3500);
+  try{
+    const response=await fetch(req,{cache:'no-store',signal:controller.signal});
+    if(response&&response.ok){
+      /* Store HTML ONLY when it matches the active asset build; otherwise
+         keep the last complete offline shell instead of mixing versions. */
+      const preserved=response.clone();
+      const text=await response.clone().text();
+      if(text.includes('name="app-build" content="'+BUILD+'"')){
+        await cache.put('./index.html',preserved).catch(()=>{});
+      }
+      return response;
+    }
+  }catch(_e){}finally{clearTimeout(timeout);}
+  return (await cache.match('./index.html')) || (await cache.match('./'))
+    || (await caches.match('./index.html')) || Response.error();
+}
+const BUILD='6460';
+self.addEventListener('fetch', event => {
+  const req=event.request;
+  if(req.method!=='GET')return;
+  const url=new URL(req.url);
+  if(url.origin!==self.location.origin)return;
+  if(req.mode==='navigate'){
+    event.respondWith(navigateSafely(req));return;
+  }
+  const asset=isReusableAsset(url.pathname);
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE);
+    const cached=await cachedAsset(cache,req,asset);
+    if(cached)return cached;
+    try{
+      const response=await fetch(req);
+      if(response&&response.ok){
+        await cache.put(req,response.clone()).catch(()=>{});
+      }
+      return response;
+    }catch(_e){
+      /* A missed illustration cannot break the whole app shell. */
+      return asset ? Response.error() : (await cache.match(req))||Response.error();
+    }
+  })());
 });
 
 self.addEventListener('message', event => {
-  if(event.data === 'SKIP_WAITING') self.skipWaiting();
-  if(event.data === 'WARM_OFFLINE_ASSETS') event.waitUntil(cacheOptionalAtLowPriority());
+  if(event.data==='SKIP_WAITING') self.skipWaiting();
+  if(event.data==='WARM_OFFLINE_ASSETS') event.waitUntil(cacheOptionalAtLowPriority());
 });
