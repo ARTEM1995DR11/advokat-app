@@ -691,8 +691,24 @@ function openPremiumListPicker(target,inputId){
   document.body.classList.toggle('premium-matter-picker-open',premiumListUsesApprovedMarble(target));
   vib(5);
 }
+/* The outcome sheet can be dismissed by the close button, scrim or a
+   downward swipe on the handle/header. A swipe never commits a choice. */
+var STAGE_OUTCOME_TOUCH=null;
+document.addEventListener('touchstart',function(e){
+  if(!LIST_PICKER||LIST_PICKER.target!=='st-close-result'||!e.touches||e.touches.length!==1)return;
+  var area=e.target.closest&&e.target.closest('.stage-outcome-grab,.stage-outcome-head');
+  if(!area)return;
+  STAGE_OUTCOME_TOUCH={y:e.touches[0].clientY,x:e.touches[0].clientX};
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(!STAGE_OUTCOME_TOUCH||!LIST_PICKER||LIST_PICKER.target!=='st-close-result')return;
+  var t=e.changedTouches&&e.changedTouches[0],dy=t?t.clientY-STAGE_OUTCOME_TOUCH.y:0,dx=t?t.clientX-STAGE_OUTCOME_TOUCH.x:0;
+  STAGE_OUTCOME_TOUCH=null;
+  if(dy>74&&dy>Math.abs(dx)*1.25){closePremiumListPicker();}
+},{passive:true});
+document.addEventListener('touchcancel',function(){STAGE_OUTCOME_TOUCH=null;},{passive:true});
 function closePremiumListPicker(){
-  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker','premium-matter-choice-v1');}if(scr)scr.classList.remove('open');
+  var modal=$('#premium-list-modal'),scr=$('#list-scrim');if(modal){modal.classList.remove('open','premium-matter-picker','premium-matter-choice-v1','stage-outcome-picker');}if(scr)scr.classList.remove('open');
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
@@ -742,8 +758,37 @@ function premiumMatterPickerGroups(rows){
   if(other.length) html+=groupHtml({key:'other',label:'Другие дела',color:'#9A8A70',icon:'folder'},other);
   return html;
 }
+function renderStageOutcomePicker(modal){
+  var lp=LIST_PICKER,m=STAGE_WIZARD?matter(STAGE_WIZARD.sourceId):null;
+  var options=(lp.items||[]).filter(function(it){return !!it.value;});
+  modal.classList.add('stage-outcome-picker');
+  modal.classList.remove('premium-matter-picker','premium-matter-choice-v1');
+  modal.setAttribute('data-list-target','st-close-result');
+  modal.setAttribute('aria-label','Выбор фактического результата этапа');
+  var context=((MATTER_TYPES[(m&&m.type)||'other']||MATTER_TYPES.other).n||'')+(m&&m.stage?' · '+m.stage:'');
+  var head='<div class="stage-outcome-head"><span class="stage-outcome-head-icon">'+ico('flag')+'</span>'+
+      '<div class="stage-outcome-head-copy"><h3>Результат этапа</h3><p>Фактический итог завершённой стадии</p></div>'+
+      '<button type="button" class="stage-outcome-close" data-act="list-close" aria-label="Закрыть выбор">'+ico('xmark','s')+'</button></div>';
+  var rows=options.map(function(it){
+    var meta=stageClosureOutcomeDetails(m,it.value)||{title:it.label,description:'',icon:'flag'};
+    var chosen=it.value===lp.selected;
+    var icon=meta.icon==='refresh'?'doc':(meta.icon||'flag');
+    return '<button class="stage-outcome-option'+(chosen?' is-selected':'')+'" type="button" role="option" aria-selected="'+(chosen?'true':'false')+'" data-act="list-pick" data-v="'+esc(it.value)+'">'+
+      '<span class="stage-outcome-option-icon">'+ico(icon,'s')+'</span>'+
+      '<span class="stage-outcome-option-copy"><strong>'+esc(meta.title)+'</strong><small>'+esc(meta.description||'')+'</small></span>'+
+      '<span class="stage-outcome-option-radio">'+(chosen?ico('check','s'):'')+'</span></button>';
+  }).join('');
+  modal.innerHTML='<div class="premium-list-grab stage-outcome-grab" aria-hidden="true"></div>'+head+
+    '<div class="stage-outcome-rule"><i></i><span></span><i></i></div>'+ 
+    '<div class="stage-outcome-context">'+esc(context)+'</div>'+ 
+    '<div class="stage-outcome-hint">'+ico('info','s')+'<span>Выберите один результат. Запись обязательна только для «Иного результата».</span></div>'+
+    '<div class="stage-outcome-items" role="listbox" aria-label="Варианты фактического результата">'+rows+'</div>'+ 
+    '<div class="stage-outcome-footer"><i></i><span><img src="scale-gold.webp" alt="" aria-hidden="true"></span><i></i></div>';
+}
 function renderPremiumListPicker(){
   if(!LIST_PICKER)return;var modal=$('#premium-list-modal');if(!modal)return;
+  if(LIST_PICKER.target==='st-close-result'){renderStageOutcomePicker(modal);return;}
+  modal.classList.remove('stage-outcome-picker');
   var noSearch=matterEditorPickerWithoutSearch(LIST_PICKER.target);
   var q=noSearch?'':(LIST_PICKER.query||'').trim().toLowerCase().replace(/ё/g,'е');
   var rows=LIST_PICKER.items.filter(function(it){
@@ -855,6 +900,22 @@ function applyPremiumListChoice(value){
   if(lp.inputId&&!item.value){var inp=$('#'+lp.inputId);if(inp){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}));}}
   syncPremiumSelectButton(sel.id);
   sel.dispatchEvent(new Event('change',{bubbles:true}));
+  if(lp.target==='st-close-result'){
+    var noteLabel=document.querySelector('.stage-first-note-field .stage-first-field-caption');
+    if(noteLabel)noteLabel.textContent=item.value==='Иной результат'?'Заключительная запись (обязательно)':'Заключительная запись (необязательно)';
+    var noteInput=document.getElementById('st-close-note');
+    if(noteInput){noteInput.setAttribute('aria-required',item.value==='Иной результат'?'true':'false');
+      noteInput.placeholder=item.value==='Иной результат'?'Опишите иной фактический результат':'Что сделано, результат и дальнейшие действия';}
+    var modal=$('#premium-list-modal');
+    if(modal)modal.querySelectorAll('.stage-outcome-option').forEach(function(btn){
+      var on=btn.dataset.v===item.value;btn.classList.toggle('is-selected',on);btn.setAttribute('aria-selected',on?'true':'false');
+      var radio=btn.querySelector('.stage-outcome-option-radio');
+      if(radio)radio.innerHTML=on?ico('check','s'):'';
+    });
+    vib(5);
+    setTimeout(function(){if(LIST_PICKER===lp)closePremiumListPicker();},130);
+    return;
+  }
   closePremiumListPicker();vib(5);
 }
 function clearPremiumMatterChoice(){
@@ -864,6 +925,22 @@ function clearPremiumMatterChoice(){
   if(lp.inputId){var inp=$('#'+lp.inputId);if(inp){inp.value='';inp.dispatchEvent(new Event('input',{bubbles:true}));}}
   syncPremiumSelectButton(sel.id);
   sel.dispatchEvent(new Event('change',{bubbles:true}));
+  if(lp.target==='st-close-result'){
+    var noteLabel=document.querySelector('.stage-first-note-field .stage-first-field-caption');
+    if(noteLabel)noteLabel.textContent=item.value==='Иной результат'?'Заключительная запись (обязательно)':'Заключительная запись (необязательно)';
+    var noteInput=document.getElementById('st-close-note');
+    if(noteInput){noteInput.setAttribute('aria-required',item.value==='Иной результат'?'true':'false');
+      noteInput.placeholder=item.value==='Иной результат'?'Опишите иной фактический результат':'Что сделано, результат и дальнейшие действия';}
+    var modal=$('#premium-list-modal');
+    if(modal)modal.querySelectorAll('.stage-outcome-option').forEach(function(btn){
+      var on=btn.dataset.v===item.value;btn.classList.toggle('is-selected',on);btn.setAttribute('aria-selected',on?'true':'false');
+      var radio=btn.querySelector('.stage-outcome-option-radio');
+      if(radio)radio.innerHTML=on?ico('check','s'):'';
+    });
+    vib(5);
+    setTimeout(function(){if(LIST_PICKER===lp)closePremiumListPicker();},130);
+    return;
+  }
   closePremiumListPicker();vib(5);
 }
 
