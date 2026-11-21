@@ -3191,19 +3191,6 @@ body .stage-outcome-footer img{width:29px;height:29px;object-fit:contain}
    bottom sheet. Background and continuous SVG outline are reused from
    the already approved «Действия по делу» screen. Scoped entirely here.
    ====================================================================== */
-body.stage-hearings-backdrop-open {
-  background-color:#f8f0e2!important;
-  background-image:url('bg-matters-approved-v487.png')!important;
-  background-position:center top!important;
-  background-size:100% 100lvh!important;
-  background-repeat:no-repeat!important;
-}
-body.stage-hearings-backdrop-open #scrim.open {
-  opacity:1!important;
-  background:#f8f0e2 url('bg-matters-approved-v487.png') center top / 100% 100lvh no-repeat!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-}
 #sheet.stage-hearings-sheet.open {
   position:fixed!important;
   left:0!important;right:0!important;top:50%!important;bottom:auto!important;
@@ -3380,4 +3367,78 @@ body.stage-hearings-backdrop-open #scrim.open {
   #sheet.stage-hearings-sheet .stage-hearings-intro {margin-top:9px;margin-bottom:8px;}
   #sheet.stage-hearings-sheet .stage-hearings-hint {margin-top:8px;margin-bottom:6px;padding:8px 10px;}
   #sheet.stage-hearings-sheet .stage-hearings-ornament {margin-top:7px;margin-bottom:8px;}
+}
+
+
+/* ======================================================================
+   5.0.1297.41.66.15 | build 6455 — compact hearing-review folder.
+   One unresolved hearing takes only the space it needs. The folder remains
+   bottom-anchored; at the height cap, only the hearing list may scroll.
+   This is limited to the hearing-followup overlay, without workflow edits.
+   ====================================================================== */
+#sheet.stage-hearings-sheet.open {
+  height:auto!important;
+  max-height:calc(100dvh - max(56px, env(safe-area-inset-top, 0px) + 14px))!important;
+  min-height:0!important;
+  bottom:0!important;top:auto!important;
+  transform:none!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  overflow:hidden!important;
+}
+#sheet.stage-hearings-sheet.open > .stage-hearings-card {
+  flex:0 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+#sheet.stage-hearings-sheet .stage-hearings-list {
+  flex:0 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  align-content:start!important;
+  grid-auto-rows:max-content!important;
+  -webkit-overflow-scrolling:touch;
+}
+#sheet.stage-hearings-sheet .stage-hearings-intro {margin-top:10px!important;margin-bottom:11px!important;}
+#sheet.stage-hearings-sheet .stage-hearings-hint {margin-top:12px!important;margin-bottom:7px!important;}
+#sheet.stage-hearings-sheet .stage-hearings-ornament {margin-top:8px!important;margin-bottom:10px!important;}
+@media(max-height:700px) {
+  #sheet.stage-hearings-sheet.open {
+    height:auto!important;
+    max-height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
+  }
+}
+
+/* ======================================================================
+   5.0.1297.41.66.16 | build 6456 — translucent blurred parent page.
+   Preserve the real case screen beneath the temporary hearing-review folder.
+   The overlay dims/blurs it instead of replacing it with another wallpaper.
+   Other approved sheets, case background and navigation remain untouched.
+   ====================================================================== */
+body.stage-hearings-backdrop-open #scrim.open {
+  position:fixed!important;
+  inset:0!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  background:rgba(36,35,37,.27)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:blur(6px) saturate(.86)!important;
+  backdrop-filter:blur(6px) saturate(.86)!important;
+}
+body.stage-hearings-backdrop-open #scrim.open::before,
+body.stage-hearings-backdrop-open #scrim.open::after {
+  content:none!important;
+  display:none!important;
+}
+@media (prefers-reduced-transparency:reduce) {
+  body.stage-hearings-backdrop-open #scrim.open {
+    background:rgba(35,35,38,.45)!important;
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
 }
