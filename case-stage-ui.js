@@ -196,22 +196,33 @@ function stageWizardHearingListRender(){
   var items=hearings.map(function(t){
     var date=t.due?fmtD(t.due,true):'Дата не указана';
     var time=t.time?' · '+t.time:'';
-    var place=t.place||(t.hearingJudge?'Судья: '+t.hearingJudge:'');
-    return '<button class="stage-hearings-row" type="button" data-act="stage-hearing-edit" data-id="'+esc(t.id)+'" aria-label="Указать результат заседания '+esc(date)+'">'+
+    var judge=t.hearingJudge?'Судья: '+t.hearingJudge:'';
+    var place=t.place||'';
+    return '<button class="stage-hearings-row" type="button" data-act="stage-hearing-edit" data-id="'+esc(t.id)+'" aria-label="Указать результат заседания '+esc(date+time)+'">'+
       '<span class="stage-hearings-row-icon">'+stageWizardFirstIcon('calendar')+'</span>'+
       '<span class="stage-hearings-row-copy"><b>'+esc(date+time)+'</b><span>'+esc(t.title||'Судебное заседание')+'</span>'+
-      (place?'<small>'+esc(place)+'</small>':'')+'<em>Требуется указать результат</em></span>'+
+      (judge?'<small>'+esc(judge)+'</small>':'')+
+      (place&&place!==t.hearingJudge?'<small>'+esc(place)+'</small>':'')+
+      '<em><span class="stage-hearings-status-dot" aria-hidden="true"></span>Требуется результат</em></span>'+
       '<span class="stage-hearings-row-arrow">'+stageWizardFirstIcon('arrow')+'</span></button>';
   }).join('');
-  openSheet('<section class="stage-hearings-card" aria-label="Незавершённые заседания">'+
-    '<header class="stage-hearings-header"><button type="button" class="stage-hearings-back" data-act="stage-hearings-back" aria-label="Вернуться к завершению этапа">'+ico('left','s')+'</button>'+
-    '<div><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2>Заседания без результата</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
-    '<span class="stage-hearings-count">'+hearings.length+'</span></header>'+
-    '<p class="stage-hearings-intro">Откройте каждое заседание и укажите фактический результат. Только после сохранения результатов можно продолжить завершение этапа.</p>'+
-    '<div class="stage-hearings-list">'+items+'</div>'+
-    '<div class="stage-hearings-hint">Данные заседаний не удаляются: результат будет сохранён в истории и журнале дела.</div>'+
-    '<button type="button" class="stage-hearings-return" data-act="stage-hearings-back">Вернуться к завершению этапа</button></section>');
-  document.getElementById('sheet').classList.add('case-stage-sheet','stage-hearings-sheet');
+  openSheet('<section class="stage-hearings-card" aria-label="Заседания без результата">'+
+    '<header class="stage-hearings-header"><button type="button" class="stage-hearings-back" data-act="stage-hearings-back" aria-label="Назад к завершению этапа">'+ico('left','s')+'</button>'+
+    '<div class="stage-hearings-heading"><div class="stage-hearings-eyebrow"><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><i aria-hidden="true"></i></div>'+
+    '<h2>Заседания без результата</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
+    '<span class="stage-hearings-count" aria-label="Незавершённых заседаний: '+hearings.length+'" aria-live="polite">'+hearings.length+'</span></header>'+
+    '<div class="stage-hearings-rule" aria-hidden="true"><i></i></div>'+
+    '<div class="stage-hearings-intro"><span class="stage-hearings-intro-icon">'+stageWizardFirstIcon('info')+'</span><p>Выберите заседание и сохраните его фактический результат. После этого можно продолжить завершение этапа.</p></div>'+
+    '<div class="stage-hearings-list" aria-label="Судебные заседания, требующие результата">'+items+'</div>'+
+    '<div class="stage-hearings-hint"><span class="stage-hearings-hint-icon">'+stageWizardFirstIcon('info')+'</span><span>Заседания остаются в истории дела. Результаты сохраняются отдельно по каждому событию.</span></div>'+
+    '<div class="stage-hearings-ornament" aria-hidden="true"><span></span><i></i><span></span></div>'+ 
+    '<button type="button" class="stage-hearings-return" data-act="stage-hearings-back">'+stageWizardFirstIcon('arrow')+'<span>Вернуться к завершению этапа</span></button></section>');
+  var hearingPanel=document.getElementById('sheet');
+  hearingPanel.classList.add('case-stage-sheet','stage-hearings-sheet');
+  document.body.classList.add('stage-hearings-backdrop-open');
+  // Reuse the same continuous two-line folder outline as the approved
+  // «Действия по делу» screen; no independent approximation of its curves.
+  if(typeof mountMatterActionsOutline==='function')mountMatterActionsOutline(hearingPanel);
   return true;
 }
 function stageWizardHearingEdit(id){
