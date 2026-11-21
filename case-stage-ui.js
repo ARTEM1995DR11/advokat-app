@@ -9,6 +9,7 @@ function stageNextSuggested(m){
 }
 function stageTaskLabel(t){return ({hearing:'Судебное заседание',meeting:'Встреча',investigation:'Следственное действие',deadline:'Процессуальный срок',task:'Задача'})[t.kind]||'Запись';}
 function stageWizardStart(id){
+  STAGE_HEARING_NAV=null;
   var m=matter(id);
   if(!m||m.archived||m.stageClosed){toast('Продолжить можно только действующий этап');return;}
   var pending=stageEligibleTasks(m);
@@ -98,7 +99,7 @@ function stageWizardNext(){
 }
 function stageWizardPrev(){
   if(!STAGE_WIZARD)return;
-  if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;sheetMatterFinishChoice(id);return;}
+  if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;STAGE_HEARING_NAV=null;sheetMatterFinishChoice(id);return;}
   stageWizardCapture();var m=matter(STAGE_WIZARD.sourceId);STAGE_WIZARD.step-=(STAGE_WIZARD.step===4&&m.basis!=='assigned')?2:1;stageWizardRender();
 }
 function stageWizardHead(){
@@ -156,10 +157,95 @@ function stageWizardClosureHTML(d,m){
       '<span class="stage-first-result-arrow">'+stageWizardFirstIcon('arrow')+'</span></span></label>'+
     '<label class="stage-wizard-field stage-first-field stage-first-note-field">'+stageWizardFirstFieldHeading('note',d.result==='Иной результат'?'Заключительная запись (обязательно)':'Заключительная запись (необязательно)')+
       '<textarea id="st-close-note" rows="3" placeholder="Что сделано, результат и дальнейшие действия">'+esc(d.note)+'</textarea></label>'+
-    (n?'<div class="stage-wizard-alert stage-first-hearing-alert" role="alert">'+
-       '<span class="stage-first-hearing-icon">'+stageWizardFirstIcon('warning')+'</span>'+
-       '<span class="stage-first-hearing-rule" aria-hidden="true"></span>'+
-       '<p>'+(n<10?'<span class="stage-first-alert-line">Не указаны результаты '+n+' прошедших</span> <span class="stage-first-alert-line">заседаний. Перед переходом их необходимо</span> <span class="stage-first-alert-line">завершить.</span>':'Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.')+'</p></div>':'');
+    (n?'<button type="button" class="stage-wizard-alert stage-first-hearing-alert stage-first-hearing-link" data-act="stage-hearings-open" aria-label="Открыть '+n+' судебных заседаний без результатов">'+
+       '<span class="stage-first-hearing-icon">'+stageWizardFirstIcon('warning')+'</span>'+ 
+       '<span class="stage-first-hearing-rule" aria-hidden="true"></span>'+ 
+       '<span class="stage-first-hearing-copy"><span class="stage-first-hearing-text">'+
+          (n===1?'Не указан результат 1 прошедшего заседания. Перед переходом его необходимо завершить.':
+           'Не указаны результаты '+n+' прошедших заседаний. Перед переходом их необходимо завершить.')+
+        '</span><span class="stage-first-hearing-open">Открыть незавершённые заседания '+stageWizardFirstIcon('arrow')+'</span></span></button>':'');
+}
+/* 41.66.11 — unresolved hearing drill-down from the first wizard step.
+   Uses the existing hearing-result editor; never creates a separate record.
+   Preserve the date, outcome and note while the advocate reviews hearings. */
+var STAGE_HEARING_NAV=null;
+function stageWizardHearingReleasePaint(){
+  var panel=document.getElementById('sheet');if(!panel)return;
+  if(panel._stageFirstPaintObserver){panel._stageFirstPaintObserver.disconnect();panel._stageFirstPaintObserver=null;}
+  if(panel._stageFirstResizeFallback){window.removeEventListener('resize',panel._stageFirstResizeFallback);panel._stageFirstResizeFallback=null;}
+}
+function stageWizardHearingOpen(){
+  if(!STAGE_WIZARD||STAGE_WIZARD.step!==0)return;
+  var m=matter(STAGE_WIZARD.sourceId);
+  if(!m)return;
+  stageWizardCapture();
+  if(!stageUnresolvedHearings(m).length){stageWizardRender();return;}
+  STAGE_HEARING_NAV={sourceId:String(m.id),mode:'list'};
+  stageWizardHearingReleasePaint();
+  stageWizardHearingListRender();
+}
+function stageWizardHearingListRender(){
+  var nav=STAGE_HEARING_NAV;
+  if(!nav||!STAGE_WIZARD||STAGE_WIZARD.step!==0||String(STAGE_WIZARD.sourceId)!==nav.sourceId)return false;
+  var m=matter(nav.sourceId);if(!m)return false;
+  var hearings=stageUnresolvedHearings(m).slice().sort(function(a,b){
+    return (a.due||'').localeCompare(b.due||'') || (a.time||'').localeCompare(b.time||'');
+  });
+  if(!hearings.length){STAGE_HEARING_NAV=null;stageWizardRender();return true;}
+  nav.mode='list';
+  var items=hearings.map(function(t){
+    var date=t.due?fmtD(t.due,true):'Дата не указана';
+    var time=t.time?' · '+t.time:'';
+    var place=t.place||(t.hearingJudge?'Судья: '+t.hearingJudge:'');
+    return '<button class="stage-hearings-row" type="button" data-act="stage-hearing-edit" data-id="'+esc(t.id)+'" aria-label="Указать результат заседания '+esc(date)+'">'+
+      '<span class="stage-hearings-row-icon">'+stageWizardFirstIcon('calendar')+'</span>'+
+      '<span class="stage-hearings-row-copy"><b>'+esc(date+time)+'</b><span>'+esc(t.title||'Судебное заседание')+'</span>'+
+      (place?'<small>'+esc(place)+'</small>':'')+'<em>Требуется указать результат</em></span>'+
+      '<span class="stage-hearings-row-arrow">'+stageWizardFirstIcon('arrow')+'</span></button>';
+  }).join('');
+  openSheet('<section class="stage-hearings-card" aria-label="Незавершённые заседания">'+
+    '<header class="stage-hearings-header"><button type="button" class="stage-hearings-back" data-act="stage-hearings-back" aria-label="Вернуться к завершению этапа">'+ico('left','s')+'</button>'+
+    '<div><small>ДЕЙСТВИЯ ПО ДЕЛУ</small><h2>Заседания без результата</h2><p>'+esc(m.client||m.title||'Дело')+'</p></div>'+
+    '<span class="stage-hearings-count">'+hearings.length+'</span></header>'+
+    '<p class="stage-hearings-intro">Откройте каждое заседание и укажите фактический результат. Только после сохранения результатов можно продолжить завершение этапа.</p>'+
+    '<div class="stage-hearings-list">'+items+'</div>'+
+    '<div class="stage-hearings-hint">Данные заседаний не удаляются: результат будет сохранён в истории и журнале дела.</div>'+
+    '<button type="button" class="stage-hearings-return" data-act="stage-hearings-back">Вернуться к завершению этапа</button></section>');
+  document.getElementById('sheet').classList.add('case-stage-sheet','stage-hearings-sheet');
+  return true;
+}
+function stageWizardHearingEdit(id){
+  var nav=STAGE_HEARING_NAV;
+  if(!nav||nav.mode!=='list')return;
+  var m=matter(nav.sourceId);
+  var t=S.tasks.find(function(x){return String(x.id)===String(id);});
+  if(!m||!t||String(t.mid)!==nav.sourceId||!stageUnresolvedHearings(m).some(function(x){return String(x.id)===String(id);})){stageWizardHearingListRender();return;}
+  nav.mode='editor';nav.hearingId=String(id);
+  sheetHearingResult(t.id);
+}
+function stageWizardHearingIsEditing(t){
+  return !!(STAGE_HEARING_NAV&&STAGE_HEARING_NAV.mode==='editor'&&t&&
+    String(STAGE_HEARING_NAV.sourceId)===String(t.mid)&&String(STAGE_HEARING_NAV.hearingId)===String(t.id)&&
+    STAGE_WIZARD&&STAGE_WIZARD.step===0);
+}
+function stageWizardHearingAfterSave(t){
+  if(!stageWizardHearingIsEditing(t))return false;
+  STAGE_HEARING_NAV.mode='list';STAGE_HEARING_NAV.hearingId='';
+  stageWizardHearingListRender();
+  return true;
+}
+/* Supports the in-sheet back arrow, close icon, background tap and swipe.
+   The user's pending wizard form state is never discarded. */
+function stageWizardHearingBack(){
+  var nav=STAGE_HEARING_NAV,sh=document.getElementById('sheet');
+  if(!nav||!sh||!sh.classList.contains('open'))return false;
+  if(nav.mode==='editor'){
+    HR=null;nav.mode='list';nav.hearingId='';stageWizardHearingListRender();return true;
+  }
+  if(nav.mode==='list'){
+    STAGE_HEARING_NAV=null;stageWizardRender();return true;
+  }
+  return false;
 }
 function stageWizardNextHTML(d,m){
   var stages=(MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other);
@@ -387,7 +473,7 @@ async function stageWizardCommit(){
   if(btn){btn.disabled=true;btn.textContent='Сохраняется…';}
   try{
     var result=await stageCommitTransfer(d);
-    STAGE_WIZARD=null;
+    STAGE_WIZARD=null;STAGE_HEARING_NAV=null;
     closeAll();S.ui.matterScope='active';S.ui.matterStatus='';
     go('matters');openMatter(result.newId,'general');
     toast('Новая стадия создана · перенесено записей: '+result.moved);

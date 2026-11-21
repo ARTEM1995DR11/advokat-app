@@ -2962,3 +2962,98 @@ body .stage-outcome-footer span{width:37px;height:37px;border:1px solid #E0C58B;
 body .stage-outcome-footer img{width:29px;height:29px;object-fit:contain}
 @media(max-width:360px){body .premium-list-modal.stage-outcome-picker{width:calc(100vw - 12px)!important;padding:8px 11px 11px!important}body .stage-outcome-option{grid-template-columns:39px minmax(0,1fr) 24px;gap:8px;padding:9px;min-height:69px}body .stage-outcome-option-icon{width:39px;height:39px}body .stage-outcome-option-copy strong{font-size:14.2px!important}body .stage-outcome-option-copy small{font-size:11px!important}}
 @media(max-height:650px){body .premium-list-modal.stage-outcome-picker{max-height:88dvh!important}body .stage-outcome-footer{display:none}}
+
+/* 5.0.1297.41.66.11 / 6451 — actionable hearing-warning and return route.
+   Other cards, date fields, navy folder and background remain untouched. */
+#sheet.stage-wizard-first-sheet .stage-first-hearing-link.stage-wizard-alert {
+  appearance:none;-webkit-appearance:none;font-family:inherit;
+  text-align:left;cursor:pointer;touch-action:manipulation;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-link:focus-visible {
+  outline:2px solid #b47449;outline-offset:3px;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-link:active {
+  border-color:#c78e70!important;background:#fee3d6!important;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-copy {
+  display:flex;flex-direction:column;align-items:flex-start;min-width:0;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-text {
+  display:block;color:inherit;font:400 12.15px/15.5px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:-.045em;overflow-wrap:anywhere;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-open {
+  display:inline-flex;gap:5px;align-items:center;margin-top:6px;
+  font:700 10.6px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:0;color:#983e2b;text-decoration:underline;text-underline-offset:2px;
+}
+#sheet.stage-wizard-first-sheet .stage-first-hearing-open .stage-first-glyph {
+  width:13px;height:13px;stroke-width:2.2;
+}
+@media(max-width:350px){
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-text {font-size:11px;line-height:1.36;}
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-open {font-size:10px;}
+}
+@media(min-width:386px){
+  #sheet.stage-wizard-first-sheet .stage-first-hearing-text {font-size:13px;line-height:17px;letter-spacing:-.03em;}
+}
+#sheet.stage-hearings-sheet {
+  --stage-ink:#24354b;color:var(--stage-ink);
+  max-height:min(90dvh,780px);overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#sheet.stage-hearings-sheet .stage-hearings-card {
+  padding:17px 15px 24px;background:linear-gradient(165deg,#fffefa,#fff7ec);
+  border-radius:25px;border:1px solid #e4d4b7;
+}
+#sheet.stage-hearings-sheet .stage-hearings-header {
+  display:flex;align-items:center;gap:10px;
+}
+#sheet.stage-hearings-sheet .stage-hearings-back {
+  flex:0 0 40px;height:40px;border:1px solid #cfad75;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#fffdfa,#f8e9cf);color:#947039;
+}
+#sheet.stage-hearings-sheet .stage-hearings-header>div {flex:1;min-width:0;}
+#sheet.stage-hearings-sheet .stage-hearings-header small {
+  font-size:10px;letter-spacing:.16em;color:#a17a3f;font-weight:800;
+}
+#sheet.stage-hearings-sheet .stage-hearings-header h2 {
+  font:700 clamp(19px,5.1vw,24px)/1.1 Georgia,serif;margin:4px 0;color:#162b4b;
+}
+#sheet.stage-hearings-sheet .stage-hearings-header p {
+  margin:0;color:#748095;font-size:12px;overflow-wrap:anywhere;
+}
+#sheet.stage-hearings-sheet .stage-hearings-count {
+  border-radius:14px;min-width:31px;text-align:center;padding:7px;background:#ffeadf;
+  color:#9a362d;font-weight:800;border:1px solid #ebc5b3;
+}
+#sheet.stage-hearings-sheet .stage-hearings-intro {
+  color:#59677c;font-size:12px;line-height:1.55;margin:15px 0;
+}
+#sheet.stage-hearings-sheet .stage-hearings-list {display:grid;gap:9px;}
+#sheet.stage-hearings-sheet .stage-hearings-row {
+  width:100%;display:flex;gap:10px;align-items:center;min-height:83px;padding:11px;
+  text-align:left;border-radius:17px;background:linear-gradient(125deg,#fffefd,#fff9f0);
+  border:1px solid #d9c39e;box-shadow:0 4px 11px rgba(72,45,14,.06);color:#243c5a;
+}
+#sheet.stage-hearings-sheet .stage-hearings-row:focus-visible {outline:2px solid #b88a48;outline-offset:2px;}
+#sheet.stage-hearings-sheet .stage-hearings-row:active {background:#fbecd9;}
+#sheet.stage-hearings-sheet .stage-hearings-row-icon {
+  display:flex;align-items:center;justify-content:center;flex:0 0 41px;height:41px;
+  border:1px solid #d9bc83;border-radius:13px;background:#fff4e1;color:#9c7337;
+}
+#sheet.stage-hearings-sheet .stage-hearings-row-icon svg {width:24px;height:24px;}
+#sheet.stage-hearings-sheet .stage-hearings-row-copy {display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
+#sheet.stage-hearings-sheet .stage-hearings-row-copy b {font:700 16px/1.3 Georgia,serif;color:#152a49;}
+#sheet.stage-hearings-sheet .stage-hearings-row-copy>span {font-size:12px;line-height:1.35;}
+#sheet.stage-hearings-sheet .stage-hearings-row-copy small {font-size:11px;line-height:1.3;color:#768091;}
+#sheet.stage-hearings-sheet .stage-hearings-row-copy em {font:650 11px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#a54131;}
+#sheet.stage-hearings-sheet .stage-hearings-row-arrow {color:#aa7e3e;flex:0 0 16px;}
+#sheet.stage-hearings-sheet .stage-hearings-row-arrow svg {width:17px;height:17px;}
+#sheet.stage-hearings-sheet .stage-hearings-hint {
+  margin:14px 0;color:#7b8798;font-size:11px;line-height:1.5;
+}
+#sheet.stage-hearings-sheet .stage-hearings-return {
+  width:100%;min-height:45px;border:1px solid #cda56b;border-radius:13px;
+  background:linear-gradient(105deg,#fff5e3,#faedda);color:#79542b;font-weight:750;
+}

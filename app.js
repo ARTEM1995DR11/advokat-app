@@ -2560,7 +2560,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-hearings-sheet','hearing-result-v355');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2578,6 +2578,7 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; }
 function closeAll(){
+  if(typeof STAGE_HEARING_NAV!=='undefined')STAGE_HEARING_NAV=null;
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
   if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();
   matterActionReturnReset();
@@ -3274,8 +3275,15 @@ function saveHearingResult(){
     if(next)label+='. Следующее заседание — '+fmtD(next.due,true)+' в '+next.time;
     addJournal(t.mid,label,t.due||today(),'hearing-result',true);
   }
-  HR=null;vib([12,35,12]);save();closeSheet();renderPreservingCalendarPosition();
-  if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);
+  var returnToStage=typeof stageWizardHearingIsEditing==='function'&&stageWizardHearingIsEditing(t);
+  HR=null;vib([12,35,12]);save();
+  if(returnToStage){
+    renderPreservingCalendarPosition();
+    stageWizardHearingAfterSave(t);
+  }else{
+    closeSheet();renderPreservingCalendarPosition();
+    if($('#page').classList.contains('open')&&t.mid)openMatter(t.mid);
+  }
   toast(next?'Результат сохранён · следующее заседание создано':'Результат заседания сохранён');
   schedule();
 }
@@ -4660,6 +4668,7 @@ function appBack(){
       stageWizardPrev();vib(5);return true;
     }
   }
+  if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
   if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
@@ -9350,6 +9359,9 @@ document.addEventListener('click', function(ev){
     case 'm-finish-full': sheetMatterFinish(id);break;
     case 'm-finish-stage': stageWizardStart(id);break;
     case 'm-stage-start': stageWizardStart(id);break; // legacy action compatibility
+    case 'stage-hearings-open': stageWizardHearingOpen();break;
+    case 'stage-hearings-back': stageWizardHearingBack();break;
+    case 'stage-hearing-edit': stageWizardHearingEdit(id);break;
     case 'stage-wizard-next': stageWizardNext();break;
     case 'stage-wizard-prev': stageWizardPrev();break;
     case 'stage-wizard-commit': stageWizardCommit();break;
@@ -9684,7 +9696,7 @@ document.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){if(!unlocked)return;go(b.dataset.tab);vib(5);};});
 $('#fab').onclick=function(){if(!unlocked)return;vib(); if(S.ui.tab==='matters' && !$('#page').classList.contains('open')){ closeSheet(); editMatter(null); } else sheetQuickAdd();};
-$('#scrim').onclick=function(){if(MATTER_ACTION_RETURN && $('#sheet').classList.contains('open')){appBack();return;}if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
+$('#scrim').onclick=function(){if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack())return;if(MATTER_ACTION_RETURN && $('#sheet').classList.contains('open')){appBack();return;}if($('#page').classList.contains('open')&&$('#sheet').classList.contains('open'))closeSheet();else closeAll();};
 $('#lock-pad').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.n)pinPress(b.dataset.n);};
 $('#file').onchange=function(e){
   var f=e.target.files[0];if(!f)return;var r=new FileReader();
@@ -9946,7 +9958,7 @@ document.addEventListener('touchend',function(){
   if(!SHEET_SWIPE.on) return;
   var ok=SHEET_SWIPE.moved && SHEET_SWIPE.dy>=64 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.2;
   SHEET_SWIPE.on=false;
-  if(ok){vib(5);closeSheet();}
+  if(ok){vib(5);if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack())return;closeSheet();}
 },{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passive:true,capture:true});
 
