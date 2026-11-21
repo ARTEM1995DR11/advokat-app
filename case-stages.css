@@ -3445,446 +3445,216 @@ body.stage-hearings-backdrop-open #scrim.open::after {
 
 
 /* ======================================================================
-   5.0.1297.41.66.17 | build 6457 — nested hearing review above the REAL
-   dark-blue completion wizard.  Preserve #sheet and underlying form values.
-   A translucent veil affects the wizard, not the unrelated case dossier.
+   5.0.1297.41.66.18 | build 6458
+   Consolidated SECOND-layer hearing review: compact content for one event,
+   list-only scrolling for many, fixed bottom rim, real step-1 background.
+   Never re-style the first-step sheet or the dossier's other paper layers.
    ====================================================================== */
 #stage-hearings-veil {
   position:fixed!important;inset:0!important;z-index:106!important;
-  background:rgba(13,22,38,.34)!important;
-  -webkit-backdrop-filter:blur(7px) saturate(.88)!important;
-  backdrop-filter:blur(7px) saturate(.88)!important;
+  background:rgba(13,22,38,.32)!important;
+  -webkit-backdrop-filter:blur(6px) saturate(.88)!important;
+  backdrop-filter:blur(6px) saturate(.88)!important;
   pointer-events:auto!important;
   touch-action:manipulation;
 }
 #stage-hearings-overlay.stage-hearings-sheet.open {
   position:fixed!important;z-index:107!important;
-  left:0!important;right:0!important;bottom:0!important;top:auto!important;
-  width:min(100%,510px)!important;margin:0 auto!important;
+  top:auto!important;bottom:0!important;left:0!important;right:0!important;
+  width:min(100%,510px)!important;
+  height:auto!important;min-height:0!important;
+  max-height:calc(100dvh - max(55px, env(safe-area-inset-top, 0px) + 12px))!important;
+  margin:0 auto!important;padding:38px 11px max(13px,env(safe-area-inset-bottom, 0px))!important;
+  border:0!important;border-radius:0!important;
   box-sizing:border-box!important;
-  background:transparent!important;border:0!important;
-  border-radius:0!important;box-shadow:none!important;
-  color:#172b4b!important;
-  isolation:isolate!important;pointer-events:auto!important;
+  display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
+  overflow:hidden!important;
+  transform:none!important;transition:none!important;
+  color:#172b4b!important;background:transparent!important;
+  box-shadow:none!important;isolation:isolate!important;pointer-events:auto!important;
+  overscroll-behavior:contain;
 }
-@media(prefers-reduced-transparency:reduce){
-  #stage-hearings-veil {background:rgba(15,25,40,.58)!important;
-    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;}
+#stage-hearings-overlay.stage-hearings-sheet.open::before,
+#stage-hearings-overlay.stage-hearings-sheet.open::after {display:none!important;content:none!important;}
+#stage-hearings-overlay.stage-hearings-sheet.open > .grab {display:none!important;}
+#stage-hearings-overlay.stage-hearings-sheet.open > .matter-actions-outline {
+  display:block!important;position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;z-index:0!important;
+  overflow:visible!important;pointer-events:none!important;
+  filter:drop-shadow(0 4px 7px rgba(98,58,27,.15))!important;
 }
-/* Approved hearing-folder visual rules reused against the secondary layer: */
-/* ========================================================================
-   5.0.1297.41.66.12 — Hearing follow-up sheet, premium unified design.
-   Scoped entirely to the sheet; data, navigation and the parent wizard stay
-   unchanged. Content grows naturally for one or many unresolved hearings.
-   ======================================================================== */
-#stage-hearings-overlay.stage-hearings-sheet.open {
-  color:#172b4b;
-  width:min(100%,510px);left:0;right:0;margin:0 auto;
-  max-height:min(92dvh,860px);
-  padding:7px 10px max(17px,env(safe-area-inset-bottom));
-  overflow-y:auto;overflow-x:hidden;
-  border-radius:28px 28px 0 0;
-  border-top:1.25px solid #d7b784;
-  background:linear-gradient(165deg,#fffefb 0%,#fff9f0 60%,#f9eddb 100%);
-  box-shadow:0 -8px 36px rgba(34,26,21,.23), inset 0 2px rgba(255,255,255,.98);
+#stage-hearings-overlay.stage-hearings-sheet.open > .stage-hearings-card {
+  position:relative!important;z-index:1!important;
+  width:100%;height:auto!important;min-height:0!important;
+  box-sizing:border-box!important;
+  flex:0 1 auto!important;display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;
+  padding:5px 6px 5px!important;margin:0!important;
+  border:0!important;border-radius:0!important;
+  background:none!important;box-shadow:none!important;
 }
-#stage-hearings-overlay.stage-hearings-sheet>.grab {
-  width:39px;height:4px;margin:4px auto 11px;
-  background:#d6cab7;box-shadow:0 1px 0 rgba(255,255,255,.9);
+#stage-hearings-overlay .stage-hearings-header {
+  display:flex;align-items:center;gap:10px;
+  min-height:82px;padding:0 0 1px;flex-shrink:0!important;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-card {
-  padding:18px 13px 16px;
-  border:1px solid #ddc49c;border-radius:23px;
-  background:linear-gradient(155deg,#fffdf9,#fffaf2 55%,#fbf1e3);
-  box-shadow:inset 0 1px rgba(255,255,255,.94),0 4px 14px rgba(134,95,50,.05);
+#stage-hearings-overlay .stage-hearings-back {
+  display:grid;place-items:center;flex:0 0 43px;width:43px;height:48px;
+  padding:0;border:1.3px solid #bb8b49;border-radius:14px;
+  background:linear-gradient(155deg,#fffefa,#f8ecd5);
+  box-shadow:0 3px 6px rgba(122,83,37,.16),inset 0 1px #fff;
+  color:#a77b35;cursor:pointer;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header {
-  display:flex;align-items:center;gap:9px;min-height:77px;
+#stage-hearings-overlay .stage-hearings-back .ico {width:25px;height:25px;stroke-width:2.3;}
+#stage-hearings-overlay .stage-hearings-heading {flex:1;min-width:0;}
+#stage-hearings-overlay .stage-hearings-eyebrow {display:flex;align-items:center;gap:8px;min-width:0;}
+#stage-hearings-overlay .stage-hearings-eyebrow small {
+  font:800 clamp(9px,2.77vw,10.5px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:.15em;white-space:nowrap;color:#98702b;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back {
-  flex:0 0 43px;width:43px;height:43px;border:1px solid #d3ae72;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(140deg,#fffefb,#f5e4c4);
-  box-shadow:0 2px 4px rgba(116,75,24,.12),inset 0 1px #fff;
-  color:#98702d;cursor:pointer;
+#stage-hearings-overlay .stage-hearings-eyebrow i {
+  flex:0 1 42px;width:42px;min-width:8px;height:2px;
+  background:linear-gradient(90deg,#b88740,#d6b16c);
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back .ico {width:25px;height:25px;stroke-width:2.3;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-heading {flex:1;min-width:0;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow {display:flex;align-items:center;gap:11px;min-width:0;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow small {
-  font:800 10.5px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  letter-spacing:.15em;white-space:nowrap;color:#9a753a;
+#stage-hearings-overlay .stage-hearings-header h2 {
+  margin:3px 0 4px;color:#13264b;
+  font:700 clamp(21px,6.48vw,26px)/1.08 Georgia,'Times New Roman',serif;
+  letter-spacing:-.036em;overflow-wrap:normal;hyphens:none;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow i {
-  flex:1;min-width:12px;max-width:65px;height:1.6px;border-radius:4px;
-  background:linear-gradient(90deg,#bc8f47,#e1bd7b);
+#stage-hearings-overlay .stage-hearings-header p {
+  margin:0;color:#657188;overflow-wrap:anywhere;
+  font:400 clamp(11px,3.22vw,13px)/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header h2 {
-  font:700 clamp(20px,5.6vw,25px)/1.06 Georgia,'Times New Roman',serif;
-  margin:4px 0 5px;letter-spacing:-.022em;color:#142a4b;
-  overflow-wrap:normal;hyphens:none;
+#stage-hearings-overlay .stage-hearings-count {
+  align-self:center;flex:0 0 auto;min-width:31px;height:31px;
+  padding:0 7px;box-sizing:border-box;border-radius:11px;
+  border:1px solid #deb8ab;background:linear-gradient(145deg,#fff4ef,#fae1d2);
+  color:#953f31;font:800 14px/30px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  box-shadow:inset 0 1px rgba(255,255,255,.9);text-align:center;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header p {
-  margin:0;font:400 12.1px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:#6f7c90;overflow-wrap:anywhere;
+#stage-hearings-overlay .stage-hearings-rule,
+#stage-hearings-overlay .stage-hearings-intro-icon {display:none!important;}
+#stage-hearings-overlay .stage-hearings-intro {
+  display:block;flex-shrink:0!important;
+  margin:8px 0 10px;padding:0!important;background:none!important;
+  border:0!important;border-radius:0!important;color:#4e5b74;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-count {
-  align-self:center;flex:0 0 auto;min-width:35px;height:35px;padding:0 7px;
-  border-radius:12px;border:1px solid #e8bcae;
-  background:linear-gradient(145deg,#fff4ef,#fce1d3);
-  color:#953f31;font:800 16px/35px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  box-shadow:inset 0 1px rgba(255,255,255,.9);
-  text-align:center;
+#stage-hearings-overlay .stage-hearings-intro p {
+  margin:0;font:400 13px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule {
-  position:relative;margin:15px 0 14px;height:12px;
-  display:flex;align-items:center;justify-content:center;
+#stage-hearings-overlay .stage-hearings-list {
+  display:grid!important;grid-auto-rows:max-content!important;
+  align-content:start!important;gap:9px;
+  flex:0 1 auto!important;min-height:0!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  padding:2px 3px 5px 2px;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:#d5bd97 transparent;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule:before,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule:after {
-  content:'';height:1px;background:linear-gradient(90deg,transparent,#d5b47a);
-  flex:1;
+#stage-hearings-overlay .stage-hearings-row {
+  width:100%;min-height:96px;box-sizing:border-box;
+  display:flex;align-items:center;gap:10px;text-align:left;
+  padding:11px 10px;border:1.15px solid #c7a476;border-radius:20px;
+  background:linear-gradient(130deg,#fffefa,#fff9ef 56%,#f8eddb);
+  box-shadow:0 4px 7px rgba(104,69,31,.13),inset 0 1px #fff;
+  color:#243c5a;cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule:after {transform:rotate(180deg);}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule i {
-  width:9px;height:9px;transform:rotate(45deg);margin:0 13px;
-  background:linear-gradient(135deg,#d1a154,#e8c67c);border:1px solid #d6a957;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro {
-  margin:0 0 16px;padding:11px 11px 12px;display:flex;gap:10px;align-items:flex-start;
-  border:1px solid #ebdbc2;border-radius:15px;
-  background:linear-gradient(115deg,#fdf8ef,#fcf0df);
-  color:#435675;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro-icon {
-  color:#a68143;flex:0 0 21px;margin-top:1px;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro-icon svg {width:20px;height:20px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro p {
-  margin:0;font:400 12.2px/1.47 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-list {display:grid;gap:10px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row {
-  width:100%;min-height:104px;display:flex;gap:11px;align-items:center;text-align:left;
-  padding:13px 11px;border-radius:19px;border:1px solid #d4b283;
-  background:linear-gradient(140deg,#fffefa 0%,#fff9f0 58%,#f8eedf 100%);
-  box-shadow:0 4px 10px rgba(93,60,29,.10),inset 0 1px #fff;
-  color:#243c5a;cursor:pointer;transition:background .15s,box-shadow .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row:focus-visible,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back:focus-visible,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return:focus-visible {
-  outline:2px solid #a97a35;outline-offset:3px;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row:active {background:#faeddc;box-shadow:inset 0 1px 3px rgba(120,75,30,.13);}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-icon {
-  flex:0 0 44px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-  border:1px solid #d7b67a;border-radius:14px;
+#stage-hearings-overlay .stage-hearings-row:active {background:#faeddc;}
+#stage-hearings-overlay .stage-hearings-row-icon {
+  display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;
+  border:1px solid #d7b67a;border-radius:13px;
   color:#a0762d;background:linear-gradient(145deg,#fff9ec,#f4e1bb);
   box-shadow:0 2px 5px rgba(133,90,41,.09),inset 0 1px rgba(255,255,255,.9);
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-icon svg {width:25px;height:25px;stroke-width:1.9;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy {
-  display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy b {
-  color:#172c4e;font:700 clamp(15px,4.3vw,17px)/1.19 Georgia,serif;
+#stage-hearings-overlay .stage-hearings-row-icon svg {width:25px;height:25px;stroke-width:1.9;}
+#stage-hearings-overlay .stage-hearings-row-copy {display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
+#stage-hearings-overlay .stage-hearings-row-copy b {
+  color:#172c4e;font:700 clamp(15px,4.6vw,18px)/1.17 Georgia,'Times New Roman',serif;
   font-variant-numeric:tabular-nums;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy>span {
-  font:500 12.7px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:#405472;
+#stage-hearings-overlay .stage-hearings-row-copy>span {
+  color:#405672;font:500 12.7px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy small {
-  font:400 11.6px/1.32 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:#788393;overflow-wrap:anywhere;
+#stage-hearings-overlay .stage-hearings-row-copy small {
+  color:#7a8495;font:400 11.6px/1.35 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy em {
-  display:flex;gap:6px;align-items:center;margin-top:1px;
+#stage-hearings-overlay .stage-hearings-row-copy em {
+  display:flex;align-items:center;gap:6px;margin-top:1px;
   color:#9f4435;font:700 11.4px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   font-style:normal;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-status-dot {
+#stage-hearings-overlay .stage-hearings-status-dot {
   width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:#b95c45;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-arrow {
-  display:flex;align-items:center;justify-content:center;
-  flex:0 0 27px;width:27px;height:33px;
-  color:#93672e;border-radius:10px;
+#stage-hearings-overlay .stage-hearings-row-arrow {
+  display:grid;place-items:center;flex:0 0 27px;width:27px;height:33px;
+  color:#93672e;border:1px solid #e2c99e;border-radius:10px;
   background:linear-gradient(140deg,#fff9ec,#f9e8c8);
-  border:1px solid #e2c99e;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-arrow svg {width:16px;height:16px;stroke-width:2.2;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint {
-  display:flex;gap:9px;align-items:flex-start;
-  margin:15px 3px 17px;padding:0;
-  color:#748094;font:400 11px/1.48 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+#stage-hearings-overlay .stage-hearings-row-arrow svg {width:16px;height:16px;stroke-width:2.2;}
+#stage-hearings-overlay .stage-hearings-hint {
+  display:flex;align-items:flex-start;gap:9px;flex-shrink:0!important;
+  margin:11px 0 0;padding:10px 12px;
+  border:1px solid #dfc498;border-radius:16px;
+  background:linear-gradient(110deg,#fff9ee,#fbefdc);
+  color:#59637a;font:400 11.4px/1.42 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint-icon {
-  flex:0 0 18px;color:#b49867;
+#stage-hearings-overlay .stage-hearings-hint-icon {flex:0 0 18px;color:#b49867;}
+#stage-hearings-overlay .stage-hearings-hint-icon svg {width:18px;height:18px;}
+#stage-hearings-overlay .stage-hearings-ornament {
+  display:flex;align-items:center;justify-content:center;gap:11px;
+  margin:9px auto 10px;flex-shrink:0!important;width:100%;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint-icon svg {width:18px;height:18px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return {
-  width:100%;min-height:47px;display:flex;justify-content:center;align-items:center;gap:9px;
-  padding:10px 9px;border:1px solid #bf9556;border-radius:15px;
-  background:linear-gradient(110deg,#fff5e4,#fae8c9);
-  box-shadow:0 2px 5px rgba(138,97,51,.08),inset 0 1px #fff;
-  color:#755326;font:750 13.1px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  cursor:pointer;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return svg {width:15px;height:15px;transform:rotate(180deg);stroke-width:2.2;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament {
-  display:flex;align-items:center;gap:12px;justify-content:center;margin:14px auto 0;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament>span {
+#stage-hearings-overlay .stage-hearings-ornament>span {
   height:1px;flex:1;background:linear-gradient(90deg,transparent,#d7b47b);
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament>span:last-child {transform:rotate(180deg);}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament i {
-  width:8px;height:8px;transform:rotate(45deg);background:#d6aa5c;border:1px solid #cfaa71;
+#stage-hearings-overlay .stage-hearings-ornament>span:last-child {transform:rotate(180deg);}
+#stage-hearings-overlay .stage-hearings-ornament i {
+  width:8px;height:8px;transform:rotate(45deg);
+  background:#d6aa5c;border:1px solid #cfaa71;
 }
-@media(max-width:360px){
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-card{padding:16px 10px 14px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header{gap:8px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back{flex-basis:40px;width:40px;height:40px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow small{font-size:9.6px;letter-spacing:.13em;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header h2{font-size:20px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row{gap:9px;padding:11px 9px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-icon{flex-basis:40px;width:40px;height:40px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-arrow{flex-basis:24px;width:24px;}
-}
-@media(prefers-reduced-motion:reduce){
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row{transition:none;}
-}
-
-
-/* ======================================================================
-   5.0.1297.41.66.13 | build 6453
-   «Заседания без результата» — approved light-folder system, NOT an iOS
-   bottom sheet. Background and continuous SVG outline are reused from
-   the already approved «Действия по делу» screen. Scoped entirely here.
-   ====================================================================== */
-#stage-hearings-overlay.stage-hearings-sheet.open {
-  position:fixed!important;
-  left:0!important;right:0!important;top:50%!important;bottom:auto!important;
-  margin:0 auto!important;width:min(100%,460px)!important;
-  max-height:calc(100dvh - max(44px, env(safe-area-inset-top, 0px) + 14px) - max(10px, env(safe-area-inset-bottom, 0px)))!important;
-  height:max-content!important;
-  padding:41px 15px 18px!important;
-  border:0!important;border-radius:0!important;
-  background:transparent!important;box-shadow:none!important;
-  transform:translateY(-50%)!important;
-  transition:none!important;
-  isolation:isolate!important;
-  overflow-y:auto!important;overflow-x:hidden!important;
-  overscroll-behavior:contain;
-  color:#13264b!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet.open::before,
-#stage-hearings-overlay.stage-hearings-sheet.open::after {content:none!important;display:none!important;}
-#stage-hearings-overlay.stage-hearings-sheet.open>.grab {width:0!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;opacity:0!important;}
-#stage-hearings-overlay.stage-hearings-sheet.open>.matter-actions-outline {
-  display:block!important;position:absolute!important;top:0!important;left:0!important;
-  width:100%!important;height:100%!important;z-index:0!important;
-  pointer-events:none!important;overflow:visible!important;
-  filter:drop-shadow(0 5px 7px rgba(98,58,27,.14))!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet.open>.stage-hearings-card {
-  position:relative!important;z-index:2!important;
-  padding:9px 7px 8px!important;
-  border:0!important;border-radius:0!important;
-  background:transparent!important;box-shadow:none!important;
-  overflow:visible!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header {
-  gap:11px;min-height:90px;align-items:center;
-  padding:0 0 2px;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back {
-  width:44px;height:50px;flex:0 0 44px;border-radius:14px;
-  border:1.3px solid #bb8b49;
-  background:linear-gradient(155deg,#fffefa 0%,#f8ecd5 100%);
-  box-shadow:0 3px 6px rgba(122,83,37,.16),inset 0 1px #fff;
-  color:#a77b35;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow {gap:8px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow small {
-  font:800 clamp(9px,2.77vw,10.5px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-  letter-spacing:.15em!important;color:#98702b!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-eyebrow i {
-  flex:0 1 42px;width:42px;max-width:42px;min-width:8px;height:2px;
-  background:linear-gradient(90deg,#b88740,#d6b16c);
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header h2 {
-  color:#13264b!important;
-  font:700 clamp(21px,6.48vw,26px)/1.08 Georgia,'Times New Roman',serif!important;
-  letter-spacing:-.036em!important;margin:3px 0 4px!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header p {
-  color:#657188;font:400 clamp(11px,3.22vw,13px)/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-count {
-  min-width:31px;height:31px;line-height:30px;border-radius:11px;
-  background:linear-gradient(145deg,#fff4ef,#fae1d2);border:1px solid #deb8ab;
-  font-size:14px;align-self:center;
-}
-/* The approved folder screens use only a single short golden line above
-   the headline, not the extra central sheet divider. */
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-rule {display:none!important;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro {
-  display:block;margin:15px 0 14px;padding:0!important;
-  background:none!important;border:0!important;border-radius:0!important;
-  color:#4e5b74;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro-icon {display:none!important;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro p {
-  font:400 13px/1.46 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-list {gap:10px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row {
-  gap:10px;min-height:100px;padding:13px 10px!important;border-radius:21px;
-  border:1.15px solid #c7a476;
-  background:linear-gradient(130deg,#fffefa 0%,#fff9ef 56%,#f8eddb 100%);
-  box-shadow:0 4px 7px rgba(104,69,31,.13),inset 0 1px #fff;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-icon {
-  flex:0 0 42px;width:42px;height:42px;border-radius:13px;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row-copy b {
-  font:700 clamp(15px,4.6vw,18px)/1.17 Georgia,'Times New Roman',serif;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint {
-  margin:15px 0 11px;padding:11px 12px;border:1px solid #dfc498;
-  border-radius:16px;background:linear-gradient(110deg,#fff9ee,#fbefdc);
-  color:#59637a;font:400 11.4px/1.43 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament {margin:12px auto 13px;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return {
-  min-height:51px;border-radius:18px;
-  border:1.6px solid #a67832;
+#stage-hearings-overlay .stage-hearings-return {
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;min-height:50px;box-sizing:border-box;flex-shrink:0!important;
+  margin:0;padding:10px 8px;border:1.6px solid #a67832;border-radius:17px;
   background:radial-gradient(ellipse at 50% -20%,rgba(255,245,173,.56),transparent 71%),
     linear-gradient(180deg,#f8d67b 0%,#e8ad3b 48%,#be7f15 100%);
-  color:#172849;font:700 clamp(14px,4vw,17px)/1.22 Georgia,'Times New Roman',serif;
   box-shadow:inset 0 2px 0 rgba(255,255,255,.65),0 4px 8px rgba(105,69,23,.20);
+  color:#172849;font:700 clamp(14px,4vw,17px)/1.22 Georgia,'Times New Roman',serif;
+  cursor:pointer;
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return svg {width:17px;height:17px;}
+#stage-hearings-overlay .stage-hearings-return svg {
+  flex:0 0 auto;width:17px;height:17px;transform:rotate(180deg);stroke-width:2.2;
+}
+#stage-hearings-overlay .stage-hearings-back:focus-visible,
+#stage-hearings-overlay .stage-hearings-row:focus-visible,
+#stage-hearings-overlay .stage-hearings-return:focus-visible {
+  outline:2px solid #a97a35;outline-offset:3px;
+}
+@media(max-width:390px){
+  /* Keep the approved two-line title on iPhone, clear of the count pill. */
+  #stage-hearings-overlay .stage-hearings-header h2 {max-width:205px;}
+}
 @media(max-width:360px){
-  #stage-hearings-overlay.stage-hearings-sheet.open {padding:40px 11px 15px!important;}
-  #stage-hearings-overlay.stage-hearings-sheet.open>.stage-hearings-card {padding:8px 5px 6px!important;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header{gap:8px;min-height:88px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-back{flex-basis:40px;width:40px;height:46px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-row{gap:8px;padding:10px 8px!important;}
+  #stage-hearings-overlay.stage-hearings-sheet.open {padding-left:9px!important;padding-right:9px!important;}
+  #stage-hearings-overlay.stage-hearings-sheet.open>.stage-hearings-card {padding-left:5px!important;padding-right:5px!important;}
+  #stage-hearings-overlay .stage-hearings-header {gap:8px;min-height:80px;}
+  #stage-hearings-overlay .stage-hearings-back {flex-basis:40px;width:40px;height:46px;}
+  #stage-hearings-overlay .stage-hearings-eyebrow small {font-size:9px;letter-spacing:.13em;}
+  #stage-hearings-overlay .stage-hearings-header h2 {font-size:21px;}
+  #stage-hearings-overlay .stage-hearings-row {gap:8px;padding:10px 8px;}
+  #stage-hearings-overlay .stage-hearings-row-icon {flex-basis:40px;width:40px;height:40px;}
+  #stage-hearings-overlay .stage-hearings-row-arrow {flex-basis:24px;width:24px;}
 }
 @media(max-height:650px){
-  #stage-hearings-overlay.stage-hearings-sheet.open{max-height:calc(100dvh - 36px)!important;}
+  #stage-hearings-overlay.stage-hearings-sheet.open {padding-top:36px!important;max-height:calc(100dvh - max(46px, env(safe-area-inset-top, 0px) + 8px))!important;}
+  #stage-hearings-overlay .stage-hearings-header {min-height:74px;}
+  #stage-hearings-overlay .stage-hearings-intro {margin-top:6px;margin-bottom:7px;}
+  #stage-hearings-overlay .stage-hearings-hint {margin-top:7px;padding:8px 10px;}
+  #stage-hearings-overlay .stage-hearings-ornament {margin-top:7px;margin-bottom:7px;}
 }
-
-/* ======================================================================
-   5.0.1297.41.66.14 | build 6454
-   «Заседания без результата»: bottom-anchored folder, not a centered card.
-   The SVG outline reaches the bottom of the viewport even for a single
-   hearing. Only the hearing list scrolls when there are many entries;
-   the heading and return control remain visible. No workflow changes.
-   ====================================================================== */
-#stage-hearings-overlay.stage-hearings-sheet.open {
-  top:auto!important;
-  bottom:0!important;
-  transform:none!important;
-  height:82dvh!important;
-  max-height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
-  min-height:0!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:flex-start!important;
-  overflow:hidden!important;
-  padding-bottom:max(10px, env(safe-area-inset-bottom, 0px))!important;
+@media(prefers-reduced-transparency:reduce){
+  #stage-hearings-veil {background:rgba(15,25,40,.58)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;}
 }
-#stage-hearings-overlay.stage-hearings-sheet.open > .stage-hearings-card {
-  display:flex!important;
-  flex-direction:column!important;
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  overflow:hidden!important;
+@media(prefers-reduced-motion:reduce){
+  #stage-hearings-overlay .stage-hearings-row {transition:none;}
 }
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-header,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament,
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return {
-  flex-shrink:0!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-list {
-  display:grid!important;
-  grid-auto-rows:max-content!important;
-  align-content:start!important;
-  flex:1 1 auto!important;
-  min-height:0!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  overscroll-behavior:contain;
-  -webkit-overflow-scrolling:touch;
-  padding:2px 3px 8px 2px;
-  scrollbar-width:thin;
-  scrollbar-color:#d5bd97 transparent;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-return {
-  margin-top:0!important;
-}
-@media (max-height:700px) {
-  #stage-hearings-overlay.stage-hearings-sheet.open {
-    height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
-  }
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro {margin-top:9px;margin-bottom:8px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint {margin-top:8px;margin-bottom:6px;padding:8px 10px;}
-  #stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament {margin-top:7px;margin-bottom:8px;}
-}
-
-
-/* ======================================================================
-   5.0.1297.41.66.15 | build 6455 — compact hearing-review folder.
-   One unresolved hearing takes only the space it needs. The folder remains
-   bottom-anchored; at the height cap, only the hearing list may scroll.
-   This is limited to the hearing-followup overlay, without workflow edits.
-   ====================================================================== */
-#stage-hearings-overlay.stage-hearings-sheet.open {
-  height:auto!important;
-  max-height:calc(100dvh - max(56px, env(safe-area-inset-top, 0px) + 14px))!important;
-  min-height:0!important;
-  bottom:0!important;top:auto!important;
-  transform:none!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:flex-start!important;
-  overflow:hidden!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet.open > .stage-hearings-card {
-  flex:0 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  display:flex!important;
-  flex-direction:column!important;
-  overflow:hidden!important;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-list {
-  flex:0 1 auto!important;
-  min-height:0!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  align-content:start!important;
-  grid-auto-rows:max-content!important;
-  -webkit-overflow-scrolling:touch;
-}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-intro {margin-top:10px!important;margin-bottom:11px!important;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-hint {margin-top:12px!important;margin-bottom:7px!important;}
-#stage-hearings-overlay.stage-hearings-sheet .stage-hearings-ornament {margin-top:8px!important;margin-bottom:10px!important;}
-@media(max-height:700px) {
-  #stage-hearings-overlay.stage-hearings-sheet.open {
-    height:auto!important;
-    max-height:calc(100dvh - max(54px, env(safe-area-inset-top, 0px) + 12px))!important;
-  }
-}
-
