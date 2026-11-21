@@ -11,7 +11,12 @@ function stageRelatedCases(m){
 }
 function stageCaseHasLinks(m){return !!(m&&stageRelatedCases(m).length>1);}
 function stageCaseHeading(m){return String((m&&(m.stageInstanceLabel||m.stage))||'Этап производства');}
-function stageEligibleTasks(m){return m?tasksOf(m.id).filter(isActiveRecord):[];}
+/* A transfer is for work that still needs attention, not the case's full
+   event history. A hearing with a recorded result is historical even when
+   older data did not mark its `done` bit. */
+function stageEligibleTasks(m){return m?tasksOf(m.id).filter(function(t){
+  return isActiveRecord(t)&&!(t.kind==='hearing'&&hearingHasResult(t));
+}):[];}
 function stageUnresolvedHearings(m){return m?tasksOf(m.id).filter(function(t){return t.kind==='hearing'&&hearingNeedsResult(t);}):[];}
 function stagePaymentDrafts(m){return m&&m.basis==='assigned'?(S.stagePayments||[]).filter(function(x){return x&&x.mode==='assigned'&&sameRecordId(x.mid,m.id);}):[];}
 function stageISODateValid(iso){

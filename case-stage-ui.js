@@ -20,6 +20,20 @@ function stageWizardStart(id){
     payment:{category:'',lines:m.basis==='assigned'?appointmentFeeDays(m,today()).map(function(x){return {date:x.date,rate:0,included:x.source==='participation',alreadyClaimed:false,verified:false,proof:'',dayType:appointmentFeeSuggestedDayType(x.date)};}):[],note:''}};
   stageWizardRender();
 }
+/* Only meaningful steps are displayed. No empty transfer page for a case
+   with no pending work; payment is reserved for appointed representation. */
+function stageWizardVisibleSteps(m){
+  var v=[0,1];
+  if(stageEligibleTasks(m).length)v.push(2);
+  if(m&&m.basis==='assigned')v.push(3);
+  v.push(4);
+  return v;
+}
+function stageWizardStepPosition(d,m){
+  var visible=stageWizardVisibleSteps(m);
+  var index=visible.indexOf(d.step);
+  return {visible:visible,index:index<0?0:index,count:visible.length};
+}
 function stageStepTitle(){return STAGE_WIZARD_STEPS[STAGE_WIZARD.step];}
 function stageWizardCapture(){
   var d=STAGE_WIZARD;if(!d)return;
@@ -97,21 +111,25 @@ function stageWizardValidateStep(){
 function stageWizardNext(){
   if(!STAGE_WIZARD)return;
   stageWizardCapture();var err=stageWizardValidateStep();if(err){toast(err);return;}
-  if(STAGE_WIZARD.step<4){var m=matter(STAGE_WIZARD.sourceId);STAGE_WIZARD.step+=(STAGE_WIZARD.step===2&&m.basis!=='assigned')?2:1;stageWizardRender();}
+  var d=STAGE_WIZARD,m=matter(d.sourceId),visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
+  if(d.step===1){
+    var currentIds=new Set(stageEligibleTasks(m).map(function(t){return String(t.id);}));
+    d.moveIds=d.moveIds.filter(function(id){return currentIds.has(String(id));});
+    if(!currentIds.size){d.moveIds=[];d.acknowledgeRemaining=false;d.acknowledgeCritical=false;}
+  }
+  if(at>=0&&at<visible.length-1){d.step=visible[at+1];stageWizardRender();}
 }
 function stageWizardPrev(){
   if(!STAGE_WIZARD)return;
   if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;STAGE_HEARING_NAV=null;sheetMatterFinishChoice(id);return;}
-  stageWizardCapture();var m=matter(STAGE_WIZARD.sourceId);STAGE_WIZARD.step-=(STAGE_WIZARD.step===4&&m.basis!=='assigned')?2:1;stageWizardRender();
+  stageWizardCapture();var d=STAGE_WIZARD,m=matter(d.sourceId),visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
+  if(at>0){d.step=visible[at-1];stageWizardRender();}
 }
 function stageWizardHead(){
-  var d=STAGE_WIZARD,m=matter(d.sourceId),assigned=m.basis==='assigned';
-  var steps=assigned?STAGE_WIZARD_STEPS:STAGE_WIZARD_STEPS.filter(function(x){return x!=='Расчёт оплаты';});
-  var at=assigned?d.step:(d.step===4?3:d.step);
-  var first=d.step<=1; // Steps 1 and 2 share the approved premium folder.
-  var count=at+1,total=steps.length;
-  // Approved navy/ivory folder is shared by steps 1 and 2.
-  // Subsequent steps retain their original presentation.
+  var d=STAGE_WIZARD,m=matter(d.sourceId),progress=stageWizardStepPosition(d,m);
+  var at=progress.index,count=at+1,total=progress.count;
+  var first=d.step<=2; // Steps 1–3 use the approved navy/ivory folder.
+  var steps=progress.visible.map(function(step){return STAGE_WIZARD_STEPS[step];});
   var header=first
     ?'<header class="stage-wizard-header stage-wizard-header-premium">'+
       '<button class="stage-wizard-back" type="button" data-act="stage-wizard-prev" aria-label="К предыдущему шагу">'+ico('left','s')+'</button>'+
@@ -367,12 +385,50 @@ function stageWizardNextHTML(d,m){
 }
 function stageWizardTasksHTML(d,m){
   var items=stageEligibleTasks(m),selected=new Set(d.moveIds.map(String));
-  return '<p class="stage-wizard-sub">Отметьте записи, которые остаются в работе. Перенесённая запись появится в календаре только один раз — уже в новой папке.</p>'+
-    (items.length?'<div class="stage-wizard-task-list">'+items.map(function(t){
-       return '<label class="stage-wizard-task"><input type="checkbox" data-stage-move="'+esc(t.id)+'"'+(selected.has(String(t.id))?' checked':'')+'><span><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+'</small></span>'+(['deadline','hearing','investigation'].includes(t.kind)?'<em>Проверить срок/заседание</em>':'')+'</label>';
-    }).join('')+'</div>':'<div class="stage-wizard-info">Незавершённых записей нет. Можно сразу продолжить.</div>')+
-    '<label class="stage-wizard-check"><input id="st-ack-remaining" type="checkbox"'+(d.acknowledgeRemaining?' checked':'')+'><span>Проверил(а): неперенесённые записи останутся в истории и не будут показываться в активных списках</span></label>'+
-    '<label class="stage-wizard-check"><input id="st-ack-critical" type="checkbox"'+(d.acknowledgeCritical?' checked':'')+'><span>Отдельно проверил(а) юридическую актуальность выбранных сроков, заседаний и следственных действий</span></label>';
+  var selectedCount=items.filter(function(t){return selected.has(String(t.id));}).length;
+  var reviewCount=items.filter(function(t){return selected.has(String(t.id))&&['hearing','deadline','investigation'].includes(t.kind);}).length;
+  var left=items.length-selectedCount;
+  var groups=[{type:'routine',name:'Задачи и встречи',types:['task','meeting']},
+              {type:'procedural',name:'Процессуальные записи',types:['deadline','hearing','investigation']}];
+  return '<div class="stage-third-intro"><p>Выберите только те записи, по которым работа продолжится в новой стадии. '+
+    'Завершённые задачи и прошедшие события остаются в истории дела.</p></div>'+
+    '<div class="stage-third-overview" role="status" aria-live="polite"><span class="stage-third-overview-mark">'+
+      (typeof advEmbossIcon==='function'?advEmbossIcon('folder'):ico('folder','s'))+'</span><span><b>Не завершено: '+items.length+'</b>'+ 
+      '<small id="stage-third-count">Выбрано для переноса: '+selectedCount+'</small></span></div>'+
+    '<div class="stage-third-list" role="group" aria-label="Записи для переноса">'+groups.map(function(g){
+       var entries=items.filter(function(t){return g.types.includes(t.kind);});
+       if(!entries.length)return '';
+       return '<div class="stage-third-group"><h3>'+g.name+'</h3>'+entries.map(function(t){
+         var chosen=selected.has(String(t.id)),important=['deadline','hearing','investigation'].includes(t.kind);
+         var icon={task:'check',meeting:'user',deadline:'clock',hearing:'gavel',investigation:'doc'}[t.kind]||'doc';
+         return '<label class="stage-third-item'+(chosen?' is-checked':'')+'"><input type="checkbox" data-stage-move="'+esc(t.id)+'"'+(chosen?' checked':'')+'>'+ 
+           '<span class="stage-third-item-icon">'+(typeof advEmbossIcon==='function'?advEmbossIcon(icon):ico(icon,'s'))+'</span>'+ 
+           '<span class="stage-third-item-copy"><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+(t.time?' · '+esc(t.time):'')+'</small></span>'+ 
+           '<span class="stage-third-item-check" aria-hidden="true">'+ico('check','s')+'</span></label>';
+       }).join('')+'</div>';
+    }).join('')+'</div>'+
+    '<div class="stage-third-notice"><span class="stage-third-notice-icon">'+stageWizardFirstIcon('info')+'</span><p>Перенос не создаёт копий: выбранные записи перейдут в новую папку и останутся в календаре <strong>один раз</strong>. Неперенесённые останутся в истории завершённого этапа.</p></div>'+
+    '<div class="stage-third-confirmations" aria-label="Подтверждение переноса">'+
+      '<label class="stage-third-ack" id="st-remaining-wrap"'+(left?'':' hidden')+'><input id="st-ack-remaining" type="checkbox"'+(d.acknowledgeRemaining?' checked':'')+'><span class="stage-third-ack-mark" aria-hidden="true">'+ico('check','s')+'</span><span>Проверил(а): <strong>неперенесённые записи</strong> останутся в истории и не будут показываться в активных списках.</span></label>'+ 
+      '<label class="stage-third-ack" id="st-critical-wrap"'+(reviewCount?'':' hidden')+'><input id="st-ack-critical" type="checkbox"'+(d.acknowledgeCritical?' checked':'')+'><span class="stage-third-ack-mark" aria-hidden="true">'+ico('check','s')+'</span><span>Отдельно проверил(а) актуальность сроков, заседаний и следственных действий, выбранных для переноса.</span></label>'+ 
+    '</div>';
+}
+function stageWizardUpdateTasksSelection(){
+  var d=STAGE_WIZARD;if(!d||d.step!==2)return;
+  var m=matter(d.sourceId),inputs=[].slice.call(document.querySelectorAll('#sheet input[data-stage-move]'));
+  var chosen=inputs.filter(function(x){return x.checked;});
+  var selected=new Set(chosen.map(function(x){return x.dataset.stageMove;}));
+  d.moveIds=Array.from(selected);
+  /* The user changed the transfer set: prior attestations are no longer sufficient. */
+  d.acknowledgeRemaining=false;d.acknowledgeCritical=false;
+  var ackRemaining=document.getElementById('st-ack-remaining'),ackCritical=document.getElementById('st-ack-critical');
+  if(ackRemaining)ackRemaining.checked=false;
+  if(ackCritical)ackCritical.checked=false;
+  inputs.forEach(function(x){var row=x.closest('.stage-third-item');if(row)row.classList.toggle('is-checked',x.checked);});
+  var el=document.getElementById('stage-third-count');if(el)el.textContent='Выбрано для переноса: '+chosen.length;
+  var remaining=document.getElementById('st-remaining-wrap'),critical=document.getElementById('st-critical-wrap');
+  if(remaining)remaining.hidden=chosen.length===inputs.length;
+  if(critical)critical.hidden=!stageEligibleTasks(m).some(function(t){return selected.has(String(t.id))&&['deadline','hearing','investigation'].includes(t.kind);});
 }
 function appointmentFeeRowsHTML(lines,days){
  var byDate=Object.create(null);(lines||[]).forEach(function(x){byDate[x.date]=x;});
@@ -421,7 +477,7 @@ function stageWizardConfirmHTML(d,m){
   return '<div class="stage-wizard-summary">'+
     '<div><small>Завершаемая папка</small><b>'+esc(stageCaseHeading(m))+'</b><span>'+esc(fmtD(d.closeDate,true))+' · будет в архиве</span></div>'+
     '<div><small>Новая папка</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span></div>'+
-    '<div><small>Перенос записей</small><b>'+picked.size+' из '+items.length+'</b><span>Выбранные записи останутся активны без дублирования</span></div>'+
+    '<div><small>Перенос записей</small><b>'+(items.length?picked.size+' из '+items.length:'Не требуется')+'</b><span>'+(items.length?'Выбранные записи останутся активны без дублирования':'Незавершённых записей нет — шаг переноса пропущен')+'</span></div>'+
     (d.routeVerified?'<div><small>Проверка перехода</small><b>Процессуальные условия подтверждены</b></div>':'')+
     (d.stage==='__other__'?'<div><small>Индивидуальный маршрут</small><b>'+esc(d.stageReason||'')+'</b></div>':'')+
     (m.basis==='assigned'?'<div><small>Расчёт оплаты · по назначению</small><b>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+'</b><span>'+d.payment.lines.filter(function(x){return x.included&&!x.alreadyClaimed;}).length+' дней к расчёту. Ставка и режим проверяются отдельно по каждой дате; результат — черновик.</span></div>':'')+
@@ -536,8 +592,7 @@ function stageWizardRender(){
   var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
   // Steps 1 and 2 share the approved single-surface folder, but keep
   // independent field designs and validation. Other steps are unchanged.
-  var firstStep=d.step===0;
-  var premiumStep=d.step<=1;
+  var premiumStep=d.step<=2;
   var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Завершить этап и продолжить дело':'Продолжить')+'</button>';
   var html=premiumStep
     ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="'+esc(stageStepTitle())+' — шаг '+(d.step+1)+'">'+
@@ -550,6 +605,7 @@ function stageWizardRender(){
   if(premiumStep){
     panel.classList.add('stage-wizard-first-sheet');
     if(d.step===1)panel.classList.add('stage-wizard-second-sheet');
+    if(d.step===2)panel.classList.add('stage-wizard-third-sheet');
     mountMatterActionsOutline(panel);
     stageWizardFirstFolderPaint(panel);
     // Independent viewport background, below SVG folder and above old scrim.
@@ -763,4 +819,9 @@ document.addEventListener('change',function(e){
     }
   }
   stageWizardUpdatePaymentTotal();
+});
+
+/* Keep transfer badges current without reinstalling listeners on each render. */
+document.addEventListener('change',function(event){
+  if(event.target&&event.target.matches('#sheet input[data-stage-move]'))stageWizardUpdateTasksSelection();
 });

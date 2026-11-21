@@ -3902,3 +3902,47 @@ body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
 }
 #sheet.stage-wizard-second-sheet .stage-second-check input:not(:checked)+.stage-second-check-box>.ico{opacity:0!important}
 #sheet.stage-wizard-second-sheet .stage-second-check input:checked+.stage-second-check-box>.ico{opacity:1!important}
+
+
+/* v5.0.1297.41.66.39 — transfer step: approved navy folder + ivory panel. */
+#sheet.stage-wizard-third-sheet .stage-wizard-first-paper{padding:12px 12px 12px!important}
+#sheet.stage-wizard-third-sheet .stage-wizard-first-paper>.stage-wizard-body{padding:0 2px 12px!important;scrollbar-width:thin;scrollbar-color:#d9bc86 transparent}
+#sheet.stage-wizard-third-sheet .stage-wizard-first-header{padding-bottom:10px!important}
+#sheet.stage-wizard-third-sheet .stage-wizard-first-action{padding-top:8px!important}
+#sheet.stage-wizard-third-sheet .stage-third-intro{margin:0 0 12px;padding:0 3px}
+#sheet.stage-wizard-third-sheet .stage-third-intro p{margin:0;color:#54647b;font-size:13px;line-height:1.48}
+#sheet.stage-wizard-third-sheet .stage-third-overview{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:12px;border:1px solid #e3c99f;border-radius:17px;background:linear-gradient(120deg,#fff8eb,#f8eddd);color:#1c3351;box-shadow:0 3px 8px rgba(96,67,19,.045)}
+#sheet.stage-wizard-third-sheet .stage-third-overview-mark{box-sizing:border-box;width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;border:1px solid #e4c995;border-radius:12px;background:#fffaf1}
+#sheet.stage-wizard-third-sheet .stage-third-overview-mark .adv-emboss-art{--emboss-size:27px}
+#sheet.stage-wizard-third-sheet .stage-third-overview b{font:700 18px Georgia,serif;display:block}
+#sheet.stage-wizard-third-sheet .stage-third-overview small{font-size:12px;color:#68778b;display:block;margin-top:4px}
+#sheet.stage-wizard-third-sheet .stage-third-group h3{font:700 17px Georgia,serif;color:#182f4e;margin:12px 0 9px;padding:0 2px}
+#sheet.stage-wizard-third-sheet .stage-third-item{position:relative;display:grid;grid-template-columns:43px minmax(0,1fr) 27px;gap:11px;align-items:center;min-height:78px;border:1px solid #e5d7c2;background:linear-gradient(145deg,#fffefa,#fff9f0);border-radius:17px;padding:11px;margin:0 0 10px;box-shadow:0 5px 12px rgba(72,55,25,.06);cursor:pointer;color:#152b4b}
+#sheet.stage-wizard-third-sheet .stage-third-item.is-checked{background:linear-gradient(145deg,#fffefa,#f9ecd7);border-color:#cba362}
+#sheet.stage-wizard-third-sheet .stage-third-item input{position:absolute;left:0;top:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+#sheet.stage-wizard-third-sheet .stage-third-item-icon{display:grid;place-items:center;width:43px;height:43px;border:1px solid #e4cdab;border-radius:13px;background:linear-gradient(140deg,#fff8ec,#f6e7c9);overflow:hidden}
+#sheet.stage-wizard-third-sheet .stage-third-item-icon .adv-emboss-art{--emboss-size:27px}
+#sheet.stage-wizard-third-sheet .stage-third-item-copy{min-width:0;display:block}
+#sheet.stage-wizard-third-sheet .stage-third-item-copy b{display:block;font:700 15px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#203550;overflow-wrap:anywhere}
+#sheet.stage-wizard-third-sheet .stage-third-item-copy small{display:block;margin-top:5px;font:400 11.5px/1.36 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#778393;overflow-wrap:anywhere}
+#sheet.stage-wizard-third-sheet .stage-third-item-check{width:25px;height:25px;box-sizing:border-box;border:1.8px solid #bdab86;border-radius:7px;display:grid;place-items:center;background:#fffdf9;color:transparent}
+#sheet.stage-wizard-third-sheet .stage-third-item-check .ico{width:16px;height:16px;stroke-width:2.7}
+#sheet.stage-wizard-third-sheet .stage-third-item.is-checked .stage-third-item-check{background:#d8ad57;border-color:#b88c3e;color:#17304a;box-shadow:inset 0 1px 0 #ffeab5}
+#sheet.stage-wizard-third-sheet .stage-third-item:focus-within{outline:2px solid #d1a05b;outline-offset:2px}
+#sheet.stage-wizard-third-sheet .stage-third-notice{display:grid;grid-template-columns:25px minmax(0,1fr);gap:11px;align-items:start;border:1px solid #e4d3b8;border-radius:15px;padding:12px;margin:12px 0 11px;background:#f9f3e9}
+#sheet.stage-wizard-third-sheet .stage-third-notice-icon{color:#a67b39;display:grid;place-items:center}
+#sheet.stage-wizard-third-sheet .stage-third-notice-icon .stage-first-glyph{width:21px;height:21px}
+#sheet.stage-wizard-third-sheet .stage-third-notice p{font-size:11.8px;line-height:1.45;color:#627086;margin:0}
+#sheet.stage-wizard-third-sheet .stage-third-ack{display:grid;grid-template-columns:25px minmax(0,1fr);gap:12px;align-items:start;margin:10px 0;padding:4px 2px;position:relative;min-height:36px;cursor:pointer;color:#435874;font-size:12.6px;line-height:1.4}
+#sheet.stage-wizard-third-sheet .stage-third-ack[hidden]{display:none!important}
+#sheet.stage-wizard-third-sheet .stage-third-ack>input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
+#sheet.stage-wizard-third-sheet .stage-third-ack-mark{display:grid;place-items:center;width:23px;height:23px;box-sizing:border-box;border:1.7px solid #c4a66f;background:#fffaf1;border-radius:7px;color:transparent}
+#sheet.stage-wizard-third-sheet .stage-third-ack-mark .ico{width:15px;height:15px;stroke-width:2.6}
+#sheet.stage-wizard-third-sheet .stage-third-ack:has(input:checked) .stage-third-ack-mark{background:linear-gradient(#f6d379,#d6a23e);color:#223653;border-color:#ac7c33}
+#sheet.stage-wizard-third-sheet .stage-third-ack:focus-within{outline:2px solid #d0a36a;outline-offset:2px;border-radius:7px}
+@media(max-width:350px){
+ #sheet.stage-wizard-third-sheet .stage-third-item{grid-template-columns:39px minmax(0,1fr) 24px;gap:8px;padding:9px;min-height:69px}
+ #sheet.stage-wizard-third-sheet .stage-third-item-icon{width:39px;height:39px}
+ #sheet.stage-wizard-third-sheet .stage-third-item-copy b{font-size:13.5px}
+ #sheet.stage-wizard-third-sheet .stage-third-ack{font-size:11.6px}
+}
