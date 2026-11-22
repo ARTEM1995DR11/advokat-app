@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.40';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6480';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.43';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6483';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -545,7 +545,6 @@ function listPickerMeta(target){
     'e-deadline-rule':{title:'Процессуальный срок',sub:'Выберите правило расчёта · '+legalDeadlineCount()+' сроков в базе',search:'Поиск по сроку или статье…',icon:'clock'},
     'pt-kind':{title:'Вид участия',sub:'Выберите вид процессуального действия',search:'Поиск…',icon:'gavel'},
     'st-new-stage':{title:'Следующая стадия',sub:'Допустимые варианты продолжения дела',search:'',icon:'flag'},
-    'st-new-basis':{title:'Основание участия',sub:'Как будет вестись новая стадия',search:'',icon:'brief'},
     'st-close-result':{title:'Результат этапа',sub:'Фактический итог завершённой стадии',search:'',icon:'flag'}
   };
   return map[target]||{title:'Выбор',sub:'Выберите значение из списка',search:'Поиск…',icon:'list'};
@@ -593,8 +592,7 @@ function judgePickerToneMeta(value){
 function premiumListMatterMeta(target,value){
   // 6466 — Stage 2 deliberately reuses the same row palette/icon mechanism as
   // «Тип производства» / «Основание ведения», not a second bespoke template.
-  if(target==='st-new-basis')return premiumListMatterMeta('m-basis',value);
-  if(target==='st-new-stage'&&value){
+    if(target==='st-new-stage'&&value){
     var stages={
       'Первая инстанция':['court','#B9882D','court'],
       'Апелляция':['appeal','#4E86C6','gavel'],
@@ -665,7 +663,7 @@ function premiumListIsMatterPicker(target){
   return ['e-mid','j-mid-select','pt-mid'].indexOf(target)>=0;
 }
 function premiumListUsesApprovedMarble(target){
-  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind','st-new-stage','st-new-basis'].indexOf(target)>=0;
+  return ['e-mid','j-mid-select','pt-mid','e-hjudge-choice','m-judge-choice','e-court-choice','m-court-choice','m-stage','m-execution-issue','m-restraint-choice','m-type','m-basis','m-role','e-deadline-code','e-deadline-rule','pt-kind','st-new-stage'].indexOf(target)>=0;
 }
 function premiumMatterPickerBasis(value){
   if(!value)return null;
@@ -739,15 +737,15 @@ function closePremiumListPicker(){
   document.body.classList.remove('premium-list-open','premium-matter-picker-open');LIST_PICKER=null;
 }
 function matterEditorPickerWithoutEmptyRow(target){
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid','st-close-result','st-new-stage','st-new-basis'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','e-court-choice','m-judge-choice','e-hjudge-choice','m-restraint-choice','m-execution-issue','e-mid','j-mid-select','pt-mid','st-close-result','st-new-stage'].indexOf(target)>=0;
 }
 function matterEditorPickerWithoutSearch(target){
   // Для вопроса исполнения приговора поиск оставляем: вариантов много.
-  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice','st-close-result','st-new-stage','st-new-basis'].indexOf(target)>=0;
+  return ['m-type','m-basis','m-stage','m-role','m-court-choice','m-restraint-choice','st-close-result','st-new-stage'].indexOf(target)>=0;
 }
 function premiumMatterPickerRow(it){
   var selected=String(it.value)===String(LIST_PICKER.selected||''), empty=!it.value, mm=it.matterMeta||null;
-  var stageChoice=!!(LIST_PICKER&&['st-new-stage','st-new-basis'].indexOf(LIST_PICKER.target)>=0);
+  var stageChoice=!!(LIST_PICKER&&['st-new-stage'].indexOf(LIST_PICKER.target)>=0);
   var rowClass='premium-list-row'+(selected?' selected':'')+(empty?' empty':'')+(mm?' matter-option matter-'+esc(mm.type||'other'):'')+(stageChoice?' stage-choice-row':'');
   var rowStyle=mm?' style="--matter-color:'+esc(mm.color||'#7A8FA6')+'"':'';
   var markIcon=mm?(mm.icon||'folder'):(LIST_PICKER.meta.icon||'list');
@@ -3193,19 +3191,58 @@ function openPremiumDeleteConfirm(id){
   requestAnimationFrame(function(){root.classList.add('open');});
   vib(8);
 }
+/* 6482: The linked *current* folder has its own Delete action. A previously
+   archived stage is not deleted with it. Links and transferred work are
+   reconciled atomically so orphan IDs are never left in the dossier. */
+function matterHasStageSuccessors(m){
+  if(!m)return false;
+  return (S.matters||[]).some(function(other){
+    return other && !sameRecordId(other.id,m.id) &&
+      (sameRecordId(other.previousStageId,m.id) ||
+       (m.stageClosed && sameRecordId(m.stageClosed.nextStageId,other.id)) ||
+       (Array.isArray(m.nextStageIds) && m.nextStageIds.some(function(x){return sameRecordId(x,other.id);})))
+  });
+}
+function matterDeletePlan(id){
+  var m=matter(id);if(!m)return null;
+  var linked=!!(m.previousStageId || (typeof stageCaseHasLinks==='function'&&stageCaseHasLinks(m)));
+  var parent=(m.previousStageId?matter(m.previousStageId):null)||
+    (S.matters||[]).find(function(x){return x && !sameRecordId(x.id,id) &&
+      ((x.stageClosed && sameRecordId(x.stageClosed.nextStageId,id)) ||
+       (Array.isArray(x.nextStageIds)&&x.nextStageIds.some(function(v){return sameRecordId(v,id);})));})||null;
+  var hasSuccessors=matterHasStageSuccessors(m);
+  var isGroupRoot=!!(linked && typeof stageCaseGroupId==='function' && stageCaseGroupId(m)===String(m.id));
+  var records=(S.tasks||[]).filter(function(t){return t&&sameRecordId(t.mid,id);});
+  var toRestore=[],toRemove=[];
+  records.forEach(function(t){
+    var transfer=(Array.isArray(t.stageTransfers)?t.stageTransfers:[]);
+    var last=transfer.length?transfer[transfer.length-1]:null;
+    var prior=last&&sameRecordId(last.to,id)?matter(last.from):null;
+    if(prior && !sameRecordId(prior.id,id))toRestore.push(t);
+    else toRemove.push(t);
+  });
+  return {m:m,linked:linked,parent:parent,blocked:hasSuccessors||isGroupRoot,
+    restore:toRestore,remove:toRemove};
+}
 function openPremiumMatterDeleteConfirm(id){
-  var m=matter(id);
-  if(!m)return;
-  if(typeof stageCaseHasLinks==='function'&&stageCaseHasLinks(m)){toast('Связанную папку нельзя удалить отдельно: сохраняется история всех этапов.');return;}
+  var plan=matterDeletePlan(id);
+  if(!plan)return;
+  if(plan.blocked){toast('Нельзя удалить этап, пока существуют последующие связанные папки.');return;}
   closePremiumDeleteConfirm();
   var root=document.createElement('div');
   root.id='premium-delete-confirm-root';
   root.className='premium-delete-confirm-root';
+  var warning=plan.linked
+    ? 'Будет удалена только выбранная папка новой стадии, её новые записи и журнал. '+
+      'Предыдущая архивная стадия сохранится.'+
+      (plan.restore.length?' Ранее перенесённые записи ('+plan.restore.length+') вернутся в архив предыдущей стадии.':'')+
+      ' Действие необратимо.'
+    : 'Будут удалены дело, его задачи, события, журнал и расчёты. Действие необратимо.';
   root.innerHTML='<button type="button" class="premium-delete-confirm-backdrop" data-act="premium-delete-cancel" aria-label="Отмена"></button>'+
     '<section class="premium-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="premium-delete-confirm-title">'+
       '<div class="premium-delete-confirm-mark"><i></i><span>'+ico('trash')+'</span><i></i></div>'+
       '<h2 id="premium-delete-confirm-title">Удалить дело?</h2>'+
-      '<p>Будут удалены дело, связанные задачи и журнал. Действие необратимо.</p>'+
+      '<p>'+esc(warning)+'</p>'+
       '<div class="premium-delete-confirm-actions">'+
         '<button type="button" class="premium-delete-cancel" data-act="premium-delete-cancel">Отмена</button>'+
         '<button type="button" class="premium-delete-accept" data-act="premium-delete-matter-confirm" data-id="'+esc(id)+'">'+ico('trash','s')+'<span>Удалить</span></button>'+
@@ -3215,21 +3252,59 @@ function openPremiumMatterDeleteConfirm(id){
   requestAnimationFrame(function(){root.classList.add('open');});
   vib(8);
 }
-function performDeleteMatterById(id){
-  var m=matter(id);
-  if(!m)return;
-  if(typeof stageCaseHasLinks==='function'&&stageCaseHasLinks(m)){toast('Удаление связанного этапа заблокировано для сохранения истории.');return;}
-  // 5.0.1230: tolerate numeric/string relation IDs in older imports and
-  // ensure deleting one dossier never leaves its related records orphaned.
-  S.tasks=S.tasks.filter(function(t){return !sameRecordId(t.mid,id);});
-  S.participation=S.participation.filter(function(e){return !sameRecordId(e.mid,id);});
-  S.journal=S.journal.filter(function(j){return !sameRecordId(j.mid,id);});
-  S.matters=S.matters.filter(function(x){return !sameRecordId(x.id,id);});
-  save();
-  closePremiumDeleteConfirm();
-  closeAll();
-  render();
-  toast('Дело удалено');
+var MATTER_DELETE_BUSY=false;
+async function performDeleteMatterById(id){
+  if(MATTER_DELETE_BUSY)return;
+  var plan=matterDeletePlan(id);
+  if(!plan || plan.blocked){toast('Нельзя удалить папку, пока существует следующий этап.');return;}
+  MATTER_DELETE_BUSY=true;
+  var before=null;
+  try{
+    // Finish older queued encrypted writes before making a destructive change.
+    if(!(await flushSave()))throw new Error('Невозможно сохранить данные. Проверьте хранилище перед удалением.');
+    plan=matterDeletePlan(id);
+    if(!plan||plan.blocked)throw new Error('Связанные стадии изменились. Повторите проверку.');
+    before=clone(S);
+    var parent=plan.parent, oldId=plan.m.id;
+    // Transfer records belong to one stage at a time. Undo only the latest
+    // transfer into the deleted leaf, preserving any earlier transfer chain.
+    S.tasks=S.tasks.filter(function(t){
+      if(!t||!sameRecordId(t.mid,oldId))return true;
+      var chain=Array.isArray(t.stageTransfers)?t.stageTransfers:[];
+      var last=chain.length?chain[chain.length-1]:null;
+      var prior=last&&sameRecordId(last.to,oldId)?matter(last.from):null;
+      if(prior && !sameRecordId(prior.id,oldId)){
+        t.mid=prior.id;
+        t.stageTransfers=chain.slice(0,-1);
+        return true;
+      }
+      return false;
+    });
+    S.participation=(S.participation||[]).filter(function(e){return !sameRecordId(e.mid,oldId);});
+    S.journal=(S.journal||[]).filter(function(j){return !sameRecordId(j.mid,oldId);});
+    S.time=(S.time||[]).filter(function(t){return !sameRecordId(t.mid,oldId);});
+    S.stagePayments=(S.stagePayments||[]).filter(function(p){return !sameRecordId(p.mid,oldId);});
+    S.matters=S.matters.filter(function(x){return !sameRecordId(x.id,oldId);});
+    // A migrated record may carry the connection in a parent's nextStageIds
+    // even if the child did not retain previousStageId. Clear all stale links.
+    S.matters.forEach(function(x){
+      if(x.stageClosed && sameRecordId(x.stageClosed.nextStageId,oldId))
+        x.stageClosed.nextStageId=null;
+      if(Array.isArray(x.nextStageIds))
+        x.nextStageIds=x.nextStageIds.filter(function(v){return !sameRecordId(v,oldId);});
+    });
+    if(parent){
+      addJournal(parent.id,'Связанная папка последующей стадии удалена. '+
+        'Ранее перенесённые записи возвращены в архив: '+plan.restore.length+'.',
+        today(),'system',true);
+    }
+    if(!(await persistNow()))throw new Error('Не удалось сохранить удаление в защищённую базу.');
+    closePremiumDeleteConfirm();closeAll();render();
+    toast(parent?'Новая папка удалена; архив предыдущей стадии сохранён':'Дело удалено');
+  }catch(e){
+    if(before){S=before;mem=clone(S);}
+    toast(e&&e.message||'Не удалось удалить дело');
+  }finally{MATTER_DELETE_BUSY=false;}
 }
 function performDeleteTaskById(id){
   var t=S.tasks.filter(function(x){return x.id===id;})[0];
@@ -5620,7 +5695,9 @@ function sheetMatterMore(id){
       row('m-journal','#258f6f','doc','Запись в журнал','Зафиксировать действие по делу')+
       row('m-finish','#19865c','matter-finish','Завершить дело','Результат, дата и архивирование')+
       row('m-arch','#607997','arch','Архивировать без завершения','Переместить неоконченное дело в архив')+
-      (stageCaseHasLinks(m)?row('stage-history','#9d7e51','folder','Этапы производства','Связанные стадии и история'):row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
+      // Always offer deletion of the current active dossier. A linked leaf
+      // can be removed safely without deleting its archived predecessor.
+      row('m-del','#ce504b','trash','Удалить дело','Удалить текущую папку с подтверждением','danger');
   }
   var client=matterFolderStage6Client(m).label;
   var article=String(m.article||'').replace(/\s+/g,' ').trim();

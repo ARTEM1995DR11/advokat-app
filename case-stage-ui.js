@@ -12,9 +12,10 @@ function stageWizardStart(id){
   STAGE_HEARING_NAV=null;
   var m=matter(id);
   if(!m||m.archived||m.stageClosed){toast('Продолжить можно только действующий этап');return;}
+  if(!MATTER_BASIS[m.basis]){toast('Сначала укажите основание ведения в разделе «Редактировать дело»');return;}
   var pending=stageEligibleTasks(m);
   STAGE_WIZARD={operationId:'stage-op-'+uid(),sourceId:String(m.id),step:0,closeDate:today(),startDate:today(),result:'',note:'',
-    stage:'',stageBase:'',stageCustom:'',stageReason:'',routeVerified:false,basis:m.basis,place:'',copyNotes:true,copyPosition:false,
+    stage:'',stageBase:'',stageCustom:'',stageReason:'',routeVerified:false,basis:m.basis,sourceBasisAtStart:m.basis,place:'',
     moveIds:pending.filter(function(t){return ['task','meeting'].includes(t.kind);}).map(function(t){return String(t.id);}),
     acknowledgeRemaining:false,acknowledgeCritical:false,confirm:false,
     payment:{category:'',lines:m.basis==='assigned'?appointmentFeeDays(m,today()).map(function(x){return {date:x.date,rate:0,included:x.source==='participation',alreadyClaimed:false,verified:false,proof:'',dayType:appointmentFeeSuggestedDayType(x.date)};}):[],note:''}};
@@ -37,6 +38,8 @@ function stageWizardStepPosition(d,m){
 function stageStepTitle(){return STAGE_WIZARD_STEPS[STAGE_WIZARD.step];}
 function stageWizardCapture(){
   var d=STAGE_WIZARD;if(!d)return;
+  // The basis belongs to the case, not to this wizard's form.
+  var source=matter(d.sourceId);if(source)d.basis=source.basis;
   var get=function(id){var x=document.getElementById(id);return x?x.value:null;};
   var check=function(id){var x=document.getElementById(id);return !!(x&&x.checked);};
   if(d.step===0){
@@ -49,8 +52,6 @@ function stageWizardCapture(){
     d.stage=get('st-new-stage')||'';d.stageCustom=(get('st-new-custom')||'').trim();d.stageBase=get('st-new-base-stage')||d.stageBase;
     d.stageReason=(get('st-new-reason')||'').trim();d.routeVerified=check('st-next-review');
     d.startDate=get('st-new-date')||d.startDate;d.place=(get('st-new-place')||'').trim();
-    d.basis=get('st-new-basis')||d.basis;d.copyNotes=check('st-copy-notes');
-    d.copyPosition=false; // правовая позиция новой стадии формируется заново
   }
   if(d.step===2){
     d.moveIds=[].slice.call(document.querySelectorAll('#sheet input[data-stage-move]'))
@@ -75,6 +76,8 @@ function stageWizardCapture(){
 function stageWizardValidateStep(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),step=d.step;
   if(!m||m.archived||m.stageClosed)return 'Дело уже архивировано или не найдено';
+  if(!MATTER_BASIS[m.basis])return 'Укажите основание ведения через «Редактировать дело»';
+  if(d.sourceBasisAtStart&&m.basis!==d.sourceBasisAtStart)return 'Основание ведения изменилось. Откройте завершение этапа заново';
   if(step===0){
     if(!stageISODateValid(d.closeDate)||d.closeDate>today())return 'Проверьте дату завершения';
     if(!d.result)return 'Укажите фактический результат завершённой стадии';
@@ -87,7 +90,6 @@ function stageWizardValidateStep(){
     if(d.stage==='__other__'){if(d.stageCustom.length<3)return 'Укажите название другого этапа';if(!stageAllowedTransition(m,d.result,d.stageBase))return 'Этот процессуальный тип не соответствует результату предыдущего этапа';if(d.stageReason.length<10)return 'Укажите основание индивидуального маршрута (не менее 10 символов)';if(!stageCustomLabelValid(m,d.stageCustom,d.stageBase))return 'Название этапа противоречит выбранной стадии';}
     else if(!stageAllowedTransition(m,d.result,d.stage))return 'Выберите стадию из допустимых вариантов';
     if(stageTransitionReview(m,d.result,stageTransitionActualStage(d))&&!d.routeVerified)return 'Подтвердите проверку условий выбранного перехода';
-    if(!MATTER_BASIS[d.basis])return 'Укажите основание участия';
   }
   if(step===2){
     var all=stageEligibleTasks(m),picked=new Set(d.moveIds.map(String));
@@ -381,16 +383,10 @@ function stageWizardNextHTML(d,m){
       '<span class="stage-second-date-icon" aria-hidden="true">'+stageWizardFirstIcon('calendar')+'</span></button></div>')+
     stageWizardSecondField('court','Суд или орган новой стадии (при наличии)',
       '<input id="st-new-place" maxlength="300" value="'+esc(d.place)+'" placeholder="Можно заполнить позднее">')+
-    stageWizardSecondField('basis','Основание участия',
-      '<div class="stage-second-select"><select id="st-new-basis" aria-label="Основание участия">'+
-        Object.keys(MATTER_BASIS).map(function(k){return '<option value="'+k+'"'+(d.basis===k?' selected':'')+'>'+esc(MATTER_BASIS[k].n)+'</option>';}).join('')+
-      '</select></div>')+
-    '<section class="stage-second-transfers" aria-label="Перенос материалов">'+
-      '<h3>Перенести в новую папку</h3>'+
-      '<label class="stage-second-check"><input type="checkbox" id="st-copy-notes"'+(d.copyNotes?' checked':'')+'><span class="stage-second-check-box" aria-hidden="true">'+ico('check','s')+'</span><span>Рабочие заметки</span></label>'+
-    '</section>'+
-    '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+'<span>Прежняя правовая позиция доступна в <strong>связанной завершённой папке</strong>. ' +
-    'Новая позиция формируется отдельно; номер дела, судья, следователь и прошедшие события не дублируются.</span></div>';
+    '<div class="stage-second-hint">'+stageWizardFirstIcon('info')+
+    '<span><strong>Суть дела и рабочие заметки</strong> перенесутся автоматически, без отдельного выбора. ' +
+    'Незавершённые задачи, заседания и сроки при наличии можно выбрать на следующем шаге. ' +
+    'Правовая позиция и прошедшие события останутся в завершённой папке.</span></div>';
 }
 function stageWizardTasksHTML(d,m){
   var items=stageEligibleTasks(m),selected=new Set(d.moveIds.map(String));
@@ -492,7 +488,7 @@ function stageWizardConfirmHTML(d,m){
     '<div class="stage-final-section">'+
       '<div class="stage-final-card"><span class="stage-final-card-icon">'+icon('folder')+'</span><span class="stage-final-card-copy"><small>Завершаемая стадия</small><b>'+esc(m.stage||'Текущая стадия')+'</b><span>'+esc(fmtD(d.closeDate,true))+' · перейдёт в архив</span></span></div>'+ 
       '<span class="stage-final-link" aria-hidden="true">'+ico('chev','s')+'</span>'+ 
-      '<div class="stage-final-card is-new"><span class="stage-final-card-icon">'+icon('flag')+'</span><span class="stage-final-card-copy"><small>Новая стадия</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span>'+(d.place?'<span>'+esc(d.place)+'</span>':'')+'</span></div>'+ 
+      '<div class="stage-final-card is-new"><span class="stage-final-card-icon">'+icon('flag')+'</span><span class="stage-final-card-copy"><small>Новая стадия</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(m.basis))+'</span>'+(d.place?'<span>'+esc(d.place)+'</span>':'')+'</span></div>'+ 
     '</div>'+ 
     '<section class="stage-final-review" aria-label="Результаты проверки">'+
       '<h3>Что произойдёт с записями</h3>'+ 
@@ -613,6 +609,7 @@ function stageWizardFirstFolderPaint(panel){
 function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
+  d.basis=m.basis; // Always display the basis from the current case.
   var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
   // Steps 1–5 share the approved single-surface folder; each keeps
   // its own data bindings and validation.

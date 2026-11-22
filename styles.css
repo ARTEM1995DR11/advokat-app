@@ -1204,7 +1204,7 @@ body.light .task-editor-sheet .fld textarea::placeholder{color:#96A3B0!important
 body.light .task-editor-sheet .fld select option{background:#FFFFFF;color:#14202B}
 body.light .task-editor-sheet input[type='date'],body.light .task-editor-sheet input[type='time']{color-scheme:light}
 body.light .task-editor-sheet .task-kind-chips .chip{
-  background:rgba(250,247,240,.82)!important;border-color:rgba(109,101,88,.18)!important;color:#4F6480!important
+  background:rgba(250,247,240,.82)!important;border-color:rgba(109,101,88,.18)!important;color:#4F6482!important
 }
 body.light .task-editor-sheet .task-quick-dates .chip{
   background:rgba(250,247,240,.88)!important;border-color:rgba(157,117,39,.22)!important;color:#586D81!important
@@ -3599,7 +3599,7 @@ body:not(.light) .matter-note-card{background:linear-gradient(145deg,rgba(184,14
   width:26px!important;
   height:26px!important;
   border-radius:999px!important;
-  color:color-mix(in srgb,var(--case) 72%, #516480)!important;
+  color:color-mix(in srgb,var(--case) 72%, #516482)!important;
   background:color-mix(in srgb,var(--case) 8%, transparent)!important;
   flex:none!important;
 }

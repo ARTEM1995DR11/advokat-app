@@ -116,11 +116,11 @@ function stageClosureOutcomeOptions(m){
 
 function stagePrepareNewMatter(src,d,id,now){
   var custom=d.stage==='__other__'?String(d.stageCustom||'').trim():'',stage=d.stage==='__other__'?d.stageBase:d.stage;
-  var out={id:id,type:src.type,basis:d.basis,client:src.client||'',phone:src.phone||'',number:'',
+  var out={id:id,type:src.type,basis:src.basis,client:src.client||'',phone:src.phone||'',number:'',
     stage:stage,stageInstanceLabel:custom||stage,article:src.article||'',role:src.role||'',
     court:String(d.place||'').trim(),investigator:'',judge:'',opponent:src.opponent||'',
     restraint:src.restraint||'',executionIssue:'',executionInstitution:'',
-    notes:d.copyNotes?String(src.notes||''):'',position:{}, // новая самостоятельная позиция; прежняя доступна в связанной папке
+    notes:String(src.notes||''),position:{}, // описание дела наследуется автоматически; правовая позиция прежней стадии остаётся в её папке
     dayRate:+src.dayRate||0,archived:false,created:now,
     caseGroupId:stageCaseGroupId(src),previousStageId:String(src.id),
     stageInstanceId:id,stageIndex:stageRelatedCases(src).reduce(function(n,x){return Math.max(n,+x.stageIndex||0);},0)+1,
@@ -189,7 +189,8 @@ async function stageCommitTransfer(d){
     if(!String(d.result||'').trim())throw new Error('Укажите фактический результат завершённой стадии');
     if(d.result==='Иной результат'&&!String(d.note||'').trim())throw new Error('Уточните иной результат в заключительной записи');
     if(!stageClosureOutcomeOptions(src).some(function(x){return x[0]===d.result;}))throw new Error('Выбран недопустимый результат для текущей стадии');
-    if(!MATTER_BASIS[d.basis])throw new Error('Выберите основание участия в новом этапе');
+    if(!MATTER_BASIS[src.basis])throw new Error('Укажите основание ведения через «Редактировать дело»');
+    if(d.sourceBasisAtStart&&src.basis!==d.sourceBasisAtStart)throw new Error('Основание ведения изменилось. Начните завершение этапа заново');
     if(d.stage==='__other__'){
       if(String(d.stageCustom||'').trim().length<3)throw new Error('Введите название нового этапа');
       if(!stageAllowedTransition(src,d.result,d.stageBase))throw new Error('Этот процессуальный тип не соответствует итогам предыдущей стадии');
@@ -212,6 +213,7 @@ async function stageCommitTransfer(d){
     // Re-read the live record after any queued persistence has completed.
     src=matter(d.sourceId);
     if(!src||src.archived||src.stageClosed)throw new Error('Исходный этап был изменён');
+    if(!MATTER_BASIS[src.basis]||(d.sourceBasisAtStart&&src.basis!==d.sourceBasisAtStart))throw new Error('Основание ведения изменилось. Начните завершение этапа заново');
     var liveEligible=stageEligibleTasks(src), liveIds=new Set(liveEligible.map(function(x){return String(x.id);}));
     for(var tid of selection){if(!liveIds.has(tid))throw new Error('Записи изменились во время подготовки перехода');}
     if(liveEligible.some(function(t){return !selection.has(String(t.id));})&&!d.acknowledgeRemaining)

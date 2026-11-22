@@ -3785,15 +3785,6 @@ body.light #sheet.stage-wizard-second-sheet .stage-second-select .premium-select
 }
 #sheet.stage-wizard-second-sheet .stage-second-custom .stage-second-field {margin-bottom:9px;}
 #sheet.stage-wizard-second-sheet .stage-second-custom .stage-second-field-control {padding-left:35px;}
-#sheet.stage-wizard-second-sheet .stage-second-transfers {
-  box-sizing:border-box;margin:3px 0 13px;padding:13px 11px 10px;
-  border:1px solid #dfc9a7;border-radius:16px;
-  background:linear-gradient(125deg,#fffaf1,#f9eedf);
-}
-#sheet.stage-wizard-second-sheet .stage-second-transfers h3 {
-  margin:0 0 8px;color:#173052;
-  font:700 13.5px/1.3 Georgia,'Times New Roman',serif;
-}
 #sheet.stage-wizard-second-sheet .stage-second-check {
   display:flex;align-items:center;gap:10px;position:relative;
   box-sizing:border-box;min-height:41px;margin:0;padding:6px 3px;
@@ -3904,7 +3895,7 @@ body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
 #sheet.stage-wizard-second-sheet .stage-second-check input:checked+.stage-second-check-box>.ico{opacity:1!important}
 
 
-/* v5.0.1297.41.66.40 — transfer step: approved navy folder + ivory panel. */
+/* v5.0.1297.41.66.41 — transfer step: approved navy folder + ivory panel. */
 #sheet.stage-wizard-third-sheet .stage-wizard-first-paper{padding:12px 12px 12px!important}
 #sheet.stage-wizard-third-sheet .stage-wizard-first-paper>.stage-wizard-body{padding:0 2px 12px!important;scrollbar-width:thin;scrollbar-color:#d9bc86 transparent}
 #sheet.stage-wizard-third-sheet .stage-wizard-first-header{padding-bottom:10px!important}
@@ -3948,7 +3939,7 @@ body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
 }
 
 
-/* 5.0.1297.41.66.40 · Step 4 premium final confirmation and appointed payment.
+/* 5.0.1297.41.66.41 · Step 4 premium final confirmation and appointed payment.
    Steps 1–3 remain unchanged; use the same approved folder shell and CTA. */
 #sheet.stage-wizard-confirm-sheet .stage-wizard-first-paper,
 #sheet.stage-wizard-payment-sheet .stage-wizard-first-paper{padding:12px 11px 13px!important}
