@@ -205,31 +205,40 @@ body.light #sc-more:has(.more-approved-v50){
   #sc-more .more50-tool .more50-arrow{grid-column:2;grid-row:1;align-self:start;justify-self:end;}
 }
 
-/* 5.0.1297.41.66.54 — the Settings action belongs in the title, not hidden under the footer. */
+/* 5.0.1297.41.66.55 — user-approved option #3: sapphire-centered,
+   sculpted gold gear on an ivory/gold square; icon-only, accessible button. */
 #sc-more .more54-head-row{
   display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;
 }
 #sc-more .more54-head-row h1{min-width:0;flex:1;}
-#sc-more .more54-settings-button{
-  -webkit-appearance:none;appearance:none;box-sizing:border-box;
-  border:1px solid rgba(173,117,32,.65)!important;border-radius:15px!important;
-  padding:0 11px 0 7px;min-width:114px;height:44px;flex:0 0 auto;
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;
-  color:#11213d!important;
-  background:linear-gradient(140deg,#fff9ed 0%,#f9e8ca 59%,#ebc787 100%)!important;
-  box-shadow:0 4px 9px rgba(119,73,18,.22),inset 0 1px 1px #fffef5!important;
-  font:600 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  white-space:nowrap;cursor:pointer;touch-action:manipulation;
+#sc-more .more54-settings-button.more55-settings-button{
+  -webkit-appearance:none!important;appearance:none!important;
+  position:relative;box-sizing:border-box;
+  display:flex!important;align-items:center;justify-content:center;
+  flex:0 0 52px!important;width:52px!important;min-width:52px!important;height:52px!important;
+  margin:0!important;padding:0!important;gap:0!important;
+  border:0!important;border-radius:15px!important;
+  background:transparent!important;box-shadow:none!important;
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
-#sc-more .more54-settings-button:active{transform:translateY(1px);box-shadow:0 2px 4px rgba(119,73,18,.2)!important;}
-#sc-more .more54-settings-button:focus-visible{outline:2px solid #102b4d;outline-offset:3px;}
-#sc-more .more54-settings-icon{width:29px;height:29px;flex:0 0 29px;display:grid;place-items:center;
-  color:#9b640f;border:1px solid rgba(187,127,36,.39);border-radius:10px;
-  background:linear-gradient(135deg,#fffbf1,#eec77b);
-  filter:drop-shadow(0 1px 1px rgba(104,60,15,.16));}
-#sc-more .more54-settings-icon svg{width:20px;height:20px;display:block;}
+#sc-more .more55-settings-image{
+  display:block;width:100%;height:100%;object-fit:contain;
+  pointer-events:none;user-select:none;-webkit-user-select:none;
+  filter:drop-shadow(0 3px 4px rgba(105,66,23,.22));
+  transition:transform .16s ease,filter .16s ease;
+}
+#sc-more .more54-settings-button.more55-settings-button:active .more55-settings-image{
+  transform:scale(.95);
+  filter:drop-shadow(0 1px 2px rgba(105,66,23,.18));
+}
+#sc-more .more54-settings-button.more55-settings-button:focus-visible{
+  outline:2px solid #132e50!important;outline-offset:3px;
+}
 @media(max-width:340px){
-  #sc-more .more54-settings-button{min-width:100px;padding:0 7px 0 5px;gap:5px;font-size:11px;height:41px;border-radius:13px!important;}
-  #sc-more .more54-settings-icon{width:26px;height:26px;flex-basis:26px;border-radius:9px;}
-  #sc-more .more54-settings-icon svg{width:18px;height:18px;}
+  #sc-more .more54-settings-button.more55-settings-button{
+    flex-basis:48px!important;width:48px!important;min-width:48px!important;height:48px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #sc-more .more55-settings-image{transition:none;}
 }

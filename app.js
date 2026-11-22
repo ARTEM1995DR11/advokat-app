@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.54';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6494';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.55';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6495';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4795,11 +4795,8 @@ function renderMore(){
   var html='<div class="more-project more-approved-v50">'+
     mainBrandHeader(false)+
     '<header class="more50-head"><div class="more54-head-row"><h1>Ещё</h1>'+
-      '<button type="button" class="more54-settings-button" data-act="more50-settings" title="Настройки приложения" aria-label="Открыть настройки приложения">'+
-        '<span class="more54-settings-icon" aria-hidden="true">'+
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+
-            '<path d="M10.1 2.7h3.8l.5 2.2c.5.2 1 .4 1.4.8l2.1-1 2.7 2.7-1 2.1c.3.4.6.9.8 1.4l2.2.5v3.8l-2.2.5c-.2.5-.5 1-.8 1.4l1 2.1-2.7 2.7-2.1-1c-.4.3-.9.6-1.4.8l-.5 2.2h-3.8l-.5-2.2c-.5-.2-1-.5-1.4-.8l-2.1 1-2.7-2.7 1-2.1c-.3-.4-.6-.9-.8-1.4l-2.2-.5v-3.8l2.2-.5c.2-.5.5-1 .8-1.4l-1-2.1 2.7-2.7 2.1 1c.4-.3.9-.6 1.4-.8Z"/><circle cx="12" cy="12" r="3.1"/>'+
-          '</svg></span><span>Настройки</span>'+
+      '<button type="button" class="more54-settings-button more55-settings-button" data-act="more50-settings" title="Настройки приложения" aria-label="Открыть настройки приложения">'+
+        '<img class="more55-settings-image" src="more-settings-sapphire-v6495.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false">'+
       '</button></div><p>Инструменты, настройки и сервисы адвоката</p></header>'+
     '<button type="button" class="more50-profile" data-act="profile" aria-label="Открыть профиль адвоката">'+
       '<span class="more50-profile-art"><img src="'+esc(profileAvatarSource())+'" alt="" draggable="false"></span>'+
