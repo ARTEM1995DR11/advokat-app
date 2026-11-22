@@ -3904,7 +3904,7 @@ body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
 #sheet.stage-wizard-second-sheet .stage-second-check input:checked+.stage-second-check-box>.ico{opacity:1!important}
 
 
-/* v5.0.1297.41.66.39 — transfer step: approved navy folder + ivory panel. */
+/* v5.0.1297.41.66.40 — transfer step: approved navy folder + ivory panel. */
 #sheet.stage-wizard-third-sheet .stage-wizard-first-paper{padding:12px 12px 12px!important}
 #sheet.stage-wizard-third-sheet .stage-wizard-first-paper>.stage-wizard-body{padding:0 2px 12px!important;scrollbar-width:thin;scrollbar-color:#d9bc86 transparent}
 #sheet.stage-wizard-third-sheet .stage-wizard-first-header{padding-bottom:10px!important}
@@ -3946,3 +3946,70 @@ body .stage-outcome-head-icon.is-art .adv-emboss-art{--emboss-size:40px}
  #sheet.stage-wizard-third-sheet .stage-third-item-copy b{font-size:13.5px}
  #sheet.stage-wizard-third-sheet .stage-third-ack{font-size:11.6px}
 }
+
+
+/* 5.0.1297.41.66.40 · Step 4 premium final confirmation and appointed payment.
+   Steps 1–3 remain unchanged; use the same approved folder shell and CTA. */
+#sheet.stage-wizard-confirm-sheet .stage-wizard-first-paper,
+#sheet.stage-wizard-payment-sheet .stage-wizard-first-paper{padding:12px 11px 13px!important}
+#sheet.stage-wizard-confirm-sheet .stage-wizard-first-paper>.stage-wizard-body,
+#sheet.stage-wizard-payment-sheet .stage-wizard-first-paper>.stage-wizard-body{padding:0 2px 10px!important;min-height:0;overflow-y:auto!important;scrollbar-width:thin}
+#sheet.stage-wizard-confirm-sheet .stage-wizard-first-action,
+#sheet.stage-wizard-payment-sheet .stage-wizard-first-action{padding-top:8px!important}
+#sheet.stage-wizard-confirm-sheet .stage-final-intro p{font:400 13px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#56667b;margin:4px 2px 16px}
+#sheet.stage-wizard-confirm-sheet .stage-final-section{display:grid;gap:0;margin:0 0 12px}
+#sheet.stage-wizard-confirm-sheet .stage-final-card{display:flex;align-items:center;gap:11px;padding:12px 11px;border:1px solid #e0cba8;border-radius:17px;background:linear-gradient(135deg,#fffdf8,#f9f0e1);min-height:78px}
+#sheet.stage-wizard-confirm-sheet .stage-final-card.is-new{background:linear-gradient(135deg,#fffdf7,#f8eacb);border-color:#cfac69}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;border:1px solid #ddc394;background:#fff7e7;border-radius:13px}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-icon .adv-emboss-art{--emboss-size:29px}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-copy{min-width:0;display:flex;flex-direction:column;gap:3px}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-copy small{color:#98733c;font-size:10.7px;font-weight:750}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-copy b{font:700 17px/1.18 Georgia,'Times New Roman',serif;color:#172c48;overflow-wrap:anywhere}
+#sheet.stage-wizard-confirm-sheet .stage-final-card-copy>span{font-size:11.5px;color:#6b7686;line-height:1.35;overflow-wrap:anywhere}
+#sheet.stage-wizard-confirm-sheet .stage-final-link{width:25px;height:22px;margin:-1px auto;display:grid;place-items:center;color:#b18443;position:relative;z-index:1;background:#fff7e9;border:1px solid #e9d7b5;border-radius:12px}
+#sheet.stage-wizard-confirm-sheet .stage-final-link .ico{height:14px;width:14px}
+#sheet.stage-wizard-confirm-sheet .stage-final-review{border:1px solid #e1cba8;border-radius:17px;padding:13px 12px;background:#f9f2e6;margin:0 0 12px}
+#sheet.stage-wizard-confirm-sheet .stage-final-review h3{font:700 17px Georgia,serif;color:#182d48;margin:0 0 9px}
+#sheet.stage-wizard-confirm-sheet .stage-final-review>div{display:flex;align-items:baseline;gap:10px;justify-content:space-between;padding:8px 0;border-top:1px solid #eadbc3;color:#506078;font-size:12.5px}
+#sheet.stage-wizard-confirm-sheet .stage-final-review>div strong{color:#203b5b;font:750 18px Georgia,serif}
+#sheet.stage-wizard-confirm-sheet .stage-final-warning{font:500 11.3px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:10px 0 0;color:#82602e}
+#sheet.stage-wizard-confirm-sheet .stage-final-warning .adv-emboss-art{--emboss-size:17px;vertical-align:middle}
+#sheet.stage-wizard-confirm-sheet .stage-final-warning.is-overdue{color:#a04e38;font-weight:650}
+#sheet.stage-wizard-confirm-sheet .stage-final-empty{font-size:11.5px;color:#708094;margin:10px 0 0}
+#sheet.stage-wizard-confirm-sheet .stage-final-note{font-size:11.5px;line-height:1.5;color:#68778b;margin:9px 2px 12px}
+#sheet.stage-wizard-confirm-sheet .stage-final-payment{display:flex;gap:10px;align-items:center;border:1px solid #ead6ae;padding:11px;border-radius:14px;background:#fff9ec}
+#sheet.stage-wizard-confirm-sheet .stage-final-payment>.adv-emboss-art{--emboss-size:27px;flex:none}
+#sheet.stage-wizard-confirm-sheet .stage-final-payment span{display:flex;flex-direction:column;gap:4px}
+#sheet.stage-wizard-confirm-sheet .stage-final-payment b{font-size:12px;color:#243955}
+#sheet.stage-wizard-confirm-sheet .stage-final-payment small{font-size:11px;color:#788393}
+#sheet.stage-wizard-confirm-sheet .stage-final-check{position:relative;display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;align-items:start;margin:13px 2px 8px;color:#243b57;font-size:12.5px;line-height:1.45;cursor:pointer}
+#sheet.stage-wizard-confirm-sheet .stage-final-check input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+#sheet.stage-wizard-confirm-sheet .stage-final-mark{width:25px;height:25px;display:grid;place-items:center;box-sizing:border-box;border:1.5px solid #c09b57;border-radius:7px;color:transparent;background:#fffaf0}
+#sheet.stage-wizard-confirm-sheet .stage-final-mark .ico{width:16px;height:16px;stroke-width:2.7}
+#sheet.stage-wizard-confirm-sheet .stage-final-check:has(input:checked) .stage-final-mark{color:#152c4e;background:linear-gradient(#f6d379,#d6a23e);border-color:#aa7a2d}
+#sheet.stage-wizard-confirm-sheet .stage-final-check:focus-within{outline:2px solid #c69b56;outline-offset:3px;border-radius:8px}
+#sheet.stage-wizard-payment-sheet .stage-fourth-intro{display:flex;align-items:flex-start;gap:12px;border:1px solid #e4c99a;background:linear-gradient(135deg,#fff9ef,#f9efdf);border-radius:16px;padding:12px;margin-bottom:14px}
+#sheet.stage-wizard-payment-sheet .stage-fourth-intro-icon{width:41px;height:41px;display:grid;place-items:center;flex:0 0 41px;border:1px solid #e7c99a;border-radius:12px;background:#fffaf2}
+#sheet.stage-wizard-payment-sheet .stage-fourth-intro-icon .adv-emboss-art{--emboss-size:28px}
+#sheet.stage-wizard-payment-sheet .stage-fourth-intro p{font-size:12px;line-height:1.5;color:#52657b;margin:0}
+#sheet.stage-wizard-payment-sheet .stage-wizard-field{margin:0 0 13px;color:#263d59;font-size:12.5px}
+#sheet.stage-wizard-payment-sheet .stage-wizard-field>select,
+#sheet.stage-wizard-payment-sheet .stage-wizard-field>input,
+#sheet.stage-wizard-payment-sheet .stage-wizard-field>textarea{border-radius:14px;border-color:#dcc9aa;background:#fffefb;min-height:42px;color:#263953}
+#sheet.stage-wizard-payment-sheet .appointment-fee-days{display:grid;gap:11px}
+#sheet.stage-wizard-payment-sheet .appointment-fee-day{margin:0;padding:12px;border:1px solid #dec79f;border-radius:16px;background:linear-gradient(145deg,#fffefa,#fff8ec);box-shadow:0 5px 12px rgba(78,53,25,.05)}
+#sheet.stage-wizard-payment-sheet .appointment-fee-date{color:#203956}
+#sheet.stage-wizard-payment-sheet .appointment-fee-summary{border:1px solid #ceaa68;border-radius:16px;background:linear-gradient(125deg,#fff7e7,#f6e5c3);padding:12px 14px;margin:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#sheet.stage-wizard-payment-sheet .appointment-fee-summary small{color:#71644f}
+#sheet.stage-wizard-payment-sheet .appointment-fee-summary strong{color:#143257;font:700 20px Georgia,serif;white-space:nowrap}
+#sheet.stage-wizard-payment-sheet .stage-wizard-info,#sheet.stage-wizard-payment-sheet .stage-wizard-alert{margin:11px 0;font-size:11.6px;line-height:1.48}
+@media(max-width:360px){
+ #sheet.stage-wizard-confirm-sheet .stage-final-card{padding:10px 9px;gap:8px}
+ #sheet.stage-wizard-confirm-sheet .stage-final-card-icon{width:39px;height:39px;flex-basis:39px}
+ #sheet.stage-wizard-confirm-sheet .stage-final-card-copy b{font-size:15px}
+ #sheet.stage-wizard-confirm-sheet .stage-final-check{font-size:11.5px}
+ #sheet.stage-wizard-payment-sheet .appointment-fee-summary strong{font-size:17px}
+}
+#sheet.stage-wizard-confirm-sheet .stage-final-link .ico{transform:rotate(90deg)}
+
+#sheet.stage-wizard-third-sheet .stage-third-overdue{color:#a04e38;font-weight:750}

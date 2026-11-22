@@ -110,8 +110,16 @@ function stageWizardValidateStep(){
 }
 function stageWizardNext(){
   if(!STAGE_WIZARD)return;
-  stageWizardCapture();var err=stageWizardValidateStep();if(err){toast(err);return;}
-  var d=STAGE_WIZARD,m=matter(d.sourceId),visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
+  stageWizardCapture();
+  var d=STAGE_WIZARD,m=matter(d.sourceId);
+  /* An unfinished task can be completed elsewhere while the wizard is open.
+     Never strand the user on an empty, now-hidden transfer screen. */
+  if(d.step===2&&m&&!stageEligibleTasks(m).length){
+    d.moveIds=[];d.acknowledgeRemaining=false;d.acknowledgeCritical=false;
+    d.step=m.basis==='assigned'?3:4;stageWizardRender();return;
+  }
+  var err=stageWizardValidateStep();if(err){toast(err);return;}
+  var visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
   if(d.step===1){
     var currentIds=new Set(stageEligibleTasks(m).map(function(t){return String(t.id);}));
     d.moveIds=d.moveIds.filter(function(id){return currentIds.has(String(id));});
@@ -123,12 +131,13 @@ function stageWizardPrev(){
   if(!STAGE_WIZARD)return;
   if(STAGE_WIZARD.step===0){var id=STAGE_WIZARD.sourceId;STAGE_WIZARD=null;STAGE_HEARING_NAV=null;sheetMatterFinishChoice(id);return;}
   stageWizardCapture();var d=STAGE_WIZARD,m=matter(d.sourceId),visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
+  if(at<0&&d.step===2){d.moveIds=[];d.step=1;stageWizardRender();return;}
   if(at>0){d.step=visible[at-1];stageWizardRender();}
 }
 function stageWizardHead(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),progress=stageWizardStepPosition(d,m);
   var at=progress.index,count=at+1,total=progress.count;
-  var first=d.step<=2; // Steps 1–3 use the approved navy/ivory folder.
+  var first=d.step<=4; // All visible steps use the approved navy/ivory folder.
   var steps=progress.visible.map(function(step){return STAGE_WIZARD_STEPS[step];});
   var header=first
     ?'<header class="stage-wizard-header stage-wizard-header-premium">'+
@@ -403,7 +412,7 @@ function stageWizardTasksHTML(d,m){
          var icon={task:'check',meeting:'user',deadline:'clock',hearing:'gavel',investigation:'doc'}[t.kind]||'doc';
          return '<label class="stage-third-item'+(chosen?' is-checked':'')+'"><input type="checkbox" data-stage-move="'+esc(t.id)+'"'+(chosen?' checked':'')+'>'+ 
            '<span class="stage-third-item-icon">'+(typeof advEmbossIcon==='function'?advEmbossIcon(icon):ico(icon,'s'))+'</span>'+ 
-           '<span class="stage-third-item-copy"><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+(t.time?' · '+esc(t.time):'')+'</small></span>'+ 
+           '<span class="stage-third-item-copy"><b>'+esc(t.title||stageTaskLabel(t))+'</b><small>'+esc(stageTaskLabel(t))+(t.due?' · '+esc(fmtD(t.due,true)):'')+(t.time?' · '+esc(t.time):'')+(t.due&&t.due<today()?'<span class="stage-third-overdue"> · Просрочено</span>':'')+'</small></span>'+ 
            '<span class="stage-third-item-check" aria-hidden="true">'+ico('check','s')+'</span></label>';
        }).join('')+'</div>';
     }).join('')+'</div>'+
@@ -447,7 +456,7 @@ function appointmentFeeRowsHTML(lines,days){
 function stageWizardPaymentHTML(d,m){
   if(m.basis!=='assigned')return '<div class="stage-wizard-info">Расчёт вознаграждения не производится для дел по соглашению.</div>';
   var days=appointmentFeeDays(m,d.closeDate),p=d.payment;
-  return '<p class="stage-wizard-sub">Предварительный расчёт <b>только по назначению</b>. За одну дату по одному делу учитывается один день, независимо от числа действий. При отсутствии подтверждений итог остаётся черновиком.</p>'+ 
+  return '<div class="stage-fourth-intro"><span class="stage-fourth-intro-icon">'+(typeof advEmbossIcon==='function'?advEmbossIcon('doc'):ico('doc','s'))+'</span><p>Предварительный расчёт <strong>по назначению</strong>. За одну дату по одному делу учитывается один день независимо от числа действий. Без подтверждений расчёт остаётся черновиком.</p></div>'+ 
     (m.type==='criminal'?'<label class="stage-wizard-field">Категория сложности по п. 22(1) ПП РФ № 1240<select id="st-payment-category"><option value="">Выберите после проверки обстоятельств</option>'+Object.keys(APPOINTMENT_CRIMINAL_CATEGORIES).map(function(k){return '<option value="'+k+'"'+(p.category===k?' selected':'')+'>'+esc(APPOINTMENT_CRIMINAL_CATEGORIES[k])+'</option>';}).join('')+'</select></label>':'')+ 
     (m.type==='criminal'?'<button class="appointment-fee-apply" type="button" data-act="stage-payment-apply-rates">Подставить ставки ПП № 1191 (01.10.2025–31.12.2026)</button>':
       '<div class="stage-wizard-info">Для этого вида производства уголовные ставки автоматически не применяются: укажите проверенную ставку вручную.</div>')+
@@ -472,16 +481,31 @@ function stageWizardApplyRates(){
   toast(available?'Ставки предложены для '+available+' дн.; проверьте основания':'Нет подтверждённых тарифов для этих дат');
 }
 function stageWizardConfirmHTML(d,m){
-  var items=stageEligibleTasks(m),picked=new Set(d.moveIds.map(String));
+  var items=stageEligibleTasks(m),picked=new Set(d.moveIds.map(String)),moving=items.filter(function(t){return picked.has(String(t.id));});
   var stageName=d.stage==='__other__'?d.stageCustom:d.stage;
-  return '<div class="stage-wizard-summary">'+
-    '<div><small>Завершаемая папка</small><b>'+esc(stageCaseHeading(m))+'</b><span>'+esc(fmtD(d.closeDate,true))+' · будет в архиве</span></div>'+
-    '<div><small>Новая папка</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span></div>'+
-    '<div><small>Перенос записей</small><b>'+(items.length?picked.size+' из '+items.length:'Не требуется')+'</b><span>'+(items.length?'Выбранные записи останутся активны без дублирования':'Незавершённых записей нет — шаг переноса пропущен')+'</span></div>'+
-    (d.routeVerified?'<div><small>Проверка перехода</small><b>Процессуальные условия подтверждены</b></div>':'')+
-    (d.stage==='__other__'?'<div><small>Индивидуальный маршрут</small><b>'+esc(d.stageReason||'')+'</b></div>':'')+
-    (m.basis==='assigned'?'<div><small>Расчёт оплаты · по назначению</small><b>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+'</b><span>'+d.payment.lines.filter(function(x){return x.included&&!x.alreadyClaimed;}).length+' дней к расчёту. Ставка и режим проверяются отдельно по каждой дате; результат — черновик.</span></div>':'')+
-    '</div><label class="stage-wizard-check stage-wizard-confirm"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span>Проверил(а) сведения, выбранные задачи и расчёт. Подтверждаю завершение этапа и создание новой папки.</span></label>';
+  var left=items.length-moving.length;
+  var critical=moving.filter(function(t){return ['deadline','hearing','investigation'].includes(t.kind);}).length;
+  var overdue=moving.filter(function(t){return t.due&&t.due<today();}).length;
+  var noun=function(n,one,few,many){return n%10===1&&n%100!==11?one:n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?few:many;};
+  var icon=function(kind){return typeof advEmbossIcon==='function'?advEmbossIcon(kind):ico(kind==='court'?'scale':kind,'s');};
+  return '<div class="stage-final-intro"><p>Проверьте сведения перед созданием связанной папки. Предыдущая стадия сохранится в истории, новая будет активной.</p></div>'+ 
+    '<div class="stage-final-section">'+
+      '<div class="stage-final-card"><span class="stage-final-card-icon">'+icon('folder')+'</span><span class="stage-final-card-copy"><small>Завершаемая стадия</small><b>'+esc(m.stage||'Текущая стадия')+'</b><span>'+esc(fmtD(d.closeDate,true))+' · перейдёт в архив</span></span></div>'+ 
+      '<span class="stage-final-link" aria-hidden="true">'+ico('chev','s')+'</span>'+ 
+      '<div class="stage-final-card is-new"><span class="stage-final-card-icon">'+icon('flag')+'</span><span class="stage-final-card-copy"><small>Новая стадия</small><b>'+esc(stageName)+'</b><span>'+esc(fmtD(d.startDate,true))+' · '+esc(matterBasisLabel(d.basis))+'</span>'+(d.place?'<span>'+esc(d.place)+'</span>':'')+'</span></div>'+ 
+    '</div>'+ 
+    '<section class="stage-final-review" aria-label="Результаты проверки">'+
+      '<h3>Что произойдёт с записями</h3>'+ 
+      '<div><span>Перенос в новую папку</span><strong>'+moving.length+'</strong></div>'+ 
+      '<div><span>Незавершённые останутся в истории</span><strong>'+left+'</strong></div>'+ 
+      (critical?'<p class="stage-final-warning">'+icon('clock')+' Актуальность '+critical+' '+noun(critical,'процессуальной записи','процессуальных записей','процессуальных записей')+' была подтверждена на предыдущем шаге.</p>':'')+
+      (overdue?'<p class="stage-final-warning is-overdue">Внимание: '+overdue+' переносимых записей уже просрочены. Их даты не изменятся автоматически.</p>':'')+
+      (!items.length?'<p class="stage-final-empty">Незавершённых записей нет. Перенос не требуется.</p>':'')+
+    '</section>'+ 
+    (d.routeVerified?'<div class="stage-final-note">Условия процессуального перехода проверены адвокатом.</div>':'')+
+    (m.basis==='assigned'?'<div class="stage-final-payment">'+icon('doc')+'<span><b>Черновик расчёта по назначению</b><small>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+' · требуется проверка и подтверждение документов</small></span></div>':'')+
+    '<div class="stage-final-note">После подтверждения предыдущая папка останется доступной в связанных стадиях. Дублировать задачи и события приложение не будет.</div>'+ 
+    '<label class="stage-final-check"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span class="stage-final-mark" aria-hidden="true">'+ico('check','s')+'</span><span>Проверил(а) результат, следующую стадию, даты и перенос записей. Подтверждаю завершение этапа и создание новой папки.</span></label>';
 }
 /* Step 1 only: the navy folder shell changes to ivory below its curved
    inner paper. SVG paths are shared with approved action screens, so the
@@ -590,10 +614,10 @@ function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
   var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
-  // Steps 1 and 2 share the approved single-surface folder, but keep
-  // independent field designs and validation. Other steps are unchanged.
-  var premiumStep=d.step<=2;
-  var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Завершить этап и продолжить дело':'Продолжить')+'</button>';
+  // Steps 1–5 share the approved single-surface folder; each keeps
+  // its own data bindings and validation.
+  var premiumStep=d.step<=4;
+  var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Создать новую папку':'Продолжить')+'</button>';
   var html=premiumStep
     ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="'+esc(stageStepTitle())+' — шаг '+(d.step+1)+'">'+
       '<div class="stage-wizard-first-header">'+stageWizardHead()+'</div>'+
@@ -601,11 +625,15 @@ function stageWizardRender(){
       '<div class="stage-wizard-first-action">'+action+'</div></div></section>'
     :'<section class="stage-wizard-card">'+stageWizardHead()+'<div class="stage-wizard-body">'+inner+'</div></section>'+action;
   openSheet(html);
-  var panel=$('#sheet');panel.classList.add('case-stage-sheet');
+  var panel=$('#sheet');
+  panel.classList.remove('stage-wizard-first-sheet','stage-wizard-second-sheet','stage-wizard-third-sheet','stage-wizard-payment-sheet','stage-wizard-confirm-sheet');
+  panel.classList.add('case-stage-sheet');
   if(premiumStep){
     panel.classList.add('stage-wizard-first-sheet');
     if(d.step===1)panel.classList.add('stage-wizard-second-sheet');
     if(d.step===2)panel.classList.add('stage-wizard-third-sheet');
+    if(d.step===3)panel.classList.add('stage-wizard-payment-sheet');
+    if(d.step===4)panel.classList.add('stage-wizard-confirm-sheet');
     mountMatterActionsOutline(panel);
     stageWizardFirstFolderPaint(panel);
     // Independent viewport background, below SVG folder and above old scrim.
@@ -642,7 +670,7 @@ async function stageWizardCommit(){
     go('matters');openMatter(result.newId,'general');
     toast('Новая стадия создана · перенесено записей: '+result.moved);
   }catch(e){toast(e&&e.message||'Не удалось сохранить переход');
-    if(btn){btn.disabled=false;btn.textContent='Завершить этап и продолжить дело';}
+    if(btn){btn.disabled=false;btn.textContent='Создать новую папку';}
   }finally{STAGE_WIZARD_COMMIT_BUSY=false;}
 }
 function stageHistoryButtonHTML(m){
