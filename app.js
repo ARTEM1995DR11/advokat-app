@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.55';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6495';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.56';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6496';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4806,12 +4806,12 @@ function renderMore(){
     '</button>'+
     '<div class="more50-section-heading" aria-label="Основные инструменты"><i></i><b>ОСНОВНЫЕ ИНСТРУМЕНТЫ</b><i></i></div>'+
     '<div class="more50-grid">'+
-      moreApprovedTool('agreement','Калькулятор соглашений','Расчёт стоимости соглашения','more-icon-agreement-v6490.webp','more50-agreement')+
-      moreApprovedTool('deadlines','Калькулятор сроков','Создание и расчёт процессуальных сроков','more-icon-deadline-v6490.webp','deadline')+
-      moreApprovedTool('templates','Шаблоны','Готовые документы и чек-листы','more-icon-templates-v6490.webp','templates')+
-      moreApprovedTool('reminders','Напоминания','Сроки, уведомления и оповещения','more-icon-reminders-v6490.webp','notify-sheet')+
-      moreApprovedTool('search','Глобальный поиск','Быстрый поиск по делам, документам и контактам','more-icon-search-v6490.webp','global-search')+
-      moreApprovedTool('courts','Судебные сервисы','Суды, участки, сайты и справочники','more-icon-courts-v6490.webp','more50-courts')+
+      moreApprovedTool('agreement','Калькулятор соглашений','Расчёт гонорара','more-icon-agreement-v6490.webp','more50-agreement')+
+      moreApprovedTool('deadlines','Калькулятор сроков','Расчёт сроков','more-icon-deadline-v6490.webp','deadline')+
+      moreApprovedTool('templates','Шаблоны','Документы и чек‑листы','more-icon-templates-v6490.webp','templates')+
+      moreApprovedTool('reminders','Напоминания','Сроки и уведомления','more-icon-reminders-v6490.webp','notify-sheet')+
+      moreApprovedTool('search','Глобальный поиск','Поиск по всем данным','more-icon-search-v6490.webp','global-search')+
+      moreApprovedTool('courts','Судебные сервисы','Суды и справочники','more-icon-courts-v6490.webp','more50-courts')+
     '</div>'+
     '<button type="button" class="more50-backup" data-act="backup-sheet" aria-label="Резервная копия: сохранение и восстановление данных">'+
       '<span class="more50-backup-art" aria-hidden="true"><img src="more-icon-backup-v6490.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
