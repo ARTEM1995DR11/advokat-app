@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.47';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6487';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.48';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6488';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -10025,8 +10025,11 @@ document.addEventListener('touchstart',function(e){
   EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0],sh=$('#sheet');
-  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN||
-    (S.ui.tab==='matters'&&!!S.ui.matterCategory);
+  // 6488: «Дела» category lists are ordinary main-screen routes, not overlays.
+  // Their full-width right swipe is handled by PAGE_SWIPE below. Keeping the
+  // category here would let BOTH listeners react to one edge gesture, causing
+  // a second unintended jump from the two folders to «Задачи».
+  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
   // Unified chooser is used from both the dossier «События» tab and the
   // «Действия по делу» menu; appBack() preserves each originating route.
   var chooser=sh.classList.contains('open')&&sh.classList.contains('matter-event-stage1-open')&&
@@ -10304,6 +10307,15 @@ function finishPageSwipe(){
   var intentional=PAGE_SWIPE.horizontal && Math.abs(dx)>=72 && Math.abs(dy)<=76 && Math.abs(dx)>Math.abs(dy)*1.28;
   pageSwipeReset();
   if(!intentional) return;
+  // 6488: swipe right from either «Соглашения» or «Назначения» (including
+  // archive/search within a category) returns to the TWO FOLDERS, identical
+  // to the visible Back arrow. Horizontal swipes are recognised anywhere on
+  // the list; vertical scrolling and form fields are excluded above.
+  if(dx>0 && S.ui.tab==='matters' && !!S.ui.matterCategory){
+    SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;
+    appBack();
+    return;
+  }
   var idx=MAIN_TAB_ORDER.indexOf(S.ui.tab);
   if(idx<0) return;
   // Естественная навигация: слева направо — назад, справа налево — вперёд.
