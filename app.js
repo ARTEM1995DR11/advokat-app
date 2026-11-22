@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.57';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6497';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.58';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6498';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2717,7 +2717,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2735,6 +2735,7 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; requestAnimationFrame(function(){advUpgradeIconSurfaces(p);}); }
 function closeAll(){
+  SETTINGS57_CHILD_ACTIVE=false;
   if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
   if(typeof STAGE_HEARING_NAV!=='undefined')STAGE_HEARING_NAV=null;
   if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;}
@@ -2742,7 +2743,7 @@ function closeAll(){
   matterActionReturnReset();
   document.body.classList.remove('stage-hearings-backdrop-open','dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove(); if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ SETTINGS57_CHILD_ACTIVE=false; if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove(); if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4827,6 +4828,10 @@ function renderMore(){
   '</div>';
   $('#sc-more').innerHTML=html;
 }
+/* v6498: keep the Settings -> child -> Settings route when the user
+   returns with the Back arrow or a horizontal swipe. This is in-memory UI
+   navigation only; it never changes the lawyer's stored records. */
+var SETTINGS57_CHILD_ACTIVE=false;
 /* Approved Settings v57: three groups, seven rows, no developer commands. */
 function settings57Row(icon,title,desc,act){
   return '<button class="settings57-row" type="button" data-act="'+esc(act)+'" aria-label="'+esc(title)+'">'+
@@ -4839,6 +4844,7 @@ function settings57Section(label,icon,rows){
     '<div class="settings57-card">'+rows+'</div></section>';
 }
 function sheetMoreService(){
+  SETTINGS57_CHILD_ACTIVE=false;
   var body='<main class="settings57-page" role="region" aria-label="Настройки приложения">'+
     '<header class="settings57-header">'+
       '<button type="button" class="settings57-back" data-act="settings57-back" aria-label="Назад к разделу Ещё">'+ico('left','l')+'</button>'+
@@ -4993,6 +4999,12 @@ function appBack(){
   if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
   if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
+  // From any Settings submenu, return to the premium Settings index,
+  // instead of skipping it and jumping straight back to the «Ещё» tab.
+  if(SETTINGS57_CHILD_ACTIVE && sheet.classList.contains('open') &&
+     !sheet.classList.contains('settings-premium-v57')){
+    sheetMoreService();vib(5);return true;
+  }
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
   if(page.classList.contains('open')){
     if(page._navType==='report' && REPORT && REPORT.back && matter(REPORT.back)){
@@ -9060,19 +9072,39 @@ function profileSave(){
   PROFILE_PHOTO_DRAFT=null;
   save();closeSheet();render();toast('Профиль сохранён');
 }
+/* v6499: premium PIN configuration screen. Only UI is changed;
+   PBKDF2/AES-GCM storage and PIN unlock remain untouched. */
 function sheetPin(){
+  var head='<div class="pin59-header">'+
+    '<div class="pin59-emblem" aria-hidden="true"><img src="settings57-pin.webp?v='+APP_BUILD+'" alt="" draggable="false"></div>'+
+    '<div class="pin59-title"><span class="pin59-kicker">БЕЗОПАСНОСТЬ ДАННЫХ</span><h2>Код доступа</h2>'+
+    '<p>Защита адвокатских материалов и сведений доверителей</p></div></div>';
+  var foot='';
   if(pinEnabled()){
-    openSheet('<h2>Код доступа и шифрование</h2><p class="sh-sub">PIN используется как ключ для локальной зашифрованной базы.</p>'+
-      '<div class="hint"><b>PIN включён.</b> Без правильного PIN база не расшифровывается при запуске приложения. Сам PIN в базе не хранится.</div>'+
-      '<button class="btn ghost" data-act="pin-off">Отключить PIN и перейти на локальный ключ устройства</button>');
+    foot='<div class="pin59-status pin59-status-on"><span class="pin59-status-dot"></span><b>PIN-шифрование включено</b></div>'+
+      '<div class="pin59-current-note"><span class="pin59-note-icon" aria-hidden="true">'+ico('lock','s')+'</span><p>База данных зашифрована. Для её открытия при новом запуске требуется установленный PIN. Сам код в базе не хранится.</p></div>'+
+      '<div class="pin59-warning" role="note"><span aria-hidden="true">'+ico('alert','s')+'</span><p>Отключение PIN переведёт базу на локальный ключ устройства. Подтвердите действие перед продолжением.</p></div>';
+    openSheet('<div class="pin59-content">'+head+foot+'</div>'+
+      '<button class="btn ghost pin59-disable" type="button" data-act="pin-off">Отключить PIN-шифрование</button>');
   }else{
-    openSheet('<h2>Включить PIN-шифрование</h2><p class="sh-sub">4 цифры. Они понадобятся при каждом новом запуске веб-приложения.</p>'+
-      '<div class="fld"><label>PIN</label><input id="pin1" type="tel" inputmode="numeric" maxlength="4" placeholder="••••" style="letter-spacing:.5em;text-align:center;font-size:22px"></div>'+
-      '<div class="fld"><label>Повторите PIN</label><input id="pin2" type="tel" inputmode="numeric" maxlength="4" style="letter-spacing:.5em;text-align:center;font-size:22px"></div>'+
-      '<div class="hint">Если PIN будет забыт, расшифровать локальную базу невозможно. Перед включением рекомендуется сделать зашифрованную резервную копию с отдельным паролем.</div>'+
-      '<button class="btn" data-act="pin-set">Включить PIN-шифрование</button>');
+    foot='<div class="pin59-status"><span class="pin59-status-dot"></span><b>PIN пока не установлен</b></div>'+
+      '<div class="pin59-form">'+
+        '<label for="pin1">Новый PIN-код</label>'+
+        '<div class="pin59-input-wrap"><span class="pin59-input-lock" aria-hidden="true">'+ico('lock','s')+'</span>'+
+        '<input id="pin1" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" autocapitalize="off" spellcheck="false" placeholder="••••" aria-label="Новый PIN из четырёх цифр"></div>'+
+        '<label for="pin2">Повторите PIN-код</label>'+
+        '<div class="pin59-input-wrap"><span class="pin59-input-lock" aria-hidden="true">'+ico('check','s')+'</span>'+
+        '<input id="pin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" autocapitalize="off" spellcheck="false" placeholder="••••" aria-label="Повтор PIN из четырёх цифр"></div>'+
+        '<p class="pin59-form-caption">Используйте четыре цифры. PIN потребуется при каждом новом запуске приложения.</p>'+
+      '</div>'+
+      '<div class="pin59-warning" role="note"><span aria-hidden="true">'+ico('alert','s')+'</span><p><b>Важно:</b> при утрате PIN расшифровать локальную базу будет невозможно. Перед включением создайте зашифрованную резервную копию с отдельным паролем.</p></div>';
+    openSheet('<div class="pin59-content">'+head+foot+'</div>'+
+      '<button class="btn pin59-submit" type="button" data-act="pin-set">Включить PIN-шифрование</button>');
   }
+  $('#sheet').classList.add('pin-premium-v59');
+  $('#sheet').setAttribute('aria-label',pinEnabled()?'Управление PIN-шифрованием':'Включение PIN-шифрования');
 }
+
 function notifyStatusMeta(){
   var st=('Notification' in window)?Notification.permission:'unsupported';
   if(st==='unsupported') return {title:'Локальные уведомления', text:'Уведомления недоступны в этом режиме. На iPhone добавьте приложение на экран «Домой».', chip:'Недоступны', tone:'muted'};
@@ -9497,6 +9529,13 @@ document.addEventListener('click', function(ev){
   if(Date.now()<SWIPE_CLICK_BLOCK_UNTIL){ev.preventDefault();ev.stopPropagation();return;}
   var el=ev.target.closest('[data-act]'); if(!el){ if(!ev.target.closest('.pt-item')) closeTaskActionRows(); return; }
   var a=el.dataset.act,v=el.dataset.v,id=el.dataset.id; ev.stopPropagation();
+  // Remember the parent only when a Settings row opens a nested screen.
+  // Other entry points (including the main «Ещё» tools) remain unchanged.
+  if(el.closest && el.closest('#sheet.settings-premium-v57') &&
+     ['pin','settings57-auto','settings57-privacy','notify-sheet',
+      'backup-sheet','settings57-transfer','settings57-clear'].indexOf(a)>=0){
+    SETTINGS57_CHILD_ACTIVE=true;
+  }
   matterActionReturnTrack(a,id,el);
   if(el.classList.contains('quickitem')) vib(7);
   switch(a){
@@ -9522,7 +9561,7 @@ document.addEventListener('click', function(ev){
     case 'more50-agreement': toast('Калькулятор соглашений — следующий этап разработки'); break;
     case 'more50-courts': toast('Судебные сервисы — следующий этап разработки'); break;
     case 'more50-settings': sheetMoreService(); break;
-    case 'settings57-back': closeSheet(); break;
+    case 'settings57-back': appBack(); break;
     case 'settings57-auto': sheetSettings57Auto(); break;
     case 'settings57-privacy': sheetSettings57Privacy(); break;
     case 'settings57-transfer': sheetSettings57Transfer(); break;
@@ -10190,8 +10229,16 @@ document.addEventListener('touchstart',function(e){
      (sh.classList.contains('case-stage-sheet')&&!!sh.querySelector('.stage-wizard-card')))&&
     !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN&&
     !(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable="true"]'));
-  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe);
-  EDGE_SWIPE.choice=chooser||finishFlowSwipe;
+  // Settings index and its nested sheets accept a normal full-width
+  // right-swipe, matching the visible Back arrow. Ignore active text fields
+  // and horizontal scrollers so editing and vertical scrolling stay natural.
+  var settingsSwipe=sh.classList.contains('open') && sh.contains(e.target) &&
+    (sh.classList.contains('settings-premium-v57') || SETTINGS57_CHILD_ACTIVE) &&
+    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN &&
+    !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
+    !hasHorizontalScrollAncestor(e.target);
+  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe || settingsSwipe);
+  EDGE_SWIPE.choice=chooser||finishFlowSwipe||settingsSwipe;
   EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
@@ -10386,15 +10433,25 @@ document.addEventListener('touchcancel',function(){
 /* =====================================================================
    iPhone-style bottom sheet: pull the top area down = Close
    ===================================================================== */
-var SHEET_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false};
+var SHEET_SWIPE={on:false,settings:false,x:0,y:0,dx:0,dy:0,moved:false};
 document.addEventListener('touchstart',function(e){
+  SHEET_SWIPE.on=false;SHEET_SWIPE.settings=false;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var s=document.getElementById('stage-hearings-overlay')||$('#sheet');
-  if(!s || !s.classList.contains('open') || s.classList.contains('full')) return;
+  if(!s || !s.classList.contains('open')) return;
+  var isSettings=s.classList.contains('full')&&s.classList.contains('settings-premium-v57');
+  if(s.classList.contains('full') && !isSettings) return;
   var t=e.touches[0],r=s.getBoundingClientRect();
-  // The whole visual handle/header zone is draggable, not just the 4px grabber.
-  if(t.clientY < r.top || t.clientY > r.top+108) return;
-  SHEET_SWIPE.on=true;SHEET_SWIPE.x=t.clientX;SHEET_SWIPE.y=t.clientY;
+  if(isSettings){
+    // Only a downward pull beginning on the Settings header closes the full
+    // screen. A vertical swipe starting on the rows remains a normal scroll.
+    if(s.scrollTop>2 || !(e.target.closest && e.target.closest('.settings57-header'))) return;
+  }else{
+    // Ordinary sheets retain their existing 108 px pull-down handle zone.
+    if(t.clientY < r.top || t.clientY > r.top+108) return;
+  }
+  SHEET_SWIPE.on=true;SHEET_SWIPE.settings=isSettings;
+  SHEET_SWIPE.x=t.clientX;SHEET_SWIPE.y=t.clientY;
   SHEET_SWIPE.dx=0;SHEET_SWIPE.dy=0;SHEET_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
@@ -10406,13 +10463,25 @@ document.addEventListener('touchmove',function(e){
     if(e.cancelable) e.preventDefault();
   }
 },{passive:false,capture:true});
-document.addEventListener('touchend',function(){
+document.addEventListener('touchend',function(e){
   if(!SHEET_SWIPE.on) return;
+  if(e.changedTouches && e.changedTouches.length===1){
+    var t=e.changedTouches[0];
+    SHEET_SWIPE.dx=t.clientX-SHEET_SWIPE.x;
+    SHEET_SWIPE.dy=t.clientY-SHEET_SWIPE.y;
+  }
   var ok=SHEET_SWIPE.moved && SHEET_SWIPE.dy>=64 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.2;
-  SHEET_SWIPE.on=false;
-  if(ok){vib(5);if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack())return;closeSheet();}
+  var fromSettings=SHEET_SWIPE.settings;
+  SHEET_SWIPE.on=false;SHEET_SWIPE.settings=false;
+  if(ok){
+    if(fromSettings){
+      SWIPE_CLICK_BLOCK_UNTIL=Date.now()+400;
+      appBack();return;
+    }
+    vib(5);if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack())return;closeSheet();
+  }
 },{passive:true,capture:true});
-document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;},{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){SHEET_SWIPE.on=false;SHEET_SWIPE.settings=false;},{passive:true,capture:true});
 
 /* =====================================================================
    4.0.70 — поиск на странице «Задачи» приведён к шапке «Сегодня»
