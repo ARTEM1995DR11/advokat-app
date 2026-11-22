@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.52';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6492';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.53';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6493';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4780,6 +4780,16 @@ function profileAvatarSource(){
   var p=S.settings.profilePhoto||'';
   return /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p) ? p : 'more-icon-profile-v6490.webp?v='+APP_BUILD;
 }
+/* v6493: Отчество выделяем на второй строке, не обрезая ФИО.
+   Для неполного ФИО сохраняем исходный текст; все фрагменты экранируем. */
+function moreProfileNameLines(name){
+  var words=String(name||'Адвокат').trim().split(/\s+/).filter(Boolean);
+  if(words.length>=3){
+    return '<span class="more53-name-line">'+esc(words.slice(0,-1).join(' '))+'</span>'+
+      '<span class="more53-name-line">'+esc(words[words.length-1])+'</span>';
+  }
+  return '<span class="more53-name-line">'+esc(words.join(' ')||'Адвокат')+'</span>';
+}
 function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var html='<div class="more-project more-approved-v50">'+
@@ -4788,7 +4798,7 @@ function renderMore(){
     '<button type="button" class="more50-profile" data-act="profile" aria-label="Открыть профиль адвоката">'+
       '<span class="more50-profile-art"><img src="'+esc(profileAvatarSource())+'" alt="" draggable="false"></span>'+
       '<span class="more50-profile-divider" aria-hidden="true"></span>'+
-      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>Адвокат</small></span>'+
+      '<span class="more50-profile-copy"><strong>'+moreProfileNameLines(profileName)+'</strong><small>Адвокат</small></span>'+
       '<span class="more50-profile-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button>'+
     '<div class="more50-section-heading" aria-label="Основные инструменты"><i></i><b>ОСНОВНЫЕ ИНСТРУМЕНТЫ</b><i></i></div>'+

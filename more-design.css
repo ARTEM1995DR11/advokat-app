@@ -59,8 +59,9 @@ body.light #sc-more:has(.more-approved-v50){
   display:flex;
   align-items:center;
   gap:12px;
-  height:88px;
-  padding:6px 13px 6px 10px;
+  min-height:101px;
+  height:auto;
+  padding:9px 13px 9px 10px;
   border:0!important;
   border-radius:20px 20px 20px 20px!important;
   margin:0 4px 17px!important;
@@ -78,7 +79,20 @@ body.light #sc-more:has(.more-approved-v50){
 #sc-more .more50-profile-divider,
 #sc-more .more50-backup-divider{width:2px;min-width:2px;align-self:center;height:52px;background:linear-gradient(#f4be5d,#bc7418,#f1c574);border-radius:3px;}
 #sc-more .more50-profile-copy{flex:1;min-width:0;display:block;}
-#sc-more .more50-profile-copy strong{display:block;font:700 clamp(17px,4.4vw,23px)/1.16 Georgia,'Times New Roman',serif;color:#09193b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* v6493: show the full name with the patronymic on a second line;
+   preserve the premium typography and allow full height on any device. */
+#sc-more .more50-profile-copy strong{
+  display:block;
+  font:700 clamp(16px,4.15vw,22px)/1.13 Georgia,'Times New Roman',serif;
+  color:#09193b;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+#sc-more .more50-profile-copy .more53-name-line{display:block;}
 #sc-more .more50-profile-copy small{display:block;font-size:15px;color:#40506b;margin-top:6px;}
 #sc-more .more50-profile-chevron,
 #sc-more .more50-arrow{
@@ -148,7 +162,7 @@ body.light #sc-more:has(.more-approved-v50){
   #sc-more .more50-tool .more50-arrow{width:16px;height:16px;flex-basis:16px;}
   #sc-more .more50-profile{gap:7px;padding-right:8px;}
   #sc-more .more50-profile-art{width:71px;height:75px;flex-basis:71px;}
-  #sc-more .more50-profile-copy strong{font-size:17px;}
+  #sc-more .more50-profile-copy strong{font-size:clamp(15px,4.6vw,17px);}
   #sc-more .more50-profile-divider{height:43px;}
   #sc-more .more50-section-heading{gap:6px;}
   #sc-more .more50-section-heading b{letter-spacing:.14em;font-size:10px;}
@@ -156,7 +170,7 @@ body.light #sc-more:has(.more-approved-v50){
 @media (min-width:450px){
   #sc-more .more50-tool{min-height:117px;padding:8px 10px;gap:9px;}
   #sc-more .more50-tool-art{height:95px;}
-  #sc-more .more50-profile{height:98px;}
+  #sc-more .more50-profile{min-height:110px;height:auto;}
   #sc-more .more50-profile-art{width:91px;height:91px;flex-basis:91px;}
   #sc-more .more50-backup{height:96px;}
 }
