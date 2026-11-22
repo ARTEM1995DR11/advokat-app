@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.58';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6498';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.60';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6500';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -21,7 +21,7 @@ var DEF = {
   settings: {
     name:'', profileStatus:'Адвокат', profilePhone:'', profileEmail:'', profileChamber:'', profileRegistry:'', profilePhoto:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:1, lastBackup:'', backupDailyV3132:true,
-    lockOnReturn:true, version:3
+    lockOnReturn:true, autoLockMinutes:1, hideNotificationDetails:false, version:3
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null, calView:'month',
@@ -49,6 +49,9 @@ function mergeState(d){
     out.settings.backupDailyV3132=true;
   }
   delete out.settings.pin; delete out.settings.rate;
+  if([0,1,5,15].indexOf(Number(out.settings.autoLockMinutes))<0 && out.settings.autoLockMinutes!=='off')out.settings.autoLockMinutes=1;
+  else if(out.settings.autoLockMinutes!=='off')out.settings.autoLockMinutes=Number(out.settings.autoLockMinutes);
+  out.settings.hideNotificationDetails=!!out.settings.hideNotificationDetails;
   out.ui = Object.assign({}, DEF.ui, d.ui||{});
   /* 5.0.553 STARTUP: выбранная нижняя вкладка не восстанавливается между запусками.
      Любая загрузка базы начинает интерфейс со страницы «Сегодня». */
@@ -284,6 +287,30 @@ async function clearSecureStorage(){
   if(!(await persistNow()))throw new Error('Не удалось создать пустое защищённое хранилище');
 }
 
+/* V60: configurable lock on resume and while app is inactive.
+   Never discard the decrypted state until pending writes are safely flushed. */
+var SETTINGS60_LAST_ACTIVITY=Date.now(), SETTINGS60_LOCK_PENDING=false;
+function settings60LockVault(message){
+  if(SETTINGS60_LOCK_PENDING||!pinEnabled()||!unlocked)return;
+  SETTINGS60_LOCK_PENDING=true;
+  flushSave().then(function(ok){
+    if(!ok){try{toast('Данные не сохранены: блокировка отложена');}catch(e){}return;}
+    closeAll(); S=clone(DEF);SESSION_KEY=null;unlocked=false;
+    lockShow(message||'Введите PIN для продолжения');
+  }).catch(function(){try{toast('Не удалось сохранить изменения перед блокировкой');}catch(e){}})
+    .finally(function(){SETTINGS60_LOCK_PENDING=false;SETTINGS60_LAST_ACTIVITY=Date.now();});
+}
+function settings60Activity(){SETTINGS60_LAST_ACTIVITY=Date.now();}
+document.addEventListener('touchstart',settings60Activity,{passive:true,capture:true});
+document.addEventListener('pointerdown',settings60Activity,{passive:true,capture:true});
+document.addEventListener('keydown',settings60Activity,{capture:true});
+setInterval(function(){
+  if(document.hidden||!unlocked||!pinEnabled()||!S.settings.lockOnReturn)return;
+  var mins=settings60LockValue();
+  if(mins==='off'||mins===0)return;
+  if(Date.now()-SETTINGS60_LAST_ACTIVITY>=mins*60000)
+    settings60LockVault('Введите PIN после бездействия');
+},15000);
 /* ------------------------- utils ------------------------- */
 function $(s){ return document.querySelector(s); }
 function $$(s){ return document.querySelectorAll(s); }
@@ -2717,7 +2744,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4864,32 +4891,92 @@ function sheetMoreService(){
   openSheet(body);
   var s=$('#sheet');s.classList.add('settings-premium-v57','full');s.setAttribute('aria-label','Настройки');
 }
-/* New parameters not yet supported by the runtime are described honestly;
-   existing secure PIN, backups and notification handlers remain unchanged. */
+/* SETTINGS V60: themed child screens for the approved seven settings.
+   Notifications themselves keep the existing, already-approved screen. */
+function settings60Icon(name){
+  return '<img src="settings57-'+esc(name)+'.webp?v='+APP_BUILD+'" alt="" draggable="false">';
+}
+function settings60Head(title,subtitle,icon){
+  return '<header class="settings60-head">'+
+    '<button type="button" class="settings60-back" data-act="settings60-back" aria-label="Назад к настройкам">'+ico('left','s')+'</button>'+
+    '<span class="settings60-head-icon" aria-hidden="true">'+settings60Icon(icon)+'</span>'+
+    '<div class="settings60-head-copy"><span class="settings60-overline">НАСТРОЙКИ АДВОКАТА</span><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div></header>';
+}
+function settings60Card(inner,extra){return '<section class="settings60-card '+(extra||'')+'">'+inner+'</section>';}
+function settings60Line(title,desc,act,icon,extra){
+  return '<button type="button" class="settings60-line '+(extra||'')+'" data-act="'+esc(act)+'">'+
+    '<span class="settings60-line-icon" aria-hidden="true">'+ico(icon,'s')+'</span>'+
+    '<span class="settings60-line-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span>'+
+    '<span class="settings60-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+}
+function settings60Info(text,tone){return '<div class="settings60-note '+(tone||'')+'" role="note">'+ico(tone==='warning'?'alert':'info','s')+'<p>'+text+'</p></div>';}
+function settings60Page(title,subtitle,icon,content){
+  openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
+  var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
+}
+function settings60LockValue(){
+  if(!S.settings.lockOnReturn)return 'off';
+  return [0,1,5,15].indexOf(Number(S.settings.autoLockMinutes))>=0 ? Number(S.settings.autoLockMinutes) : 1;
+}
 function sheetSettings57Auto(){
-  openSheet('<h2>Автоматическая блокировка</h2><p class="sh-sub">Защита при возвращении в приложение.</p>'+
-    '<div class="hint">Сейчас при включённом PIN приложение запрашивает код после возвращения из фонового режима, если прошло более одной минуты. Настройку произвольного интервала бездействия добавим отдельно.</div>'+
-    rowSw('lock','Блокировка после возвращения','После отсутствия более одной минуты','settings57-toggle-auto',!!S.settings.lockOnReturn));
+  var current=settings60LockValue();
+  var opts=[['0','Сразу при возвращении','Сразу после перехода в приложение из фона'],
+    ['1','Через 1 минуту','После минуты отсутствия или бездействия'],
+    ['5','Через 5 минут','Стандартная защита для повседневной работы'],
+    ['15','Через 15 минут','Увеличенный интервал'],
+    ['off','Не блокировать автоматически','PIN всё равно потребуется после нового запуска']];
+  var body='<div class="settings60-minihead"><span>ВРЕМЯ ДО БЛОКИРОВКИ</span><i></i></div>'+
+    settings60Card(opts.map(function(o){return '<button type="button" class="settings60-choice" data-act="settings60-lock-set" data-v="'+o[0]+'" aria-pressed="'+(String(current)===o[0])+'">'+
+      '<span class="settings60-radio '+(String(current)===o[0]?'on':'')+'" aria-hidden="true"></span><span><b>'+o[1]+'</b><small>'+o[2]+'</small></span></button>';}).join(''))+
+    settings60Info(pinEnabled()?'При включённом PIN блокировка срабатывает по выбранному интервалу. На iPhone отсчёт в фоне проверяется при возвращении в приложение.':'Для защиты по таймеру сначала включите PIN-код. Выбранный интервал сохранится и начнёт действовать после включения PIN.','')+
+    (!pinEnabled()?'<button class="settings60-gold-action" data-act="pin" type="button">Установить PIN-код</button>':'');
+  settings60Page('Автоматическая блокировка','Когда повторно запрашивать код доступа','lock',body);
 }
 function sheetSettings57Privacy(){
-  openSheet('<h2>Конфиденциальность</h2><p class="sh-sub">Защита сведений доверителей в уведомлениях.</p>'+
-    '<div class="hint">Скрытие содержимого локальных уведомлений будет реализовано отдельно. Текущие уведомления могут содержать названия задач — учитывайте это при использовании устройства.</div>'+
-    '<button type="button" class="btn ghost" data-act="notify-sheet">Управление уведомлениями</button>');
+  var on=!!S.settings.hideNotificationDetails;
+  var body='<div class="settings60-minihead"><span>СОДЕРЖИМОЕ УВЕДОМЛЕНИЙ</span><i></i></div>'+
+    settings60Card('<button type="button" class="settings60-toggle-row" data-act="settings60-privacy-toggle" role="switch" aria-checked="'+on+'">'+
+      '<span class="settings60-line-icon">'+ico('lock','s')+'</span><span class="settings60-line-copy"><strong>Скрывать детали</strong><small>Не показывать название события, ФИО и место в локальных уведомлениях</small></span>'+
+      '<span class="settings60-switch '+(on?'on':'')+'" aria-hidden="true"><i></i></span></button>')+
+    '<div class="settings60-example"><span>ПРИМЕР УВЕДОМЛЕНИЯ</span><div>'+ico('bell','s')+'<p><b>Напоминание</b><small>'+(on?'Событие в «Ежедневнике адвоката»':'Содержимое события и место проведения')+'</small></p></div></div>'+
+    settings60Info('Параметр влияет на текст новых локальных уведомлений приложения. Показ уведомлений на заблокированном экране iPhone дополнительно регулируется настройками iOS.','');
+  settings60Page('Конфиденциальность','Защита сведений доверителей','privacy',body);
 }
 function sheetSettings57Transfer(){
-  openSheet('<h2>Импорт и экспорт</h2><p class="sh-sub">Перенос и сохранение рабочих данных</p>'+
-    '<div class="card pad0 settings-card">'+
-    row('arch','Создать резервную копию','Защищённая копия всей базы','backup-sheet')+
-    row('folder','Восстановить базу из файла','Импорт ранее сохранённой копии','restore')+
-    row('share','Экспорт рабочего списка','Текстовый список для передачи','export')+'</div>'+
-    '<div class="hint">Для переноса всей базы между устройствами используйте зашифрованную резервную копию, а не текстовый экспорт списка.</div>');
+  var body='<div class="settings60-minihead"><span>ПЕРЕНОС И ЭКСПОРТ</span><i></i></div>'+
+    settings60Card(settings60Line('Зашифрованная копия','Подготовить файл базы для другого устройства','backup-sheet','lock')+
+      settings60Line('Восстановление из файла','Выбрать ранее сохранённую копию','restore','arch')+
+      settings60Line('Экспорт списка','Выгрузить читаемый рабочий список','export','share'))+
+    settings60Info('Для переноса всех дел и записей используйте зашифрованную копию и сохраните пароль отдельно. Текстовый список не заменяет резервную копию.','');
+  settings60Page('Импорт и экспорт','Безопасный перенос рабочих материалов','transfer',body);
+}
+function settings60DeleteCount(){
+  return S.tasks.filter(function(t){return t.done && !(t.kind==='hearing'&&t.hearingResultStatus) && !(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;
 }
 function sheetSettings57Clear(){
-  openSheet('<h2>Очистка данных</h2><p class="sh-sub">Удаление данных только после подтверждения</p>'+
-    '<div class="card pad0 settings-card">'+
-    row('trash','Удалить выполненные задачи','Сохранить результаты заседаний и архивные дела','clearDone')+
-    row('trash','Полная очистка базы','Дела, задачи, события и журнал — без восстановления','settings57-wipe-confirm')+'</div>'+
-    '<div class="hint">Перед удалением создайте резервную копию. Очистка без сохранённой копии может быть необратимой.</div>');
+  var n=settings60DeleteCount();
+  var body='<div class="settings60-minihead"><span>ОЧИСТКА ЗАПИСЕЙ</span><i></i></div>'+
+    settings60Card(settings60Line('Выполненные задачи',n+' '+plural(n,'запись','записи','записей')+' доступно для удаления','clearDone','check'))+
+    '<div class="settings60-minihead settings60-danger-heading"><span>ОПАСНАЯ ОПЕРАЦИЯ</span><i></i></div>'+
+    settings60Card('<div class="settings60-danger-body"><div class="settings60-danger-top">'+ico('trash','s')+'<div><strong>Полная очистка базы</strong><small>Удалятся все дела, задачи, события и журнал. Действие нельзя отменить без отдельной резервной копии.</small></div></div>'+
+      '<label for="settings60-confirm">Для подтверждения напишите УДАЛИТЬ</label>'+
+      '<input id="settings60-confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="УДАЛИТЬ" aria-label="Подтверждение полного удаления">'+
+      '<button type="button" class="settings60-danger-action" data-act="settings60-wipe-confirm">Удалить все данные</button></div>','settings60-danger-card')+
+    settings60Info('Перед очисткой обязательно создайте и проверьте отдельную резервную копию.','warning');
+  settings60Page('Очистка данных','Контроль удаления сохранённых записей','clear',body);
+}
+function sheetBackup(){
+  var bs=backupPlanStats(),last=S.settings.lastBackup;
+  var label=last?new Date(last).toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Копия ещё не создавалась';
+  var body='<div class="settings60-backup-status">'+ico('arch','l')+'<div><b>Последняя резервная копия</b><p>'+esc(label)+'</p></div></div>'+
+    '<div class="settings60-backup-stats"><div><b>'+bs.tasks+'</b><span>задач</span></div><div><b>'+bs.hearings+'</b><span>заседаний</span></div><div><b>'+bs.deadlines+'</b><span>сроков</span></div></div>'+
+    '<div class="settings60-minihead"><span>НОВАЯ ЗАШИФРОВАННАЯ КОПИЯ</span><i></i></div>'+
+    settings60Card('<div class="settings60-form"><label for="bk-pass">Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Введите отдельный пароль">'+
+      '<label for="bk-pass2">Подтверждение пароля</label><input id="bk-pass2" type="password" autocomplete="new-password" placeholder="Повторите пароль">'+
+      '<button type="button" class="settings60-gold-action" data-act="backup-create">Создать резервную копию</button></div>')+
+    settings60Card(settings60Line('Восстановить из копии','Выбрать зашифрованный файл','restore','arch'),'settings60-single-action')+
+    settings60Info('Создаётся зашифрованный файл для полного восстановления и печатная сводка планов. Сохраните файл в надёжном месте: сама PWA не отправляет его в облако.','');
+  settings60Page('Резервное копирование','Сохранение и восстановление рабочей базы','backup',body);
 }
 
 function rowSw(i,t,s,act,on){
@@ -9075,7 +9162,8 @@ function profileSave(){
 /* v6499: premium PIN configuration screen. Only UI is changed;
    PBKDF2/AES-GCM storage and PIN unlock remain untouched. */
 function sheetPin(){
-  var head='<div class="pin59-header">'+
+  var head='<div class="settings60-pin-backbar"><button data-act="settings60-back" type="button">'+ico('left','s')+'<span>Настройки</span></button></div>'+
+    '<div class="pin59-header">'+
     '<div class="pin59-emblem" aria-hidden="true"><img src="settings57-pin.webp?v='+APP_BUILD+'" alt="" draggable="false"></div>'+
     '<div class="pin59-title"><span class="pin59-kicker">БЕЗОПАСНОСТЬ ДАННЫХ</span><h2>Код доступа</h2>'+
     '<p>Защита адвокатских материалов и сведений доверителей</p></div></div>';
@@ -9084,6 +9172,7 @@ function sheetPin(){
     foot='<div class="pin59-status pin59-status-on"><span class="pin59-status-dot"></span><b>PIN-шифрование включено</b></div>'+
       '<div class="pin59-current-note"><span class="pin59-note-icon" aria-hidden="true">'+ico('lock','s')+'</span><p>База данных зашифрована. Для её открытия при новом запуске требуется установленный PIN. Сам код в базе не хранится.</p></div>'+
       '<div class="pin59-warning" role="note"><span aria-hidden="true">'+ico('alert','s')+'</span><p>Отключение PIN переведёт базу на локальный ключ устройства. Подтвердите действие перед продолжением.</p></div>';
+    foot += '<button class="settings60-change-link" type="button" data-act="settings60-pin-change">Сменить PIN-код '+ico('chev','s')+'</button>';
     openSheet('<div class="pin59-content">'+head+foot+'</div>'+
       '<button class="btn ghost pin59-disable" type="button" data-act="pin-off">Отключить PIN-шифрование</button>');
   }else{
@@ -9103,6 +9192,41 @@ function sheetPin(){
   }
   $('#sheet').classList.add('pin-premium-v59');
   $('#sheet').setAttribute('aria-label',pinEnabled()?'Управление PIN-шифрованием':'Включение PIN-шифрования');
+}
+
+function sheetSettings60ChangePin(){
+  if(!pinEnabled()){sheetPin();return;}
+  var html='<div class="settings60-minihead"><span>ЗАМЕНА КОДА ДОСТУПА</span><i></i></div>'+
+    settings60Card('<div class="settings60-form">'+
+      '<label for="settings60-old-pin">Действующий PIN</label><input id="settings60-old-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••">'+
+      '<label for="settings60-new-pin">Новый PIN</label><input id="settings60-new-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••">'+
+      '<label for="settings60-again-pin">Повторите новый PIN</label><input id="settings60-again-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••">'+
+      '<button type="button" class="settings60-gold-action" data-act="settings60-pin-apply">Сохранить новый PIN</button></div>')+
+    settings60Info('Если старый PIN введён неверно, база не будет изменена. Перед заменой создайте отдельную резервную копию.','warning');
+  settings60Page('Изменение PIN','Для изменения подтвердите текущий код','pin',html);
+}
+async function settings60ChangePinApply(){
+  if(!pinEnabled()){toast('PIN-шифрование не включено');return;}
+  var a=$('#settings60-old-pin'),b=$('#settings60-new-pin'),c=$('#settings60-again-pin');
+  if(!a||!b||!c)return;
+  if(!/^\d{4}$/.test(a.value)||!/^\d{4}$/.test(b.value)){toast('Введите четырёхзначные PIN-коды');return;}
+  if(b.value!==c.value){toast('Новые коды не совпадают');return;}
+  if(a.value===b.value){toast('Новый PIN должен отличаться от прежнего');return;}
+  if(!(await flushSave())){toast('Не удалось сохранить базу. Замена PIN отменена');return;}
+  var old=clone(META), oldPayload=await idbGet('state');
+  try{if(!(await decryptObj(oldPayload,await deriveKey(a.value,old.salt))))throw new Error('Пустая база');}
+  catch(e){toast('Неверный действующий PIN');return;}
+  var next={v:3,mode:'pin',salt:randomB64(16),created:old.created||new Date().toISOString(),changed:new Date().toISOString()};
+  try{
+    var key=await deriveKey(b.value,next.salt);
+    await idbSet('state',await encryptObj(S,key));
+    try{
+      await decryptObj(await idbGet('state'),key);
+      localStorage.setItem(META_KEY,JSON.stringify(next));
+    }catch(err){await idbSet('state',oldPayload);throw err;}
+    META=next;SESSION_KEY=key;
+    sheetPin();toast('PIN-код изменён');
+  }catch(e){toast('Не удалось изменить PIN. Проверьте свободное место');}
 }
 
 function notifyStatusMeta(){
@@ -9164,7 +9288,7 @@ function schedule(){
     if(when>0 && when<86400000){
       timers.push(setTimeout(function(){
         var title = KIND[t.kind].n+' через '+lead+' мин';
-        var opts = { body:t.title+(t.place?' · '+t.place:''), icon:'premium-icon-192.png', badge:'premium-icon-192.png', tag:'adv-'+t.id };
+        var opts = { body:S.settings.hideNotificationDetails?'Событие в «Ежедневнике адвоката»':t.title+(t.place?' · '+t.place:''), icon:'premium-icon-192.png', badge:'premium-icon-192.png', tag:'adv-'+t.id };
         if(navigator.serviceWorker && navigator.serviceWorker.ready){
           navigator.serviceWorker.ready.then(function(reg){
             if(reg.showNotification) return reg.showNotification(title, opts);
@@ -9533,7 +9657,7 @@ document.addEventListener('click', function(ev){
   // Other entry points (including the main «Ещё» tools) remain unchanged.
   if(el.closest && el.closest('#sheet.settings-premium-v57') &&
      ['pin','settings57-auto','settings57-privacy','notify-sheet',
-      'backup-sheet','settings57-transfer','settings57-clear'].indexOf(a)>=0){
+      'backup-sheet','settings57-transfer','settings57-clear','settings60-pin-change'].indexOf(a)>=0){
     SETTINGS57_CHILD_ACTIVE=true;
   }
   matterActionReturnTrack(a,id,el);
@@ -9562,11 +9686,27 @@ document.addEventListener('click', function(ev){
     case 'more50-courts': toast('Судебные сервисы — следующий этап разработки'); break;
     case 'more50-settings': sheetMoreService(); break;
     case 'settings57-back': appBack(); break;
+    case 'settings60-back': appBack(); break;
     case 'settings57-auto': sheetSettings57Auto(); break;
     case 'settings57-privacy': sheetSettings57Privacy(); break;
     case 'settings57-transfer': sheetSettings57Transfer(); break;
     case 'settings57-clear': sheetSettings57Clear(); break;
-    case 'settings57-toggle-auto': S.settings.lockOnReturn=!S.settings.lockOnReturn;save();sheetSettings57Auto();toast(S.settings.lockOnReturn?'Блокировка при возвращении включена':'Блокировка при возвращении выключена');break;
+    case 'settings60-lock-set': {
+      var val=v==='off'?'off':Number(v);
+      if(val!=='off' && [0,1,5,15].indexOf(val)<0)break;
+      S.settings.lockOnReturn=val!=='off';S.settings.autoLockMinutes=val;save();
+      sheetSettings57Auto();toast(val==='off'?'Автоматическая блокировка выключена':'Интервал сохранён');break;
+    }
+    case 'settings60-privacy-toggle': S.settings.hideNotificationDetails=!S.settings.hideNotificationDetails;save();schedule();sheetSettings57Privacy();toast(S.settings.hideNotificationDetails?'Детали уведомлений скрыты':'Детали уведомлений включены');break;
+    case 'settings60-pin-change': sheetSettings60ChangePin();break;
+    case 'settings60-pin-apply': settings60ChangePinApply();break;
+    case 'settings60-wipe-confirm': {
+      var val=$('#settings60-confirm');
+      if(!val || val.value.trim().toUpperCase()!=='УДАЛИТЬ'){toast('Для подтверждения введите УДАЛИТЬ');break;}
+      if(!confirm('Вы действительно хотите безвозвратно удалить ВСЕ адвокатские дела, задачи и записи на этом устройстве?'))break;
+      wipeAll();break;
+    }
+
     case 'settings57-wipe-confirm': if(confirm('Удаление базы приведёт к потере всех дел и записей. Вы сохранили резервную копию?'))wipeAll(); break;
     case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
     case 'global-search-clear-query': {GQ=''; var gqi=$('#gq'); if(gqi){gqi.value=''; gqi.focus();} renderGlobalSearch(); break;}
@@ -9952,7 +10092,7 @@ document.addEventListener('click', function(ev){
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
-    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus)&&!(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus)||(t.mid&&matter(t.mid)&&matter(t.mid).archived);});save();render();toast('Выполненные задачи удалены');}break;}
+    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus)&&!(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus)||(t.mid&&matter(t.mid)&&matter(t.mid).archived);});save();render();if($('#sheet').classList.contains('settings60-child-sheet'))sheetSettings57Clear();toast('Выполненные задачи удалены');}break;}
     case 'calendar-qa-open': openCalendarQaDay();break;
     case 'calendar-qa-remove': removeCalendarQaDay();break;
     case 'demo-scenario-open': openDemoScenario1165();break;
@@ -10191,6 +10331,7 @@ $('#file').onchange=function(e){
     try{
       var obj=JSON.parse(r.result),pass='';
       if(obj&&obj.encrypted){pass=prompt('Введите пароль резервной копии');if(pass===null){e.target.value='';return;}}
+      if(!confirm('Восстановление заменит текущие дела, задачи и другие данные приложения содержимым выбранной копии. Продолжить?')){e.target.value='';return;}
       await restoreBackupObject(obj,pass);
     }catch(err){toast('Не удалось восстановить: неверный пароль или повреждённый файл');}
     e.target.value='';
@@ -10439,13 +10580,13 @@ document.addEventListener('touchstart',function(e){
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var s=document.getElementById('stage-hearings-overlay')||$('#sheet');
   if(!s || !s.classList.contains('open')) return;
-  var isSettings=s.classList.contains('full')&&s.classList.contains('settings-premium-v57');
+  var isSettings=s.classList.contains('full')&&(s.classList.contains('settings-premium-v57')||s.classList.contains('settings60-child-sheet'));
   if(s.classList.contains('full') && !isSettings) return;
   var t=e.touches[0],r=s.getBoundingClientRect();
   if(isSettings){
     // Only a downward pull beginning on the Settings header closes the full
     // screen. A vertical swipe starting on the rows remains a normal scroll.
-    if(s.scrollTop>2 || !(e.target.closest && e.target.closest('.settings57-header'))) return;
+    if(s.scrollTop>2 || !(e.target.closest && e.target.closest('.settings57-header,.settings60-head'))) return;
   }else{
     // Ordinary sheets retain their existing 108 px pull-down handle zone.
     if(t.clientY < r.top || t.clientY > r.top+108) return;
@@ -10631,6 +10772,7 @@ document.addEventListener('visibilitychange',function(){
 var APP_STARTED=false,hiddenAt=0;
 function afterUnlock(){
   if(!unlocked)return;
+  SETTINGS60_LAST_ACTIVITY=Date.now();
   /* 5.0.249: a stale invisible scrim must never block taps after launch. */
   try{
     var startupScrim=$('#scrim');
@@ -10696,8 +10838,9 @@ boot();
 document.addEventListener('visibilitychange',function(){
   if(document.hidden){hiddenAt=Date.now();flushSave();return;}
   var awayMs=hiddenAt?Date.now()-hiddenAt:0;
-  if(pinEnabled()&&S.settings.lockOnReturn&&hiddenAt&&awayMs>60010){
-    S=clone(DEF);SESSION_KEY=null;unlocked=false;lockShow('Введите PIN после возврата в приложение');return;
+  var mins=settings60LockValue();
+  if(pinEnabled()&&unlocked&&mins!=='off'&&hiddenAt&&awayMs >= (mins===0?0:mins*60000)){
+    settings60LockVault('Введите PIN после возврата в приложение');return;
   }
   if(unlocked){
     /* 5.0.553 — always return to the requested launch page:

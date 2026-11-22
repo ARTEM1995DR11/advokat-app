@@ -1,0 +1,105 @@
+/* V60 — all approved Settings child screens, excluding existing notifications. */
+#sheet.settings60-child-sheet{
+ position:fixed!important;inset:0!important;z-index:1800!important;
+ box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;
+ padding:calc(max(env(safe-area-inset-top,0px),32px) + 10px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 22px)!important;
+ margin:0!important;border:0!important;border-radius:0!important;
+ background:#f9efe1!important;
+ background-image:linear-gradient(135deg,rgba(255,252,247,.82),rgba(251,238,218,.55)),url('bg-more-marble-office.webp')!important;
+ background-size:cover!important;background-position:center top!important;background-repeat:no-repeat!important;
+ color:#11203b!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;
+ transform:translateY(102%);transition:transform .32s cubic-bezier(.22,.78,.12,1)!important;
+ overscroll-behavior:contain!important;
+}
+#sheet.settings60-child-sheet.open{transform:translateY(0)!important}
+#sheet.settings60-child-sheet>.grab{display:none!important}
+#sheet.settings60-child-sheet .settings60-page{box-sizing:border-box;width:100%;max-width:690px;margin:0 auto;padding:0 16px 24px}
+#sheet.settings60-child-sheet .settings60-head{display:grid;grid-template-columns:44px 61px minmax(0,1fr);gap:12px;align-items:center;margin:3px 0 30px;min-width:0}
+#sheet.settings60-child-sheet .settings60-back{width:44px;height:44px;border-radius:14px;border:1px solid #d6ae6d;background:linear-gradient(135deg,#fffefb,#f4e5cf);box-shadow:0 4px 9px #73502138,inset 0 1px #fff;color:#94611c;display:flex;justify-content:center;align-items:center;cursor:pointer}
+#sheet.settings60-child-sheet .settings60-back svg{width:23px;height:23px;stroke-width:2.5}
+#sheet.settings60-child-sheet .settings60-head-icon{width:61px;height:61px;border-radius:16px;background:#fffaf0;border:1px solid #e3c496;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px #86642a29,inset 0 1px #fff}
+#sheet.settings60-child-sheet .settings60-head-icon img{width:57px;height:57px;object-fit:contain}
+#sheet.settings60-child-sheet .settings60-head-copy{min-width:0}
+#sheet.settings60-child-sheet .settings60-overline{display:block;font:700 9px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;letter-spacing:.13em;color:#a07535}
+#sheet.settings60-child-sheet .settings60-head-copy h2{font:700 clamp(25px,6.2vw,35px)/1.06 Georgia,'Times New Roman',serif!important;color:#101f3d!important;hyphens:none;margin:4px 0 5px!important}
+#sheet.settings60-child-sheet .settings60-head-copy p{font:400 clamp(12px,3.25vw,15px)/1.35 -apple-system,BlinkMacSystemFont,Arial,sans-serif;margin:0;color:#435167}
+#sheet.settings60-child-sheet .settings60-minihead{display:flex;align-items:center;gap:12px;margin:22px 3px 10px;color:#9a651f}
+#sheet.settings60-child-sheet .settings60-minihead span{font:700 clamp(10px,2.65vw,12px)/1.3 Georgia,'Times New Roman',serif;letter-spacing:.105em}
+#sheet.settings60-child-sheet .settings60-minihead i{height:1px;flex:1;background:#c99e5c}
+#sheet.settings60-child-sheet .settings60-card{overflow:hidden;border:1px solid #e1bd83;border-radius:22px;padding:4px 14px;background:linear-gradient(140deg,#fffefa,#fff8ef);box-shadow:0 8px 19px #94612826,inset 0 0 0 1px #fff,0 2px 1px #f5e4c6}
+#sheet.settings60-child-sheet .settings60-choice{width:100%;display:flex;align-items:center;gap:12px;padding:16px 4px;background:transparent;border:0;text-align:left;color:#11203a;cursor:pointer;min-height:68px}
+#sheet.settings60-child-sheet .settings60-choice+.settings60-choice{border-top:1px solid #e8dac8}
+#sheet.settings60-child-sheet .settings60-choice>span:last-child{display:block;flex:1;min-width:0}
+#sheet.settings60-child-sheet .settings60-choice b,#sheet.settings60-child-sheet .settings60-line-copy strong,#sheet.settings60-child-sheet .settings60-toggle-row strong{font:700 clamp(16px,4.15vw,19px)/1.16 Georgia,'Times New Roman',serif;color:#122343;display:block}
+#sheet.settings60-child-sheet .settings60-choice small,#sheet.settings60-child-sheet .settings60-line-copy small,#sheet.settings60-child-sheet .settings60-toggle-row small{display:block;color:#515b69;font:400 12px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;margin-top:5px;hyphens:none}
+#sheet.settings60-child-sheet .settings60-radio{flex:0 0 25px;width:25px;height:25px;box-sizing:border-box;border-radius:50%;background:#fffdf9;border:2px solid #c79d56;display:grid;place-items:center}
+#sheet.settings60-child-sheet .settings60-radio.on:after{content:'';width:13px;height:13px;background:linear-gradient(#efca78,#ba822b);border-radius:50%}
+#sheet.settings60-child-sheet .settings60-note{display:flex;align-items:flex-start;gap:12px;border-radius:17px;padding:14px;margin:20px 0;border:1px solid #dec89f;background:rgba(255,249,238,.9);color:#6b5b48}
+#sheet.settings60-child-sheet .settings60-note.warning{border-color:#cfb38d;background:#faedda}
+#sheet.settings60-child-sheet .settings60-note svg{flex:0 0 23px;width:23px;height:23px;stroke:#b08440}
+#sheet.settings60-child-sheet .settings60-note p{margin:0;font:400 13px/1.55 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#516071}
+#sheet.settings60-child-sheet .settings60-line{width:100%;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:17px 2px;border:0;background:transparent;text-align:left;cursor:pointer;min-height:83px}
+#sheet.settings60-child-sheet .settings60-line+.settings60-line{border-top:1px solid #e6d5be}
+#sheet.settings60-child-sheet .settings60-line-icon{width:42px;height:42px;flex:0 0 42px;background:#f8ebd7;border:1px solid #edd9b9;display:flex;align-items:center;justify-content:center;border-radius:13px;color:#b48126}
+#sheet.settings60-child-sheet .settings60-line-icon svg{width:24px;height:24px;stroke-width:1.9}
+#sheet.settings60-child-sheet .settings60-line-copy{flex:1;min-width:0}
+#sheet.settings60-child-sheet .settings60-arrow{width:30px;height:30px;flex:0 0 30px;border:1px solid #e4c394;background:#fff0dd;border-radius:50%;display:grid;place-items:center;color:#a46f25}
+#sheet.settings60-child-sheet .settings60-arrow svg{width:17px;height:17px}
+#sheet.settings60-child-sheet .settings60-toggle-row{display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:20px 0;width:100%;text-align:left;cursor:pointer}
+#sheet.settings60-child-sheet .settings60-toggle-row>.settings60-line-copy{flex:1;min-width:0}
+#sheet.settings60-child-sheet .settings60-switch{width:52px;height:30px;flex:0 0 52px;border-radius:40px;border:1px solid #d6cab8;background:#ded7cd;padding:3px;box-sizing:border-box;display:flex;align-items:center;transition:background .2s}
+#sheet.settings60-child-sheet .settings60-switch i{height:22px;width:22px;border-radius:50%;background:white;box-shadow:0 1px 3px #0003;transition:transform .2s}
+#sheet.settings60-child-sheet .settings60-switch.on{background:#ba872f;border-color:#9f722b}
+#sheet.settings60-child-sheet .settings60-switch.on i{transform:translateX(21px)}
+#sheet.settings60-child-sheet .settings60-example{margin:18px 0;padding:17px;border-radius:20px;border:1px solid #e5d2b7;background:#fff9efb3}
+#sheet.settings60-child-sheet .settings60-example>span{font:700 10px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.11em;color:#9c6b30}
+#sheet.settings60-child-sheet .settings60-example>div{display:flex;gap:12px;margin-top:12px;padding:13px;border-radius:13px;background:#fff;border:1px solid #e1d5c4}
+#sheet.settings60-child-sheet .settings60-example svg{width:25px;height:25px;flex:none;stroke:#af7a26}
+#sheet.settings60-child-sheet .settings60-example p{margin:0}
+#sheet.settings60-child-sheet .settings60-example b{display:block;font-size:14px;color:#152641}
+#sheet.settings60-child-sheet .settings60-example small{display:block;color:#546477;font-size:12px;margin-top:3px}
+#sheet.settings60-child-sheet .settings60-backup-status{display:flex;gap:13px;align-items:center;margin:3px 0 14px;background:linear-gradient(125deg,#fffdf7,#f9eddc);padding:18px;border-radius:20px;border:1px solid #e2c28b;box-shadow:0 5px 12px #906b2a20}
+#sheet.settings60-child-sheet .settings60-backup-status svg{width:33px;height:33px;flex:none;stroke:#b88739}
+#sheet.settings60-child-sheet .settings60-backup-status b{font:700 18px Georgia,serif;color:#112141}
+#sheet.settings60-child-sheet .settings60-backup-status p{margin:4px 0 0;font-size:13px;color:#56677b}
+#sheet.settings60-child-sheet .settings60-backup-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:22px}
+#sheet.settings60-child-sheet .settings60-backup-stats div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 5px;background:#fffbf5dd;border:1px solid #ead3ab;border-radius:14px}
+#sheet.settings60-child-sheet .settings60-backup-stats b{font:700 24px Georgia,serif;color:#0f203b}
+#sheet.settings60-child-sheet .settings60-backup-stats span{font:400 11px -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#556174}
+#sheet.settings60-child-sheet .settings60-form{padding:13px 2px 18px}
+#sheet.settings60-child-sheet .settings60-form label,#sheet.settings60-child-sheet .settings60-danger-body label{display:block;margin:10px 0 7px;font:700 15px Georgia,serif;color:#192944}
+#sheet.settings60-child-sheet .settings60-form input,#sheet.settings60-child-sheet .settings60-danger-body input{display:block;box-sizing:border-box;width:100%;height:53px;padding:0 15px;border:1px solid #d9c3a6;border-radius:14px;background:#fffaf2;box-shadow:inset 0 2px 5px #8e6a2516;font:400 16px -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#1c2c45;margin:0 0 12px}
+#sheet.settings60-child-sheet .settings60-form input:focus,#sheet.settings60-child-sheet .settings60-danger-body input:focus{outline:2px solid #c49d5c;outline-offset:1px}
+#sheet.settings60-child-sheet .settings60-gold-action{display:block;width:100%;min-height:56px;margin:17px 0 0;padding:12px 16px;border:1px solid #bc8731;border-radius:16px;background:linear-gradient(115deg,#f7db8e,#d2a13c);box-shadow:0 4px 0 #9e7226,0 8px 12px #88632f2e;color:#261c0b;font:700 16px -apple-system,BlinkMacSystemFont,Arial,sans-serif;cursor:pointer}
+#sheet.settings60-child-sheet .settings60-single-action{margin-top:15px}
+#sheet.settings60-child-sheet .settings60-danger-heading{margin-top:29px;color:#9d4b32}
+#sheet.settings60-child-sheet .settings60-danger-body{padding:12px 3px 17px}
+#sheet.settings60-child-sheet .settings60-danger-top{display:flex;gap:13px;align-items:flex-start}
+#sheet.settings60-child-sheet .settings60-danger-top svg{height:31px;width:31px;flex:none;stroke:#a55b40}
+#sheet.settings60-child-sheet .settings60-danger-top strong{display:block;font:700 19px Georgia,serif;color:#7d3d2b}
+#sheet.settings60-child-sheet .settings60-danger-top small{display:block;font:400 12px/1.48 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#6d554c;margin-top:5px}
+#sheet.settings60-child-sheet .settings60-danger-action{display:block;width:100%;padding:15px;border-radius:14px;background:#fff7f2;border:1px solid #c98670;color:#8c342b;font:700 15px -apple-system,BlinkMacSystemFont,Arial,sans-serif;margin-top:12px;cursor:pointer}
+#sheet.settings60-child-sheet button:focus-visible{outline:3px solid #c19547;outline-offset:2px}
+#sheet .settings60-pin-backbar{margin:0 0 12px}
+#sheet .settings60-pin-backbar button{display:inline-flex;align-items:center;gap:7px;background:#fff6e7;color:#9d6a2d;border:1px solid #d8b781;border-radius:12px;padding:8px 12px;font:600 13px -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .settings60-pin-backbar svg{width:17px;height:17px}
+#sheet .settings60-change-link{display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid #dcbf91;border-radius:14px;background:#fff8e9;padding:14px;margin:15px 0 0;font:700 15px Georgia,serif;color:#1a2a49}
+#sheet .settings60-change-link svg{height:19px;width:19px}
+@media(max-width:370px){
+ #sheet.settings60-child-sheet .settings60-page{padding-left:10px;padding-right:10px}
+ #sheet.settings60-child-sheet .settings60-head{grid-template-columns:39px 48px minmax(0,1fr);gap:7px}
+ #sheet.settings60-child-sheet .settings60-back{height:39px;width:39px}
+ #sheet.settings60-child-sheet .settings60-head-icon{height:48px;width:48px}
+ #sheet.settings60-child-sheet .settings60-head-icon img{height:45px;width:45px}
+ #sheet.settings60-child-sheet .settings60-head-copy h2{font-size:clamp(23px,6.1vw,27px)!important}
+ #sheet.settings60-child-sheet .settings60-card{padding:4px 10px}
+ #sheet.settings60-child-sheet .settings60-line{gap:8px}
+ #sheet.settings60-child-sheet .settings60-line-icon{flex-basis:36px;width:36px;height:36px}
+ #sheet.settings60-child-sheet .settings60-line-copy strong{font-size:16px}
+ #sheet.settings60-child-sheet .settings60-line-copy small{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){#sheet.settings60-child-sheet{transition:none!important}}
+/* Long single-word headings such as «Конфиденциальность» must not overflow on iPhone SE. */
+@media(max-width:410px){
+ #sheet.settings60-child-sheet .settings60-head-copy h2{font-size:clamp(19px,5.5vw,25px)!important;letter-spacing:-.032em!important}
+}
