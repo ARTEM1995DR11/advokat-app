@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.44';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6484';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.46';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6486';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -25,7 +25,7 @@ var DEF = {
   },
   ui: {
     tab:'today', taskSeg:'open', taskChip:'', taskType:'', q:'', calM:null, calSel:null, calView:'month',
-    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterStatus:'', matterSort:'priority', matterQ:'', matterSearchOpen:false, taskGroupOpen:{}
+    showArch:false, matterType:'', matterBasis:'', matterStage:'', matterScope:'active', matterStatus:'', matterSort:'priority', matterQ:'', matterSearchOpen:false, matterCategory:'', taskGroupOpen:{}
   }
 };
 var S = JSON.parse(JSON.stringify(DEF)), mem = null;
@@ -70,6 +70,7 @@ function mergeState(d){
      в открытом состоянии между рендерами/запусками. */
   out.ui.matterQ='';
   out.ui.matterSearchOpen=false;
+  out.ui.matterCategory='';
   out.matters = Array.isArray(d.matters)?d.matters:[];
   out.tasks = Array.isArray(d.tasks)?d.tasks:[];
   out.participation = Array.isArray(d.participation)?d.participation:[];
@@ -2242,15 +2243,46 @@ function sheetMatterArchive(id){
     syncArchiveConfirmation();
   }
 }
-function archiveMatter(id){
-  var m=matter(id);if(!m||m.archived)return;
+/* Critical case lifecycle actions must be durably saved BEFORE telling
+   counsel that archive/completion/restoration succeeded. A failed encrypted
+   IndexedDB write restores all case and journal fields in one snapshot. */
+var MATTER_LIFECYCLE_BUSY=false;
+async function persistMatterLifecycle(change,onSuccess){
+  if(MATTER_LIFECYCLE_BUSY){toast('Сохранение уже выполняется');return false;}
+  MATTER_LIFECYCLE_BUSY=true;
+  var before=null;
+  try{
+    if(!(await flushSave()))throw new Error('Не удалось сохранить предыдущие изменения');
+    before=clone(S);
+    change();
+    if(!(await persistNow()))throw new Error('Изменения не сохранены в защищённой базе. Попробуйте ещё раз');
+    // Never roll back durable data merely because refreshing the screen failed.
+    before=null;
+    try{onSuccess();}catch(uiError){
+      try{console.error('Post-save case UI refresh failed',uiError);}catch(_){}
+      toast('Изменение сохранено, но экран не обновился. Откройте раздел «Дела» повторно.');
+    }
+    return true;
+  }catch(e){
+    if(before){S=before;mem=clone(S);}
+    toast(e&&e.message||'Не удалось сохранить изменения дела');
+    return false;
+  }finally{MATTER_LIFECYCLE_BUSY=false;}
+}
+async function archiveMatter(id){
+  var m=matter(id);if(!m||m.archived)return false;
   var count=tasksOf(id).filter(isActiveRecord).length;
   if(count&&!($('#matter-archive-ack')&&$('#matter-archive-ack').checked)){
-    toast('Подтвердите проверку незавершённых записей');return;
+    toast('Подтвердите проверку незавершённых записей');return false;
   }
-  m.archived=true;
-  addJournal(id,'Дело архивировано без завершения поручения',today(),'system',true);
-  save();closeAll();render();toast('Дело перемещено в архив');
+  return persistMatterLifecycle(function(){
+    var current=matter(id);
+    if(!current||current.archived)throw new Error('Состояние дела изменилось');
+    if(tasksOf(id).some(isActiveRecord)&&!($('#matter-archive-ack')&&$('#matter-archive-ack').checked))
+      throw new Error('Подтвердите проверку незавершённых записей');
+    current.archived=true;
+    addJournal(id,'Дело архивировано без завершения поручения',today(),'system',true);
+  },function(){closeAll();render();toast('Дело перемещено в архив');});
 }
 
 /* 5.0.1252: approved date-control visual and custom paper calendar.
@@ -2496,29 +2528,53 @@ function mountMatterFinishFoundation(panel){
   requestAnimationFrame(redraw);
 }
 
-function finishMatter(id){
-  var m=matter(id);if(!m||m.archived)return;
+async function finishMatter(id){
+  var m=matter(id);if(!m||m.archived)return false;
   var dateEl=$('#matter-close-date'),outcomeEl=$('#matter-close-outcome'),noteEl=$('#matter-close-note');
   var date=dateEl&&dateEl.value||'', outcome=outcomeEl&&outcomeEl.value||'', note=noteEl&&noteEl.value.trim()||'';
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(new Date(date+'T12:00:00').getTime())){toast('Укажите дату завершения');return;}
-  if(date>today()){toast('Дата завершения не может быть в будущем');return;}
-  if(!MATTER_CLOSE_OUTCOMES[outcome]){toast('Выберите результат');return;}
-  if(!note){toast('Кратко укажите итог поручения');return;}
-  if(tasksOf(id).some(isActiveRecord)&&!($('#matter-close-ack')&&$('#matter-close-ack').checked)){toast('Подтвердите проверку незавершённых записей');return;}
-  m.closure={date:date,outcome:outcome,summary:note,recordedAt:new Date().toISOString()};
-  m.archived=true;
-  addJournal(id,'Дело завершено. '+MATTER_CLOSE_OUTCOMES[outcome]+'. '+note,date,'closure',true);
-  save();closeAll();S.ui.matterScope='active';S.ui.matterStatus='';render();toast('Дело завершено и находится в архиве');
+  if(!stageISODateValid(date)){toast('Укажите корректную дату завершения');return false;}
+  if(date>today()){toast('Дата завершения не может быть в будущем');return false;}
+  if(!MATTER_CLOSE_OUTCOMES[outcome]){toast('Выберите результат');return false;}
+  if(!note){toast('Кратко укажите итог поручения');return false;}
+  if(tasksOf(id).some(isActiveRecord)&&!($('#matter-close-ack')&&$('#matter-close-ack').checked)){toast('Подтвердите проверку незавершённых записей');return false;}
+  return persistMatterLifecycle(function(){
+    var current=matter(id);
+    if(!current||current.archived)throw new Error('Состояние дела изменилось');
+    if(tasksOf(id).some(isActiveRecord)&&!($('#matter-close-ack')&&$('#matter-close-ack').checked))
+      throw new Error('Подтвердите проверку незавершённых записей');
+    current.closure={date:date,outcome:outcome,summary:note,recordedAt:new Date().toISOString()};
+    current.archived=true;
+    addJournal(id,'Дело завершено. '+MATTER_CLOSE_OUTCOMES[outcome]+'. '+note,date,'closure',true);
+  },function(){closeAll();S.ui.matterScope='active';S.ui.matterStatus='';render();toast('Дело завершено и находится в архиве');});
 }
-function reopenMatter(id){
-  var m=matter(id);if(!m||!m.archived)return;
-  if(m.stageClosed){toast('Этот этап завершён переходом. Для продолжения откройте связанную папку.');return;}
-  if(!confirm('Вернуть дело в производство? Все прежние записи и история завершения сохранятся, незавершённые задачи снова станут активными.'))return;
-  if(m.closure){m.closureHistory=m.closureHistory||[];m.closureHistory.push(m.closure);delete m.closure;}
-  m.archived=false;addJournal(id,'Дело возвращено в производство из архива',today(),'system',true);
-  S.ui.matterScope='active';S.ui.matterStatus='';save();closeAll();render();openMatter(id);toast('Дело возвращено в работу');
+async function reopenMatter(id){
+  var m=matter(id);if(!m||!m.archived)return false;
+  var hadStageClosure=!!m.stageClosed;
+  if(hadStageClosure && matterHasStageSuccessors(m)){
+    toast('Этот этап завершён переходом. Для продолжения откройте связанную папку.');return false;
+  }
+  var message=hadStageClosure
+    ?'Последующая связанная папка удалена. Вернуть прежнюю стадию в работу? Предыдущее завершение сохранится в истории, а задачи снова станут активными. После этого можно оформить новую стадию заново.'
+    :'Вернуть дело в производство? Все прежние записи и история завершения сохранятся, незавершённые задачи снова станут активными.';
+  if(!confirm(message))return false;
+  return persistMatterLifecycle(function(){
+    var current=matter(id);
+    if(!current||!current.archived|| (hadStageClosure && matterHasStageSuccessors(current)))
+      throw new Error('Состояние связанных стадий изменилось');
+    if(hadStageClosure){
+      current.stageClosureHistory=Array.isArray(current.stageClosureHistory)?current.stageClosureHistory:[];
+      current.stageClosureHistory.push(Object.assign({},current.stageClosed,{reopenedAt:new Date().toISOString()}));
+      delete current.stageClosed;
+      current.nextStageIds=(Array.isArray(current.nextStageIds)?current.nextStageIds:[]).filter(function(nextId){return !!matter(nextId);});
+    }
+    if(current.closure){current.closureHistory=current.closureHistory||[];current.closureHistory.push(current.closure);delete current.closure;}
+    current.archived=false;
+    addJournal(id,hadStageClosure?'Прежний этап возвращён в работу после удаления следующей связанной папки':'Дело возвращено в производство из архива',today(),'system',true);
+  },function(){
+    S.ui.matterScope='active';S.ui.matterStatus='';closeAll();render();openMatter(id);
+    toast(hadStageClosure?'Предыдущая стадия возвращена в работу':'Дело возвращено в работу');
+  });
 }
-
 
 var HEARING_RESULTS={
   held:{label:'Состоялось',tone:'held',sheetTitle:'Состоялось',sheetSub:'Заседание прошло'},
@@ -3587,7 +3643,11 @@ function matterMatchesCurrentFilters(m,q){
   if(scope==='archive' && !m.archived) return false;
   if(S.ui.matterStatus && !matterStatusMatch(m,S.ui.matterStatus)) return false;
   if(S.ui.matterType && m.type!==S.ui.matterType) return false;
-  if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis) return false;
+  if(S.ui.matterBasis && (m.basis||'agreement')!==S.ui.matterBasis) return false;
+  /* Categories are navigation, not a persistent replacement for the case basis. */
+  var category=S.ui.matterCategory||'';
+  if((category==='agreement'||category==='assigned') &&
+     (m.basis==='assigned'?'assigned':'agreement')!==category) return false;
   if(S.ui.matterStage && (m.stage||'')!==S.ui.matterStage) return false;
   if(q && matterSearchText(m).indexOf(q)<0) return false;
   return true;
@@ -3635,13 +3695,19 @@ function matterFilterViewMatch(m,view){
   if(view==='late') return matterHasLate(m);
   return true;
 }
+function matterFilterCategoryMatch(m){
+  var cat=S.ui.matterCategory||'';
+  return !(cat==='agreement'||cat==='assigned') ||
+    (m.basis==='assigned'?'assigned':'agreement')===cat;
+}
 function matterFilterSheetStages(){
   var seen={},arr=[];
   S.matters.forEach(function(m){
     var st=String((m&&m.stage)||'').trim();
     if(!st||seen[st])return;
     if(S.ui.matterType && m.type!==S.ui.matterType)return;
-    if(S.ui.matterBasis && (m.basis||'')!==S.ui.matterBasis)return;
+    if(!matterFilterCategoryMatch(m))return;
+    if(S.ui.matterBasis && (m.basis||'agreement')!==S.ui.matterBasis)return;
     seen[st]=1;arr.push(st);
   });
   if(S.ui.matterStage && !seen[S.ui.matterStage])arr.push(S.ui.matterStage);
@@ -3650,10 +3716,11 @@ function matterFilterSheetStages(){
 }
 function sheetMatterFilters(){
   var view=matterFilterViewValue();
-  var activeCount=S.matters.filter(function(m){return !m.archived;}).length;
-  var archiveCount=S.matters.filter(function(m){return !!m.archived;}).length;
-  var todayCount=S.matters.filter(function(m){return !m.archived&&matterHasToday(m);}).length;
-  var lateCount=S.matters.filter(function(m){return !m.archived&&matterHasLate(m);}).length;
+  var categoryMatters=S.matters.filter(matterFilterCategoryMatch);
+  var activeCount=categoryMatters.filter(function(m){return !m.archived;}).length;
+  var archiveCount=categoryMatters.filter(function(m){return !!m.archived;}).length;
+  var todayCount=categoryMatters.filter(function(m){return !m.archived&&matterHasToday(m);}).length;
+  var lateCount=categoryMatters.filter(function(m){return !m.archived&&matterHasLate(m);}).length;
   function row(action,value,icon,title,sub,count,tone,on){
     return '<button class="filter-premium-row '+esc(tone||'all')+(on?' selected':'')+'" style="--tone:'+esc(tone||'#B68622')+'" data-act="'+esc(action)+'" data-v="'+esc(value)+'" aria-pressed="'+(on?'true':'false')+'">'+
       '<span class="filter-premium-icon">'+ico(icon,'s')+'</span>'+ 
@@ -3662,12 +3729,12 @@ function sheetMatterFilters(){
       '<span class="filter-premium-tail">'+ico(on?'check':'chev','s')+'</span>'+ 
     '</button>';
   }
-  function stateCountForType(type){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!type||m.type===type);}).length;}
-  function stateTypeCountForBasis(basis){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!basis||(m.basis||'')===basis);}).length;}
-  function stageCount(stage){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!S.ui.matterBasis||(m.basis||'')===S.ui.matterBasis)&&(!stage||(m.stage||'')===stage);}).length;}
+  function stateCountForType(type){return categoryMatters.filter(function(m){return matterFilterViewMatch(m,view)&&(!type||m.type===type);}).length;}
+  function stateTypeCountForBasis(basis){return S.matters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!basis||(m.basis==='assigned'?'assigned':'agreement')===basis);}).length;}
+  function stageCount(stage){return categoryMatters.filter(function(m){return matterFilterViewMatch(m,view)&&(!S.ui.matterType||m.type===S.ui.matterType)&&(!S.ui.matterBasis||(m.basis||'agreement')===S.ui.matterBasis)&&(!stage||(m.stage||'')===stage);}).length;}
   var states=''+
     row('matter-view','active','brief','В работе','Текущие дела в производстве',activeCount,'#2F8F83',view==='active')+
-    row('matter-view','all','list','Все дела','Активные и архивные дела',S.matters.length,'#B68622',view==='all')+
+    row('matter-view','all','list','Все дела','Активные и архивные дела',categoryMatters.length,'#B68622',view==='all')+
     row('matter-view','archive','arch','Архив','Завершённые и архивные дела',archiveCount,'#73879A',view==='archive')+
     row('matter-view','today','clock','Сегодня','Дела с действиями на сегодня',todayCount,'#3C8FE8',view==='today')+
     row('matter-view','late','alert','Просроченные','Есть просроченные записи или требуется результат',lateCount,'#D94B53',view==='late');
@@ -3677,10 +3744,11 @@ function sheetMatterFilters(){
     var icon=k==='criminal'?'lock':(k==='civil'?'gavel':(k==='admin'?'court':'doc'));
     types+=row('m-filter',k,icon,meta.n,'Только '+meta.short,stateCountForType(k),meta.c,S.ui.matterType===k);
   });
+  var effectiveBasis=(S.ui.matterCategory==='agreement'||S.ui.matterCategory==='assigned')?S.ui.matterCategory:(S.ui.matterBasis||'');
   var basis=''+
-    row('m-basis-filter','','list','Любое основание','Соглашение и назначение',stateTypeCountForBasis(''),'#B68622',!S.ui.matterBasis)+
-    row('m-basis-filter','agreement','brief','По соглашению','Дела по соглашению с доверителем',stateTypeCountForBasis('agreement'),MATTER_BASIS.agreement.c,S.ui.matterBasis==='agreement')+
-    row('m-basis-filter','assigned','user','По назначению','Дела в порядке назначения',stateTypeCountForBasis('assigned'),MATTER_BASIS.assigned.c,S.ui.matterBasis==='assigned');
+    row('m-basis-filter','','list','Любое основание','Соглашение и назначение',stateTypeCountForBasis(''),'#B68622',!effectiveBasis)+
+    row('m-basis-filter','agreement','brief','По соглашению','Дела по соглашению с доверителем',stateTypeCountForBasis('agreement'),MATTER_BASIS.agreement.c,effectiveBasis==='agreement')+
+    row('m-basis-filter','assigned','user','По назначению','Дела в порядке назначения',stateTypeCountForBasis('assigned'),MATTER_BASIS.assigned.c,effectiveBasis==='assigned');
   var stages=row('m-stage-filter','','list','Все стадии','Без ограничения по стадии',stageCount(''),'#B68622',!S.ui.matterStage);
   matterFilterSheetStages().forEach(function(st){
     var meta=matterStageMeta(st);
@@ -4798,6 +4866,9 @@ function go(tab,replaceHistory,transition,preserveCalendarDate){
     S.ui.calM=entryToday.slice(0,7);
     S.ui.calView='month';
   }
+  if(tab==='matters' && (tab!==cur || (!replaceHistory && tab===cur))){
+    matterCategoryReset();
+  }
   if(tab!==cur){
     /* Сворачиваем локальный поиск по делам при любом переходе между вкладками. */
     S.ui.matterSearchOpen=false;
@@ -4858,6 +4929,9 @@ function appBack(){
       openMatter(REPORT.back); vib(5); return true;
     }
     closeAll(); vib(5); return true;
+  }
+  if(S.ui.tab==='matters' && S.ui.matterCategory){
+    matterCategoryReset();save();renderMatters();vib(5);return true;
   }
   if(NAV_TABS.length){
     var prev=NAV_TABS.pop(); go(prev,true); vib(5); return true;
@@ -5684,7 +5758,7 @@ function sheetMatterMore(id){
     // Archived dossiers are read-only until explicitly returned to work.
     rows+=row('m-view-info','#5279a7','folder','Просмотреть карточку','Сведения дела без редактирования')+
       row('m-open-journal','#258f6f','doc','Просмотреть журнал','Хронология действий без изменения')+
-      (m.stageClosed?'':row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи'))+
+      ((m.stageClosed&&matterHasStageSuccessors(m))?'':row('m-reopen','#19865c','arch','Вернуть в работу','Возобновить дело и его задачи'))+
       (stageCaseHasLinks(m)?row('stage-history','#ae8654','folder','Этапы производства','Посмотреть связанные стадии и историю'):'' )+
       (m.basis==='assigned'&&stagePaymentDrafts(m).length?row('stage-payment-view','#b08c53','doc','Расчёт по назначению','Проверить черновик оплаты'):'' )+
       (stageCaseHasLinks(m)?'':row('m-del','#ce504b','trash','Удалить дело','Безвозвратное удаление связанных данных','danger'));
@@ -6384,7 +6458,7 @@ function dossierEventsFooterArt(){
 /* 5.0.1288 audit: archived dossiers are read-only. Every bottom CTA
    must offer restoration, not an operation that inevitably gets rejected. */
 function dossierFooterAction(id,act,label){
-  var entry=matter(id),archived=!!(entry&&entry.archived),continuation=!!(entry&&entry.stageClosed);
+  var entry=matter(id),archived=!!(entry&&entry.archived),continuation=!!(entry&&entry.stageClosed&&matterHasStageSuccessors(entry));
   return {
     act:continuation?'stage-history':archived?'m-reopen':act,
     label:continuation?'Этапы производства':archived?'Вернуть в работу':label,
@@ -8039,6 +8113,10 @@ function saveMatter(){
       if(tt&&tt.mid===MED.id&&tt.kind==='hearing') normalizeHearingKindByMatter(tt,savedMatter);
     });
   }
+  if(S.ui.tab==='matters' && (wasNew || S.ui.matterCategory==='agreement' || S.ui.matterCategory==='assigned')){
+    S.ui.matterCategory=o.basis==='assigned'?'assigned':'agreement';
+    S.ui.matterScope='active';S.ui.matterBasis='';S.ui.matterQ='';S.ui.matterSearchOpen=false;
+  }
   save(); closeSheet(); if($('#page').classList.contains('open'))openMatter(MED.id); render(); toast('Дело сохранено');
 }
 
@@ -9289,6 +9367,17 @@ document.addEventListener('click', function(ev){
   switch(a){
     /* navigation / dashboard */
     case 'go-matters': go('matters'); break;
+    case 'matter-category': {
+      if(v!=='agreement'&&v!=='assigned')break;
+      matterCategoryReset();S.ui.matterCategory=v;
+      save();renderMatters();var sc=document.getElementById('sc-matters');if(sc)sc.scrollTop=0;
+      break;
+    }
+    case 'matter-category-back': {
+      matterCategoryReset();save();renderMatters();
+      var sc=document.getElementById('sc-matters');if(sc)sc.scrollTop=0;
+      break;
+    }
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
     case 'go-cal': go('cal'); break;
@@ -9351,19 +9440,24 @@ document.addEventListener('click', function(ev){
     case 'reset-task-filters': S.ui.q='';S.ui._sq=false;S.ui.taskChip='';S.ui.taskType='';save();renderTasks();toast('Фильтры сброшены');break;
     case 'task-type-sheet': sheetTaskTypeFilters();break;
     case 'task-type-filter': S.ui.taskType=v||'';save();closeSheet();renderTasks();break;
-    case 'arch': S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
+    case 'arch': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.showArch=!S.ui.showArch;S.ui.matterScope=S.ui.showArch?'archive':'active';save();renderMatters();break;
     case 'demo816-load': loadCompleteDemoCases();break;
     case 'demo816-remove': removeCompleteDemoCases();break;
-    case 'matter-scope': S.ui.matterScope=v||'active';S.ui.matterStatus='';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
-    case 'matter-search': S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();if(S.ui.matterSearchOpen){setTimeout(function(){var mq=$('#matter-q');if(mq){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}}},0);}break;
-    case 'matter-search-clear': {S.ui.matterQ='';S.ui.matterSearchOpen=true;save();var mq=$('#matter-q');if(mq){mq.value='';var mw=mq.closest('.matters-local-search-field'),mc=mw&&mw.querySelector('.matters-local-search-clear');if(mc)mc.classList.remove('is-visible');refreshMatterSearchResultsOnly();setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(0,0);}catch(_){mq.focus();}},0);}else renderMatters();break;}
+    case 'matter-scope': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterScope=v||'active';S.ui.matterStatus='';S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;
+    case 'matter-search': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterSearchOpen=!S.ui.matterSearchOpen;if(!S.ui.matterSearchOpen)S.ui.matterQ='';save();renderMatters();if(S.ui.matterSearchOpen){setTimeout(function(){var mq=$('#matter-q');if(mq){try{mq.focus({preventScroll:true});mq.setSelectionRange(mq.value.length,mq.value.length);}catch(_){mq.focus();}}},0);}break;
+    case 'matter-search-clear': {if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterQ='';S.ui.matterSearchOpen=true;save();var mq=$('#matter-q');if(mq){mq.value='';var mw=mq.closest('.matters-local-search-field'),mc=mw&&mw.querySelector('.matters-local-search-clear');if(mc)mc.classList.remove('is-visible');refreshMatterSearchResultsOnly();setTimeout(function(){try{mq.focus({preventScroll:true});mq.setSelectionRange(0,0);}catch(_){mq.focus();}},0);}else renderMatters();break;}
     case 'matter-filter-sheet': sheetMatterFilters();break;
-    case 'matter-view': {var mv=v||'active';if(mv==='today'||mv==='late'){S.ui.matterScope='active';S.ui.matterStatus=mv;}else{S.ui.matterScope=(mv==='all'||mv==='archive')?mv:'active';S.ui.matterStatus='';}S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;}
-    case 'm-filter': S.ui.matterType=v||'';if(S.ui.matterType&&S.ui.matterStage&&matterStageList(S.ui.matterType,S.ui.matterBasis).indexOf(S.ui.matterStage)<0)S.ui.matterStage='';save();closeSheet();renderMatters();break;
-    case 'm-basis-filter': S.ui.matterBasis=v||'';save();closeSheet();renderMatters();break;
-    case 'm-stage-filter': S.ui.matterStage=v||'';save();closeSheet();renderMatters();break;
-    case 'm-sort': S.ui.matterSort=v||'priority';save();closeSheet();renderMatters();break;
-    case 'matter-filter-reset': S.ui.matterScope='active';S.ui.matterStatus='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
+    case 'matter-view': if(!S.ui.matterCategory)S.ui.matterCategory='search';{var mv=v||'active';if(mv==='today'||mv==='late'){S.ui.matterScope='active';S.ui.matterStatus=mv;}else{S.ui.matterScope=(mv==='all'||mv==='archive')?mv:'active';S.ui.matterStatus='';}S.ui.showArch=S.ui.matterScope==='archive';save();closeSheet();renderMatters();break;}
+    case 'm-filter': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterType=v||'';if(S.ui.matterType&&S.ui.matterStage&&matterStageList(S.ui.matterType,S.ui.matterBasis).indexOf(S.ui.matterStage)<0)S.ui.matterStage='';save();closeSheet();renderMatters();break;
+    case 'm-basis-filter': {
+      S.ui.matterBasis='';
+      if(v==='agreement'||v==='assigned')S.ui.matterCategory=v;
+      else S.ui.matterCategory='search';
+      save();closeSheet();renderMatters();break;
+    }
+    case 'm-stage-filter': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterStage=v||'';save();closeSheet();renderMatters();break;
+    case 'm-sort': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterSort=v||'priority';save();closeSheet();renderMatters();break;
+    case 'matter-filter-reset': if(!S.ui.matterCategory)S.ui.matterCategory='search';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterSort='priority';save();closeSheet();renderMatters();toast('Фильтры и сортировка сброшены');break;
 
     /* quick add */
     case 'qa-hearing': closeSheet();editTask(null,{kind:'hearing',pri:'mid',due:S.ui.tab==='cal'?calendarEntryDate():'',time:''});break;
@@ -9596,7 +9690,7 @@ document.addEventListener('click', function(ev){
       if((matter(jm)||{}).archived){toast('Сначала верните дело в работу');break;}
       if(!jt){toast('Введите запись');break;}
       var jd=$('#j-date')&&$('#j-date').value||today();
-      if(!/^\d{4}-\d{2}-\d{2}$/.test(jd)){toast('Укажите дату записи');break;}
+      if(!stageISODateValid(jd)){toast('Укажите корректную дату записи');break;}
       addJournal(jm,jt,jd,'note',true);
       // A newly authored note must be visible after saving, even when the
       // previous filter showed only automatic records or an older period.
@@ -9931,7 +10025,8 @@ document.addEventListener('touchstart',function(e){
   EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0],sh=$('#sheet');
-  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
+  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN||
+    (S.ui.tab==='matters'&&!!S.ui.matterCategory);
   // Unified chooser is used from both the dossier «События» tab and the
   // «Действия по делу» menu; appBack() preserves each originating route.
   var chooser=sh.classList.contains('open')&&sh.classList.contains('matter-event-stage1-open')&&
@@ -11235,24 +11330,66 @@ function refreshMatterSearchResultsOnly(){
   }
   var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
   var caption=document.querySelector('#sc-matters .matters-approved-head .approved-main');
-  if(caption) caption.textContent=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
+  if(caption) caption.textContent=matterCategoryCaption(S.ui.matterCategory,list.length,scope);
   matterFolderStage6Fit();
+}
+/* 6486 — Two category folders on entry to «Дела»; original case grid inside. */
+function matterCategoryReset(){
+  S.ui.matterCategory='';S.ui.matterScope='active';S.ui.showArch=false;
+  S.ui.matterStatus='';S.ui.matterType='';S.ui.matterBasis='';
+  S.ui.matterStage='';S.ui.matterSort='priority';
+  S.ui.matterQ='';S.ui.matterSearchOpen=false;
+}
+function matterCategoryCaption(category,listLength,scope){
+  var total=typeof listLength==='number'?listLength:0;
+  var unit=plural(total,'дело','дела','дел');
+  if(S.ui.matterQ)return total+' '+unit+' найдено';
+  if(scope==='archive')return total+' '+unit+' в архиве';
+  if(scope==='all')return total+' '+unit+' всего';
+  if(S.ui.matterStatus==='today')return total+' '+unit+' на сегодня';
+  if(S.ui.matterStatus==='late')return total+' '+unit+' требуют внимания';
+  if(S.ui.matterType||S.ui.matterStage||(S.ui.matterSort||'priority')!=='priority')return total+' '+unit+' по фильтру';
+  return total+' '+unit+' в работе';
+}
+function matterCategoryCard(kind,count){
+  var agreement=kind==='agreement';
+  var name=agreement?'Соглашения':'Назначения';
+  var actionLabel='Открыть '+(agreement?'дела по соглашению':'дела по назначению');
+  return '<button type="button" class="case-category-folder case-category-'+kind+'" data-act="matter-category" data-v="'+kind+'" aria-label="'+actionLabel+', '+count+' '+plural(count,'дело','дела','дел')+'">'+
+    '<span class="case-category-art" aria-hidden="true"></span>'+
+    '<span class="case-category-count" aria-hidden="true">'+ico('folder','s')+'<b>'+count+' '+plural(count,'дело','дела','дел')+'</b></span>'+
+    '</button>';
+}
+function renderMatterCategories(){
+  var activeCases=S.matters.filter(function(m){return m&&!m.archived;});
+  var agreement=activeCases.filter(function(m){return m.basis!=='assigned';}).length;
+  var assigned=activeCases.filter(function(m){return m.basis==='assigned';}).length;
+  var html='<div class="matters-project matters-approved-v3 case-page case-categories-page">'+
+    mainBrandHeader(false,headerMatterFilter(false))+
+    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">2 раздела</p></div><div class="today-actions">'+headerSearch('matter-search',false,'Поиск по делам')+'</div></div>'+
+    '<div class="case-category-host" role="group" aria-label="Выбор категории дел">'+
+      matterCategoryCard('agreement',agreement)+matterCategoryCard('assigned',assigned)+
+    '</div></div>';
+  document.getElementById('sc-matters').innerHTML=html;
 }
 function renderMatters(){
   if(S.ui&&S.ui.matterType==='other'){S.ui.matterType='';save();}
+  if(!S.ui.matterCategory){renderMatterCategories();return;}
   var scope=S.ui.matterScope||'active';
   if(['all','active','archive'].indexOf(scope)<0) scope='active';
   var allCount=S.matters.length, activeCount=activeM().length, archCount=S.matters.filter(function(m){return m.archived;}).length;
   var q=String(S.ui.matterQ||'').trim().toLowerCase().replace(/ё/g,'е');
   var list=matterCurrentList(q);
   var sortMode=S.ui.matterSort||'priority';
-  var heroMain=matterApprovedHero(scope,list.length,allCount,activeCount,archCount);
+  var category=S.ui.matterCategory||'search';
+  var categoryLabel=category==='agreement'?'Соглашения':(category==='assigned'?'Назначения':'Все дела');
+  var heroMain=matterCategoryCaption(category,list.length,scope);
   var quickTypeLabel=matterApprovedQuickTypeLabel();
   var searchOpen=!!(S.ui.matterSearchOpen||q);
   var hasMatterFilter=matterFilterIsActive();
   var html='<div class="matters-project matters-approved-v3 case-page">'+
     mainBrandHeader(false,headerMatterFilter(hasMatterFilter))+
-    '<div class="today-head matters-title-head matters-approved-head"><div><h1>Дела</h1><p class="approved-main">'+esc(heroMain)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
+    '<div class="today-head matters-title-head matters-approved-head case-category-list-head"><button type="button" class="case-category-back" data-act="matter-category-back" aria-label="Назад к категориям">'+ico('left','s')+'</button><div><h1>'+esc(categoryLabel)+'</h1><p class="approved-main">'+esc(heroMain)+'</p></div><div class="today-actions">'+headerSearch('matter-search',searchOpen,'Поиск по делам')+'</div></div>'+ 
     '<div class="case-grid-offset'+(searchOpen?' is-search-open':'')+'">'+
       (searchOpen
         ? '<div class="matters-approved-search-open"><div class="fld matters-local-search matters-approved-search"><div class="matters-local-search-field"><input id="matter-q" placeholder="Поиск по делам…" value="'+esc(S.ui.matterQ||'')+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="matters-local-search-clear'+((S.ui.matterQ||'')?' is-visible':'')+'" data-act="matter-search-clear" aria-label="Очистить поиск"><span aria-hidden="true">×</span></button></div></div></div>'

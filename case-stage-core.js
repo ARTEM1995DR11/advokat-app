@@ -49,12 +49,17 @@ function stageTransitionOptions(m,outcome){
     if(stage==='Материал проверки'){
       if(/частное обвинение/i.test(v))choices=['Первая инстанция'];
       else if(/возбуждено уголовное дело/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
-      else if(/отменён отказ|проверка возобновлена|передано по подследственности/i.test(v))choices=['Материал проверки','Дознание','Следствие МВД','Следствие СК'];
-      else choices=['Материал проверки','Первая инстанция'];
+      else if(/передано по подследственности/i.test(v))choices=['Материал проверки','Дознание','Следствие МВД','Следствие СК'];
+      // Refusal, cancellation of refusal and further verification do not by
+      // themselves transfer a criminal case into a court of first instance.
+      else choices=['Материал проверки'];
     }else if(['Дознание','Следствие МВД','Следствие СК'].includes(stage)){
       if(/направлено в суд/i.test(v))choices=['Первая инстанция'];
       else if(/передано по подследственности/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
-      else choices=['Дознание','Следствие МВД','Следствие СК','Первая инстанция'];
+      // Suspension, termination and return for further inquiry cannot be
+      // treated as an automatic court referral. Counsel may document a new
+      // investigative stage only after checking its procedural grounds.
+      else choices=['Дознание','Следствие МВД','Следствие СК'];
     }else if(stage==='Первая инстанция'){
       if(/возвращено прокурору/i.test(v))choices=['Дознание','Следствие МВД','Следствие СК'];
       else if(/передано по подсудности/i.test(v))choices=['Первая инстанция'];
@@ -95,6 +100,9 @@ function stageCustomLabelValid(m,custom,base){
 }
 function stageTransitionReview(m,outcome,nextStage){
   if(!m||!nextStage)return '';
+  if(m.type==='criminal'&&['Материал проверки','Дознание','Следствие МВД','Следствие СК'].includes(m.stage)&&
+     /отказано в возбуждении|уголовное дело прекращено|уголовное преследование прекращено|следствие приостановлено/i.test(String(outcome||'')))
+    return 'Проверьте процессуальное основание продолжения: отмену постановления об отказе или прекращении либо возобновление расследования. Сам по себе прежний результат не означает, что дело направлено в суд.';
   if(['civil','admin'].includes(m.type)&&m.stage==='Первая инстанция'&&nextStage==='Кассация')
     return 'Прямая кассация возможна только при соблюдении процессуальных условий. Проверьте вступление акта в силу и исчерпание доступных способов обжалования.';
   if(['civil','admin'].includes(m.type)&&m.stage==='Первая инстанция'&&nextStage==='Исполнение')

@@ -608,3 +608,77 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
     margin-inline:auto!important;
   }
 }
+
+
+/* 5.0.1297.41.66.46 — approved landing for «Дела»: exactly two leather folders
+   next to each other, with live counters and existing original case grid inside. */
+#sc-matters .case-categories-page .matters-approved-head{margin-bottom:0!important}
+#sc-matters .case-category-host{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ align-items:start;gap:clamp(6px,1.9vw,14px);width:100%;
+ margin:clamp(54px,14vw,105px) auto 0;padding:0;
+}
+#sc-matters .case-category-folder{
+ position:relative;display:block;border:0;outline-offset:2px;
+ padding:0;margin:0;background:transparent;cursor:pointer;
+ width:100%;aspect-ratio:620/505;min-width:0;
+ appearance:none;-webkit-appearance:none;touch-action:manipulation;
+ -webkit-tap-highlight-color:transparent;
+ filter:drop-shadow(0 4px 5px rgba(67,39,8,.13));
+ transition:transform .16s ease,filter .16s ease;
+}
+#sc-matters .case-category-folder:active{transform:translateY(2px) scale(.985)}
+#sc-matters .case-category-folder:focus-visible{outline:2px solid #C19A48;border-radius:12px}
+#sc-matters .case-category-art{
+ position:absolute;inset:0;display:block;pointer-events:none;
+ background-image:url('case-category-folders-v6486.webp');
+ background-position:0 0;background-size:200% 100%;background-repeat:no-repeat;
+}
+#sc-matters .case-category-assigned .case-category-art{background-position:100% 0}
+/* Live number overlays the example count painted into the reference image. */
+#sc-matters .case-category-count{
+ position:absolute;left:33.7%;top:73.4%;width:39.7%;height:13.6%;
+ display:flex;align-items:center;justify-content:center;gap:3px;
+ box-sizing:border-box;white-space:nowrap;
+ font:600 clamp(8px,2.65vw,15px)/1 'Helvetica Neue',Arial,sans-serif;
+ color:#F5D992;text-shadow:0 1px 1px rgba(0,0,0,.25);
+ background:linear-gradient(180deg,#5A2609,#421A08);
+ border:clamp(1px,.16vw,2px) solid #E7B760;
+ border-radius:100px;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);
+ pointer-events:none;z-index:2;
+}
+#sc-matters .case-category-assigned .case-category-count{
+ background:linear-gradient(180deg,#11264A,#091A34);color:#F1D58D;
+}
+#sc-matters .case-category-count .ico{
+ display:block;width:clamp(9px,3.0vw,16px);height:clamp(9px,3.0vw,16px);
+ color:#F4CB74;stroke-width:2.2;flex:none;
+}
+#sc-matters .case-category-list-head{
+ display:flex!important;align-items:center;column-gap:clamp(6px,2vw,14px);min-width:0;
+}
+#sc-matters .case-category-list-head>div:first-of-type{flex:1;min-width:0}
+#sc-matters .case-category-list-head h1{
+ font-size:clamp(28px,8vw,49px)!important;line-height:1.12!important;
+ overflow-wrap:anywhere;
+}
+#sc-matters .case-category-back{
+ display:grid;place-items:center;flex:0 0 clamp(34px,10vw,48px);
+ width:clamp(34px,10vw,48px);height:clamp(34px,10vw,48px);
+ border:1px solid #CBAF76;border-radius:13px;
+ background:linear-gradient(145deg,#fffaf0,#F6E9CE);
+ box-shadow:0 3px 8px rgba(86,53,9,.11);color:#9A6C28;
+ -webkit-tap-highlight-color:transparent;
+}
+#sc-matters .case-category-back .ico{width:56%;height:56%;stroke-width:2.4}
+@media(min-width:750px){
+  #sc-matters .case-category-host{max-width:850px;gap:36px}
+  #sc-matters .case-category-count{font-size:clamp(13px,1.5vw,18px);gap:7px}
+  #sc-matters .case-category-count .ico{width:18px;height:18px}
+}
+@media(max-width:360px){
+  #sc-matters .case-category-host{gap:3px;margin-top:56px}
+  #sc-matters .case-category-count{font-size:8px;gap:2px}
+  #sc-matters .case-category-count .ico{width:9px;height:9px}
+}
+@media(prefers-reduced-motion:reduce){#sc-matters .case-category-folder{transition:none}}
