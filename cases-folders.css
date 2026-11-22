@@ -682,3 +682,39 @@ html body #sc-matters .case-page>.matters-approved-head {margin-bottom:0!importa
   #sc-matters .case-category-count .ico{width:9px;height:9px}
 }
 @media(prefers-reduced-motion:reduce){#sc-matters .case-category-folder{transition:none}}
+
+
+/* 5.0.1297.41.66.47 — optical balance on category entry, without changing
+   approved leather art, number of folders, case lists, or navigation.
+   The primary pair is centered within the breathing room between the title
+   and bottom nav; compact phones keep both categories above the nav bar. */
+#sc-matters .case-categories-page .case-category-host{
+  margin-top:clamp(84px,calc(40svh - 130px),270px);
+  gap:clamp(5px,1.9vw,16px);
+}
+#sc-matters .case-categories-page .case-category-folder{
+  transform:scale(1.045);
+  transform-origin:center center;
+  filter:drop-shadow(0 8px 10px rgba(80,47,11,.17));
+  transition:transform .16s ease,filter .16s ease;
+}
+#sc-matters .case-categories-page .case-category-folder:active{
+  transform:translateY(2px) scale(1.007);
+  filter:drop-shadow(0 4px 6px rgba(80,47,11,.13));
+}
+@media(max-width:360px){
+  #sc-matters .case-categories-page .case-category-host{
+    margin-top:clamp(84px,calc(40svh - 130px),220px);
+    gap:4px;
+  }
+  #sc-matters .case-categories-page .case-category-folder{transform:scale(1.025)}
+  #sc-matters .case-categories-page .case-category-folder:active{transform:translateY(2px) scale(.995)}
+}
+@media(max-height:620px){
+  #sc-matters .case-categories-page .case-category-host{
+    margin-top:clamp(56px,calc(38svh - 125px),104px);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #sc-matters .case-categories-page .case-category-folder{transition:none}
+}
