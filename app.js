@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.49';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6489';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.50';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6490';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4764,57 +4764,70 @@ function backupStatusText(){
   var age=backupAge();
   return age===0?'Последняя копия: сегодня':'Последняя копия: '+fmtD(S.settings.lastBackup.slice(0,10),true);
 }
+/* v6490: Approved seven-tool premium 'Ещё' layout. New services are visual
+   entry points only; existing tool handlers, backup and secure data remain. */
+function moreApprovedTool(key,title,caption,image,action){
+  var act=action||'';
+  var attrs=act?' data-act="'+esc(act)+'"':'';
+  return '<button type="button" class="more50-tool more50-tool-'+esc(key)+'"'+attrs+
+    ' aria-label="'+esc(title)+': '+esc(caption)+'">'+
+    '<span class="more50-tool-art" aria-hidden="true"><img src="'+esc(image)+'?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+    '<span class="more50-tool-copy"><strong>'+esc(title)+'</strong><small>'+esc(caption)+'</small></span>'+
+    '<span class="more50-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+}
 function renderMore(){
-  var w=weekStats(), bs=backupPlanStats();
-  var active=S.tasks.filter(function(t){return matterTaskVisible(t)&&isActiveRecord(t);}).length;
-  var backupText=backupStatusText();
   var profileName=S.settings.name||'Адвокат';
-  var profileSub=(S.settings.dayRate?money(S.settings.dayRate)+'/день':'Ставка не задана')+' · '+(S.settings.notify?'напоминания включены':'напоминания выключены');
-  var html='<div class="more-project">'+
+  var html='<div class="more-project more-approved-v50">'+
     mainBrandHeader(false)+
-    '<div class="today-head calendar-title-head more-title-head"><div><h1>Настройки</h1><p>'+esc(offlineStatusText())+'</p></div></div>'+
-    '<button class="settings-profile-card" data-act="profile"><span class="settings-profile-avatar">'+esc(profileInitials(profileName))+'</span><span class="settings-profile-meta"><b>'+esc(profileName)+'</b><small>Адвокат</small><em>'+esc(profileSub)+'</em></span><i class="settings-profile-chevron">'+ico('chev','s')+'</i></button>'+
-    '<div class="settings-kpis"><span><b>'+w.done+'</b><small>выполнено за 7 дней</small></span><span><b>'+w.days+'</b><small>дней участия</small></span><span><b>'+active+'</b><small>активных записей</small></span></div>'+
-    (backupDue()?'<button class="backupwarn" data-act="backup-sheet">'+ico('lock','s')+'<span><b>Резервная копия просрочена</b><small>Рекомендуется сохранять копию не реже одного раза в '+(+S.settings.backupEveryDays||7)+' дней</small></span>'+ico('chev','s')+'</button>':'')+
-    iphoneInstallHint()+
-    '<div class="settings-section-title">Инструменты</div><div class="card pad0 settings-card">'+
-      row('flag','Калькулятор сроков','Создание и расчёт процессуальных сроков','deadline')+
-      row('gavel','Дни участия','Суд, следственные действия и выезды','participation-log')+
-      row('tpl','Шаблоны чек-листов','Готовые планы по типовым поручениям','templates')+
-      row('doc','Отчёты и печать','План дня и выгрузка по делу','reports')+
-      row('share','Экспорт списка','Отправить рабочий список в заметки или мессенджер','export')+
+    '<header class="more50-head"><h1>Ещё</h1><p>Инструменты, настройки и сервисы адвоката</p></header>'+
+    '<button type="button" class="more50-profile" data-act="profile" aria-label="Открыть профиль адвоката">'+
+      '<span class="more50-profile-art"><img src="more-icon-profile-v6490.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+      '<span class="more50-profile-divider" aria-hidden="true"></span>'+
+      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>Адвокат</small></span>'+
+      '<span class="more50-profile-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
+    '</button>'+
+    '<div class="more50-section-heading" aria-label="Основные инструменты"><i></i><b>ОСНОВНЫЕ ИНСТРУМЕНТЫ</b><i></i></div>'+
+    '<div class="more50-grid">'+
+      moreApprovedTool('agreement','Калькулятор соглашений','Расчёт стоимости соглашения','more-icon-agreement-v6490.webp','more50-agreement')+
+      moreApprovedTool('deadlines','Калькулятор сроков','Создание и расчёт процессуальных сроков','more-icon-deadline-v6490.webp','deadline')+
+      moreApprovedTool('templates','Шаблоны','Готовые документы и чек-листы','more-icon-templates-v6490.webp','templates')+
+      moreApprovedTool('reminders','Напоминания','Сроки, уведомления и оповещения','more-icon-reminders-v6490.webp','notify-sheet')+
+      moreApprovedTool('search','Глобальный поиск','Быстрый поиск по делам, документам и контактам','more-icon-search-v6490.webp','global-search')+
+      moreApprovedTool('courts','Судебные сервисы','Суды, участки, сайты и справочники','more-icon-courts-v6490.webp','more50-courts')+
     '</div>'+
-    '<div class="settings-section-title">Уведомления и поиск</div><div class="card pad0 settings-card">'+
-      rowSw('bell','Напоминания',S.settings.notify?'Уведомления включены':'Уведомления выключены','notify-sheet',S.settings.notify)+
-      row('search','Глобальный поиск','Дела, доверители, задачи, заметки и журнал','global-search')+
-    '</div>'+
-    '<div class="settings-section-title">Безопасность и данные</div>'+
-    '<div class="backup-safety settings-backup-card"><div class="backup-safety-top"><span class="backup-safety-icon">'+ico('lock')+'</span><div><b>Резервная копия планов</b><small>'+backupText+'</small></div></div>'+
-      '<div class="backup-safety-stats"><span><b>'+bs.tasks+'</b> задач</span><span><b>'+bs.hearings+'</b> заседаний</span><span><b>'+bs.deadlines+'</b> сроков</span></div>'+
-      '<p>Сохраняются все дела, задачи, заседания, процессуальные сроки и связанные записи.</p>'+
-      '<button class="btn backup-main-btn" data-act="backup-sheet">Создать резервную копию</button></div>'+
-    '<div class="card pad0 settings-card">'+
-      row('folder','Восстановить из копии','Вернуть данные после переустановки или сбоя','restore')+
-      row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён · база зашифрована':'База зашифрована локальным ключом устройства','pin')+
-    '</div>'+
-    '<div class="settings-section-title">Обслуживание и справка</div><div class="card pad0 settings-card">'+
-      row('info','Проверить обновление','Установлена '+APP_VERSION+' · проверить версию на сервере','app-update-check')+
-      row('sun','Как пользоваться','Краткая инструкция по рабочему процессу','intro')+
-      (calendarQaMatter()?
-        row('cal','Открыть тестовый день календаря','10 записей: заседания, встречи, сроки и задачи · '+fmtD(calendarQaMatter().qaDay,true),'calendar-qa-open')+
-        row('trash','Удалить тестовый день календаря','Только учебное дело и связанные записи','calendar-qa-remove'):
-        row('cal','Создать тестовый день календаря','10 вымышленных записей на выбранную дату · можно удалить','calendar-qa-open'))+
-      (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?
-        row('list','Открыть тестовую карточку','12 задач · 10 событий · выполненные записи','demo-scenario-open')+
-        row('trash','Удалить тестовую карточку','Только демонстрационные записи, без остальных дел','demo-scenario-remove'):
-        row('list','Тестовая карточка: задачи и события','12 задач, заседания, встречи и процессуальные сроки','demo-scenario-open'))+
-      row('list','Загрузить примеры','Учебные дела и задачи','demo')+
-      row('trash','Удалить выполненные','Очистить завершённые задачи','clearDone')+
-      row('trash','Удалить все данные','Полностью очистить локальную базу','wipe')+
-    '</div>'+
-    '<div class="settings-footnote">Ежедневник адвоката · iPhone Offline '+APP_VERSION+' · сборка '+APP_BUILD+'<br>'+esc(offlineStatusText())+'<br>Рабочая база хранится локально в зашифрованном виде.</div>'+
+    '<button type="button" class="more50-backup" data-act="backup-sheet" aria-label="Резервная копия: сохранение и восстановление данных">'+
+      '<span class="more50-backup-art" aria-hidden="true"><img src="more-icon-backup-v6490.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+      '<span class="more50-backup-divider" aria-hidden="true"></span>'+
+      '<span class="more50-backup-copy"><strong>Резервная копия</strong><small>Сохранение и восстановление данных</small></span>'+
+      '<span class="more50-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+    (backupDue()?'<p class="more50-backup-warning">Рекомендуется обновить резервную копию</p>':'')+
+    '<footer class="more50-foot">'+
+      '<div class="more50-version"><i></i><span>'+ico('info','s')+'</span><b>Версия '+esc(APP_VERSION)+'</b><em>·</em><button type="button" data-act="app-update-check">Проверить обновление</button><i></i></div>'+
+      '<p>'+esc(isStandalone()?'Офлайн-режим готов':offlineStatusText())+'</p>'+
+      '<button type="button" class="more50-settings-link" data-act="more50-settings">Настройки, безопасность и другие функции</button>'+
+    '</footer>'+
   '</div>';
   $('#sc-more').innerHTML=html;
+}
+/* Existing tools not present in the newly approved front-page grid remain
+   accessible here, including data security, reports and legacy QA utilities. */
+function sheetMoreService(){
+  openSheet('<h2>Настройки и обслуживание</h2><p class="sh-sub">Дополнительные функции приложения</p>'+
+    '<div class="card pad0 settings-card">'+
+      row('gavel','Дни участия','Учёт участия в процессуальных действиях','participation-log')+
+      row('doc','Отчёты и печать','План дня и выгрузка по делу','reports')+
+      row('share','Экспорт списка','Поделиться рабочим списком','export')+
+      row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён':'Параметры безопасности','pin')+
+      row('info','Как пользоваться','Инструкция и возможности','intro')+
+      row('folder','Восстановить из копии','Импорт ранее сохранённой базы','restore')+
+    '</div>'+
+    '<div class="settings-section-title">Служебные действия</div><div class="card pad0 settings-card">'+
+      (calendarQaMatter()?row('cal','Тестовый день календаря','Открыть учебные события','calendar-qa-open')+row('trash','Удалить тестовый день календаря','Только учебные события','calendar-qa-remove'):row('cal','Создать тестовый день календаря','Учебный набор событий','calendar-qa-open'))+
+      (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?row('list','Открыть тестовую карточку','Учебные задачи и события','demo-scenario-open')+row('trash','Удалить тестовую карточку','Только демонстрационные данные','demo-scenario-remove'):row('list','Тестовая карточка','Создать примеры задач и событий','demo-scenario-open'))+
+      row('list','Загрузить примеры','Учебные дела и задачи','demo')+
+      row('trash','Удалить выполненные','Очистка завершённых задач','clearDone')+
+      row('trash','Удалить все данные','Необратимая очистка базы','wipe')+
+    '</div>');
 }
 function rowSw(i,t,s,act,on){
   return '<button class="row" data-act="'+act+'">'+ico(i)+'<span class="rl">'+t+'<small>'+esc(s)+'</small></span>'+
@@ -9384,6 +9397,9 @@ document.addEventListener('click', function(ev){
     case 'close': appBack(); break;
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
+    case 'more50-agreement': toast('Калькулятор соглашений — следующий этап разработки'); break;
+    case 'more50-courts': toast('Судебные сервисы — следующий этап разработки'); break;
+    case 'more50-settings': sheetMoreService(); break;
     case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
     case 'global-search-clear-query': {GQ=''; var gqi=$('#gq'); if(gqi){gqi.value=''; gqi.focus();} renderGlobalSearch(); break;}
     case 'global-search-clear-tip': {GSEARCH_TIP_HIDDEN=true; var gst=$('#gsearch-tip'); if(gst)gst.style.display='none'; var gh=$('#ghelper'); if(gh)gh.style.display='none'; break;}

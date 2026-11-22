@@ -1,0 +1,192 @@
+/* ---------------------------------------------------------------
+   «Ещё» / 5.0.1297.41.66.50: approved seven-tool visual design
+   --------------------------------------------------------------- */
+body.light #sc-more:has(.more-approved-v50){
+  background-color:#f8ecdd!important;
+  background-image:linear-gradient(180deg,rgba(255,251,244,.10) 0%,rgba(252,245,235,.13) 72%,rgba(252,243,232,.45) 100%),url('bg-more-marble-office.webp')!important;
+  background-size:cover!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+}
+#sc-more .more-approved-v50{
+  box-sizing:border-box!important;
+  padding:0 3px 20px!important;
+  margin:0 auto!important;
+  width:100%!important;
+  max-width:630px!important;
+  color:#101e38!important;
+}
+/* Brand is shared with existing screens; only its spacing is local. */
+#sc-more .more-approved-v50 > .main-brand-fixed{
+  margin:0 0 12px!important;
+  padding:0!important;
+}
+#sc-more .more50-head{margin:0 8px 13px!important;padding:0!important;}
+#sc-more .more50-head h1{
+  margin:0!important;
+  font:700 clamp(39px,10.3vw,53px)/.99 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.035em!important;
+  color:#101d34!important;
+}
+#sc-more .more50-head p{
+  margin:5px 0 0!important;
+  font:400 clamp(11px,3vw,14px)/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  color:#263b55!important;
+}
+#sc-more .more50-profile,
+#sc-more .more50-tool,
+#sc-more .more50-backup{
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  text-decoration:none!important;
+  outline-offset:3px;
+  font-family:inherit;
+  color:#10203a!important;
+  cursor:pointer;
+  position:relative;
+  box-sizing:border-box;
+  overflow:hidden;
+  width:100%;
+  text-align:left;
+  border:1px solid rgba(196,139,62,.38)!important;
+  background:linear-gradient(125deg,rgba(255,254,251,.94) 0%,rgba(255,250,247,.94) 56%,rgba(255,249,243,.92) 100%)!important;
+  box-shadow:0 8px 14px rgba(103,67,24,.17),0 2px 2px rgba(214,165,80,.10),inset 0 2px 1px rgba(255,255,255,.92)!important;
+}
+#sc-more .more50-profile:active,
+#sc-more .more50-tool:active,
+#sc-more .more50-backup:active{transform:scale(.995)}
+#sc-more .more50-profile{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  height:88px;
+  padding:6px 13px 6px 10px;
+  border:0!important;
+  border-radius:20px 20px 20px 20px!important;
+  margin:0 4px 17px!important;
+  width:calc(100% - 8px)!important;
+  box-shadow:0 10px 14px rgba(98,66,37,.20),inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+#sc-more .more50-profile:after{
+  content:"";position:absolute;bottom:0;right:0;width:48%;height:9px;
+  background:linear-gradient(110deg,transparent,#bf7b1b 55%,#e3ab37 75%,#a96e10);
+  clip-path:polygon(8% 100%,100% 0,100% 100%);
+  pointer-events:none;
+}
+#sc-more .more50-profile-art{display:block;width:84px;height:84px;flex:0 0 84px;position:relative;}
+#sc-more .more50-profile-art img{display:block;width:100%;height:100%;object-fit:contain;}
+#sc-more .more50-profile-divider,
+#sc-more .more50-backup-divider{width:2px;min-width:2px;align-self:center;height:52px;background:linear-gradient(#f4be5d,#bc7418,#f1c574);border-radius:3px;}
+#sc-more .more50-profile-copy{flex:1;min-width:0;display:block;}
+#sc-more .more50-profile-copy strong{display:block;font:700 clamp(17px,4.4vw,23px)/1.16 Georgia,'Times New Roman',serif;color:#09193b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#sc-more .more50-profile-copy small{display:block;font-size:15px;color:#40506b;margin-top:6px;}
+#sc-more .more50-profile-chevron,
+#sc-more .more50-arrow{
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 25px;width:25px;height:25px;border-radius:50%;
+  background:linear-gradient(150deg,#fff2e5,#fbe6d0);
+  border:1px solid rgba(202,151,77,.25);
+  color:#925603;
+}
+#sc-more .more50-profile-chevron{width:36px;height:36px;flex:0 0 36px;margin-right:3px;}
+#sc-more .more50-arrow .ico,
+#sc-more .more50-profile-chevron .ico{width:17px;height:17px;stroke-width:2.8;}
+#sc-more .more50-section-heading{
+  display:flex;align-items:center;gap:10px;
+  text-align:center;margin:0 6px 13px;
+  color:#895710;
+}
+#sc-more .more50-section-heading i{height:1px;flex:1;background:linear-gradient(90deg,#dca85d,#a77b3a);}
+#sc-more .more50-section-heading i:last-child{background:linear-gradient(90deg,#a77b3a,#dca85d);}
+#sc-more .more50-section-heading b{font:700 clamp(10px,2.95vw,13px)/1.1 Georgia,'Times New Roman',serif;letter-spacing:.22em;white-space:nowrap;}
+#sc-more .more50-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 8px;}
+#sc-more .more50-tool{
+  display:grid;grid-template-columns:clamp(51px,13vw,75px) minmax(0,1fr) 20px;
+  gap:3px;
+  align-items:center;
+  min-height:99px;
+  padding:6px 5px 6px 6px;
+  border-radius:19px!important;
+}
+#sc-more .more50-tool-art{display:flex;align-items:center;justify-content:center;width:100%;height:82px;overflow:visible;}
+#sc-more .more50-tool-art img{display:block;width:118%;height:96%;object-fit:contain;max-width:none;filter:drop-shadow(0 2px 2px rgba(95,58,12,.06));}
+#sc-more .more50-tool-copy{display:flex;flex-direction:column;gap:4px;min-width:0;position:relative;z-index:1;}
+#sc-more .more50-tool-copy strong{display:block;font:700 clamp(12px,3.15vw,18px)/1.05 Georgia,'Times New Roman',serif;letter-spacing:-.025em;color:#0d1b3c;overflow-wrap:break-word;hyphens:auto;}
+#sc-more .more50-tool-copy small{display:block;font:400 clamp(10px,2.64vw,13.1px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#27405a;overflow-wrap:break-word;hyphens:auto;}
+#sc-more .more50-tool .more50-arrow{width:19px;height:19px;flex-basis:19px;justify-self:end;}
+#sc-more .more50-tool .more50-arrow .ico{height:12px;width:12px;}
+#sc-more .more50-backup{
+  margin-top:10px;
+  padding:7px 12px 7px 12px;
+  height:84px;
+  border-radius:20px!important;
+  display:flex;gap:12px;align-items:center;
+}
+#sc-more .more50-backup-art{width:86px;flex:0 0 86px;height:80px;display:flex;align-items:center;justify-content:center;}
+#sc-more .more50-backup-art img{display:block;width:104%;height:102%;object-fit:contain;max-width:none;}
+#sc-more .more50-backup-divider{height:52px;}
+#sc-more .more50-backup-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;}
+#sc-more .more50-backup-copy strong{font:700 clamp(17px,4.5vw,24px)/1.05 Georgia,'Times New Roman',serif;color:#0d1b3c;}
+#sc-more .more50-backup-copy small{font:400 clamp(11px,3vw,14px)/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#334b63;}
+#sc-more .more50-backup-warning{font-size:11px;color:#905e23;margin:7px 0 0 6px;}
+#sc-more .more50-foot{margin:14px 0 0;padding-bottom:20px;text-align:center;color:#263a55;}
+#sc-more .more50-version{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;min-width:0;}
+#sc-more .more50-version i{height:1px;flex:1;background:linear-gradient(90deg,transparent,#bf9856);}
+#sc-more .more50-version i:last-child{background:linear-gradient(90deg,#bf9856,transparent);}
+#sc-more .more50-version span{display:flex;color:#a16c19;}
+#sc-more .more50-version span .ico{width:15px;height:15px;}
+#sc-more .more50-version b,#sc-more .more50-version em,#sc-more .more50-version button{font:400 clamp(9px,2.45vw,12px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#293b54;font-style:normal;}
+#sc-more .more50-version button{background:none;border:none;padding:2px 0;border-bottom:1px solid rgba(49,68,81,.5);cursor:pointer;}
+#sc-more .more50-foot p{margin:7px 0 0;font-size:11px;color:#4c6071;}
+#sc-more .more50-settings-link{border:0;background:none;text-decoration:underline;text-underline-offset:3px;color:#6b5339;font-size:10.5px;padding:7px 4px;cursor:pointer;}
+@media (max-width:370px){
+  #sc-more .more50-grid{gap:8px 7px;}
+  #sc-more .more50-tool{grid-template-columns:45px minmax(0,1fr) 15px;gap:2px;min-height:111px;padding:5px 4px;}
+  #sc-more .more50-tool-art{height:72px;}
+  #sc-more .more50-tool-copy strong{font-size:12px;}
+  #sc-more .more50-tool-copy small{font-size:10px;}
+  #sc-more .more50-tool .more50-arrow{width:16px;height:16px;flex-basis:16px;}
+  #sc-more .more50-profile{gap:7px;padding-right:8px;}
+  #sc-more .more50-profile-art{width:71px;height:75px;flex-basis:71px;}
+  #sc-more .more50-profile-copy strong{font-size:17px;}
+  #sc-more .more50-profile-divider{height:43px;}
+  #sc-more .more50-section-heading{gap:6px;}
+  #sc-more .more50-section-heading b{letter-spacing:.14em;font-size:10px;}
+}
+@media (min-width:450px){
+  #sc-more .more50-tool{min-height:117px;padding:8px 10px;gap:9px;}
+  #sc-more .more50-tool-art{height:95px;}
+  #sc-more .more50-profile{height:98px;}
+  #sc-more .more50-profile-art{width:91px;height:91px;flex-basis:91px;}
+  #sc-more .more50-backup{height:96px;}
+}
+@media (prefers-reduced-motion:reduce){#sc-more .more50-tool,#sc-more .more50-profile,#sc-more .more50-backup{transition:none!important;}}
+/* Narrow iPhone SE: keep two columns, but stack each gold illustration above
+   its label rather than breaking Russian words into unreadable fragments. */
+@media (max-width:340px){
+  #sc-more .more50-tool{
+    grid-template-columns:minmax(0,1fr) 18px;
+    grid-template-rows:54px auto;
+    gap:3px;
+    min-height:148px;
+    padding:8px 8px 9px;
+    align-content:center;
+  }
+  #sc-more .more50-tool-art{
+    grid-column:1;grid-row:1;
+    justify-self:center;
+    width:66px;height:54px;
+  }
+  #sc-more .more50-tool-art img{height:100%;width:100%;}
+  #sc-more .more50-tool-copy{
+    grid-column:1 / -1;grid-row:2;
+    text-align:center;align-items:center;gap:3px;
+  }
+  #sc-more .more50-tool-copy strong{
+    font-size:13px;
+    line-height:1.1;
+    hyphens:none;
+  }
+  #sc-more .more50-tool-copy small{font-size:10.5px;line-height:1.17;}
+  #sc-more .more50-tool .more50-arrow{grid-column:2;grid-row:1;align-self:start;justify-self:end;}
+}
