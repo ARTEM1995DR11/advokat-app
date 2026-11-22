@@ -2,30 +2,31 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="5.0.1297.41.66.50">
-<meta name="app-build" content="6490">
+<meta name="app-version" content="5.0.1297.41.66.51">
+<meta name="app-build" content="6491">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Ежедневник адвоката</title>
-<link rel="manifest" href="manifest.webmanifest?v=6490">
-<link rel="stylesheet" href="styles.css?v=6490">
-<link rel="stylesheet" href="new-matter-client.css?v=6490">
-<link rel="stylesheet" href="new-matter-stage.css?v=6490">
-<link rel="stylesheet" href="new-matter-values.css?v=6490">
-<link rel="stylesheet" href="new-matter-save.css?v=6490">
-<link rel="stylesheet" href="cases-folders.css?v=6490">
-<link rel="stylesheet" href="case-lifecycle.css?v=6490">
-<link rel="stylesheet" href="case-stages.css?v=6490">
-<link rel="stylesheet" href="case-dossier.css?v=6490">
-<link rel="stylesheet" href="calendar-premium.css?v=6490">
-<link rel="stylesheet" href="more-design.css?v=6490">
-<link rel="preload" href="app.js?v=6490" as="script">
-<link rel="preload" href="scale-gold.webp?v=6490" as="image" fetchpriority="high">
+<link rel="manifest" href="manifest.webmanifest?v=6491">
+<link rel="stylesheet" href="styles.css?v=6491">
+<link rel="stylesheet" href="new-matter-client.css?v=6491">
+<link rel="stylesheet" href="new-matter-stage.css?v=6491">
+<link rel="stylesheet" href="new-matter-values.css?v=6491">
+<link rel="stylesheet" href="new-matter-save.css?v=6491">
+<link rel="stylesheet" href="cases-folders.css?v=6491">
+<link rel="stylesheet" href="case-lifecycle.css?v=6491">
+<link rel="stylesheet" href="case-stages.css?v=6491">
+<link rel="stylesheet" href="case-dossier.css?v=6491">
+<link rel="stylesheet" href="calendar-premium.css?v=6491">
+<link rel="stylesheet" href="more-design.css?v=6491">
+<link rel="stylesheet" href="profile-premium.css?v=6491">
+<link rel="preload" href="app.js?v=6491" as="script">
+<link rel="preload" href="scale-gold.webp?v=6491" as="image" fetchpriority="high">
 <link rel="preload" href="bg-today-desk.webp" as="image">
 <link rel="preload" href="nav-panel-light.png" as="image">
-<link rel="preload" href="nav-active-today.png?v=6490" as="image">
-<link rel="preload" href="header-bell-premium.png?v=6490" as="image">
-<link rel="preload" href="header-search-premium.png?v=6490" as="image">
-<link rel="preload" href="fab-plus-square-premium.png?v=6490" as="image">
+<link rel="preload" href="nav-active-today.png?v=6491" as="image">
+<link rel="preload" href="header-bell-premium.png?v=6491" as="image">
+<link rel="preload" href="header-search-premium.png?v=6491" as="image">
+<link rel="preload" href="fab-plus-square-premium.png?v=6491" as="image">
 <meta name="theme-color" content="#F4F6F9">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,9 +35,9 @@
 <meta name="apple-mobile-web-app-title" content="Адвокат">
 <meta name="format-detection" content="telephone=no">
 <meta name="color-scheme" content="light">
-<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=6490">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=6490">
-<link rel="icon" href="premium-icon-192.png?v=6490">
+<link rel="apple-touch-icon" sizes="180x180" href="premium-icon-180.png?v=6491">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="premium-icon-180.png?v=6491">
+<link rel="icon" href="premium-icon-192.png?v=6491">
 <style id="ios-pwa-nav-critical">
 /* 5.0.1281: One layout-viewport reference. Never calculate a fixed top
    from visualViewport.offsetTop/height; iOS changes these while scrolling. */
@@ -53,6 +54,8 @@
   <g id="i-list"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></g>
   <g id="i-folder"><path d="M3.6 8.15A2.15 2.15 0 0 1 5.75 6h3.68c.46 0 .9.18 1.22.5l1.15 1.15h6.45A2.15 2.15 0 0 1 20.4 9.8v7.45a2.15 2.15 0 0 1-2.15 2.15H5.75A2.15 2.15 0 0 1 3.6 17.25z"/><path d="M3.9 9.95h16.1"/></g>
   <g id="i-cal"><rect x="4" y="5.2" width="16" height="14.8" rx="2.7"/><path d="M4 9.55h16M8 3.8v3.8M16 3.8v3.8"/></g>
+  <g id="i-mail"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7.5 8 5.5 8-5.5"/></g>
+  <g id="i-camera"><path d="M4.8 7.5h3.7L10 5h4.2l1.4 2.5H19A2 2 0 0 1 21 9.5v8A2 2 0 0 1 19 19H5a2 2 0 0 1-2-2V9.5a2 2 0 0 1 1.8-2z"/><circle cx="12" cy="13" r="3"/></g>
   <g id="i-more"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></g>
   <g id="i-nav-today"><path d="M3.35 10.4 12 3.8l8.65 6.6"/><path d="M5.6 9.2v10.1h12.8V9.2M9.4 19.3v-5.6h5.2v5.6"/></g>
   <g id="i-nav-tasks"><circle cx="12" cy="12" r="8.5"/><path d="m8.2 12.2 2.4 2.4 5.2-5.5"/></g>
@@ -248,12 +251,12 @@
 </div>
 
 <input type="file" id="file" accept=".json" style="display:none">
-<script src="calendar-foundation.js?v=6490"></script>
-<script src="app.js?v=6490"></script>
-<script src="appointment-fees.js?v=6490"></script>
-<script src="stage-outcomes.js?v=6490"></script>
-<script src="case-stage-core.js?v=6490"></script>
-<script src="case-stage-ui.js?v=6490"></script>
-<script src="investigation-actions.js?v=6490"></script>
+<script src="calendar-foundation.js?v=6491"></script>
+<script src="app.js?v=6491"></script>
+<script src="appointment-fees.js?v=6491"></script>
+<script src="stage-outcomes.js?v=6491"></script>
+<script src="case-stage-core.js?v=6491"></script>
+<script src="case-stage-ui.js?v=6491"></script>
+<script src="investigation-actions.js?v=6491"></script>
 </body>
 </html>

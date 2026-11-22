@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.50';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6490';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.51';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6491';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -19,7 +19,7 @@ var DB_VER = 1;
 var DEF = {
   matters: [], tasks: [], participation: [], journal: [], time: [], stagePayments: [],
   settings: {
-    name:'', dayRate:0, cur:'₽', notify:false,
+    name:'', profileStatus:'Адвокат', profilePhone:'', profileEmail:'', profileChamber:'', profileRegistry:'', profilePhoto:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:1, lastBackup:'', backupDailyV3132:true,
     lockOnReturn:true, version:3
   },
@@ -2717,7 +2717,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4775,15 +4775,20 @@ function moreApprovedTool(key,title,caption,image,action){
     '<span class="more50-tool-copy"><strong>'+esc(title)+'</strong><small>'+esc(caption)+'</small></span>'+
     '<span class="more50-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
+function profileAvatarSource(){
+  // Only local image data created by the profile photo editor; do not allow URL injection.
+  var p=S.settings.profilePhoto||'';
+  return /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p) ? p : 'more-icon-profile-v6490.webp?v='+APP_BUILD;
+}
 function renderMore(){
   var profileName=S.settings.name||'Адвокат';
   var html='<div class="more-project more-approved-v50">'+
     mainBrandHeader(false)+
     '<header class="more50-head"><h1>Ещё</h1><p>Инструменты, настройки и сервисы адвоката</p></header>'+
     '<button type="button" class="more50-profile" data-act="profile" aria-label="Открыть профиль адвоката">'+
-      '<span class="more50-profile-art"><img src="more-icon-profile-v6490.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+      '<span class="more50-profile-art"><img src="'+esc(profileAvatarSource())+'" alt="" draggable="false"></span>'+
       '<span class="more50-profile-divider" aria-hidden="true"></span>'+
-      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>Адвокат</small></span>'+
+      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>'+esc(S.settings.profileStatus||'Адвокат')+'</small></span>'+
       '<span class="more50-profile-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button>'+
     '<div class="more50-section-heading" aria-label="Основные инструменты"><i></i><b>ОСНОВНЫЕ ИНСТРУМЕНТЫ</b><i></i></div>'+
@@ -8930,13 +8935,79 @@ function legacyCopy(text){
 /* =====================================================================
    НАСТРОЙКИ
    ===================================================================== */
+/* Profile v6491: visual design from the approved marble-and-gold mockup.
+   Legacy pay rates and backup preferences remain in storage, not in this form. */
+var PROFILE_PHOTO_DRAFT=null;
+function profileField(iconName,label,id,inputHtml){
+  return '<div class="profile51-row"><label for="'+esc(id)+'" class="profile51-label">'+
+    '<span class="profile51-field-icon" aria-hidden="true">'+ico(iconName,'s')+'</span>'+
+    '<span>'+esc(label)+'</span></label>'+inputHtml+'</div>';
+}
 function sheetProfile(){
-  openSheet('<h2>Профиль</h2><p class="sh-sub">Ставка применяется к каждому фактическому дню участия. Продолжительность участия не учитывается.</p>'+
-  '<div class="fld"><label>Имя / ФИО</label><input id="p-name" value="'+esc(S.settings.name)+'" placeholder="Смирнов А. В."></div>'+
-  '<div class="two"><div class="fld"><label>Ставка за день участия</label><input id="p-dayrate" type="number" inputmode="numeric" value="'+(S.settings.dayRate||'')+'" placeholder="10000"></div>'+
-  '<div class="fld"><label>Валюта</label><input id="p-cur" value="'+esc(S.settings.cur)+'"></div></div>'+
-  '<div class="fld"><label>Напоминать о резервной копии каждые, дней</label><input id="p-backdays" type="number" inputmode="numeric" min="1" max="90" value="'+(+S.settings.backupEveryDays||7)+'"></div>'+
-  '<button class="btn" data-act="p-save">Сохранить</button>');
+  PROFILE_PHOTO_DRAFT=null;
+  var st=S.settings||{},avatar=profileAvatarSource(),person=st.name||'Адвокат';
+  var optionList=['Адвокат','Юрист','Помощник адвоката','Стажёр адвоката'];
+  var stat=st.profileStatus||'Адвокат';if(optionList.indexOf(stat)<0)optionList.push(stat);
+  var choices=optionList.map(function(x){return '<option value="'+esc(x)+'"'+(stat===x?' selected':'')+'>'+esc(x)+'</option>';}).join('');
+  var head='<div class="profile51-heading"><h2>Профиль</h2><p>Основные сведения адвоката и настройки профиля.</p></div>'+
+    '<div class="profile51-identity">'+
+      '<span class="profile51-portrait"><img id="p-photo-preview" src="'+esc(avatar)+'" alt="Изображение профиля" draggable="false"></span>'+
+      '<i class="profile51-rule" aria-hidden="true"></i>'+
+      '<span class="profile51-identity-copy"><strong id="p-name-preview">'+esc(person)+'</strong><small><span aria-hidden="true">'+ico('brief','s')+'</span><span id="p-status-preview">'+esc(stat)+'</span></small></span>'+
+    '</div>';
+  var fields='<div class="profile51-fields">'+
+    profileField('user','ФИО','p-name','<input id="p-name" type="text" autocomplete="name" maxlength="140" value="'+esc(st.name||'')+'" placeholder="Укажите ФИО">')+
+    profileField('brief','Статус','p-status','<select id="p-status" data-premium-ready="1">'+choices+'</select>')+
+    profileField('phone','Телефон','p-phone','<input id="p-phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" value="'+esc(st.profilePhone||'')+'" placeholder="+7 (___) ___-__-__">')+
+    profileField('mail','Email','p-email','<input id="p-email" type="email" autocomplete="email" inputmode="email" maxlength="150" value="'+esc(st.profileEmail||'')+'" placeholder="Адрес электронной почты">')+
+    profileField('court','Регион / палата','p-chamber','<input id="p-chamber" type="text" maxlength="140" value="'+esc(st.profileChamber||'')+'" placeholder="Например, Ивановская область">')+
+    profileField('doc','Номер в реестре','p-registry','<input id="p-registry" type="text" maxlength="32" value="'+esc(st.profileRegistry||'')+'" placeholder="Например, 37/0000">')+
+    '</div>';
+  var photo='<button type="button" class="profile51-photo-choice" data-act="p-photo-select">'+
+    '<span class="profile51-photo-icon">'+ico('camera','s')+'</span><strong>Изменить фото</strong><span class="profile51-photo-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>'+
+    '<input class="profile51-photo-file" id="p-photo-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>';
+  openSheet('<div class="profile51-content">'+head+fields+photo+'</div>'+
+    '<button type="button" class="btn profile51-save" data-act="p-save">Сохранить</button>');
+  $('#sheet').classList.add('profile-premium-v51');
+}
+function profilePhotoFromFile(file){
+  if(!file)return;
+  if(!/^image\/(?:jpeg|png|webp)$/.test(file.type)){toast('Выберите изображение JPG, PNG или WebP');return;}
+  if(file.size>12*1024*1024){toast('Изображение слишком большое. Максимум 12 МБ');return;}
+  var uri=URL.createObjectURL(file),im=new Image();
+  im.onload=function(){
+    URL.revokeObjectURL(uri);
+    try{
+      var max=500,scale=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));
+      var w=Math.max(1,Math.round(im.naturalWidth*scale)),h=Math.max(1,Math.round(im.naturalHeight*scale));
+      var cvs=document.createElement('canvas');cvs.width=w;cvs.height=h;
+      var ctx=cvs.getContext('2d');ctx.fillStyle='#fffaf2';ctx.fillRect(0,0,w,h);ctx.drawImage(im,0,0,w,h);
+      var photo=cvs.toDataURL('image/jpeg',.76);
+      if(!photo||photo.length>400000){toast('Не удалось подготовить фото');return;}
+      if(!$('#sheet').classList.contains('profile-premium-v51')||!$('#sheet').classList.contains('open'))return;
+      PROFILE_PHOTO_DRAFT=photo;
+      var preview=$('#p-photo-preview');if(preview)preview.src=photo;
+      toast('Фото выбрано. Нажмите «Сохранить»');
+    }catch(_e){toast('Не удалось обработать фотографию');}
+  };
+  im.onerror=function(){URL.revokeObjectURL(uri);toast('Не удалось открыть изображение');};
+  im.src=uri;
+}
+function profileSave(){
+  var nameField=$('#p-name'),statusField=$('#p-status'),phoneField=$('#p-phone'),emailField=$('#p-email');
+  var chamberField=$('#p-chamber'),registryField=$('#p-registry');
+  if(!nameField||!statusField||!phoneField||!emailField||!chamberField||!registryField)return;
+  var email=emailField.value.trim();
+  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Проверьте адрес электронной почты');emailField.focus();return;}
+  S.settings.name=nameField.value.trim();
+  S.settings.profileStatus=statusField.value;
+  S.settings.profilePhone=phoneField.value.trim();
+  S.settings.profileEmail=email;
+  S.settings.profileChamber=chamberField.value.trim();
+  S.settings.profileRegistry=registryField.value.trim();
+  if(PROFILE_PHOTO_DRAFT!==null) S.settings.profilePhoto=PROFILE_PHOTO_DRAFT;
+  PROFILE_PHOTO_DRAFT=null;
+  save();closeSheet();render();toast('Профиль сохранён');
 }
 function sheetPin(){
   if(pinEnabled()){
@@ -9774,7 +9845,8 @@ document.addEventListener('click', function(ev){
 
     /* settings / data */
     case 'profile': sheetProfile();break;
-    case 'p-save': S.settings.name=$('#p-name').value.trim();S.settings.dayRate=+$('#p-dayrate').value||0;S.settings.cur=$('#p-cur').value.trim()||'₽';S.settings.backupEveryDays=Math.min(90,Math.max(1,+$('#p-backdays').value||7));save();closeSheet();render();toast('Профиль сохранён');break;
+    case 'p-save': profileSave();break;
+    case 'p-photo-select': {var picker=$('#p-photo-file');if(picker)picker.click();break;}
     case 'pin': sheetPin();break;
     case 'pin-set': {var a1=$('#pin1').value,b1=$('#pin2').value;if(!/^\d{4}$/.test(a1)){toast('Нужны 4 цифры');break;}if(a1!==b1){toast('Коды не совпадают');break;}enablePinEncryption(a1).then(function(){closeSheet();render();toast('PIN-шифрование включено');}).catch(function(){toast('Не удалось включить PIN');});break;}
     case 'pin-off': if(confirm('Отключить PIN? База останется зашифрованной локальным ключом устройства.'))disablePinEncryption().then(function(){closeSheet();render();toast('PIN отключён');}).catch(function(){toast('Не удалось отключить PIN: сохранение не завершено');});break;
@@ -9797,6 +9869,8 @@ document.addEventListener('click', function(ev){
   }
 });
 document.addEventListener('change',function(e){
+  if(e.target&&e.target.id==='p-photo-file'){profilePhotoFromFile((e.target.files||[])[0]);e.target.value='';return;}
+  if(e.target&&e.target.id==='p-status'){var preview=$('#p-status-preview');if(preview)preview.textContent=e.target.value;}
   if(e.__advokatChangeHandled)return; e.__advokatChangeHandled=true;
   setTimeout(enforceHearingStageCompatibilityInEditor,0);
 
@@ -9944,6 +10018,7 @@ document.addEventListener('focusin',function(e){
 },true);
 
 document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='p-name'){var preview=$('#p-name-preview');if(preview)preview.textContent=e.target.value.trim()||'Адвокат';}
   if(e.__advokatInputHandled)return; e.__advokatInputHandled=true;
   if(e.target.id==='premium-list-search'&&LIST_PICKER){LIST_PICKER.query=e.target.value;renderPremiumListPicker();var q=$('#premium-list-search');if(q){q.focus({preventScroll:true});try{q.setSelectionRange(q.value.length,q.value.length);}catch(_){}}return;}
   if(e.target.id==='j-text'){var jc=e.target.closest('.journal-note-shell');var jb=jc&&jc.querySelector('.journal-note-clear');if(jb)jb.classList.toggle('is-visible',!!e.target.value.trim());}

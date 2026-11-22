@@ -1,0 +1,215 @@
+/* Premium advocate profile — 5.0.1297.41.66.51, scoped to sheet. */
+body.light #sheet.profile-premium-v51,
+#sheet.profile-premium-v51{
+  z-index:42!important;
+  bottom:0!important;
+  left:0!important;right:0!important;
+  height: min(78dvh, 830px)!important;
+  max-height: calc(100dvh - 100px)!important;
+  padding: 8px 0 0!important;
+  border:0!important;
+  border-radius:30px 30px 0 0!important;
+  background-color:#fff9f2!important;
+  background-image:linear-gradient(120deg,rgba(255,255,255,.72),rgba(255,252,247,.64)),url('bg-dossier-continuous-v5833.webp')!important;
+  background-size:100% auto!important;
+  background-position:center 5%!important;
+  background-repeat:no-repeat!important;
+  color:#0c1d38!important;
+  box-shadow:0 -12px 30px rgba(40,27,18,.20),inset 0 2px rgba(255,255,255,.9)!important;
+}
+#sheet.profile-premium-v51>.grab{
+  flex:0 0 auto!important;
+  width:40px!important;height:5px!important;
+  border-radius:99px!important;
+  background:linear-gradient(90deg,#d6c2ab,#bda388,#d7bf9f)!important;
+  margin:6px auto 14px!important;
+}
+#sheet.profile-premium-v51.withfoot{display:flex!important;flex-direction:column!important;overflow:hidden!important;}
+#sheet.profile-premium-v51.withfoot>.shbody{
+  flex:1 1 auto!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding:0 15px 16px!important;
+  min-height:0!important;
+  background:transparent!important;
+}
+#sheet.profile-premium-v51 .profile51-content{width:100%!important;max-width:630px!important;margin:0 auto!important;box-sizing:border-box!important;}
+#sheet.profile-premium-v51 .profile51-heading{margin:0 7px 16px!important;}
+#sheet.profile-premium-v51 .profile51-heading h2{
+  margin:0 0 5px!important;
+  font:700 clamp(31px,8.7vw,43px)/1.07 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.025em!important;
+  color:#0b1c39!important;
+}
+#sheet.profile-premium-v51 .profile51-heading p{
+  margin:0!important;
+  color:#35465c!important;
+  font:400 clamp(13px,3.45vw,16px)/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+}
+#sheet.profile-premium-v51 .profile51-identity{
+  position:relative;overflow:hidden;
+  min-height:118px;
+  display:flex;align-items:center;
+  gap:11px;
+  padding:13px 15px 15px 10px;
+  margin:0 0 13px;
+  border-radius:23px;
+  background:linear-gradient(130deg,rgba(255,254,253,.96),rgba(254,246,237,.88))!important;
+  box-shadow:0 8px 14px rgba(109,70,28,.16),inset 0 1px 0 rgba(255,255,255,1);
+  border:1px solid #f0d8ba;
+}
+#sheet.profile-premium-v51 .profile51-identity:after{
+  content:"";position:absolute;bottom:0;right:0;width:44%;height:13px;
+  background:linear-gradient(95deg,transparent,#c17d21 55%,#f3cb62 78%,#a36e14);
+  clip-path:polygon(0% 100%,100% 5%,100% 100%);pointer-events:none;
+}
+#sheet.profile-premium-v51 .profile51-portrait{
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(86px,27vw,119px);height:clamp(86px,27vw,119px);
+  flex:0 0 clamp(86px,27vw,119px);
+  background:radial-gradient(circle at 40% 30%,#19365b,#071834);
+  border-radius:50%;border:4px solid #d7a33c;
+  box-shadow:0 0 0 2px #fff9ec,0 4px 9px #6e46205e,inset 0 0 7px #07152a;
+  overflow:hidden;box-sizing:border-box;
+}
+#sheet.profile-premium-v51 .profile51-portrait img{width:100%;height:100%;object-fit:cover;display:block;}
+#sheet.profile-premium-v51 .profile51-rule{width:2px;height:72px;flex:0 0 2px;background:linear-gradient(#f5c65f,#ad7125,#efc95b);border-radius:99px;}
+#sheet.profile-premium-v51 .profile51-identity-copy{display:flex;flex-direction:column;gap:10px;flex:1;min-width:0;}
+#sheet.profile-premium-v51 .profile51-identity-copy strong{
+  color:#0c1a38;
+  font:700 clamp(19px,5.4vw,28px)/1.05 Georgia,'Times New Roman',serif;
+  overflow-wrap:anywhere;
+}
+#sheet.profile-premium-v51 .profile51-identity-copy small{
+  display:flex;align-items:center;gap:8px;
+  color:#4a596b;
+  font:400 clamp(12px,3.6vw,17px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+#sheet.profile-premium-v51 .profile51-identity-copy small svg{width:19px;height:19px;color:#ad7a19;stroke-width:2;}
+#sheet.profile-premium-v51 .profile51-fields{
+  border:1px solid #ead2b6;
+  border-radius:20px;
+  padding:6px 9px;
+  background:linear-gradient(120deg,rgba(255,253,249,.92),rgba(255,250,244,.89));
+  box-shadow:0 6px 12px #84613625,inset 0 1px 0 #fff;
+}
+#sheet.profile-premium-v51 .profile51-row{
+  min-height:61px;
+  display:grid;
+  grid-template-columns:minmax(0,40%) minmax(0,60%);
+  align-items:center;
+  gap:2px;
+  padding:7px 0;
+  border-bottom:1px solid #e6d4bd;
+}
+#sheet.profile-premium-v51 .profile51-row:last-child{border:0;}
+#sheet.profile-premium-v51 .profile51-label{
+  display:flex;align-items:center;gap:8px;min-width:0;padding-right:5px;
+  color:#101d37;
+  font:700 clamp(12px,3.5vw,15.5px)/1.08 Georgia,'Times New Roman',serif!important;
+  letter-spacing:-.017em;
+}
+#sheet.profile-premium-v51 .profile51-label>span:last-child{min-width:0;overflow-wrap:break-word;}
+#sheet.profile-premium-v51 .profile51-field-icon,
+#sheet.profile-premium-v51 .profile51-photo-icon{
+  flex:0 0 36px;display:flex;align-items:center;justify-content:center;
+  width:36px;height:37px;
+  background:linear-gradient(125deg,#fff8e9,#f3e1ce);
+  border-radius:11px;
+  box-shadow:inset 0 1px #fff9ef;
+}
+#sheet.profile-premium-v51 .profile51-field-icon svg,
+#sheet.profile-premium-v51 .profile51-photo-icon svg{
+  width:22px;height:22px;
+  color:#b27a17;stroke-width:1.9;
+  filter:drop-shadow(0 1px 1px #a2661233);
+}
+#sheet.profile-premium-v51 .profile51-row input,
+#sheet.profile-premium-v51 .profile51-row select{
+  display:block!important;
+  height:46px!important;
+  min-height:46px!important;
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  color:#14203b!important;
+  font:400 16px/1.1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  background:linear-gradient(120deg,#f7f5f4,#f3f1f0)!important;
+  border:1px solid #ded1c5!important;
+  border-radius:13px!important;
+  padding:0 11px!important;
+  outline:none!important;
+  box-shadow:inset 0 1px 3px #8a6e5420!important;
+  appearance:none;
+  -webkit-appearance:none;
+}
+#sheet.profile-premium-v51 .profile51-row select{
+  padding-right:30px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23aa7417' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"),linear-gradient(120deg,#f7f5f4,#f3f1f0)!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:right 11px center,center!important;
+  background-size:12px 7px,cover!important;
+}
+#sheet.profile-premium-v51 .profile51-row input:focus,
+#sheet.profile-premium-v51 .profile51-row select:focus{
+  border-color:#bd8728!important;
+  box-shadow:0 0 0 2px #deb86440!important;
+}
+#sheet.profile-premium-v51 .profile51-row input::placeholder{color:#89909a!important;font-size:13px;}
+#sheet.profile-premium-v51 .profile51-photo-choice{
+  display:flex;align-items:center;gap:14px;
+  width:100%;min-height:61px;
+  margin:12px 0 0;
+  padding:10px 11px;
+  text-align:left;color:#102039;
+  border:1px solid #ead3b6;
+  border-radius:18px;
+  background:linear-gradient(130deg,#fffdfa,#fff6eb);
+  box-shadow:0 5px 10px #87623620,inset 0 1px #fff;
+}
+#sheet.profile-premium-v51 .profile51-photo-icon{width:41px;height:41px;flex-basis:41px;}
+#sheet.profile-premium-v51 .profile51-photo-choice strong{
+  flex:1;
+  font:700 clamp(17px,4vw,20px)/1.2 Georgia,'Times New Roman',serif;
+}
+#sheet.profile-premium-v51 .profile51-photo-arrow{width:32px;height:32px;border-radius:50%;background:#fff0dc;display:flex;align-items:center;justify-content:center;color:#a36b12;}
+#sheet.profile-premium-v51 .profile51-photo-arrow .ico{width:19px;height:19px;}
+#sheet.profile-premium-v51 .profile51-photo-file{display:none!important;}
+#sheet.profile-premium-v51.withfoot>.shfoot{
+  display:block!important;
+  flex:none!important;
+  margin:0!important;
+  padding:12px 15px calc(env(safe-area-inset-bottom,0px) + 14px)!important;
+  background:linear-gradient(180deg,rgba(255,251,245,.92),rgba(255,248,240,.98))!important;
+  border:0!important;
+  box-shadow:0 -7px 12px #fff8efad!important;
+}
+#sheet.profile-premium-v51 .profile51-save{
+  display:block!important;
+  max-width:630px!important;
+  margin:0 auto!important;
+  min-height:55px!important;
+  padding:11px 15px!important;
+  border:1px solid #dfad48!important;
+  border-bottom:3px solid #956019!important;
+  border-radius:18px!important;
+  background:linear-gradient(115deg,#f7d56d,#e9ba49 55%,#c08d25)!important;
+  color:#201807!important;
+  font:700 20px/1.1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  box-shadow:inset 0 1px #ffefaa,0 6px 13px #91602930!important;
+}
+@media(max-width:355px){
+  #sheet.profile-premium-v51.withfoot>.shbody{padding-left:11px!important;padding-right:11px!important;}
+  #sheet.profile-premium-v51 .profile51-row{grid-template-columns:minmax(0,42%) minmax(0,58%);}
+  #sheet.profile-premium-v51 .profile51-label{gap:5px;font-size:12px!important;}
+  #sheet.profile-premium-v51 .profile51-field-icon{flex-basis:30px;width:30px;height:33px;}
+  #sheet.profile-premium-v51 .profile51-field-icon .ico{width:19px;height:19px;}
+  #sheet.profile-premium-v51 .profile51-row input,#sheet.profile-premium-v51 .profile51-row select{padding-left:8px!important;padding-right:8px!important;font-size:16px!important;}
+  #sheet.profile-premium-v51 .profile51-identity{gap:7px;padding:10px 8px;}
+  #sheet.profile-premium-v51 .profile51-rule{height:58px;}
+}
+@media(min-width:650px){
+  #sheet.profile-premium-v51{left:calc(50vw - 360px)!important;right:auto!important;width:720px!important;}
+  #sheet.profile-premium-v51 .profile51-row{grid-template-columns:37% 63%;}
+}
