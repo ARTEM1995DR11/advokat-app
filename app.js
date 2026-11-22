@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.56';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6496';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.57';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6497';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2717,7 +2717,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4827,26 +4827,65 @@ function renderMore(){
   '</div>';
   $('#sc-more').innerHTML=html;
 }
-/* Existing tools not present in the newly approved front-page grid remain
-   accessible here, including data security, reports and legacy QA utilities. */
-function sheetMoreService(){
-  openSheet('<h2>Настройки и обслуживание</h2><p class="sh-sub">Дополнительные функции приложения</p>'+
-    '<div class="card pad0 settings-card">'+
-      row('gavel','Дни участия','Учёт участия в процессуальных действиях','participation-log')+
-      row('doc','Отчёты и печать','План дня и выгрузка по делу','reports')+
-      row('share','Экспорт списка','Поделиться рабочим списком','export')+
-      row('lock','Код доступа и шифрование',pinEnabled()?'PIN включён':'Параметры безопасности','pin')+
-      row('info','Как пользоваться','Инструкция и возможности','intro')+
-      row('folder','Восстановить из копии','Импорт ранее сохранённой базы','restore')+
-    '</div>'+
-    '<div class="settings-section-title">Служебные действия</div><div class="card pad0 settings-card">'+
-      (calendarQaMatter()?row('cal','Тестовый день календаря','Открыть учебные события','calendar-qa-open')+row('trash','Удалить тестовый день календаря','Только учебные события','calendar-qa-remove'):row('cal','Создать тестовый день календаря','Учебный набор событий','calendar-qa-open'))+
-      (S.matters.some(function(m){return m&&m.isDemoScenario1165;})?row('list','Открыть тестовую карточку','Учебные задачи и события','demo-scenario-open')+row('trash','Удалить тестовую карточку','Только демонстрационные данные','demo-scenario-remove'):row('list','Тестовая карточка','Создать примеры задач и событий','demo-scenario-open'))+
-      row('list','Загрузить примеры','Учебные дела и задачи','demo')+
-      row('trash','Удалить выполненные','Очистка завершённых задач','clearDone')+
-      row('trash','Удалить все данные','Необратимая очистка базы','wipe')+
-    '</div>');
+/* Approved Settings v57: three groups, seven rows, no developer commands. */
+function settings57Row(icon,title,desc,act){
+  return '<button class="settings57-row" type="button" data-act="'+esc(act)+'" aria-label="'+esc(title)+'">'+
+    '<span class="settings57-art" aria-hidden="true"><img src="settings57-'+esc(icon)+'.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+    '<span class="settings57-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span>'+
+    '<span class="settings57-chevron" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
+function settings57Section(label,icon,rows){
+  return '<section class="settings57-group"><div class="settings57-section-title"><i></i><span aria-hidden="true">'+ico(icon,'l')+'</span><b>'+esc(label)+'</b><i></i></div>'+
+    '<div class="settings57-card">'+rows+'</div></section>';
+}
+function sheetMoreService(){
+  var body='<main class="settings57-page" role="region" aria-label="Настройки приложения">'+
+    '<header class="settings57-header">'+
+      '<button type="button" class="settings57-back" data-act="settings57-back" aria-label="Назад к разделу Ещё">'+ico('left','l')+'</button>'+
+      '<img class="settings57-header-scale" src="scale-gold.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">'+
+      '<div class="settings57-heading"><h2>Настройки</h2><p>Параметры и управление приложением</p></div></header>'+
+    settings57Section('Безопасность и конфиденциальность','lock',
+      settings57Row('pin','Код доступа','Установка, изменение и отключение PIN-кода','pin')+
+      settings57Row('lock','Автоматическая блокировка','Блокировка приложения при бездействии','settings57-auto')+
+      settings57Row('privacy','Конфиденциальность','Скрытие персональных данных в уведомлениях','settings57-privacy'))+
+    settings57Section('Напоминания и уведомления','bell',
+      settings57Row('notify','Параметры уведомлений','Виды событий и время предварительных напоминаний','notify-sheet'))+
+    settings57Section('Управление данными','arch',
+      settings57Row('backup','Резервное копирование','Сохранение и восстановление базы данных','backup-sheet')+
+      settings57Row('transfer','Импорт и экспорт','Перенос данных между устройствами','settings57-transfer')+
+      settings57Row('clear','Очистка данных','Удаление выбранных данных с подтверждением','settings57-clear'))+
+    '</main>';
+  openSheet(body);
+  var s=$('#sheet');s.classList.add('settings-premium-v57','full');s.setAttribute('aria-label','Настройки');
+}
+/* New parameters not yet supported by the runtime are described honestly;
+   existing secure PIN, backups and notification handlers remain unchanged. */
+function sheetSettings57Auto(){
+  openSheet('<h2>Автоматическая блокировка</h2><p class="sh-sub">Защита при возвращении в приложение.</p>'+
+    '<div class="hint">Сейчас при включённом PIN приложение запрашивает код после возвращения из фонового режима, если прошло более одной минуты. Настройку произвольного интервала бездействия добавим отдельно.</div>'+
+    rowSw('lock','Блокировка после возвращения','После отсутствия более одной минуты','settings57-toggle-auto',!!S.settings.lockOnReturn));
+}
+function sheetSettings57Privacy(){
+  openSheet('<h2>Конфиденциальность</h2><p class="sh-sub">Защита сведений доверителей в уведомлениях.</p>'+
+    '<div class="hint">Скрытие содержимого локальных уведомлений будет реализовано отдельно. Текущие уведомления могут содержать названия задач — учитывайте это при использовании устройства.</div>'+
+    '<button type="button" class="btn ghost" data-act="notify-sheet">Управление уведомлениями</button>');
+}
+function sheetSettings57Transfer(){
+  openSheet('<h2>Импорт и экспорт</h2><p class="sh-sub">Перенос и сохранение рабочих данных</p>'+
+    '<div class="card pad0 settings-card">'+
+    row('arch','Создать резервную копию','Защищённая копия всей базы','backup-sheet')+
+    row('folder','Восстановить базу из файла','Импорт ранее сохранённой копии','restore')+
+    row('share','Экспорт рабочего списка','Текстовый список для передачи','export')+'</div>'+
+    '<div class="hint">Для переноса всей базы между устройствами используйте зашифрованную резервную копию, а не текстовый экспорт списка.</div>');
+}
+function sheetSettings57Clear(){
+  openSheet('<h2>Очистка данных</h2><p class="sh-sub">Удаление данных только после подтверждения</p>'+
+    '<div class="card pad0 settings-card">'+
+    row('trash','Удалить выполненные задачи','Сохранить результаты заседаний и архивные дела','clearDone')+
+    row('trash','Полная очистка базы','Дела, задачи, события и журнал — без восстановления','settings57-wipe-confirm')+'</div>'+
+    '<div class="hint">Перед удалением создайте резервную копию. Очистка без сохранённой копии может быть необратимой.</div>');
+}
+
 function rowSw(i,t,s,act,on){
   return '<button class="row" data-act="'+act+'">'+ico(i)+'<span class="rl">'+t+'<small>'+esc(s)+'</small></span>'+
     '<span class="switch'+(on?' on':'')+'"><i></i></span></button>';
@@ -9483,6 +9522,13 @@ document.addEventListener('click', function(ev){
     case 'more50-agreement': toast('Калькулятор соглашений — следующий этап разработки'); break;
     case 'more50-courts': toast('Судебные сервисы — следующий этап разработки'); break;
     case 'more50-settings': sheetMoreService(); break;
+    case 'settings57-back': closeSheet(); break;
+    case 'settings57-auto': sheetSettings57Auto(); break;
+    case 'settings57-privacy': sheetSettings57Privacy(); break;
+    case 'settings57-transfer': sheetSettings57Transfer(); break;
+    case 'settings57-clear': sheetSettings57Clear(); break;
+    case 'settings57-toggle-auto': S.settings.lockOnReturn=!S.settings.lockOnReturn;save();sheetSettings57Auto();toast(S.settings.lockOnReturn?'Блокировка при возвращении включена':'Блокировка при возвращении выключена');break;
+    case 'settings57-wipe-confirm': if(confirm('Удаление базы приведёт к потере всех дел и записей. Вы сохранили резервную копию?'))wipeAll(); break;
     case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
     case 'global-search-clear-query': {GQ=''; var gqi=$('#gq'); if(gqi){gqi.value=''; gqi.focus();} renderGlobalSearch(); break;}
     case 'global-search-clear-tip': {GSEARCH_TIP_HIDDEN=true; var gst=$('#gsearch-tip'); if(gst)gst.style.display='none'; var gh=$('#ghelper'); if(gh)gh.style.display='none'; break;}

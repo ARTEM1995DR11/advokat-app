@@ -1,0 +1,78 @@
+/* SETTINGS PREMIUM V57 — approved three-group design, scoped to settings sheet. */
+body.light #sheet.settings-premium-v57,
+#sheet.settings-premium-v57{
+  z-index:1800!important;
+  position:fixed!important;inset:0!important;
+  width:100%!important;height:100dvh!important;max-height:100dvh!important;
+  padding:calc(max(env(safe-area-inset-top,0px),40px) + 13px) 0 calc(env(safe-area-inset-bottom,0px) + 20px)!important;
+  margin:0!important;border:0!important;border-radius:0!important;
+  transform:translateY(102%);transition:transform .33s cubic-bezier(.22,.78,.12,1)!important;
+  background-color:#fbefdf!important;
+  background-image:linear-gradient(145deg,rgba(255,252,247,.70),rgba(255,248,237,.28)),url('bg-more-marble-office.webp')!important;
+  background-position:center top!important;background-size:cover!important;background-repeat:no-repeat!important;
+  overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;color:#111c35!important;
+}
+body.light #sheet.settings-premium-v57.open,#sheet.settings-premium-v57.open{transform:translateY(0)!important}
+#sheet.settings-premium-v57>.grab{display:none!important}
+#sheet.settings-premium-v57 .settings57-page{box-sizing:border-box;max-width:680px;margin:0 auto;padding:0 14px 20px;}
+#sheet.settings-premium-v57 .settings57-header{display:grid;grid-template-columns:43px 53px minmax(0,1fr);align-items:center;gap:10px;margin:0 0 24px;}
+#sheet.settings-premium-v57 .settings57-back{
+  width:43px;height:43px;display:flex;align-items:center;justify-content:center;
+  border-radius:13px;border:1px solid #dbb875;background:linear-gradient(140deg,#fffdfa,#f5e5ce);
+  color:#966320;box-shadow:0 4px 8px #81531f30,inset 0 1px #fff;
+}
+#sheet.settings-premium-v57 .settings57-back svg{width:24px;height:24px;stroke-width:2.4}
+#sheet.settings-premium-v57 .settings57-header-scale{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 2px #8a601848)}
+#sheet.settings-premium-v57 .settings57-heading{min-width:0;}
+#sheet.settings-premium-v57 .settings57-heading h2{font:700 clamp(27px,8.1vw,43px)/1.04 Georgia,'Times New Roman',serif!important;letter-spacing:-.035em!important;color:#0c1b37!important;margin:0 0 3px!important;}
+#sheet.settings-premium-v57 .settings57-heading p{margin:0;color:#293b55;font:400 clamp(10px,2.8vw,14px)/1.22 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+#sheet.settings-premium-v57 .settings57-group{margin:0 0 24px;}
+#sheet.settings-premium-v57 .settings57-section-title{
+  display:flex;align-items:center;gap:8px;min-width:0;margin:0 3px 11px;
+  color:#97540b;
+}
+#sheet.settings-premium-v57 .settings57-section-title>i{display:block;flex:1 1 15px;min-width:10px;height:1px;background:#b87822}
+#sheet.settings-premium-v57 .settings57-section-title>i:first-child{max-width:19px}
+#sheet.settings-premium-v57 .settings57-section-title>span{
+  width:29px;height:29px;display:flex;align-items:center;justify-content:center;flex:none;color:#b27c20;
+}
+#sheet.settings-premium-v57 .settings57-section-title svg{height:26px;width:26px;stroke-width:1.75;filter:drop-shadow(0 2px 1px #9d67254d)}
+#sheet.settings-premium-v57 .settings57-section-title>b{white-space:normal;min-width:0;flex:none;max-width:calc(100% - 104px);
+  font:700 clamp(9px,2.25vw,12px)/1.12 Georgia,'Times New Roman',serif!important;letter-spacing:.095em;text-transform:uppercase;color:#9b5410;}
+#sheet.settings-premium-v57 .settings57-card{
+  overflow:hidden;border:1px solid #e1b879;border-radius:22px;
+  padding:5px 13px;background:linear-gradient(128deg,rgba(255,254,251,.97),rgba(255,249,242,.94) 94%);
+  box-shadow:0 8px 16px #9d62252b,inset 0 0 0 2px #fff9ef,0 2px 1px #fbe8c0;
+}
+#sheet.settings-premium-v57 .settings57-row{
+  position:relative;box-sizing:border-box;display:flex;width:100%;min-height:83px;
+  gap:11px;align-items:center;text-align:left;cursor:pointer;padding:11px 1px;
+  border:0;background:transparent;color:#142138;font-family:inherit;
+}
+#sheet.settings-premium-v57 .settings57-row+.settings57-row{border-top:1px solid #e4d1bc;}
+#sheet.settings-premium-v57 .settings57-row:active{background:rgba(208,167,99,.13)}
+#sheet.settings-premium-v57 .settings57-row:focus-visible,#sheet.settings-premium-v57 .settings57-back:focus-visible{outline:2px solid #a87922;outline-offset:-2px;}
+#sheet.settings-premium-v57 .settings57-art{flex:0 0 56px;width:56px;height:56px;display:block;}
+#sheet.settings-premium-v57 .settings57-art img{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 3px 4px #96724b4a)}
+#sheet.settings-premium-v57 .settings57-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px;}
+#sheet.settings-premium-v57 .settings57-copy strong{font:700 clamp(16px,4.3vw,23px)/1.06 Georgia,'Times New Roman',serif!important;color:#0c1c3b;hyphens:none;word-break:normal;overflow-wrap:normal;}
+#sheet.settings-premium-v57 .settings57-copy small{font:400 clamp(11px,3vw,15px)/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#2c384d;hyphens:none;word-break:normal;overflow-wrap:normal;}
+#sheet.settings-premium-v57 .settings57-chevron{flex:0 0 30px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #e9bd82;background:#fbeddc;color:#a16d20;}
+#sheet.settings-premium-v57 .settings57-chevron svg{width:17px;height:17px;stroke-width:2.4;}
+@media(max-width:370px){
+  #sheet.settings-premium-v57 .settings57-page{padding-left:10px;padding-right:10px}
+  #sheet.settings-premium-v57 .settings57-header{grid-template-columns:40px 43px minmax(0,1fr);gap:7px;margin-bottom:20px}
+  #sheet.settings-premium-v57 .settings57-header-scale{width:43px;height:43px}
+  #sheet.settings-premium-v57 .settings57-back{width:40px;height:40px}
+  #sheet.settings-premium-v57 .settings57-card{padding:4px 9px;border-radius:20px}
+  #sheet.settings-premium-v57 .settings57-row{gap:7px;min-height:83px}
+  #sheet.settings-premium-v57 .settings57-art{flex-basis:48px;width:48px;height:48px}
+  #sheet.settings-premium-v57 .settings57-copy strong{font-size:clamp(15px,4.2vw,17px)}
+  #sheet.settings-premium-v57 .settings57-copy small{font-size:11px}
+  #sheet.settings-premium-v57 .settings57-chevron{width:26px;height:26px;flex-basis:26px}
+  #sheet.settings-premium-v57 .settings57-section-title{gap:6px}
+  #sheet.settings-premium-v57 .settings57-section-title>b{font-size:10px;letter-spacing:.09em}
+}
+@media(min-width:600px){#sheet.settings-premium-v57 .settings57-page{padding-left:22px;padding-right:22px}}
+@media(prefers-reduced-motion:reduce){#sheet.settings-premium-v57{transition:none!important}}
