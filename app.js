@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.43';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6483';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.44';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6484';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -9572,7 +9572,6 @@ document.addEventListener('click', function(ev){
     case 'stage-wizard-next': stageWizardNext();break;
     case 'stage-wizard-prev': stageWizardPrev();break;
     case 'stage-wizard-commit': stageWizardCommit();break;
-    case 'stage-payment-apply-rates': stageWizardApplyRates();break;
     case 'stage-payment-editor-apply': stagePaymentEditorApplyRates(id);break;
     case 'stage-payment-application': stagePaymentApplication(id);break;
     case 'stage-history': stageHistorySheet(id||$('#page')._mid);break;

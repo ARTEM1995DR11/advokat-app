@@ -2,7 +2,7 @@
    established Today/Tasks/Calendar/Cases layouts or to the approved case folders. */
 'use strict';
 var STAGE_WIZARD=null;
-var STAGE_WIZARD_STEPS=['Завершение этапа','Новая стадия','Перенос задач','Расчёт оплаты','Подтверждение'];
+var STAGE_WIZARD_STEPS=['Завершение этапа','Новая стадия','Перенос задач','Подтверждение'];
 function stageNextSuggested(m){
   var arr=MATTER_STAGE_MAP[m.type]||MATTER_STAGE_MAP.other;
   var at=arr.indexOf(m.stage);return arr[Math.min(Math.max(at+1,0),arr.length-1)]||m.stage;
@@ -17,17 +17,15 @@ function stageWizardStart(id){
   STAGE_WIZARD={operationId:'stage-op-'+uid(),sourceId:String(m.id),step:0,closeDate:today(),startDate:today(),result:'',note:'',
     stage:'',stageBase:'',stageCustom:'',stageReason:'',routeVerified:false,basis:m.basis,sourceBasisAtStart:m.basis,place:'',
     moveIds:pending.filter(function(t){return ['task','meeting'].includes(t.kind);}).map(function(t){return String(t.id);}),
-    acknowledgeRemaining:false,acknowledgeCritical:false,confirm:false,
-    payment:{category:'',lines:m.basis==='assigned'?appointmentFeeDays(m,today()).map(function(x){return {date:x.date,rate:0,included:x.source==='participation',alreadyClaimed:false,verified:false,proof:'',dayType:appointmentFeeSuggestedDayType(x.date)};}):[],note:''}};
+    acknowledgeRemaining:false,acknowledgeCritical:false,confirm:false};
   stageWizardRender();
 }
-/* Only meaningful steps are displayed. No empty transfer page for a case
-   with no pending work; payment is reserved for appointed representation. */
+/* Only meaningful steps are displayed: three steps without pending records,
+   four steps when records require transfer. This is independent of the basis. */
 function stageWizardVisibleSteps(m){
   var v=[0,1];
   if(stageEligibleTasks(m).length)v.push(2);
-  if(m&&m.basis==='assigned')v.push(3);
-  v.push(4);
+  v.push(3);
   return v;
 }
 function stageWizardStepPosition(d,m){
@@ -58,20 +56,7 @@ function stageWizardCapture(){
       .filter(function(x){return x.checked;}).map(function(x){return x.dataset.stageMove;});
     d.acknowledgeRemaining=check('st-ack-remaining');d.acknowledgeCritical=check('st-ack-critical');
   }
-  if(d.step===3&&matter(d.sourceId).basis==='assigned'){
-    d.payment.category=appointmentFeeCategory(get('st-payment-category'));
-    d.payment.lines=[].slice.call(document.querySelectorAll('#sheet [data-fee-date]')).map(function(el){
-      var date=el.dataset.feeDate,find=function(q){return el.querySelector(q);};
-      return {date:date,rate:find('[data-fee-rate]').value,
-       included:find('[data-fee-include]').checked,
-       alreadyClaimed:find('[data-fee-claimed]').checked,
-       verified:find('[data-fee-verified]').checked,
-       dayType:find('[data-fee-type]').value,
-       proof:find('[data-fee-proof]').value.trim()};
-    });
-    d.payment.note=get('st-payment-note')||'';
-  }
-  if(d.step===4)d.confirm=check('st-confirm');
+  if(d.step===3)d.confirm=check('st-confirm');
 }
 function stageWizardValidateStep(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),step=d.step;
@@ -100,14 +85,7 @@ function stageWizardValidateStep(){
       !stageInvestigationApplicable({type:m.type,stage:d.stage==='__other__'?d.stageBase:d.stage}))
       return 'Следственное действие нельзя переносить в судебную стадию; оставьте его в истории';
   }
-  if(step===3&&m.basis==='assigned'){
-    for(var line of d.payment.lines){
-      if(!stageISODateValid(line.date)||line.date>d.closeDate)return 'Проверьте дату дня участия';
-      if(!Number.isFinite(+line.rate)||+line.rate<0||+line.rate>100000000)return 'Проверьте сумму за день';
-      if(String(line.proof||'').length>500)return 'Сократите описание подтверждения';
-    }
-  }
-  if(step===4&&!d.confirm)return 'Подтвердите завершение этапа и создание новой папки';
+  if(step===3&&!d.confirm)return 'Подтвердите завершение этапа и создание новой папки';
   return '';
 }
 function stageWizardNext(){
@@ -118,7 +96,7 @@ function stageWizardNext(){
      Never strand the user on an empty, now-hidden transfer screen. */
   if(d.step===2&&m&&!stageEligibleTasks(m).length){
     d.moveIds=[];d.acknowledgeRemaining=false;d.acknowledgeCritical=false;
-    d.step=m.basis==='assigned'?3:4;stageWizardRender();return;
+    d.step=3;stageWizardRender();return;
   }
   var err=stageWizardValidateStep();if(err){toast(err);return;}
   var visible=stageWizardVisibleSteps(m),at=visible.indexOf(d.step);
@@ -139,7 +117,7 @@ function stageWizardPrev(){
 function stageWizardHead(){
   var d=STAGE_WIZARD,m=matter(d.sourceId),progress=stageWizardStepPosition(d,m);
   var at=progress.index,count=at+1,total=progress.count;
-  var first=d.step<=4; // All visible steps use the approved navy/ivory folder.
+  var first=d.step<=3; // All visible steps use the approved navy/ivory folder.
   var steps=progress.visible.map(function(step){return STAGE_WIZARD_STEPS[step];});
   var header=first
     ?'<header class="stage-wizard-header stage-wizard-header-premium">'+
@@ -449,33 +427,6 @@ function appointmentFeeRowsHTML(lines,days){
     '</section>';
  }).join('');
 }
-function stageWizardPaymentHTML(d,m){
-  if(m.basis!=='assigned')return '<div class="stage-wizard-info">Расчёт вознаграждения не производится для дел по соглашению.</div>';
-  var days=appointmentFeeDays(m,d.closeDate),p=d.payment;
-  return '<div class="stage-fourth-intro"><span class="stage-fourth-intro-icon">'+(typeof advEmbossIcon==='function'?advEmbossIcon('doc'):ico('doc','s'))+'</span><p>Предварительный расчёт <strong>по назначению</strong>. За одну дату по одному делу учитывается один день независимо от числа действий. Без подтверждений расчёт остаётся черновиком.</p></div>'+ 
-    (m.type==='criminal'?'<label class="stage-wizard-field">Категория сложности по п. 22(1) ПП РФ № 1240<select id="st-payment-category"><option value="">Выберите после проверки обстоятельств</option>'+Object.keys(APPOINTMENT_CRIMINAL_CATEGORIES).map(function(k){return '<option value="'+k+'"'+(p.category===k?' selected':'')+'>'+esc(APPOINTMENT_CRIMINAL_CATEGORIES[k])+'</option>';}).join('')+'</select></label>':'')+ 
-    (m.type==='criminal'?'<button class="appointment-fee-apply" type="button" data-act="stage-payment-apply-rates">Подставить ставки ПП № 1191 (01.10.2025–31.12.2026)</button>':
-      '<div class="stage-wizard-info">Для этого вида производства уголовные ставки автоматически не применяются: укажите проверенную ставку вручную.</div>')+
-    (days.length?'<div class="appointment-fee-days">'+appointmentFeeRowsHTML(p.lines,days)+'</div>':
-      '<div class="stage-wizard-alert">Дней фактического участия пока нет. Внесите их в журнал участия; переход возможен с пустым расчётом.</div>')+
-    '<div class="stage-wizard-info">Для каждой даты действует <b>свой режим и своя ставка</b>: изменение режима одного дня не меняет остальные. Выходной по дню недели — только подсказка; праздничные и перенесённые дни проверяются вручную. Периоды до 01.10.2025 и после 2026 года требуют проверки ставки.</div>'+ 
-    '<div class="appointment-fee-summary"><small>Предварительно, без уже заявленных дней</small><strong id="stage-wizard-pay-total">'+esc(money(appointmentFeeLineTotal(p.lines)))+'</strong></div>'+ 
-    '<label class="stage-wizard-field">Примечание к расчёту<textarea id="st-payment-note" rows="2" placeholder="Решение о категории сложности, дополнительные документы">'+esc(p.note||'')+'</textarea></label>';
-}
-function stageWizardApplyRates(){
-  var m=STAGE_WIZARD&&matter(STAGE_WIZARD.sourceId);if(!m||m.basis!=='assigned'||m.type!=='criminal')return;
-  var cat=document.getElementById('st-payment-category');cat=cat&&cat.value;
-  if(!appointmentFeeCategory(cat)){toast('Выберите категорию сложности после проверки');return;}
-  var available=0,missing=0;
-  document.querySelectorAll('#sheet [data-fee-date]').forEach(function(el){
-    var date=el.dataset.feeDate,rate=appointmentFeeRate(m,date,cat,el.querySelector('[data-fee-type]').value);
-    if(rate!=null){el.querySelector('[data-fee-rate]').value=rate;available++;}
-    else {missing++;}
-    el.querySelector('[data-fee-verified]').checked=false;
-  });
-  stageWizardUpdatePaymentTotal();
-  toast(available?'Ставки предложены для '+available+' дн.; проверьте основания':'Нет подтверждённых тарифов для этих дат');
-}
 function stageWizardConfirmHTML(d,m){
   var items=stageEligibleTasks(m),picked=new Set(d.moveIds.map(String)),moving=items.filter(function(t){return picked.has(String(t.id));});
   var stageName=d.stage==='__other__'?d.stageCustom:d.stage;
@@ -499,7 +450,6 @@ function stageWizardConfirmHTML(d,m){
       (!items.length?'<p class="stage-final-empty">Незавершённых записей нет. Перенос не требуется.</p>':'')+
     '</section>'+ 
     (d.routeVerified?'<div class="stage-final-note">Условия процессуального перехода проверены адвокатом.</div>':'')+
-    (m.basis==='assigned'?'<div class="stage-final-payment">'+icon('doc')+'<span><b>Черновик расчёта по назначению</b><small>'+esc(money(appointmentFeeLineTotal(d.payment.lines)))+' · требуется проверка и подтверждение документов</small></span></div>':'')+
     '<div class="stage-final-note">После подтверждения предыдущая папка останется доступной в связанных стадиях. Дублировать задачи и события приложение не будет.</div>'+ 
     '<label class="stage-final-check"><input type="checkbox" id="st-confirm"'+(d.confirm?' checked':'')+'><span class="stage-final-mark" aria-hidden="true">'+ico('check','s')+'</span><span>Проверил(а) результат, следующую стадию, даты и перенос записей. Подтверждаю завершение этапа и создание новой папки.</span></label>';
 }
@@ -610,11 +560,11 @@ function stageWizardRender(){
   var d=STAGE_WIZARD;if(!d)return;
   var m=matter(d.sourceId);if(!m||m.archived){toast('Дело уже закрыто');return;}
   d.basis=m.basis; // Always display the basis from the current case.
-  var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardPaymentHTML,stageWizardConfirmHTML][d.step](d,m);
+  var inner=[stageWizardClosureHTML,stageWizardNextHTML,stageWizardTasksHTML,stageWizardConfirmHTML][d.step](d,m);
   // Steps 1–5 share the approved single-surface folder; each keeps
   // its own data bindings and validation.
-  var premiumStep=d.step<=4;
-  var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===4?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===4?'Создать новую папку':'Продолжить')+'</button>';
+  var premiumStep=d.step<=3;
+  var action='<button class="btn stage-wizard-primary" type="button" data-act="'+(d.step===3?'stage-wizard-commit':'stage-wizard-next')+'">'+(d.step===3?'Создать новую папку':'Продолжить')+'</button>';
   var html=premiumStep
     ?'<section class="stage-wizard-card stage-wizard-first-card" aria-label="'+esc(stageStepTitle())+' — шаг '+(d.step+1)+'">'+
       '<div class="stage-wizard-first-header">'+stageWizardHead()+'</div>'+
@@ -629,8 +579,7 @@ function stageWizardRender(){
     panel.classList.add('stage-wizard-first-sheet');
     if(d.step===1)panel.classList.add('stage-wizard-second-sheet');
     if(d.step===2)panel.classList.add('stage-wizard-third-sheet');
-    if(d.step===3)panel.classList.add('stage-wizard-payment-sheet');
-    if(d.step===4)panel.classList.add('stage-wizard-confirm-sheet');
+    if(d.step===3)panel.classList.add('stage-wizard-confirm-sheet');
     mountMatterActionsOutline(panel);
     stageWizardFirstFolderPaint(panel);
     // Independent viewport background, below SVG folder and above old scrim.
@@ -643,7 +592,6 @@ function stageWizardRender(){
       document.body.appendChild(bg);
     }
   }
-  if(d.step===3&&m.basis==='assigned')stageWizardUpdatePaymentTotal();
 }
 function stageWizardUpdatePaymentTotal(){
  var t=document.getElementById('stage-wizard-pay-total');if(!t)return;
@@ -678,9 +626,9 @@ function stageHistoryButtonHTML(m){
 function stageHistorySheet(id){
   var m=matter(id);if(!m)return;
   var related=stageRelatedCases(m);
-  openSheet('<section class="stage-history-sheet"><div class="stage-sheet-title"><button data-act="close" aria-label="Назад">'+ico('left')+'</button><div><small>ЕДИНОЕ ДЕЛО</small><h2>Этапы производства</h2></div></div><p class="stage-wizard-sub">Каждая папка имеет собственные задачи, журнал и расчёты; история всех стадий связана.</p>'+
+  openSheet('<section class="stage-history-sheet"><div class="stage-sheet-title"><button data-act="close" aria-label="Назад">'+ico('left')+'</button><div><small>ЕДИНОЕ ДЕЛО</small><h2>Этапы производства</h2></div></div><p class="stage-wizard-sub">Каждая стадия сохраняет собственные задачи и журнал; история связанных папок доступна отдельно.</p>'+
     '<div class="stage-history-list">'+related.map(function(x,i){return '<button class="stage-history-row" data-act="stage-jump" data-id="'+esc(x.id)+'"><span class="stage-history-order">'+(i+1)+'</span><span><b>'+esc(stageCaseHeading(x))+'</b><small>'+esc(x.stageStartedAt?fmtD(x.stageStartedAt,true):'Начальная папка')+(x.stageClosed?' · до '+esc(fmtD(x.stageClosed.date,true)):'')+'</small></span><em>'+esc(x.archived?'Архив':'В работе')+'</em>'+ico('chev','s')+'</button>';}).join('')+'</div>'+ 
-    (m.basis==='assigned'?'<button class="stage-history-payment-link" data-act="stage-payment-view" data-id="'+esc(id)+'">'+ico('doc','s')+' Расчёт оплаты этой стадии '+ico('chev','s')+'</button>':'')+'</section>');
+    (stagePaymentDrafts(m).length?'<button class="stage-history-payment-link" data-act="stage-payment-view" data-id="'+esc(id)+'">'+ico('doc','s')+' Ранее сохранённый расчёт '+ico('chev','s')+'</button>':'')+'</section>');
   $('#sheet').classList.add('case-stage-sheet');
 }
 function stagePaymentSheet(id){
@@ -701,7 +649,7 @@ function stagePaymentSheet(id){
    '<button class="stage-history-payment-link" data-act="stage-payment-edit" data-id="'+esc(p.id)+'">'+ico('edit','s')+' Проверить и изменить черновик</button>'+ 
    '<button class="stage-history-payment-link" data-act="stage-payment-print" data-id="'+esc(p.id)+'">'+ico('doc','s')+' Печать построчного расчёта</button>'+
    (m.type==='criminal'?'<button class="stage-history-payment-link" data-act="stage-payment-application" data-id="'+esc(p.id)+'">'+ico('doc','s')+' Проект заявления об оплате</button>':'')+'</div>';
- }).join(''):'<p class="stage-wizard-sub">По данной стадии расчёт ещё не создавался. Он формируется при завершении этапа.</p>')+'</section>';
+ }).join(''):'<p class="stage-wizard-sub">Ранее сохранённых расчётов нет. Мастер завершения стадии не формирует расчёт оплаты.</p>')+'</section>';
  openSheet(html);$('#sheet').classList.add('case-stage-sheet');
 }
 function stagePaymentPrint(id){

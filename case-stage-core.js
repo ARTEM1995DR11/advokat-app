@@ -131,38 +131,8 @@ function stagePrepareNewMatter(src,d,id,now){
   out.title=matterAutoTitle(out);
   return out;
 }
-function stageBuildPaymentDraft(src,d,now,operationId){
-  // Stage 4: PAYMENT IS STRICTLY FOR APPOINTED COUNSEL. Never create
-  // a claim, fee line or agreement receipt for contractual engagements.
-  if(!src||src.basis!=='assigned')return null;
-  var pay=d.payment||{},rows=[],sum=0,seen=new Set();
-  var candidateDates=new Set(appointmentFeeDays(src,d.closeDate).map(function(x){return x.date;}));
-  (Array.isArray(pay.lines)?pay.lines:[]).forEach(function(line){
-    if(!candidateDates.has(line.date)||seen.has(line.date))return;
-    seen.add(line.date);
-    var rate=appointmentFeeMoney(line.rate),included=!!line.included,claimed=!!line.alreadyClaimed;
-    var original=appointmentFeeDays(src,d.closeDate).find(function(x){return x.date===line.date;});
-    if(included&&!claimed)sum+=rate;
-    rows.push({date:line.date,kind:(original&&original.kind)||'other',
-      desc:(original&&original.desc)||'',place:(original&&original.place)||'',
-      participationIds:(original&&original.participationIds)||[],taskIds:(original&&original.taskIds)||[],source:(original&&original.source)||'participation',
-      rate:rate,included:included,alreadyClaimed:claimed,
-      dayType:appointmentFeeDayType(line.dayType,line.date),
-      proof:String(line.proof||'').trim().slice(0,500),verified:!!line.verified,
-      requiresRateCheck:included&&!claimed&&(!rate||!line.verified||!String(line.proof||'').trim())});
-  });
-  rows.sort(function(a,b){return a.date.localeCompare(b.date);});
-  var active=rows.filter(function(x){return x.included&&!x.alreadyClaimed;});
-  var requiresReview=!active.length||rows.some(function(x){return x.requiresRateCheck;});
-  return {id:'stage-payment-'+uid(),mid:String(src.id),caseGroupId:stageCaseGroupId(src),
-    operationId:operationId,basis:'assigned',mode:'assigned',status:'draft',
-    createdAt:now,periodEnd:d.closeDate,lines:rows,
-    category:appointmentFeeCategory(pay.category),
-    rateSource:'ПП РФ № 1240, пп. 22(1), 23; ПП РФ № 1191 (с 01.10.2025). Категория и подтверждения выбирает адвокат.',
-    total:appointmentFeeMoney(sum),needsReview:requiresReview,
-    note:String(pay.note||'').trim().slice(0,1500),
-    disclaimer:'Предварительный расчёт по назначению. Проверить дни занятости, категорию, подтверждения, выплаты и действовавшую редакцию ставок. Не является заявлением или документом о начислении.'};
-}
+/* Appointment fee draft generation is deliberately not part of closing a stage.
+   Pre-existing stagePayments are preserved as historical user records. */
 /* One serialized encrypted snapshot: before closing the old dossier, check
    all inputs; on failed write roll state back (including journal/linked task IDs). */
 var STAGE_COMMIT_BUSY=false;
@@ -173,7 +143,7 @@ async function stageCommitTransfer(d){
   try{
     var src=matter(d.sourceId);
     // A repeated request with the same token returns the already committed
-    // result and never creates a second folder, fee draft or journal event.
+    // result and never creates a second folder or journal event.
     if(src&&src.stageClosed&&d.operationId&&src.stageClosed.operationId===d.operationId){
       var oldNext=matter(src.stageClosed.nextStageId);
       if(oldNext)return {newId:String(oldNext.id),operationId:d.operationId,
@@ -242,9 +212,6 @@ async function stageCommitTransfer(d){
       if(t.kind==='hearing'&&!hearingMatterIsJudicial(next))normalizeHearingKindByMatter(t,next);
       moved.push(t);
     });
-    S.stagePayments=S.stagePayments||[];
-    var payment=stageBuildPaymentDraft(src,d,now,op);
-    if(payment)S.stagePayments.unshift(payment);
     addJournal(src.id,'Этап завершён: '+String(d.result).trim()+'.'+(String(d.note||'').trim()?' '+String(d.note).trim():''),d.closeDate,'closure',true);
     addJournal(src.id,'Продолжение дела: «'+stageCaseHeading(next)+'». Перенесено записей: '+moved.length,d.closeDate,'system',true);
     addJournal(newId,'Создан новый этап из папки «'+stageCaseHeading(src)+'». Перенесено записей: '+moved.length,d.startDate,'system',true);
@@ -254,7 +221,7 @@ async function stageCommitTransfer(d){
     });
     var ok=await persistNow();
     if(!ok)throw new Error('Не удалось записать изменения в защищённую базу');
-    return {newId:newId,operationId:op,moved:moved.length,paymentId:payment?payment.id:null};
+    return {newId:newId,operationId:op,moved:moved.length,paymentId:null};
   }catch(e){if(before){S=before;mem=clone(S);}throw e;}
   finally{STAGE_COMMIT_BUSY=false;}
 }
