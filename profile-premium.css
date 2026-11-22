@@ -1,4 +1,4 @@
-/* Premium advocate profile — 5.0.1297.41.66.51, scoped to sheet. */
+/* Premium advocate profile — 5.0.1297.41.66.52, scoped to sheet. */
 body.light #sheet.profile-premium-v51,
 #sheet.profile-premium-v51{
   z-index:42!important;
@@ -126,6 +126,24 @@ body.light #sheet.profile-premium-v51,
   filter:drop-shadow(0 1px 1px #a2661233);
 }
 #sheet.profile-premium-v51 .profile51-row input,
+/* Status is a fixed presentation value, NOT an editable input/dropdown. */
+#sheet.profile-premium-v51 .profile51-status-fixed{
+  display:flex!important;
+  align-items:center!important;
+  height:46px!important;
+  min-height:46px!important;
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  padding:0 11px!important;
+  font:400 16px/1.1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  color:#14203b!important;
+  background:linear-gradient(110deg,#faf7f1,#f2e9dc)!important;
+  border:1px solid #ded1c5!important;
+  border-radius:13px!important;
+  box-shadow:inset 0 1px 3px #8a6e5420!important;
+  cursor:default!important;
+}
 #sheet.profile-premium-v51 .profile51-row select{
   display:block!important;
   height:46px!important;

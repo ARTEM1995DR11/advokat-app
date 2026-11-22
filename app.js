@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.51';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6491';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.52';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6492';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4788,7 +4788,7 @@ function renderMore(){
     '<button type="button" class="more50-profile" data-act="profile" aria-label="Открыть профиль адвоката">'+
       '<span class="more50-profile-art"><img src="'+esc(profileAvatarSource())+'" alt="" draggable="false"></span>'+
       '<span class="more50-profile-divider" aria-hidden="true"></span>'+
-      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>'+esc(S.settings.profileStatus||'Адвокат')+'</small></span>'+
+      '<span class="more50-profile-copy"><strong>'+esc(profileName)+'</strong><small>Адвокат</small></span>'+
       '<span class="more50-profile-chevron" aria-hidden="true">'+ico('chev','s')+'</span>'+
     '</button>'+
     '<div class="more50-section-heading" aria-label="Основные инструменты"><i></i><b>ОСНОВНЫЕ ИНСТРУМЕНТЫ</b><i></i></div>'+
@@ -8938,26 +8938,25 @@ function legacyCopy(text){
 /* Profile v6491: visual design from the approved marble-and-gold mockup.
    Legacy pay rates and backup preferences remain in storage, not in this form. */
 var PROFILE_PHOTO_DRAFT=null;
-function profileField(iconName,label,id,inputHtml){
-  return '<div class="profile51-row"><label for="'+esc(id)+'" class="profile51-label">'+
+function profileField(iconName,label,id,inputHtml,isStatic){
+  var tag=isStatic?'span':'label';
+  return '<div class="profile51-row"><'+tag+(isStatic?'':' for="'+esc(id)+'"')+' class="profile51-label">'+
     '<span class="profile51-field-icon" aria-hidden="true">'+ico(iconName,'s')+'</span>'+
-    '<span>'+esc(label)+'</span></label>'+inputHtml+'</div>';
+    '<span>'+esc(label)+'</span></'+tag+'>'+inputHtml+'</div>';
 }
 function sheetProfile(){
   PROFILE_PHOTO_DRAFT=null;
   var st=S.settings||{},avatar=profileAvatarSource(),person=st.name||'Адвокат';
-  var optionList=['Адвокат','Юрист','Помощник адвоката','Стажёр адвоката'];
-  var stat=st.profileStatus||'Адвокат';if(optionList.indexOf(stat)<0)optionList.push(stat);
-  var choices=optionList.map(function(x){return '<option value="'+esc(x)+'"'+(stat===x?' selected':'')+'>'+esc(x)+'</option>';}).join('');
+  // Статус в приложении фиксирован: никакого выбора или редактирования.
   var head='<div class="profile51-heading"><h2>Профиль</h2><p>Основные сведения адвоката и настройки профиля.</p></div>'+
     '<div class="profile51-identity">'+
       '<span class="profile51-portrait"><img id="p-photo-preview" src="'+esc(avatar)+'" alt="Изображение профиля" draggable="false"></span>'+
       '<i class="profile51-rule" aria-hidden="true"></i>'+
-      '<span class="profile51-identity-copy"><strong id="p-name-preview">'+esc(person)+'</strong><small><span aria-hidden="true">'+ico('brief','s')+'</span><span id="p-status-preview">'+esc(stat)+'</span></small></span>'+
+      '<span class="profile51-identity-copy"><strong id="p-name-preview">'+esc(person)+'</strong><small><span aria-hidden="true">'+ico('brief','s')+'</span><span id="p-status-preview">Адвокат</span></small></span>'+
     '</div>';
   var fields='<div class="profile51-fields">'+
     profileField('user','ФИО','p-name','<input id="p-name" type="text" autocomplete="name" maxlength="140" value="'+esc(st.name||'')+'" placeholder="Укажите ФИО">')+
-    profileField('brief','Статус','p-status','<select id="p-status" data-premium-ready="1">'+choices+'</select>')+
+    profileField('brief','Статус','p-status','<span id="p-status" class="profile51-status-fixed">Адвокат</span>',true)+
     profileField('phone','Телефон','p-phone','<input id="p-phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" value="'+esc(st.profilePhone||'')+'" placeholder="+7 (___) ___-__-__">')+
     profileField('mail','Email','p-email','<input id="p-email" type="email" autocomplete="email" inputmode="email" maxlength="150" value="'+esc(st.profileEmail||'')+'" placeholder="Адрес электронной почты">')+
     profileField('court','Регион / палата','p-chamber','<input id="p-chamber" type="text" maxlength="140" value="'+esc(st.profileChamber||'')+'" placeholder="Например, Ивановская область">')+
@@ -8994,13 +8993,13 @@ function profilePhotoFromFile(file){
   im.src=uri;
 }
 function profileSave(){
-  var nameField=$('#p-name'),statusField=$('#p-status'),phoneField=$('#p-phone'),emailField=$('#p-email');
+  var nameField=$('#p-name'),phoneField=$('#p-phone'),emailField=$('#p-email');
   var chamberField=$('#p-chamber'),registryField=$('#p-registry');
-  if(!nameField||!statusField||!phoneField||!emailField||!chamberField||!registryField)return;
+  if(!nameField||!phoneField||!emailField||!chamberField||!registryField)return;
   var email=emailField.value.trim();
   if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Проверьте адрес электронной почты');emailField.focus();return;}
   S.settings.name=nameField.value.trim();
-  S.settings.profileStatus=statusField.value;
+  S.settings.profileStatus='Адвокат';
   S.settings.profilePhone=phoneField.value.trim();
   S.settings.profileEmail=email;
   S.settings.profileChamber=chamberField.value.trim();
@@ -9870,7 +9869,6 @@ document.addEventListener('click', function(ev){
 });
 document.addEventListener('change',function(e){
   if(e.target&&e.target.id==='p-photo-file'){profilePhotoFromFile((e.target.files||[])[0]);e.target.value='';return;}
-  if(e.target&&e.target.id==='p-status'){var preview=$('#p-status-preview');if(preview)preview.textContent=e.target.value;}
   if(e.__advokatChangeHandled)return; e.__advokatChangeHandled=true;
   setTimeout(enforceHearingStageCompatibilityInEditor,0);
 
