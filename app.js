@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.66';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6509';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.70';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6510';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -9324,7 +9324,8 @@ function sheetNotify(){
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
       '<span class="rem116-card-icon" aria-hidden="true"><img class="rem118-card-glyph" src="reminder-card-bell-v6508.svg?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
-      '<div class="rem116-card-copy"><h3>'+meta.title+'</h3><p>'+stateText+'</p><span class="rem116-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span></div>'+
+      '<div class="rem116-card-copy"><h3>'+meta.title+'</h3><p>'+stateText+'</p></div>'+
+      '<span class="rem116-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span>'+
       '<span class="rem116-chevron">'+ico('chev','s')+'</span>'+
     '</article>'+
     '<article class="rem116-card rem116-card-calendar">'+
