@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.60';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6500';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.61';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6501';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4965,18 +4965,31 @@ function sheetSettings57Clear(){
     settings60Info('Перед очисткой обязательно создайте и проверьте отдельную резервную копию.','warning');
   settings60Page('Очистка данных','Контроль удаления сохранённых записей','clear',body);
 }
+/* V61: one premium backup screen for both Settings and «Ещё».
+   The same existing encrypted-file + printable-report operation is preserved. */
 function sheetBackup(){
-  var bs=backupPlanStats(),last=S.settings.lastBackup;
-  var label=last?new Date(last).toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Копия ещё не создавалась';
-  var body='<div class="settings60-backup-status">'+ico('arch','l')+'<div><b>Последняя резервная копия</b><p>'+esc(label)+'</p></div></div>'+
+  var bs=backupPlanStats(), last=S.settings.lastBackup;
+  var label='Копия ещё не создавалась';
+  if(last){
+    var when=new Date(last);
+    if(!isNaN(when.getTime()))label=when.toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  }
+  var body='<div class="settings60-minihead"><span>ДВА ФОРМАТА ОДНИМ ДЕЙСТВИЕМ</span><i></i></div>'+
+    settings60Card('<div class="settings61-formats">'+
+      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('lock','s')+'</span><div><strong>Зашифрованная копия</strong><small>Файл для полного восстановления приложения. Защищён отдельным паролем.</small></div></div>'+
+      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('doc','s')+'</span><div><strong>Читаемая сводка</strong><small>После сохранения базы откроется отчёт для печати или сохранения в PDF.</small></div></div>'+
+    '</div>','settings61-formats-card')+
+    '<div class="settings60-minihead"><span>СОСТОЯНИЕ КОПИИ</span><i></i></div>'+
+    '<div class="settings60-backup-status">'+ico('arch','l')+'<div><b>Последнее резервирование</b><p>'+esc(label)+'</p></div></div>'+
     '<div class="settings60-backup-stats"><div><b>'+bs.tasks+'</b><span>задач</span></div><div><b>'+bs.hearings+'</b><span>заседаний</span></div><div><b>'+bs.deadlines+'</b><span>сроков</span></div></div>'+
-    '<div class="settings60-minihead"><span>НОВАЯ ЗАШИФРОВАННАЯ КОПИЯ</span><i></i></div>'+
-    settings60Card('<div class="settings60-form"><label for="bk-pass">Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Введите отдельный пароль">'+
-      '<label for="bk-pass2">Подтверждение пароля</label><input id="bk-pass2" type="password" autocomplete="new-password" placeholder="Повторите пароль">'+
-      '<button type="button" class="settings60-gold-action" data-act="backup-create">Создать резервную копию</button></div>')+
-    settings60Card(settings60Line('Восстановить из копии','Выбрать зашифрованный файл','restore','arch'),'settings60-single-action')+
-    settings60Info('Создаётся зашифрованный файл для полного восстановления и печатная сводка планов. Сохраните файл в надёжном месте: сама PWA не отправляет его в облако.','');
-  settings60Page('Резервное копирование','Сохранение и восстановление рабочей базы','backup',body);
+    '<div class="settings60-minihead"><span>ПАРОЛЬ РЕЗЕРВНОЙ КОПИИ</span><i></i></div>'+
+    settings60Card('<div class="settings60-form settings61-backup-form">'+
+      '<label for="bk-pass">Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Придумайте отдельный пароль" minlength="6" autocapitalize="off" spellcheck="false">'+
+      '<label for="bk-pass2">Повторите пароль</label><input id="bk-pass2" type="password" autocomplete="new-password" placeholder="Введите пароль ещё раз" minlength="6" autocapitalize="off" spellcheck="false">'+
+      '<button type="button" class="settings60-gold-action" data-act="backup-create">Сохранить обе копии</button></div>')+
+    settings60Info('Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.','warning')+
+    settings60Card(settings60Line('Восстановить из копии','Открыть сохранённый зашифрованный файл','restore','arch'),'settings60-single-action');
+  settings60Page('Резервная копия планов','Защищённая база и сводка для печати','backup',body);
 }
 
 function rowSw(i,t,s,act,on){
@@ -8877,14 +8890,8 @@ function openBackupReadableReport(){
   printHTML('Ежедневник адвоката','Читаемая резервная копия · '+fmtD(today(),true),rows,'Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')+'. Сохраните документ как PDF.',backupReadableText());
   setTimeout(function(){ try{ doPrint(); }catch(e){} }, 220);
 }
-function sheetBackup(){
-  var bs=backupPlanStats();
-  openSheet('<h2>Резервная копия планов</h2><p class="sh-sub">По одной кнопке создаются сразу две копии: <b>зашифрованный файл</b> для полного восстановления приложения и <b>читаемая копия в PDF</b>, чтобы при необходимости вручную перенести заседания, сроки и задачи.</p>'+
-    '<div class="backup-sheet-counts"><span>'+bs.tasks+' задач</span><span>'+bs.hearings+' заседаний</span><span>'+bs.deadlines+' сроков</span></div>'+
-    '<div class="fld"><label>Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Запомните этот пароль"></div>'+
-    '<div class="fld"><label>Повторите пароль</label><input id="bk-pass2" type="password" autocomplete="new-password"></div>'+
-    '<div class="hint">Пароль нужен только для зашифрованного файла восстановления. После его сохранения приложение сразу откроет читаемую копию для печати / сохранения в PDF.</div><button class="btn" data-act="backup-create">Сохранить обе копии</button>');
-}
+/* V61: the legacy duplicate sheetBackup() was removed. */
+
 async function createBackupFile(){
   var a=$('#bk-pass').value,b=$('#bk-pass2').value;if(a.length<6){toast('Минимум 6 символов');return;}if(a!==b){toast('Пароли не совпадают');return;}
   try{
