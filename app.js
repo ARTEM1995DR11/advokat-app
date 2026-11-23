@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.64';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6504';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.66';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6506';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4859,7 +4859,7 @@ function renderMore(){
    returns with the Back arrow or a horizontal swipe. This is in-memory UI
    navigation only; it never changes the lawyer's stored records. */
 var SETTINGS57_CHILD_ACTIVE=false;
-/* Settings v64: three groups, five distinct rows; backup is accessed from More only. */
+/* Settings v66: two groups, four distinct rows; reminders and backup are accessed from More only. */
 function settings57Row(icon,title,desc,act){
   return '<button class="settings57-row" type="button" data-act="'+esc(act)+'" aria-label="'+esc(title)+'">'+
     '<span class="settings57-art" aria-hidden="true"><img src="settings57-'+esc(icon)+'.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
@@ -4881,8 +4881,6 @@ function sheetMoreService(){
       settings57Row('pin','Код доступа','Установка, изменение и отключение PIN-кода','pin')+
       settings57Row('lock','Автоматическая блокировка','Блокировка приложения при бездействии','settings57-auto')+
       settings57Row('privacy','Конфиденциальность','Скрытие персональных данных в уведомлениях','settings57-privacy'))+
-    settings57Section('Напоминания и уведомления','bell',
-      settings57Row('notify','Параметры уведомлений','Виды событий и время предварительных напоминаний','notify-sheet'))+
     settings57Section('Управление данными','arch',
       settings57Row('clear','Очистка данных','Удаление выбранных данных с подтверждением','settings57-clear'))+
     '</main>';
