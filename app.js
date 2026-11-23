@@ -2762,6 +2762,7 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; requestAnimationFrame(function(){advUpgradeIconSurfaces(p);}); }
 function closeAll(){
+  settings67DismissDialog();
   SETTINGS57_CHILD_ACTIVE=false;
   if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
   if(typeof STAGE_HEARING_NAV!=='undefined')STAGE_HEARING_NAV=null;
@@ -2770,7 +2771,7 @@ function closeAll(){
   matterActionReturnReset();
   document.body.classList.remove('stage-hearings-backdrop-open','dossier-status-masked','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); if(LIST_PICKER)closePremiumListPicker(); if(TIME_PICKER)closePremiumTimePicker(); if(DATE_PICKER)closePremiumDatePicker(); document.body.classList.remove('journal-sheet-open','premium-matter-picker-open','task-filter-open','matter-filter-open'); $('#sheet').classList.remove('open'); $('#page').classList.remove('open');
   $('#page')._mid=null; $('#page')._navType=''; $('#scrim').classList.remove('open'); }
-function closeSheet(){ SETTINGS57_CHILD_ACTIVE=false; if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove(); if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
+function closeSheet(){ settings67DismissDialog(); SETTINGS57_CHILD_ACTIVE=false; if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove(); if(JOURNAL_FOUNDATION_OBSERVER){JOURNAL_FOUNDATION_OBSERVER.disconnect();JOURNAL_FOUNDATION_OBSERVER=null;} if(FINISH_OUTCOME_OPEN)closeMatterFinishOutcomePicker();matterActionReturnReset(); document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','task-filter-open','matter-filter-open','premium-matter-picker-open','matter-actions-open','matter-event-backdrop-open','matter-event-dossier-backdrop-open','matter-finish-backdrop-open','matter-archive-backdrop-open','matter-export-backdrop-open'); var sh=$('#sheet');
   sh.style.removeProperty('transform');
   sh.style.removeProperty('opacity');
   sh.classList.remove('open');
@@ -4941,6 +4942,76 @@ function sheetSettings57Privacy(){
 function settings60DeleteCount(){
   return S.tasks.filter(function(t){return t.done && !(t.kind==='hearing'&&t.hearingResultStatus) && !(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;
 }
+/* V67: Premium destructive-action confirmation instead of iOS native confirm().
+   Modal lives above the Settings sheet; real deletions happen only on a
+   separate explicit confirmation click. No records change on cancel. */
+function settings67DeleteDialog(kind,count){
+  if(document.getElementById('settings67-dialog'))return;
+  if(kind!=='done'&&kind!=='wipe')return;
+  var danger=kind==='wipe';
+  var title=danger?'Удалить все данные приложения?':'Удалить '+Number(count||0)+' выполненных задач?';
+  var description=danger?
+    'Все дела, задачи, события и записи журнала будут удалены. Восстановление возможно только из отдельной резервной копии.':
+    'Результаты судебных заседаний останутся в истории.';
+  var root=document.createElement('div');
+  root.id='settings67-dialog';root.className='settings67-dialog-root';
+  root.dataset.kind=kind;root._returnFocus=document.activeElement;
+  root.innerHTML='<div class="settings67-dialog-veil" data-act="settings67-dialog-cancel" aria-hidden="true"></div>'+
+    '<section class="settings67-dialog-card" role="alertdialog" aria-modal="true" aria-labelledby="settings67-dialog-title" aria-describedby="settings67-dialog-desc">'+
+      '<h2 id="settings67-dialog-title">'+esc(title)+'</h2>'+
+      '<p id="settings67-dialog-desc">'+esc(description)+'</p>'+
+      '<div class="settings67-dialog-actions">'+
+        '<button type="button" class="settings67-dialog-cancel" data-act="settings67-dialog-cancel">Отмена</button>'+
+        '<button type="button" class="settings67-dialog-delete" data-act="settings67-dialog-delete">Удалить</button>'+
+      '</div></section>';
+  document.body.appendChild(root);
+  root.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();settings67DismissDialog();return;}
+    if(e.key==='Tab'){
+      var buttons=root.querySelectorAll('.settings67-dialog-card button');
+      if(!buttons.length)return;
+      var first=buttons[0],last=buttons[buttons.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  });
+  var cancel=root.querySelector('.settings67-dialog-cancel');
+  if(cancel)try{cancel.focus({preventScroll:true});}catch(_){cancel.focus();}
+}
+function settings67DismissDialog(){
+  var root=document.getElementById('settings67-dialog');
+  if(!root)return;
+  var focusTarget=root._returnFocus;
+  root.remove();
+  if(focusTarget&&focusTarget.isConnected&&typeof focusTarget.focus==='function'){
+    try{focusTarget.focus({preventScroll:true});}catch(_){focusTarget.focus();}
+  }
+}
+function settings67CommitDelete(){
+  var root=document.getElementById('settings67-dialog');
+  if(!root)return;
+  var kind=root.dataset.kind;
+  settings67DismissDialog();
+  if(kind==='done'){
+    var n=settings60DeleteCount();
+    if(!n){toast('Нет выполненных задач для удаления');return;}
+    // Preserve all completed hearings with recorded results and archived matters.
+    S.tasks=S.tasks.filter(function(t){
+      return !t.done||(t.kind==='hearing'&&t.hearingResultStatus)||
+        (t.mid&&matter(t.mid)&&matter(t.mid).archived);
+    });
+    save();render();
+    if($('#sheet').classList.contains('settings60-child-sheet'))sheetSettings57Clear();
+    toast('Выполненные задачи удалены');
+  }else if(kind==='wipe'){
+    var field=$('#settings60-confirm');
+    if(!field||field.value.trim().toUpperCase()!=='УДАЛИТЬ'){
+      toast('Для подтверждения введите УДАЛИТЬ');return;
+    }
+    // The typed word AND the styled confirmation replace both native prompts.
+    wipeAll(true);
+  }
+}
 function sheetSettings57Clear(){
   var n=settings60DeleteCount();
   var body='<div class="settings60-minihead"><span>ОЧИСТКА ЗАПИСЕЙ</span><i></i></div>'+
@@ -5047,6 +5118,7 @@ function go(tab,replaceHistory,transition,preserveCalendarDate){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  if(document.getElementById('settings67-dialog')){settings67DismissDialog();vib(5);return true;}
   if(typeof stageWizardHearingBack==='function' && typeof STAGE_HEARING_NAV!=='undefined' && STAGE_HEARING_NAV && STAGE_HEARING_NAV.mode==='list' && document.getElementById('stage-hearings-overlay')){stageWizardHearingBack();vib(5);return true;}
   if(FINISH_OUTCOME_OPEN){closeMatterFinishOutcomePicker();vib(5);return true;}
   if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
@@ -9366,8 +9438,8 @@ function showIntro(){
   '<button class="btn" data-act="new-matter">Завести первое дело</button><button class="btn ghost" data-act="quick-add" style="margin-top:8px">Быстрая запись</button>'+
   '<button class="btn ghost" data-act="demo" style="margin-top:8px">Загрузить примеры</button><button class="btn danger" data-act="skip">Закрыть</button>');
 }
-async function wipeAll(){
-  if(!confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
+async function wipeAll(premiumConfirmed){
+  if(premiumConfirmed!==true && !confirm('Удалить ВСЕ локальные данные: дела, задачи, дни участия и журнал? Рекомендуется сначала создать резервную копию.'))return;
   try{await clearSecureStorage();}catch(e){toast('Не удалось очистить защищённое хранилище. Перезапустите приложение.');return;}
   S.settings.seen=false;S.ui.q='';S.ui.taskChip='';S.ui.taskType='';S.ui.showArch=false;S.ui.matterType='';S.ui.matterBasis='';S.ui.matterStage='';S.ui.matterScope='active';S.ui.matterStatus='';S.ui.matterSort='priority';S.ui.matterQ='';S.ui.matterSearchOpen=false;save();closeAll();go('today');toast('Все данные удалены');setTimeout(showIntro,320);
 }
@@ -9704,9 +9776,10 @@ document.addEventListener('click', function(ev){
     case 'settings60-wipe-confirm': {
       var val=$('#settings60-confirm');
       if(!val || val.value.trim().toUpperCase()!=='УДАЛИТЬ'){toast('Для подтверждения введите УДАЛИТЬ');break;}
-      if(!confirm('Вы действительно хотите безвозвратно удалить ВСЕ адвокатские дела, задачи и записи на этом устройстве?'))break;
-      wipeAll();break;
+      settings67DeleteDialog('wipe');break;
     }
+    case 'settings67-dialog-cancel': settings67DismissDialog();break;
+    case 'settings67-dialog-delete': settings67CommitDelete();break;
 
     case 'settings57-wipe-confirm': if(confirm('Удаление базы приведёт к потере всех дел и записей. Вы сохранили резервную копию?'))wipeAll(); break;
     case 'global-search-suggestion': {GQ=v||''; var gqi=$('#gq'); if(gqi){gqi.value=GQ; gqi.focus();} renderGlobalSearch(); break;}
@@ -10093,7 +10166,7 @@ document.addEventListener('click', function(ev){
     case 'backup-sheet': sheetBackup();break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
-    case 'clearDone': {var n=S.tasks.filter(function(t){return t.done&&!(t.kind==='hearing'&&t.hearingResultStatus)&&!(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;if(!n){toast('Нет выполненных задач для удаления');break;}if(confirm('Удалить '+n+' выполненных задач? Результаты судебных заседаний останутся в истории.')){S.tasks=S.tasks.filter(function(t){return !t.done||(t.kind==='hearing'&&t.hearingResultStatus)||(t.mid&&matter(t.mid)&&matter(t.mid).archived);});save();render();if($('#sheet').classList.contains('settings60-child-sheet'))sheetSettings57Clear();toast('Выполненные задачи удалены');}break;}
+    case 'clearDone': {var n=settings60DeleteCount();if(!n){toast('Нет выполненных задач для удаления');break;}settings67DeleteDialog('done',n);break;}
     case 'calendar-qa-open': openCalendarQaDay();break;
     case 'calendar-qa-remove': removeCalendarQaDay();break;
     case 'demo-scenario-open': openDemoScenario1165();break;
@@ -10352,6 +10425,7 @@ document.addEventListener('gesturestart',function(e){e.preventDefault();});
 var EDGE_SWIPE={on:false,choice:false,x:0,y:0,dx:0,dy:0,moved:false};
 document.addEventListener('touchstart',function(e){
   EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
+  if(document.getElementById('settings67-dialog')) return;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0],sh=$('#sheet');
   // 6489: «Дела» category lists are ordinary main-screen routes, not overlays.

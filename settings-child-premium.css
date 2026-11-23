@@ -123,3 +123,57 @@
  #sheet.settings60-child-sheet .settings61-format-icon svg{width:22px;height:22px}
  #sheet.settings60-child-sheet .settings61-format strong{font-size:15px}
 }
+
+/* v6507 — Premium confirmation for deleting completed tasks / resetting data.
+   Keep this overlay on top of the full-screen Settings sheet and native UI. */
+#settings67-dialog.settings67-dialog-root{
+ position:fixed;inset:0;z-index:3500;box-sizing:border-box;
+ display:flex;align-items:center;justify-content:center;
+ padding:max(18px,env(safe-area-inset-top,0px)) 18px max(18px,env(safe-area-inset-bottom,0px));
+ isolation:isolate;
+}
+#settings67-dialog .settings67-dialog-veil{
+ position:absolute;inset:0;background:rgba(18,25,31,.48);
+ backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+}
+#settings67-dialog .settings67-dialog-card{
+ position:relative;z-index:1;box-sizing:border-box;width:min(100%,440px);max-height:calc(100dvh - 36px);overflow-y:auto;
+ border:1.6px solid #c5944f;border-radius:25px;
+ padding:24px 22px 20px;
+ background:linear-gradient(145deg,#fffbf3 0%,#fff7eb 51%,#f7ead7 100%);
+ box-shadow:0 15px 40px rgba(34,29,24,.30),inset 0 1px 0 #fffdfb,0 2px 0 rgba(162,110,38,.34);
+ text-align:center;color:#11213e;-webkit-overflow-scrolling:touch;
+}
+#settings67-dialog .settings67-dialog-card h2{
+ color:#11213e!important;margin:2px 0 14px!important;
+ font:700 clamp(21px,5.7vw,28px)/1.16 Georgia,'Times New Roman',serif!important;
+ letter-spacing:-.018em!important;hyphens:none;overflow-wrap:normal;
+}
+#settings67-dialog .settings67-dialog-card p{
+ color:#3a4960!important;margin:0 auto 24px!important;max-width:345px;
+ font:400 clamp(15px,4.15vw,17px)/1.45 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+ hyphens:none;
+}
+#settings67-dialog .settings67-dialog-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+#settings67-dialog .settings67-dialog-actions button{
+ display:flex;align-items:center;justify-content:center;min-height:49px;min-width:0;
+ box-sizing:border-box;margin:0;padding:10px 8px;border-radius:14px;
+ font:700 clamp(16px,4.5vw,19px)/1.12 Georgia,'Times New Roman',serif;
+ cursor:pointer;-webkit-tap-highlight-color:transparent;
+ box-shadow:inset 0 1px rgba(255,255,255,.85);touch-action:manipulation;
+}
+#settings67-dialog .settings67-dialog-cancel{
+ color:#142441;border:1.3px solid #c99b62;
+ background:linear-gradient(145deg,#fffbf5,#f0e1ca);
+}
+#settings67-dialog .settings67-dialog-delete{
+ color:#913e2e;border:1.3px solid #bb7357;
+ background:linear-gradient(145deg,#fff7f1,#f3e6dc);
+}
+#settings67-dialog .settings67-dialog-actions button:active{transform:translateY(1px);filter:brightness(.97)}
+#settings67-dialog .settings67-dialog-actions button:focus-visible{outline:3px solid #b78731;outline-offset:3px}
+@media(max-width:350px){
+ #settings67-dialog .settings67-dialog-card{padding:21px 16px 16px;border-radius:21px}
+ #settings67-dialog .settings67-dialog-actions{gap:9px}
+}
+@media(prefers-reduced-motion:reduce){#settings67-dialog .settings67-dialog-actions button{transition:none}}
