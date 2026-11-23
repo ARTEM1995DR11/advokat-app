@@ -201,31 +201,52 @@
   transform:none!important;
   filter:none!important;
 }
-/* Notification text is content-height driven, and the status is kept after
-   the complete paragraph instead of covering its final line on narrow iPhones. */
+/* v6509: Keep the notification state inside the first card, below its
+   description.  The previous CSS kept the original paragraph bottom margin
+   and added a second margin above the badge; on iPhone this stacked spacing
+   pushed the chip outside the gold border.  Use an intrinsic content column
+   and leave an actual lower inset.  Only the local-notifications card is
+   affected; all other notification states use the same layout. */
 #sheet.reminders-approved-v117-sheet .rem116-card-local{
   height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding-bottom:16px!important;
+  box-sizing:border-box!important;
 }
 #sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-card-copy{
-  min-width:0;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
   overflow:visible!important;
+  padding-bottom:0!important;
 }
 #sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-card-copy>p{
-  display:block;
+  display:block!important;
+  height:auto!important;
   max-height:none!important;
+  margin:6px 0 0!important;
   overflow:visible!important;
 }
 #sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-status{
-  position:relative!important;
+  position:static!important;
+  inset:auto!important;
   top:auto!important;
   right:auto!important;
   bottom:auto!important;
   left:auto!important;
   transform:none!important;
   display:inline-flex!important;
-  align-items:center;
-  max-width:100%;
-  box-sizing:border-box;
-  margin:10px 0 0!important;
+  align-items:center!important;
+  align-self:flex-start!important;
+  flex:0 0 auto!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  margin:9px 0 0!important;
   vertical-align:top;
 }
