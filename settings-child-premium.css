@@ -179,64 +179,73 @@
 @media(prefers-reduced-motion:reduce){#settings67-dialog .settings67-dialog-actions button{transition:none}}
 
 
-/* v6508 — Reminders: restore balanced gold pictograms in the two existing
-   illustrated tiles. The tiles, paper backgrounds and card framing stay intact. */
+
+/* v6511 — Reminders: keep the approved .70 fix for the status badge, but restore
+   the earlier visual composition from the approved mockup: large square icon pads,
+   roomy card geometry and the badge as a separate line under the first paragraph.
+   New gold SVG pictograms remain in use. */
+#sheet.reminders-approved-v117-sheet .rem116-card{
+  box-sizing:border-box!important;
+}
 #sheet.reminders-approved-v117-sheet .rem116-card .rem116-card-icon{
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   padding:0!important;
   line-height:0!important;
-  box-sizing:border-box;
+  box-sizing:border-box!important;
 }
 #sheet.reminders-approved-v117-sheet .rem116-card-icon .rem118-card-glyph{
   display:block!important;
-  width:min(48px, 90%)!important;
-  height:min(48px, 90%)!important;
-  max-width:100%;
-  max-height:100%;
+  width:clamp(40px,11vw,52px)!important;
+  height:clamp(40px,11vw,52px)!important;
+  max-width:100%!important;
+  max-height:100%!important;
   flex:none!important;
   object-fit:contain!important;
   object-position:center!important;
   transform:none!important;
   filter:none!important;
 }
-/* v6510 — robust two-row layout for the local reminder status.
-   Crucial: badge is a SIBLING of the description, not part of its copy box.
-   The card is its own intrinsic-height grid even if legacy reminder styles
-   assigned the copy/badge absolute positions or a fixed-height row. */
-#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local{
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local,
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar{
   display:grid!important;
-  grid-template-columns:clamp(46px,13.6vw,62px) minmax(0,1fr) 16px!important;
-  grid-template-rows:auto auto!important;
-  grid-template-areas:"icon copy arrow" ". state ."!important;
-  grid-auto-flow:row!important;
+  grid-template-columns:clamp(80px,22vw,98px) minmax(0,1fr) 20px!important;
   align-items:start!important;
-  align-content:start!important;
-  column-gap:10px!important;
-  row-gap:7px!important;
+  column-gap:16px!important;
   box-sizing:border-box!important;
   width:100%!important;
-  height:auto!important;
   min-height:0!important;
   max-height:none!important;
   aspect-ratio:auto!important;
-  padding:12px 13px 16px!important;
+  padding:18px 16px!important;
 }
-#sheet.reminders-approved-v117-sheet .rem116-card-local>.rem116-card-icon{
-  grid-area:icon!important;
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local{
+  grid-template-rows:auto auto!important;
+  grid-template-areas:
+    "icon copy arrow"
+    "icon state arrow"!important;
+  row-gap:12px!important;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar{
+  grid-template-areas:"icon copy arrow"!important;
+  row-gap:0!important;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-icon{
   position:relative!important;
   inset:auto!important;
   align-self:start!important;
-  justify-self:stretch!important;
-  width:100%!important;
-  height:clamp(46px,13.6vw,62px)!important;
-  flex:none!important;
+  justify-self:start!important;
+  width:clamp(80px,22vw,98px)!important;
+  height:clamp(80px,22vw,98px)!important;
+  border-radius:24px!important;
   margin:0!important;
   transform:none!important;
+  overflow:hidden!important;
 }
-#sheet.reminders-approved-v117-sheet .rem116-card-local>.rem116-card-copy{
-  grid-area:copy!important;
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local>.rem116-card-icon{grid-area:icon!important;}
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar>.rem116-card-icon{grid-area:icon!important;}
+#sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-copy{
   position:static!important;
   inset:auto!important;
   display:block!important;
@@ -252,20 +261,22 @@
   transform:none!important;
   flex:none!important;
 }
-#sheet.reminders-approved-v117-sheet .rem116-card-local>.rem116-card-copy>h3{
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local>.rem116-card-copy{grid-area:copy!important;}
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar>.rem116-card-copy{grid-area:copy!important;}
+#sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-copy>h3{
   height:auto!important;
   max-height:none!important;
   overflow:visible!important;
-  margin:0!important;
+  margin:2px 0 0!important;
 }
-#sheet.reminders-approved-v117-sheet .rem116-card-local>.rem116-card-copy>p{
+#sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-copy>p{
   display:block!important;
   position:static!important;
   height:auto!important;
   min-height:0!important;
   max-height:none!important;
   overflow:visible!important;
-  margin:7px 0 0!important;
+  margin:10px 0 0!important;
   padding:0!important;
   -webkit-line-clamp:unset!important;
 }
@@ -285,10 +296,9 @@
   transform:none!important;
   flex:none!important;
   box-sizing:border-box!important;
-  z-index:1;
+  z-index:1!important;
 }
-#sheet.reminders-approved-v117-sheet .rem116-card-local>.rem116-chevron{
-  grid-area:arrow!important;
+#sheet.reminders-approved-v117-sheet .rem116-card>.rem116-chevron{
   position:static!important;
   inset:auto!important;
   align-self:center!important;
@@ -296,10 +306,25 @@
   margin:0!important;
   transform:none!important;
 }
-@media(max-width:350px){
- #sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local{
-   column-gap:8px!important;
-   padding-left:10px!important;
-   padding-right:10px!important;
- }
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local>.rem116-chevron{grid-area:arrow!important;}
+#sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar>.rem116-chevron{grid-area:arrow!important;}
+@media(max-width:370px){
+  #sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local,
+  #sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-calendar{
+    grid-template-columns:clamp(72px,21vw,88px) minmax(0,1fr) 18px!important;
+    column-gap:12px!important;
+    padding:16px 14px!important;
+  }
+  #sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-icon{
+    width:clamp(72px,21vw,88px)!important;
+    height:clamp(72px,21vw,88px)!important;
+    border-radius:22px!important;
+  }
+  #sheet.reminders-approved-v117-sheet .rem116-card>.rem116-card-copy>p{
+    margin-top:8px!important;
+  }
+  #sheet.reminders-approved-v117-sheet .rem116-card.rem116-card-local{
+    row-gap:10px!important;
+  }
 }
+
