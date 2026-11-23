@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.63';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6503';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.64';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6504';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4859,7 +4859,7 @@ function renderMore(){
    returns with the Back arrow or a horizontal swipe. This is in-memory UI
    navigation only; it never changes the lawyer's stored records. */
 var SETTINGS57_CHILD_ACTIVE=false;
-/* Settings v63: three groups, six distinct rows, no redundant transfer page. */
+/* Settings v64: three groups, five distinct rows; backup is accessed from More only. */
 function settings57Row(icon,title,desc,act){
   return '<button class="settings57-row" type="button" data-act="'+esc(act)+'" aria-label="'+esc(title)+'">'+
     '<span class="settings57-art" aria-hidden="true"><img src="settings57-'+esc(icon)+'.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
@@ -4884,13 +4884,12 @@ function sheetMoreService(){
     settings57Section('Напоминания и уведомления','bell',
       settings57Row('notify','Параметры уведомлений','Виды событий и время предварительных напоминаний','notify-sheet'))+
     settings57Section('Управление данными','arch',
-      settings57Row('backup','Резервное копирование','Создание, перенос и восстановление базы','backup-sheet')+
       settings57Row('clear','Очистка данных','Удаление выбранных данных с подтверждением','settings57-clear'))+
     '</main>';
   openSheet(body);
   var s=$('#sheet');s.classList.add('settings-premium-v57','full');s.setAttribute('aria-label','Настройки');
 }
-/* SETTINGS V60: themed child screens for the approved seven settings.
+/* SETTINGS V60+: themed child screens for the remaining settings.
    Notifications themselves keep the existing, already-approved screen. */
 function settings60Icon(name){
   return '<img src="settings57-'+esc(name)+'.webp?v='+APP_BUILD+'" alt="" draggable="false">';
