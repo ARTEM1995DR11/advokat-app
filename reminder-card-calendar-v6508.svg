@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="calFrame" x1="13" y1="14" x2="52" y2="53" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF4D3"/><stop offset=".21" stop-color="#E5BC71"/><stop offset=".52" stop-color="#B77B2E"/><stop offset=".78" stop-color="#EFCD82"/><stop offset="1" stop-color="#A56721"/>
+    </linearGradient>
+    <linearGradient id="calBand" x1="16" y1="19" x2="49" y2="31" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8DFA6"/><stop offset=".5" stop-color="#C28A36"/><stop offset="1" stop-color="#F9DD9A"/>
+    </linearGradient>
+    <linearGradient id="calPaper" x1="19" y1="29" x2="46" y2="51" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7E2"/><stop offset="1" stop-color="#ECD9B6"/>
+    </linearGradient>
+    <filter id="calShadow" x="4" y="3" width="56" height="59" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.2" flood-color="#704B24" flood-opacity=".42"/>
+    </filter>
+  </defs>
+  <g filter="url(#calShadow)" stroke-linejoin="round">
+    <rect x="13.9" y="16.8" width="36.2" height="36.2" rx="5.7" fill="url(#calFrame)" stroke="#A66C24" stroke-width="1.7"/>
+    <rect x="17.9" y="21.7" width="28.2" height="27.5" rx="2.4" fill="url(#calPaper)" stroke="#CB9D56" stroke-width=".9"/>
+    <path d="M17.9 24.4c0-1.5 1.2-2.7 2.7-2.7h22.8c1.5 0 2.7 1.2 2.7 2.7v7.3H17.9v-7.3Z" fill="url(#calBand)"/>
+    <path d="M23.7 12.1v10.3M40.3 12.1v10.3" stroke="#A66E28" stroke-width="5.1" stroke-linecap="round"/>
+    <path d="M23.7 12.4v9.1M40.3 12.4v9.1" stroke="#FFE6A3" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M23.2 37.4h4.3M31 37.4h4.3M38.8 37.4h2.7M23.2 43.4h4.3M31 43.4h4.3M38.8 43.4h2.7" stroke="#AC782C" stroke-width="2.35" stroke-linecap="round"/>
+    <path d="m21.2 27 2.3 2.2 3.9-3.8" stroke="#FFF5D7" stroke-width="1.45" stroke-linecap="round"/>
+  </g>
+</svg>

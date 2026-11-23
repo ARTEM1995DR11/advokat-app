@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bellGold" x1="13" y1="12" x2="50" y2="49" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7D9"/><stop offset=".19" stop-color="#EFC77E"/><stop offset=".46" stop-color="#B78337"/><stop offset=".72" stop-color="#F2D38C"/><stop offset="1" stop-color="#AB6C1E"/>
+    </linearGradient>
+    <linearGradient id="bellLip" x1="17" y1="41" x2="46" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF0BB"/><stop offset=".5" stop-color="#D7A14A"/><stop offset="1" stop-color="#9E651F"/>
+    </linearGradient>
+    <linearGradient id="bellClapper" x1="29" y1="47" x2="36" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE9B2"/><stop offset="1" stop-color="#A66C23"/>
+    </linearGradient>
+    <filter id="bellShadow" x="3" y="2" width="58" height="62" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1.6" stdDeviation="1.2" flood-color="#704B24" flood-opacity=".40"/>
+    </filter>
+  </defs>
+  <g filter="url(#bellShadow)">
+    <path d="M29.4 13.4c0-1.5 1.2-2.7 2.6-2.7s2.6 1.2 2.6 2.7v2.4h-5.2v-2.4Z" fill="url(#bellGold)" stroke="#AE792D" stroke-width="1.15"/>
+    <path d="M32 15.6c-8 0-13.6 5.9-13.6 14.4v7.6c0 3.1-1.8 5.5-4.4 8.1-.8.8-.2 2.3 1 2.3h34c1.2 0 1.8-1.5 1-2.3-2.6-2.6-4.4-5-4.4-8.1V30c0-8.5-5.6-14.4-13.6-14.4Z" fill="url(#bellGold)" stroke="#A87328" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M23.5 27.6c.7-3.6 3.1-6.3 6.3-7.3" stroke="#FFF6DB" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    <path d="M17.2 44.7c8.5 1.4 21.1 1.4 29.6 0" stroke="url(#bellLip)" stroke-width="3.3" stroke-linecap="round"/>
+    <path d="M27 49.2c.4 3.2 2.2 6.1 5 6.1s4.6-2.9 5-6.1" fill="url(#bellClapper)" stroke="#996122" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -177,3 +177,55 @@
  #settings67-dialog .settings67-dialog-actions{gap:9px}
 }
 @media(prefers-reduced-motion:reduce){#settings67-dialog .settings67-dialog-actions button{transition:none}}
+
+
+/* v6508 — Reminders: restore balanced gold pictograms in the two existing
+   illustrated tiles. The tiles, paper backgrounds and card framing stay intact. */
+#sheet.reminders-approved-v117-sheet .rem116-card .rem116-card-icon{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  line-height:0!important;
+  box-sizing:border-box;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card-icon .rem118-card-glyph{
+  display:block!important;
+  width:min(48px, 90%)!important;
+  height:min(48px, 90%)!important;
+  max-width:100%;
+  max-height:100%;
+  flex:none!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  filter:none!important;
+}
+/* Notification text is content-height driven, and the status is kept after
+   the complete paragraph instead of covering its final line on narrow iPhones. */
+#sheet.reminders-approved-v117-sheet .rem116-card-local{
+  height:auto!important;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-card-copy{
+  min-width:0;
+  overflow:visible!important;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-card-copy>p{
+  display:block;
+  max-height:none!important;
+  overflow:visible!important;
+}
+#sheet.reminders-approved-v117-sheet .rem116-card-local .rem116-status{
+  position:relative!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  transform:none!important;
+  display:inline-flex!important;
+  align-items:center;
+  max-width:100%;
+  box-sizing:border-box;
+  margin:10px 0 0!important;
+  vertical-align:top;
+}
