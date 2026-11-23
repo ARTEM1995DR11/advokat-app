@@ -7,7 +7,7 @@
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
 var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.61';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6501';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6502';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5107,6 +5107,13 @@ function appBack(){
   }
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
   if(page.classList.contains('open')){
+    if(page._navType==='report' && REPORT && REPORT.backToBackup){
+      // Reports produced by encrypted backups return to the backup settings,
+      // never to an unrelated tab or a blank Safari browsing context.
+      var fromSettings=!!REPORT.backupFromSettings;
+      closeAll(); sheetBackup();
+      SETTINGS57_CHILD_ACTIVE=fromSettings; vib(5); return true;
+    }
     if(page._navType==='report' && REPORT && REPORT.back && matter(REPORT.back)){
       openMatter(REPORT.back); vib(5); return true;
     }
@@ -8877,7 +8884,7 @@ function backupReadableText(){
   pushGroup('Задачи',r.tasks);
   return lines.join('\n');
 }
-function openBackupReadableReport(){
+function openBackupReadableReport(returnToSettings){
   var r=backupReadableRecords();
   var rows='<h2>Сводка</h2><table>'+
     '<tr><td>Заседания</td><td style="text-align:right"><b>'+r.hearings.length+'</b></td></tr>'+
@@ -8888,6 +8895,11 @@ function openBackupReadableReport(){
     backupReadableSection('Процессуальные сроки',r.deadlines)+
     backupReadableSection('Задачи',r.tasks);
   printHTML('Ежедневник адвоката','Читаемая резервная копия · '+fmtD(today(),true),rows,'Сформировано '+fmtD(today(),true)+(S.settings.name?' · '+S.settings.name:'')+'. Сохраните документ как PDF.',backupReadableText());
+  // 6502: Report remains within the PWA. Back/swipe returns to the backup screen.
+  REPORT.backToBackup=true;
+  REPORT.backupFromSettings=!!returnToSettings;
+  // Trigger the iOS/system print sheet without opening a separate Safari tab.
+  // If a browser suppresses automatic printing, the report's print button remains available.
   setTimeout(function(){ try{ doPrint(); }catch(e){} }, 220);
 }
 /* V61: the legacy duplicate sheetBackup() was removed. */
@@ -8906,8 +8918,9 @@ async function createBackupFile(){
       }
     }catch(shareErr){ if(shareErr&&shareErr.name==='AbortError') return; }
     if(!shared) dl(name,txt,'application/json');
+    var backupFromSettings=!!SETTINGS57_CHILD_ACTIVE;
     S.settings.lastBackup=new Date().toISOString();save();closeSheet();render();
-    openBackupReadableReport();
+    openBackupReadableReport(backupFromSettings);
     toast('Копии подготовлены');
   }catch(e){toast('Не удалось создать копию');}
 }
@@ -8941,22 +8954,16 @@ function printHTML(title,sub,rows,foot,text){
   $('#page')._navType='report';
 }
 function doPrint(){
-  try{
-    var w = window.open('', '_blank');
-    if(w){
-      w.document.write('<html><head><meta charset="utf-8"><title>'+esc(REPORT?REPORT.title:'Отчёт')+'</title>'+
-        '<style>body{font:12pt/1.45 -apple-system,Georgia,serif;color:#000;padding:18px}'+
-        'h1{font-size:18pt;margin:0 0 4px}.ph{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px}'+
-        'h2{font-size:13pt;margin:18px 0 6px;border-bottom:1px solid #999;padding-bottom:3px}'+
-        'table{width:100%;border-collapse:collapse;font-size:10.5pt}td{padding:5px 4px;border-bottom:1px solid #ddd;vertical-align:top}'+
-        '.cb{width:18px}.ft{margin-top:26px;font-size:9pt;color:#555;border-top:1px solid #ccc;padding-top:8px}</style>'+
-        '</head><body>'+$('#printarea').innerHTML+'</body></html>');
-      w.document.close(); w.focus();
-      setTimeout(function(){ try{ w.print(); }catch(e){} }, 400);
-      return;
-    }
-  }catch(e){}
-  try{ window.print(); }catch(e){ toast('Печать недоступна — используйте «Поделиться текстом»'); }
+  // 6502: Use the document's existing @media print rules and #printarea.
+  // window.open('_blank') created a separate, history-less Safari tab on iOS:
+  // appBack() and the horizontal swipe were unavailable from that tab.
+  // Printing the current document keeps the report page and its navigation alive.
+  if(typeof window.print!=='function'){
+    toast('Печать недоступна — используйте «Поделиться текстом»');
+    return;
+  }
+  try{ window.print(); }
+  catch(e){ toast('Не удалось открыть печать — используйте «Поделиться текстом»'); }
 }
 function reportText(){
   var el = document.createElement('div'); el.innerHTML = $('#printarea').innerHTML;
@@ -10385,8 +10392,15 @@ document.addEventListener('touchstart',function(e){
     !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN &&
     !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
     !hasHorizontalScrollAncestor(e.target);
-  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe || settingsSwipe);
-  EDGE_SWIPE.choice=chooser||finishFlowSwipe||settingsSwipe;
+  // 6502: Printable reports are full-screen in-app pages. Recognise a normal
+  // right swipe from anywhere on the report, not just the first 44 px.
+  var reportSwipe=$('#page').classList.contains('open') &&
+    $('#page')._navType==='report' && $('#page').contains(e.target) &&
+    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER &&
+    !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
+    !hasHorizontalScrollAncestor(e.target);
+  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe || settingsSwipe || reportSwipe);
+  EDGE_SWIPE.choice=chooser||finishFlowSwipe||settingsSwipe||reportSwipe;
   EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;EDGE_SWIPE.moved=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
