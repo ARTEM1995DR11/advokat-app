@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.61';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6502';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.63';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6503';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4859,7 +4859,7 @@ function renderMore(){
    returns with the Back arrow or a horizontal swipe. This is in-memory UI
    navigation only; it never changes the lawyer's stored records. */
 var SETTINGS57_CHILD_ACTIVE=false;
-/* Approved Settings v57: three groups, seven rows, no developer commands. */
+/* Settings v63: three groups, six distinct rows, no redundant transfer page. */
 function settings57Row(icon,title,desc,act){
   return '<button class="settings57-row" type="button" data-act="'+esc(act)+'" aria-label="'+esc(title)+'">'+
     '<span class="settings57-art" aria-hidden="true"><img src="settings57-'+esc(icon)+'.webp?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
@@ -4884,8 +4884,7 @@ function sheetMoreService(){
     settings57Section('Напоминания и уведомления','bell',
       settings57Row('notify','Параметры уведомлений','Виды событий и время предварительных напоминаний','notify-sheet'))+
     settings57Section('Управление данными','arch',
-      settings57Row('backup','Резервное копирование','Сохранение и восстановление базы данных','backup-sheet')+
-      settings57Row('transfer','Импорт и экспорт','Перенос данных между устройствами','settings57-transfer')+
+      settings57Row('backup','Резервное копирование','Создание, перенос и восстановление базы','backup-sheet')+
       settings57Row('clear','Очистка данных','Удаление выбранных данных с подтверждением','settings57-clear'))+
     '</main>';
   openSheet(body);
@@ -4942,14 +4941,6 @@ function sheetSettings57Privacy(){
     settings60Info('Параметр влияет на текст новых локальных уведомлений приложения. Показ уведомлений на заблокированном экране iPhone дополнительно регулируется настройками iOS.','');
   settings60Page('Конфиденциальность','Защита сведений доверителей','privacy',body);
 }
-function sheetSettings57Transfer(){
-  var body='<div class="settings60-minihead"><span>ПЕРЕНОС И ЭКСПОРТ</span><i></i></div>'+
-    settings60Card(settings60Line('Зашифрованная копия','Подготовить файл базы для другого устройства','backup-sheet','lock')+
-      settings60Line('Восстановление из файла','Выбрать ранее сохранённую копию','restore','arch')+
-      settings60Line('Экспорт списка','Выгрузить читаемый рабочий список','export','share'))+
-    settings60Info('Для переноса всех дел и записей используйте зашифрованную копию и сохраните пароль отдельно. Текстовый список не заменяет резервную копию.','');
-  settings60Page('Импорт и экспорт','Безопасный перенос рабочих материалов','transfer',body);
-}
 function settings60DeleteCount(){
   return S.tasks.filter(function(t){return t.done && !(t.kind==='hearing'&&t.hearingResultStatus) && !(t.mid&&matter(t.mid)&&matter(t.mid).archived);}).length;
 }
@@ -4976,7 +4967,7 @@ function sheetBackup(){
   }
   var body='<div class="settings60-minihead"><span>ДВА ФОРМАТА ОДНИМ ДЕЙСТВИЕМ</span><i></i></div>'+
     settings60Card('<div class="settings61-formats">'+
-      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('lock','s')+'</span><div><strong>Зашифрованная копия</strong><small>Файл для полного восстановления приложения. Защищён отдельным паролем.</small></div></div>'+
+      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('lock','s')+'</span><div><strong>Зашифрованная копия</strong><small>Файл для восстановления или переноса базы на другое устройство. Защищён отдельным паролем.</small></div></div>'+
       '<div class="settings61-format"><span class="settings61-format-icon">'+ico('doc','s')+'</span><div><strong>Читаемая сводка</strong><small>После сохранения базы откроется отчёт для печати или сохранения в PDF.</small></div></div>'+
     '</div>','settings61-formats-card')+
     '<div class="settings60-minihead"><span>СОСТОЯНИЕ КОПИИ</span><i></i></div>'+
@@ -9671,7 +9662,7 @@ document.addEventListener('click', function(ev){
   // Other entry points (including the main «Ещё» tools) remain unchanged.
   if(el.closest && el.closest('#sheet.settings-premium-v57') &&
      ['pin','settings57-auto','settings57-privacy','notify-sheet',
-      'backup-sheet','settings57-transfer','settings57-clear','settings60-pin-change'].indexOf(a)>=0){
+      'backup-sheet','settings57-clear','settings60-pin-change'].indexOf(a)>=0){
     SETTINGS57_CHILD_ACTIVE=true;
   }
   matterActionReturnTrack(a,id,el);
@@ -9703,7 +9694,6 @@ document.addEventListener('click', function(ev){
     case 'settings60-back': appBack(); break;
     case 'settings57-auto': sheetSettings57Auto(); break;
     case 'settings57-privacy': sheetSettings57Privacy(); break;
-    case 'settings57-transfer': sheetSettings57Transfer(); break;
     case 'settings57-clear': sheetSettings57Clear(); break;
     case 'settings60-lock-set': {
       var val=v==='off'?'off':Number(v);
