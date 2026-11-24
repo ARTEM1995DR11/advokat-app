@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.73';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6513';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.74';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6514';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4911,7 +4911,7 @@ function settings60Page(title,subtitle,icon,content){
   openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
   var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
 }
-/* v6513: draft judicial-services navigation. No case data, credentials or network fetches. */
+/* v6514: draft judicial-services navigation. No case data, credentials or network fetches. */
 var COURTS73_DEMO=[
  ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
@@ -4990,6 +4990,59 @@ function courts73Open(route){
 function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
 function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
+
+/* v6514: a judicial external-link excursion is not an ordinary PWA launch.
+   Persist only the allowlisted demo route and scroll offset, never a URL or case data.
+   Consume once, only after unlock; keep the original Today policy for other launches. */
+var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';
+var COURTS74_RETURN=null, COURTS74_RESTORED_AT=0;
+function courts74ValidRoute(route){
+ if(typeof route!=='string')return false;
+ if(['home','mine','catalog','catalog-general'].indexOf(route)>=0||Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return true;
+ var m=/^court:([a-z]+)\|(mine|catalog|catalog-general)$/.exec(route);
+ return !!(m&&COURTS73_DEMO.some(function(c){return c[0]===m[1];}));
+}
+function courts74ForgetReturn(){
+ COURTS74_RETURN=null;
+ try{localStorage.removeItem(COURTS74_RETURN_KEY);}catch(_e){}
+}
+function courts74ReadReturn(){
+ var state=COURTS74_RETURN;
+ if(!state)try{state=JSON.parse(localStorage.getItem(COURTS74_RETURN_KEY)||'null');}catch(_e){}
+ if(!state||!courts74ValidRoute(state.route)||!Number.isFinite(state.at)||Date.now()-state.at>12*60*60*1000||state.at>Date.now()+60000){courts74ForgetReturn();return null;}
+ return state;
+}
+function courts74RestoreReturn(){
+ if(!unlocked||SETTINGS60_LOCK_PENDING)return false;
+ var state=courts74ReadReturn();if(!state)return false;
+ var sh=$('#sheet'), current=sh.querySelector('.courts73-page');
+ var already=S.ui.tab==='more'&&sh.classList.contains('open')&&current&&current.dataset.route===state.route;
+ S.ui.tab='more';render();
+ if(!already){closeAll();courts73Open(state.route);}
+ var restored=sh.classList.contains('open')&&sh.querySelector('.courts73-page');
+ if(!restored||restored.dataset.route!==state.route){courts74ForgetReturn();return false;}
+ var offset=Math.max(0,Math.min(100000,Number(state.scroll)||0));
+ sh.scrollTop=offset;
+ requestAnimationFrame(function(){if(unlocked&&sh.classList.contains('open')&&sh.querySelector('.courts73-page')===restored)sh.scrollTop=offset;});
+ courts74ForgetReturn();COURTS74_RESTORED_AT=Date.now();save();return true;
+}
+function courts74JustRestored(){
+ var sh=$('#sheet');return !!(COURTS74_RESTORED_AT&&Date.now()-COURTS74_RESTORED_AT<3000&&S.ui.tab==='more'&&sh.classList.contains('open')&&sh.querySelector('.courts73-page'));
+}
+document.addEventListener('click',function(e){
+ if(!unlocked||SETTINGS60_LOCK_PENDING||Date.now()<SWIPE_CLICK_BLOCK_UNTIL)return;
+ var sh=$('#sheet'), page=sh.querySelector('.courts73-page');
+ var link=e.target.closest&&e.target.closest('a.courts73-row[target="_blank"]');
+ if(link&&page&&sh.classList.contains('open')&&page.contains(link)&&courts74ValidRoute(page.dataset.route)&&/^https:\/\//.test(link.href)){
+   COURTS74_RETURN={route:page.dataset.route,scroll:sh.scrollTop||0,at:Date.now()};
+   COURTS74_RESTORED_AT=0;
+   try{localStorage.setItem(COURTS74_RETURN_KEY,JSON.stringify(COURTS74_RETURN));}catch(_e){}
+   return; // native link navigation, with noopener/noreferrer unchanged
+ }
+ // Continued interaction inside the app means no external return is pending.
+ if(COURTS74_RETURN||courts74ReadReturn())courts74ForgetReturn();
+ COURTS74_RESTORED_AT=0;
+},true);
 
 function settings60LockValue(){
   if(!S.settings.lockOnReturn)return 'off';
@@ -10964,7 +11017,7 @@ function afterUnlock(){
     closeAll();
     save();
   }
-  render();schedule();
+  if(!courts74RestoreReturn())render();schedule();
   refreshFixedChrome();
   if(typeof requestIdleCallback==='function') requestIdleCallback(warmDossierAssets,{timeout:1800});
   else setTimeout(warmDossierAssets,900);
@@ -11002,13 +11055,16 @@ async function boot(){
 boot();
 
 document.addEventListener('visibilitychange',function(){
-  if(document.hidden){hiddenAt=Date.now();flushSave();return;}
+  if(document.hidden){COURTS74_RESTORED_AT=0;hiddenAt=Date.now();flushSave();return;}
   var awayMs=hiddenAt?Date.now()-hiddenAt:0;
   var mins=settings60LockValue();
   if(pinEnabled()&&unlocked&&mins!=='off'&&hiddenAt&&awayMs >= (mins===0?0:mins*60000)){
-    settings60LockVault('Введите PIN после возврата в приложение');return;
+    hiddenAt=0;settings60LockVault('Введите PIN после возврата в приложение');return;
   }
-  if(unlocked){
+  if(unlocked&&!SETTINGS60_LOCK_PENDING){
+    if(courts74RestoreReturn()||courts74JustRestored()){
+      hiddenAt=0;schedule();settleFixedChrome();return;
+    }
     /* 5.0.553 — always return to the requested launch page:
        whenever the PWA returns from the background, start from “Сегодня”.
        This also covers iOS keeping the PWA process alive instead of cold-starting it. */
@@ -11032,7 +11088,12 @@ document.addEventListener('visibilitychange',function(){
    pageshow can occur without a normal cold boot. Force the main page to «Сегодня». */
 window.addEventListener('pageshow',function(event){
   /* 5.0.926: initial load is already rendered by boot(); only BFCache restores need a refresh. */
-  if(!event.persisted || !unlocked)return;
+  if(!event.persisted || !unlocked || SETTINGS60_LOCK_PENDING)return;
+  var mins=settings60LockValue();
+  if(courts74ReadReturn()&&pinEnabled()&&mins!=='off'&&hiddenAt&&Date.now()-hiddenAt>=(mins===0?0:mins*60000)){
+    hiddenAt=0;settings60LockVault('Введите PIN после возврата в приложение');return;
+  }
+  if(courts74RestoreReturn()||courts74JustRestored()){hiddenAt=0;schedule();settleFixedChrome();return;}
   S.ui.tab='today';
   S.ui.calView='month'; // restored from BFCache: first entry defaults to Month
   S.ui.calSel=today(); S.ui.calM=S.ui.calSel.slice(0,7);
@@ -11109,7 +11170,7 @@ if('serviceWorker' in navigator){
   });
 }
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
-window.addEventListener('pagehide',function(){ if(unlocked) flushSave(); });
+window.addEventListener('pagehide',function(){ if(unlocked){if(courts74ReadReturn()&&!hiddenAt)hiddenAt=Date.now();flushSave();} });
 window.addEventListener('offline',function(){if(unlocked)toast('Офлайн-режим: ежедневник продолжает работать');});
 window.addEventListener('online',function(){if(unlocked)toast('Подключение восстановлено');});
 
