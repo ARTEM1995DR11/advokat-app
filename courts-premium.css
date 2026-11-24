@@ -1,4 +1,4 @@
-/* .84 — stage 3: compact header beside the decorative composition. */
+/* .85 — stage 3 refinement and stage 4: group headings. */
 #sheet.courts76-home-sheet{
  --courts83-decor-width:min(42vw,286px);
  --courts83-decor-height:calc(var(--courts83-decor-width) * 316 / 424);
@@ -6,7 +6,7 @@
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6524'),url('courts80-background.webp?v=6524')!important;
+ background-image:url('courts83-decor.webp?v=6525'),url('courts80-background.webp?v=6525')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%!important;
  background-position:right top,center top!important;
  background-repeat:no-repeat,no-repeat!important;
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:url('courts80-background.webp?v=6524')!important;
+ background-image:url('courts80-background.webp?v=6525')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }
@@ -72,3 +72,36 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 #sheet.courts76-home-sheet .courts76-home .courts76-title h2{font-size:clamp(15px,4.35vw,29px)!important;letter-spacing:-.025em;line-height:1.08!important;margin:0 0 3px!important;overflow-wrap:normal}
 #sheet.courts76-home-sheet .courts76-home .courts76-title p{font-size:clamp(9.5px,2.65vw,17px)!important;line-height:1.24!important;margin:0!important;overflow-wrap:normal}
 @media(min-width:700px){#sheet.courts76-home-sheet .courts76-home .courts76-head{width:100%;margin:12px 0 24px;grid-template-columns:46px 55px minmax(0,1fr)}}
+
+/* .85: header refinement and the three group headings only.
+   Keep the approved background, decor and card rules unchanged. */
+#sheet.courts76-home-sheet .courts76-home .courts76-head{
+ margin-top:max(3px,calc(var(--courts83-decor-height) * .65 - var(--courts83-top-pad) - 7px));
+ margin-bottom:12px;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-scales{transform:scale(1.08);transform-origin:center;}
+#sheet.courts76-home-sheet .courts76-home .courts76-group{margin-bottom:14px;}
+#sheet.courts76-home-sheet .courts76-home .courts76-group:last-child{margin-bottom:0;}
+#sheet.courts76-home-sheet .courts76-home .courts76-grouphead{
+ display:grid;grid-template-columns:26px max-content minmax(10px,1fr);align-items:center;
+ column-gap:8px;margin:0 2px 8px;min-height:26px;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-grouphead img{
+ display:block;width:26px;height:24px;object-fit:contain;justify-self:center;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-grouphead h3{
+ font:700 clamp(10.5px,3.3vw,19px)/1.14 Georgia,'Times New Roman',serif!important;
+ letter-spacing:.006em;color:#7e4b12!important;white-space:normal;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-grouphead i{
+ display:block;width:100%;height:1px;min-width:10px;background:linear-gradient(90deg,#ad741f,#c5913c);
+ box-shadow:0 1px 0 #fff4db80;
+}
+@media(max-width:370px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-grouphead{grid-template-columns:23px minmax(0,max-content) minmax(8px,1fr);column-gap:6px;min-height:24px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-grouphead img{width:23px;height:22px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-grouphead i{min-width:8px;}
+}
+@media(min-width:700px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-head{margin-top:12px;margin-bottom:18px;}
+}
