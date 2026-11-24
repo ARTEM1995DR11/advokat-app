@@ -1,9 +1,9 @@
-/* .78 — stage 1: continuous marble backdrop on judicial-services home only. */
+/* .80 — stage 1 corrected: approved marble backdrop installed without changing layout. */
 #sheet.courts76-home-sheet{
- background-color:#f8ebda!important;
+ background-color:#f4e8d7!important;
  height:auto!important;min-height:100%!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts79-background.webp?v=6519')!important;
+ background-image:url('courts80-background.webp?v=6520')!important;
  background-size:100% 100%!important;background-position:center top!important;background-repeat:no-repeat!important;
  padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
 }
@@ -35,4 +35,4 @@
 @media(min-width:500px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:48px 60px minmax(0,1fr);gap:12px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:46px;height:46px}#sheet .courts76-home .courts76-scales{width:60px;height:60px}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:64px minmax(0,1fr) 36px;min-height:80px;gap:13px;padding:10px 16px}#sheet .courts76-home .courts76-icon{width:64px;height:55px}#sheet .courts76-home .courts76-arrow{width:36px;height:36px}}
 
 /* Match the last pixels of the marble asset to the document canvas, including iOS safe-area. */
-html:has(#sheet.courts76-home-sheet.open),body:has(#sheet.courts76-home-sheet.open){background-color:#f8ebda!important;}
+html:has(#sheet.courts76-home-sheet.open),body:has(#sheet.courts76-home-sheet.open){background-color:#f4e8d7!important;}

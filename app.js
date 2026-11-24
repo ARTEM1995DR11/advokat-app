@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.79';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6519';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.80';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6520';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4911,7 +4911,7 @@ function settings60Page(title,subtitle,icon,content){
   openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
   var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
 }
-/* v6519: approved draft judicial-services structure. Seven buttons, three groups. */
+/* v6520: approved draft judicial-services structure. Seven buttons, three groups. */
 var COURTS73_DEMO=[
  ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
@@ -5025,7 +5025,7 @@ function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return fals
 function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
 
-/* v6519: a judicial external-link excursion is not an ordinary PWA launch.
+/* v6520: a judicial external-link excursion is not an ordinary PWA launch.
    Persist only the allowlisted demo route and scroll offset, never a URL or case data.
    Consume once, only after unlock; keep the original Today policy for other launches. */
 var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';
