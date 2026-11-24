@@ -6,7 +6,7 @@
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6526'),url('courts80-background.webp?v=6526')!important;
+ background-image:url('courts83-decor.webp?v=6527'),url('courts80-background.webp?v=6527')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%!important;
  background-position:right top,center top!important;
  background-repeat:no-repeat,no-repeat!important;
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:url('courts80-background.webp?v=6526')!important;
+ background-image:url('courts80-background.webp?v=6527')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }
@@ -61,7 +61,7 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 #sheet.courts76-home-sheet .courts76-home .courts76-back{
  width:100%;height:auto;aspect-ratio:1;box-sizing:border-box;border-radius:clamp(10px,2.8vw,15px);
  border:1px solid #ba8740;background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
- box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65264a;
+ box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65274a;
  position:relative;color:#94611d;
 }
 #sheet.courts76-home-sheet .courts76-back::after{content:'';position:absolute;inset:-5px;}
@@ -107,21 +107,28 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 }
 
 
-/* .86 — stage 5: geometry and raised cream/gold card surface only.
-   Keep the stage 1–4 artwork, group styles and inner typography unchanged. */
-#sheet.courts76-home-sheet .courts76-home .courts76-rows{gap:2px;}
+/* .87 — stage 5 correction. The home cards alone override the generic
+   sheet/button geometry; content remains auto-sized, with no clipping. */
+#sheet.courts76-home-sheet .courts76-home .courts76-rows{
+ display:grid!important;row-gap:1.5px!important;align-items:stretch;
+}
 #sheet.courts76-home-sheet .courts76-home .courts76-row{
- min-height:clamp(53px,13.7vw,62px);
- padding-block:5px;
- border-radius:clamp(11px,3.05vw,16px);
- border:1px solid #c6a06b;
- background:linear-gradient(155deg,#fffdf9 0%,#fffaf2 45%,#f7ead8 100%);
- box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e9d1a85c,inset 0 -3px 5px #ca9e5c15,0 2px 3px #a3733b32,0 5px 9px -3px #93612960;
+ box-sizing:border-box!important;display:grid!important;
+ width:100%!important;height:auto!important;max-height:none!important;
+ min-height:clamp(48px,13vw,58px)!important;
+ margin:0!important;padding-top:3px!important;padding-bottom:3px!important;
+ border-radius:clamp(11px,3.05vw,16px)!important;
+ border:1px solid transparent!important;
+ background:linear-gradient(155deg,#fffdf9 0%,#fffaf2 45%,#f6e8d1 100%) padding-box,
+ linear-gradient(180deg,#bd945b 0%,#e8d0a6 23%,#d9b67e 68%,#b7813c 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf7,inset 0 0 0 2px #e0bc827a,
+ inset 0 3px 6px #ffffffa0,inset 0 -3px 6px #d5a35a25,
+ 0 2px 1px #bc8d4e28,0 5px 9px -3px #86541e65!important;
 }
 @media(max-width:370px){
- #sheet.courts76-home-sheet .courts76-home .courts76-row{padding-block:4px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-row{padding-top:3px!important;padding-bottom:3px!important;}
 }
 @media(min-width:500px){
- #sheet.courts76-home-sheet .courts76-home .courts76-rows{gap:3px;}
- #sheet.courts76-home-sheet .courts76-home .courts76-row{min-height:74px;padding-block:7px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-rows{row-gap:2px!important;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-row{min-height:70px!important;padding-top:5px!important;padding-bottom:5px!important;}
 }
