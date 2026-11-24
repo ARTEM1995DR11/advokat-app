@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.75';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6515';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.76';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6516';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2744,7 +2744,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4911,7 +4911,7 @@ function settings60Page(title,subtitle,icon,content){
   openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
   var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
 }
-/* v6515: approved draft judicial-services structure. Seven buttons, three groups. */
+/* v6516: approved draft judicial-services structure. Seven buttons, three groups. */
 var COURTS73_DEMO=[
  ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
@@ -4982,9 +4982,24 @@ function courts73CatalogRows(q,parent){
  var rows=COURTS73_DEMO.filter(function(c){return (c[1]+' '+c[2]).toLocaleLowerCase('ru').indexOf(q)>=0;}).map(function(c){return courts73Row(['court:'+c[0]+'|'+parent,c[1],c[2]+(COURTS73_SAVED.indexOf(c[0])>=0?' · Добавлен':''),'court']);});
  return rows.join('')||'<p class="courts73-empty">Ничего не найдено в тестовом справочнике.</p>';
 }
+/* .76: real interactive home controls with artwork from the approved mockup. */
+function courts76Home(){
+ var icons=['group-directory','group-electronic','group-professional'];
+ var art={'mine':'mine','general':'general','https://ej.sudrf.ru/':'gas','arbitr':'arbitr','jurisdiction':'jurisdiction','practice':'practice','bailiff':'bailiff'};
+ function image(name,cls){return '<img class="'+cls+'" src="courts76-'+name+'.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">';}
+ function row(r){
+  var ext=/^https:\/\//.test(r[0]);
+  var tag=ext?'<a href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"':'<button type="button" data-act="courts73-route" data-v="'+esc(r[0])+'"';
+  return tag+' class="courts76-row courts73-row">'+image(art[r[0]],'courts76-icon')+'<span class="courts76-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts76-arrow" aria-hidden="true">'+(ext?courts73ExternalIcon():ico('chev','s'))+'</span>'+(ext?'</a>':'</button>');
+ }
+ var head=image('themis','courts76-art')+'<header class="courts76-head"><button type="button" class="courts76-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button>'+image('scales','courts76-scales')+'<div class="courts76-title"><h2>Судебные сервисы</h2><p>Профессиональные инструменты</p></div></header>';
+ var groups=COURTS73_GROUPS.map(function(g,i){return '<section class="courts76-group" aria-labelledby="courts76-g'+i+'"><div class="courts76-grouphead">'+image(icons[i],'courts76-groupicon')+'<h3 id="courts76-g'+i+'">'+esc(g[0].toUpperCase())+'</h3><i aria-hidden="true"></i></div><div class="courts76-rows">'+g[1].map(row).join('')+'</div></section>';}).join('');
+ openSheet('<main class="settings60-page courts73-page courts76-home" data-route="home" data-parent="">'+head+groups+'</main>');
+ var sh=$('#sheet');sh.classList.add('settings60-child-sheet','courts73-sheet','courts76-home-sheet','full');sh.setAttribute('aria-label','Судебные сервисы');
+}
 function courts73Open(route){
  if(route==='home'){
-   courts73Page('home','Судебные сервисы','Профессиональные инструменты',COURTS73_GROUPS.map(function(g){return courts73Section(g[0],g[1]);}).join('')+'<p class="courts73-foot">Черновой вариант · внешние ресурсы открываются в браузере</p>','');return;
+   courts76Home();return;
  }
  if(route==='mine'){
    var saved=COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});
@@ -5010,7 +5025,7 @@ function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return fals
 function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
 
-/* v6515: a judicial external-link excursion is not an ordinary PWA launch.
+/* v6516: a judicial external-link excursion is not an ordinary PWA launch.
    Persist only the allowlisted demo route and scroll offset, never a URL or case data.
    Consume once, only after unlock; keep the original Today policy for other launches. */
 var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';

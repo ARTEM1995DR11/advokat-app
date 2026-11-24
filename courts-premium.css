@@ -1,0 +1,34 @@
+/* .76 — approved judicial-services home only. Child screens retain .75 styles. */
+#sheet.courts76-home-sheet{
+ background-color:#f8ecdc!important;
+ background-image:linear-gradient(180deg,rgba(255,248,236,.28),rgba(255,249,240,.65) 38%,rgba(255,248,238,.52)),url('bg-more-marble-office.webp')!important;
+ background-size:cover!important;background-position:center top!important;
+ padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
+}
+#sheet.courts76-home-sheet .courts76-home{position:relative;isolation:isolate;width:100%;max-width:690px;padding:0 clamp(13px,3.8vw,24px) 12px;margin:0 auto;box-sizing:border-box}
+#sheet .courts76-home .courts76-art{position:absolute;z-index:-1;pointer-events:none;top:-30px;right:0;width:clamp(93px,27vw,180px);height:auto;opacity:.94;mask-image:linear-gradient(to left,#000 70%,transparent 100%);-webkit-mask-image:linear-gradient(to left,#000 70%,transparent 100%)}
+#sheet.courts76-home-sheet .courts76-home .courts76-head{display:grid;grid-template-columns:35px 43px minmax(0,1fr);align-items:center;gap:7px;margin:3px 0 24px;min-height:58px;position:relative}
+#sheet.courts76-home-sheet .courts76-home .courts76-back{width:35px;height:36px;border-radius:10px;border:1px solid #cda05d;background:linear-gradient(140deg,#fffdf6,#f2d7a7);box-shadow:inset 0 0 0 1px #fff9ed,0 3px 6px #9a6a3b42;color:#94611d;display:grid;place-items:center;padding:0;cursor:pointer}
+#sheet .courts76-home .courts76-back svg{width:22px;height:22px;stroke-width:2.8}
+#sheet .courts76-home .courts76-scales{display:block;width:43px;height:43px;object-fit:contain}
+#sheet .courts76-home .courts76-title{min-width:0;position:relative;border-left:1px solid #a97630;padding-left:8px;background:linear-gradient(90deg,rgba(255,246,231,.75),rgba(255,246,231,.58) 80%,transparent);border-radius:0 7px 7px 0}
+#sheet .courts76-home .courts76-title h2{margin:0 0 2px!important;font:700 clamp(20px,5.55vw,34px)/1.06 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em;color:#0c1735!important;overflow-wrap:normal}
+#sheet .courts76-home .courts76-title p{margin:0!important;font:400 clamp(10.5px,3.1vw,16px)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#231a14}
+#sheet .courts76-home .courts76-group{margin:0 0 16px;min-width:0}
+#sheet .courts76-home .courts76-group:last-child{margin-bottom:0}
+#sheet .courts76-home .courts76-grouphead{display:flex;gap:8px;align-items:center;margin:0 2px 9px;min-width:0;color:#855315}
+#sheet .courts76-home .courts76-grouphead img{width:25px;height:23px;object-fit:contain;flex:0 0 25px}
+#sheet .courts76-home .courts76-grouphead h3{font:700 clamp(11px,3.3vw,19px)/1.14 Georgia,'Times New Roman',serif!important;letter-spacing:.012em;color:#855315!important;margin:0!important;white-space:normal}
+#sheet .courts76-home .courts76-grouphead i{height:1px;background:linear-gradient(90deg,#a46a21,#d5a867);min-width:10px;flex:1}
+#sheet .courts76-home .courts76-rows{display:grid;gap:4px}
+#sheet.courts76-home-sheet .courts76-home .courts76-row{box-sizing:border-box;width:100%;min-width:0;display:grid;grid-template-columns:50px minmax(0,1fr) 29px;align-items:center;gap:9px;min-height:64px;margin:0;padding:8px 11px 8px 8px;border-radius:14px;border:1px solid #d9ad70;background:linear-gradient(140deg,#fffdf7 0%,#fff9ee 47%,#f8ebda 100%);box-shadow:inset 0 0 0 1px #fffdfa,0 3px 5px #8c572b2e;text-align:left;text-decoration:none;color:#101c3b;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#sheet .courts76-home .courts76-row:active{transform:translateY(1px);filter:brightness(.97)}
+#sheet .courts76-home .courts76-row:focus-visible{outline:2px solid #b17c24;outline-offset:2px}
+#sheet .courts76-home .courts76-icon{display:block;width:50px;height:43px;object-fit:contain;pointer-events:none}
+#sheet .courts76-home .courts76-copy{border-left:1px solid #c39351;padding:1px 0 1px 9px;min-width:0}
+#sheet .courts76-home .courts76-copy strong{display:block;margin:0;font:700 clamp(16px,4.55vw,24px)/1.12 Georgia,'Times New Roman',serif!important;color:#0b1837;hyphens:none;overflow-wrap:normal}
+#sheet .courts76-home .courts76-copy small{display:block;margin-top:3px;font:400 clamp(11px,3.15vw,15px)/1.22 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#251c18;hyphens:none;overflow-wrap:normal}
+#sheet .courts76-home .courts76-arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid #a56b20;background:radial-gradient(ellipse at 30% 15%,#e9c57b 0%,#c39442 39%,#a7731b 76%,#88530d 100%);box-shadow:inset 0 1px 1px #fff1cf,0 2px 4px #8a5b2c50;color:#fff9ee}
+#sheet .courts76-home .courts76-arrow svg{width:17px;height:17px;stroke-width:2.6;filter:drop-shadow(0 1px 0 #805315)}
+@media(max-width:370px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:32px 37px minmax(0,1fr);gap:6px;margin-bottom:20px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:32px;height:34px}#sheet .courts76-home .courts76-scales{width:37px;height:37px}#sheet .courts76-home .courts76-title{padding-left:6px}#sheet .courts76-home .courts76-title h2{font-size:clamp(18px,5.6vw,21px)!important}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:43px minmax(0,1fr) 25px;gap:6px;padding:7px 8px 7px 6px}#sheet .courts76-home .courts76-icon{width:43px;height:39px}#sheet .courts76-home .courts76-copy{padding-left:7px}#sheet .courts76-home .courts76-arrow{width:25px;height:25px}#sheet .courts76-home .courts76-grouphead{gap:6px}}
+@media(min-width:500px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:48px 60px minmax(0,1fr);gap:12px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:46px;height:46px}#sheet .courts76-home .courts76-scales{width:60px;height:60px}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:64px minmax(0,1fr) 36px;min-height:80px;gap:13px;padding:10px 16px}#sheet .courts76-home .courts76-icon{width:64px;height:55px}#sheet .courts76-home .courts76-arrow{width:36px;height:36px}}
