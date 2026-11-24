@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.90';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6530';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.91';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6531';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4986,7 +4986,7 @@ function courts73CatalogRows(q,parent){
 function courts76Home(){
  var icons=['group-directory','group-electronic','group-professional'];
  var art={'mine':'mine','general':'general','https://ej.sudrf.ru/':'gas','arbitr':'arbitr','jurisdiction':'jurisdiction','practice':'practice','bailiff':'bailiff'};
- function image(name,cls){return '<img class="'+cls+'" src="courts76-'+name+'.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">';}
+ function image(name,cls){var prefix=cls==='courts76-groupicon'?'courts91-':'courts76-';return '<img class="'+cls+'" src="'+prefix+name+'.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">';}
  function row(r){
   var ext=/^https:\/\//.test(r[0]);
   var tag=ext?'<a href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"':'<button type="button" data-act="courts73-route" data-v="'+esc(r[0])+'"';
