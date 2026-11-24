@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.92';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6532';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.93';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6533';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4983,22 +4983,25 @@ function courts73CatalogRows(q,parent){
  return rows.join('')||'<p class="courts73-empty">Ничего не найдено в тестовом справочнике.</p>';
 }
 /* .76: real interactive home controls with artwork from the approved mockup. */
-/* .92: fit the long heading using the actual device font. Do not clip or
-   ellipsize; if the safe minimum cannot fit, natural wrapping is allowed. */
-function courts92FitJurisdiction(){
- var title=document.querySelector('#sheet.courts76-home-sheet .courts76-row[data-v="jurisdiction"] strong');
- if(!title || !title.clientWidth)return;
- title.style.removeProperty('--courts92-fit');title.style.whiteSpace='nowrap';
- var range=document.createRange();range.selectNodeContents(title);
- var available=title.clientWidth-1, size=parseFloat(getComputedStyle(title).fontSize);
- var width=range.getBoundingClientRect().width;
- if(width>available && width>0){
-  var fit=Math.max(13,Math.floor(size*available/width*10)/10);
-  title.style.setProperty('--courts92-fit',fit+'px');
- }
- if(range.getBoundingClientRect().width>available)title.style.removeProperty('white-space');
+/* .93: measure the actual device font, preserving font height. Mild horizontal
+   condensation is used only if necessary; narrower layouts wrap rather than clip. */
+function courts93FitLines(){
+ var home=document.querySelector('#sheet.courts76-home-sheet .courts76-home');if(!home)return;
+ var rules=[['.courts76-title h2',.88],['.courts76-title p',.90],['.courts76-row[data-v="jurisdiction"] strong',.88]];
+ rules.forEach(function(rule){
+  var el=home.querySelector(rule[0]);if(!el || !el.clientWidth)return;
+  el.classList.remove('courts93-fitted');
+  var span=el.querySelector('.courts93-fitline');
+  if(!span){span=document.createElement('span');span.className='courts93-fitline';span.textContent=el.textContent;el.textContent='';el.appendChild(span);}
+  span.style.whiteSpace='nowrap';span.style.transform='none';span.style.display='inline-block';
+  var width=span.getBoundingClientRect().width, room=el.clientWidth-2;
+  var scale=Math.min(1,room/Math.max(1,width));
+  if(scale>=rule[1]){span.style.transform='scaleX('+scale+')';el.classList.add('courts93-fitted');}
+  else{span.style.whiteSpace='normal';span.style.display='inline';}
+ });
 }
-window.addEventListener('resize',courts92FitJurisdiction,{passive:true});
+window.addEventListener('resize',courts93FitLines,{passive:true});
+if(window.visualViewport)window.visualViewport.addEventListener('resize',courts93FitLines,{passive:true});
 function courts76Home(){
  var icons=['group-directory','group-electronic','group-professional'];
  var art={'mine':'mine','general':'general','https://ej.sudrf.ru/':'gas','arbitr':'arbitr','jurisdiction':'jurisdiction','practice':'practice','bailiff':'bailiff'};
@@ -5012,7 +5015,8 @@ function courts76Home(){
  var groups=COURTS73_GROUPS.map(function(g,i){return '<section class="courts76-group" aria-labelledby="courts76-g'+i+'"><div class="courts76-grouphead">'+image(icons[i],'courts76-groupicon')+'<h3 id="courts76-g'+i+'">'+esc(g[0].toUpperCase())+'</h3><i aria-hidden="true"></i></div><div class="courts76-rows">'+g[1].map(row).join('')+'</div></section>';}).join('');
  openSheet('<main class="settings60-page courts73-page courts76-home" data-route="home" data-parent="">'+head+groups+'</main>');
  var sh=$('#sheet');sh.classList.add('settings60-child-sheet','courts73-sheet','courts76-home-sheet','full');sh.setAttribute('aria-label','Судебные сервисы');
- courts92FitJurisdiction();
+ courts93FitLines();
+ if(document.fonts && document.fonts.ready)document.fonts.ready.then(courts93FitLines);
 }
 function courts73Open(route){
  if(route==='home'){
