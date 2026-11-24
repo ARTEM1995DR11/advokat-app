@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.71';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6511';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.66';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6506';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -9323,13 +9323,12 @@ function sheetNotify(){
       '<img class="rem116-head-motif" src="reminder-head-motif-exact.png?v=5966" alt="">'+
     '</header>'+
     '<article class="rem116-card rem116-card-local">'+
-      '<span class="rem116-card-icon" aria-hidden="true"><img class="rem118-card-glyph" src="reminder-card-bell-v6508.svg?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
-      '<div class="rem116-card-copy"><h3>'+meta.title+'</h3><p>'+stateText+'</p></div>'+
-      '<span class="rem116-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span>'+
+      '<span class="rem116-card-icon">'+ico('bell','s')+'</span>'+
+      '<div class="rem116-card-copy"><h3>'+meta.title+'</h3><p>'+stateText+'</p><span class="rem116-status '+meta.tone+'"><span>'+ico(statusIco,'s')+'</span>'+meta.chip+'</span></div>'+
       '<span class="rem116-chevron">'+ico('chev','s')+'</span>'+
     '</article>'+
     '<article class="rem116-card rem116-card-calendar">'+
-      '<span class="rem116-card-icon" aria-hidden="true"><img class="rem118-card-glyph" src="reminder-card-calendar-v6508.svg?v='+APP_BUILD+'" alt="" draggable="false"></span>'+
+      '<span class="rem116-card-icon">'+ico('cal','s')+'</span>'+
       '<div class="rem116-card-copy"><h3>Критичные события —<br>в системный календарь</h3><p>Для судебных заседаний и важных процессуальных сроков дополнительно используйте «Календарь» или «Напоминания» iPhone. Автономное PWA не может гарантировать фоновые таймеры после выгрузки системой.</p></div>'+
       '<span class="rem116-chevron">'+ico('chev','s')+'</span>'+
     '</article>'+
