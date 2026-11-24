@@ -6,7 +6,7 @@
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6527'),url('courts80-background.webp?v=6527')!important;
+ background-image:url('courts83-decor.webp?v=6528'),url('courts80-background.webp?v=6528')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%!important;
  background-position:right top,center top!important;
  background-repeat:no-repeat,no-repeat!important;
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:url('courts80-background.webp?v=6527')!important;
+ background-image:url('courts80-background.webp?v=6528')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }
@@ -61,7 +61,7 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 #sheet.courts76-home-sheet .courts76-home .courts76-back{
  width:100%;height:auto;aspect-ratio:1;box-sizing:border-box;border-radius:clamp(10px,2.8vw,15px);
  border:1px solid #ba8740;background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
- box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65274a;
+ box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65284a;
  position:relative;color:#94611d;
 }
 #sheet.courts76-home-sheet .courts76-back::after{content:'';position:absolute;inset:-5px;}
@@ -131,4 +131,57 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 @media(min-width:500px){
  #sheet.courts76-home-sheet .courts76-home .courts76-rows{row-gap:2px!important;}
  #sheet.courts76-home-sheet .courts76-home .courts76-row{min-height:70px!important;padding-top:5px!important;padding-bottom:5px!important;}
+}
+
+/* .88 — stage 6: interior details only. Keep the .87 card shell intact.
+   Icons and arrows are decorative; the whole row remains the touch target. */
+#sheet.courts76-home-sheet .courts76-home .courts76-row{
+ grid-template-columns:54px minmax(0,1fr) 29px;column-gap:7px;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-icon{
+ width:54px;height:clamp(43px,calc(13vw - 8px),44px);object-fit:contain;align-self:center;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-copy{
+ position:relative;display:block;border-left:0;padding:0 0 0 10px;min-width:0;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-copy::before{
+ content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+ height:calc(100% - 2px);max-height:37px;width:1px;
+ background:linear-gradient(180deg,#d6b17a,#a97732 48%,#d6b17a);
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-copy strong{
+ font:700 clamp(16px,4.5vw,24px)/1.08 Georgia,'Times New Roman',serif!important;
+ letter-spacing:-.012em;overflow-wrap:normal;hyphens:none;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-copy small{
+ margin-top:3px;font:400 clamp(11px,3.05vw,15px)/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+ letter-spacing:0;overflow-wrap:normal;hyphens:none;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-row[data-v="jurisdiction"] .courts76-copy strong{
+ font-size:clamp(14px,3.95vw,21px)!important;letter-spacing:-.018em;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-arrow{
+ box-sizing:border-box;width:29px;height:29px;justify-self:center;
+ border:1px solid #95601b;
+ background:radial-gradient(ellipse at 29% 12%,#f6d995 0%,#d5aa58 32%,#b1812b 66%,#936018 100%);
+ box-shadow:inset 0 1px 0 #fff3ce,inset 0 -2px 3px #75440b45,0 2px 4px #80501955;
+ color:#fffdf5;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{
+ width:19px;height:19px;stroke-width:2.9;filter:drop-shadow(0 1px 0 #86551d);
+}
+@media(max-width:370px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:46px minmax(0,1fr) 26px;column-gap:5px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-icon{width:46px;height:40px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-copy{padding-left:7px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-arrow{width:26px;height:26px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{width:17px;height:17px;}
+}
+@media(min-width:500px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:68px minmax(0,1fr) 36px;column-gap:11px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-icon{width:68px;height:57px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-copy{padding-left:12px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-copy::before{max-height:48px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-arrow{width:36px;height:36px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{width:23px;height:23px;}
 }
