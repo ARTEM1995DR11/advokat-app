@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.66';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6506';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.73';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6513';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2744,7 +2744,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -4911,6 +4911,86 @@ function settings60Page(title,subtitle,icon,content){
   openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
   var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
 }
+/* v6513: draft judicial-services navigation. No case data, credentials or network fetches. */
+var COURTS73_DEMO=[
+ ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
+ ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
+ ['lenin','Ленинский районный суд г. Иваново','Ивановская область','https://leninsky--iwn.sudrf.ru/','https://leninsky--iwn.sudrf.ru/modules.php?name=sud'],
+ ['moscow','Московский городской суд','Москва','https://www.mos-gorsud.ru/mgs','https://www.mos-gorsud.ru/search'],
+ ['cass','Второй кассационный суд общей юрисдикции','Москва','https://2kas.sudrf.ru/'],
+ ['supreme','Верховный Суд РФ','Москва','https://www.vsrf.ru/','https://vsrf.ru/lk/practice/claims']
+];
+var COURTS73_SAVED=[];
+var COURTS73_GROUPS=[
+ ['Быстрый доступ',[['mine','Мои суды','Личный справочник судов','court']]],
+ ['Судебные системы',[
+ ['https://ej.sudrf.ru/','ГАС «Правосудие»','Личный кабинет и история обращений','doc'],
+ ['general','Суды общей юрисдикции','Поиск судов и судебных дел','court'],
+ ['magistrate','Мировые судьи','Судебные участки и дела','gavel'],
+ ['moscow','Московские суды','Дела и заседания в Москве','court'],
+ ['arbitr','Арбитражные суды','Картотека и судебные ресурсы','brief'],
+ ['supreme','Верховный Суд РФ','Движение дел и жалоб','scale']]],
+ ['Дополнительные сервисы',[
+ ['jurisdiction','Территориальная подсудность','Определение суда по адресу','pin'],
+ ['practice','Судебная практика','Судебные акты и разъяснения','tpl'],
+ ['bailiff','ФССП России','Исполнительные производства','clipboard']]]
+];
+var COURTS73_RESOURCES={
+ general:[['https://sudrf.ru/','Федеральный портал судов','Выберите суд и раздел делопроизводства','search'],['catalog-general','Пример справочника судов','Поиск по демонстрационной базе','court']],
+ magistrate:[['https://sudrf.ru/','Судебные участки России','На портале выберите «Участки мировых судей»','gavel'],['https://mos-sud.ru/','Мировые судьи Москвы','Региональный официальный портал','court']],
+ moscow:[['https://www.mos-gorsud.ru/search','Поиск судебных дел','По номеру дела или участнику','search'],['https://www.mos-gorsud.ru/hearing','Судебные заседания','Расписание на портале','cal'],['https://www.mos-gorsud.ru/','Справочник судов','Выбор суда на официальном портале','court']],
+ arbitr:[['https://kad.arbitr.ru/','Картотека арбитражных дел','Поиск дел и судебных актов','search'],['https://rad.arbitr.ru/','Календарь заседаний','Расписание арбитражных судов','cal'],['https://guard.arbitr.ru/','Электронный страж','Подписки на дела на внешнем сервисе','bell'],['https://my.arbitr.ru/','Мой арбитр','Личный кабинет и история обращений','doc'],['https://recess.arbitr.ru/','Перерывы в заседаниях','Информация на официальном ресурсе','clock']],
+ supreme:[['https://vsrf.ru/lk/practice/claims','Дела и жалобы','Электронная справочная ВС РФ','search'],['https://vsrf.ru/lk/practice/hearings','Списки дел к слушанию','Назначенные заседания','cal'],['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты','Результаты рассмотрения','doc'],['https://www.vsrf.ru/','Сайт Верховного Суда','Контакты и личный кабинет','court']],
+ jurisdiction:[['https://sudrf.ru/','Федеральные суды и мировые судьи','Выберите поиск по территориальной подсудности на портале','pin'],['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court']],
+ practice:[['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты ВС РФ','Электронная справочная','doc'],['https://www.ksrf.ru/','Конституционный Суд РФ','Решения на официальном сайте','scale'],['https://sudrf.ru/','Суды общей юрисдикции','Поиск опубликованных актов на сайтах судов','court'],['https://ras.arbitr.ru/','Банк решений арбитражных судов','Поиск судебных актов','search']],
+ bailiff:[['https://fssp.gov.ru/iss/ip','Банк исполнительных производств','Поиск на официальном сайте','search'],['https://fssp.gov.ru/','Подразделения и контакты','Выберите нужный сервис на сайте ФССП','phone'],['https://www.gosuslugi.ru/','Госуслуги','Ход исполнительного производства после входа','doc']]
+};
+function courts73ExternalIcon(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/></svg>';}
+function courts73Row(r){
+ var external=/^https:\/\//.test(r[0]);
+ var start=external?'<a href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"':'<button type="button" data-act="courts73-route" data-v="'+esc(r[0])+'"';
+ return start+' class="settings60-line courts73-row"><span class="settings60-line-icon">'+ico(r[3],'s')+'</span><span class="settings60-line-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="settings60-arrow">'+(external?courts73ExternalIcon():ico('chev','s'))+'</span>'+(external?'</a>':'</button>');
+}
+function courts73Section(label,rows){return '<section class="courts73-group"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+settings60Card(rows.map(courts73Row).join(''))+'</section>';}
+function courts73Page(route,title,subtitle,content,parent){
+ var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-courts-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">СУДЕБНЫЕ СЕРВИСЫ</span><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div></header>';
+ openSheet('<main class="settings60-page courts73-page" data-route="'+esc(route)+'" data-parent="'+esc(parent||'')+'">'+head+content+'</main>');
+ var sh=$('#sheet');sh.classList.add('settings60-child-sheet','courts73-sheet','full');sh.setAttribute('aria-label',title);
+}
+function courts73CatalogRows(q,parent){
+ parent=parent==='catalog-general'?parent:'catalog';
+ q=String(q||'').trim().toLocaleLowerCase('ru');
+ var rows=COURTS73_DEMO.filter(function(c){return (c[1]+' '+c[2]).toLocaleLowerCase('ru').indexOf(q)>=0;}).map(function(c){return courts73Row(['court:'+c[0]+'|'+parent,c[1],c[2]+(COURTS73_SAVED.indexOf(c[0])>=0?' · Добавлен':''),'court']);});
+ return rows.join('')||'<p class="courts73-empty">Ничего не найдено в тестовом справочнике.</p>';
+}
+function courts73Open(route){
+ if(route==='home'){
+   courts73Page('home','Судебные сервисы','Суды и профессиональные ресурсы',COURTS73_GROUPS.map(function(g){return courts73Section(g[0],g[1]);}).join('')+'<p class="courts73-foot">Черновая версия · внешние ресурсы открываются в браузере</p>','');return;
+ }
+ if(route==='mine'){
+   var saved=COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});
+   var content=settings60Info('Тестовый справочник: выбор судов действует до перезапуска приложения. Полная база и постоянное сохранение будут проработаны отдельно.','')+
+      (saved.length?courts73Section('Сохранённые суды',saved.map(function(c){return ['court:'+c[0]+'|mine',c[1],c[2],'court'];})):'<div class="courts73-empty">Пока нет сохранённых судов. Добавьте суд из тестового справочника.</div>')+
+      '<button type="button" class="settings60-gold-action" data-act="courts73-route" data-v="catalog">Добавить суд</button>';
+   courts73Page(route,'Мои суды','Личный справочник',content,'home');return;
+ }
+ if(route==='catalog'||route==='catalog-general'){
+   courts73Page(route,'Добавить суд','Демонстрационная база · '+COURTS73_DEMO.length+' судов','<label class="courts73-search"><span>'+ico('search','s')+'</span><input id="courts73-search" type="search" placeholder="Название суда или регион" autocomplete="off" aria-label="Поиск суда"></label>'+settings60Card('<div id="courts73-catalog">'+courts73CatalogRows('',route)+'</div>'),route==='catalog-general'?'general':'mine');return;
+ }
+ if(route.indexOf('court:')===0){
+   var parts=route.slice(6).split('|'), c=COURTS73_DEMO.filter(function(x){return x[0]===parts[0];})[0];if(!c)return;
+   var parent=parts[1]==='mine'?'mine':parts[1]==='catalog-general'?'catalog-general':'catalog', on=COURTS73_SAVED.indexOf(c[0])>=0;
+   var rows=[[c[3],'Официальный сайт','Контакты, адрес и режим работы на сайте','court']];if(c[4])rows.push([c[4],'Сведения о суде и делах','Раздел официального ресурса','doc']);
+   courts73Page(route,c[1],c[2],courts73Section('Ресурсы суда',rows)+'<button type="button" class="settings60-gold-action" data-act="courts73-toggle" data-v="'+esc(route)+'">'+(on?'Убрать из моих судов':'Добавить в мои суды')+'</button>'+settings60Info('Контактные данные и подробные действия с судом будут добавлены после проверки источников. Сейчас доступны официальные ссылки.',''),parent);return;
+ }
+ if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
+ var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
+ if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Приложение не передаёт сведения из адвокатских дел.</p>','home');
+}
+function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
+function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
+document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
+
 function settings60LockValue(){
   if(!S.settings.lockOnReturn)return 'off';
   return [0,1,5,15].indexOf(Number(S.settings.autoLockMinutes))>=0 ? Number(S.settings.autoLockMinutes) : 1;
@@ -5159,6 +5239,7 @@ function appBack(){
   if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
   if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
+  if(sheet.classList.contains('open')&&sheet.classList.contains('courts73-sheet')&&courts73Back()){vib(5);return true;}
   // From any Settings submenu, return to the premium Settings index,
   // instead of skipping it and jumping straight back to the «Ещё» tab.
   if(SETTINGS57_CHILD_ACTIVE && sheet.classList.contains('open') &&
@@ -9757,7 +9838,10 @@ document.addEventListener('click', function(ev){
     case 'quick-add': sheetQuickAdd(); break;
     case 'global-search': sheetGlobalSearch(); break;
     case 'more50-agreement': toast('Калькулятор соглашений — следующий этап разработки'); break;
-    case 'more50-courts': toast('Судебные сервисы — следующий этап разработки'); break;
+    case 'more50-courts': courts73Open('home'); break;
+    case 'courts73-route': courts73Open(v); break;
+    case 'courts73-back': appBack(); break;
+    case 'courts73-toggle': courts73Toggle(v); break;
     case 'more50-settings': sheetMoreService(); break;
     case 'settings57-back': appBack(); break;
     case 'settings60-back': appBack(); break;
@@ -10449,7 +10533,7 @@ document.addEventListener('touchstart',function(e){
   // right-swipe, matching the visible Back arrow. Ignore active text fields
   // and horizontal scrollers so editing and vertical scrolling stay natural.
   var settingsSwipe=sh.classList.contains('open') && sh.contains(e.target) &&
-    (sh.classList.contains('settings-premium-v57') || SETTINGS57_CHILD_ACTIVE) &&
+    (sh.classList.contains('settings-premium-v57') || sh.classList.contains('courts73-sheet') || SETTINGS57_CHILD_ACTIVE) &&
     !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN &&
     !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
     !hasHorizontalScrollAncestor(e.target);

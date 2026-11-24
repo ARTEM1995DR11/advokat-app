@@ -177,3 +177,20 @@
  #settings67-dialog .settings67-dialog-actions{gap:9px}
 }
 @media(prefers-reduced-motion:reduce){#settings67-dialog .settings67-dialog-actions button{transition:none}}
+
+/* 6513 — draft court services, scoped independently of approved Settings. */
+#sheet.courts73-sheet .courts73-page .settings60-head{margin-bottom:19px;gap:9px;grid-template-columns:44px 53px minmax(0,1fr)}
+#sheet.courts73-sheet .settings60-head-icon{width:53px;height:53px}
+#sheet.courts73-sheet .settings60-head-icon img{width:49px;height:49px}
+#sheet.courts73-sheet .settings60-head-copy h2{font-size:clamp(22px,5.7vw,31px)!important;overflow-wrap:break-word}
+#sheet.courts73-sheet .settings60-minihead{margin-top:17px}
+#sheet.courts73-sheet .courts73-row{min-height:68px;padding:10px 2px;text-decoration:none;color:inherit;gap:10px}
+#sheet.courts73-sheet .courts73-row .settings60-line-copy strong{font-size:clamp(15px,4.15vw,19px);line-height:1.18}
+#sheet.courts73-sheet .courts73-row .settings60-line-copy small{font-size:11.5px;line-height:1.32;margin-top:4px}
+#sheet.courts73-sheet .courts73-row .settings60-arrow{height:28px;width:28px;flex-basis:28px}
+#sheet.courts73-sheet .courts73-row .settings60-line-icon{width:40px;height:40px;flex-basis:40px}
+#sheet.courts73-sheet .courts73-foot,#sheet.courts73-sheet .courts73-empty{font:400 13px/1.5 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#596271;text-align:center;padding:16px 8px;margin:0}
+#sheet.courts73-sheet .courts73-search{display:flex;align-items:center;gap:10px;padding:0 12px;min-height:49px;border:1px solid #d9b97e;border-radius:14px;background:#fffaf2;margin:0 0 14px;color:#a47535}
+#sheet.courts73-sheet .courts73-search input{flex:1;min-width:0;box-sizing:border-box;border:0;background:transparent;color:#172844;font-size:16px;outline:none;padding:10px 0}
+#sheet.courts73-sheet a:focus-visible{outline:2px solid #c19547;outline-offset:-2px;border-radius:10px}
+@media(max-width:370px){#sheet.courts73-sheet .courts73-page .settings60-head{grid-template-columns:39px 44px minmax(0,1fr);gap:7px}#sheet.courts73-sheet .settings60-head-icon{width:44px;height:44px}#sheet.courts73-sheet .settings60-head-icon img{width:40px;height:40px}#sheet.courts73-sheet .courts73-row{gap:7px}#sheet.courts73-sheet .courts73-row .settings60-line-icon{width:36px;height:36px;flex-basis:36px}}
