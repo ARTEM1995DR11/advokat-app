@@ -1,10 +1,13 @@
-/* .81 — stage 2: approved decorative artwork above the unchanged .80 marble backdrop. */
+/* .82 — corrections to stages 1–2. Preserve artwork and all content geometry. */
 #sheet.courts76-home-sheet{
  background-color:#f4e8d7!important;
- height:auto!important;min-height:100%!important;max-height:none!important;
+ position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts81-decor.webp?v=6521'),url('courts80-background.webp?v=6521')!important;
- background-size:min(38vw,270px) auto,100% 100%!important;background-position:right top,center top!important;background-repeat:no-repeat,no-repeat!important;
+ background-image:url('courts82-decor.webp?v=6522'),url('courts80-background.webp?v=6522')!important;
+ background-size:min(42vw,295px) auto,100% 100%!important;
+ background-position:right top,center top!important;
+ background-repeat:no-repeat,no-repeat!important;
+ background-origin:border-box!important;background-clip:border-box!important;
  padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
 }
 #sheet.courts76-home-sheet .courts76-home{position:relative;isolation:isolate;width:100%;max-width:690px;padding:0 clamp(13px,3.8vw,24px) 12px;margin:0 auto;box-sizing:border-box}
@@ -34,5 +37,13 @@
 @media(max-width:370px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:32px 37px minmax(0,1fr);gap:6px;margin-bottom:20px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:32px;height:34px}#sheet .courts76-home .courts76-scales{width:37px;height:37px}#sheet .courts76-home .courts76-title{padding-left:6px}#sheet .courts76-home .courts76-title h2{font-size:clamp(18px,5.6vw,21px)!important}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:43px minmax(0,1fr) 25px;gap:6px;padding:7px 8px 7px 6px}#sheet .courts76-home .courts76-icon{width:43px;height:39px}#sheet .courts76-home .courts76-copy{padding-left:7px}#sheet .courts76-home .courts76-arrow{width:25px;height:25px}#sheet .courts76-home .courts76-grouphead{gap:6px}}
 @media(min-width:500px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:48px 60px minmax(0,1fr);gap:12px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:46px;height:46px}#sheet .courts76-home .courts76-scales{width:60px;height:60px}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:64px minmax(0,1fr) 36px;min-height:80px;gap:13px;padding:10px 16px}#sheet .courts76-home .courts76-icon{width:64px;height:55px}#sheet .courts76-home .courts76-arrow{width:36px;height:36px}}
 
-/* Match the last pixels of the marble asset to the document canvas, including iOS safe-area. */
-html:has(#sheet.courts76-home-sheet.open),body:has(#sheet.courts76-home-sheet.open){background-color:#f4e8d7!important;}
+/* Extend the same marble resource to the document canvas behind the fixed sheet.
+   No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
+html:has(#sheet.courts76-home-sheet.open){
+ background-color:#eed3b2!important;
+ background-image:url('courts80-background.webp?v=6522')!important;
+ background-position:center bottom!important;background-size:100% 100%!important;
+ background-repeat:no-repeat!important;min-height:100%!important;
+}
+body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
+
