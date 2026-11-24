@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.91';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6531';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.92';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6532';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4983,19 +4983,36 @@ function courts73CatalogRows(q,parent){
  return rows.join('')||'<p class="courts73-empty">Ничего не найдено в тестовом справочнике.</p>';
 }
 /* .76: real interactive home controls with artwork from the approved mockup. */
+/* .92: fit the long heading using the actual device font. Do not clip or
+   ellipsize; if the safe minimum cannot fit, natural wrapping is allowed. */
+function courts92FitJurisdiction(){
+ var title=document.querySelector('#sheet.courts76-home-sheet .courts76-row[data-v="jurisdiction"] strong');
+ if(!title || !title.clientWidth)return;
+ title.style.removeProperty('--courts92-fit');title.style.whiteSpace='nowrap';
+ var range=document.createRange();range.selectNodeContents(title);
+ var available=title.clientWidth-1, size=parseFloat(getComputedStyle(title).fontSize);
+ var width=range.getBoundingClientRect().width;
+ if(width>available && width>0){
+  var fit=Math.max(13,Math.floor(size*available/width*10)/10);
+  title.style.setProperty('--courts92-fit',fit+'px');
+ }
+ if(range.getBoundingClientRect().width>available)title.style.removeProperty('white-space');
+}
+window.addEventListener('resize',courts92FitJurisdiction,{passive:true});
 function courts76Home(){
  var icons=['group-directory','group-electronic','group-professional'];
  var art={'mine':'mine','general':'general','https://ej.sudrf.ru/':'gas','arbitr':'arbitr','jurisdiction':'jurisdiction','practice':'practice','bailiff':'bailiff'};
  function image(name,cls){var prefix=cls==='courts76-groupicon'?'courts91-':'courts76-';return '<img class="'+cls+'" src="'+prefix+name+'.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">';}
  function row(r){
   var ext=/^https:\/\//.test(r[0]);
-  var tag=ext?'<a href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"':'<button type="button" data-act="courts73-route" data-v="'+esc(r[0])+'"';
-  return tag+' class="courts76-row courts73-row">'+image(art[r[0]],'courts76-icon')+'<span class="courts76-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts76-arrow" aria-hidden="true">'+(ext?courts73ExternalIcon():ico('chev','s'))+'</span>'+(ext?'</a>':'</button>');
+  var tag=ext?'<a href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(r[1]+' — '+r[2]+' (внешний сайт)')+'"':'<button type="button" data-act="courts73-route" data-v="'+esc(r[0])+'"';
+  return tag+' class="courts76-row courts73-row">'+image(art[r[0]],'courts76-icon')+'<span class="courts76-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts76-arrow" aria-hidden="true">'+ico('chev','s')+'</span>'+(ext?'</a>':'</button>');
  }
  var head='<header class="courts76-head"><button type="button" class="courts76-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button>'+'<img class="courts76-scales" src="courts84-scales.webp?v='+APP_BUILD+'" alt="" aria-hidden="true">'+'<div class="courts76-title"><h2>Судебные сервисы</h2><p>Профессиональные инструменты</p></div></header>';
  var groups=COURTS73_GROUPS.map(function(g,i){return '<section class="courts76-group" aria-labelledby="courts76-g'+i+'"><div class="courts76-grouphead">'+image(icons[i],'courts76-groupicon')+'<h3 id="courts76-g'+i+'">'+esc(g[0].toUpperCase())+'</h3><i aria-hidden="true"></i></div><div class="courts76-rows">'+g[1].map(row).join('')+'</div></section>';}).join('');
  openSheet('<main class="settings60-page courts73-page courts76-home" data-route="home" data-parent="">'+head+groups+'</main>');
  var sh=$('#sheet');sh.classList.add('settings60-child-sheet','courts73-sheet','courts76-home-sheet','full');sh.setAttribute('aria-label','Судебные сервисы');
+ courts92FitJurisdiction();
 }
 function courts73Open(route){
  if(route==='home'){

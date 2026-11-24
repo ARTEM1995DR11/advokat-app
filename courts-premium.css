@@ -1,15 +1,15 @@
 /* .85 — stage 3 refinement and stage 4: group headings. */
 #sheet.courts76-home-sheet{
- --courts83-decor-width:min(42vw,286px);
+ --courts83-decor-width:min(44.5vw,304px);
  --courts83-decor-height:calc(var(--courts83-decor-width) * 316 / 424);
  --courts83-top-pad:calc(max(env(safe-area-inset-top,0px),32px) + 9px);
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6531'),url('courts80-background.webp?v=6531')!important;
- background-size:var(--courts83-decor-width) auto,100% 100%!important;
- background-position:right top,center top!important;
- background-repeat:no-repeat,no-repeat!important;
+ background-image:url('courts83-decor.webp?v=6532'),linear-gradient(rgba(255,250,243,.15),rgba(255,250,243,.15)),url('courts80-background.webp?v=6532')!important;
+ background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
+ background-position:right top,center top,center top!important;
+ background-repeat:no-repeat,no-repeat,no-repeat!important;
  background-origin:border-box!important;background-clip:border-box!important;
  padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
 }
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:url('courts80-background.webp?v=6531')!important;
+ background-image:linear-gradient(rgba(255,250,243,.15),rgba(255,250,243,.15)),url('courts80-background.webp?v=6532')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }
@@ -206,4 +206,31 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
  #sheet.courts76-home-sheet .courts76-home .courts76-group:not(:last-child){
   margin-bottom:calc(14px + min(3px,var(--courts89-extra) / 6));
  }
+}
+
+/* .92 — final mockup alignment; mobile vertical fill is intentionally retained. */
+#sheet.courts76-home-sheet .courts76-home .courts76-head{
+ width:min(77vw,100%);
+ margin-top:max(3px,calc(var(--courts83-decor-height) * .61 - var(--courts83-top-pad) - 7px));
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-title h2{
+ font-size:clamp(16px,4.72vw,31px)!important;letter-spacing:-.022em;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-row{
+ background:linear-gradient(155deg,#fffdfa 0%,#fffaf2 48%,#f7ebd9 100%) padding-box,
+ linear-gradient(180deg,#c8a370 0%,#e9d4ae 28%,#dfc18c 73%,#bd945a 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf9,inset 0 0 0 2px #e1c18b49,
+ inset 0 3px 6px #ffffff80,inset 0 -3px 6px #d5a35a1f,
+ 0 2px 1px #bc8d4e20,0 5px 8px -3px #86541e54!important;
+}
+/* Match the reference long label on common phone widths. Let it wrap on narrow screens. */
+#sheet.courts76-home-sheet .courts76-home .courts76-row[data-v="jurisdiction"] .courts76-copy strong{
+ font-size:var(--courts92-fit,clamp(13px,4.05vw,22px))!important;letter-spacing:-.025em;-webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+@media (min-width:380px) and (max-width:499px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:54px minmax(0,1fr) 29px;}
+ #sheet.courts76-home-sheet .courts76-home .courts76-icon{height:46px;}
+}
+@media (min-width:700px){
+ #sheet.courts76-home-sheet .courts76-home .courts76-head{width:100%;margin-top:12px;}
 }
