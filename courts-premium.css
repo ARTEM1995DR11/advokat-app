@@ -1,7 +1,9 @@
-/* .76 — approved judicial-services home only. Child screens retain .75 styles. */
+/* .78 — stage 1: continuous marble backdrop on judicial-services home only. */
 #sheet.courts76-home-sheet{
- background-color:#f8ecdc!important;
- background-image:url('courts77-background.webp?v=6517')!important;
+ background-color:#f8ebda!important;
+ height:auto!important;min-height:100%!important;max-height:none!important;
+ inset:0!important;
+ background-image:url('courts78-background.webp?v=6518')!important;
  background-size:100% 100%!important;background-position:center top!important;background-repeat:no-repeat!important;
  padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
 }
@@ -31,3 +33,6 @@
 #sheet .courts76-home .courts76-arrow svg{width:17px;height:17px;stroke-width:2.6;filter:drop-shadow(0 1px 0 #805315)}
 @media(max-width:370px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:32px 37px minmax(0,1fr);gap:6px;margin-bottom:20px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:32px;height:34px}#sheet .courts76-home .courts76-scales{width:37px;height:37px}#sheet .courts76-home .courts76-title{padding-left:6px}#sheet .courts76-home .courts76-title h2{font-size:clamp(18px,5.6vw,21px)!important}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:43px minmax(0,1fr) 25px;gap:6px;padding:7px 8px 7px 6px}#sheet .courts76-home .courts76-icon{width:43px;height:39px}#sheet .courts76-home .courts76-copy{padding-left:7px}#sheet .courts76-home .courts76-arrow{width:25px;height:25px}#sheet .courts76-home .courts76-grouphead{gap:6px}}
 @media(min-width:500px){#sheet.courts76-home-sheet .courts76-home .courts76-head{grid-template-columns:48px 60px minmax(0,1fr);gap:12px}#sheet.courts76-home-sheet .courts76-home .courts76-back{width:46px;height:46px}#sheet .courts76-home .courts76-scales{width:60px;height:60px}#sheet.courts76-home-sheet .courts76-home .courts76-row{grid-template-columns:64px minmax(0,1fr) 36px;min-height:80px;gap:13px;padding:10px 16px}#sheet .courts76-home .courts76-icon{width:64px;height:55px}#sheet .courts76-home .courts76-arrow{width:36px;height:36px}}
+
+/* Match the last pixels of the marble asset to the document canvas, including iOS safe-area. */
+html:has(#sheet.courts76-home-sheet.open),body:has(#sheet.courts76-home-sheet.open){background-color:#f8ebda!important;}
