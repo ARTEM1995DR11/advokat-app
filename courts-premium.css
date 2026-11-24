@@ -1,10 +1,10 @@
-/* .80 — stage 1 corrected: approved marble backdrop installed without changing layout. */
+/* .81 — stage 2: approved decorative artwork above the unchanged .80 marble backdrop. */
 #sheet.courts76-home-sheet{
  background-color:#f4e8d7!important;
  height:auto!important;min-height:100%!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts80-background.webp?v=6520')!important;
- background-size:100% 100%!important;background-position:center top!important;background-repeat:no-repeat!important;
+ background-image:url('courts81-decor.webp?v=6521'),url('courts80-background.webp?v=6521')!important;
+ background-size:min(38vw,270px) auto,100% 100%!important;background-position:right top,center top!important;background-repeat:no-repeat,no-repeat!important;
  padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
 }
 #sheet.courts76-home-sheet .courts76-home{position:relative;isolation:isolate;width:100%;max-width:690px;padding:0 clamp(13px,3.8vw,24px) 12px;margin:0 auto;box-sizing:border-box}
