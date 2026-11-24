@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.74';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6514';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.75';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6515';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4911,7 +4911,7 @@ function settings60Page(title,subtitle,icon,content){
   openSheet('<main class="settings60-page">'+settings60Head(title,subtitle,icon)+content+'</main>');
   var el=$('#sheet');el.classList.add('settings60-child-sheet','full');el.setAttribute('aria-label',title);
 }
-/* v6514: draft judicial-services navigation. No case data, credentials or network fetches. */
+/* v6515: approved draft judicial-services structure. Seven buttons, three groups. */
 var COURTS73_DEMO=[
  ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
@@ -4922,28 +4922,47 @@ var COURTS73_DEMO=[
 ];
 var COURTS73_SAVED=[];
 var COURTS73_GROUPS=[
- ['Быстрый доступ',[['mine','Мои суды','Личный справочник судов','court']]],
- ['Судебные системы',[
- ['https://ej.sudrf.ru/','ГАС «Правосудие»','Личный кабинет и история обращений','doc'],
- ['general','Суды общей юрисдикции','Поиск судов и судебных дел','court'],
- ['magistrate','Мировые судьи','Судебные участки и дела','gavel'],
- ['moscow','Московские суды','Дела и заседания в Москве','court'],
- ['arbitr','Арбитражные суды','Картотека и судебные ресурсы','brief'],
- ['supreme','Верховный Суд РФ','Движение дел и жалоб','scale']]],
- ['Дополнительные сервисы',[
+ ['Судебные справочники',[
+ ['mine','Мои суды','Часто используемые суды','court'],
+ ['general','Все суды России','Поиск судов и судебных участков','court']]],
+ ['Электронное правосудие',[
+ ['https://ej.sudrf.ru/','ГАС «Правосудие»','История направленных обращений','doc'],
+ ['arbitr','Арбитражные сервисы','Картотека и Мой арбитр','brief']]],
+ ['Профессиональные сервисы',[
  ['jurisdiction','Территориальная подсудность','Определение суда по адресу','pin'],
  ['practice','Судебная практика','Судебные акты и разъяснения','tpl'],
  ['bailiff','ФССП России','Исполнительные производства','clipboard']]]
 ];
 var COURTS73_RESOURCES={
- general:[['https://sudrf.ru/','Федеральный портал судов','Выберите суд и раздел делопроизводства','search'],['catalog-general','Пример справочника судов','Поиск по демонстрационной базе','court']],
- magistrate:[['https://sudrf.ru/','Судебные участки России','На портале выберите «Участки мировых судей»','gavel'],['https://mos-sud.ru/','Мировые судьи Москвы','Региональный официальный портал','court']],
- moscow:[['https://www.mos-gorsud.ru/search','Поиск судебных дел','По номеру дела или участнику','search'],['https://www.mos-gorsud.ru/hearing','Судебные заседания','Расписание на портале','cal'],['https://www.mos-gorsud.ru/','Справочник судов','Выбор суда на официальном портале','court']],
- arbitr:[['https://kad.arbitr.ru/','Картотека арбитражных дел','Поиск дел и судебных актов','search'],['https://rad.arbitr.ru/','Календарь заседаний','Расписание арбитражных судов','cal'],['https://guard.arbitr.ru/','Электронный страж','Подписки на дела на внешнем сервисе','bell'],['https://my.arbitr.ru/','Мой арбитр','Личный кабинет и история обращений','doc'],['https://recess.arbitr.ru/','Перерывы в заседаниях','Информация на официальном ресурсе','clock']],
- supreme:[['https://vsrf.ru/lk/practice/claims','Дела и жалобы','Электронная справочная ВС РФ','search'],['https://vsrf.ru/lk/practice/hearings','Списки дел к слушанию','Назначенные заседания','cal'],['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты','Результаты рассмотрения','doc'],['https://www.vsrf.ru/','Сайт Верховного Суда','Контакты и личный кабинет','court']],
- jurisdiction:[['https://sudrf.ru/','Федеральные суды и мировые судьи','Выберите поиск по территориальной подсудности на портале','pin'],['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court']],
- practice:[['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты ВС РФ','Электронная справочная','doc'],['https://www.ksrf.ru/','Конституционный Суд РФ','Решения на официальном сайте','scale'],['https://sudrf.ru/','Суды общей юрисдикции','Поиск опубликованных актов на сайтах судов','court'],['https://ras.arbitr.ru/','Банк решений арбитражных судов','Поиск судебных актов','search']],
- bailiff:[['https://fssp.gov.ru/iss/ip','Банк исполнительных производств','Поиск на официальном сайте','search'],['https://fssp.gov.ru/','Подразделения и контакты','Выберите нужный сервис на сайте ФССП','phone'],['https://www.gosuslugi.ru/','Госуслуги','Ход исполнительного производства после входа','doc']]
+ general:[
+   ['catalog-general','Демонстрационный справочник судов','Поиск суда по названию или региону','court'],
+   ['https://sudrf.ru/','Федеральный портал судов','Суды общей юрисдикции и мировые судьи','search'],
+   ['https://www.mos-gorsud.ru/','Суды Москвы','Дела, заседания и справочная информация','court'],
+   ['https://www.vsrf.ru/','Верховный Суд РФ','Официальный сайт и электронная справочная','scale']
+ ],
+ arbitr:[
+   ['https://kad.arbitr.ru/','Картотека арбитражных дел','Поиск дел и судебных актов','search'],
+   ['https://my.arbitr.ru/','Мой арбитр','Личный кабинет и история обращений','doc'],
+   ['https://rad.arbitr.ru/','Календарь заседаний','Расписание арбитражных судов','cal'],
+   ['https://guard.arbitr.ru/','Электронный страж','Подписки на движение дел','bell'],
+   ['https://recess.arbitr.ru/','Перерывы в заседаниях','Информация на официальном ресурсе','clock']
+ ],
+ jurisdiction:[
+   ['https://sudrf.ru/','Федеральные суды и мировые судьи','Поиск суда по территориальной подсудности','pin'],
+   ['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court']
+ ],
+ practice:[
+   ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
+   ['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты ВС РФ','Электронная справочная','doc'],
+   ['https://www.ksrf.ru/','Конституционный Суд РФ','Решения на официальном сайте','scale'],
+   ['https://ras.arbitr.ru/','Банк решений арбитражных судов','Поиск судебных актов','search'],
+   ['https://sudrf.ru/','Суды общей юрисдикции','Опубликованные акты на сайтах судов','court']
+ ],
+ bailiff:[
+   ['https://fssp.gov.ru/iss/ip','Банк исполнительных производств','Поиск на официальном сайте','search'],
+   ['https://fssp.gov.ru/','Подразделения и контакты','Официальный портал ФССП','phone'],
+   ['https://www.gosuslugi.ru/','Госуслуги','Ход исполнительного производства после входа','doc']
+ ]
 };
 function courts73ExternalIcon(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/></svg>';}
 function courts73Row(r){
@@ -4965,33 +4984,33 @@ function courts73CatalogRows(q,parent){
 }
 function courts73Open(route){
  if(route==='home'){
-   courts73Page('home','Судебные сервисы','Суды и профессиональные ресурсы',COURTS73_GROUPS.map(function(g){return courts73Section(g[0],g[1]);}).join('')+'<p class="courts73-foot">Черновая версия · внешние ресурсы открываются в браузере</p>','');return;
+   courts73Page('home','Судебные сервисы','Профессиональные инструменты',COURTS73_GROUPS.map(function(g){return courts73Section(g[0],g[1]);}).join('')+'<p class="courts73-foot">Черновой вариант · внешние ресурсы открываются в браузере</p>','');return;
  }
  if(route==='mine'){
    var saved=COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});
-   var content=settings60Info('Тестовый справочник: выбор судов действует до перезапуска приложения. Полная база и постоянное сохранение будут проработаны отдельно.','')+
+   var content=settings60Info('Это демонстрационный справочник. Выбранные суды сохраняются временно, чтобы проверить логику и внешний вид раздела.','')+
       (saved.length?courts73Section('Сохранённые суды',saved.map(function(c){return ['court:'+c[0]+'|mine',c[1],c[2],'court'];})):'<div class="courts73-empty">Пока нет сохранённых судов. Добавьте суд из тестового справочника.</div>')+
       '<button type="button" class="settings60-gold-action" data-act="courts73-route" data-v="catalog">Добавить суд</button>';
-   courts73Page(route,'Мои суды','Личный справочник',content,'home');return;
+   courts73Page(route,'Мои суды','Часто используемые суды',content,'home');return;
  }
  if(route==='catalog'||route==='catalog-general'){
-   courts73Page(route,'Добавить суд','Демонстрационная база · '+COURTS73_DEMO.length+' судов','<label class="courts73-search"><span>'+ico('search','s')+'</span><input id="courts73-search" type="search" placeholder="Название суда или регион" autocomplete="off" aria-label="Поиск суда"></label>'+settings60Card('<div id="courts73-catalog">'+courts73CatalogRows('',route)+'</div>'),route==='catalog-general'?'general':'mine');return;
+   courts73Page(route,'Все суды России','Демонстрационная база · '+COURTS73_DEMO.length+' судов','<label class="courts73-search"><span>'+ico('search','s')+'</span><input id="courts73-search" type="search" placeholder="Поиск суда или региона" autocomplete="off" aria-label="Поиск суда"></label>'+settings60Card('<div id="courts73-catalog">'+courts73CatalogRows('',route)+'</div>'),route==='catalog-general'?'general':'mine');return;
  }
  if(route.indexOf('court:')===0){
    var parts=route.slice(6).split('|'), c=COURTS73_DEMO.filter(function(x){return x[0]===parts[0];})[0];if(!c)return;
    var parent=parts[1]==='mine'?'mine':parts[1]==='catalog-general'?'catalog-general':'catalog', on=COURTS73_SAVED.indexOf(c[0])>=0;
    var rows=[[c[3],'Официальный сайт','Контакты, адрес и режим работы на сайте','court']];if(c[4])rows.push([c[4],'Сведения о суде и делах','Раздел официального ресурса','doc']);
-   courts73Page(route,c[1],c[2],courts73Section('Ресурсы суда',rows)+'<button type="button" class="settings60-gold-action" data-act="courts73-toggle" data-v="'+esc(route)+'">'+(on?'Убрать из моих судов':'Добавить в мои суды')+'</button>'+settings60Info('Контактные данные и подробные действия с судом будут добавлены после проверки источников. Сейчас доступны официальные ссылки.',''),parent);return;
+   courts73Page(route,c[1],c[2],courts73Section('Ресурсы суда',rows)+'<button type="button" class="settings60-gold-action" data-act="courts73-toggle" data-v="'+esc(route)+'">'+(on?'Убрать из моих судов':'Добавить в мои суды')+'</button>'+settings60Info('Пока это черновая карточка суда. На данном этапе доступны официальные ссылки и добавление в список «Мои суды». ',''),parent);return;
  }
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
- if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Приложение не передаёт сведения из адвокатских дел.</p>','home');
+ if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
 }
 function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
 function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
 
-/* v6514: a judicial external-link excursion is not an ordinary PWA launch.
+/* v6515: a judicial external-link excursion is not an ordinary PWA launch.
    Persist only the allowlisted demo route and scroll offset, never a URL or case data.
    Consume once, only after unlock; keep the original Today policy for other launches. */
 var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';
