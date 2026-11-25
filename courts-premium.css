@@ -6,7 +6,7 @@
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6540'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6540')!important;
+ background-image:url('courts83-decor.webp?v=6541'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6541')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
  background-position:right top,center top,center top!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6540')!important;
+ background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6541')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }

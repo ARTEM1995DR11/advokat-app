@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.100';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6540';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.101';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6541';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5228,7 +5228,7 @@ function backup97Toggle(id,button){
   var on=field.type==='password';field.type=on?'text':'password';
   button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',on?'Скрыть пароль':'Показать пароль');button.innerHTML=backup97Eye(on);
 }
-function backup97SaveArt(){return '<svg class="backup97-save-art" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="19" cy="9" rx="14" ry="6"/><path d="M5 9v24c0 5 9 8 16 7M33 9v12M5 17c0 7 22 10 28 1M5 25c0 6 15 9 21 5M5 33c0 3 7 6 16 6"/><path d="M43 30a10 10 0 1 0 0 10M43 24v7h-7"/></svg>';}
+function backup97SaveArt(){return '<svg class="backup97-save-art" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="bk101-metal" x1="0" y1="0" x2=".4" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#fff4bc"/><stop offset=".29" stop-color="#f6cd65"/><stop offset=".62" stop-color="#d99a25"/><stop offset="1" stop-color="#a3650b"/></linearGradient><linearGradient id="bk101-rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8d4"/><stop offset=".55" stop-color="#e7ac36"/><stop offset="1" stop-color="#87500a"/></linearGradient></defs><g stroke="#8b540a" stroke-width="1.2" stroke-linejoin="round"><path d="M5 9v25c0 8 28 8 28 0V9Z" fill="url(#bk101-metal)"/><ellipse cx="19" cy="9" rx="14" ry="6" fill="#f9d477"/><ellipse cx="19" cy="8.5" rx="11" ry="3.6" fill="#b87918"/><path d="M5 16c0 8 28 8 28 0M5 24c0 8 28 8 28 0M5 32c0 7 28 7 28 0" stroke="url(#bk101-rim)" stroke-width="3" fill="none"/><path d="M43 28a10 10 0 1 0 0 12M43 23v7h-7" stroke="#80500b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M43 28a10 10 0 1 0 0 12M43 23v7h-7" stroke="url(#bk101-rim)" stroke-width="3.8" fill="none" stroke-linecap="round"/></g></svg>'; }
 function sheetBackup(){
   var bs=backupPlanStats(),last=S.settings.lastBackup,label='Копия ещё не создавалась';
   if(last){var when=new Date(last);if(!isNaN(when.getTime()))label=when.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})+' в '+when.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});}
@@ -5248,11 +5248,8 @@ function sheetBackup(){
     '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
   openSheet('<img class="backup100-decor" src="backup98-decor.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false"><div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
   var sh=$('#sheet');sh.classList.add('settings60-child-sheet','backup97-sheet','full');sh.setAttribute('aria-label','Резервная копия планов');
-  var pane=sh.querySelector('.backup99-scroll'),decor=sh.querySelector('.backup100-decor');
-  // Single decorative layer: fades out as content scrolls; no duplicated background.
-  function syncBackupDecor(){decor.style.opacity=String(Math.max(0,1-Math.max(0,pane.scrollTop)/64));}
-  pane.addEventListener('scroll',syncBackupDecor,{passive:true});
-  pane.scrollTop=0;syncBackupDecor();
+  // Fixed decorative layer remains visible; only content scrolls.
+  sh.querySelector('.backup99-scroll').scrollTop=0;
 }
 
 function rowSw(i,t,s,act,on){
