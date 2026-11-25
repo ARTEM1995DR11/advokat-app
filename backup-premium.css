@@ -6,7 +6,7 @@
  display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6548'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6548')!important;
+ background-image:url('backup98-decor.webp?v=6550'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6550')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
@@ -203,3 +203,43 @@
  height:1px;min-width:12px;flex:1 0 12px;
  background:linear-gradient(90deg,#98601b 0%,#b78331 100%);
 }
+
+
+/* .109 — stage 5: only the two-format information card. */
+#sheet.backup97-sheet .backup97-formats{
+ padding:2px clamp(12px,3.45vw,20px);
+ border-color:#d9b784;
+ background:linear-gradient(150deg,#fffdf8 0%,#fff8ec 52%,#f8e9d2 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-format{
+ grid-template-columns:clamp(42px,12.5vw,66px) minmax(0,1fr);
+ gap:clamp(9px,2.75vw,14px);padding:3px 0 3px clamp(5px,2.05vw,12px);
+}
+#sheet.backup97-sheet .backup97-format .backup97-tile{
+ width:100%;height:clamp(40px,10.9vw,56px);border-radius:11px;
+ box-shadow:inset 0 1px 1px #fffefa,0 3px 5px #94652545;
+}
+#sheet.backup97-sheet .backup97-format .backup97-tile img{width:76%;height:83%;object-fit:contain}
+#sheet.backup97-sheet .backup97-format .backup97-copy{position:relative;border-left:0;padding:0 0 0 clamp(9px,2.5vw,13px)}
+#sheet.backup97-sheet .backup97-format .backup97-copy::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:1px;background:#b68e57;pointer-events:none}
+#sheet.backup97-sheet .backup97-format .backup97-copy strong{font-size:clamp(13px,3.72vw,22px)!important;line-height:1.09!important;letter-spacing:-.015em}
+#sheet.backup97-sheet .backup97-format .backup97-copy p{font:400 clamp(11px,2.91vw,15.5px)/1.17 var(--sans)!important;margin-top:2px!important;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-format+.backup97-format{border-top:1px solid #dfc49b}
+
+
+/* .110 — stage 6: last-backup status only, aligned with stage 5. */
+#sheet.backup97-sheet .backup97-status{
+ grid-template-columns:clamp(42px,12.5vw,66px) minmax(0,1fr);
+ gap:clamp(9px,2.75vw,14px);align-items:center;
+ padding:3px clamp(12px,3.45vw,20px) 3px calc(clamp(12px,3.45vw,20px) + clamp(5px,2.05vw,12px));
+ border-color:#d9b784;
+ background:linear-gradient(150deg,#fffdf8 0%,#fff8ec 52%,#f8e9d2 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-status .backup97-tile{width:100%;height:clamp(33px,9.25vw,47px);border-radius:11px;box-shadow:inset 0 1px 1px #fffefa,0 3px 5px #94652545}
+#sheet.backup97-sheet .backup97-status .backup97-tile img{width:76%;height:85%;object-fit:contain}
+#sheet.backup97-sheet .backup97-status .backup97-copy{position:relative;border-left:0;padding:0 0 0 clamp(9px,2.5vw,13px)}
+#sheet.backup97-sheet .backup97-status .backup97-copy::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:1px;background:#b68e57;pointer-events:none}
+#sheet.backup97-sheet .backup97-status .backup97-copy strong{font-size:clamp(13px,3.72vw,22px)!important;line-height:1.09!important;letter-spacing:-.015em;overflow-wrap:normal}
+#sheet.backup97-sheet .backup97-status .backup97-copy p{font:400 clamp(11px,2.91vw,15.5px)/1.17 var(--sans)!important;margin-top:2px!important;overflow-wrap:break-word}
