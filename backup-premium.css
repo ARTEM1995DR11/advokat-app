@@ -1,11 +1,29 @@
 /* .98 — page-specific backup design. Nothing affects other Settings sheets. */
 #sheet.backup97-sheet{
- position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;
- padding:max(env(safe-area-inset-top,0px),44px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
- background:#f5e8d5!important;background-image:url('backup98-decor.webp?v=6539'),linear-gradient(135deg,#fff9ef55 0%,#fff5e82b 38%,#fff5e81a 100%),url('courts80-background.webp?v=6539')!important;
- background-position:right -10px top,center top,center top!important;background-size:min(39vw,215px) auto,100% 100%,cover!important;background-repeat:no-repeat!important;background-attachment:local,scroll,scroll!important;
- overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+ --backup100-safe:max(env(safe-area-inset-top,0px),44px);
+ --backup100-bottom:max(env(safe-area-inset-bottom,0px),12px);
+ position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+ display:block!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+ background:#f5e8d5!important;background-image:linear-gradient(145deg,#fff4e16e 0%,#fff7ea35 32%,#fff5e81a 100%),url('courts80-background.webp?v=6540')!important;
+ background-position:center top,center top!important;background-size:100% 100%,cover!important;background-repeat:no-repeat!important;background-attachment:scroll!important;
+ overflow:hidden!important;overflow:clip!important;overscroll-behavior:contain!important;isolation:isolate;
 }
+#sheet.backup97-sheet.open{transform:none!important}
+#sheet.backup97-sheet>.grab{display:none!important}
+/* Only one marble background and one decor element; the scroll pane is transparent. */
+#sheet.backup97-sheet>.backup100-decor{
+ position:absolute!important;top:0!important;right:max(-7px,calc((100% - 660px)/2 - 7px))!important;left:auto!important;bottom:auto!important;
+ width:min(37vw,215px)!important;height:auto!important;aspect-ratio:313/230;object-fit:contain;display:block!important;pointer-events:none;z-index:0;
+ margin:0!important;padding:0!important;max-width:none!important;opacity:1;
+}
+#sheet.backup97-sheet>.backup99-scroll{
+ position:absolute!important;inset:var(--backup100-safe) 0 0!important;display:block!important;box-sizing:border-box!important;
+ width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;
+ background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+ overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;z-index:1;
+ scroll-padding-bottom:calc(var(--backup100-bottom) + 16px);
+}
+#sheet.backup97-sheet>.backup99-scroll::-webkit-scrollbar{display:none;width:0;height:0}
 #sheet.backup97-sheet::-webkit-scrollbar{display:none;width:0;height:0}
 #sheet.backup97-sheet .backup97-page{--navy:#101936;--ink:#292018;--gold:#94601e;--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,Arial,sans-serif;box-sizing:border-box;width:100%;max-width:660px;margin:0 auto;padding:0 clamp(13px,3.65vw,25px) 16px;min-width:0;color:var(--navy);font-family:var(--sans)}
 #sheet.backup97-sheet .backup97-page *{box-sizing:border-box}
@@ -64,37 +82,43 @@
 /* .98: keep compact mobile layout without shrinking password touch targets. */
 @media(max-width:360px){#sheet.backup97-sheet .backup97-heading h2{font-size:16px!important}#sheet.backup97-sheet .backup97-heading>span{font-size:9px}#sheet.backup97-sheet .backup97-group{gap:6px}#sheet.backup97-sheet .backup97-stat img{width:36px;height:34px}}
 
-/* .99 — audit points 1–5 only: soft background, safe-area, decor and header. */
-#sheet.backup97-sheet{
- --backup99-safe:max(env(safe-area-inset-top,0px),44px);
- --backup99-decor-size:min(38vw,215px);
- --backup99-decor-top:0px;
- --backup99-marble-size:max(100vw,calc(100dvh * .666667)) auto;
- padding:var(--backup99-safe) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
- overflow:hidden!important;
- background-image:url('backup98-decor.webp?v=6539'),linear-gradient(145deg,#fff4e16e 0%,#fff7ea35 32%,#fff5e81a 100%),url('courts80-background.webp?v=6539')!important;
- background-position:right max(-8px,calc((100vw - 660px)/2 - 8px)) top var(--backup99-decor-top),center top,center top!important;
- background-size:var(--backup99-decor-size) auto,100vw 100dvh,var(--backup99-marble-size)!important;
- background-attachment:scroll!important;
+
+/* .100 — repair scroll regression from .99; audit points 6–10 only. */
+#sheet.backup97-sheet .backup97-page{position:relative;padding-top:6px;padding-bottom:calc(var(--backup100-bottom) + 16px);background:transparent!important;margin:0 auto!important}
+#sheet.backup97-sheet .backup97-page::before{content:none!important;display:none!important}
+#sheet.backup97-sheet .backup97-head{grid-template-columns:36px 44px minmax(0,1fr);gap:5px;padding:3px clamp(35px,12vw,70px) 0 0;min-height:57px;margin-bottom:7px;align-items:center}
+#sheet.backup97-sheet .backup97-head-art{width:44px;height:40px;padding-left:4px;border-left-color:#ad7934}
+#sheet.backup97-sheet .backup97-heading{container-type:normal;border-left:0;padding-left:7px;position:relative}
+#sheet.backup97-sheet .backup97-heading::before{content:"";position:absolute;left:0;top:50%;height:min(42px,100%);width:1px;background:#ad7934;transform:translateY(-50%);pointer-events:none}
+#sheet.backup97-sheet .backup97-heading>span{font-size:clamp(9px,2.4vw,13px);line-height:1.13}
+#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,4.12vw,25px)!important;line-height:1.1!important;letter-spacing:-.025em;margin:3px 0!important}
+#sheet.backup97-sheet .backup97-heading p{font-size:clamp(10.5px,2.68vw,15px)!important;line-height:1.15!important;letter-spacing:-.015em}
+#sheet.backup97-sheet .backup97-group i{height:1.5px;background:linear-gradient(90deg,#8b500d 0%,#ac731f 72%,#b9832e 100%)}
+#sheet.backup97-sheet .backup97-formats{padding:2px 10px}
+#sheet.backup97-sheet .backup97-format{grid-template-columns:50px minmax(0,1fr);gap:9px;padding:5px 2px}
+#sheet.backup97-sheet .backup97-format .backup97-tile{width:50px;height:46px}
+#sheet.backup97-sheet .backup97-format .backup97-tile img{width:37px;height:37px}
+#sheet.backup97-sheet .backup97-format .backup97-copy strong{font-size:clamp(14px,4vw,23px)!important;line-height:1.10!important}
+#sheet.backup97-sheet .backup97-format .backup97-copy p{font:400 clamp(11.5px,3.02vw,15.5px)/1.17 var(--sans)!important;margin-top:2px!important;overflow-wrap:normal}
+#sheet.backup97-sheet .backup97-status{grid-template-columns:50px minmax(0,1fr);gap:9px;padding:5px 11px}
+#sheet.backup97-sheet .backup97-status .backup97-tile{width:50px;height:38px}
+#sheet.backup97-sheet .backup97-status .backup97-tile img{width:37px;height:32px}
+#sheet.backup97-sheet .backup97-status .backup97-copy strong{font-size:clamp(14px,4vw,23px)!important;line-height:1.1!important}
+#sheet.backup97-sheet .backup97-status .backup97-copy p{font:400 clamp(11.5px,3.02vw,15.5px)/1.15 var(--sans)!important;margin-top:2px!important}
+#sheet.backup97-sheet .backup97-stat{display:grid;grid-template-rows:clamp(27px,7.4vw,38px) clamp(23px,6.3vw,35px) auto;justify-items:center;align-items:center;align-content:center;justify-content:stretch;gap:0;min-height:0;padding:3px 3px 5px}
+#sheet.backup97-sheet .backup97-stat img{width:clamp(34px,10vw,47px);height:100%;object-fit:contain;align-self:center}
+#sheet.backup97-sheet .backup97-stat b{font:700 clamp(24px,6.7vw,37px)/.94 'Times New Roman',Georgia,serif;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1;align-self:center}
+#sheet.backup97-sheet .backup97-stat span{font:500 clamp(11px,2.95vw,15px)/1.12 var(--sans);align-self:center;text-align:center}
+@media(max-width:360px){
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:34px 39px minmax(0,1fr);gap:4px;padding-right:31px}
+ #sheet.backup97-sheet .backup97-head-art{width:39px;height:37px}
+ #sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status{grid-template-columns:43px minmax(0,1fr);gap:7px}
+ #sheet.backup97-sheet .backup97-format .backup97-tile,#sheet.backup97-sheet .backup97-status .backup97-tile{width:43px}
+ #sheet.backup97-sheet .backup97-format .backup97-tile img,#sheet.backup97-sheet .backup97-status .backup97-tile img{width:31px}
 }
-#sheet.backup97-sheet > .grab{display:none!important}
-#sheet.backup97-sheet .backup99-scroll{
- position:relative;display:block;box-sizing:border-box;width:100%;height:100%;min-height:0;
- overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;
- background:#f5e8d5;
- background-image:linear-gradient(145deg,#fff4e16e 0%,#fff7ea35 32%,#fff5e81a 100%),url('courts80-background.webp?v=6539');
- background-position:center calc(-1 * var(--backup99-safe)),center calc(-1 * var(--backup99-safe));background-size:100vw 100dvh,var(--backup99-marble-size);background-repeat:no-repeat;
+@media(min-width:600px){
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:46px 58px minmax(0,1fr)}
+ #sheet.backup97-sheet .backup97-head-art{width:58px;height:50px}
+ #sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status{grid-template-columns:60px minmax(0,1fr)}
+ #sheet.backup97-sheet .backup97-format .backup97-tile,#sheet.backup97-sheet .backup97-status .backup97-tile{width:59px;height:49px}
 }
-#sheet.backup97-sheet .backup99-scroll::-webkit-scrollbar{display:none;width:0;height:0}
-#sheet.backup97-sheet .backup97-page{position:relative;isolation:isolate;padding-top:0}
-#sheet.backup97-sheet .backup97-page::before{
- content:"";position:absolute;pointer-events:none;z-index:-1;right:0;top:calc(var(--backup99-decor-top) - var(--backup99-safe));
- width:var(--backup99-decor-size);aspect-ratio:313/230;background:url('backup98-decor.webp?v=6539') left 8px top / 100% auto no-repeat;
-}
-#sheet.backup97-sheet .backup97-head{grid-template-columns:36px 44px minmax(0,1fr);gap:5px;padding-top:8px;padding-right:clamp(37px,16.5vw,82px);min-height:68px}
-#sheet.backup97-sheet .backup97-head-art{width:44px;height:44px}
-#sheet.backup97-sheet .backup97-heading{container-type:inline-size}
-#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,7.8cqi,26px)!important;line-height:1.12!important;letter-spacing:-.025em}
-#sheet.backup97-sheet .backup97-heading p{font-size:clamp(11px,5.25cqi,15px)!important;line-height:1.2!important;letter-spacing:-.015em}
-@media(max-width:360px){#sheet.backup97-sheet .backup97-head{grid-template-columns:34px 40px minmax(0,1fr);gap:4px;padding-right:34px}#sheet.backup97-sheet .backup97-head-art{width:40px;height:40px}#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,7.8cqi,20px)!important}}
-@media(min-width:600px){#sheet.backup97-sheet .backup97-head{grid-template-columns:46px 58px minmax(0,1fr);padding-right:82px}#sheet.backup97-sheet .backup97-head-art{width:58px;height:58px}}

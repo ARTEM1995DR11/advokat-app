@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.99';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6539';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.100';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6540';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5246,8 +5246,13 @@ function sheetBackup(){
     '<button type="button" class="backup97-save" data-act="backup-create">'+backup97SaveArt()+'<span>Сохранить обе копии</span></button></section>'+
     '<aside class="backup97-card backup97-warning" role="note">'+backup97Art('warning')+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
     '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
-  openSheet('<div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
+  openSheet('<img class="backup100-decor" src="backup98-decor.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false"><div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
   var sh=$('#sheet');sh.classList.add('settings60-child-sheet','backup97-sheet','full');sh.setAttribute('aria-label','Резервная копия планов');
+  var pane=sh.querySelector('.backup99-scroll'),decor=sh.querySelector('.backup100-decor');
+  // Single decorative layer: fades out as content scrolls; no duplicated background.
+  function syncBackupDecor(){decor.style.opacity=String(Math.max(0,1-Math.max(0,pane.scrollTop)/64));}
+  pane.addEventListener('scroll',syncBackupDecor,{passive:true});
+  pane.scrollTop=0;syncBackupDecor();
 }
 
 function rowSw(i,t,s,act,on){
