@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 92" preserveAspectRatio="none">
+<defs>
+<linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffdf87"/><stop offset=".13" stop-color="#f8c252"/><stop offset=".43" stop-color="#e8a42c"/><stop offset=".77" stop-color="#ca8616"/><stop offset="1" stop-color="#a9690a"/></linearGradient>
+<radialGradient id="light" cx=".48" cy=".06" r=".48" gradientTransform="translate(0 .06) scale(1 1.6)"><stop stop-color="#fff3b4" stop-opacity=".94"/><stop offset=".27" stop-color="#ffdc75" stop-opacity=".77"/><stop offset="1" stop-color="#ffd779" stop-opacity="0"/></radialGradient>
+<radialGradient id="bottom"><stop stop-color="#fff5c0" stop-opacity=".95"/><stop offset=".45" stop-color="#ffdc74" stop-opacity=".65"/><stop offset="1" stop-color="#ffdb75" stop-opacity="0"/></radialGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff4be"/><stop offset=".25" stop-color="#e9b94e"/><stop offset=".78" stop-color="#af6d0d"/><stop offset="1" stop-color="#fbe099"/></linearGradient>
+<linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#cd8c24"/><stop offset="1" stop-color="#75440a"/></linearGradient>
+<clipPath id="face"><rect x="2" y="2" width="696" height="82" rx="20"/></clipPath>
+</defs>
+<rect x="1" y="3" width="698" height="88" rx="21" fill="url(#edge)" stroke="#87530d"/>
+<rect x="2" y="2" width="696" height="82" rx="20" fill="url(#gold)"/>
+<g clip-path="url(#face)"><rect x="2" y="2" width="696" height="82" fill="url(#light)"/><ellipse cx="350" cy="80" rx="218" ry="11" fill="url(#bottom)"/><path d="M22 5H678" stroke="#fff0b2" stroke-opacity=".85" stroke-width="1.5"/></g>
+<rect x="3" y="3" width="694" height="80" rx="19" fill="none" stroke="url(#rim)" stroke-width="1.7"/>
+<path d="M23 85H677" stroke="#f4cf72" stroke-opacity=".75" stroke-width="1.1"/>
+</svg>

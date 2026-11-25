@@ -243,3 +243,45 @@
 #sheet.backup97-sheet .backup97-status .backup97-copy::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:1px;background:#b68e57;pointer-events:none}
 #sheet.backup97-sheet .backup97-status .backup97-copy strong{font-size:clamp(13px,3.72vw,22px)!important;line-height:1.09!important;letter-spacing:-.015em;overflow-wrap:normal}
 #sheet.backup97-sheet .backup97-status .backup97-copy p{font:400 clamp(11px,2.91vw,15.5px)/1.17 var(--sans)!important;margin-top:2px!important;overflow-wrap:break-word}
+
+/* .111 — stage 7: statistics only. Fixed rows, equal optical baselines. */
+#sheet.backup97-sheet .backup97-stat{
+ grid-template-rows:clamp(25px,7.1vw,39px) clamp(21px,5.8vw,32px) auto;
+ gap:0;align-content:center;padding:2px 3px 6px;
+ border-color:#dfbd89;background:linear-gradient(145deg,#fffdf7 0%,#fff8ec 56%,#f8e8d0 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-stat img{width:clamp(35px,10.6vw,51px);height:100%;object-fit:contain;align-self:center}
+#sheet.backup97-sheet .backup97-stat b{font:700 clamp(23px,6.45vw,36px)/1 Georgia,'Times New Roman',serif;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1;letter-spacing:-.025em;align-self:center}
+#sheet.backup97-sheet .backup97-stat span{font:400 clamp(10.5px,2.8vw,14px)/1.1 var(--sans);align-self:center;text-align:center}
+
+/* .112 — stage 8: password fields and form only; 44px touch targets retained. */
+#sheet.backup97-sheet .backup97-form{
+ padding:7px clamp(11px,3.7vw,21px) 10px;
+ border-color:#dfbd89;background:linear-gradient(145deg,#fffdf7 0%,#fff9ef 52%,#f8e9d2 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-form label{font-size:clamp(12.5px,3.24vw,18px)!important;line-height:1.13!important;margin:0 0 3px 5px!important;letter-spacing:-.012em}
+#sheet.backup97-sheet .backup97-field{
+ --backup112-lock-col:clamp(36px,11.4vw,54px);
+ grid-template-columns:var(--backup112-lock-col) minmax(0,1fr) 44px;
+ min-height:44px;margin-bottom:5px;border-color:#dfbe93;border-radius:10px;
+ background:linear-gradient(155deg,#fff9ef 0%,#fffdfa 48%,#f9efdf 100%);
+ box-shadow:inset 0 1px 3px #ad865b20,0 2px 4px #9a6a2f20;
+}
+#sheet.backup97-sheet .backup97-field::before{left:var(--backup112-lock-col);height:20px;background:#b49c7c}
+#sheet.backup97-sheet .backup97-field>img{width:23px;height:24px}
+#sheet.backup97-sheet .backup97-field input{height:44px;padding:0 10px!important;font-size:16px!important}
+#sheet.backup97-sheet .backup97-field input::placeholder{font-size:clamp(11px,3.05vw,15px);color:#8b827a}
+#sheet.backup97-sheet .backup97-eye{width:44px;height:44px;min-width:44px;min-height:44px;color:#ad731e}
+#sheet.backup97-sheet .backup97-eye svg{width:23px;height:23px}
+
+/* .113 — stage 9: a dedicated scalable graphical gold face, real accessible button. */
+#sheet.backup97-sheet .backup97-save{
+ display:grid;grid-template-columns:clamp(66px,25%,112px) minmax(0,1fr);align-items:center;gap:0;
+ width:100%;min-height:46px;margin-top:6px;padding:3px 8px 7px 4px;
+ border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6553') center/100% 100% no-repeat;
+ box-shadow:0 3px 5px #80501b42;color:#241407;font-size:clamp(14px,3.84vw,22px)!important;
+}
+#sheet.backup97-sheet .backup97-save-art{width:clamp(37px,10vw,54px);height:clamp(31px,8.1vw,43px);justify-self:center;filter:drop-shadow(0 1.5px 1px #70430780)}
+#sheet.backup97-sheet .backup97-save span{border-left:1px solid #fff2c2;padding:4px 2px 4px 7px;min-width:0;line-height:1.12;text-align:center;letter-spacing:-.012em}
