@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.96';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6536';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.97';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6537';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2744,7 +2744,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet','backup97-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -5214,29 +5214,40 @@ function sheetSettings57Clear(){
 }
 /* V61: one premium backup screen for both Settings and «Ещё».
    The same existing encrypted-file + printable-report operation is preserved. */
+/* .97: backup page only. Existing export, crypto, import and return paths unchanged. */
+function backup97Art(name,cls){
+  return '<img class="'+(cls||'backup97-art')+'" src="backup97-'+name+'.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false">';
+}
+function backup97Group(name,text){return '<div class="backup97-group">'+backup97Art(name)+'<h3>'+text+'</h3><i aria-hidden="true"></i></div>';}
+function backup97Tile(name){return '<span class="backup97-tile">'+backup97Art(name)+'</span>';}
+function backup97Eye(on){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/>'+(on?'<path d="M3 3l18 18" stroke-width="2.3"/>':'')+'</svg>';}
+function backup97Password(id,label,placeholder){return '<label for="'+id+'">'+label+'</label><div class="backup97-field">'+backup97Art('lock')+'<input id="'+id+'" type="password" autocomplete="new-password" placeholder="'+placeholder+'" minlength="6" autocapitalize="off" spellcheck="false" autocorrect="off"><button type="button" class="backup97-eye" data-act="backup97-toggle" data-v="'+id+'" aria-controls="'+id+'" aria-label="Показать пароль" aria-pressed="false">'+backup97Eye(false)+'</button></div>';}
+function backup97Toggle(id,button){
+  if(id!=='bk-pass'&&id!=='bk-pass2')return;
+  var field=document.getElementById(id);if(!field||!field.closest('.backup97-page'))return;
+  var on=field.type==='password';field.type=on?'text':'password';
+  button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',on?'Скрыть пароль':'Показать пароль');button.innerHTML=backup97Eye(on);
+}
+function backup97SaveArt(){return '<svg class="backup97-save-art" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="19" cy="9" rx="14" ry="6"/><path d="M5 9v24c0 5 9 8 16 7M33 9v12M5 17c0 7 22 10 28 1M5 25c0 6 15 9 21 5M5 33c0 3 7 6 16 6"/><path d="M43 30a10 10 0 1 0 0 10M43 24v7h-7"/></svg>';}
 function sheetBackup(){
-  var bs=backupPlanStats(), last=S.settings.lastBackup;
-  var label='Копия ещё не создавалась';
-  if(last){
-    var when=new Date(last);
-    if(!isNaN(when.getTime()))label=when.toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  }
-  var body='<div class="settings60-minihead"><span>ДВА ФОРМАТА ОДНИМ ДЕЙСТВИЕМ</span><i></i></div>'+
-    settings60Card('<div class="settings61-formats">'+
-      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('lock','s')+'</span><div><strong>Зашифрованная копия</strong><small>Файл для восстановления или переноса базы на другое устройство. Защищён отдельным паролем.</small></div></div>'+
-      '<div class="settings61-format"><span class="settings61-format-icon">'+ico('doc','s')+'</span><div><strong>Читаемая сводка</strong><small>После сохранения базы откроется отчёт для печати или сохранения в PDF.</small></div></div>'+
-    '</div>','settings61-formats-card')+
-    '<div class="settings60-minihead"><span>СОСТОЯНИЕ КОПИИ</span><i></i></div>'+
-    '<div class="settings60-backup-status">'+ico('arch','l')+'<div><b>Последнее резервирование</b><p>'+esc(label)+'</p></div></div>'+
-    '<div class="settings60-backup-stats"><div><b>'+bs.tasks+'</b><span>задач</span></div><div><b>'+bs.hearings+'</b><span>заседаний</span></div><div><b>'+bs.deadlines+'</b><span>сроков</span></div></div>'+
-    '<div class="settings60-minihead"><span>ПАРОЛЬ РЕЗЕРВНОЙ КОПИИ</span><i></i></div>'+
-    settings60Card('<div class="settings60-form settings61-backup-form">'+
-      '<label for="bk-pass">Пароль копии (минимум 6 символов)</label><input id="bk-pass" type="password" autocomplete="new-password" placeholder="Придумайте отдельный пароль" minlength="6" autocapitalize="off" spellcheck="false">'+
-      '<label for="bk-pass2">Повторите пароль</label><input id="bk-pass2" type="password" autocomplete="new-password" placeholder="Введите пароль ещё раз" minlength="6" autocapitalize="off" spellcheck="false">'+
-      '<button type="button" class="settings60-gold-action" data-act="backup-create">Сохранить обе копии</button></div>')+
-    settings60Info('Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.','warning')+
-    settings60Card(settings60Line('Восстановить из копии','Открыть сохранённый зашифрованный файл','restore','arch'),'settings60-single-action');
-  settings60Page('Резервная копия планов','Защищённая база и сводка для печати','backup',body);
+  var bs=backupPlanStats(),last=S.settings.lastBackup,label='Копия ещё не создавалась';
+  if(last){var when=new Date(last);if(!isNaN(when.getTime()))label=when.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})+' в '+when.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});}
+  function format(name,title,description){return '<div class="backup97-format">'+backup97Tile(name)+'<div class="backup97-copy"><strong>'+title+'</strong><p>'+description+'</p></div></div>';}
+  function stat(name,count,title){return '<div class="backup97-card backup97-stat">'+backup97Art(name)+'<b>'+esc(count)+'</b><span>'+title+'</span></div>';}
+  var head='<header class="backup97-head"><button type="button" class="backup97-back" data-act="settings60-back" aria-label="Назад">'+ico('left','s')+'</button>'+backup97Art('head','backup97-head-art')+'<div class="backup97-heading"><span>НАСТРОЙКИ АДВОКАТА</span><h2>Резервная копия планов</h2><p>Защищённая база и сводка для печати</p></div></header>';
+  var body=backup97Group('layers','ДВА ФОРМАТА ОДНИМ ДЕЙСТВИЕМ')+'<section class="backup97-card backup97-formats">'+
+    format('lock-tile','Зашифрованная копия','Файл для восстановления или переноса базы на другое устройство. Защищён отдельным паролем.')+
+    format('doc-tile','Читаемая сводка','После сохранения базы откроется отчёт для печати или сохранения в PDF.')+'</section>'+
+    backup97Group('case','СОСТОЯНИЕ КОПИИ')+'<section class="backup97-card backup97-status">'+backup97Tile('archive-tile')+'<div class="backup97-copy"><strong>Последнее резервирование</strong><p>'+esc(label)+'</p></div></section>'+
+    '<div class="backup97-stats">'+stat('tasks',bs.tasks,'задач')+stat('court',bs.hearings,'заседаний')+stat('deadline',bs.deadlines,'сроков')+'</div>'+
+    backup97Group('key','ПАРОЛЬ РЕЗЕРВНОЙ КОПИИ')+'<section class="backup97-card backup97-form">'+
+    backup97Password('bk-pass','Пароль копии (минимум 6 символов)','Придумайте отдельный пароль')+
+    backup97Password('bk-pass2','Повторите пароль','Введите пароль ещё раз')+
+    '<button type="button" class="backup97-save" data-act="backup-create">'+backup97SaveArt()+'<span>Сохранить обе копии</span></button></section>'+
+    '<aside class="backup97-card backup97-warning" role="note">'+backup97Art('warning')+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
+    '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+  openSheet('<main class="backup97-page">'+head+body+'</main>');
+  var sh=$('#sheet');sh.classList.add('settings60-child-sheet','backup97-sheet','full');sh.setAttribute('aria-label','Резервная копия планов');
 }
 
 function rowSw(i,t,s,act,on){
@@ -10356,6 +10367,7 @@ document.addEventListener('click', function(ev){
     case 'notify': toggleNotify();break;
     case 'export': exportText();break;
     case 'backup-sheet': sheetBackup();break;
+    case 'backup97-toggle': backup97Toggle(v,el);break;
     case 'backup-create': createBackupFile();break;
     case 'restore': $('#file').click();break;
     case 'clearDone': {var n=settings60DeleteCount();if(!n){toast('Нет выполненных задач для удаления');break;}settings67DeleteDialog('done',n);break;}

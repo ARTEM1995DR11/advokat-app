@@ -1,0 +1,62 @@
+/* .97 — page-specific backup design. Nothing affects other Settings sheets. */
+#sheet.backup97-sheet{
+ position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;
+ padding:calc(max(env(safe-area-inset-top,0px),32px) + 12px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
+ background:#f5e8d5!important;background-image:url('backup97-decor.webp?v=6537'),linear-gradient(135deg,#fff9ef26,#fff5e812),url('courts80-background.webp?v=6537')!important;
+ background-position:right top,center top,center top!important;background-size:min(31vw,205px) auto,100% 100%,cover!important;background-repeat:no-repeat!important;background-attachment:local,scroll,scroll!important;
+ overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+}
+#sheet.backup97-sheet::-webkit-scrollbar{display:none;width:0;height:0}
+#sheet.backup97-sheet .backup97-page{--navy:#101936;--ink:#292018;--gold:#94601e;--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,Arial,sans-serif;box-sizing:border-box;width:100%;max-width:660px;margin:0 auto;padding:0 clamp(13px,3.65vw,25px) 16px;min-width:0;color:var(--navy);font-family:var(--sans)}
+#sheet.backup97-sheet .backup97-page *{box-sizing:border-box}
+#sheet.backup97-sheet .backup97-head{display:grid;grid-template-columns:36px 43px minmax(0,1fr);align-items:center;gap:8px;min-height:72px;margin:10px 0 16px;position:relative}
+#sheet.backup97-sheet .backup97-back{width:36px;height:38px;display:grid;place-items:center;padding:0;border:1px solid #c6995c;border-radius:10px;background:linear-gradient(145deg,#fffdf7,#f2e0bf);box-shadow:inset 0 0 0 1px #fffaf1,0 3px 6px #92632c40;color:#98621f}
+#sheet.backup97-sheet .backup97-back svg{width:21px;height:21px;stroke-width:2.5}
+#sheet.backup97-sheet .backup97-head-art{width:43px;height:43px;object-fit:contain;display:block;border-left:1px solid #ba8b4c;padding-left:4px}
+#sheet.backup97-sheet .backup97-heading{min-width:0;border-left:1px solid #b88a4b;padding-left:7px;background:transparent;position:relative}
+#sheet.backup97-sheet .backup97-heading>span{display:block;color:#885516;font:700 clamp(9px,2.55vw,13px)/1.2 var(--serif);letter-spacing:.025em}
+#sheet.backup97-sheet .backup97-heading h2{margin:3px 0!important;color:var(--navy)!important;font:700 clamp(17px,4.65vw,30px)/1.12 var(--serif)!important;letter-spacing:-.022em;overflow-wrap:normal}
+#sheet.backup97-sheet .backup97-heading p{margin:0!important;color:var(--ink);font:500 clamp(11px,2.95vw,15px)/1.22 var(--sans)!important}
+#sheet.backup97-sheet .backup97-group{display:flex;align-items:center;gap:8px;margin:15px 2px 9px;min-width:0;color:var(--gold)}
+#sheet.backup97-sheet .backup97-group img{display:block;width:22px;height:22px;object-fit:contain;flex:none}
+#sheet.backup97-sheet .backup97-group h3{font:700 clamp(11px,3.2vw,17px)/1.18 var(--serif)!important;letter-spacing:.012em;color:#865319!important;margin:0!important;max-width:calc(100% - 40px)}
+#sheet.backup97-sheet .backup97-group i{display:block;height:1px;min-width:8px;flex:1;background:linear-gradient(90deg,#a37026,#c69b58)}
+#sheet.backup97-sheet .backup97-card{margin:0;min-width:0;border:1px solid #d8af74;border-radius:17px;background:linear-gradient(135deg,#fffdf7 0%,#fff9ee 42%,#f7e9d3 100%);box-shadow:inset 0 0 0 1px #fffdf8,0 4px 8px #95652c30;color:var(--navy)}
+#sheet.backup97-sheet .backup97-formats{padding:3px 12px}
+#sheet.backup97-sheet .backup97-format{display:grid;grid-template-columns:53px minmax(0,1fr);align-items:center;gap:10px;padding:10px 2px}
+#sheet.backup97-sheet .backup97-format+.backup97-format{border-top:1px solid #dfc295}
+#sheet.backup97-sheet .backup97-tile{display:grid;place-items:center;width:53px;height:51px;flex:none;border:1px solid #e8c998;border-radius:12px;background:linear-gradient(140deg,#fff9ec,#f5dfb9);box-shadow:inset 0 1px 1px #fffefa,0 3px 5px #94652539}
+#sheet.backup97-sheet .backup97-tile img{width:39px;height:40px;object-fit:contain;display:block}
+#sheet.backup97-sheet .backup97-copy{display:block;min-width:0;border-left:1px solid #c49553;padding-left:9px;text-align:left}
+#sheet.backup97-sheet .backup97-copy strong{display:block;color:var(--navy);font:700 clamp(16px,4.2vw,24px)/1.15 var(--serif)!important;letter-spacing:-.016em}
+#sheet.backup97-sheet .backup97-copy p,#sheet.backup97-sheet .backup97-copy small{display:block;margin:4px 0 0!important;color:var(--ink);font:500 clamp(12px,3.35vw,16px)/1.35 var(--sans)!important;overflow-wrap:anywhere}
+#sheet.backup97-sheet .backup97-status{display:grid;grid-template-columns:53px minmax(0,1fr);gap:10px;align-items:center;padding:8px 13px}
+#sheet.backup97-sheet .backup97-status .backup97-tile{height:43px}
+#sheet.backup97-sheet .backup97-status .backup97-tile img{height:35px}
+#sheet.backup97-sheet .backup97-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}
+#sheet.backup97-sheet .backup97-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:80px;padding:7px 4px}
+#sheet.backup97-sheet .backup97-stat img{width:34px;height:32px;object-fit:contain;display:block}
+#sheet.backup97-sheet .backup97-stat b{color:var(--navy);font:700 clamp(24px,6.7vw,36px)/1 var(--serif)}
+#sheet.backup97-sheet .backup97-stat span{color:var(--ink);font:500 clamp(11px,3.3vw,15px)/1.2 var(--sans)}
+#sheet.backup97-sheet .backup97-form{padding:11px 14px 15px}
+#sheet.backup97-sheet .backup97-form label{display:block;margin:0 0 6px!important;color:var(--navy);font:700 clamp(14px,3.7vw,20px)/1.25 var(--serif)!important}
+#sheet.backup97-sheet .backup97-field{display:grid;grid-template-columns:30px minmax(0,1fr) 44px;align-items:center;min-height:46px;border:1px solid #d8b47e;border-radius:11px;background:linear-gradient(130deg,#fffaf1,#fffdf8 70%,#f9eedc);box-shadow:inset 0 1px 3px #a57e3d22,0 2px 4px #a57e3d20;margin:0 0 12px;overflow:hidden}
+#sheet.backup97-sheet .backup97-field>img{width:24px;height:26px;object-fit:contain;justify-self:center}
+#sheet.backup97-sheet .backup97-field input{width:100%;min-width:0;height:42px;background:transparent!important;border:0!important;border-left:1px solid #c8aa7e!important;border-radius:0!important;box-shadow:none!important;margin:0!important;padding:0 7px!important;color:var(--ink);font:400 16px/1.2 var(--sans)!important;outline:none!important}
+#sheet.backup97-sheet .backup97-field input::placeholder{color:#8e8176;opacity:1;font-size:clamp(11px,3.25vw,15px)}
+#sheet.backup97-sheet .backup97-field:focus-within{outline:2px solid #bd8a3d;outline-offset:1px}
+#sheet.backup97-sheet .backup97-eye{width:44px;height:44px;display:grid;place-items:center;border:0;background:transparent;padding:0;color:#a87324;cursor:pointer}
+#sheet.backup97-sheet .backup97-eye svg{width:23px;height:23px}
+#sheet.backup97-sheet .backup97-save{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:52px;padding:7px 9px;border:1px solid #9d6010;border-radius:13px;margin-top:15px;background:linear-gradient(115deg,#d39a35 0%,#ffdf87 38%,#e6ad44 68%,#b87818 100%);box-shadow:inset 0 0 0 1px #fff0bb,inset 0 -3px #98601855,0 3px 0 #89550f,0 6px 10px #97642f49;color:#2e1b0b;font:700 clamp(16px,4.35vw,23px)/1.15 var(--serif)!important;cursor:pointer}
+#sheet.backup97-sheet .backup97-save-art{flex:none;width:39px;height:39px;color:#fff2cb;filter:drop-shadow(0 1px 1px #80500c)}
+#sheet.backup97-sheet .backup97-save span{border-left:1px solid #ffedb2;padding-left:12px;text-align:center}
+#sheet.backup97-sheet .backup97-warning{display:grid;grid-template-columns:42px minmax(0,1fr);gap:8px;align-items:center;padding:11px 13px;margin:12px 0;background:linear-gradient(135deg,#fff9ed,#f6e6cc)}
+#sheet.backup97-sheet .backup97-warning img{width:35px;height:37px;object-fit:contain;justify-self:center}
+#sheet.backup97-sheet .backup97-warning p{margin:0!important;border-left:1px solid #bd9458;padding-left:10px;color:var(--ink);font:500 clamp(12px,3.35vw,16px)/1.35 var(--sans)!important}
+#sheet.backup97-sheet .backup97-restore{width:100%;display:grid;grid-template-columns:53px minmax(0,1fr) 32px;align-items:center;gap:9px;padding:10px 12px;text-align:left;cursor:pointer}
+#sheet.backup97-sheet .backup97-arrow{display:grid;place-items:center;width:32px;height:32px;border:1px solid #99631b;border-radius:50%;background:linear-gradient(145deg,#d0a15c,#a46c18 65%,#90580d);box-shadow:inset 0 1px #f7dfb3,0 2px 4px #8b5e2e50;color:#fffaf0}
+#sheet.backup97-sheet .backup97-arrow svg{width:22px;height:22px;stroke-width:2.25}
+#sheet.backup97-sheet .backup97-back:active,#sheet.backup97-sheet .backup97-save:active,#sheet.backup97-sheet .backup97-restore:active{filter:brightness(.96);transform:translateY(1px)}
+#sheet.backup97-sheet button:focus-visible{outline:2px solid #93601b;outline-offset:2px}
+@media(max-width:360px){#sheet.backup97-sheet .backup97-head{grid-template-columns:34px 36px minmax(0,1fr);gap:6px}#sheet.backup97-sheet .backup97-head-art{width:36px;height:36px}#sheet.backup97-sheet .backup97-formats{padding:3px 9px}#sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status,#sheet.backup97-sheet .backup97-restore{grid-template-columns:43px minmax(0,1fr);gap:8px}#sheet.backup97-sheet .backup97-restore{grid-template-columns:43px minmax(0,1fr) 30px}#sheet.backup97-sheet .backup97-tile{width:43px;height:45px}#sheet.backup97-sheet .backup97-tile img{width:31px;height:33px}#sheet.backup97-sheet .backup97-form{padding:10px 10px 14px}#sheet.backup97-sheet .backup97-copy{padding-left:7px}}
+@media(min-width:600px){#sheet.backup97-sheet .backup97-head{grid-template-columns:46px 58px minmax(0,1fr)}#sheet.backup97-sheet .backup97-back{width:44px;height:44px}#sheet.backup97-sheet .backup97-head-art{width:58px;height:58px}#sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status{grid-template-columns:66px minmax(0,1fr)}#sheet.backup97-sheet .backup97-tile{width:63px;height:60px}#sheet.backup97-sheet .backup97-restore{grid-template-columns:66px minmax(0,1fr) 36px}}
