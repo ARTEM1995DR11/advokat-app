@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.136';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6576';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.137';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6577';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5244,7 +5244,7 @@ function sheetBackup(){
     backup97Password('bk-pass','Пароль копии (минимум 6 символов)','Придумайте отдельный пароль')+
     backup97Password('bk-pass2','Повторите пароль','Введите пароль ещё раз')+
     '<button type="button" class="backup97-save" data-act="backup-create">'+backup97SaveArt()+'<span>Сохранить обе копии</span></button></section>'+
-    '<aside class="backup97-card backup97-warning" role="note">'+backup97Art('warning')+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
+    '<aside class="backup97-card backup97-warning" role="note">'+'<img class="backup97-art" src="backup137-warning.svg?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false">'+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
     '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
   // .107: mirror courts76Home: the sheet is the only scroller. Its background
   // is anchored to the sheet box; the content moves over it without a mask.
