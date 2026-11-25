@@ -6,7 +6,7 @@
  display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6550'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6550')!important;
+ background-image:url('backup98-decor.webp?v=6571'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6571')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
@@ -280,7 +280,7 @@
 #sheet.backup97-sheet .backup97-save{
  display:grid;grid-template-columns:clamp(66px,25%,112px) minmax(0,1fr);align-items:center;gap:0;
  width:100%;min-height:46px;margin-top:6px;padding:3px 8px 7px 4px;
- border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6557') center/100% 100% no-repeat;
+ border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6571') center/100% 100% no-repeat;
  box-shadow:0 3px 5px #80501b42;color:#241407;font-size:clamp(14px,3.84vw,22px)!important;
 }
 #sheet.backup97-sheet .backup97-save-art{width:clamp(37px,10vw,54px);height:clamp(31px,8.1vw,43px);justify-self:center;filter:drop-shadow(0 1.5px 1px #70430780)}
@@ -370,3 +370,213 @@
  padding-left:calc(var(--bk118-card-inset) + var(--bk118-restore-inset));
 }
 #sheet.backup97-sheet .backup97-restore .backup97-copy{padding-left:clamp(9px,2.6vw,14px)}
+
+
+/* .119 — second pass: shared visual scale from approved Judicial Services .96.
+   Backup remains its own layout; no viewport-height fitting or forced single-line titles.
+   Longer text grows naturally; sheet remains the sole scroller. */
+#sheet.backup97-sheet .backup97-page{
+ --navy:#0b1837;--ink:#251c18;--gold:#7e4b12;
+ --bk119-title:clamp(16px,4.5vw,24px);
+ --bk119-description:clamp(11px,3.05vw,15px);
+ --bk119-icon-w:54px;--bk119-icon-h:clamp(43px,calc(13vw - 8px),44px);
+ --bk119-arrow:29px;--bk119-back:clamp(32px,9vw,46px);
+ --bk119-head-icon:clamp(34px,10.1vw,55px);
+ --bk119-card-inset:clamp(13px,3.8vw,24px);
+ max-width:690px;padding-inline:var(--bk119-card-inset);
+}
+#sheet.backup97-sheet .backup97-head{
+ grid-template-columns:max(44px,var(--bk119-back)) var(--bk119-head-icon) minmax(0,1fr);
+ gap:clamp(5px,1.65vw,10px);min-height:clamp(52px,14vw,72px);
+ padding:0 clamp(35px,15vw,92px) 0 0;margin:12px 0 20px;
+}
+#sheet.backup97-sheet .backup97-head::before{left:calc(max(44px,var(--bk119-back)) + 2px);height:32px}
+#sheet.backup97-sheet .backup97-back{width:max(44px,var(--bk119-back));height:max(44px,var(--bk119-back));color:#94611d}
+#sheet.backup97-sheet .backup97-back::before{
+ inset:50% auto auto 50%;width:var(--bk119-back);height:var(--bk119-back);transform:translate(-50%,-50%);box-sizing:border-box;
+ border:1px solid #ba8740;border-radius:clamp(10px,2.8vw,15px);
+ background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
+ box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65294a;
+}
+#sheet.backup97-sheet .backup97-back svg{width:24px;height:24px;stroke-width:2.4!important}
+#sheet.backup97-sheet .backup97-back svg path{stroke-width:2.4!important}
+#sheet.backup97-sheet .backup97-head-art{width:100%;height:auto;aspect-ratio:114/101;object-fit:contain;padding:0;transform:scale(1.08)}
+#sheet.backup97-sheet .backup97-heading{padding-left:clamp(4px,1.25vw,8px)}
+#sheet.backup97-sheet .backup97-heading h2{
+ font:700 clamp(17px,5.05vw,32px)/1.08 var(--serif)!important;letter-spacing:-.025em;color:#0c1735!important;
+ -webkit-text-stroke:.08px currentColor;white-space:normal;overflow-wrap:normal;
+}
+#sheet.backup97-sheet .backup97-heading p{font:500 clamp(9.5px,2.65vw,17px)/1.24 var(--sans)!important;color:#231a14;white-space:normal}
+#sheet.backup97-sheet .backup97-group{display:grid;grid-template-columns:26px minmax(0,max-content) minmax(10px,1fr);gap:8px;min-height:26px;margin:14px 2px 8px}
+#sheet.backup97-sheet .backup97-group img{width:26px;height:24px;justify-self:center}
+#sheet.backup97-sheet .backup97-group h3{font:700 clamp(10px,3.10vw,18px)/1.14 var(--serif)!important;color:#7e4b12!important;letter-spacing:.004em;max-width:none;white-space:normal}
+#sheet.backup97-sheet .backup97-group i{width:100%;height:1px;min-width:10px;background:linear-gradient(90deg,#ad741f,#c5913c);box-shadow:0 1px 0 #fff4db80}
+/* Same approved card material and optical weight; no fixed overall height. */
+#sheet.backup97-sheet .backup97-card{
+ border-radius:clamp(11px,3.05vw,16px);border:1px solid transparent;
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,
+ linear-gradient(180deg,#cba773 0%,#e8d3ac 28%,#e0c18d 73%,#c49d66 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54!important;
+}
+#sheet.backup97-sheet .backup97-formats{padding:4px 11px}
+#sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status,#sheet.backup97-sheet .backup97-restore{
+ grid-template-columns:var(--bk119-icon-w) minmax(0,1fr);column-gap:7px;padding:8px 11px 8px 8px;
+}
+#sheet.backup97-sheet .backup97-format{padding:10px 0}
+#sheet.backup97-sheet .backup97-status,#sheet.backup97-sheet .backup97-restore{min-height:clamp(58px,16vw,80px)}
+#sheet.backup97-sheet .backup97-restore{grid-template-columns:var(--bk119-icon-w) minmax(0,1fr) var(--bk119-arrow)}
+#sheet.backup97-sheet .backup97-format .backup97-tile,#sheet.backup97-sheet .backup97-status .backup97-tile,#sheet.backup97-sheet .backup97-restore .backup97-tile{width:var(--bk119-icon-w);height:var(--bk119-icon-h);border-radius:10px}
+#sheet.backup97-sheet .backup97-format .backup97-copy,#sheet.backup97-sheet .backup97-status .backup97-copy,#sheet.backup97-sheet .backup97-restore .backup97-copy{padding-left:10px}
+#sheet.backup97-sheet .backup97-format .backup97-copy strong,#sheet.backup97-sheet .backup97-status .backup97-copy strong,#sheet.backup97-sheet .backup97-restore .backup97-copy strong{
+ font:700 var(--bk119-title)/1.08 var(--serif)!important;letter-spacing:-.012em;color:#0b1837;-webkit-text-stroke:.08px currentColor;white-space:normal;overflow-wrap:normal;
+}
+#sheet.backup97-sheet .backup97-format .backup97-copy p,#sheet.backup97-sheet .backup97-status .backup97-copy p,#sheet.backup97-sheet .backup97-restore .backup97-copy small{
+ font:500 var(--bk119-description)/1.2 var(--sans)!important;color:#251c18;margin-top:3px!important;letter-spacing:0;white-space:normal;
+}
+#sheet.backup97-sheet .backup97-format .backup97-copy::before,#sheet.backup97-sheet .backup97-status .backup97-copy::before,#sheet.backup97-sheet .backup97-restore .backup97-copy::before{background:linear-gradient(180deg,#d6b17a,#a97732 48%,#d6b17a)}
+#sheet.backup97-sheet .backup97-stats{margin-top:9px}
+#sheet.backup97-sheet .backup97-stat{min-height:90px;grid-template-rows:36px auto auto;gap:3px;padding:8px 4px 10px}
+#sheet.backup97-sheet .backup97-stat img{width:44px;height:36px}
+#sheet.backup97-sheet .backup97-stat span{font:500 var(--bk119-description)/1.2 var(--sans)}
+#sheet.backup97-sheet .backup97-form{padding:12px clamp(11px,3.7vw,21px) 14px}
+#sheet.backup97-sheet .backup97-form label{font:700 var(--bk119-title)/1.15 var(--serif)!important;margin:0 0 6px 5px!important;white-space:normal}
+#sheet.backup97-sheet .backup97-field{min-height:48px;margin-bottom:10px}
+#sheet.backup97-sheet .backup97-field input{height:48px}
+#sheet.backup97-sheet .backup97-field input::placeholder{font-size:var(--bk119-description)}
+#sheet.backup97-sheet .backup97-save{min-height:56px;margin-top:8px;font-size:var(--bk119-title)!important}
+#sheet.backup97-sheet .backup97-warning{padding:12px 13px;margin:14px 0}
+#sheet.backup97-sheet .backup97-warning p{font:500 var(--bk119-description)/1.25 var(--sans)!important;color:#251c18}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow{width:var(--bk119-arrow);height:var(--bk119-arrow);border:1px solid #8e5a18;box-shadow:inset 0 1px 0 #f5d9a4,inset 0 -2px 3px #74410835,0 2px 4px #80501955}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow svg{width:22px;height:22px}
+@media(max-width:370px){
+ #sheet.backup97-sheet .backup97-page{--bk119-icon-w:46px;--bk119-icon-h:40px;--bk119-arrow:26px}
+ #sheet.backup97-sheet .backup97-group{grid-template-columns:23px minmax(0,max-content) minmax(8px,1fr);gap:6px}
+ #sheet.backup97-sheet .backup97-group img{width:23px;height:22px}
+ #sheet.backup97-sheet .backup97-restore .backup97-arrow svg{width:20px;height:20px}
+}
+@media(min-width:380px) and (max-width:499px) and (min-height:740px) and (orientation:portrait){#sheet.backup97-sheet .backup97-page{--bk119-icon-w:58px;--bk119-icon-h:50px}}
+@media(min-width:500px){#sheet.backup97-sheet .backup97-page{--bk119-icon-w:68px;--bk119-icon-h:57px;--bk119-arrow:36px}#sheet.backup97-sheet .backup97-restore .backup97-arrow svg{width:27px;height:27px}}
+@media(min-width:500px) and (min-height:740px){#sheet.backup97-sheet .backup97-page{--bk119-icon-w:72px;--bk119-icon-h:58px}}
+/* Retain common information axes after adopting the larger artwork. */
+#sheet.backup97-sheet .backup97-status,#sheet.backup97-sheet .backup97-restore{padding-inline:11px}
+
+/* .120 — New mockup, stage 1: Горизонтальная сетка и единый масштаб. */
+
+#sheet.backup97-sheet .backup97-page{--bk-grid-inset:11px;--bk-grid-gap:7px;--bk-grid-copy:9px;--bk119-title:clamp(16px,4.5vw,24px);--bk119-description:clamp(11px,3.05vw,15px);max-width:690px;padding-inline:clamp(13px,3.8vw,24px)}
+#sheet.backup97-sheet .backup97-formats{padding-inline:var(--bk-grid-inset)}
+#sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status{grid-template-columns:var(--bk119-icon-w) minmax(0,1fr);column-gap:var(--bk-grid-gap)}
+#sheet.backup97-sheet .backup97-status{padding-inline:var(--bk-grid-inset)}
+#sheet.backup97-sheet .backup97-format .backup97-copy,#sheet.backup97-sheet .backup97-status .backup97-copy{padding-left:var(--bk-grid-copy)}
+#sheet.backup97-sheet .backup97-copy strong,#sheet.backup97-sheet .backup97-copy p,#sheet.backup97-sheet .backup97-copy small{overflow-wrap:break-word;hyphens:none}
+@media(max-width:370px){#sheet.backup97-sheet .backup97-page{--bk-grid-inset:9px;--bk-grid-gap:6px;--bk-grid-copy:8px}}
+
+
+/* .121 — New mockup, stage 2: Два формата: карточка, иконки и типографика. */
+
+#sheet.backup97-sheet .backup97-formats{padding-block:4px}
+#sheet.backup97-sheet .backup97-format{padding:12px 0;min-height:76px;align-items:center}
+#sheet.backup97-sheet .backup97-format+.backup97-format{border-top:1px solid #d9b784}
+#sheet.backup97-sheet .backup97-format .backup97-tile img{width:80%;height:85%;object-fit:contain}
+#sheet.backup97-sheet .backup97-format .backup97-copy strong{font:700 var(--bk119-title)/1.08 var(--serif)!important}
+#sheet.backup97-sheet .backup97-format .backup97-copy p{font:500 var(--bk119-description)/1.25 var(--sans)!important;margin-top:4px!important;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-format .backup97-copy::before{top:3px;bottom:3px}
+
+
+/* .122 — New mockup, stage 3: Последнее резервирование и статистика. */
+
+#sheet.backup97-sheet .backup97-status{min-height:clamp(64px,17.4vw,86px);padding-block:9px}
+#sheet.backup97-sheet .backup97-status .backup97-tile img{width:80%;height:85%}
+#sheet.backup97-sheet .backup97-status .backup97-copy p{font:500 var(--bk119-description)/1.25 var(--sans)!important;margin-top:4px!important}
+#sheet.backup97-sheet .backup97-stats{gap:8px;margin-top:10px;align-items:stretch}
+#sheet.backup97-sheet .backup97-stat{min-height:clamp(96px,27vw,128px);grid-template-rows:clamp(32px,9.5vw,47px) auto auto;gap:3px;padding:9px 4px 11px;align-content:center}
+#sheet.backup97-sheet .backup97-stat img{width:clamp(39px,11vw,56px);height:100%;object-fit:contain}
+#sheet.backup97-sheet .backup97-stat b{font:700 clamp(28px,8.0vw,43px)/1 var(--serif);letter-spacing:-.02em;font-variant-numeric:lining-nums tabular-nums}
+#sheet.backup97-sheet .backup97-stat span{font:500 var(--bk119-description)/1.2 var(--sans);overflow-wrap:break-word;max-width:100%;text-align:center}
+
+
+/* .123 — New mockup, stage 4: Пароли: поля, разделители, читаемость. */
+
+#sheet.backup97-sheet .backup97-form{padding:12px clamp(11px,3.2vw,20px) 15px}
+#sheet.backup97-sheet .backup97-form label{font:700 var(--bk119-title)/1.15 var(--serif)!important;margin:0 0 7px 4px!important;letter-spacing:-.012em}
+#sheet.backup97-sheet .backup97-field{--backup112-lock-col:clamp(38px,11.4vw,54px);grid-template-columns:var(--backup112-lock-col) minmax(0,1fr) 44px;min-height:48px;margin-bottom:12px;border-radius:11px;border-color:#d7b886;box-shadow:inset 0 1px 3px #ad865b20,0 3px 5px #9a6a2f23}
+#sheet.backup97-sheet .backup97-field::before{left:var(--backup112-lock-col);height:26px;background:#b68e57}
+#sheet.backup97-sheet .backup97-field>img{width:25px;height:28px}
+#sheet.backup97-sheet .backup97-field input{height:48px;padding:0 10px!important;font-size:16px!important}
+#sheet.backup97-sheet .backup97-field input::placeholder{font-size:var(--bk119-description);color:#746e67}
+#sheet.backup97-sheet .backup97-eye{color:#a87324;min-width:44px;min-height:44px}
+#sheet.backup97-sheet .backup97-eye svg{width:23px;height:23px}
+
+
+/* .124 — New mockup, stage 5: Золотая кнопка и иконка сохранения. */
+
+#sheet.backup97-sheet .backup97-save{grid-template-columns:clamp(61px,25%,110px) minmax(0,1fr);min-height:56px;padding:5px 9px 9px 5px;margin-top:9px;border-radius:12px;font:700 var(--bk119-title)/1.12 var(--serif)!important;color:#211305;box-shadow:0 3px 6px #80501b42}
+#sheet.backup97-sheet .backup97-save-art{width:clamp(38px,10.7vw,56px);height:clamp(34px,9vw,46px);filter:drop-shadow(0 1px 1px #70430780)}
+#sheet.backup97-sheet .backup97-save span{padding:3px 3px 3px 9px;border-left:1px solid #fff1c4;line-height:1.15;overflow-wrap:break-word}
+
+
+/* .125 — New mockup, stage 6: Предупреждение о безопасности. */
+
+#sheet.backup97-sheet .backup97-warning{grid-template-columns:clamp(38px,10.7vw,55px) minmax(0,1fr);gap:10px;padding:12px var(--bk-grid-inset);margin:13px 0;align-items:center}
+#sheet.backup97-sheet .backup97-warning img{width:clamp(32px,9.3vw,47px);height:clamp(32px,9.3vw,47px)}
+#sheet.backup97-sheet .backup97-warning p{font:500 var(--bk119-description)/1.27 var(--sans)!important;padding:0 0 0 12px;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-warning p::before{top:2px;bottom:2px;background:linear-gradient(180deg,#d6b17a,#a97732 48%,#d6b17a)}
+
+
+/* .126 — New mockup, stage 7: Восстановление из копии. */
+
+#sheet.backup97-sheet .backup97-restore{grid-template-columns:var(--bk119-icon-w) minmax(0,1fr) var(--bk119-arrow);gap:var(--bk-grid-gap);padding:9px var(--bk-grid-inset) 9px 8px;min-height:clamp(68px,18vw,88px)}
+#sheet.backup97-sheet .backup97-restore .backup97-tile img{width:80%;height:85%}
+#sheet.backup97-sheet .backup97-restore .backup97-copy{padding-left:var(--bk-grid-copy)}
+#sheet.backup97-sheet .backup97-restore .backup97-copy strong{font:700 var(--bk119-title)/1.08 var(--serif)!important;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-restore .backup97-copy small{font:500 var(--bk119-description)/1.25 var(--sans)!important;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow{background:linear-gradient(165deg,#d1a35f 0%,#bc8a42 25%,#a56e1e 52%,#9b6310 82%,#90580d 100%);color:#fffaf0}
+
+
+/* .127 — New mockup, stage 8: Шапка и тематические заголовки. */
+
+#sheet.backup97-sheet .backup97-head{grid-template-columns:44px var(--bk119-head-icon) minmax(0,1fr);gap:6px;padding:0 clamp(38px,16vw,92px) 0 0;min-height:clamp(60px,16vw,78px);margin:13px 0 22px}
+#sheet.backup97-sheet .backup97-head::before{content:none;display:none}
+#sheet.backup97-sheet .backup97-head-art{width:100%;height:auto;aspect-ratio:114/101;transform:none;object-fit:contain}
+#sheet.backup97-sheet .backup97-heading{position:relative;padding-left:6px;border:0}
+#sheet.backup97-sheet .backup97-heading::before{content:"";display:block;position:absolute;left:0;top:50%;height:min(40px,100%);width:1px;background:#a97630;transform:translateY(-50%)}
+#sheet.backup97-sheet .backup97-heading>span{font:700 clamp(9px,2.6vw,14px)/1.15 var(--serif);color:#7e4b12;letter-spacing:.015em}
+#sheet.backup97-sheet .backup97-heading h2{font:700 clamp(17px,5.05vw,32px)/1.08 var(--serif)!important;letter-spacing:-.025em;overflow-wrap:break-word;margin:3px 0!important}
+#sheet.backup97-sheet .backup97-heading p{font:500 clamp(10.5px,3.1vw,16px)/1.25 var(--sans)!important;letter-spacing:0;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-group{margin:17px 2px 10px;min-height:26px;grid-template-columns:26px minmax(0,max-content) minmax(10px,1fr);gap:8px}
+#sheet.backup97-sheet .backup97-group h3{font:700 clamp(10px,3.10vw,18px)/1.14 var(--serif)!important;letter-spacing:.004em;color:#7e4b12!important}
+#sheet.backup97-sheet .backup97-group i{height:1px;background:linear-gradient(90deg,#a46a21,#d5a867)}
+@media(max-width:370px){#sheet.backup97-sheet .backup97-head{grid-template-columns:44px 37px minmax(0,1fr);gap:4px;padding-right:clamp(32px,13vw,56px)}#sheet.backup97-sheet .backup97-group{grid-template-columns:23px minmax(0,max-content) minmax(8px,1fr);gap:6px}}
+
+
+/* .128 — New mockup, stage 9: Общая компоновка без подгонки под высоту экрана. */
+
+#sheet.backup97-sheet .backup97-page{padding-bottom:calc(var(--backup100-bottom) + 16px);padding-top:0;min-height:0;position:relative}
+#sheet.backup97-sheet .backup97-head{margin-bottom:18px}
+#sheet.backup97-sheet .backup97-group{margin-top:18px;margin-bottom:9px}
+#sheet.backup97-sheet .backup97-stats{margin-top:9px}
+#sheet.backup97-sheet .backup97-warning{margin:13px 0}
+#sheet.backup97-sheet .backup97-form{height:auto;max-height:none}
+#sheet.backup97-sheet .backup97-format,#sheet.backup97-sheet .backup97-status,#sheet.backup97-sheet .backup97-restore{height:auto;max-height:none}
+#sheet.backup97-sheet .backup97-field input{scroll-margin-block:18px}
+@media(max-height:520px){#sheet.backup97-sheet .backup97-page{padding-bottom:40px}}
+
+
+/* .129 — New mockup, stage 10: Единые контуры, тени и золотые оттенки. */
+
+#sheet.backup97-sheet .backup97-card{border-radius:clamp(11px,3.05vw,16px);border:1px solid transparent;background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,linear-gradient(180deg,#cba773 0%,#e8d3ac 28%,#e0c18d 73%,#c49d66 100%) border-box!important;box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54!important}
+#sheet.backup97-sheet .backup97-format .backup97-tile,#sheet.backup97-sheet .backup97-status .backup97-tile,#sheet.backup97-sheet .backup97-restore .backup97-tile{border:1px solid #e8c998;background:linear-gradient(140deg,#fff9ec,#f5dfb9);box-shadow:inset 0 1px 1px #fffefa,0 3px 5px #94652539}
+#sheet.backup97-sheet .backup97-field{background:linear-gradient(155deg,#fff9ef 0%,#fffdfa 48%,#f9efdf 100%);border-color:#d7b886}
+
+
+/* .130 — New mockup, stage 11: Статичный фон и прокрутка по модели судебных сервисов. */
+
+#sheet.backup97-sheet{background-image:url('backup98-decor.webp?v=6571'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6571')!important;background-size:min(35.5vw,215px) auto,100% 100%,100% 100%!important;background-position:right top,center top,center top!important;background-attachment:scroll,scroll,scroll!important;background-origin:border-box!important;background-clip:border-box!important;background-repeat:no-repeat!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch;isolation:isolate;mask:none!important;-webkit-mask:none!important}
+#sheet.backup97-sheet::before,#sheet.backup97-sheet::after{content:none!important;display:none!important}
+#sheet.backup97-sheet .backup97-page{background:transparent!important;mask:none!important;-webkit-mask:none!important;overflow:visible!important}
+
+
+/* .131 — New mockup, stage 12: Итоговый аудит нового макета. */
+
+/* No artificial fit-to-screen. The final render is checked at mobile widths and scroll positions. */
+#sheet.backup97-sheet .backup97-page{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
