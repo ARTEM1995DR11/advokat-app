@@ -280,8 +280,55 @@
 #sheet.backup97-sheet .backup97-save{
  display:grid;grid-template-columns:clamp(66px,25%,112px) minmax(0,1fr);align-items:center;gap:0;
  width:100%;min-height:46px;margin-top:6px;padding:3px 8px 7px 4px;
- border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6553') center/100% 100% no-repeat;
+ border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6557') center/100% 100% no-repeat;
  box-shadow:0 3px 5px #80501b42;color:#241407;font-size:clamp(14px,3.84vw,22px)!important;
 }
 #sheet.backup97-sheet .backup97-save-art{width:clamp(37px,10vw,54px);height:clamp(31px,8.1vw,43px);justify-self:center;filter:drop-shadow(0 1.5px 1px #70430780)}
 #sheet.backup97-sheet .backup97-save span{border-left:1px solid #fff2c2;padding:4px 2px 4px 7px;min-width:0;line-height:1.12;text-align:center;letter-spacing:-.012em}
+
+/* .114 — stage 10: safety warning only. */
+#sheet.backup97-sheet .backup97-warning{
+ grid-template-columns:clamp(34px,11vw,55px) minmax(0,1fr);gap:clamp(7px,2.2vw,12px);
+ padding:7px clamp(12px,3.45vw,20px);margin:9px 0;
+ border-color:#dfbd89;background:linear-gradient(145deg,#fffaf1 0%,#fff4e4 52%,#f8e7ce 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-warning img{width:clamp(28px,8.4vw,45px);height:clamp(28px,8.4vw,45px);object-fit:contain}
+#sheet.backup97-sheet .backup97-warning p{position:relative;border:0;padding:0 0 0 clamp(10px,3.2vw,17px);font:400 clamp(11.5px,2.9vw,16px)/1.19 var(--sans)!important;overflow-wrap:break-word}
+#sheet.backup97-sheet .backup97-warning p::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;background:#b68e57;pointer-events:none}
+
+/* .115 — stage 11: restore action only; same alignment as the approved cards. */
+#sheet.backup97-sheet .backup97-restore{
+ grid-template-columns:clamp(42px,12.5vw,66px) minmax(0,1fr) clamp(30px,8.1vw,42px);
+ gap:clamp(7px,2.1vw,13px);padding:6px clamp(12px,3.45vw,20px) 6px calc(clamp(12px,3.45vw,20px) + clamp(3px,1.3vw,9px));min-height:56px;
+ border-color:#d9b784;background:linear-gradient(150deg,#fffdf8 0%,#fff8ec 52%,#f8e9d2 100%);
+ box-shadow:inset 0 0 0 .65px #fffaf0,0 3px 7px #98642b38;
+}
+#sheet.backup97-sheet .backup97-restore .backup97-tile{width:100%;height:clamp(38px,10.4vw,55px);border-radius:11px;box-shadow:inset 0 1px 1px #fffefa,0 3px 5px #94652545}
+#sheet.backup97-sheet .backup97-restore .backup97-tile img{width:80%;height:85%;object-fit:contain}
+#sheet.backup97-sheet .backup97-restore .backup97-copy{position:relative;border:0;padding:0 0 0 clamp(8px,2.1vw,12px)}
+#sheet.backup97-sheet .backup97-restore .backup97-copy::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:1px;background:#b68e57;pointer-events:none}
+#sheet.backup97-sheet .backup97-restore .backup97-copy strong{font-size:clamp(13px,3.72vw,22px)!important;line-height:1.09!important;letter-spacing:-.015em}
+#sheet.backup97-sheet .backup97-restore .backup97-copy small{font:400 clamp(11px,2.91vw,15.5px)/1.17 var(--sans)!important;overflow-wrap:break-word;margin-top:2px!important}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow{width:100%;height:auto;aspect-ratio:1;background:linear-gradient(165deg,#d1a35f 0%,#bc8a42 25%,#a56e1e 52%,#9b6310 82%,#90580d 100%);box-shadow:inset 0 1px #efd4a0,0 2px 4px #8253204c}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow svg{width:69%;height:69%;stroke-width:2.25!important}
+#sheet.backup97-sheet .backup97-restore .backup97-arrow svg path{stroke-width:2.25!important}
+
+/* .116 — stage 12: overall rhythm and safe scrolling. Keep .107 sheet background. */
+#sheet.backup97-sheet .backup97-page{padding-bottom:calc(var(--backup100-bottom) + 8px)}
+#sheet.backup97-sheet .backup97-head{margin-bottom:3px;min-height:44px}
+#sheet.backup97-sheet .backup97-group{margin-top:8px;margin-bottom:5px;min-height:24px}
+#sheet.backup97-sheet .backup97-stats{margin-top:6px}
+#sheet.backup97-sheet .backup97-warning{margin:8px 0}
+#sheet.backup97-sheet .backup97-form{padding-top:7px;padding-bottom:9px}
+#sheet.backup97-sheet .backup97-field{margin-bottom:4px}
+#sheet.backup97-sheet .backup97-save{margin-top:5px}
+#sheet.backup97-sheet .backup97-field input{scroll-margin-block:12px}
+@media(max-width:360px){
+ #sheet.backup97-sheet .backup97-head{padding-right:20px}
+ #sheet.backup97-sheet .backup97-heading h2{font-size:clamp(13px,3.85vw,16px)!important;overflow-wrap:normal}
+ #sheet.backup97-sheet .backup97-group h3{max-width:calc(100% - 40px)}
+}
+@media(min-width:600px){#sheet.backup97-sheet .backup97-head{min-height:58px}}
+/* For short viewports, preserve touch targets and allow natural scrolling. */
+@media(max-height:520px){#sheet.backup97-sheet{scroll-padding-bottom:24px}}
