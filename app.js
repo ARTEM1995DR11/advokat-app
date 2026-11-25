@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.98';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6538';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.99';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6539';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5246,7 +5246,7 @@ function sheetBackup(){
     '<button type="button" class="backup97-save" data-act="backup-create">'+backup97SaveArt()+'<span>Сохранить обе копии</span></button></section>'+
     '<aside class="backup97-card backup97-warning" role="note">'+backup97Art('warning')+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
     '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
-  openSheet('<main class="backup97-page">'+head+body+'</main>');
+  openSheet('<div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
   var sh=$('#sheet');sh.classList.add('settings60-child-sheet','backup97-sheet','full');sh.setAttribute('aria-label','Резервная копия планов');
 }
 

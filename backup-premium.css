@@ -2,7 +2,7 @@
 #sheet.backup97-sheet{
  position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;
  padding:max(env(safe-area-inset-top,0px),44px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
- background:#f5e8d5!important;background-image:url('backup98-decor.webp?v=6538'),linear-gradient(135deg,#fff9ef55 0%,#fff5e82b 38%,#fff5e81a 100%),url('courts80-background.webp?v=6538')!important;
+ background:#f5e8d5!important;background-image:url('backup98-decor.webp?v=6539'),linear-gradient(135deg,#fff9ef55 0%,#fff5e82b 38%,#fff5e81a 100%),url('courts80-background.webp?v=6539')!important;
  background-position:right -10px top,center top,center top!important;background-size:min(39vw,215px) auto,100% 100%,cover!important;background-repeat:no-repeat!important;background-attachment:local,scroll,scroll!important;
  overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
 }
@@ -63,3 +63,38 @@
 
 /* .98: keep compact mobile layout without shrinking password touch targets. */
 @media(max-width:360px){#sheet.backup97-sheet .backup97-heading h2{font-size:16px!important}#sheet.backup97-sheet .backup97-heading>span{font-size:9px}#sheet.backup97-sheet .backup97-group{gap:6px}#sheet.backup97-sheet .backup97-stat img{width:36px;height:34px}}
+
+/* .99 — audit points 1–5 only: soft background, safe-area, decor and header. */
+#sheet.backup97-sheet{
+ --backup99-safe:max(env(safe-area-inset-top,0px),44px);
+ --backup99-decor-size:min(38vw,215px);
+ --backup99-decor-top:0px;
+ --backup99-marble-size:max(100vw,calc(100dvh * .666667)) auto;
+ padding:var(--backup99-safe) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
+ overflow:hidden!important;
+ background-image:url('backup98-decor.webp?v=6539'),linear-gradient(145deg,#fff4e16e 0%,#fff7ea35 32%,#fff5e81a 100%),url('courts80-background.webp?v=6539')!important;
+ background-position:right max(-8px,calc((100vw - 660px)/2 - 8px)) top var(--backup99-decor-top),center top,center top!important;
+ background-size:var(--backup99-decor-size) auto,100vw 100dvh,var(--backup99-marble-size)!important;
+ background-attachment:scroll!important;
+}
+#sheet.backup97-sheet > .grab{display:none!important}
+#sheet.backup97-sheet .backup99-scroll{
+ position:relative;display:block;box-sizing:border-box;width:100%;height:100%;min-height:0;
+ overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+ background:#f5e8d5;
+ background-image:linear-gradient(145deg,#fff4e16e 0%,#fff7ea35 32%,#fff5e81a 100%),url('courts80-background.webp?v=6539');
+ background-position:center calc(-1 * var(--backup99-safe)),center calc(-1 * var(--backup99-safe));background-size:100vw 100dvh,var(--backup99-marble-size);background-repeat:no-repeat;
+}
+#sheet.backup97-sheet .backup99-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+#sheet.backup97-sheet .backup97-page{position:relative;isolation:isolate;padding-top:0}
+#sheet.backup97-sheet .backup97-page::before{
+ content:"";position:absolute;pointer-events:none;z-index:-1;right:0;top:calc(var(--backup99-decor-top) - var(--backup99-safe));
+ width:var(--backup99-decor-size);aspect-ratio:313/230;background:url('backup98-decor.webp?v=6539') left 8px top / 100% auto no-repeat;
+}
+#sheet.backup97-sheet .backup97-head{grid-template-columns:36px 44px minmax(0,1fr);gap:5px;padding-top:8px;padding-right:clamp(37px,16.5vw,82px);min-height:68px}
+#sheet.backup97-sheet .backup97-head-art{width:44px;height:44px}
+#sheet.backup97-sheet .backup97-heading{container-type:inline-size}
+#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,7.8cqi,26px)!important;line-height:1.12!important;letter-spacing:-.025em}
+#sheet.backup97-sheet .backup97-heading p{font-size:clamp(11px,5.25cqi,15px)!important;line-height:1.2!important;letter-spacing:-.015em}
+@media(max-width:360px){#sheet.backup97-sheet .backup97-head{grid-template-columns:34px 40px minmax(0,1fr);gap:4px;padding-right:34px}#sheet.backup97-sheet .backup97-head-art{width:40px;height:40px}#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,7.8cqi,20px)!important}}
+@media(min-width:600px){#sheet.backup97-sheet .backup97-head{grid-template-columns:46px 58px minmax(0,1fr);padding-right:82px}#sheet.backup97-sheet .backup97-head-art{width:58px;height:58px}}
