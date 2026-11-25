@@ -3,27 +3,23 @@
  --backup100-safe:max(env(safe-area-inset-top,0px),44px);
  --backup100-bottom:max(env(safe-area-inset-bottom,0px),12px);
  position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
- display:block!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+ display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6545'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6545')!important;
+ background-image:url('backup98-decor.webp?v=6547'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6547')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
  background-origin:border-box!important;background-clip:border-box!important;
- overflow:hidden!important;overscroll-behavior:contain!important;isolation:isolate;
+ /* .107: identical scrolling architecture to courts76-home-sheet.
+    The scroll attachment anchors all three background layers to the sheet,
+    not to the scrollable contents. Initial top padding scrolls with content. */
+ overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;isolation:isolate;
+ scrollbar-width:none!important;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+ scroll-padding-top:var(--backup100-safe);scroll-padding-bottom:calc(var(--backup100-bottom) + 16px);
 }
 #sheet.backup97-sheet.open{transform:none!important}
 #sheet.backup97-sheet>.grab{display:none!important}
-/* The sheet itself paints the marble and decor. No decorative DOM node. */
-#sheet.backup97-sheet>.backup99-scroll{
- position:absolute!important;inset:var(--backup100-safe) 0 0!important;display:block!important;box-sizing:border-box!important;
- width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;
- background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
- overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;z-index:1;
- scroll-padding-top:20px;scroll-padding-bottom:calc(var(--backup100-bottom) + 16px);
-}
-#sheet.backup97-sheet>.backup99-scroll::-webkit-scrollbar{display:none;width:0;height:0}
 #sheet.backup97-sheet::-webkit-scrollbar{display:none;width:0;height:0}
 #sheet.backup97-sheet .backup97-page{--navy:#101936;--ink:#292018;--gold:#94601e;--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,Arial,sans-serif;box-sizing:border-box;width:100%;max-width:660px;margin:0 auto;padding:0 clamp(13px,3.65vw,25px) 16px;min-width:0;color:var(--navy);font-family:var(--sans)}
 #sheet.backup97-sheet .backup97-page *{box-sizing:border-box}
@@ -147,11 +143,45 @@
 #sheet.backup97-sheet .backup97-arrow svg{width:25px;height:25px;stroke-width:2}
 @media(max-width:360px){#sheet.backup97-sheet .backup97-form{padding:8px 9px 11px}#sheet.backup97-sheet .backup97-restore{grid-template-columns:43px minmax(0,1fr) 30px;gap:7px;padding:7px 9px}#sheet.backup97-sheet .backup97-restore .backup97-tile{width:43px;height:43px}#sheet.backup97-sheet .backup97-restore .backup97-tile img{width:31px}#sheet.backup97-sheet .backup97-save{gap:6px}#sheet.backup97-sheet .backup97-save span{padding-left:7px}}
 
-/* .103: soften only the scrolling content edge; the sheet background remains fully opaque.
-   At scrollTop=0 the header has no mask. The native safe-area remains outside the pane. */
-#sheet.backup97-sheet>.backup99-scroll.backup103-scrolled{
- -webkit-mask-image:linear-gradient(to bottom,transparent 0px,#000 18px,#000 100%);
- mask-image:linear-gradient(to bottom,transparent 0px,#000 18px,#000 100%);
- -webkit-mask-size:100% 100%;mask-size:100% 100%;
- -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+/* .106 — stage 3: header only, matching the approved backup mock.
+   Keep .105 background and header geometry untouched. */
+#sheet.backup97-sheet .backup97-page{padding-top:0}
+#sheet.backup97-sheet .backup97-head{
+ grid-template-columns:34px 49px minmax(0,1fr);gap:4px;
+ min-height:46px;margin:0 0 5px;padding:0 clamp(26px,10vw,66px) 0 0;
+ align-items:center;
+}
+/* Smaller visual button, 44px touch target preserved. */
+#sheet.backup97-sheet .backup97-back{
+ width:44px;height:44px;position:relative;justify-self:center;
+ border:0;border-radius:10px;background:transparent;box-shadow:none;
+}
+#sheet.backup97-sheet .backup97-back::before{
+ content:"";position:absolute;inset:6px 7px;border:1px solid #c6995c;
+ border-radius:8px;background:linear-gradient(145deg,#fffdf7,#f2e0bf);
+ box-shadow:inset 0 0 0 1px #fffaf1,0 3px 6px #92632c40;pointer-events:none;
+}
+#sheet.backup97-sheet .backup97-back svg{position:relative;width:19px;height:19px;stroke-width:2.2!important}
+#sheet.backup97-sheet .backup97-back svg path{stroke-width:2.2!important}
+#sheet.backup97-sheet .backup97-head-art{width:49px;height:38px;padding-left:5px;border-left:0}
+#sheet.backup97-sheet .backup97-head::before{
+ content:"";position:absolute;left:38px;top:50%;width:1px;height:31px;
+ background:#a97430;transform:translateY(-50%);pointer-events:none;
+}
+#sheet.backup97-sheet .backup97-heading{padding-left:4px;border:0}
+#sheet.backup97-sheet .backup97-heading::before{content:none;display:none}
+#sheet.backup97-sheet .backup97-heading>span{font-size:clamp(8.5px,2.3vw,13px);line-height:1.12;letter-spacing:.015em}
+#sheet.backup97-sheet .backup97-heading h2{font-size:clamp(14px,3.85vw,25px)!important;line-height:1.10!important;letter-spacing:-.018em;margin:2px 0!important}
+#sheet.backup97-sheet .backup97-heading p{font:400 clamp(10px,2.52vw,15px)/1.15 var(--sans)!important;letter-spacing:0}
+@media(max-width:360px){
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:32px 42px minmax(0,1fr);gap:3px;padding-right:22px}
+ #sheet.backup97-sheet .backup97-head::before{left:35px;height:29px}
+ #sheet.backup97-sheet .backup97-head-art{width:42px;height:35px;padding-left:4px}
+ #sheet.backup97-sheet .backup97-heading{padding-left:3px}
+}
+@media(min-width:600px){
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:44px 62px minmax(0,1fr);gap:7px;min-height:60px;padding-right:80px}
+ #sheet.backup97-sheet .backup97-head::before{left:51px;height:39px}
+ #sheet.backup97-sheet .backup97-back::before{inset:1px 2px}
+ #sheet.backup97-sheet .backup97-head-art{width:62px;height:48px;padding-left:7px}
 }
