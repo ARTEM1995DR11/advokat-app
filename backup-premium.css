@@ -6,7 +6,7 @@
  display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6572'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6572')!important;
+ background-image:url('backup98-decor.webp?v=6573'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6573')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
@@ -280,7 +280,7 @@
 #sheet.backup97-sheet .backup97-save{
  display:grid;grid-template-columns:clamp(66px,25%,112px) minmax(0,1fr);align-items:center;gap:0;
  width:100%;min-height:46px;margin-top:6px;padding:3px 8px 7px 4px;
- border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6572') center/100% 100% no-repeat;
+ border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6573') center/100% 100% no-repeat;
  box-shadow:0 3px 5px #80501b42;color:#241407;font-size:clamp(14px,3.84vw,22px)!important;
 }
 #sheet.backup97-sheet .backup97-save-art{width:clamp(37px,10vw,54px);height:clamp(31px,8.1vw,43px);justify-self:center;filter:drop-shadow(0 1.5px 1px #70430780)}
@@ -570,7 +570,7 @@
 
 /* .130 — New mockup, stage 11: Статичный фон и прокрутка по модели судебных сервисов. */
 
-#sheet.backup97-sheet{background-image:url('backup98-decor.webp?v=6572'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6572')!important;background-size:min(35.5vw,215px) auto,100% 100%,100% 100%!important;background-position:right top,center top,center top!important;background-attachment:scroll,scroll,scroll!important;background-origin:border-box!important;background-clip:border-box!important;background-repeat:no-repeat!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch;isolation:isolate;mask:none!important;-webkit-mask:none!important}
+#sheet.backup97-sheet{background-image:url('backup98-decor.webp?v=6573'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6573')!important;background-size:min(35.5vw,215px) auto,100% 100%,100% 100%!important;background-position:right top,center top,center top!important;background-attachment:scroll,scroll,scroll!important;background-origin:border-box!important;background-clip:border-box!important;background-repeat:no-repeat!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch;isolation:isolate;mask:none!important;-webkit-mask:none!important}
 #sheet.backup97-sheet::before,#sheet.backup97-sheet::after{content:none!important;display:none!important}
 #sheet.backup97-sheet .backup97-page{background:transparent!important;mask:none!important;-webkit-mask:none!important;overflow:visible!important}
 
@@ -624,3 +624,30 @@
  #sheet.backup97-sheet .backup97-form label{font-size:clamp(12px,3.6vw,13.4px)!important}
 }
 /* At very narrow widths or enlarged accessibility text, wrap rather than clip. */
+
+/* .133 — final correction, stage 1 (items 1–6): header and group spacing only.
+   Preserve the approved group typography, artwork, static backdrop and all cards. */
+#sheet.backup97-sheet .backup97-head{
+ margin-bottom:12px;
+ padding-right:clamp(22px,8.5vw,65px);
+}
+#sheet.backup97-sheet .backup97-head-art{
+ transform:scale(1.07);transform-origin:center;
+}
+#sheet.backup97-sheet .backup97-heading h2{
+ font-size:clamp(13.5px,4.17vw,25.5px)!important;
+}
+#sheet.backup97-sheet .backup97-heading p{
+ font:500 clamp(9px,2.68vw,15px)/1.24 var(--sans)!important;
+}
+#sheet.backup97-sheet .backup97-group{
+ margin-top:15px;margin-bottom:8px;
+}
+#sheet.backup97-sheet .backup97-head + .backup97-group{
+ margin-top:12px;
+}
+@media(max-width:370px){
+ #sheet.backup97-sheet .backup97-head{padding-right:clamp(14px,5.5vw,22px)}
+ #sheet.backup97-sheet .backup97-heading h2{font-size:clamp(12.8px,4.03vw,14.9px)!important}
+ #sheet.backup97-sheet .backup97-heading p{font-size:clamp(9px,2.6vw,10.2px)!important}
+}
