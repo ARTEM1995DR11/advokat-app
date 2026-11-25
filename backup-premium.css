@@ -6,7 +6,7 @@
  display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6547'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6547')!important;
+ background-image:url('backup98-decor.webp?v=6548'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6548')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
@@ -184,4 +184,22 @@
  #sheet.backup97-sheet .backup97-head::before{left:51px;height:39px}
  #sheet.backup97-sheet .backup97-back::before{inset:1px 2px}
  #sheet.backup97-sheet .backup97-head-art{width:62px;height:48px;padding-left:7px}
+}
+
+/* .108 — stage 4: only the three thematic headings; preserve the header,
+   fixed sheet background, card geometry and working scroll architecture. */
+#sheet.backup97-sheet .backup97-group{
+ gap:4px;margin:10px 4px 6px;min-height:25px;
+}
+#sheet.backup97-sheet .backup97-group img{
+ width:23px;height:23px;object-fit:contain;flex:0 0 23px;
+}
+#sheet.backup97-sheet .backup97-group h3{
+ font:700 clamp(10.5px,2.76vw,16px)/1.18 var(--serif)!important;
+ letter-spacing:.002em;color:#865319!important;min-width:0;
+ max-width:calc(100% - 43px);overflow-wrap:normal;
+}
+#sheet.backup97-sheet .backup97-group i{
+ height:1px;min-width:12px;flex:1 0 12px;
+ background:linear-gradient(90deg,#98601b 0%,#b78331 100%);
 }
