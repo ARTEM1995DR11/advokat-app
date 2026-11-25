@@ -6,7 +6,7 @@
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('courts83-decor.webp?v=6535'),linear-gradient(rgba(255,250,243,.15),rgba(255,250,243,.15)),url('courts80-background.webp?v=6535')!important;
+ background-image:url('courts83-decor.webp?v=6536'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6536')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
  background-position:right top,center top,center top!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;
@@ -44,7 +44,7 @@
    No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
 html:has(#sheet.courts76-home-sheet.open){
  background-color:#eed3b2!important;
- background-image:linear-gradient(rgba(255,250,243,.15),rgba(255,250,243,.15)),url('courts80-background.webp?v=6535')!important;
+ background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6536')!important;
  background-position:center bottom!important;background-size:100% 100%!important;
  background-repeat:no-repeat!important;min-height:100%!important;
 }
@@ -296,3 +296,25 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
  background:linear-gradient(165deg,#d1a35f 0%,#c09149 25%,#ac7524 52%,#9f6714 82%,#925a10 100%);
  box-shadow:inset 0 1px 0 #f5d9a4,inset 0 -2px 3px #74410835,0 2px 4px #80501955;
 }
+
+/* .96 — ten audit refinements; confined to the judicial-services home. */
+#sheet.courts76-home-sheet .courts76-home .courts76-title p{font-weight:500!important;}
+#sheet.courts76-home-sheet .courts76-home .courts76-back svg{stroke-width:2.4!important;}
+#sheet.courts76-home-sheet .courts76-home .courts76-back svg path{stroke-width:2.4!important;}
+#sheet.courts76-home-sheet .courts76-home .courts76-grouphead h3{font-size:clamp(10px,3.10vw,18px)!important;letter-spacing:.004em;}
+#sheet.courts76-home-sheet .courts76-home .courts76-row{
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,
+ linear-gradient(180deg,#cba773 0%,#e8d3ac 28%,#e0c18d 73%,#c49d66 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,
+ inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,
+ 0 2px 1px #bc8d4e20,0 5px 8px -3px #86541e54!important;
+}
+#sheet.courts76-home-sheet .courts76-home .courts76-arrow{background:linear-gradient(165deg,#d1a35f 0%,#bc8a42 25%,#a56e1e 52%,#9b6310 82%,#90580d 100%);}
+#sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{width:22px;height:22px;stroke-width:2.25!important;}
+#sheet.courts76-home-sheet .courts76-home .courts76-arrow svg path{stroke-width:2.25!important;}
+#sheet.courts76-home-sheet .courts76-home .courts76-row[data-v="jurisdiction"] .courts76-copy strong{font-size:clamp(15px,4.28vw,22px)!important;letter-spacing:-.028em;}
+@media(max-width:370px){#sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{width:20px;height:20px;}}
+@media(min-width:500px){#sheet.courts76-home-sheet .courts76-home .courts76-arrow svg{width:27px;height:27px;}}
+/* Hide only the scroll indicator. Keep access to all cards on small screens. */
+#sheet.courts76-home-sheet{overflow-y:auto!important;scrollbar-width:none!important;-ms-overflow-style:none;}
+#sheet.courts76-home-sheet::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}

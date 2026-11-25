@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.95';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6535';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.96';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6536';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4987,7 +4987,7 @@ function courts73CatalogRows(q,parent){
    condensation is used only if necessary; narrower layouts wrap rather than clip. */
 function courts93FitLines(){
  var home=document.querySelector('#sheet.courts76-home-sheet .courts76-home');if(!home)return;
- var rules=[['.courts76-title h2',.88],['.courts76-title p',.90],['.courts76-row[data-v="jurisdiction"] strong',.88]];
+ var rules=[['.courts76-title h2',.88],['.courts76-title p',.90],['.courts76-row[data-v="jurisdiction"] strong',.85]];
  rules.forEach(function(rule){
   var el=home.querySelector(rule[0]);if(!el || !el.clientWidth)return;
   el.classList.remove('courts93-fitted');
