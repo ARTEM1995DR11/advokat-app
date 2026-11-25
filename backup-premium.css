@@ -6,7 +6,7 @@
  display:block!important;margin:0!important;padding:var(--backup100-safe) 0 0!important;border:0!important;border-radius:0!important;
  /* .103: same background-layer model as the approved courts home. */
  background:#f6e8d2!important;
- background-image:url('backup98-decor.webp?v=6577'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6577')!important;
+ background-image:url('backup98-decor.webp?v=6578'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6578')!important;
  background-position:right top,center top,center top!important;
  background-size:min(35.5vw,215px) auto,100% 100%,cover!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
@@ -280,7 +280,7 @@
 #sheet.backup97-sheet .backup97-save{
  display:grid;grid-template-columns:clamp(66px,25%,112px) minmax(0,1fr);align-items:center;gap:0;
  width:100%;min-height:46px;margin-top:6px;padding:3px 8px 7px 4px;
- border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6577') center/100% 100% no-repeat;
+ border:0;border-radius:12px;background:transparent url('backup113-save-face.svg?v=6578') center/100% 100% no-repeat;
  box-shadow:0 3px 5px #80501b42;color:#241407;font-size:clamp(14px,3.84vw,22px)!important;
 }
 #sheet.backup97-sheet .backup97-save-art{width:clamp(37px,10vw,54px);height:clamp(31px,8.1vw,43px);justify-self:center;filter:drop-shadow(0 1.5px 1px #70430780)}
@@ -570,7 +570,7 @@
 
 /* .130 — New mockup, stage 11: Статичный фон и прокрутка по модели судебных сервисов. */
 
-#sheet.backup97-sheet{background-image:url('backup98-decor.webp?v=6577'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6577')!important;background-size:min(35.5vw,215px) auto,100% 100%,100% 100%!important;background-position:right top,center top,center top!important;background-attachment:scroll,scroll,scroll!important;background-origin:border-box!important;background-clip:border-box!important;background-repeat:no-repeat!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch;isolation:isolate;mask:none!important;-webkit-mask:none!important}
+#sheet.backup97-sheet{background-image:url('backup98-decor.webp?v=6578'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6578')!important;background-size:min(35.5vw,215px) auto,100% 100%,100% 100%!important;background-position:right top,center top,center top!important;background-attachment:scroll,scroll,scroll!important;background-origin:border-box!important;background-clip:border-box!important;background-repeat:no-repeat!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch;isolation:isolate;mask:none!important;-webkit-mask:none!important}
 #sheet.backup97-sheet::before,#sheet.backup97-sheet::after{content:none!important;display:none!important}
 #sheet.backup97-sheet .backup97-page{background:transparent!important;mask:none!important;-webkit-mask:none!important;overflow:visible!important}
 
@@ -704,4 +704,26 @@
 }
 #sheet.backup97-sheet .backup97-restore .backup97-copy small{
  font-weight:500!important;
+}
+
+
+/* .138 — isolate the restore caption from generic small/button styling.
+   Use the approved court caption face, without synthetic or painted bold. */
+#sheet.backup97-sheet .backup97-page button.backup97-restore .backup97-copy > .backup138-restore-description{
+ display:block;
+ margin:3px 0 0!important;
+ padding:0!important;
+ font:500 var(--bk119-description)/1.25 var(--sans)!important;
+ font-synthesis:none!important;
+ font-variant:normal!important;
+ font-stretch:normal!important;
+ -webkit-text-stroke:0 transparent!important;
+ text-shadow:none!important;
+ letter-spacing:0!important;
+ color:#251c18!important;
+ text-align:left!important;
+ text-transform:none!important;
+ white-space:normal;
+ overflow-wrap:break-word;
+ hyphens:none;
 }
