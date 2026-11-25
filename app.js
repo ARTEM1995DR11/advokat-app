@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.102';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6542';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.104';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6544';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5246,10 +5246,15 @@ function sheetBackup(){
     '<button type="button" class="backup97-save" data-act="backup-create">'+backup97SaveArt()+'<span>Сохранить обе копии</span></button></section>'+
     '<aside class="backup97-card backup97-warning" role="note">'+backup97Art('warning')+'<p>Храните пароль отдельно. Без него нельзя восстановить зашифрованную базу. Печатная сводка содержит сведения о делах — сохраняйте её в защищённом месте.</p></aside>'+
     '<button type="button" class="backup97-card backup97-restore" data-act="restore">'+backup97Tile('restore-tile')+'<span class="backup97-copy"><strong>Восстановить из копии</strong><small>Открыть сохранённый зашифрованный файл</small></span><span class="backup97-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
-  openSheet('<img class="backup100-decor" src="backup98-decor.webp?v='+APP_BUILD+'" alt="" aria-hidden="true" draggable="false"><div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
+  openSheet('<div class="backup99-scroll"><main class="backup97-page">'+head+body+'</main></div>');
   var sh=$('#sheet');sh.classList.add('settings60-child-sheet','backup97-sheet','full');sh.setAttribute('aria-label','Резервная копия планов');
-  // Fixed decorative layer remains visible; only content scrolls.
-  sh.querySelector('.backup99-scroll').scrollTop=0;
+  // .103: the sheet paints a single stationary background (marble + shield),
+  // like the courts home. Only the content pane gets a soft top edge while scrolled.
+  var pane=sh.querySelector('.backup99-scroll');
+  pane.scrollTop=0;
+  function syncBackup103Edge(){pane.classList.toggle('backup103-scrolled',pane.scrollTop>1);}
+  pane.addEventListener('scroll',syncBackup103Edge,{passive:true});
+  syncBackup103Edge();
 }
 
 function rowSw(i,t,s,act,on){

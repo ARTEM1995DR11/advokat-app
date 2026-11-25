@@ -4,24 +4,24 @@
  --backup100-bottom:max(env(safe-area-inset-bottom,0px),12px);
  position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
  display:block!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
- background:#f6e8d2!important;background-image:linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6542')!important;
- background-position:center top,center top!important;background-size:100% 100%,cover!important;background-repeat:no-repeat!important;background-attachment:scroll!important;
- overflow:hidden!important;overflow:clip!important;overscroll-behavior:contain!important;isolation:isolate;
+ /* .103: same background-layer model as the approved courts home. */
+ background:#f6e8d2!important;
+ background-image:url('backup98-decor.webp?v=6543'),linear-gradient(145deg,#fff2dc6e 0%,#fff5e435 32%,#fff3e31a 100%),url('backup102-marble.webp?v=6543')!important;
+ background-position:right -7px top,center top,center top!important;
+ background-size:min(37vw,215px) auto,100% 100%,cover!important;
+ background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll,scroll,scroll!important;
+ background-origin:border-box!important;background-clip:border-box!important;
+ overflow:hidden!important;overscroll-behavior:contain!important;isolation:isolate;
 }
 #sheet.backup97-sheet.open{transform:none!important}
 #sheet.backup97-sheet>.grab{display:none!important}
-/* Only one marble background and one decor element; the scroll pane is transparent. */
-#sheet.backup97-sheet>.backup100-decor{
- position:absolute!important;top:0!important;right:max(-7px,calc((100% - 660px)/2 - 7px))!important;left:auto!important;bottom:auto!important;
- width:min(37vw,215px)!important;height:auto!important;aspect-ratio:313/230;object-fit:contain;display:block!important;pointer-events:none;z-index:0;
- margin:0!important;padding:0!important;max-width:none!important;opacity:1;
-}
+/* The sheet itself paints the marble and decor. No decorative DOM node. */
 #sheet.backup97-sheet>.backup99-scroll{
  position:absolute!important;inset:var(--backup100-safe) 0 0!important;display:block!important;box-sizing:border-box!important;
  width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;
  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
  overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;z-index:1;
- scroll-padding-bottom:calc(var(--backup100-bottom) + 16px);
+ scroll-padding-top:20px;scroll-padding-bottom:calc(var(--backup100-bottom) + 16px);
 }
 #sheet.backup97-sheet>.backup99-scroll::-webkit-scrollbar{display:none;width:0;height:0}
 #sheet.backup97-sheet::-webkit-scrollbar{display:none;width:0;height:0}
@@ -124,7 +124,6 @@
 }
 
 /* .101 — audit points 11–17, with persistent decorative background. */
-#sheet.backup97-sheet>.backup100-decor{opacity:1!important;visibility:visible!important;transition:none!important;animation:none!important;transform:none!important;}
 #sheet.backup97-sheet .backup97-page{padding-top:4px;padding-bottom:calc(var(--backup100-bottom) + 12px)}
 #sheet.backup97-sheet .backup97-card{border-color:#d6b17b;background:linear-gradient(150deg,#fffdf8 0%,#fff9ed 48%,#f8e8d0 100%);box-shadow:inset 0 0 0 1px #fffaf0,inset 0 -1px 2px #cda76d20,0 4px 8px #97652a32}
 #sheet.backup97-sheet .backup97-form{padding:8px 12px 11px}
@@ -147,3 +146,62 @@
 #sheet.backup97-sheet .backup97-arrow{background:linear-gradient(150deg,#c99b5a 0%,#ad7526 44%,#925b11 100%);box-shadow:inset 0 1px #efd4a0,0 2px 4px #8253204c}
 #sheet.backup97-sheet .backup97-arrow svg{width:25px;height:25px;stroke-width:2}
 @media(max-width:360px){#sheet.backup97-sheet .backup97-form{padding:8px 9px 11px}#sheet.backup97-sheet .backup97-restore{grid-template-columns:43px minmax(0,1fr) 30px;gap:7px;padding:7px 9px}#sheet.backup97-sheet .backup97-restore .backup97-tile{width:43px;height:43px}#sheet.backup97-sheet .backup97-restore .backup97-tile img{width:31px}#sheet.backup97-sheet .backup97-save{gap:6px}#sheet.backup97-sheet .backup97-save span{padding-left:7px}}
+
+/* .103: soften only the scrolling content edge; the sheet background remains fully opaque.
+   At scrollTop=0 the header has no mask. The native safe-area remains outside the pane. */
+#sheet.backup97-sheet>.backup99-scroll.backup103-scrolled{
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0px,#000 18px,#000 100%);
+ mask-image:linear-gradient(to bottom,transparent 0px,#000 18px,#000 100%);
+ -webkit-mask-size:100% 100%;mask-size:100% 100%;
+ -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+
+/* .104 — stage 2: decorative composition aligned with approved mock and courts page model. */
+#sheet.backup97-sheet{
+ --backup104-decor-width:min(41.5vw,232px);
+ --backup104-decor-height:calc(var(--backup104-decor-width) * 230 / 313);
+ background-image:linear-gradient(180deg,rgba(255,250,242,.22),rgba(255,250,242,.11) 26%,rgba(255,250,242,0) 44%),url('backup102-marble.webp?v=6544')!important;
+ background-size:100% 100%,cover!important;
+ background-position:center top,center top!important;
+}
+#sheet.backup97-sheet::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:0;
+ pointer-events:none;
+ background:url('backup98-decor.webp?v=6544') no-repeat right -6px top -4px / var(--backup104-decor-width) auto;
+}
+#sheet.backup97-sheet::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:0;
+ pointer-events:none;
+ background:
+  radial-gradient(46% 18% at 87% 5%,rgba(255,246,228,.42) 0%,rgba(255,246,228,.24) 42%,rgba(255,246,228,0) 74%),
+  radial-gradient(62% 24% at 73% 0%,rgba(255,252,245,.30) 0%,rgba(255,252,245,0) 72%);
+}
+#sheet.backup97-sheet>.backup99-scroll{z-index:1}
+#sheet.backup97-sheet .backup97-page{padding-top:5px}
+#sheet.backup97-sheet .backup97-head{
+ grid-template-columns:36px 48px minmax(0,1fr);
+ gap:6px;
+ min-height:59px;
+ padding-right:clamp(48px,16vw,96px);
+ margin-bottom:8px;
+}
+#sheet.backup97-sheet .backup97-head-art{width:48px;height:44px;padding-left:5px;border-left-color:#b07a33}
+#sheet.backup97-sheet .backup97-heading{padding-left:8px}
+#sheet.backup97-sheet .backup97-heading::before{height:min(44px,100%);background:#b07a33}
+#sheet.backup97-sheet .backup97-group{margin-top:11px}
+@media(max-width:360px){
+ #sheet.backup97-sheet{--backup104-decor-width:min(43vw,206px)}
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:34px 41px minmax(0,1fr);gap:5px;padding-right:34px}
+ #sheet.backup97-sheet .backup97-head-art{width:41px;height:38px;padding-left:4px}
+}
+@media(min-width:600px){
+ #sheet.backup97-sheet{--backup104-decor-width:min(33vw,250px)}
+ #sheet.backup97-sheet .backup97-head{grid-template-columns:46px 58px minmax(0,1fr);padding-right:88px}
+ #sheet.backup97-sheet .backup97-head-art{width:58px;height:52px}
+}
