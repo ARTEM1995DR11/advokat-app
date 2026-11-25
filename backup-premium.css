@@ -332,3 +332,41 @@
 @media(min-width:600px){#sheet.backup97-sheet .backup97-head{min-height:58px}}
 /* For short viewports, preserve touch targets and allow natural scrolling. */
 @media(max-height:520px){#sheet.backup97-sheet{scroll-padding-bottom:24px}}
+
+/* .118 — second pass A: normalized reference horizontal geometry.
+   The reference has shared axes for formats/status, and intentional offsets
+   for warning/restore. Scope tokens to this page; no vertical/style changes. */
+#sheet.backup97-sheet .backup97-page{
+ --bk118-card-inset:clamp(12px,3.45vw,20px);
+ --bk118-info-inset:clamp(5px,2.05vw,12px);
+ --bk118-info-column:clamp(42px,12.5vw,66px);
+ --bk118-info-gap:clamp(8px,2.4vw,13px);
+ --bk118-info-text:clamp(9px,2.5vw,13px);
+ --bk118-warning-column:clamp(30px,9.6vw,49px);
+ --bk118-warning-gap:clamp(7px,2.2vw,12px);
+ --bk118-restore-inset:clamp(4px,1.75vw,10px);
+ --bk118-restore-column:clamp(38px,11vw,58px);
+ --bk118-restore-gap:clamp(7px,2.1vw,13px);
+}
+#sheet.backup97-sheet .backup97-formats{padding-inline:var(--bk118-card-inset)}
+#sheet.backup97-sheet .backup97-format{
+ grid-template-columns:var(--bk118-info-column) minmax(0,1fr);
+ column-gap:var(--bk118-info-gap);padding-left:var(--bk118-info-inset);
+}
+#sheet.backup97-sheet .backup97-status{
+ grid-template-columns:var(--bk118-info-column) minmax(0,1fr);
+ column-gap:var(--bk118-info-gap);padding-right:var(--bk118-card-inset);
+ padding-left:calc(var(--bk118-card-inset) + var(--bk118-info-inset));
+}
+#sheet.backup97-sheet .backup97-format .backup97-copy,
+#sheet.backup97-sheet .backup97-status .backup97-copy{padding-left:var(--bk118-info-text)}
+#sheet.backup97-sheet .backup97-warning{
+ grid-template-columns:var(--bk118-warning-column) minmax(0,1fr);
+ column-gap:var(--bk118-warning-gap);padding-inline:var(--bk118-card-inset);
+}
+#sheet.backup97-sheet .backup97-restore{
+ grid-template-columns:var(--bk118-restore-column) minmax(0,1fr) clamp(30px,8.1vw,42px);
+ column-gap:var(--bk118-restore-gap);padding-right:var(--bk118-card-inset);
+ padding-left:calc(var(--bk118-card-inset) + var(--bk118-restore-inset));
+}
+#sheet.backup97-sheet .backup97-restore .backup97-copy{padding-left:clamp(9px,2.6vw,14px)}
