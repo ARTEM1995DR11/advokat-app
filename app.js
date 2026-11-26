@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.139';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6579';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.140';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6580';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5025,7 +5025,7 @@ function courts73Open(route){
  }
  if(route==='mine'){
    var saved=COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});
-   var content=settings60Info('Это демонстрационный справочник. Выбранные суды сохраняются временно, чтобы проверить логику и внешний вид раздела.','')+
+   var content='<div class="settings60-note" role="note"><svg class="ico s courts140-info" viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="courts140InfoGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0b3"/><stop offset=".28" stop-color="#e4b956"/><stop offset=".58" stop-color="#b97d23"/><stop offset="1" stop-color="#835014"/></linearGradient><linearGradient id="courts140InfoLight" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f8e8c6"/></linearGradient></defs><circle cx="16" cy="16" r="13" fill="url(#courts140InfoLight)" stroke="#8d5e1b" stroke-width="1"/><circle cx="16" cy="16" r="11.9" stroke="url(#courts140InfoGold)" stroke-width="2.4"/><path d="M7.8 10.2a10 10 0 0 1 12.2-3.6" stroke="#fff4cc" stroke-width=".85" stroke-linecap="round"/><circle cx="16" cy="10.6" r="1.55" fill="url(#courts140InfoGold)" stroke="#98651c" stroke-width=".45"/><path d="M16 15v7" stroke="#8c5916" stroke-width="3.3" stroke-linecap="round"/><path d="M15.6 14.9v6.8" stroke="#deb45d" stroke-width="1.3" stroke-linecap="round"/></svg><p>Это демонстрационный справочник. Выбранные суды сохраняются временно, чтобы проверить логику и внешний вид раздела.</p></div>'+
       (saved.length?courts73Section('Сохранённые суды',saved.map(function(c){return ['court:'+c[0]+'|mine',c[1],c[2],'court'];})):'<div class="courts73-empty">Пока нет сохранённых судов. Добавьте суд из тестового справочника.</div>')+
       '<button type="button" class="settings60-gold-action" data-act="courts73-route" data-v="catalog">Добавить суд</button>';
    courts73Page(route,'Мои суды','Часто используемые суды',content,'home');return;
