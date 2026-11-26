@@ -447,3 +447,30 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts139-mine-sheet .courts141-no-results{margin:0;text-align:center;padding:16px 8px;color:#303c4e;font:400 14px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
 #sheet.courts139-mine-sheet .courts141-card-open:focus-visible,#sheet.courts139-mine-sheet .courts141-action:focus-visible{outline:2px solid #ac772c;outline-offset:1px;border-radius:6px}
 @media(max-width:370px){#sheet.courts139-mine-sheet .courts141-actions{margin-left:0}#sheet.courts139-mine-sheet .courts141-actions .courts141-action{font-size:11px!important}}
+
+/* .142 — five visual audit corrections; filled My Courts only. */
+#sheet.courts139-mine-sheet .courts141-saved .courts141-card{
+ --saved-icon:clamp(50px,15.4vw,93px);
+ --saved-card-gap:clamp(7px,2.25vw,13px);
+ padding:clamp(9px,2.85vw,16px) clamp(9px,3vw,17px) clamp(5px,1.55vw,9px);
+}
+#sheet.courts139-mine-sheet .courts141-saved .courts141-art{
+ aspect-ratio:auto;align-self:start;margin-top:2px;
+ filter:drop-shadow(0 2px 2px #a16e3445);
+}
+#sheet.courts139-mine-sheet .courts141-saved .courts141-actions{
+ margin-top:6px;padding-top:0;
+}
+/* The shared .courts73-row rule was overriding the 44px quick-action target. */
+#sheet.courts73-sheet.courts139-mine-sheet .courts141-saved .courts141-actions .courts141-action{
+ min-height:44px;height:auto;padding:3px 2px;gap:4px;
+}
+#sheet.courts139-mine-sheet .courts141-saved .courts141-action:not(:last-child)::after{top:10px;bottom:10px}
+#sheet.courts139-mine-sheet .courts141-saved .courts141-action .courts142-gold{
+ width:clamp(16px,4.6vw,25px);height:clamp(16px,4.6vw,25px);
+ filter:drop-shadow(0 1px 0 #fff5d9) drop-shadow(0 1px 1px #8f5b2438);
+}
+#sheet.courts139-mine-sheet .courts141-saved .courts141-grouphead .courts142-bookmark{
+ filter:drop-shadow(0 1px 0 #fff0c5) drop-shadow(0 1px 1px #8f5b243c);
+}
+@media(max-width:370px){#sheet.courts73-sheet.courts139-mine-sheet .courts141-saved .courts141-actions .courts141-action{gap:5px}}

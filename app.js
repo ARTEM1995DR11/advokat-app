@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.141';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6581';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.142';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6582';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5025,6 +5025,19 @@ function courts141Symbol(name){
  var paths={bookmark:'<path d="M6 3h12a1 1 0 0 1 1 1v18l-7-5-7 5V4a1 1 0 0 1 1-1Z" fill="currentColor" stroke-width=".7"/>',site:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M6 6.5h.5m3 0h.5"/>',map:'<path d="m6 13-3 7 6-2 6 2 6-2-3-5M16 8c0 3-4 7-4 7S8 11 8 8a4 4 0 0 1 8 0Z"/><circle cx="12" cy="8" r="1.2"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/>'};
  return '<svg class="courts141-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[name]||'')+'</svg>';
 }
+/* .142: filled-state miniature embossed gold artwork, independent IDs per court. */
+function courts142Gold(name,key){
+ var id='courts142-'+name+'-'+String(key||'group').replace(/[^a-z0-9_-]/gi,'');
+ var fill='url(#'+id+')', light='url(#'+id+'-light)';
+ var defs='<defs><linearGradient id="'+id+'" x1="0" y1="0" x2=".75" y2="1"><stop stop-color="#fff0b1"/><stop offset=".28" stop-color="#e6b85e"/><stop offset=".6" stop-color="#bb812a"/><stop offset="1" stop-color="#986014"/></linearGradient><linearGradient id="'+id+'-light" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff9e3"/><stop offset="1" stop-color="#f7dfaa"/></linearGradient></defs>';
+ var art={
+ bookmark:'<path d="M6 2.8h12a1.4 1.4 0 0 1 1.4 1.4v17.4L12 16.8l-7.4 4.8V4.2A1.4 1.4 0 0 1 6 2.8Z" fill="'+fill+'" stroke="#895719" stroke-width=".8"/><path d="M6 19V4.5h11.5" fill="none" stroke="#ffe4a1" stroke-width=".85"/>',
+ phone:'<path d="M5.4 2.8c.7-.4 1.5-.2 2 .5l3 4.1c.5.7.4 1.5-.2 2l-1.9 1.7a15 15 0 0 0 4.6 4.7l1.7-2c.5-.6 1.4-.7 2-.2l4.1 3c.7.5.9 1.4.4 2.1l-1.3 2c-.6 1-1.7 1.4-2.8 1.2C9.3 20.4 3.7 14.7 2.2 7.1 2 6 2.4 4.9 3.4 4.2Z" fill="'+fill+'" stroke="#925c1c" stroke-width=".8"/><path d="M4.3 5.5c-.9 1.2 1.2 6.3 3 8.2" fill="none" stroke="#fff0b8" stroke-width="1.1" stroke-linecap="round"/>',
+ site:'<rect x="2.3" y="3.7" width="19.4" height="16.6" rx="2.1" fill="'+fill+'" stroke="#895719" stroke-width=".9"/><rect x="4" y="9" width="16" height="9.5" rx=".7" fill="'+light+'" stroke="#9d6820" stroke-width=".55"/><path d="M4.1 5.3H19.9" stroke="#ffe8aa" stroke-width=".9" stroke-linecap="round"/><circle cx="5.7" cy="6.9" r=".8" fill="#fff1bf"/><circle cx="8.7" cy="6.9" r=".8" fill="#fff1bf"/>',
+ map:'<path d="M5.6 12.5 2.3 20l6.4-1.7 6.1 1.7 6.9-2-3.4-6.3-4.7 1.4-5.1-1.2Z" fill="'+light+'" stroke="#986018" stroke-width="1.2" stroke-linejoin="round"/><path d="m8.7 18.3 1.4-5.1m4.7 6.8-1.3-5.1" stroke="#bd8736" stroke-width=".85"/><path d="M17.7 7.9c0 3.6-5.7 9.5-5.7 9.5S6.3 11.5 6.3 7.9a5.7 5.7 0 1 1 11.4 0Z" fill="'+fill+'" stroke="#8e5918" stroke-width=".85"/><circle cx="12" cy="7.8" r="2.45" fill="'+light+'" stroke="#9a6520" stroke-width=".7"/><path d="M8 7.2a4.1 4.1 0 0 1 3.6-3.4" stroke="#fff1c2" stroke-width=".9" fill="none" stroke-linecap="round"/>'
+ };
+ return '<svg class="courts142-gold courts142-'+name+'" viewBox="0 0 24 24" fill="none" aria-hidden="true">'+defs+(art[name]||'')+'</svg>';
+}
 function courts141Saved(){return COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});}
 function courts141Cards(q){
  q=String(q||'').trim().toLocaleLowerCase('ru').replace(/ё/g,'е');
@@ -5032,11 +5045,11 @@ function courts141Cards(q){
  return cards.map(function(c){
   var route='court:'+c[0]+'|mine', map='https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]);
   function action(url,icon,label,description){return '<a class="courts73-row courts141-action" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(description+' — '+c[1])+'" title="'+esc(description)+'">'+icon+'<span>'+esc(label)+'</span></a>';}
-  return '<article class="courts141-card"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts141-actions">'+action(c[3],ico('phone','s'),'Контакты','Телефон и контакты на официальном сайте')+action(c[3],courts141Symbol('site'),'Сайт','Официальный сайт')+action(map,courts141Symbol('map'),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
+  return '<article class="courts141-card"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts141-actions">'+action(c[3],courts142Gold('phone',c[0]),'Контакты','Телефон и контакты на официальном сайте')+action(c[3],courts142Gold('site',c[0]),'Сайт','Официальный сайт')+action(map,courts142Gold('map',c[0]),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
  }).join('')||'<p class="courts141-no-results">Суды не найдены. Измените запрос.</p>';
 }
 function courts141Filled(saved){
- return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts141Symbol('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды пока сохраняются временно. Контакты, адреса и расписание доступны на официальных сайтах.')+'</div>';
+ return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды пока сохраняются временно. Контакты, адреса и расписание доступны на официальных сайтах.')+'</div>';
 }
 function courts73Open(route){
  if(route==='home'){
