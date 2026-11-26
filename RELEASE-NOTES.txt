@@ -1,3 +1,9 @@
+5.0.1297.41.66.153 / build 6593
+- Кинешемский городской суд: основной номер канцелярии +7 (49331) 5-58-32 вместо общего отдела. По официальному разделу «Подразделения суда» номер используется сотрудниками уголовного и гражданского судопроизводства.
+- Дополнительные телефоны: общий телефон суда 5-78-34, отдел по гражданским делам 5-52-96, общий отдел 5-81-01. Исключены повторы основного номера. Источник: https://kineshemsky--iwn.sudrf.ru/modules.php?name=info_court
+- Быстрый вызов и кнопка «Позвонить» используют основной номер. Личные уточнения по-прежнему приоритетны. Остальные суды, оформление и данные не изменены.
+- Проверка: изолированный тест логики и HTML, синтаксис JS, целостность ZIP. Установленная PWA на iPhone не проверена.
+
 5.0.1297.41.66.152 / build 6592
 - Отдельные здания четырёх судов: назначение, адрес, копирование, телефон и маршрут.
 - Быстрые действия многозданных судов открывают контакты для выбора здания.
@@ -482,3 +488,7 @@
 Для GitHub: распаковать ZIP в корень репозитория поверх версии .66 с заменой одноимённых файлов. Ничего удалять не нужно.
 
 5.0.1297.41.66.118 / 6558 — второй прогон, этап A. Нормализованная горизонтальная сетка страницы резервной копии: общая ось форматов и состояния; отдельные оси предупреждения и восстановления как в эталоне. Фон, шапка, форма, кнопка и функциональная логика не изменены.
+
+5.0.1297.41.66.154 / build 6594 — contact source paragraph removed from court profiles (data retained); concise unverified schedule indicator; unified full-width right-swipe Back for nested surfaces, protected local gestures and input fields; main tabs and calendar paging retained.
+
+5.0.1297.41.66.155 / build 6595 — main court numbers follow official site contact header; Kineshma 5-78-34, criminal department secondary; Lenin civil building reception, Moscow expedition; secondary personal overrides no longer displace primary contact. Other addresses and user data retained.

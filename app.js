@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.152';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6592';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.155';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6595';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5093,7 +5093,7 @@ async function courts144Remove(id){
 var COURTS144_TOUCH=null;
 function courts144TouchStart(e){
  COURTS144_TOUCH=null;
- if(!unlocked||COURTS143_PENDING||!e.touches||e.touches.length!==1||!e.target.closest)return;
+ if(!unlocked||COURTS143_PENDING||!e.touches||e.touches.length!==1||!e.target.closest||backSwipeSurface()!==$('#sheet'))return;
  var card=e.target.closest('#sheet.courts139-mine-sheet .courts141-card'),page=courts144Page();
  if(!card||!page||!page.contains(card)||e.target.closest('.courts144-delete-row,.courts144-edit')||card.closest('.courts144-editing'))return;
  var t=e.touches[0];if(t.clientX<=44)return; // preserve the system/back edge gesture
@@ -5135,22 +5135,30 @@ function courts146Profile(id){return S.courtProfiles&&Object.prototype.hasOwnPro
 var COURTS147_PUBLIC={
  "kineshma": {
   "address": "155800, г. Кинешма, ул. Ленина, д. 44",
-  "office": "+7 (49331) 5-81-01",
-  "officeLabel": "Общий отдел",
+  "office": "+7 (49331) 5-58-32",
+  "officeLabel": "Отдел по уголовным делам",
   "reception": "+7 (49331) 5-78-34",
   "receptionLabel": "Телефон суда",
   "email": "kineshemsky.iwn@sudrf.ru",
-  "source": "https://kineshemsky--iwn.sudrf.ru/modules.php?name=info_court",
+  "source": "https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud",
   "extraPhones": [
    [
-    "Уголовные дела",
+    "Отдел по уголовным делам",
     "+7 (49331) 5-58-32"
+   ],
+   [
+    "Отдел по гражданским делам",
+    "+7 (49331) 5-52-96"
+   ],
+   [
+    "Общий отдел",
+    "+7 (49331) 5-81-01"
    ]
   ],
   "hours": "Пн–Чт 08:30–17:30\nПт 08:30–16:15\nПерерыв 12:30–13:15\nСб, Вс — выходные",
   "hoursSource": "https://sud-ivanovo.ru/kineshemskij-gorodskoj-sud-ivanovskoj-oblasti/",
   "missing": "График не подтверждён официально: другой справочник указывает Пн–Пт 08:30–17:30, перерыв 12:30–13:30. Уточните перед визитом.",
-  "primaryField": "office",
+  "primaryField": "reception",
   "hoursAltSource": "https://sudyrf.ru/kineshemskiy-gorodskoy-sud-ivanovskaya-oblast.html"
  },
  "ivanovo": {
@@ -5167,7 +5175,9 @@ var COURTS147_PUBLIC={
     "+7 (4932) 41-93-31"
    ]
   ],
-  "hoursSourceOfficial": "https://oblsud--iwn.sudrf.ru/"
+  "hoursSourceOfficial": "https://oblsud--iwn.sudrf.ru/",
+  "receptionLabel": "Приёмная / уголовные дела",
+  "primaryField": "reception"
  },
  "lenin": {
   "address": "153000, г. Иваново, ул. Станко, д. 7 (гражданские дела)\n153000, г. Иваново, ул. Станко, д. 7Б (уголовные дела)",
@@ -5187,7 +5197,9 @@ var COURTS147_PUBLIC={
     "+7 (4932) 32-56-16"
    ]
   ],
-  "hoursSourceOfficial": "https://leninsky--iwn.sudrf.ru/"
+  "hoursSourceOfficial": "https://leninsky--iwn.sudrf.ru/",
+  "receptionLabel": "Приёмная",
+  "primaryField": "reception"
  },
  "moscow": {
   "address": "107996, г. Москва, ул. Богородский Вал, д. 8\n105005, г. Москва, ул. Фридриха Энгельса, д. 32, стр. 1 (первая инстанция по уголовным и административным делам)",
@@ -5196,7 +5208,7 @@ var COURTS147_PUBLIC={
   "receptionLabel": "Горячая линия",
   "email": "mgs@mos-gorsud.ru",
   "hours": "Пн–Чт 09:00–18:00\nПт 09:00–16:45\nСб, Вс — выходные",
-  "source": "https://adv.mos-gorsud.ru/mgs/help/contacts",
+  "source": "https://mos-gorsud.ru/mgs",
   "extraPhones": [
    [
     "Гражданские дела, первая инстанция",
@@ -5216,7 +5228,7 @@ var COURTS147_PUBLIC={
    ]
   ],
   "primaryField": "office",
-  "officeLabel": "Канцелярия (делопроизводство)"
+  "officeLabel": "Экспедиция"
  },
  "cass": {
   "address": "121357, г. Москва, ул. Верейская, д. 29, стр. 34",
@@ -5246,22 +5258,24 @@ var COURTS147_PUBLIC={
     "+7 (495) 627-97-75"
    ]
   ],
-  "missing": "Общая электронная почта в официальном разделе контактов не указана."
+  "missing": "Общая электронная почта в официальном разделе контактов не указана.",
+  "receptionLabel": "Приёмная",
+  "primaryField": "reception"
  }
 };
 /* .152: court identity stays stable; buildings carry independent destinations. */
 var COURTS152_BUILDINGS={
  lenin:[
   {title:'Уголовные дела',address:'153000, г. Иваново, ул. Станко, д. 7Б',phone:'+7 (4932) 32-93-23',label:'Канцелярия по уголовным делам',extra:[['Общий отдел','+7 (4932) 32-56-16']]},
-  {title:'Гражданские дела',address:'153000, г. Иваново, ул. Станко, д. 7',phone:'+7 (4932) 41-09-11',label:'Канцелярия по гражданским делам',legacy:'office',extra:[['Приёмная','+7 (4932) 41-09-18','reception']]}
+  {title:'Гражданские дела',address:'153000, г. Иваново, ул. Станко, д. 7',phone:'+7 (4932) 41-09-18',label:'Приёмная',legacy:'reception',extra:[['Канцелярия по гражданским делам','+7 (4932) 41-09-11','office']]}
  ],
  ivanovo:[
   {title:'Уголовные дела',detail:'Первая и апелляционная инстанции',address:'153005, г. Иваново, Шереметевский пр., д. 100',phone:'+7 (4932) 37-26-60',label:'Приёмная / экспедиция',legacy:'reception',extra:[['Первая инстанция','+7 (4932) 37-65-38']]},
   {title:'Гражданские и административные дела',detail:'Первая и апелляционная инстанции, жалобы по КоАП РФ',address:'153000, г. Иваново, ул. Арсения, д. 3',phone:'+7 (4932) 32-62-60',label:'Отдел судопроизводства',legacy:'office',extra:[['Первая инстанция','+7 (4932) 32-73-81'],['Гражданская апелляция','+7 (4932) 32-94-47'],['Административная апелляция','+7 (4932) 32-62-48']]}
  ],
  moscow:[
-  {title:'Основное здание',detail:'Гражданские дела, апелляция, почтовый адрес суда',address:'107996, г. Москва, ул. Богородский Вал, д. 8',phone:'+7 (495) 533-83-10',label:'Отдел делопроизводства',legacy:'office',extra:[['Гражданские дела, первая инстанция','+7 (495) 533-86-29'],['Гражданские дела, апелляция','+7 (495) 533-84-80'],['Уголовные дела, апелляция','+7 (495) 533-83-34'],['Административные дела, апелляция','+7 (495) 533-84-74']]},
-  {title:'Уголовные и административные дела',detail:'Первая инстанция',address:'105005, г. Москва, ул. Фридриха Энгельса, д. 32, стр. 1',phone:'+7 (499) 530-08-08',label:'Справочная отдела',legacy:'reception'}
+  {title:'Основное здание',detail:'Гражданские дела, апелляция, почтовый адрес суда',address:'107996, г. Москва, ул. Богородский Вал, д. 8',phone:'+7 (495) 533-83-10',label:'Экспедиция',legacy:'office',extra:[['Гражданские дела, первая инстанция','+7 (495) 533-86-29'],['Гражданские дела, апелляция','+7 (495) 533-84-80'],['Уголовные дела, апелляция','+7 (495) 533-83-34'],['Административные дела, апелляция','+7 (495) 533-84-74']]},
+  {title:'Уголовные и административные дела',detail:'Первая инстанция',address:'105005, г. Москва, ул. Фридриха Энгельса, д. 32, стр. 1',phone:'+7 (499) 530-08-08',label:'Горячая линия судов Москвы',legacy:'reception'}
  ],
  supreme:[
   {title:'Основное здание — залы заседаний',detail:'Подъезды № 3 и № 5; почтовый адрес суда',address:'121260, г. Москва, ул. Поварская, д. 15, стр. 1'},
@@ -5270,7 +5284,7 @@ var COURTS152_BUILDINGS={
  ]
 };
 COURTS147_PUBLIC.ivanovo.source='https://oblsud--iwn.sudrf.ru/modules.php?id=5&name=info_court';
-COURTS147_PUBLIC.moscow.source='https://portal.mos-gorsud.ru/mgs/help/contacts';
+COURTS147_PUBLIC.moscow.source='https://mos-gorsud.ru/mgs';
 var COURTS152_ADDRESS_SOURCE={lenin:'https://leninsky--iwn.sudrf.ru/modules.php?id=2&name=info_court',ivanovo:'https://oblsud--iwn.sudrf.ru/modules.php?id=6&name=info_court'};
 function courts152Buildings(c){var own=courts146Profile(c[0]);return (COURTS152_BUILDINGS[c[0]]||[]).map(function(b,i){var k='building'+(i+1);return Object.assign({},b,{key:k,address:own[k+'address']||b.address,phone:own[k+'phone']||(b.legacy&&own[b.legacy])||b.phone||'',extra:(b.extra||[]).map(function(row){return [row[0],(row[2]&&own[row[2]])||row[1]];})});});}
 function courts152Map(address){return 'https://yandex.ru/maps/?text='+encodeURIComponent(address);}
@@ -5317,9 +5331,14 @@ function courts151PhoneRows(c,p){
  var own=courts146Profile(c[0]), order=p.primaryField==='office'?['office','reception']:['reception','office'], labels={office:p.officeLabel||'Канцелярия',reception:p.receptionLabel||'Приёмная'};
  var rows=[], seen={};
  function add(label,val){var tel=courts146Tel(val);if(!tel||seen[tel])return;seen[tel]=true;rows.push({label:label,value:val,tel:tel});}
- order.forEach(function(key){if(own[key])add(labels[key],own[key]);});
- order.forEach(function(key){add(labels[key],p[key]);});
+ add(labels[order[0]],p[order[0]]);
+ var publicProfile=COURTS147_PUBLIC[c[0]]||{};
+ var secondary=order[1];
+ add(labels[secondary],publicProfile[secondary]);
  (p.extraPhones||[]).forEach(function(row){add(row[0],row[1]);});
+ if(own[secondary])add('Личный дополнительный телефон',own[secondary]);
+ add(labels[secondary],p[secondary]);
+ add(labels[order[0]],publicProfile[order[0]]);
  return rows;
 }
 function courts149Call(c,p){var rows=courts151PhoneRows(c,p);return rows.length?rows[0].tel:'';}
@@ -5329,7 +5348,7 @@ function courts146Contact(c,p,key,icon,label,copyKey){
  var val=p[key]||'',tel=key==='office'||key==='reception'?courts146Tel(val):'',button='';
  if(tel)button='<a class="courts146-mini" href="'+esc(tel)+'" aria-label="Позвонить: '+esc(label+' '+val)+'" title="Позвонить">'+courts146Icon('phone')+'</a>';
  else if(val&&(key==='address'||key==='email'))button='<button type="button" class="courts146-mini" data-act="courts146-copy" data-v="'+esc(copyKey||key)+'" aria-label="Копировать: '+esc(label)+'" title="Копировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>';
- var status=key==='hours'&&p.hoursSource&&!courts146Profile(c[0]).hours?'<small class="courts150-hours-note">По стороннему источнику</small>':'';
+ var status=key==='hours'&&p.hoursSource&&!courts146Profile(c[0]).hours?'<small class="courts150-hours-note">График требует уточнения</small>':'';
  return '<div class="courts146-contact courts150-'+esc(key)+(button?' courts150-has-action':'')+'"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><div class="courts146-contact-copy"><small>'+esc(label)+'</small><span class="'+(val?'':'courts146-muted')+'">'+courts150ContactValue(key,val)+'</span>'+status+'</div>'+button+'</div>';
 }
 function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+String(p.address).split(/\n/)[0]:''));}
@@ -5343,7 +5362,7 @@ function courts146Detail(c,route){
  if(phones.length>1){contact+='<details class="courts149-extra"><summary>Дополнительные телефоны '+ico('chev','s')+'</summary>'+phones.slice(1).map(function(row){return courts146Contact(c,{office:row.value},'office','phone',row.label);}).join('')+'</details>';}
 
  if(buildings.length)contact=courts152MultiContacts(c,p,buildings);
- contact+='<p class="courts146-help">'+(p.source?'<a href="'+esc(p.source)+'" target="_blank" rel="noopener noreferrer">Источник контактов</a>'+(COURTS152_ADDRESS_SOURCE[c[0]]?' · <a href="'+esc(COURTS152_ADDRESS_SOURCE[c[0]])+'" target="_blank" rel="noopener noreferrer">Адреса зданий</a>':'')+(p.hoursSource||p.hoursSourceOfficial?' · <a href="'+esc(p.hoursSource||p.hoursSourceOfficial)+'" target="_blank" rel="noopener noreferrer">Источник графика</a>':'')+(p.hoursAltSource?' · <a href="'+esc(p.hoursAltSource)+'" target="_blank" rel="noopener noreferrer">Другой источник графика</a>':'')+'.'+(p.missing&&!((c[0]==='kineshma'||c[0]==='cass')&&courts146Profile(c[0]).hours)?' '+esc(p.missing):'')+' Личные уточнения имеют приоритет.':p.address||p.office||p.reception||p.email||p.hours?'Личные сведения. Сверяйте их с официальным сайтом.':'Контакты пока не заполнены. Сверьте сведения на официальном сайте.')+'</p>'+(buildings.length?'':'<div class="courts146-pair"><a class="courts73-row courts146-soft" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'Маршрут</a>'+(tel?'<a class="courts146-soft" href="'+esc(tel)+'">'+courts146Icon('phone')+'Позвонить</a>':'<button type="button" class="courts146-soft courts148-no-phone" disabled aria-label="Позвонить: номер не указан">'+courts146Icon('phone')+'<span>Нет телефона</span></button>')+'</div>')+'<button type="button" class="courts148-contact-edit" data-act="courts146-edit" data-v="'+esc(route)+'" data-scope="contacts" aria-label="Уточнить контакты суда">'+courts146Icon('edit')+'<span>Уточнить контакты</span></button>';
+ contact+=(buildings.length?'':'<div class="courts146-pair"><a class="courts73-row courts146-soft" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'Маршрут</a>'+(tel?'<a class="courts146-soft" href="'+esc(tel)+'">'+courts146Icon('phone')+'Позвонить</a>':'<button type="button" class="courts146-soft courts148-no-phone" disabled aria-label="Позвонить: номер не указан">'+courts146Icon('phone')+'<span>Нет телефона</span></button>')+'</div>')+'<button type="button" class="courts148-contact-edit" data-act="courts146-edit" data-v="'+esc(route)+'" data-scope="contacts" aria-label="Уточнить контакты суда">'+courts146Icon('edit')+'<span>Уточнить контакты</span></button>';
  var tools=courts146Link(c[3],'site','Официальный сайт суда');
  var directCase=({kineshma:'https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud_delo',ivanovo:'https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo',lenin:'https://leninsky--iwn.sudrf.ru/modules.php?name=sud_delo',cass:'https://2kas.sudrf.ru/modules.php?name=sud_delo'})[c[0]]||'';var caseLink=directCase||c[4]||c[3];
  tools+=courts146Link(caseLink,'folder','Судебное делопроизводство','На официальном ресурсе');
@@ -5713,12 +5732,12 @@ function go(tab,replaceHistory,transition,preserveCalendarDate){
 }
 function appBack(){
   if(document.getElementById('settings67-dialog')){settings67DismissDialog();vib(5);return true;}
-  if(typeof stageWizardHearingBack==='function' && typeof STAGE_HEARING_NAV!=='undefined' && STAGE_HEARING_NAV && STAGE_HEARING_NAV.mode==='list' && document.getElementById('stage-hearings-overlay')){stageWizardHearingBack();vib(5);return true;}
+  if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
   if(FINISH_OUTCOME_OPEN){closeMatterFinishOutcomePicker();vib(5);return true;}
   if(LIST_PICKER){closePremiumListPicker();vib(5);return true;}
   if(TIME_PICKER){closePremiumTimePicker();vib(5);return true;}
   if(DATE_PICKER){closePremiumDatePicker();vib(5);return true;}
-  if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
+  if(typeof stageWizardHearingBack==='function' && typeof STAGE_HEARING_NAV!=='undefined' && STAGE_HEARING_NAV && STAGE_HEARING_NAV.mode==='list' && document.getElementById('stage-hearings-overlay')){stageWizardHearingBack();vib(5);return true;}
   // 5.0.1297.41.28: The route belongs to the OPEN completion form, not
   // to the optional menu stack. iOS may lose that stack after modal changes.
   // The Back arrow and a right swipe must therefore reach the same screen:
@@ -5779,7 +5798,7 @@ function appBack(){
     closeAll(); vib(5); return true;
   }
   if(S.ui.tab==='matters' && S.ui.matterCategory){
-    matterCategoryReset();save();renderMatters();vib(5);return true;
+    matterCategoryReset();save();renderMatters();var sc=document.getElementById('sc-matters');if(sc)sc.scrollTop=0;vib(5);return true;
   }
   if(NAV_TABS.length){
     var prev=NAV_TABS.pop(); go(prev,true); vib(5); return true;
@@ -10345,11 +10364,7 @@ document.addEventListener('click', function(ev){
       save();renderMatters();var sc=document.getElementById('sc-matters');if(sc)sc.scrollTop=0;
       break;
     }
-    case 'matter-category-back': {
-      matterCategoryReset();save();renderMatters();
-      var sc=document.getElementById('sc-matters');if(sc)sc.scrollTop=0;
-      break;
-    }
+    case 'matter-category-back': appBack(); break;
     case 'go-tasks': go('tasks'); break;
     case 'go-more': go('more'); break;
     case 'go-cal': go('cal'); break;
@@ -11030,82 +11045,59 @@ document.addEventListener('gesturestart',function(e){e.preventDefault();});
 /* =====================================================================
    iPhone-style edge swipe: left edge -> right = Back
    ===================================================================== */
-/* 5.0.1282 — «Добавить событие»: свайп вправо по любой части
-   бумажной формы = та же навигация, что золотая стрелка «Назад».
-   Для прочих открытых страниц сохраняем прежний edge-swipe (44px).
-   Только явно горизонтальное движение перехватывает жест; вертикальная
-   прокрутка бумаги и нажатия на карточки остаются обычными. */
-var EDGE_SWIPE={on:false,choice:false,x:0,y:0,dx:0,dy:0,moved:false};
+/* .154: One Back gesture for every nested in-app screen. The topmost
+   surface owns the gesture; controls, horizontal scrollers and the open
+   delete reveal on a saved court retain their local interaction. */
+var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false,surface:null};
+function backSwipeSurface(){
+  var ids=['settings67-dialog','premium-delete-confirm-root'];
+  if(FINISH_OUTCOME_OPEN)ids.push('matter-finish-outcome-modal');
+  if(LIST_PICKER)ids.push('premium-list-modal');
+  if(TIME_PICKER)ids.push('premium-time-modal');
+  if(DATE_PICKER)ids.push('premium-date-modal');
+  ids.push('stage-hearings-overlay');
+  for(var i=0;i<ids.length;i++){var node=document.getElementById(ids[i]);if(node)return node;}
+  var sh=$('#sheet'),pg=$('#page');
+  if(sh&&sh.classList.contains('open'))return sh;
+  if(pg&&pg.classList.contains('open'))return pg;
+  return null;
+}
+function backSwipeReset(){EDGE_SWIPE.on=false;EDGE_SWIPE.moved=false;EDGE_SWIPE.surface=null;}
+function backSwipeTargetAllowed(target,surface,x){
+  if(!target||!target.closest||!surface||!surface.contains(target))return false;
+  if(target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),.premium-time-wheel'))return false;
+  if(hasHorizontalScrollAncestor(target))return false;
+  if(x>44&&target.closest('#sheet.courts139-mine-sheet .courts144-revealed'))return false;
+  return true;
+}
 document.addEventListener('touchstart',function(e){
-  EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
-  if(document.getElementById('settings67-dialog')) return;
-  if(!unlocked || !e.touches || e.touches.length!==1) return;
-  var t=e.touches[0],sh=$('#sheet');
-  if(t.clientX>44&&e.target.closest&&e.target.closest('#sheet.courts139-mine-sheet .courts144-revealed'))return;
-  // 6489: «Дела» category lists are ordinary main-screen routes, not overlays.
-  // Their full-width right swipe is handled by PAGE_SWIPE below. Keeping the
-  // category here would let BOTH listeners react to one edge gesture, causing
-  // a second unintended jump from the two folders to «Задачи».
-  var overlayOpen=$('#page').classList.contains('open')||sh.classList.contains('open')||!!LIST_PICKER||!!TIME_PICKER||!!DATE_PICKER||FINISH_OUTCOME_OPEN;
-  // Unified chooser is used from both the dossier «События» tab and the
-  // «Действия по делу» menu; appBack() preserves each originating route.
-  var chooser=sh.classList.contains('open')&&sh.classList.contains('matter-event-stage1-open')&&
-    sh.contains(e.target)&&!LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER;
-  // 41.28: A horizontal right swipe on the paper completion screens also
-  // matches the visible Back arrow. Never hijack text editing or pickers.
-  var finishFlowSwipe=sh.classList.contains('open')&&sh.contains(e.target)&&
-    (sh.classList.contains('stage-finish-choice-sheet')||
-     (sh.classList.contains('matter-finish-sheet')&&!!sh.querySelector('.matter-finish-head'))||
-     (sh.classList.contains('case-stage-sheet')&&!!sh.querySelector('.stage-wizard-card')))&&
-    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN&&
-    !(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable="true"]'));
-  // Settings index and its nested sheets accept a normal full-width
-  // right-swipe, matching the visible Back arrow. Ignore active text fields
-  // and horizontal scrollers so editing and vertical scrolling stay natural.
-  var settingsSwipe=sh.classList.contains('open') && sh.contains(e.target) &&
-    (sh.classList.contains('settings-premium-v57') || sh.classList.contains('courts73-sheet') || SETTINGS57_CHILD_ACTIVE) &&
-    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER&&!FINISH_OUTCOME_OPEN &&
-    !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
-    !hasHorizontalScrollAncestor(e.target);
-  // 6502: Printable reports are full-screen in-app pages. Recognise a normal
-  // right swipe from anywhere on the report, not just the first 44 px.
-  var reportSwipe=$('#page').classList.contains('open') &&
-    $('#page')._navType==='report' && $('#page').contains(e.target) &&
-    !LIST_PICKER&&!TIME_PICKER&&!DATE_PICKER &&
-    !(e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]')) &&
-    !hasHorizontalScrollAncestor(e.target);
-  EDGE_SWIPE.on=overlayOpen && (t.clientX<=44 || chooser || finishFlowSwipe || settingsSwipe || reportSwipe);
-  EDGE_SWIPE.choice=chooser||finishFlowSwipe||settingsSwipe||reportSwipe;
-  EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;EDGE_SWIPE.moved=false;
+  backSwipeReset();
+  if(!unlocked||!e.touches||e.touches.length!==1)return;
+  var t=e.touches[0],surface=backSwipeSurface();
+  if(!backSwipeTargetAllowed(e.target,surface,t.clientX))return;
+  EDGE_SWIPE.on=true;EDGE_SWIPE.surface=surface;
+  EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
-  if(!EDGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  if(!EDGE_SWIPE.on)return;
+  if(!e.touches||e.touches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface){backSwipeReset();return;}
   var t=e.touches[0];EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x;EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
-  if(!EDGE_SWIPE.moved && EDGE_SWIPE.choice && EDGE_SWIPE.dy>18 &&
-     EDGE_SWIPE.dy>Math.abs(EDGE_SWIPE.dx)*1.15){
-    EDGE_SWIPE.on=false;return; // allow vertical scrolling
+  var dx=EDGE_SWIPE.dx,dy=EDGE_SWIPE.dy;
+  if(!EDGE_SWIPE.moved){
+    if((Math.abs(dy)>14&&Math.abs(dy)>Math.abs(dx)*1.12)||dx<-16){backSwipeReset();return;}
+    if(dx>14&&dx>Math.abs(dy)*1.3)EDGE_SWIPE.moved=true;
   }
-  if(EDGE_SWIPE.dx>14 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.3){
-    EDGE_SWIPE.moved=true;
-    if(e.cancelable)e.preventDefault();
-  }
+  if(EDGE_SWIPE.moved&&e.cancelable)e.preventDefault();
 },{passive:false,capture:true});
 document.addEventListener('touchend',function(e){
   if(!EDGE_SWIPE.on)return;
-  if(e.changedTouches && e.changedTouches.length===1){
-    var t=e.changedTouches[0];EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x;EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
-  }
-  var threshold=EDGE_SWIPE.choice?58:68;
-  var ok=EDGE_SWIPE.moved && EDGE_SWIPE.dx>=threshold && Math.abs(EDGE_SWIPE.dy)<=70 && EDGE_SWIPE.dx>Math.abs(EDGE_SWIPE.dy)*1.35;
-  EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;
-  if(ok){
-    // A synthetic click following touchend must not hit a card behind the
-    // dismissed sheet or immediately reopen a different screen.
-    SWIPE_CLICK_BLOCK_UNTIL=Date.now()+400;
-    appBack();
-  }
+  if(!e.changedTouches||e.changedTouches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface){backSwipeReset();return;}
+  var t=e.changedTouches[0],dx=t.clientX-EDGE_SWIPE.x,dy=t.clientY-EDGE_SWIPE.y;
+  var ok=dx>=58&&Math.abs(dy)<=70&&dx>Math.abs(dy)*1.35;
+  backSwipeReset();
+  if(ok){SWIPE_CLICK_BLOCK_UNTIL=Date.now()+520;appBack();}
 },{passive:true,capture:true});
-document.addEventListener('touchcancel',function(){EDGE_SWIPE.on=false;EDGE_SWIPE.choice=false;},{passive:true,capture:true});
+document.addEventListener('touchcancel',backSwipeReset,{passive:true,capture:true});
 
 /* =====================================================================
    Swipe по задачам / встречам / срокам / судебным заседаниям — 5.0.101
@@ -11155,7 +11147,7 @@ function finishTaskSwipe(openActions){
   setTimeout(function(){sheetTaskActions(id);},40);
 }
 document.addEventListener('touchstart',function(e){
-  if(!unlocked || S.ui.tab!=='tasks' || !e.touches || e.touches.length!==1) return;
+  if(!unlocked || S.ui.tab!=='tasks' || !e.touches || e.touches.length!==1 || backSwipeSurface()) return;
   var row=e.target.closest('#tasklist .pt-row');
   if(!row || e.target.closest('[data-act="toggle"]')) return;
   var id=row.dataset.id||'';
@@ -11229,7 +11221,7 @@ function finishTodayHearingSwipe(openResult){
   setTimeout(function(){sheetHearingResult(id);},40);
 }
 document.addEventListener('touchstart',function(e){
-  if(!unlocked || S.ui.tab!=='today' || !e.touches || e.touches.length!==1) return;
+  if(!unlocked || S.ui.tab!=='today' || !e.touches || e.touches.length!==1 || backSwipeSurface()) return;
   var row=e.target.closest('#sc-today .today-hearing-swipe-row');
   if(!row) return;
   var id=row.dataset.id||'',rec=S.tasks.filter(function(x){return x.id===id;})[0];
@@ -11275,7 +11267,7 @@ document.addEventListener('touchstart',function(e){
   SHEET_SWIPE.on=false;SHEET_SWIPE.settings=false;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var s=document.getElementById('stage-hearings-overlay')||$('#sheet');
-  if(!s || !s.classList.contains('open')) return;
+  if(!s || !s.classList.contains('open') || backSwipeSurface()!==s || !s.contains(e.target)) return;
   var isSettings=s.classList.contains('full')&&(s.classList.contains('settings-premium-v57')||s.classList.contains('settings60-child-sheet'));
   if(s.classList.contains('full') && !isSettings) return;
   var t=e.touches[0],r=s.getBoundingClientRect();
@@ -11302,6 +11294,7 @@ document.addEventListener('touchmove',function(e){
 },{passive:false,capture:true});
 document.addEventListener('touchend',function(e){
   if(!SHEET_SWIPE.on) return;
+  if(Date.now()<SWIPE_CLICK_BLOCK_UNTIL){SHEET_SWIPE.on=false;SHEET_SWIPE.settings=false;return;}
   if(e.changedTouches && e.changedTouches.length===1){
     var t=e.changedTouches[0];
     SHEET_SWIPE.dx=t.clientX-SHEET_SWIPE.x;
@@ -11347,7 +11340,7 @@ function hasHorizontalScrollAncestor(target){
 }
 function pageSwipeTargetAllowed(target){
   if(!target || !target.closest) return false;
-  if($('#sheet').classList.contains('open')||$('#page').classList.contains('open')||LIST_PICKER||TIME_PICKER||DATE_PICKER) return false;
+  if(backSwipeSurface()) return false;
   if(target.closest('#lock,.tabbar,#fab,.timerpill,input,textarea,select,[contenteditable="true"]')) return false;
   // Здесь уже существуют собственные горизонтальные жесты — не перехватываем их.
   if(target.closest('#tasklist .pt-row,#sc-today .today-hearing-swipe-row')) return false;
@@ -11380,13 +11373,15 @@ function finishPageSwipe(){
   go(MAIN_TAB_ORDER[nextIdx],false,dx>0?'prev':'next');
 }
 document.addEventListener('touchstart',function(e){
+  pageSwipeReset();
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   if(!pageSwipeTargetAllowed(e.target)) return;
   var t=e.touches[0];
   PAGE_SWIPE.on=true;PAGE_SWIPE.sx=t.clientX;PAGE_SWIPE.sy=t.clientY;PAGE_SWIPE.dx=0;PAGE_SWIPE.dy=0;PAGE_SWIPE.horizontal=false;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
-  if(!PAGE_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  if(!PAGE_SWIPE.on)return;
+  if(!e.touches||e.touches.length!==1||backSwipeSurface()){pageSwipeReset();return;}
   var t=e.touches[0];
   PAGE_SWIPE.dx=t.clientX-PAGE_SWIPE.sx;PAGE_SWIPE.dy=t.clientY-PAGE_SWIPE.sy;
   if(!PAGE_SWIPE.horizontal){
@@ -11395,7 +11390,7 @@ document.addEventListener('touchmove',function(e){
   }
   if(PAGE_SWIPE.horizontal && e.cancelable) e.preventDefault();
 },{passive:false,capture:true});
-document.addEventListener('touchend',finishPageSwipe,{passive:true,capture:true});
+document.addEventListener('touchend',function(e){if(!PAGE_SWIPE.on)return;if(!e.changedTouches||e.changedTouches.length!==1||backSwipeSurface()){pageSwipeReset();return;}var t=e.changedTouches[0];PAGE_SWIPE.dx=t.clientX-PAGE_SWIPE.sx;PAGE_SWIPE.dy=t.clientY-PAGE_SWIPE.sy;finishPageSwipe();},{passive:true,capture:true});
 document.addEventListener('touchcancel',pageSwipeReset,{passive:true,capture:true});
 
 /* Stage 5: an intentional horizontal swipe on the seven day cards changes
@@ -11405,7 +11400,7 @@ document.addEventListener('touchstart',function(e){
   CAL_WEEK_TOUCH=null;
   if(S.ui.tab!=='cal'||S.ui.calView!=='week'||!unlocked||!e.touches||e.touches.length!==1)return;
   var strip=e.target.closest&&e.target.closest('#sc-cal .cal-week-strip');
-  if(!strip||$('#sheet').classList.contains('open')||$('#page').classList.contains('open'))return;
+  if(!strip||backSwipeSurface())return;
   var t=e.touches[0];CAL_WEEK_TOUCH={x:t.clientX,y:t.clientY};
 },{passive:true,capture:true});
 document.addEventListener('touchend',function(e){
