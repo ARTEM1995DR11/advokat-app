@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.148';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6588';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.149';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6589';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4922,7 +4922,7 @@ function settings60Page(title,subtitle,icon,content){
 /* v6526: approved draft judicial-services structure. Seven buttons, three groups. */
 var COURTS73_DEMO=[
  ['kineshma','Кинешемский городской суд','Ивановская область','https://kineshemsky--iwn.sudrf.ru/','https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud'],
- ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud.iwn.sudrf.ru/'],
+ ['ivanovo','Ивановский областной суд','Ивановская область','https://oblsud--iwn.sudrf.ru/','https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo'],
  ['lenin','Ленинский районный суд г. Иваново','Ивановская область','https://leninsky--iwn.sudrf.ru/','https://leninsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['moscow','Московский городской суд','Москва','https://www.mos-gorsud.ru/mgs','https://www.mos-gorsud.ru/search'],
  ['cass','Второй кассационный суд общей юрисдикции','Москва','https://2kas.sudrf.ru/'],
@@ -5053,13 +5053,13 @@ function courts141Cards(q){
  q=String(q||'').trim().toLocaleLowerCase('ru').replace(/ё/g,'е');
  var cards=courts141Saved().filter(function(c){return (c[1]+' '+c[2]).toLocaleLowerCase('ru').replace(/ё/g,'е').includes(q);});
  return cards.map(function(c){
-  var route='court:'+c[0]+'|mine', map=courts146Map(c,courts147DisplayProfile(c[0]));
+  var route='court:'+c[0]+'|mine', p=courts147DisplayProfile(c[0]), map=courts146Map(c,p);
   function action(url,icon,label,description){return '<a class="courts73-row courts141-action" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(description+' — '+c[1])+'" title="'+esc(description)+'">'+icon+'<span>'+esc(label)+'</span></a>';}
-  return '<article class="courts141-card" data-court-id="'+esc(c[0])+'"><div class="courts145-head"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts144-delete-row"><button type="button" class="courts144-delete" data-act="courts144-remove" data-v="'+esc(c[0])+'" aria-label="'+esc('Удалить из избранного: '+c[1])+'" title="Удалить из избранного"><span class="courts145-trash-disc">'+courts144Trash()+'</span></button></div></div><div class="courts141-actions">'+'<button type="button" class="courts73-row courts141-action" data-act="courts148-contacts" data-v="'+esc(route)+'" aria-label="'+esc('Контакты: '+c[1])+'">'+courts142Gold('phone',c[0])+'<span>Контакты</span></button>'+action(c[3],courts142Gold('site',c[0]),'Сайт','Официальный сайт')+action(map,courts142Gold('map',c[0]),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
+  return '<article class="courts141-card" data-court-id="'+esc(c[0])+'"><div class="courts145-head"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts144-delete-row"><button type="button" class="courts144-delete" data-act="courts144-remove" data-v="'+esc(c[0])+'" aria-label="'+esc('Удалить из избранного: '+c[1])+'" title="Удалить из избранного"><span class="courts145-trash-disc">'+courts144Trash()+'</span></button></div></div><div class="courts141-actions">'+courts149QuickCall(c,route,p)+action(c[3],courts142Gold('site',c[0]),'Сайт','Официальный сайт')+action(map,courts142Gold('map',c[0]),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
  }).join('')||'<p class="courts141-no-results">Суды не найдены. Измените запрос.</p>';
 }
 function courts141Filled(saved){
- return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><button type="button" class="courts144-edit" data-act="courts144-edit" aria-pressed="false" aria-label="Изменить список судов" title="Изменить список судов">'+courts145EditIcon(false)+'</button><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды сохраняются на устройстве. Контакты доступны в карточке суда, расписание — на официальном сайте.')+'</div>';
+ return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><button type="button" class="courts144-edit" data-act="courts144-edit" aria-pressed="false" aria-label="Изменить список судов" title="Изменить список судов">'+courts145EditIcon(false)+'</button><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды сохраняются на устройстве. «Контакты» — звонок в суд. Подробные сведения доступны в карточке суда.')+'</div>';
 }
 /* .144 — remove favorites from the list without entering a court. */
 function courts144Trash(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></svg>';}
@@ -5132,9 +5132,112 @@ function normalizeCourtProfiles(value){
 function courts146Court(route){var id=String(route||'').slice(6).split('|')[0];return COURTS73_DEMO.find(function(c){return c[0]===id;});}
 function courts146Profile(id){return S.courtProfiles&&Object.prototype.hasOwnProperty.call(S.courtProfiles,id)?S.courtProfiles[id]:{};}
 var COURTS147_PUBLIC={
- kineshma:{email:'kineshemsky.iwn@sudrf.ru',source:'https://kineshemsky--iwn.sudrf.ru/modules.php?name=info_court'},
- ivanovo:{email:'oblsud.iwn@sudrf.ru',source:'https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo'},
- lenin:{address:'г. Иваново, ул. Станко, д. 7 (гражданские дела); д. 7Б (уголовные дела)',reception:'+7 (4932) 41-09-18',email:'leninsky.iwn@sudrf.ru',hours:'Пн–Чт 08:30–17:30\nПт 08:30–16:15\nПерерыв 12:30–13:15',source:'https://leninsky--iwn.sudrf.ru/modules.php?name=info_court&id=2'}
+ "kineshma": {
+  "address": "155800, г. Кинешма, ул. Ленина, д. 44",
+  "office": "+7 (49331) 5-81-01",
+  "officeLabel": "Общий отдел",
+  "reception": "+7 (49331) 5-78-34",
+  "receptionLabel": "Телефон суда",
+  "email": "kineshemsky.iwn@sudrf.ru",
+  "source": "https://kineshemsky--iwn.sudrf.ru/modules.php?name=info_court",
+  "extraPhones": [
+   [
+    "Уголовные дела",
+    "+7 (49331) 5-58-32"
+   ]
+  ],
+  "missing": "Режим работы по актуальному адресу не удалось подтвердить."
+ },
+ "ivanovo": {
+  "address": "153005, г. Иваново, Шереметевский пр., д. 100\n153000, г. Иваново, ул. Арсения, д. 3",
+  "office": "+7 (4932) 32-62-60",
+  "officeLabel": "Гражданские дела",
+  "reception": "+7 (4932) 37-26-60",
+  "email": "oblsud.iwn@sudrf.ru",
+  "hours": "Пн–Чт 08:30–17:30\nПт 08:30–16:15\nПерерыв 12:30–13:15\nСб, Вс — выходные",
+  "source": "https://oblsud--iwn.sudrf.ru/",
+  "extraPhones": [
+   [
+    "Гражданские дела (доп.)",
+    "+7 (4932) 41-93-31"
+   ]
+  ]
+ },
+ "lenin": {
+  "address": "153000, г. Иваново, ул. Станко, д. 7 (гражданские дела)\n153000, г. Иваново, ул. Станко, д. 7Б (уголовные дела)",
+  "office": "+7 (4932) 41-09-11",
+  "officeLabel": "Гражданские дела",
+  "reception": "+7 (4932) 41-09-18",
+  "email": "leninsky.iwn@sudrf.ru",
+  "hours": "Пн–Чт 08:30–17:30\nПт 08:30–16:15\nПерерыв 12:30–13:15\nСб, Вс — выходные",
+  "source": "https://leninsky--iwn.sudrf.ru/modules.php?name=info_court&rid=4",
+  "extraPhones": [
+   [
+    "Уголовные дела",
+    "+7 (4932) 32-93-23"
+   ],
+   [
+    "Общий отдел",
+    "+7 (4932) 32-56-16"
+   ]
+  ]
+ },
+ "moscow": {
+  "address": "107996, г. Москва, ул. Богородский Вал, д. 8\n105005, г. Москва, ул. Фридриха Энгельса, д. 32, стр. 1 (первая инстанция по уголовным и административным делам)",
+  "office": "+7 (495) 533-83-10",
+  "reception": "+7 (499) 530-08-08",
+  "receptionLabel": "Горячая линия",
+  "email": "mgs@mos-gorsud.ru",
+  "hours": "Пн–Чт 09:00–18:00\nПт 09:00–16:45\nСб, Вс — выходные",
+  "source": "https://adv.mos-gorsud.ru/mgs/help/contacts",
+  "extraPhones": [
+   [
+    "Гражданские дела, первая инстанция",
+    "+7 (495) 533-86-29"
+   ],
+   [
+    "Гражданские дела, апелляция",
+    "+7 (495) 533-84-80"
+   ],
+   [
+    "Уголовные дела, апелляция",
+    "+7 (495) 533-83-34"
+   ],
+   [
+    "Административные дела, апелляция",
+    "+7 (495) 533-84-74"
+   ]
+  ]
+ },
+ "cass": {
+  "address": "121357, г. Москва, ул. Верейская, д. 29, стр. 34",
+  "reception": "+7 (495) 870-51-55",
+  "receptionLabel": "Справочная",
+  "email": "2kas@sudrf.ru",
+  "hours": "Пн–Чт 09:00–18:00\nПт 09:00–16:45\nПерерыв 13:00–13:45\nСб, Вс — выходные",
+  "source": "https://2kas.sudrf.ru/",
+  "hoursSource": "https://myurist.online/courts/kassatsionnye-sudy-obshchey-yurisdiktsii/vtoroy-kassatsionnyy-sud-obshchey-yurisdiktsii",
+  "missing": "График — по опубликованному стороннему справочнику; отдельный номер канцелярии не подтверждён."
+ },
+ "supreme": {
+  "address": "121260, г. Москва, ул. Поварская, д. 15, стр. 1\nПриёмная: ул. Поварская, д. 13, подъезд № 2\nЧасть залов: Малый Харитоньевский пер., д. 12, стр. 1",
+  "office": "+7 (495) 627-96-96",
+  "officeLabel": "Гражд. и адм. дела",
+  "reception": "+7 (495) 627-91-74",
+  "hours": "Пн–Чт 09:00–18:00\nПт 09:00–16:45\nПерерыв 13:00–13:45\nСб, Вс — выходные",
+  "source": "https://vsrf.ru/contacts/",
+  "extraPhones": [
+   [
+    "Уголовные дела",
+    "+7 (495) 627-02-47"
+   ],
+   [
+    "Экономические споры",
+    "+7 (495) 627-97-75"
+   ]
+  ],
+  "missing": "Общая электронная почта в официальном разделе контактов не указана."
+ }
 };
 function courts147DisplayProfile(id){return Object.assign({},COURTS147_PUBLIC[id]||{},courts146Profile(id));}
 function courts147PersonalRows(value){return String(value||'').split(/\n\s*\n/).map(function(t){return t.trim();}).filter(Boolean).map(function(t){return '<p class="courts146-personal-text">'+esc(t)+'</p>';});}
@@ -5171,17 +5274,20 @@ function courts146Panel(icon,title,content,route,scope){var edit=scope?'<button 
 function courts146Link(url,icon,title,extra){return '<a class="courts73-row courts146-row" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+(extra?'<small>'+esc(extra)+'</small>':'')+'</span>'+ico('chev','s')+'</a>';}
 function courts146Button(action,value,icon,title,extra){return '<button type="button" class="courts146-row" data-act="'+action+'" data-v="'+esc(value)+'"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+(extra?'<small>'+esc(extra)+'</small>':'')+'</span>'+ico('chev','s')+'</button>';}
 function courts146Tel(value){var s=String(value||'').trim();if(!/^[+\d()\s-]+$/.test(s))return '';var d=s.replace(/\D/g,'');return d.length>=7&&d.length<=15?'tel:'+(s[0]==='+'?'+':'')+d:'';}
+function courts149Call(c,p){var own=courts146Profile(c[0]);return courts146Tel(own.reception)||courts146Tel(own.office)||courts146Tel(p.reception)||courts146Tel(p.office);}
+function courts149QuickCall(c,route,p){var tel=courts149Call(c,p),icon=courts142Gold('phone',c[0]);return tel?'<a class="courts73-row courts141-action" href="'+esc(tel)+'" aria-label="'+esc('Позвонить: '+c[1])+'" title="Позвонить">'+icon+'<span>Контакты</span></a>':'<button type="button" class="courts73-row courts141-action" data-act="courts148-contacts" data-v="'+esc(route)+'" aria-label="'+esc('Уточнить контакты: '+c[1])+'">'+icon+'<span>Контакты</span></button>';}
 function courts146Contact(c,p,key,icon,label){var val=p[key]||'',tel=key==='office'||key==='reception'?courts146Tel(val):'',button='';if(tel)button='<a class="courts146-mini" href="'+esc(tel)+'" aria-label="Позвонить: '+esc(label)+'">'+courts146Icon('phone')+'</a>';else if(val&&(key==='address'||key==='email'))button='<button type="button" class="courts146-mini" data-act="courts146-copy" data-v="'+esc(key)+'" aria-label="Копировать: '+esc(label)+'">'+ico('doc','s')+'</button>';return '<div class="courts146-contact"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><div class="courts146-contact-copy"><small>'+esc(label)+'</small><span class="'+(val?'':'courts146-muted')+'">'+esc(val||'Не указано')+'</span></div>'+button+'</div>';}
-function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+p.address:''));}
+function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+String(p.address).split(/\n/)[0]:''));}
 function courts146PracticeList(icon,title,rows){return '<details class="courts146-sublist"><summary class="courts146-row"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+'</span><b class="courts146-count">'+rows.length+'</b><span class="courts146-sub-arrow">'+ico('chev','s')+'</span></summary><div class="courts146-records">'+(rows.join('')||'<p class="courts146-muted">Нет связанных записей</p>')+'</div></details>';}
 function courts146Detail(c,route){
  COURTS146_ICON_ID=0;
- var p=courts147DisplayProfile(c[0]),on=courts73HasSaved(c[0]),map=courts146Map(c,p),tel=courts146Tel(p.office)||courts146Tel(p.reception),parent=route.split('|')[1]==='mine'?'mine':route.split('|')[1]==='catalog-general'?'catalog-general':'catalog';
+ var p=courts147DisplayProfile(c[0]),on=courts73HasSaved(c[0]),map=courts146Map(c,p),tel=courts149Call(c,p),parent=route.split('|')[1]==='mine'?'mine':route.split('|')[1]==='catalog-general'?'catalog-general':'catalog';
  var hero='<article class="courts146-hero courts146-panel"><img src="courts76-general.webp?v='+APP_BUILD+'" alt="" class="courts146-hero-art"><div class="courts146-hero-copy"><h3>'+esc(c[1])+'</h3><p>'+ico('pin','s')+esc(c[2])+'</p><span class="courts146-type">'+esc(courts146Type(c))+'</span></div><button type="button" class="courts146-star '+(on?'is-saved':'')+'" data-act="courts73-toggle" data-v="'+esc(route)+'" aria-pressed="'+on+'" aria-label="'+(on?'Удалить из избранного':'Добавить в избранное')+'" title="'+(on?'Удалить из избранного':'Добавить в избранное')+'">'+courts146Star(on)+'</button></article>';
- var contact= [['address','pin','Адрес'],['office','phone','Канцелярия'],['reception','phone','Приёмная'],['email','mail','Эл. почта'],['hours','clock','Режим работы']].map(function(x){return courts146Contact(c,p,x[0],x[1],x[2]);}).join('');
- contact+='<p class="courts146-help">'+(p.source?'Часть сведений из опубликованного справочника. <a href="'+esc(p.source)+'" target="_blank" rel="noopener noreferrer">Источник</a>. Личные уточнения имеют приоритет.':p.address||p.office||p.reception||p.email||p.hours?'Личные сведения. Сверяйте их с официальным сайтом.':'Контакты пока не заполнены. Сверьте сведения на официальном сайте.')+'</p><div class="courts146-pair"><a class="courts73-row courts146-soft" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'Маршрут</a>'+(tel?'<a class="courts146-soft" href="'+esc(tel)+'">'+courts146Icon('phone')+'Позвонить</a>':'<button type="button" class="courts146-soft courts148-no-phone" disabled aria-label="Позвонить: номер не указан">'+courts146Icon('phone')+'<span>Нет телефона</span></button>')+'</div><button type="button" class="courts148-contact-edit" data-act="courts146-edit" data-v="'+esc(route)+'" data-scope="contacts" aria-label="Уточнить контакты суда">'+courts146Icon('edit')+'<span>Уточнить контакты</span></button>';
+ var contact= [['address','pin','Адрес'],['office','phone',p.officeLabel||'Канцелярия'],['reception','phone',p.receptionLabel||'Приёмная'],['email','mail','Эл. почта'],['hours','clock','Режим работы']].map(function(x){return courts146Contact(c,p,x[0],x[1],x[2]);}).join('');
+ if(Array.isArray(p.extraPhones)&&p.extraPhones.length){contact+='<details class="courts149-extra"><summary>Дополнительные телефоны '+ico('chev','s')+'</summary>'+p.extraPhones.map(function(row){return courts146Contact(c,{office:row[1]},'office','phone',row[0]);}).join('')+'</details>';}
+ contact+='<p class="courts146-help">'+(p.source?'Сведения из открытых источников. <a href="'+esc(p.source)+'" target="_blank" rel="noopener noreferrer">Источник</a>. Личные уточнения имеют приоритет.'+(p.missing?' '+esc(p.missing):'')+(p.hoursSource?' <a href="'+esc(p.hoursSource)+'" target="_blank" rel="noopener noreferrer">Источник графика</a>.':''):p.address||p.office||p.reception||p.email||p.hours?'Личные сведения. Сверяйте их с официальным сайтом.':'Контакты пока не заполнены. Сверьте сведения на официальном сайте.')+'</p><div class="courts146-pair"><a class="courts73-row courts146-soft" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'Маршрут</a>'+(tel?'<a class="courts146-soft" href="'+esc(tel)+'">'+courts146Icon('phone')+'Позвонить</a>':'<button type="button" class="courts146-soft courts148-no-phone" disabled aria-label="Позвонить: номер не указан">'+courts146Icon('phone')+'<span>Нет телефона</span></button>')+'</div><button type="button" class="courts148-contact-edit" data-act="courts146-edit" data-v="'+esc(route)+'" data-scope="contacts" aria-label="Уточнить контакты суда">'+courts146Icon('edit')+'<span>Уточнить контакты</span></button>';
  var tools=courts146Link(c[3],'site','Официальный сайт суда');
- var directCase=c[0]==='ivanovo'?'https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo':'';var caseLink=directCase||c[4]||c[3];
+ var directCase=({kineshma:'https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud_delo',ivanovo:'https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo',lenin:'https://leninsky--iwn.sudrf.ru/modules.php?name=sud_delo',cass:'https://2kas.sudrf.ru/modules.php?name=sud_delo'})[c[0]]||'';var caseLink=directCase||c[4]||c[3];
  tools+=courts146Link(caseLink,'folder','Судебное делопроизводство','На официальном ресурсе');
  tools+=courts146Link(directCase||c[3],'calendar','Расписание судебных заседаний',directCase?'Судебное делопроизводство':'Найдите раздел на сайте суда');
  if(c[0]!=='moscow'&&c[0]!=='supreme')tools+=courts146Link('https://ej.sudrf.ru/','doc','Подача процессуальных документов','Личный кабинет ГАС «Правосудие»');else tools+=courts146Link(c[3],'doc','Подача процессуальных документов','На официальном сайте суда');
@@ -5194,7 +5300,7 @@ function courts146Detail(c,route){
  var content='<div class="courts146-detail">'+hero+courts146Panel('phone','Контактная информация',contact)+courts146Panel('scale','Судебные инструменты',tools)+courts146Panel('brief','Моя адвокатская практика',practice)+courts146Panel('note','Личные заметки',notes,route,'notes')+courts146Panel('pin','Расположение на карте',mapCard)+'</div>';
  courts73Page(route,'Суд','Сведения и инструменты',content,parent);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
 }
-function courts146Editor(route,scope){var c=courts146Court(route);if(!c)return;scope=scope==='contacts'||scope==='notes'?scope:'all';var p=courts147DisplayProfile(c[0]);var scroll=$('#sheet').scrollTop;var fields=COURTS146_FIELDS.map(function(f,i){if(scope==='contacts'&&i>=5||scope==='notes'&&i<5)return ''; var multi=i===0||i>=4;return '<label class="courts146-field"><span>'+esc(f[1])+'</span>'+((f[0]==='contacts'||f[0]==='comments')?'<small>Разделяйте отдельные записи пустой строкой.</small>':'')+(multi?'<textarea id="court146-'+f[0]+'" maxlength="'+f[2]+'" rows="'+(i>=5?4:2)+'">'+esc(p[f[0]]||'')+'</textarea>':'<input id="court146-'+f[0]+'" maxlength="'+f[2]+'" type="'+(i===3?'email':i===1||i===2?'tel':'text')+'" value="'+esc(p[f[0]]||'')+'" autocomplete="off">')+'</label>';}).join('');courts73Page(route,scope==='notes'?'Личные заметки':'Сведения суда',scope==='contacts'?'Контактная информация':'Личные данные и заметки','<div class="courts146-detail"><div class="courts146-panel courts146-form"><h3>'+esc(c[1])+'</h3><p class="courts146-help">Сведения сохраняются только в защищённой базе. Вносите проверенные контакты. Они не меняют официальный справочник.</p>'+fields+'</div><button class="settings60-gold-action courts146-edit" type="button" data-act="courts146-save" data-v="'+esc(route)+'">Сохранить сведения</button></div>',route);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').dataset.detailMode='edit';$('#sheet .courts73-page').dataset.editScope=scope;$('#sheet .courts73-page').dataset.returnScroll=scroll;}
+function courts146Editor(route,scope){var c=courts146Court(route);if(!c)return;scope=scope==='contacts'||scope==='notes'?scope:'all';var p=courts147DisplayProfile(c[0]);var scroll=$('#sheet').scrollTop;var fields=COURTS146_FIELDS.map(function(f,i){if(scope==='contacts'&&i>=5||scope==='notes'&&i<5)return ''; var multi=i===0||i>=4;return '<label class="courts146-field"><span>'+esc(f[0]==='office'?(p.officeLabel||f[1]):f[0]==='reception'?(p.receptionLabel||f[1]):f[1])+'</span>'+((f[0]==='contacts'||f[0]==='comments')?'<small>Разделяйте отдельные записи пустой строкой.</small>':'')+(multi?'<textarea id="court146-'+f[0]+'" maxlength="'+f[2]+'" rows="'+(i>=5?4:2)+'">'+esc(p[f[0]]||'')+'</textarea>':'<input id="court146-'+f[0]+'" maxlength="'+f[2]+'" type="'+(i===3?'email':i===1||i===2?'tel':'text')+'" value="'+esc(p[f[0]]||'')+'" autocomplete="off">')+'</label>';}).join('');courts73Page(route,scope==='notes'?'Личные заметки':'Сведения суда',scope==='contacts'?'Контактная информация':'Личные данные и заметки','<div class="courts146-detail"><div class="courts146-panel courts146-form"><h3>'+esc(c[1])+'</h3><p class="courts146-help">Сведения сохраняются только в защищённой базе. Вносите проверенные контакты. Они не меняют официальный справочник.</p>'+fields+'</div><button class="settings60-gold-action courts146-edit" type="button" data-act="courts146-save" data-v="'+esc(route)+'">Сохранить сведения</button></div>',route);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').dataset.detailMode='edit';$('#sheet .courts73-page').dataset.editScope=scope;$('#sheet .courts73-page').dataset.returnScroll=scroll;}
 var COURTS146_PENDING=false;
 async function courts146Save(route){if(COURTS146_PENDING||COURTS143_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;var c=courts146Court(route),page=$('#sheet .courts73-page');if(!c||!page||page.dataset.detailMode!=='edit'||page.dataset.route!==route)return false;var p=Object.assign({},courts146Profile(c[0]));COURTS146_FIELDS.forEach(function(f){var el=$('#court146-'+f[0]);if(!el)return;var val=el.value.trim().slice(0,f[2]);var original=COURTS147_PUBLIC[c[0]]&&COURTS147_PUBLIC[c[0]][f[0]];if(val&&val!==original)p[f[0]]=val;else delete p[f[0]];});var old=S.courtProfiles||{},next=Object.assign({},old);if(Object.keys(p).length)next[c[0]]=p;else delete next[c[0]];var state=S,key=SESSION_KEY,button=page.querySelector('[data-act="courts146-save"]');COURTS146_PENDING=true;if(button)button.disabled=true;S.courtProfiles=next;try{var ok=await flushSave();if(S!==state||SESSION_KEY!==key||!unlocked)return false;if(!ok){S.courtProfiles=old;mem=clone(S);await flushSave();if(unlocked&&S===state)toast('Не удалось сохранить сведения. Повторите действие.');return false;}if($('#sheet .courts73-page')===page){var y=Number(page.dataset.returnScroll)||0;courts73Open(route);$('#sheet').scrollTop=y;}toast('Сведения суда сохранены');return true;}finally{COURTS146_PENDING=false;if(button&&button.isConnected)button.disabled=false;}}
 async function courts146Copy(field){var page=$('#sheet .courts73-page'),c=page&&courts146Court(page.dataset.route);if(!c||['address','email'].indexOf(field)<0)return;var text=courts147DisplayProfile(c[0])[field];if(!text)return;try{await navigator.clipboard.writeText(text);toast('Скопировано');}catch(e){toast('Не удалось скопировать. Выделите текст вручную.');}}
