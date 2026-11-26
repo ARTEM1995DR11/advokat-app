@@ -632,3 +632,8 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts152-legacy{margin:8px 0;padding:6px 8px;border:1px dashed #c8a675;border-radius:9px}
 #sheet.courts146-detail-sheet .courts146-map-link+.courts146-map-link{margin-top:8px}
 #sheet.courts146-detail-sheet .courts152-edit-building .courts146-field{margin-top:9px}
+
+/* 6.2: court-scoped case lists, using existing premium court surfaces. */
+#sheet.courts146-detail-sheet .courts62-list .courts146-title{cursor:default;grid-template-columns:clamp(31px,9.1vw,47px) minmax(0,1fr) auto}
+#sheet.courts146-detail-sheet .courts62-list .courts62-empty{padding:12px 4px;margin:0;text-align:center}
+#sheet.courts146-detail-sheet .courts62-list .courts146-row:last-child{border-bottom:0}

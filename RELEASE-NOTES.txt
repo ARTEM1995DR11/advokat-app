@@ -504,3 +504,7 @@
 5.0.1297.41.66.160 / build 6600 — removed three inactive calculator URLs and text fragments from court tools. Kineshma, Lenin and Second Cassation temporarily open the official reference information section (name=information), explicitly labelled as such; exact fee article URLs not verified because live pages could not be retrieved. Remaining three fee URLs unchanged. No embedded payment details or additional menu. Browser and iPhone external-link tests pending.
 
 5.0.1297.41.66.161 / build 6601 — Kineshma fee tool opens the exact official reference article supplied by the user: https://kineshemsky.iwn.sudrf.ru/modules.php?name=information&id=2. Direct requisites label restored for Kineshma. Other court links, UI and stored data unchanged. Live official page timed out in verification environment; iPhone check pending.
+
+6.1 / build 6602 — new short public release numbering, based on 5.0.1297.41.66.161 / build 6601. Update comparison remains build-based; VERSION.txt retains a legacy alias for the previous updater. No changes to court links, features, storage keys, encryption or graphics.
+
+6.2 / build 6603 — карточка суда: «Мои дела в этом суде», два отдельных списка текущих и архивных дел и счётчики. Отбор по полю суда и архивному статусу существующих дел (без дублей); переход в карточку дела и возврат в исходный список. Удалены два дублирующих действия с заседаниями. Остальные разделы и хранилище без изменений.
