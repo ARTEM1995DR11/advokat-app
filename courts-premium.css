@@ -551,3 +551,39 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet button:disabled{opacity:.55;cursor:wait}
 @media(max-width:370px){#sheet.courts146-detail-sheet .courts146-contact-copy{grid-template-columns:1fr;gap:3px}#sheet.courts146-detail-sheet .courts146-hero{grid-template-columns:60px minmax(0,1fr) 44px;gap:8px}}
 @media(min-width:700px){#sheet.courts146-detail-sheet .settings60-head{margin-top:12px}}
+
+/* .147 — detail-only audit corrections; preserve .145 favorites layout. */
+#sheet.courts139-mine-sheet.courts146-detail-sheet .settings60-head{grid-template-columns:clamp(36px,9.6vw,49px) clamp(42px,12.4vw,64px) minmax(0,1fr);gap:clamp(7px,2.2vw,12px)}
+#sheet.courts139-mine-sheet.courts146-detail-sheet .settings60-back,#sheet.courts139-mine-sheet.courts146-detail-sheet .settings60-head-icon{min-width:0;max-width:100%;min-height:0;aspect-ratio:1;width:100%;height:auto}
+#sheet.courts146-detail-sheet .courts146-star:not(.is-saved){background:linear-gradient(155deg,#fffdf5,#f4e6ce);border-color:#d2b487}
+#sheet.courts146-detail-sheet .courts146-star.is-saved{background:radial-gradient(ellipse at 40% 8%,#fff5bb80,transparent 64%),linear-gradient(160deg,#ffe68a,#e0a331 65%,#a66b14);box-shadow:inset 0 0 0 1px #ffe9ad,inset 0 -3px 3px #8d550b4d,0 3px 5px #89551644}
+#sheet.courts146-detail-sheet .courts146-panel{position:relative}
+#sheet.courts146-detail-sheet .courts146-title{grid-template-columns:clamp(31px,9.1vw,47px) minmax(0,1fr) 22px;gap:clamp(7px,2.4vw,12px);padding:0 0 2px;min-height:44px}
+#sheet.courts146-detail-sheet .courts146-section-icon{box-sizing:border-box;aspect-ratio:1;height:auto;min-height:0;--emboss-size:clamp(23px,6.8vw,35px);border:1px solid #e4caa0;border-radius:9px;background:linear-gradient(145deg,#fffdf7,#f7e4c3);box-shadow:inset 0 0 0 1px #fff9ed,0 2px 4px #a16e2c30}
+#sheet.courts146-detail-sheet .courts146-row-icon{--emboss-size:clamp(22px,6.2vw,31px);filter:drop-shadow(0 1px 1px #8a561f28)}
+#sheet.courts146-detail-sheet .courts146-panel-body{margin-top:5px;padding-top:2px}
+#sheet.courts146-detail-sheet .courts146-contact{box-sizing:border-box;min-height:44px;padding:6px 0;gap:clamp(6px,2.1vw,10px)}
+#sheet.courts146-detail-sheet .courts146-contact-copy{grid-template-columns:minmax(70px,34%) minmax(0,1fr);gap:7px;align-items:center}
+#sheet.courts146-detail-sheet .courts146-contact-copy small{font-weight:500}
+#sheet.courts146-detail-sheet .courts146-contact-copy>span{font-weight:400;overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts146-mini{background:linear-gradient(155deg,#fffdf7,#f4dfbb);box-shadow:inset 0 0 0 1px #fffaf0,0 2px 4px #8a5b2c35}
+#sheet.courts73-sheet.courts146-detail-sheet .courts146-soft{background:radial-gradient(ellipse at 43% 0,#fffdf7c9,transparent 70%),linear-gradient(180deg,#fff4dc,#f4dbad);box-shadow:inset 0 0 0 1px #fff9ec,inset 0 -3px 3px #d1a26038,0 3px 4px #94602035;border-color:#bb8b46}
+#sheet.courts146-detail-sheet .courts147-editable[open]>.courts146-title{padding-right:44px}
+#sheet.courts146-detail-sheet .courts147-local-edit{position:absolute;top:clamp(10px,3vw,17px);right:calc(clamp(10px,3vw,17px) + 22px);box-sizing:border-box;display:grid;place-items:center;width:44px;height:44px;min-width:44px;min-height:44px;margin:0;padding:8px;border:0;background:transparent;box-shadow:none;cursor:pointer;z-index:1;touch-action:manipulation}
+#sheet.courts146-detail-sheet .courts147-local-edit svg{width:22px;height:22px;filter:drop-shadow(0 1px 1px #89591d50)}
+#sheet.courts146-detail-sheet .courts147-editable:not([open])>.courts147-local-edit{display:none}
+#sheet.courts146-detail-sheet .courts146-note{display:grid;grid-template-columns:26px minmax(0,1fr);gap:9px;padding:11px}
+#sheet.courts146-detail-sheet .courts147-note-icon{display:grid;place-items:center;align-self:start}
+#sheet.courts146-detail-sheet .courts147-note-icon svg{width:25px;height:25px}
+#sheet.courts146-detail-sheet .courts146-note b{font-weight:600}
+#sheet.courts146-detail-sheet .courts146-records .courts146-personal-text+.courts146-personal-text{border-top:1px solid #e2ceb0;padding-top:8px}
+#sheet.courts146-detail-sheet .courts146-field small{font-weight:400;color:#665b50}
+#sheet.courts146-detail-sheet .courts146-help a{color:#875315;text-decoration:underline}
+@media(max-width:370px){#sheet.courts146-detail-sheet .courts146-contact-copy{grid-template-columns:1fr;gap:3px}#sheet.courts146-detail-sheet .courts147-editable[open]>.courts146-title h3{font-size:clamp(14px,4.25vw,17px)!important}}
+/* Keep the edit action and collapse arrow in distinct slots, also on narrow screens. */
+#sheet.courts146-detail-sheet .courts147-editable[open]>.courts146-title{padding-right:0;grid-template-columns:clamp(31px,9.1vw,47px) minmax(0,1fr) 44px 22px}
+#sheet.courts146-detail-sheet .courts147-editable[open]>.courts146-title .courts146-collapse{grid-column:4}
+#sheet.courts146-detail-sheet .courts147-local-edit{right:calc(clamp(10px,3vw,17px) + 22px + clamp(7px,2.4vw,12px));}
+
+/* .147 — consistent value column whether or not a row has an action. */
+@media(min-width:371px){#sheet.courts146-detail-sheet .courts146-contact-copy{grid-template-columns:clamp(70px,25vw,120px) minmax(0,1fr)}}
