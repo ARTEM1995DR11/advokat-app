@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.145';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6585';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.146';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6586';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -17,7 +17,7 @@ var DB_STORE = 'vault';
 var DB_VER = 1;
 
 var DEF = {
-  matters: [], tasks: [], participation: [], journal: [], time: [], stagePayments: [], savedCourts: [],
+  matters: [], tasks: [], participation: [], journal: [], time: [], stagePayments: [], savedCourts: [], courtProfiles: {},
   settings: {
     name:'', profileStatus:'Адвокат', profilePhone:'', profileEmail:'', profileChamber:'', profileRegistry:'', profilePhoto:'', dayRate:0, cur:'₽', notify:false,
     seen:false, dismissed:false, backupEveryDays:1, lastBackup:'', backupDailyV3132:true,
@@ -85,6 +85,7 @@ function mergeState(d){
   out.stagePayments = Array.isArray(d.stagePayments)?d.stagePayments:[];
   // .143: legacy vaults/backups have no savedCourts; normalize without altering other records.
   out.savedCourts = normalizeSavedCourts(d.savedCourts);
+  out.courtProfiles = normalizeCourtProfiles(d.courtProfiles);
   // 5.0.05: legacy builds could store numeric IDs. DOM data-* always returns strings,
   // so normalize every record and relation ID on load to keep old matters clickable.
   out.matters.forEach(function(m){ if(m && m.id!=null) m.id=String(m.id); });
@@ -2750,7 +2751,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet','courts139-mine-sheet','backup97-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet','courts139-mine-sheet','courts146-detail-sheet','backup97-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -2768,6 +2769,7 @@ function openSheet(html){
 function openPage(html){ var p = $('#page'); p.innerHTML = html; p._mid = null; p._navType = 'page';
   p.classList.remove('dossier-page');p.classList.add('open'); $('#scrim').classList.add('open'); p.scrollTop = 0; requestAnimationFrame(function(){advUpgradeIconSurfaces(p);}); }
 function closeAll(){
+  COURTS146_RETURN=null;
   settings67DismissDialog();
   SETTINGS57_CHILD_ACTIVE=false;
   if(typeof stageWizardHearingOverlayRemove==='function')stageWizardHearingOverlayRemove();
@@ -5121,7 +5123,60 @@ document.addEventListener('touchstart',courts144TouchStart,{passive:true,capture
 document.addEventListener('touchmove',courts144TouchMove,{passive:false,capture:true});
 document.addEventListener('touchend',courts144TouchEnd,{passive:true,capture:true});
 document.addEventListener('touchcancel',function(){COURTS144_TOUCH=null;},{passive:true,capture:true});
+/* .146: universal court profile; only user-entered contacts and notes are persisted. */
+var COURTS146_FIELDS=[['address','Адрес',500],['office','Канцелярия',120],['reception','Приёмная',120],['email','Электронная почта',200],['hours','Режим работы',500],['note','Особенности работы суда',4000],['contacts','Рабочие контакты',4000],['comments','Мои комментарии',4000]];
+function normalizeCourtProfiles(value){
+ var result={}; if(!value||typeof value!=='object'||Array.isArray(value))return result;
+ Object.keys(value).forEach(function(id){if(!/^[a-z0-9_-]{1,80}$/i.test(id)||['__proto__','constructor','prototype'].indexOf(id)>=0)return;var raw=value[id];if(!raw||typeof raw!=='object')return;var p={};COURTS146_FIELDS.forEach(function(f){if(typeof raw[f[0]]==='string'&&raw[f[0]].trim())p[f[0]]=raw[f[0]].trim().slice(0,f[2]);});if(Object.keys(p).length)result[id]=p;});return result;
+}
+function courts146Court(route){var id=String(route||'').slice(6).split('|')[0];return COURTS73_DEMO.find(function(c){return c[0]===id;});}
+function courts146Profile(id){return S.courtProfiles&&Object.prototype.hasOwnProperty.call(S.courtProfiles,id)?S.courtProfiles[id]:{};}
+function courts146Type(c){return ({kineshma:'Городской суд',ivanovo:'Областной суд',lenin:'Районный суд',moscow:'Суд города федерального значения',cass:'Кассационный суд',supreme:'Верховный Суд'})[c[0]]||'Суд';}
+function courts146Name(c){return c[0]==='kineshma'?'Кинешемский городской суд Ивановской области':c[1];}
+function courts146NormalizeName(s){return String(s||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[.,«»]/g,' ').replace(/\s+/g,' ').trim();}
+function courts146Matches(c,name){var norm=courts146NormalizeName(name);var aliases=[c[1],courts146Name(c)];if(c[0]==='lenin')aliases.push('Ленинский районный суд города Иваново','Ленинский районный суд г. Иваново Ивановской области');if(c[0]==='supreme')aliases.push('Верховный Суд Российской Федерации');return !!norm&&aliases.some(function(x){return courts146NormalizeName(x)===norm;});}
+function courts146Matters(c){return S.matters.filter(function(m){return m&&courts146Matches(c,m.court);});}
+function courts146Hearings(c){return S.tasks.filter(function(t){return t&&t.kind==='hearing'&&dossierEventFuture(t)&&courts146Matches(c,hearingPlace(t));}).sort(function(a,b){return (a.due+' '+(a.time||'')).localeCompare(b.due+' '+(b.time||''));});}
+function courts146Icon(n){return n==='phone'||n==='site'||n==='map'?courts142Gold(n,'detail-'+(++COURTS146_ICON_ID)):advEmbossIcon(n==='money'?'save':n);}
+var COURTS146_ICON_ID=0;
+function courts146Star(on){return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="'+(on?'#f8cf61':'none')+'" stroke="#865315" stroke-width="1.65" stroke-linejoin="round"><path d="m12 2.5 3 6.2 6.8 1-4.9 4.8 1.2 6.8-6.1-3.2-6.1 3.2 1.2-6.8L2.2 9.7l6.8-1Z"/></svg>';}
+function courts146Panel(icon,title,content){return '<details class="courts146-panel" open><summary class="courts146-title"><span class="courts146-section-icon">'+courts146Icon(icon)+'</span><h3>'+esc(title)+'</h3><span class="courts146-collapse">'+ico('chev','s')+'</span></summary><div class="courts146-panel-body">'+content+'</div></details>';}
+function courts146Link(url,icon,title,extra){return '<a class="courts73-row courts146-row" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+(extra?'<small>'+esc(extra)+'</small>':'')+'</span>'+ico('chev','s')+'</a>';}
+function courts146Button(action,value,icon,title,extra){return '<button type="button" class="courts146-row" data-act="'+action+'" data-v="'+esc(value)+'"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+(extra?'<small>'+esc(extra)+'</small>':'')+'</span>'+ico('chev','s')+'</button>';}
+function courts146Tel(value){var s=String(value||'').trim();if(!/^[+\d()\s-]+$/.test(s))return '';var d=s.replace(/\D/g,'');return d.length>=7&&d.length<=15?'tel:'+(s[0]==='+'?'+':'')+d:'';}
+function courts146Contact(c,p,key,icon,label){var val=p[key]||'',tel=key==='office'||key==='reception'?courts146Tel(val):'',button='';if(tel)button='<a class="courts146-mini" href="'+esc(tel)+'" aria-label="Позвонить: '+esc(label)+'">'+courts146Icon('phone')+'</a>';else if(val&&(key==='address'||key==='email'))button='<button type="button" class="courts146-mini" data-act="courts146-copy" data-v="'+esc(key)+'" aria-label="Копировать: '+esc(label)+'">'+ico('doc','s')+'</button>';return '<div class="courts146-contact"><span class="courts146-row-icon">'+(icon==='mail'?ico('mail','s'):courts146Icon(icon))+'</span><div class="courts146-contact-copy"><small>'+esc(label)+'</small><span class="'+(val?'':'courts146-muted')+'">'+esc(val||'Не указано')+'</span></div>'+button+'</div>';}
+function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+p.address:''));}
+function courts146PracticeList(icon,title,rows){return '<details class="courts146-sublist"><summary class="courts146-row"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+'</span><b class="courts146-count">'+rows.length+'</b><span class="courts146-sub-arrow">'+ico('chev','s')+'</span></summary><div class="courts146-records">'+(rows.join('')||'<p class="courts146-muted">Нет связанных записей</p>')+'</div></details>';}
+function courts146Detail(c,route){
+ COURTS146_ICON_ID=0;
+ var p=courts146Profile(c[0]),on=courts73HasSaved(c[0]),map=courts146Map(c,p),tel=courts146Tel(p.office)||courts146Tel(p.reception),parent=route.split('|')[1]==='mine'?'mine':route.split('|')[1]==='catalog-general'?'catalog-general':'catalog';
+ var hero='<article class="courts146-hero courts146-panel"><img src="courts76-general.webp?v='+APP_BUILD+'" alt="" class="courts146-hero-art"><div class="courts146-hero-copy"><h3>'+esc(c[1])+'</h3><p>'+ico('pin','s')+esc(c[2])+'</p><span class="courts146-type">'+esc(courts146Type(c))+'</span></div><button type="button" class="courts146-star '+(on?'is-saved':'')+'" data-act="courts73-toggle" data-v="'+esc(route)+'" aria-pressed="'+on+'" aria-label="'+(on?'Удалить из избранного':'Добавить в избранное')+'" title="'+(on?'Удалить из избранного':'Добавить в избранное')+'">'+courts146Star(on)+'</button></article>';
+ var contact= [['address','pin','Адрес'],['office','phone','Канцелярия'],['reception','phone','Приёмная'],['email','mail','Эл. почта'],['hours','clock','Режим работы']].map(function(x){return courts146Contact(c,p,x[0],x[1],x[2]);}).join('');
+ contact+='<p class="courts146-help">'+(p.address||p.office||p.reception||p.email||p.hours?'Заполненные сведения внесены вами. Сверяйте их с официальным сайтом.':'Контакты пока не заполнены. Сверьте сведения на официальном сайте.')+'</p><div class="courts146-pair"><a class="courts73-row courts146-soft" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'Маршрут</a>'+(tel?'<a class="courts146-soft" href="'+esc(tel)+'">'+courts146Icon('phone')+'Позвонить</a>':'<a class="courts73-row courts146-soft" href="'+esc(c[3])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('phone')+'Контакты</a>')+'</div>';
+ var tools=courts146Link(c[3],'site','Официальный сайт суда');
+ var caseLink=c[4]||c[3];
+ tools+=courts146Link(caseLink,'folder','Судебное делопроизводство','На официальном ресурсе');
+ tools+=courts146Link(c[3],'calendar','Расписание судебных заседаний','Найдите раздел на сайте суда');
+ if(c[0]!=='moscow'&&c[0]!=='supreme')tools+=courts146Link('https://ej.sudrf.ru/','doc','Подача процессуальных документов','Личный кабинет ГАС «Правосудие»');else tools+=courts146Link(c[3],'doc','Подача процессуальных документов','На официальном сайте суда');
+ tools+=courts146Link(c[3],'money','Реквизиты государственной пошлины','Уточнить на официальном сайте');
+ var matters=courts146Matters(c),hearings=courts146Hearings(c);
+ var practice=courts146PracticeList('folder','Мои дела в этом суде',matters.map(function(m){return courts146Button('courts146-matter',m.id,'doc',m.title||m.number||'Дело',m.archived?'Архив':(m.number||''));}))+courts146PracticeList('calendar','Предстоящие заседания',hearings.map(function(t){return courts146Button('courts146-hearing',t.id,'calendar',t.hearingTopic||t.title||'Судебное заседание',fmtD(t.due,true)+(t.time?' · '+t.time:''));}))+courts146Button('courts146-new-hearing',route,'plus','Добавить судебное заседание');
+ var notes='<div class="courts146-note"><b>Особенности работы суда</b><p>'+esc(p.note||'Пока нет заметок. Добавьте свои рабочие сведения.')+'</p></div>';
+ notes+=courts146PracticeList('people','Рабочие контакты',p.contacts?['<p class="courts146-personal-text">'+esc(p.contacts)+'</p>']:[])+courts146PracticeList('doc','Мои комментарии',p.comments?['<p class="courts146-personal-text">'+esc(p.comments)+'</p>']:[]);
+ var mapCard='<a class="courts73-row courts146-map-link" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'<span><strong>Открыть на карте</strong><small>'+esc(p.address||c[1]+', '+c[2])+'</small></span>'+courts73ExternalIcon()+'</a><p class="courts146-help">Поиск по названию и адресу. Карта открывается во внешнем сервисе.</p>';
+ var content='<div class="courts146-detail">'+hero+courts146Panel('phone','Контактная информация',contact)+courts146Panel('scale','Судебные инструменты',tools)+courts146Panel('brief','Моя адвокатская практика',practice)+courts146Panel('note','Личные заметки',notes)+courts146Panel('pin','Расположение на карте',mapCard)+'<button type="button" class="settings60-gold-action courts146-edit" data-act="courts146-edit" data-v="'+esc(route)+'">'+courts146Icon('edit')+'<span>Редактировать сведения</span></button></div>';
+ courts73Page(route,'Суд','Сведения и инструменты',content,parent);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
+}
+function courts146Editor(route){var c=courts146Court(route);if(!c)return;var p=courts146Profile(c[0]);var fields=COURTS146_FIELDS.map(function(f,i){var multi=i===0||i>=4;return '<label class="courts146-field"><span>'+esc(f[1])+'</span>'+(multi?'<textarea id="court146-'+f[0]+'" maxlength="'+f[2]+'" rows="'+(i>=5?4:2)+'">'+esc(p[f[0]]||'')+'</textarea>':'<input id="court146-'+f[0]+'" maxlength="'+f[2]+'" type="'+(i===3?'email':i===1||i===2?'tel':'text')+'" value="'+esc(p[f[0]]||'')+'" autocomplete="off">')+'</label>';}).join('');courts73Page(route,'Сведения суда','Личные данные и заметки','<div class="courts146-detail"><div class="courts146-panel courts146-form"><h3>'+esc(c[1])+'</h3><p class="courts146-help">Сведения сохраняются только в защищённой базе. Вносите проверенные контакты. Они не меняют официальный справочник.</p>'+fields+'</div><button class="settings60-gold-action courts146-edit" type="button" data-act="courts146-save" data-v="'+esc(route)+'">Сохранить сведения</button></div>',route);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').dataset.detailMode='edit';}
+var COURTS146_PENDING=false;
+async function courts146Save(route){if(COURTS146_PENDING||COURTS143_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;var c=courts146Court(route),page=$('#sheet .courts73-page');if(!c||!page||page.dataset.detailMode!=='edit'||page.dataset.route!==route)return false;var p={};COURTS146_FIELDS.forEach(function(f){var el=$('#court146-'+f[0]);if(el&&el.value.trim())p[f[0]]=el.value.trim().slice(0,f[2]);});var old=S.courtProfiles||{},next=Object.assign({},old);if(Object.keys(p).length)next[c[0]]=p;else delete next[c[0]];var state=S,key=SESSION_KEY,button=page.querySelector('[data-act="courts146-save"]');COURTS146_PENDING=true;if(button)button.disabled=true;S.courtProfiles=next;try{var ok=await flushSave();if(S!==state||SESSION_KEY!==key||!unlocked)return false;if(!ok){S.courtProfiles=old;mem=clone(S);await flushSave();if(unlocked&&S===state)toast('Не удалось сохранить сведения. Повторите действие.');return false;}if($('#sheet .courts73-page')===page)courts73Open(route);toast('Сведения суда сохранены');return true;}finally{COURTS146_PENDING=false;if(button&&button.isConnected)button.disabled=false;}}
+async function courts146Copy(field){var page=$('#sheet .courts73-page'),c=page&&courts146Court(page.dataset.route);if(!c||['address','email'].indexOf(field)<0)return;var text=courts146Profile(c[0])[field];if(!text)return;try{await navigator.clipboard.writeText(text);toast('Скопировано');}catch(e){toast('Не удалось скопировать. Выделите текст вручную.');}}
+var COURTS146_RETURN=null;
+function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route=page&&page.dataset.route,c=route&&courts146Court(route);if(!c||!unlocked)return;var back={state:S,route:route,scroll:$('#sheet').scrollTop,kind:kind};if(kind==='matter'){var m=matter(id);if(!m||!courts146Matches(c,m.court))return;closeSheet();openMatter(m.id);back.mid=m.id;COURTS146_RETURN=back;return;}if(kind==='hearing'){var t=S.tasks.find(function(x){return x.id===id;});if(!t||t.kind!=='hearing'||!courts146Matches(c,hearingPlace(t)))return;editTask(t);}else editTask(null,{kind:'hearing',place:courts146Name(c),due:'',time:'',pri:'mid'});back.editor=ED;COURTS146_RETURN=back;}
+function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);$('#sheet').scrollTop=back.scroll||0;return true;}
+
 function courts73Open(route){
+ COURTS146_RETURN=null;
  if(route==='home'){
    courts76Home();return;
  }
@@ -5137,9 +5192,7 @@ function courts73Open(route){
  }
  if(route.indexOf('court:')===0){
    var parts=route.slice(6).split('|'), c=COURTS73_DEMO.filter(function(x){return x[0]===parts[0];})[0];if(!c)return;
-   var parent=parts[1]==='mine'?'mine':parts[1]==='catalog-general'?'catalog-general':'catalog', on=courts73HasSaved(c[0]);
-   var rows=[[c[3],'Официальный сайт','Контакты, адрес и режим работы на сайте','court']];if(c[4])rows.push([c[4],'Сведения о суде и делах','Раздел официального ресурса','doc']);
-   courts73Page(route,c[1],c[2],courts73Section('Ресурсы суда',rows)+'<button type="button" class="settings60-gold-action" data-act="courts73-toggle" data-v="'+esc(route)+'">'+(on?'Убрать из моих судов':'Добавить в мои суды')+'</button>'+settings60Info('Пока это черновая карточка суда. На данном этапе доступны официальные ссылки и добавление в список «Мои суды». ',''),parent);return;
+   courts146Detail(c,route);return;
  }
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
@@ -5147,7 +5200,7 @@ function courts73Open(route){
 }
 function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
 async function courts73Toggle(route,removeOnly){
- if(COURTS143_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;
+ if(COURTS143_PENDING||COURTS146_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;
  var id=String(route||'').slice(6).split('|')[0];
  if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return false;
  var state=S,key=SESSION_KEY,before=S.savedCourts.slice(),adding=!courts73HasSaved(id);
@@ -5170,7 +5223,10 @@ async function courts73Toggle(route,removeOnly){
      return false;
    }
    if(removeOnly&&page&&page===courts144Page()) courts144RefreshMine(page);
-   else if(page&&$('#sheet .courts73-page')===page&&page.dataset.route===route) courts73Open(route);
+   else if(page&&$('#sheet .courts73-page')===page&&page.dataset.route===route){
+     if(button&&button.classList.contains('courts146-star')){button.classList.toggle('is-saved',adding);button.innerHTML=courts146Star(adding);button.setAttribute('aria-pressed',String(adding));button.setAttribute('aria-label',adding?'Удалить из избранного':'Добавить в избранное');button.title=button.getAttribute('aria-label');}
+     else courts73Open(route);
+   }
    else {
      var current=$('#sheet.open .courts73-page');
      if(current&&['mine','catalog','catalog-general'].indexOf(current.dataset.route)>=0) courts73Open(current.dataset.route);
@@ -5505,6 +5561,10 @@ function appBack(){
   if(SETTINGS57_CHILD_ACTIVE && sheet.classList.contains('open') &&
      !sheet.classList.contains('settings-premium-v57')){
     sheetMoreService();vib(5);return true;
+  }
+  if(COURTS146_RETURN&&COURTS146_RETURN.state===S){
+    var cr=COURTS146_RETURN;
+    if((sheet.classList.contains('open')&&sheet.classList.contains('task-editor-sheet')&&cr.editor===ED)||(!sheet.classList.contains('open')&&page.classList.contains('open')&&cr.mid&&String(page._mid)===String(cr.mid))){courts146Return(cr);vib(5);return true;}
   }
   if(sheet.classList.contains('open')){ closeSheet(); vib(5); return true; }
   if(page.classList.contains('open')){
@@ -6125,6 +6185,7 @@ function saveTask(){
     openMatter(returnContext.mid,returnContext.tab);
     $('#page').scrollTop=returnContext.scroll;
   }
+  if(COURTS146_RETURN&&COURTS146_RETURN.editor===ED&&COURTS146_RETURN.state===S)courts146Return(COURTS146_RETURN);
   toast(hearing?'Заседание сохранено':(meeting?'Встреча сохранена':(ED.kind==='deadline'?'Срок сохранён':'Задача сохранена')));schedule();
 }
 
@@ -10104,6 +10165,12 @@ document.addEventListener('click', function(ev){
     case 'courts73-toggle': courts73Toggle(v); break;
     case 'courts144-edit': courts144Edit(); break;
     case 'courts144-remove': courts144Remove(v); break;
+    case 'courts146-edit': courts146Editor(v); break;
+    case 'courts146-save': courts146Save(v); break;
+    case 'courts146-copy': courts146Copy(v); break;
+    case 'courts146-matter': courts146Action('matter',v); break;
+    case 'courts146-hearing': courts146Action('hearing',v); break;
+    case 'courts146-new-hearing': courts146Action('new',v); break;
     case 'more50-settings': sheetMoreService(); break;
     case 'settings57-back': appBack(); break;
     case 'settings60-back': appBack(); break;
