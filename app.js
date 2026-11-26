@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.159';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6599';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.161';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6601';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5354,8 +5354,9 @@ function courts146Contact(c,p,key,icon,label,copyKey){
 }
 function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+String(p.address).split(/\n/)[0]:''));}
 function courts146PracticeList(icon,title,rows){return '<details class="courts146-sublist"><summary class="courts146-row"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+'</span><b class="courts146-count">'+rows.length+'</b><span class="courts146-sub-arrow">'+ico('chev','s')+'</span></summary><div class="courts146-records">'+(rows.join('')||'<p class="courts146-muted">Нет связанных записей</p>')+'</div></details>';}
-// .159 — official court payment information; no locally stored banking details.
-var COURTS159_FEE_LINKS={"kineshma":"https://kineshemsky--iwn.sudrf.ru/modules.php?name=govduty#:~:text=%D0%A0%D0%B5%D0%BA%D0%B2%D0%B8%D0%B7%D0%B8%D1%82%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D1%83%D0%BF%D0%BB%D0%B0%D1%82%D1%8B%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D1%88%D0%BB%D0%B8%D0%BD%D1%8B","ivanovo":"https://oblsud--iwn.sudrf.ru/modules.php?name=information&rid=1","lenin":"https://leninsky--iwn.sudrf.ru/modules.php?name=govduty#:~:text=%D0%A0%D0%B5%D0%BA%D0%B2%D0%B8%D0%B7%D0%B8%D1%82%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D1%83%D0%BF%D0%BB%D0%B0%D1%82%D1%8B%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D1%88%D0%BB%D0%B8%D0%BD%D1%8B","moscow":"https://portal.mos-gorsud.ru/mgs/services/gosudarstvennaya-poshlina","cass":"https://2kas.sudrf.ru/modules.php?name=govduty#:~:text=%D0%A0%D0%B5%D0%BA%D0%B2%D0%B8%D0%B7%D0%B8%D1%82%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D1%83%D0%BF%D0%BB%D0%B0%D1%82%D1%8B%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D1%88%D0%BB%D0%B8%D0%BD%D1%8B","supreme":"https://vsrf.ru/government_duty/requisites"};
+// .161 — direct Kineshma requisites article supplied by the user; other links retained.
+var COURTS161_FEE_LINKS={"kineshma":"https://kineshemsky.iwn.sudrf.ru/modules.php?name=information&id=2","ivanovo":"https://oblsud--iwn.sudrf.ru/modules.php?name=information&rid=1","lenin":"https://leninsky--iwn.sudrf.ru/modules.php?name=information","moscow":"https://portal.mos-gorsud.ru/mgs/services/gosudarstvennaya-poshlina","cass":"https://2kas.sudrf.ru/modules.php?name=information","supreme":"https://vsrf.ru/government_duty/requisites"};
+var COURTS161_FEE_SECTION_ONLY={lenin:true,cass:true};
 function courts146Detail(c,route){
  COURTS146_ICON_ID=0;
  var p=courts147DisplayProfile(c[0]),on=courts73HasSaved(c[0]),map=courts146Map(c,p),tel=courts149Call(c,p),parent=route.split('|')[1]==='mine'?'mine':route.split('|')[1]==='catalog-general'?'catalog-general':'catalog';
@@ -5369,8 +5370,8 @@ function courts146Detail(c,route){
  var tools=courts146Link(c[3],'site','Официальный сайт суда');
  var directCase=({kineshma:'https://kineshemsky--iwn.sudrf.ru/modules.php?name=sud_delo',ivanovo:'https://oblsud--iwn.sudrf.ru/modules.php?name=sud_delo',lenin:'https://leninsky--iwn.sudrf.ru/modules.php?name=sud_delo',cass:'https://2kas.sudrf.ru/modules.php?name=sud_delo'})[c[0]]||'';var caseLink=directCase||c[4]||c[3];
  tools+=courts146Link(caseLink,'folder','Судебное делопроизводство','Поиск дел и заседаний');
- var feeLink=COURTS159_FEE_LINKS[c[0]];
- if(feeLink)tools+=courts146Link(feeLink,'money','Государственная пошлина','Реквизиты для оплаты');
+ var feeLink=COURTS161_FEE_LINKS[c[0]];
+ if(feeLink)tools+=courts146Link(feeLink,'money','Государственная пошлина',COURTS161_FEE_SECTION_ONLY[c[0]]?'Справочная информация → Госпошлина':'Реквизиты для оплаты');
  var matters=courts146Matters(c),hearings=courts146Hearings(c);
  var practice=courts146PracticeList('folder','Мои дела в этом суде',matters.map(function(m){return courts146Button('courts146-matter',m.id,'doc',m.title||m.number||'Дело',m.archived?'Архив':(m.number||''));}))+courts146PracticeList('calendar','Предстоящие заседания',hearings.map(function(t){return courts146Button('courts146-hearing',t.id,'calendar',t.hearingTopic||t.title||'Судебное заседание',fmtD(t.due,true)+(t.time?' · '+t.time:''));}))+courts146Button('courts146-new-hearing',route,'plus','Добавить судебное заседание');
  var notes='<div class="courts146-note"><span class="courts147-note-icon">'+courts146Icon('note')+'</span><div><b>Особенности работы суда</b><p>'+esc(p.note||'Пока нет заметок. Добавьте свои рабочие сведения.')+'</p></div></div>';
