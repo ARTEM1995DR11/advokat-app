@@ -492,3 +492,5 @@
 5.0.1297.41.66.154 / build 6594 — contact source paragraph removed from court profiles (data retained); concise unverified schedule indicator; unified full-width right-swipe Back for nested surfaces, protected local gestures and input fields; main tabs and calendar paging retained.
 
 5.0.1297.41.66.155 / build 6595 — main court numbers follow official site contact header; Kineshma 5-78-34, criminal department secondary; Lenin civil building reception, Moscow expedition; secondary personal overrides no longer displace primary contact. Other addresses and user data retained.
+
+5.0.1297.41.66.156 / build 6596 — removed duplicate schedule and electronic filing rows from individual court tools; added distinct official court-specific fee calculator links for all six courts; contact, personal practice and separate GAS filing section unchanged. Judge/acts tools deferred pending concept approval.
