@@ -318,3 +318,68 @@ body:has(#sheet.courts76-home-sheet.open){background:transparent!important;}
 /* Hide only the scroll indicator. Keep access to all cards on small screens. */
 #sheet.courts76-home-sheet{overflow-y:auto!important;scrollbar-width:none!important;-ms-overflow-style:none;}
 #sheet.courts76-home-sheet::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+
+
+/* .139 — Мои суды: approved empty-state mockup, isolated from other routes.
+   The parent judicial-services marble and Themis are reused byte-for-byte. */
+#sheet.courts139-mine-sheet{
+ --mine-decor-width:min(43vw,304px);
+ --mine-top:calc(max(env(safe-area-inset-top,0px),32px) + 9px);
+ background-color:#f4e8d7!important;
+ background-image:url('courts83-decor.webp?v=6550'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-size:var(--mine-decor-width) auto,100% 100%,100% 100%!important;
+ background-position:right calc(-1 * clamp(8px,3.2vw,18px)) top,center top,center top!important;
+ background-repeat:no-repeat!important;background-origin:border-box!important;background-clip:border-box!important;
+ padding:var(--mine-top) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ scrollbar-width:none!important;-ms-overflow-style:none;
+}
+#sheet.courts139-mine-sheet::-webkit-scrollbar{display:none!important}
+html:has(#sheet.courts139-mine-sheet.open){background-color:#eed3b2!important;background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;background-position:center bottom!important;background-size:100% 100%!important;background-repeat:no-repeat!important;min-height:100%!important}
+body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
+#sheet.courts139-mine-sheet .courts73-page[data-route="mine"]{padding:0 clamp(13px,4.1vw,27px) 24px;max-width:690px;box-sizing:border-box}
+#sheet.courts139-mine-sheet .courts73-page[data-route="mine"] .settings60-head{
+ display:grid;grid-template-columns:clamp(36px,9.6vw,49px) clamp(42px,12.4vw,64px) minmax(0,1fr);gap:clamp(7px,2.2vw,12px);align-items:center;
+ margin:clamp(18px,calc(var(--mine-decor-width) * .45 - 41px),65px) 0 clamp(18px,5.1vw,32px);min-height:clamp(55px,14vw,75px);width:100%;
+}
+#sheet.courts139-mine-sheet .settings60-back{
+ box-sizing:border-box;width:100%;height:auto;aspect-ratio:1;border-radius:clamp(10px,2.8vw,15px);padding:0;
+ border:1px solid #ba8740;background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
+ box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65294a;color:#94611d;position:relative;
+}
+#sheet.courts139-mine-sheet .settings60-back::after{content:'';position:absolute;inset:-5px}
+#sheet.courts139-mine-sheet .settings60-back svg,#sheet.courts139-mine-sheet .settings60-back svg path{stroke-width:2.4!important}
+#sheet.courts139-mine-sheet .settings60-head-icon{
+ width:100%;height:auto;aspect-ratio:1;border-radius:clamp(11px,3.4vw,17px);box-sizing:border-box;
+ background:linear-gradient(145deg,#fffdf8,#fbefd8);border:1px solid #dfbc82;
+ box-shadow:inset 0 0 0 1px #fffdf6,0 3px 6px #90602435;
+}
+#sheet.courts139-mine-sheet .settings60-head-icon img{width:94%;height:94%;object-fit:contain}
+#sheet.courts139-mine-sheet .settings60-head-copy{border-left:1px solid #a97630;padding-left:clamp(7px,2vw,11px);min-width:0}
+#sheet.courts139-mine-sheet .settings60-overline{font:700 clamp(10px,2.65vw,16px)/1.18 Georgia,'Times New Roman',serif!important;letter-spacing:.018em;color:#855315}
+#sheet.courts139-mine-sheet .settings60-head-copy h2{font:700 clamp(21px,5.7vw,33px)/1.08 Georgia,'Times New Roman',serif!important;color:#0c1735!important;margin:4px 0 5px!important;letter-spacing:-.018em;overflow-wrap:normal}
+#sheet.courts139-mine-sheet .settings60-head-copy p{font:500 clamp(11px,3.02vw,16px)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#251c18;margin:0!important}
+#sheet.courts139-mine-sheet .settings60-note{
+ box-sizing:border-box;display:grid;grid-template-columns:clamp(33px,9.5vw,48px) minmax(0,1fr);align-items:start;gap:0;
+ padding:clamp(14px,3.65vw,22px) clamp(13px,3.8vw,23px);margin:0;
+ border:1px solid transparent;border-radius:clamp(14px,3.8vw,21px);
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,linear-gradient(180deg,#cba773 0%,#e8d3ac 28%,#e0c18d 73%,#c49d66 100%) border-box;
+ box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54;
+}
+#sheet.courts139-mine-sheet .settings60-note>svg{width:clamp(22px,5.9vw,32px);height:clamp(22px,5.9vw,32px);color:#b47c24;stroke:#b47c24;filter:drop-shadow(0 1px 1px #80501b40);margin:1px 0 0 2px}
+#sheet.courts139-mine-sheet .settings60-note p{border-left:1px solid #b58a50;padding:0 0 0 clamp(10px,2.9vw,17px);margin:0;font:400 clamp(12px,3.25vw,17px)/1.46 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#303c4e;overflow-wrap:break-word}
+#sheet.courts139-mine-sheet .courts73-page[data-route="mine"] .courts73-empty{padding:0 clamp(12px,4vw,25px);margin:clamp(24px,7.6vw,44px) 0 clamp(24px,6.7vw,40px);font:400 clamp(12px,3.3vw,17px)/1.43 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#45526b;text-align:center}
+#sheet.courts139-mine-sheet .settings60-gold-action{
+ box-sizing:border-box;width:100%;min-height:clamp(50px,13vw,68px);padding:10px 14px;margin:0 0 5px;
+ border:1px solid #b27a26;border-radius:clamp(13px,3.8vw,20px);
+ background:radial-gradient(ellipse at 24% 0%,#fff3bd80,transparent 65%),linear-gradient(110deg,#f9da8d 0%,#eac06a 48%,#ce9637 100%);
+ box-shadow:inset 0 0 0 1px #fdf0c4,inset 0 2px 2px #fff3cb80,inset 0 -2px 2px #d19a35,0 4px 0 #966016,0 8px 12px #84542430;
+ font:700 clamp(18px,4.65vw,25px)/1.15 Georgia,'Times New Roman',serif!important;color:#211305;text-shadow:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+#sheet.courts139-mine-sheet .settings60-gold-action:active{transform:translateY(2px);box-shadow:inset 0 0 0 1px #fdf0c4,0 2px 0 #966016,0 4px 7px #84542430}
+#sheet.courts139-mine-sheet .settings60-gold-action:focus-visible,#sheet.courts139-mine-sheet .settings60-back:focus-visible{outline:2px solid #8f601c;outline-offset:3px}
+/* The saved state keeps the existing list and actions, with the same card shell. */
+#sheet.courts139-mine-sheet .courts73-group{margin:20px 0 17px}
+#sheet.courts139-mine-sheet .settings60-card{border-radius:15px;background:linear-gradient(155deg,#fffcf7,#fdf6eb 48%,#f5e6cf);box-shadow:inset 0 0 0 1px #fffdf8,0 4px 8px -3px #86545e54}
+#sheet.courts139-mine-sheet .settings60-line-copy small{font-weight:500!important;color:#251c18}
+@media(max-width:370px){#sheet.courts139-mine-sheet .settings60-head-copy p{font-size:clamp(10px,2.94vw,11px)!important}#sheet.courts139-mine-sheet .settings60-overline{font-size:clamp(9px,2.7vw,10px)!important}}
