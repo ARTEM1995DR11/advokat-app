@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.140';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6580';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.141';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6581';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5019,14 +5019,33 @@ function courts76Home(){
  courts93FitLines();
  if(document.fonts && document.fonts.ready)document.fonts.ready.then(courts93FitLines);
 }
+/* .141 — saved courts layout. Uses the existing demonstration directory, not invented contact data. */
+function courts141Note(text){return '<div class="settings60-note" role="note"><svg class="ico s courts140-info" viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="courts140InfoGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0b3"/><stop offset=".28" stop-color="#e4b956"/><stop offset=".58" stop-color="#b97d23"/><stop offset="1" stop-color="#835014"/></linearGradient><linearGradient id="courts140InfoLight" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f8e8c6"/></linearGradient></defs><circle cx="16" cy="16" r="13" fill="url(#courts140InfoLight)" stroke="#8d5e1b" stroke-width="1"/><circle cx="16" cy="16" r="11.9" stroke="url(#courts140InfoGold)" stroke-width="2.4"/><path d="M7.8 10.2a10 10 0 0 1 12.2-3.6" stroke="#fff4cc" stroke-width=".85" stroke-linecap="round"/><circle cx="16" cy="10.6" r="1.55" fill="url(#courts140InfoGold)" stroke="#98651c" stroke-width=".45"/><path d="M16 15v7" stroke="#8c5916" stroke-width="3.3" stroke-linecap="round"/><path d="M15.6 14.9v6.8" stroke="#deb45d" stroke-width="1.3" stroke-linecap="round"/></svg><p>'+esc(text)+'</p></div>';}
+function courts141Symbol(name){
+ var paths={bookmark:'<path d="M6 3h12a1 1 0 0 1 1 1v18l-7-5-7 5V4a1 1 0 0 1 1-1Z" fill="currentColor" stroke-width=".7"/>',site:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M6 6.5h.5m3 0h.5"/>',map:'<path d="m6 13-3 7 6-2 6 2 6-2-3-5M16 8c0 3-4 7-4 7S8 11 8 8a4 4 0 0 1 8 0Z"/><circle cx="12" cy="8" r="1.2"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/>'};
+ return '<svg class="courts141-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[name]||'')+'</svg>';
+}
+function courts141Saved(){return COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});}
+function courts141Cards(q){
+ q=String(q||'').trim().toLocaleLowerCase('ru').replace(/ё/g,'е');
+ var cards=courts141Saved().filter(function(c){return (c[1]+' '+c[2]).toLocaleLowerCase('ru').replace(/ё/g,'е').includes(q);});
+ return cards.map(function(c){
+  var route='court:'+c[0]+'|mine', map='https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]);
+  function action(url,icon,label,description){return '<a class="courts73-row courts141-action" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(description+' — '+c[1])+'" title="'+esc(description)+'">'+icon+'<span>'+esc(label)+'</span></a>';}
+  return '<article class="courts141-card"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts141-actions">'+action(c[3],ico('phone','s'),'Контакты','Телефон и контакты на официальном сайте')+action(c[3],courts141Symbol('site'),'Сайт','Официальный сайт')+action(map,courts141Symbol('map'),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
+ }).join('')||'<p class="courts141-no-results">Суды не найдены. Измените запрос.</p>';
+}
+function courts141Filled(saved){
+ return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts141Symbol('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды пока сохраняются временно. Контакты, адреса и расписание доступны на официальных сайтах.')+'</div>';
+}
 function courts73Open(route){
  if(route==='home'){
    courts76Home();return;
  }
  if(route==='mine'){
    var saved=COURTS73_DEMO.filter(function(c){return COURTS73_SAVED.indexOf(c[0])>=0;});
-   var content='<div class="settings60-note" role="note"><svg class="ico s courts140-info" viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="courts140InfoGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0b3"/><stop offset=".28" stop-color="#e4b956"/><stop offset=".58" stop-color="#b97d23"/><stop offset="1" stop-color="#835014"/></linearGradient><linearGradient id="courts140InfoLight" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f8e8c6"/></linearGradient></defs><circle cx="16" cy="16" r="13" fill="url(#courts140InfoLight)" stroke="#8d5e1b" stroke-width="1"/><circle cx="16" cy="16" r="11.9" stroke="url(#courts140InfoGold)" stroke-width="2.4"/><path d="M7.8 10.2a10 10 0 0 1 12.2-3.6" stroke="#fff4cc" stroke-width=".85" stroke-linecap="round"/><circle cx="16" cy="10.6" r="1.55" fill="url(#courts140InfoGold)" stroke="#98651c" stroke-width=".45"/><path d="M16 15v7" stroke="#8c5916" stroke-width="3.3" stroke-linecap="round"/><path d="M15.6 14.9v6.8" stroke="#deb45d" stroke-width="1.3" stroke-linecap="round"/></svg><p>Это демонстрационный справочник. Выбранные суды сохраняются временно, чтобы проверить логику и внешний вид раздела.</p></div>'+
-      (saved.length?courts73Section('Сохранённые суды',saved.map(function(c){return ['court:'+c[0]+'|mine',c[1],c[2],'court'];})):'<div class="courts73-empty">Пока нет сохранённых судов. Добавьте суд из тестового справочника.</div>')+
+   var content=saved.length?courts141Filled(saved):courts141Note('Это демонстрационный справочник. Выбранные суды сохраняются временно, чтобы проверить логику и внешний вид раздела.')+
+      '<div class="courts73-empty">Пока нет сохранённых судов. Добавьте суд из тестового справочника.</div>'+ 
       '<button type="button" class="settings60-gold-action" data-act="courts73-route" data-v="catalog">Добавить суд</button>';
    courts73Page(route,'Мои суды','Часто используемые суды',content,'home');return;
  }
@@ -5045,6 +5064,7 @@ function courts73Open(route){
 }
 function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
 function courts73Toggle(route){var id=route.slice(6).split('|')[0];if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return;var i=COURTS73_SAVED.indexOf(id);if(i<0)COURTS73_SAVED.push(id);else COURTS73_SAVED.splice(i,1);courts73Open(route);toast(i<0?'Суд добавлен в тестовый список':'Суд убран из тестового списка');}
+document.addEventListener('input',function(e){if(e.target.id==='courts141-search'){var cards=$('#courts141-cards');if(cards)cards.innerHTML=courts141Cards(e.target.value);}});
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
 
 /* v6526: a judicial external-link excursion is not an ordinary PWA launch.

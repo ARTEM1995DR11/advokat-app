@@ -409,3 +409,41 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
  transform:translateY(2px);
  box-shadow:inset 0 0 0 1px #fff0c6,inset 0 -2px 3px #a26b2440,0 1px 0 #eac87a,0 3px 0 #925a16,0 5px 7px #84542430;
 }
+
+/* .141 — saved state only, based on approved My Courts mockup. */
+#sheet.courts139-mine-sheet .courts141-saved{--saved-gold:#a46c22;--saved-navy:#0c1735;--saved-gap:clamp(8px,2.6vw,15px);display:grid;gap:clamp(13px,3.7vw,22px);min-width:0}
+#sheet.courts139-mine-sheet .courts141-search,#sheet.courts139-mine-sheet .courts141-card{
+ box-sizing:border-box;border:1px solid transparent;border-radius:clamp(14px,3.8vw,21px);
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,linear-gradient(180deg,#cba773,#e8d3ac 28%,#e0c18d 73%,#c49d66) border-box;
+ box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54;
+}
+#sheet.courts139-mine-sheet .courts141-search{display:flex;align-items:center;gap:10px;padding:0 clamp(12px,3.6vw,21px);min-height:clamp(44px,11.7vw,62px);color:#a46c22;margin:0}
+#sheet.courts139-mine-sheet .courts141-search>svg{width:clamp(22px,6vw,30px);height:clamp(22px,6vw,30px);flex:none;stroke-width:2.25;filter:drop-shadow(0 1px 0 #fff4d6)}
+#sheet.courts139-mine-sheet .courts141-search input{appearance:none;-webkit-appearance:none;box-shadow:none;background:transparent;border:0;border-radius:0;flex:1;min-width:0;width:100%;height:44px;padding:4px 0;color:#303c4e;font:400 16px/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;outline:none}
+#sheet.courts139-mine-sheet .courts141-search input::placeholder{font-size:clamp(11px,3.2vw,16px);color:#50596d;opacity:1}
+#sheet.courts139-mine-sheet .courts141-search:focus-within{outline:2px solid #ac772c;outline-offset:2px}
+#sheet.courts139-mine-sheet .courts141-list{min-width:0;margin:0}
+#sheet.courts139-mine-sheet .courts141-grouphead{display:flex;align-items:center;gap:clamp(5px,2vw,11px);margin:0 3px clamp(9px,2.6vw,15px);color:#855315;min-width:0}
+#sheet.courts139-mine-sheet .courts141-grouphead>svg{width:clamp(19px,5.8vw,30px);height:clamp(19px,5.8vw,30px);flex:none;color:#b4802c;filter:drop-shadow(0 1px 0 #8d5917)}
+#sheet.courts139-mine-sheet .courts141-grouphead h3{font:700 clamp(11px,3.25vw,19px)/1.13 Georgia,'Times New Roman',serif!important;margin:0!important;letter-spacing:0;color:#855315;white-space:normal}
+#sheet.courts139-mine-sheet .courts141-grouphead i{flex:1;min-width:7px;height:1px;background:linear-gradient(90deg,#a46a21,#d5a867)}
+#sheet.courts139-mine-sheet .courts141-count{display:grid;place-items:center;box-sizing:border-box;min-width:34px;min-height:23px;padding:2px 8px;border:1px solid #a56b20;border-radius:999px;color:#fffaf0;background:linear-gradient(160deg,#e1b768,#ad7524 65%,#88530d);box-shadow:inset 0 1px 0 #fff1cf;font:700 15px/1.15 -apple-system,BlinkMacSystemFont,Arial,sans-serif;flex:none}
+#sheet.courts139-mine-sheet .courts141-cards{display:grid;gap:var(--saved-gap);min-width:0}
+#sheet.courts139-mine-sheet .courts141-card{padding:clamp(9px,3vw,17px);min-width:0;--saved-icon:clamp(43px,13.3vw,80px);--saved-arrow:clamp(29px,8vw,43px);--saved-card-gap:clamp(8px,3vw,17px)}
+#sheet.courts139-mine-sheet .courts141-card-open{display:grid;grid-template-columns:var(--saved-icon) minmax(0,1fr) var(--saved-arrow);align-items:center;gap:var(--saved-card-gap);width:100%;min-width:0;border:0;background:transparent;padding:0;text-align:left;color:var(--saved-navy);box-shadow:none;cursor:pointer;min-height:44px;touch-action:manipulation}
+#sheet.courts139-mine-sheet .courts141-art{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;align-self:start;filter:drop-shadow(0 2px 2px #a16e3438)}
+#sheet.courts139-mine-sheet .courts141-copy{min-width:0;display:grid;gap:6px}
+#sheet.courts139-mine-sheet .courts141-copy strong{font:700 clamp(15px,4.25vw,26px)/1.12 Georgia,'Times New Roman',serif!important;letter-spacing:-.01em;overflow-wrap:anywhere;color:var(--saved-navy);margin:0}
+#sheet.courts139-mine-sheet .courts141-place{display:flex;align-items:flex-start;gap:5px;color:#251c18;font:400 clamp(11px,3.05vw,16px)/1.32 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;overflow-wrap:anywhere}
+#sheet.courts139-mine-sheet .courts141-place svg{width:clamp(15px,4.4vw,23px);height:clamp(15px,4.4vw,23px);color:#a46c22;flex:none;stroke-width:2.1;filter:drop-shadow(0 1px 0 #fff2d5)}
+#sheet.courts139-mine-sheet .courts141-arrow{display:grid;place-items:center;width:var(--saved-arrow);height:var(--saved-arrow);border-radius:50%;border:1px solid #a56b20;background:linear-gradient(165deg,#d1a35f,#bc8a42 25%,#a56e1e 52%,#9b6310 82%,#90580d);box-shadow:inset 0 1px 1px #fff1cf,inset 0 0 0 1px #f4d29766,0 2px 4px #8a5b2c50;color:#fff9ee;box-sizing:border-box}
+#sheet.courts139-mine-sheet .courts141-arrow svg{width:68%;height:68%;stroke-width:2.4;filter:drop-shadow(0 1px 0 #805315)}
+#sheet.courts139-mine-sheet .courts141-actions{margin:8px 0 0 calc(var(--saved-icon) + var(--saved-card-gap));border-top:1px solid #d7b98c;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;min-width:0;padding-top:3px}
+#sheet.courts139-mine-sheet .courts141-actions .courts141-action{display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;min-height:44px;margin:0;padding:4px 2px;border:0;box-shadow:none;background:none;color:#251c18;text-decoration:none;font:500 clamp(10px,2.55vw,14px)/1.15 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;position:relative;white-space:nowrap}
+#sheet.courts139-mine-sheet .courts141-action:not(:last-child)::after{content:'';position:absolute;right:0;top:9px;bottom:9px;width:1px;background:#dcc29c}
+#sheet.courts139-mine-sheet .courts141-action svg{width:clamp(15px,4.1vw,23px);height:clamp(15px,4.1vw,23px);flex:none;color:#a46c22;stroke-width:1.9;filter:drop-shadow(0 1px 0 #fff0cd)}
+#sheet.courts139-mine-sheet .courts141-add{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0 5px}
+#sheet.courts139-mine-sheet .courts141-add>svg{height:clamp(23px,6.7vw,33px);width:clamp(23px,6.7vw,33px);color:#865315;stroke-width:2.2;filter:drop-shadow(0 1px 0 #fff1bd)}
+#sheet.courts139-mine-sheet .courts141-no-results{margin:0;text-align:center;padding:16px 8px;color:#303c4e;font:400 14px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet.courts139-mine-sheet .courts141-card-open:focus-visible,#sheet.courts139-mine-sheet .courts141-action:focus-visible{outline:2px solid #ac772c;outline-offset:1px;border-radius:6px}
+@media(max-width:370px){#sheet.courts139-mine-sheet .courts141-actions{margin-left:0}#sheet.courts139-mine-sheet .courts141-actions .courts141-action{font-size:11px!important}}
