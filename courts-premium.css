@@ -587,3 +587,10 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 
 /* .147 — consistent value column whether or not a row has an action. */
 @media(min-width:371px){#sheet.courts146-detail-sheet .courts146-contact-copy{grid-template-columns:clamp(70px,25vw,120px) minmax(0,1fr)}}
+
+/* .148 — separate contact navigation, fixed favorite-button surface, discreet local corrections. */
+#sheet.courts146-detail-sheet .courts146-star.is-saved,
+#sheet.courts146-detail-sheet .courts146-star:not(.is-saved){background:linear-gradient(155deg,#fffdf5,#f4e6ce);border-color:#d2b487;box-shadow:inset 0 1px 0 #fffdf7,0 2px 4px #8a5b2c35;color:#9b6827}
+#sheet.courts73-sheet.courts146-detail-sheet .courts148-no-phone:disabled{opacity:.68;cursor:default;color:#706052;background:linear-gradient(155deg,#fffaf0,#f4e6ce);box-shadow:inset 0 1px 0 #fffdf7}
+#sheet.courts146-detail-sheet .courts148-contact-edit{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;width:max-content;max-width:100%;margin:5px auto 0;padding:4px 9px;border:0;background:transparent;box-shadow:none;color:#895a22;font:500 clamp(11px,3vw,15px)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;touch-action:manipulation}
+#sheet.courts146-detail-sheet .courts148-contact-edit svg{width:17px;height:17px;flex:none}
