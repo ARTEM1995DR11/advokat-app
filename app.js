@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.143';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6583';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'5.0.1297.41.66.145';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6585';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5053,12 +5053,74 @@ function courts141Cards(q){
  return cards.map(function(c){
   var route='court:'+c[0]+'|mine', map='https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]);
   function action(url,icon,label,description){return '<a class="courts73-row courts141-action" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(description+' — '+c[1])+'" title="'+esc(description)+'">'+icon+'<span>'+esc(label)+'</span></a>';}
-  return '<article class="courts141-card"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts141-actions">'+action(c[3],courts142Gold('phone',c[0]),'Контакты','Телефон и контакты на официальном сайте')+action(c[3],courts142Gold('site',c[0]),'Сайт','Официальный сайт')+action(map,courts142Gold('map',c[0]),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
+  return '<article class="courts141-card" data-court-id="'+esc(c[0])+'"><div class="courts145-head"><button type="button" class="courts141-card-open" data-act="courts73-route" data-v="'+esc(route)+'" aria-label="'+esc('Открыть карточку: '+c[1])+'"><img class="courts141-art" src="courts76-general.webp?v='+APP_BUILD+'" alt=""><span class="courts141-copy"><strong>'+esc(c[1])+'</strong><span class="courts141-place">'+ico('pin','s')+'<span>'+esc(c[2])+'</span></span></span><span class="courts141-arrow">'+ico('chev','s')+'</span></button><div class="courts144-delete-row"><button type="button" class="courts144-delete" data-act="courts144-remove" data-v="'+esc(c[0])+'" aria-label="'+esc('Удалить из избранного: '+c[1])+'" title="Удалить из избранного"><span class="courts145-trash-disc">'+courts144Trash()+'</span></button></div></div><div class="courts141-actions">'+action(c[3],courts142Gold('phone',c[0]),'Контакты','Телефон и контакты на официальном сайте')+action(c[3],courts142Gold('site',c[0]),'Сайт','Официальный сайт')+action(map,courts142Gold('map',c[0]),'Маршрут','Найти суд на карте по названию и региону')+'</div></article>';
  }).join('')||'<p class="courts141-no-results">Суды не найдены. Измените запрос.</p>';
 }
 function courts141Filled(saved){
- return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды сохраняются на устройстве. Контакты, адреса и расписание доступны на официальных сайтах.')+'</div>';
+ return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><button type="button" class="courts144-edit" data-act="courts144-edit" aria-pressed="false" aria-label="Изменить список судов" title="Изменить список судов">'+courts145EditIcon(false)+'</button><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды сохраняются на устройстве. Контакты, адреса и расписание доступны на официальных сайтах.')+'</div>';
 }
+/* .144 — remove favorites from the list without entering a court. */
+function courts144Trash(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></svg>';}
+function courts145EditIcon(editing){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(editing?'<path d="m5 12 4 4L19 6"/>':'<path d="m14.5 5.5 4 4M4 20l4.5-1L20 7.5a2.8 2.8 0 0 0-4-4L4.5 15Z"/>')+'</svg>';}
+function courts144Page(){return $('#sheet.open .courts73-page[data-route="mine"]');}
+function courts144CloseReveals(page){if(page)page.querySelectorAll('.courts144-revealed').forEach(function(card){card.classList.remove('courts144-revealed');});}
+function courts144Edit(){
+ var page=courts144Page(),list=page&&page.querySelector('.courts141-saved');
+ if(!list||COURTS143_PENDING)return;
+ courts144CloseReveals(page);
+ var editing=list.classList.toggle('courts144-editing'),button=page.querySelector('.courts144-edit');
+ button.innerHTML=courts145EditIcon(editing);button.setAttribute('aria-pressed',String(editing));button.setAttribute('aria-label',editing?'Завершить редактирование':'Изменить список судов');button.title=editing?'Готово':'Изменить список судов';
+}
+function courts144RefreshMine(page){
+ if(!page||page!==courts144Page())return;
+ var saved=courts141Saved();
+ if(!saved.length){courts73Open('mine');return;}
+ var input=page.querySelector('#courts141-search'),cards=page.querySelector('#courts141-cards'),count=page.querySelector('.courts141-count'),sh=$('#sheet'),offset=sh.scrollTop;
+ if(!cards||!count){courts73Open('mine');return;}
+ cards.innerHTML=courts141Cards(input?input.value:'');count.textContent=String(saved.length);count.setAttribute('aria-label','Всего сохранённых судов: '+saved.length);sh.scrollTop=offset;
+}
+async function courts144Remove(id){
+ var page=courts144Page();if(!page||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING||COURTS143_PENDING||!courts73HasSaved(id))return false;
+ // The explicit button is the only removal action; a swipe only reveals it.
+ var buttons=page.querySelectorAll('.courts144-delete,.courts144-edit'),input=page.querySelector('#courts141-search');
+ buttons.forEach(function(b){b.disabled=true;});
+ if(input)input.readOnly=true;
+ try{return await courts73Toggle('court:'+id+'|mine',true);}
+ finally{buttons.forEach(function(b){if(b.isConnected)b.disabled=false;});if(input&&input.isConnected)input.readOnly=false;}
+}
+var COURTS144_TOUCH=null;
+function courts144TouchStart(e){
+ COURTS144_TOUCH=null;
+ if(!unlocked||COURTS143_PENDING||!e.touches||e.touches.length!==1||!e.target.closest)return;
+ var card=e.target.closest('#sheet.courts139-mine-sheet .courts141-card'),page=courts144Page();
+ if(!card||!page||!page.contains(card)||e.target.closest('.courts144-delete-row,.courts144-edit')||card.closest('.courts144-editing'))return;
+ var t=e.touches[0];if(t.clientX<=44)return; // preserve the system/back edge gesture
+ COURTS144_TOUCH={card:card,page:page,x:t.clientX,y:t.clientY,horizontal:false,revealed:card.classList.contains('courts144-revealed')};
+}
+function courts144TouchMove(e){
+ var g=COURTS144_TOUCH;if(!g)return;
+ if(!e.touches||e.touches.length!==1){COURTS144_TOUCH=null;return;}
+ var t=e.touches[0],dx=t.clientX-g.x,dy=t.clientY-g.y;
+ if(!g.horizontal){
+  if(Math.abs(dy)>13&&Math.abs(dy)>Math.abs(dx)*1.05){COURTS144_TOUCH=null;return;}
+  if((dx<-14||g.revealed&&dx>14)&&Math.abs(dx)>Math.abs(dy)*1.3)g.horizontal=true;
+  else if(dx>14&&!g.revealed){COURTS144_TOUCH=null;return;}
+ }
+ if(g.horizontal&&e.cancelable)e.preventDefault();
+}
+function courts144TouchEnd(e){
+ var g=COURTS144_TOUCH;COURTS144_TOUCH=null;
+ if(!g||!g.horizontal||!e.changedTouches||e.changedTouches.length!==1||!g.card.isConnected||g.page!==courts144Page())return;
+ var t=e.changedTouches[0],dx=t.clientX-g.x,dy=t.clientY-g.y;
+ if(Math.abs(dx)<44||Math.abs(dx)<Math.abs(dy)*1.35||Math.abs(dy)>70)return;
+ if(dx<0){courts144CloseReveals(g.page);g.card.classList.add('courts144-revealed');}
+ else if(g.revealed)g.card.classList.remove('courts144-revealed');else return;
+ SWIPE_CLICK_BLOCK_UNTIL=Date.now()+320;
+}
+document.addEventListener('touchstart',courts144TouchStart,{passive:true,capture:true});
+document.addEventListener('touchmove',courts144TouchMove,{passive:false,capture:true});
+document.addEventListener('touchend',courts144TouchEnd,{passive:true,capture:true});
+document.addEventListener('touchcancel',function(){COURTS144_TOUCH=null;},{passive:true,capture:true});
 function courts73Open(route){
  if(route==='home'){
    courts76Home();return;
@@ -5084,11 +5146,12 @@ function courts73Open(route){
  if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
 }
 function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent;if(parent)courts73Open(parent);else closeSheet();return true;}
-async function courts73Toggle(route){
+async function courts73Toggle(route,removeOnly){
  if(COURTS143_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;
  var id=String(route||'').slice(6).split('|')[0];
  if(!COURTS73_DEMO.some(function(c){return c[0]===id;}))return false;
  var state=S,key=SESSION_KEY,before=S.savedCourts.slice(),adding=!courts73HasSaved(id);
+ if(removeOnly&&adding)return false;
  var next=adding?before.concat(id):before.filter(function(x){return x!==id;});
  var page=$('#sheet .courts73-page'),button=page&&page.querySelector('[data-act="courts73-toggle"]');
  COURTS143_PENDING=true;
@@ -5106,9 +5169,10 @@ async function courts73Toggle(route){
      if(unlocked&&S===state&&SESSION_KEY===key)toast('Не удалось сохранить изменение. Повторите действие.');
      return false;
    }
-   if(page&&$('#sheet .courts73-page')===page&&page.dataset.route===route) courts73Open(route);
+   if(removeOnly&&page&&page===courts144Page()) courts144RefreshMine(page);
+   else if(page&&$('#sheet .courts73-page')===page&&page.dataset.route===route) courts73Open(route);
    else {
-     var current=$('#sheet .courts73-page');
+     var current=$('#sheet.open .courts73-page');
      if(current&&['mine','catalog','catalog-general'].indexOf(current.dataset.route)>=0) courts73Open(current.dataset.route);
    }
    toast(adding?'Суд сохранён в «Мои суды»':'Суд удалён из «Мои суды»');return true;
@@ -5117,7 +5181,7 @@ async function courts73Toggle(route){
    if(button&&button.isConnected){button.disabled=false;button.removeAttribute('aria-busy');}
  }
 }
-document.addEventListener('input',function(e){if(e.target.id==='courts141-search'){var cards=$('#courts141-cards');if(cards)cards.innerHTML=courts141Cards(e.target.value);}});
+document.addEventListener('input',function(e){if(e.target.id==='courts141-search'&&!COURTS143_PENDING){var cards=$('#courts141-cards');if(cards)cards.innerHTML=courts141Cards(e.target.value);}});
 document.addEventListener('input',function(e){if(e.target.id==='courts73-search'){var list=$('#courts73-catalog');if(list)list.innerHTML=courts73CatalogRows(e.target.value,$('#sheet .courts73-page').dataset.route);}});
 
 /* v6526: a judicial external-link excursion is not an ordinary PWA launch.
@@ -10038,6 +10102,8 @@ document.addEventListener('click', function(ev){
     case 'courts73-route': courts73Open(v); break;
     case 'courts73-back': appBack(); break;
     case 'courts73-toggle': courts73Toggle(v); break;
+    case 'courts144-edit': courts144Edit(); break;
+    case 'courts144-remove': courts144Remove(v); break;
     case 'more50-settings': sheetMoreService(); break;
     case 'settings57-back': appBack(); break;
     case 'settings60-back': appBack(); break;
@@ -10709,6 +10775,7 @@ document.addEventListener('touchstart',function(e){
   if(document.getElementById('settings67-dialog')) return;
   if(!unlocked || !e.touches || e.touches.length!==1) return;
   var t=e.touches[0],sh=$('#sheet');
+  if(t.clientX>44&&e.target.closest&&e.target.closest('#sheet.courts139-mine-sheet .courts144-revealed'))return;
   // 6489: «Дела» category lists are ordinary main-screen routes, not overlays.
   // Their full-width right swipe is handled by PAGE_SWIPE below. Keeping the
   // category here would let BOTH listeners react to one edge gesture, causing

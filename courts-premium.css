@@ -474,3 +474,19 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
  filter:drop-shadow(0 1px 0 #fff0c5) drop-shadow(0 1px 1px #8f5b243c);
 }
 @media(max-width:370px){#sheet.courts73-sheet.courts139-mine-sheet .courts141-saved .courts141-actions .courts141-action{gap:5px}}
+
+/* .145 — compact edit and delete controls without changing card height. */
+#sheet.courts139-mine-sheet .courts141-grouphead .courts144-edit{display:inline-grid;place-items:center;flex:none;box-sizing:border-box;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;margin:0 -5px;border:0;background:none;box-shadow:none;color:#a46c22;cursor:pointer;touch-action:manipulation}
+#sheet.courts139-mine-sheet .courts144-edit svg{width:19px;height:19px;filter:drop-shadow(0 1px 0 #fff2d5)}
+#sheet.courts139-mine-sheet .courts144-edit[aria-pressed="true"]{color:#855315}
+#sheet.courts139-mine-sheet .courts141-card{touch-action:pan-y}
+#sheet.courts139-mine-sheet .courts145-head{position:relative;min-width:0}
+#sheet.courts139-mine-sheet .courts144-delete-row{display:none;position:absolute;top:50%;right:calc((var(--saved-arrow) - 44px)/2);transform:translateY(-50%);width:44px;height:44px;z-index:1}
+#sheet.courts139-mine-sheet .courts144-revealed .courts144-delete-row,#sheet.courts139-mine-sheet .courts144-editing .courts144-delete-row{display:block}
+#sheet.courts139-mine-sheet .courts144-revealed .courts141-arrow,#sheet.courts139-mine-sheet .courts144-editing .courts141-arrow{visibility:hidden}
+#sheet.courts139-mine-sheet .courts145-head .courts144-delete{display:grid;place-items:center;box-sizing:border-box;width:44px;height:44px;min-height:44px;min-width:44px;padding:0;margin:0;border:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:manipulation}
+#sheet.courts139-mine-sheet .courts145-trash-disc{display:grid;place-items:center;box-sizing:border-box;width:var(--saved-arrow);height:var(--saved-arrow);border-radius:50%;border:1px solid #b58a6c;background:linear-gradient(155deg,#fff9ee,#f2dfcf);box-shadow:inset 0 1px 0 #fffdf6,0 2px 4px #8a5b2c35;color:#9c4d3d}
+#sheet.courts139-mine-sheet .courts144-delete svg{width:59%;height:59%;flex:none}
+#sheet.courts139-mine-sheet .courts144-delete:disabled,#sheet.courts139-mine-sheet .courts144-edit:disabled{opacity:.55;cursor:wait}
+#sheet.courts139-mine-sheet .courts144-delete:focus-visible,#sheet.courts139-mine-sheet .courts144-edit:focus-visible{outline:2px solid #ac772c;outline-offset:2px;border-radius:10px}
+@media(max-width:370px){#sheet.courts139-mine-sheet .courts141-grouphead{gap:5px}}
