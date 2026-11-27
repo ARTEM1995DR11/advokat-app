@@ -5520,15 +5520,27 @@ var COURTS620_SOURCES={revision:{name:'Закон Ивановской обла�
 function courts620Norm(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[‐‑–—]/g,'-').replace(/[.,]/g,' ').replace(/\s+/g,' ').trim();}
 function courts620City(v){return courts620Norm(v).replace(/^(?:г(?:ород)?|п(?:оселок)?|с(?:ело)?|д(?:еревня)?)\s+/,'');}
 function courts620Street(v){var n=courts620Norm(v),k='street';if(/^(?:проспект|пр-?т)\s+/.test(n)){k='avenue';n=n.replace(/^(?:проспект|пр-?т)\s+/,'');}else if(/^(?:пер(?:еулок)?|проезд|пл(?:ощадь)?|наб(?:ережная)?|шоссе|микрорайон|мкр|тупик)\s+/.test(n)){k='other';}else n=n.replace(/^(?:ул(?:ица)?)\s+/,'');return {name:n.replace(/^им\s+/,''),kind:k};}
+/* 6.21 — normalize known address spelling variants, never guess a jurisdiction from fuzzy similarity. */
+function courts621StreetKey(city,street){
+ var n=courts620Street(street);
+ n.name=n.name.replace(/^(\d+)\s*-?\s*летия\s+/, '$1-летия ');
+ if(courts620City(city)==='кинешма'&&n.kind==='street'&&/^50\s*-?\s*(?:лет|летия)\s+комс[оа]мола$/.test(n.name))n.name='50-летия комсомола';
+ return n;
+}
+function courts621House(v){
+ var h=String(v||'').toLocaleLowerCase('ru').replace(/^\s*(?:дом|д\.?)\s*/,'').replace(/\s+/g,'').trim();
+ var letters={a:'а',b:'в',c:'с',e:'е',h:'н',k:'к',m:'м',o:'о',p:'р',t:'т',x:'х',y:'у'};
+ return h.replace(/^(\d+)[-‐‑–—]?([a-zа-я])$/,function(_,num,suffix){return num+(letters[suffix]||suffix);});
+}
 function courts620Lookup(city,street,house,district){
- var c=courts620City(city),st=courts620Street(street),h=String(house||'').toLocaleLowerCase('ru').replace(/^\s*(?:д\.?|дом)\s*/,'').replace(/\s+/g,'').trim(),d=courts620Norm(district);
+ var c=courts620City(city),st=courts621StreetKey(city,street),h=courts621House(house),d=courts620Norm(district);
  if(!c)return {status:'empty',matches:[]};
  var found=[],pending=false;
  COURTS620_RULES.forEach(function(r){
   if(courts620City(r.city)!==c)return;
   if(r.district&&(!d||!d.startsWith(courts620Norm(r.district))))return;
   if(r.kind==='place'){found.push(r);return;}
-  if(st.kind!==r.kind||!st.name||courts620Street(r.street).name!==st.name)return;
+  if(st.kind!==r.kind||!st.name||courts621StreetKey(r.city,r.street).name!==st.name)return;
   if(r.houses||r.exclude||r.min!==undefined){
    if(!h){pending=true;return;}
    if(r.houses&&r.houses.indexOf(h)<0)return;
@@ -5541,11 +5553,11 @@ function courts620Lookup(city,street,house,district){
 }
 function courts620Result(page){
  var result=courts620Lookup(page.querySelector('#courts620-city').value,page.querySelector('#courts620-street').value,page.querySelector('#courts620-house').value,page.querySelector('#courts620-district').value),out=page.querySelector('#courts620-result');
- if(result.status!=='candidate'){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',house:'Для этой улицы необходимо указать номер дома.',unknown:'В локальной базе совпадений нет. Проверьте написание адреса или воспользуйтесь официальными ресурсами ниже.'})[result.status]+'</p>';return;}
- var ids=[],sources=[];result.matches.forEach(function(r){r.ids.forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});if(sources.indexOf(r.source)<0)sources.push(r.source);});
+ if(result.status!=='candidate'){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',house:'Для этой улицы необходимо указать номер дома.',unknown:'Адрес не найден в неполной локальной базе. Это не означает, что адрес не относится к суду. Проверьте название улицы или воспользуйтесь официальными ресурсами ниже.'})[result.status]+'</p>';return;}
+ var matchedStreet=result.matches.find(function(r){return r.kind!=='place'&&r.street;});var ids=[],sources=[];result.matches.forEach(function(r){r.ids.forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});if(sources.indexOf(r.source)<0)sources.push(r.source);});
  var parents=[];ids.forEach(function(id){var m=COURTS612_WORLD[id];if(m&&parents.indexOf(m.parent)<0)parents.push(m.parent);});
  function courtRow(id){var c=COURTS73_DEMO.find(function(x){return x[0]===id;});return c?courts146Button('courts73-route','court:'+id+'|jurisdiction','court',c[1],'Открыть карточку суда'):'';}
- out.innerHTML='<p class="courts620-message"><strong>Предварительное совпадение</strong> · неполная база, сверить перед подачей.</p><div class="courts620-result-head">Мировой судья</div>'+ids.map(courtRow).join('')+'<div class="courts620-result-head">Районный / городской суд</div>'+parents.map(courtRow).join('')+'<div class="courts620-sources">'+sources.map(function(k){var src=COURTS620_SOURCES[k];return '<a href="'+esc(src.url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+esc(src.name)+'</a>';}).join('')+'</div>';
+ out.innerHTML='<p class="courts620-message"><strong>Предварительное совпадение</strong> · неполная база, сверить перед подачей.'+(matchedStreet?' <br>Улица в базе: '+esc(matchedStreet.street)+'.':'')+'</p><div class="courts620-result-head">Мировой судья</div>'+ids.map(courtRow).join('')+'<div class="courts620-result-head">Районный / городской суд</div>'+parents.map(courtRow).join('')+'<div class="courts620-sources">'+sources.map(function(k){var src=COURTS620_SOURCES[k];return '<a href="'+esc(src.url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+esc(src.name)+'</a>';}).join('')+'</div>';
 }
 function courts620Form(){return '<section class="courts146-panel courts620-panel"><div class="courts146-title"><span class="courts146-section-icon">'+courts146Icon('pin')+'</span><h3>Ивановская область</h3></div><div class="courts146-panel-body"><p class="courts620-note">Локальный поиск · база неполная</p><form class="courts620-form"><label>Населённый пункт<input id="courts620-city" placeholder="Например, Кинешма" autocomplete="off" required></label><label>Район (при совпадении названий)<input id="courts620-district" placeholder="Необязательно" autocomplete="off"></label><label>Улица<input id="courts620-street" placeholder="Например, ул. Советская" autocomplete="off"></label><label>Номер дома<input id="courts620-house" placeholder="Например, 12А" autocomplete="off"></label><button class="settings60-gold-action" type="submit">Найти суд</button></form><div id="courts620-result" aria-live="polite"></div></div></section>';}
 function courts619JurisdictionPage(){
