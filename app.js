@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.32';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6633';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.33';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6634';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4978,10 +4978,10 @@ var COURTS73_RESOURCES={
  ],
  practice:[
    ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
-   ['https://www.vsrf.ru/lk/practice/legal-acts','Судебные акты ВС РФ','Электронная справочная','doc'],
-   ['https://www.ksrf.ru/','Конституционный Суд РФ','Решения на официальном сайте','scale'],
+   ['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],
+   ['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и расширенный поиск','scale'],
    ['https://ras.arbitr.ru/','Банк решений арбитражных судов','Поиск судебных актов','search'],
-   ['https://sudrf.ru/','Суды общей юрисдикции','Опубликованные акты на сайтах судов','court']
+   ['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · отдельная поисковая база','court']
  ],
  bailiff:[
    ['https://fssp.gov.ru/iss/ip','Банк исполнительных производств','Поиск на официальном сайте','search'],
@@ -5023,19 +5023,20 @@ function courts632BindPickers(page,f){
 function courts631PracticeUrl(law,words,area,stage){
  var p=new URLSearchParams();law=String(law||'').trim();words=String(words||'').trim();
  if(law)p.set('regular-lawchunkinfo',law);if(words)p.set('regular-txt',words);
- if(area&&COURTS632_AREAS.some(function(r){return r[0]===area;}))p.set('regular-area',area);if(stage&&COURTS632_STAGES.some(function(r){return r[0]===stage;}))p.set('regular-workflow_stage',stage);
+ if(area&&!COURTS632_AREAS.some(function(r){return r[0]===area;}))return '';if(stage&&!COURTS632_STAGES.some(function(r){return r[0]===stage;}))return '';
+ if(area)p.set('regular-area',area);if(stage)p.set('regular-workflow_stage',stage);
  return 'https://sudact.ru/regular/doc/?'+p.toString();
 }
 function courts631PracticePage(){
- var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">Проверяйте применённые фильтры на сайте. Не вводите сведения о доверителях.</p></section>';
- var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения законодательства','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],['https://www.ksrf.ru/','Конституционный Суд РФ','Постановления и определения','scale']];
- var other=[['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search'],['https://sudrf.ru/','Суды общей юрисдикции','Официальные сайты судов','court']];
+ var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · федеральные суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">Поиск на внешнем сайте СудАкт (неофициальный). Сверяйте фильтры и найденные акты. Для кассации регион — место суда, а не исходного дела. Не вводите сведения о доверителях.</p></section>';
+ var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения законодательства','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и расширенный поиск','scale']];
+ var other=[['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search'],['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · отдельная поисковая база','court']];
  courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts73Section('Высшие суды',official)+courts73Section('Другие судебные ресурсы',other),'home');
  var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
  var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
  courts632BindPickers(page,f);
  f.addEventListener('input',function(){error.hidden=true;error.textContent='';});
- f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f),law=String(d.get('law')||'').trim(),words=String(d.get('words')||'').trim();if(!law&&!words){error.textContent='Укажите статью закона или ключевые слова.';error.hidden=false;f.elements.law.focus();return;}var a=document.createElement('a');a.href=courts631PracticeUrl(law,words,d.get('area'),d.get('stage'));a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.click();});
+ f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f),law=String(d.get('law')||'').trim(),words=String(d.get('words')||'').trim();if(!law&&!words){error.textContent='Укажите статью закона или ключевые слова.';error.hidden=false;f.elements.law.focus();return;}var url=courts631PracticeUrl(law,words,d.get('area'),d.get('stage'));if(!url){error.textContent='Недопустимый фильтр. Выберите регион и инстанцию заново.';error.hidden=false;return;}var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.style.display='none';f.appendChild(a);try{a.click();}finally{a.remove();}});
 }
 function courts73Page(route,title,subtitle,content,parent){
  var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-courts-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">СУДЕБНЫЕ СЕРВИСЫ</span><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div></header>';
