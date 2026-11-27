@@ -649,9 +649,23 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts64-searchbox input{flex:1;width:0;min-width:0;border:0;background:none;box-shadow:none;color:#18213a;font:400 16px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;padding:9px 0;margin:0;outline-offset:0}
 #sheet.courts146-detail-sheet .courts64-searchbox input::-webkit-search-cancel-button{display:none}
 #sheet.courts146-detail-sheet .courts64-clear{border:0;background:none;color:#79501e;font-size:24px;box-shadow:none;padding:0;min-width:32px;min-height:44px}
-#sheet.courts146-detail-sheet .courts64-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#sheet.courts146-detail-sheet .courts64-filters label{display:grid;gap:4px;min-width:0;color:#79501e;font-size:12px}
-#sheet.courts146-detail-sheet .courts64-filters select{width:100%;min-width:0;box-sizing:border-box;min-height:44px;border:1px solid #c9a36b;border-radius:10px;padding:6px 7px;color:#18213a;background:#fff9ec;font:400 16px/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet.courts146-detail-sheet .courts64-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:start}
+#sheet.courts146-detail-sheet .courts64-filter{display:grid;gap:4px;min-width:0;color:#79501e;font-size:12px;position:relative}
+#sheet.courts146-detail-sheet .courts64-filter-caption{display:block}
+#sheet.courts146-detail-sheet .courts64-native{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;overflow:hidden!important}
+#sheet.courts146-detail-sheet .courts64-select{position:relative;min-width:0}
+#sheet.courts146-detail-sheet .courts64-select-trigger{width:100%;min-width:0;min-height:44px;border:1px solid #c9a36b;border-radius:10px;padding:10px 12px;background:#fff9ec;color:#18213a;font:400 clamp(12px,3.7vw,16px)/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 1px 0 rgba(255,255,255,.72) inset,0 6px 14px rgba(149,96,29,.08)}
+#sheet.courts146-detail-sheet .courts64-select-trigger:focus-visible{outline:2px solid #a46c22;outline-offset:2px}
+#sheet.courts146-detail-sheet .courts64-select-value{flex:1;min-width:0;text-align:left;white-space:normal;overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts64-select-arrow{flex:none;display:grid;place-items:center;color:#9a6724}
+#sheet.courts146-detail-sheet .courts64-select-arrow svg{width:16px;height:16px;transition:transform .2s ease}
+#sheet.courts146-detail-sheet .courts64-select.is-open .courts64-select-arrow svg{transform:rotate(90deg)}
+#sheet.courts146-detail-sheet .courts64-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:12;padding:8px;background:#fffdf8;border:1px solid rgba(201,163,107,.85);border-radius:18px;box-shadow:0 16px 34px rgba(80,55,23,.16),0 1px 0 rgba(255,255,255,.85) inset;display:grid;gap:2px}
+#sheet.courts146-detail-sheet .courts64-select-option{border:0;background:none;box-shadow:none;padding:12px 12px;min-height:44px;border-radius:14px;display:grid;grid-template-columns:22px minmax(0,1fr);align-items:start;gap:10px;color:#1c2540;font:400 clamp(12px,3.8vw,15px)/1.28 -apple-system,BlinkMacSystemFont,Arial,sans-serif;text-align:left}
+#sheet.courts146-detail-sheet .courts64-select-option .courts64-select-check{width:22px;min-height:20px;display:grid;place-items:center;color:#8d5a17}
+#sheet.courts146-detail-sheet .courts64-select-option .courts64-select-check svg{width:15px;height:15px}
+#sheet.courts146-detail-sheet .courts64-select-option.is-selected{background:linear-gradient(180deg,#fff7e6 0%,#f6ead0 100%);color:#1a2343}
+#sheet.courts146-detail-sheet .courts64-select-option:active{transform:scale(.995)}
 #sheet.courts146-detail-sheet .courts64-results{margin:8px 0 0;padding:0 0 7px;border-bottom:1px solid #e2ceb0;color:#665b50;font-size:12px}
 #sheet.courts146-detail-sheet .courts64-case .courts146-row-copy{display:grid;gap:4px}
 #sheet.courts146-detail-sheet .courts64-case .courts146-row-copy strong{font-weight:600;overflow-wrap:anywhere}
@@ -666,7 +680,6 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts64-other{background:#e6e9ed;color:#4b5b6a}
 #sheet.courts146-detail-sheet .courts64-more{width:100%;margin-top:10px;cursor:pointer}
 #sheet.courts146-detail-sheet .courts64-page [hidden]{display:none!important}
-#sheet.courts146-detail-sheet .courts64-filters select{appearance:auto;-webkit-appearance:menulist;padding-right:5px;font-size:clamp(12px,3.7vw,16px)}
 #sheet.courts146-detail-sheet .courts64-searchbox input{border:0!important;outline:none!important;border-radius:0!important;box-shadow:none!important;font-size:16px!important}
 #sheet.courts146-detail-sheet .courts64-searchbox:focus-within{outline:2px solid #a46c22;outline-offset:2px}
 
