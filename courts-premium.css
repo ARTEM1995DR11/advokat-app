@@ -734,3 +734,6 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts139-mine-sheet .courts616-card .courts141-copy strong{font-size:clamp(15px,4.45vw,25px)!important;overflow-wrap:break-word}
 #sheet.courts139-mine-sheet .courts616-card .courts141-copy small{font:400 clamp(11px,3.05vw,16px)/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#30271f;overflow-wrap:break-word;white-space:normal}
 #sheet.courts139-mine-sheet .courts616-card .courts141-arrow svg{width:57%;height:57%;stroke-width:1.8}
+
+/* 6.19 — long jurisdiction heading stays within the approved marble header. */
+#sheet.courts146-detail-sheet .courts619-jurisdiction .settings60-head-copy h2{font-size:clamp(18px,5.05vw,29px)!important;overflow-wrap:anywhere}

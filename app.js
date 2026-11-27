@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.18';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6619';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.19';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6620';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4973,9 +4973,9 @@ var COURTS73_RESOURCES={
    ['https://recess.arbitr.ru/','Перерывы в заседаниях','Поиск объявленных перерывов','clock']
  ],
  jurisdiction:[
-   ['https://sudrf.ru/','Федеральные суды и мировые судьи','Поиск суда по территориальной подсудности','pin'],
-   ['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court'],
-   ['https://mirsud.com/ivanovskaya-oblast/','Мировые судьи Ивановской области','Неофициальный справочник · сверить перед подачей','search']
+   ['https://sudrf.ru/','Федеральные суды и мировые судьи','Поиск по адресу · ГАС «Правосудие»','court'],
+   ['https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast','Мировые судьи Ивановской области','Поиск по адресу · неофициальный источник, сверить результат','pin'],
+   ['https://mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по адресу','search']
  ],
  practice:[
    ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
@@ -5502,16 +5502,22 @@ function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route
 function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);var page=$('#sheet .courts73-page');if(page&&back.parentSnapshot)page._court62ParentSnapshot=back.parentSnapshot;if(page&&page.classList.contains('courts64-page'))courts64Restore(page,back.listState);$('#sheet').scrollTop=back.scroll||0;return true;}
 
 /* 6.16 — Arbitration resources: same approved marble, cards and gold artwork. */
-function courts616ArbitrCards(){
- var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock'};
- return '<section class="courts616-resources" aria-label="Арбитражные сервисы">'+COURTS73_RESOURCES.arbitr.map(function(r){
+function courts619ResourceCards(route,title){
+ var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock',pin:'pin',court:'folder'};
+ return '<section class="courts616-resources" aria-label="'+esc(title)+'">'+COURTS73_RESOURCES[route].map(function(r){
   return '<article class="courts141-card courts616-card"><a class="courts73-row courts141-card-open courts616-link" href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(r[1]+' — '+r[2]+' (внешний сайт)')+'"><span class="courts616-art" aria-hidden="true">'+courts146Icon(icons[r[3]])+'</span><span class="courts141-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts141-arrow" aria-hidden="true">'+courts73ExternalIcon()+'</span></a></article>';
  }).join('')+'</section>';
 }
 function courts616ArbitrPage(){
- courts73Page('arbitr','Арбитражные сервисы','Картотека и Мой арбитр',courts616ArbitrCards(),'home');
+ courts73Page('arbitr','Арбитражные сервисы','Картотека и Мой арбитр',courts619ResourceCards('arbitr','Арбитражные сервисы'),'home');
  $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
  $('#sheet .courts73-page').classList.add('courts616-arbitr');
+}
+/* 6.19 — jurisdiction: reuse the approved resource-card layout. */
+function courts619JurisdictionPage(){
+ courts73Page('jurisdiction','Территориальная подсудность','Определение суда по адресу',courts619ResourceCards('jurisdiction','Территориальная подсудность'),'home');
+ $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
+ $('#sheet .courts73-page').classList.add('courts616-arbitr','courts619-jurisdiction');
 }
 function courts73Open(route){
  var from=$('#sheet .courts73-page');if(from&&/^(world|world-general)$/.test(from.dataset.route)&&String(route).startsWith('court:')&&String(route).split('|')[1]===from.dataset.route)COURTS613_WORLD_RETURN=courts613CaptureWorld(from);
@@ -5538,6 +5544,7 @@ function courts73Open(route){
    courts146Detail(c,route);return;
  }
  if(route==='arbitr'){courts616ArbitrPage();return;}
+ if(route==='jurisdiction'){courts619JurisdictionPage();return;}
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
  if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
