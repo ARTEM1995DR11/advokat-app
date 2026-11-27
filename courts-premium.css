@@ -748,3 +748,13 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts620-result-head{font-size:12px;font-weight:600;color:#79501e;padding:9px 0 3px}
 #sheet.courts146-detail-sheet .courts620-sources{display:grid;gap:7px;font-size:12px;line-height:1.4;padding:10px 0 0;overflow-wrap:anywhere}
 #sheet.courts146-detail-sheet .courts620-sources a{color:#79501e;text-decoration:underline}
+/* 6.22 — address suggestions, local data only. */
+#sheet.courts146-detail-sheet .courts622-autocomplete{min-width:0;display:grid;gap:5px}
+#sheet.courts146-detail-sheet .courts622-suggestions{display:grid;max-height:220px;overflow-y:auto;overscroll-behavior:contain;min-width:0;border:1px solid #c9a36b;border-radius:12px;background:#fffaf0;box-shadow:0 5px 15px rgba(100,66,24,.12);padding:4px}
+#sheet.courts146-detail-sheet .courts622-suggestions[hidden]{display:none!important}
+#sheet.courts146-detail-sheet .courts620-form .courts622-suggestion{display:block;width:100%;min-height:44px;margin:0;border:0;border-radius:7px;background:transparent;box-shadow:none;text-align:left;padding:9px 10px;color:#18213a;font:400 15px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;white-space:normal;overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts622-suggestion+.courts622-suggestion{border-top:1px solid #e2ceb0}
+#sheet.courts146-detail-sheet .courts622-suggestion:active,#sheet.courts146-detail-sheet .courts622-suggestion:focus-visible{background:#f4e4c5}
+
+/* 6.27 — compact external service availability note */
+.courts619-jurisdiction .courts627-external-note{margin:12px 2px 8px;padding:10px 12px;border-left:2px solid #b29a66;color:#65583f;font-size:12px;line-height:1.45;background:rgba(255,250,238,.72);border-radius:6px;}

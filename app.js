@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.26';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6627';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.27';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6628';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4973,9 +4973,10 @@ var COURTS73_RESOURCES={
    ['https://recess.arbitr.ru/','Перерывы в заседаниях','Поиск объявленных перерывов','clock']
  ],
  jurisdiction:[
-   ['https://sudrf.ru/index.php?id=300&var=true#mp','ГАС «Правосудие»','Территориальный поиск мировых судей','court'],
-   ['https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast','Мировые судьи Ивановской области','Поиск по адресу · неофициальный источник, сверить результат','pin'],
-   ['https://mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по адресу','search']
+   ['https://base.garant.ru/28384240/53f89421bbdaf741eb2d1ecc4ddb4c33/','Границы судебных участков','Ивановская область · приложение к 17-ОЗ (ГАРАНТ)','doc'],
+   ['https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast','Мировые судьи Ивановской области','МирСуд · неофициальный поиск по адресу','pin'],
+   ['https://mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по адресу','search'],
+   ['https://sudrf.ru/index.php?id=300&var=true#mp','ГАС «Правосудие»','Мировые судьи · поиск может быть недоступен','court']
  ],
  practice:[
    ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
@@ -5566,10 +5567,10 @@ function courts620Lookup(city,street,house,district){
  if(complex&&exact.length){var exactIds=new Set(exact.flatMap(function(r){return r.ids;}));if(exactIds.size===1&&found.every(function(r){return r.ids.every(function(id){return exactIds.has(id);});}))complex=false;}
  return !needDistrict&&!pending&&!complex&&!found.length&&districtResult&&!COURTS620_RULES.some(function(r){return courts620City(r.city)===c;})?districtResult:{status:needDistrict?'district':pending?'house':complex?'complex':found.length?'candidate':'unknown',matches:found};
 }
-function courts625Fallback(){return '<div class="courts620-sources courts625-fallback"><a href="https://sudrf.ru/index.php?id=300&amp;var=true#mp" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Проверить в ГАС «Правосудие»</a><a href="https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Поиск в МирСуд (неофициальный)</a></div>';}
+function courts625Fallback(){return '<div class="courts620-sources courts625-fallback"><a href="https://base.garant.ru/28384240/53f89421bbdaf741eb2d1ecc4ddb4c33/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Сверить границы участков по 17-ОЗ (ГАРАНТ)</a><a href="https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Поиск в МирСуд (неофициальный)</a></div>'; }
 function courts620Result(page){
  var result=courts620Lookup(page.querySelector('#courts620-city').value,page.querySelector('#courts620-street').value,page.querySelector('#courts620-house').value,page.querySelector('#courts620-district').value),out=page.querySelector('#courts620-result');
- if(result.status!=='candidate'&&result.status!=='districtOnly'){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',district:'Уточните район населённого пункта.',house:'Для этой улицы необходимо указать номер дома.',invalidHouse:'Уточните номер дома: например, 12А, 12/1, 12 корп. 2 или 12 стр. 1.',complex:'Для такого номера дома точная граница в локальной базе не подтверждена. Сверьте адрес с официальным источником.',unknown:'Адрес не найден в неполной локальной базе. Это не означает, что адрес не относится к суду. Проверьте название улицы или воспользуйтесь официальными ресурсами ниже.'})[result.status]+'</p>'+(['unknown','complex','district'].indexOf(result.status)>=0?courts625Fallback():'');return;}
+ if(result.status!=='candidate'&&result.status!=='districtOnly'){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',district:'Уточните район населённого пункта.',house:'Для этой улицы необходимо указать номер дома.',invalidHouse:'Уточните номер дома: например, 12А, 12/1, 12 корп. 2 или 12 стр. 1.',complex:'Для такого номера дома точная граница в локальной базе не подтверждена. Сверьте адрес с официальным источником.',unknown:'Адрес не найден в неполной локальной базе. Это не означает, что адрес не относится к суду. Проверьте название улицы или сверяйтесь с законом и альтернативными ресурсами ниже.'})[result.status]+'</p>'+(['unknown','complex','district'].indexOf(result.status)>=0?courts625Fallback():'');return;}
  var matchedStreet=result.matches.find(function(r){return r.kind!=='place'&&r.street;});var ids=[],sources=[];result.matches.forEach(function(r){r.ids.forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});if(sources.indexOf(r.source)<0)sources.push(r.source);});
  var parents=[];ids.forEach(function(id){var m=COURTS612_WORLD[id];if(m&&parents.indexOf(m.parent)<0)parents.push(m.parent);});
  function courtRow(id){var c=COURTS73_DEMO.find(function(x){return x[0]===id;});return c?courts146Button('courts73-route','court:'+id+'|jurisdiction','court',c[1],'Открыть карточку суда'):'';}
@@ -5597,7 +5598,7 @@ function courts620Form(){return '<section class="courts146-panel courts620-panel
 var COURTS623_JUR_RETURN=null;
 function courts619JurisdictionPage(){
  COURTS146_ICON_ID=0;
- courts73Page('jurisdiction','Территориальная подсудность','Определение суда по адресу',courts620Form()+courts619ResourceCards('jurisdiction','Внешние источники'),'home');
+ courts73Page('jurisdiction','Территориальная подсудность','Определение суда по адресу',courts620Form()+'<div class="courts627-external-note" role="note">В ГАС «Правосудие» поиск по адресу может быть недоступен при актуализации базы. Для Ивановской области сверяйте границы участков по закону.</div>'+courts619ResourceCards('jurisdiction','Внешние источники'),'home');
  $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
  var page=$('#sheet .courts73-page');page.classList.add('courts616-arbitr','courts619-jurisdiction');
  var form=page.querySelector('.courts620-form');form.addEventListener('submit',function(e){e.preventDefault();courts620Result(page);});
