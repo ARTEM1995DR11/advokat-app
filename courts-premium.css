@@ -785,3 +785,29 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet .courts631-practice .settings60-line-copy strong{color:#0c1735}
 #sheet .courts631-practice .settings60-line-copy small{color:#594c3e}
 @media(max-width:370px){#sheet .courts631-filters{grid-template-columns:1fr}#sheet .courts631-search-head{grid-template-columns:36px minmax(0,1fr)}}
+
+/* 6.32 — in-flow premium pickers: no native iOS popup, no overlap or truncation. */
+#sheet .courts631-form .courts632-filters{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+#sheet .courts632-field{display:grid;gap:5px;min-width:0}
+#sheet .courts632-label{color:#79501e;font-size:13px;line-height:1.3}
+#sheet .courts632-picker{min-width:0;margin:0;padding:0;border:0}
+#sheet .courts632-picker summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;box-sizing:border-box;min-height:44px;padding:10px 11px;border:1px solid #c9a36b;border-radius:10px;background:#fffcf6;color:#18213a;font:400 16px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;touch-action:manipulation}
+#sheet .courts632-picker summary::-webkit-details-marker{display:none}
+#sheet .courts632-value{min-width:0;overflow-wrap:anywhere}
+#sheet .courts632-chevron{display:grid;place-items:center;flex:none;width:20px;height:20px;color:#a4762d;transform:rotate(90deg)}
+#sheet .courts632-chevron svg{width:18px;height:18px}
+#sheet .courts632-picker[open] .courts632-chevron{transform:rotate(-90deg)}
+#sheet .courts632-picker[open] summary{border-color:#a87931;box-shadow:inset 0 0 0 1px #e2c795}
+#sheet .courts632-picker:not([open]) .courts632-menu{display:none}
+#sheet .courts632-menu{margin-top:6px;padding:6px;border:1px solid #d3b27d;border-radius:12px;background:linear-gradient(155deg,#fffcf7,#f8edd9);box-shadow:0 3px 8px #96633324;min-width:0}
+#sheet .courts631-form .courts632-region-search{min-height:44px;margin:0 0 5px;background:#fffdf8}
+#sheet .courts632-options{max-height:min(285px,38vh);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:grid;gap:2px;min-width:0;scrollbar-width:thin;scrollbar-color:#cfad76 transparent}
+#sheet .courts631-form .courts632-option{display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;white-space:normal;overflow-wrap:anywhere;width:100%;min-height:44px;padding:9px 10px;margin:0;border:1px solid transparent;border-radius:8px;box-shadow:none;background:transparent;color:#18213a;font:400 15px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;touch-action:manipulation}
+#sheet .courts631-form .courts632-option[aria-pressed="true"]{background:#f2dfb9;border-color:#d4ae6c;font-weight:600}
+#sheet .courts632-option-label{min-width:0;flex:1}
+#sheet .courts632-check{visibility:hidden;display:grid;place-items:center;width:20px;height:20px;color:#96651f;flex:none}
+#sheet .courts632-check svg{width:18px;height:18px}
+#sheet .courts632-option[aria-pressed="true"] .courts632-check{visibility:visible}
+#sheet .courts632-picker summary:focus-visible,#sheet .courts632-option:focus-visible{outline:2px solid #a87931;outline-offset:2px}
+#sheet .courts632-option[hidden],#sheet .courts632-empty[hidden]{display:none!important}
+#sheet .courts632-empty{margin:8px;color:#79501e;font-size:13px;line-height:1.4}
