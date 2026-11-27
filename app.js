@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.6';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6607';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.8';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6609';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5335,15 +5335,16 @@ function courts64Render(page){
 }
 function courts64Restore(page,st){if(!st)return;page.querySelector('#courts64-search').value=st.q;page.querySelector('#courts64-type').value=st.type;page.querySelector('#courts64-sort').value=st.sort;page._courts64Limit=st.limit;courts64SyncSelect(page,'courts64-type');courts64SyncSelect(page,'courts64-sort');courts64Render(page);}
 function courts64SelectMarkup(id,caption,options,selected){
-  var native='<select id="'+id+'" class="courts64-native" tabindex="-1" aria-hidden="true">'+options.map(function(opt){return '<option value="'+esc(opt.value)+'"'+(String(opt.value)===String(selected)?' selected':'')+'>'+esc(opt.label)+'</option>';}).join('')+'</select>';
+  // This is local filter state, not a select: never let the global select upgrader create another button.
+  var native='<input type="hidden" id="'+esc(id)+'" value="'+esc(selected)+'">';
   var menu=options.map(function(opt){return '<button type="button" class="courts64-select-option" data-courts64-target="'+esc(id)+'" data-v="'+esc(opt.value)+'" role="option" aria-selected="'+(String(opt.value)===String(selected)?'true':'false')+'"><span class="courts64-select-check">'+(String(opt.value)===String(selected)?ico('check','s'):'')+'</span><span class="courts64-select-option-text">'+esc(opt.label)+'</span></button>';}).join('');
-  return '<label class="courts64-filter"><span class="courts64-filter-caption">'+esc(caption)+'</span><div class="courts64-select" data-courts64-wrap="'+esc(id)+'">'+native+'<button type="button" class="courts64-select-trigger" data-courts64-trigger="'+esc(id)+'" aria-haspopup="listbox" aria-expanded="false"><span class="courts64-select-value"></span><span class="courts64-select-arrow">'+ico('chev','s')+'</span></button><div class="courts64-select-menu" data-courts64-menu="'+esc(id)+'" role="listbox" hidden>'+menu+'</div></div></label>';
+  return '<div class="courts64-filter"><span class="courts64-filter-caption" id="'+esc(id)+'-caption">'+esc(caption)+'</span><div class="courts64-select" data-courts64-wrap="'+esc(id)+'">'+native+'<button type="button" class="courts64-select-trigger" data-courts64-trigger="'+esc(id)+'" aria-haspopup="listbox" aria-expanded="false" aria-controls="'+esc(id)+'-menu" aria-labelledby="'+esc(id)+'-caption '+esc(id)+'-value"><span class="courts64-select-value" id="'+esc(id)+'-value"></span><span class="courts64-select-arrow">'+ico('chev','s')+'</span></button><div class="courts64-select-menu" data-courts64-menu="'+esc(id)+'" id="'+esc(id)+'-menu" role="listbox" aria-labelledby="'+esc(id)+'-caption" hidden>'+menu+'</div></div></div>';
 }
 function courts64CloseSelects(page,exceptId){if(!page)return;Array.prototype.forEach.call(page.querySelectorAll('.courts64-select'),function(wrap){var id=wrap.getAttribute('data-courts64-wrap');var open=!!exceptId&&id===exceptId;wrap.classList.toggle('is-open',open);var trig=wrap.querySelector('.courts64-select-trigger'),menu=wrap.querySelector('.courts64-select-menu');if(trig)trig.setAttribute('aria-expanded',open?'true':'false');if(menu)menu.hidden=!open;});}
-function courts64SyncSelect(page,id){var sel=page&&page.querySelector('#'+id);if(!sel)return;var wrap=page.querySelector('[data-courts64-wrap="'+id+'"]');if(!wrap)return;var opt=sel.options&&sel.selectedIndex>=0?sel.options[sel.selectedIndex]:null;var label=opt?(opt.textContent||opt.label||'').trim():'';var value=sel.value;var out=wrap.querySelector('.courts64-select-value');if(out)out.textContent=label||'— выбрать —';Array.prototype.forEach.call(wrap.querySelectorAll('.courts64-select-option'),function(btn){var on=String(btn.dataset.v)===String(value);btn.classList.toggle('is-selected',on);btn.setAttribute('aria-selected',on?'true':'false');var mark=btn.querySelector('.courts64-select-check');if(mark)mark.innerHTML=on?ico('check','s'):'';});}
+function courts64SyncSelect(page,id){var sel=page&&page.querySelector('#'+id);if(!sel)return;var wrap=page.querySelector('[data-courts64-wrap="'+id+'"]');if(!wrap)return;var value=sel.value;var opt=Array.from(wrap.querySelectorAll('.courts64-select-option')).find(function(b){return b.dataset.v===value;});var label=opt?opt.querySelector('.courts64-select-option-text').textContent.trim():'';var out=wrap.querySelector('.courts64-select-value');if(out)out.textContent=label||'— выбрать —';Array.prototype.forEach.call(wrap.querySelectorAll('.courts64-select-option'),function(btn){var on=String(btn.dataset.v)===String(value);btn.classList.toggle('is-selected',on);btn.setAttribute('aria-selected',on?'true':'false');var mark=btn.querySelector('.courts64-select-check');if(mark)mark.innerHTML=on?ico('check','s'):'';});}
 function courts64BindSelect(page,id,onchange){var wrap=page.querySelector('[data-courts64-wrap="'+id+'"]');if(!wrap)return;var sel=page.querySelector('#'+id),trigger=wrap.querySelector('.courts64-select-trigger');if(trigger)trigger.addEventListener('click',function(ev){ev.preventDefault();var open=!wrap.classList.contains('is-open');courts64CloseSelects(page,open?id:'');});Array.prototype.forEach.call(wrap.querySelectorAll('.courts64-select-option'),function(btn){btn.addEventListener('click',function(ev){ev.preventDefault();if(!sel||sel.value===btn.dataset.v){courts64CloseSelects(page,'');return;}sel.value=btn.dataset.v;courts64SyncSelect(page,id);courts64CloseSelects(page,'');if(typeof onchange==='function')onchange();});});courts64SyncSelect(page,id);}
 var COURTS64_SELECTS_BOUND=false;
-function courts64BindOutside(){if(COURTS64_SELECTS_BOUND)return;COURTS64_SELECTS_BOUND=true;document.addEventListener('click',function(ev){Array.prototype.forEach.call(document.querySelectorAll('.courts64-page'),function(page){if(!page.contains(ev.target))courts64CloseSelects(page,'');});});document.addEventListener('keydown',function(ev){if(ev.key!=='Escape')return;Array.prototype.forEach.call(document.querySelectorAll('.courts64-page'),function(page){courts64CloseSelects(page,'');});});}
+function courts64BindOutside(){if(COURTS64_SELECTS_BOUND)return;COURTS64_SELECTS_BOUND=true;document.addEventListener('click',function(ev){Array.prototype.forEach.call(document.querySelectorAll('.courts64-page'),function(page){if(!ev.target.closest||!ev.target.closest('.courts64-select')||!page.contains(ev.target))courts64CloseSelects(page,'');});});document.addEventListener('keydown',function(ev){if(ev.key!=='Escape')return;Array.prototype.forEach.call(document.querySelectorAll('.courts64-page'),function(page){courts64CloseSelects(page,'');});});}
 function courts62List(c,route,mode){
  COURTS146_ICON_ID=0;
  var title=mode==='archive'?'Архивные дела':'Текущие дела';
@@ -5790,6 +5791,7 @@ function go(tab,replaceHistory,transition,preserveCalendarDate){
   var e = $('#sc-'+tab); if(e) e.scrollTop = 0;
 }
 function appBack(){
+  var courtMenu=$('#sheet.open .courts64-page .courts64-select.is-open');if(courtMenu){courts64CloseSelects(courtMenu.closest('.courts64-page'),'');vib(5);return true;}
   if(document.getElementById('settings67-dialog')){settings67DismissDialog();vib(5);return true;}
   if(document.getElementById('premium-delete-confirm-root')){closePremiumDeleteConfirm();vib(5);return true;}
   if(FINISH_OUTCOME_OPEN){closeMatterFinishOutcomePicker();vib(5);return true;}
