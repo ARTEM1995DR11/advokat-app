@@ -614,3 +614,5 @@ Version 6.7 (Build 6608)
 6.5 / build 6606 — в списках текущих и архивных дел суда устаревший контурный значок уголовного дела заменён существующим объёмным золотым молотком из раздела «Дела». Цветовая маркировка, остальные значки, фильтры, навигация и данные не изменены.
 
 6.6 / build 6607 — значок уголовного дела в списках суда заменён на компактную контурную SVG-пиктограмму с отчётливой головкой, рукояткой и подставкой, в масштабе и цвете соседних значков. Остальные экраны и данные без изменений.
+
+6.29 / build 6630 — simplified territorial jurisdiction page: removed separate legislation card and unavailable GAS address-search shortcut; retained statutory source links in actual local results, official Moscow search, and clearly labelled nationwide third-party MirSud reference search. Local address rules and other GAS services unchanged.
