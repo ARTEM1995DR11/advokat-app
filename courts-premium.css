@@ -710,3 +710,27 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts612-district .courts146-title h3{font-size:clamp(15px,4.2vw,23px)!important;overflow-wrap:anywhere;min-width:0}
 #sheet.courts146-detail-sheet .courts612-district .courts146-title{gap:8px}
 #sheet.courts146-detail-sheet .courts612-judge{font-size:clamp(12px,3.5vw,16px);line-height:1.35;overflow-wrap:anywhere}
+
+/* 6.13: magistrate districts — explicit four-column layout. */
+#sheet.courts146-detail-sheet .courts612-district>.courts146-title{grid-template-columns:clamp(28px,8.4vw,44px) minmax(0,1fr) auto 20px;gap:clamp(5px,1.9vw,10px);min-height:48px}
+#sheet.courts146-detail-sheet .courts612-district .courts146-title h3{font-size:clamp(15px,4.0vw,22px)!important;line-height:1.2;word-break:normal;overflow-wrap:break-word}
+#sheet.courts146-detail-sheet .courts612-district .courts146-collapse{grid-column:4;grid-row:1}
+#sheet.courts146-detail-sheet .courts612-district .courts146-count{grid-column:3;grid-row:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+#sheet.courts146-detail-sheet .courts612-district .courts146-panel-body>.courts146-row:last-child{border-bottom:0}
+#sheet.courts146-detail-sheet .courts612-district .courts146-row{min-height:54px}
+#sheet.courts146-detail-sheet .courts613-world-page .courts141-search input{min-width:0;font-size:16px}
+
+/* 6.16 — dedicated arbitration page; other judicial routes remain unchanged. */
+#sheet.courts139-mine-sheet:has(.courts616-arbitr){--mine-decor-width:min(32vw,224px)}
+#sheet.courts146-detail-sheet .courts616-arbitr .settings60-head{margin-top:clamp(38px,11vw,60px)}
+#sheet.courts146-detail-sheet .courts616-arbitr .settings60-head-copy h2{font-size:clamp(20px,5.4vw,30px)!important;overflow-wrap:normal}
+#sheet.courts146-detail-sheet .courts616-arbitr .settings60-head-copy p{overflow-wrap:break-word}
+#sheet.courts139-mine-sheet .courts616-resources{display:grid;gap:clamp(8px,2.3vw,14px);min-width:0}
+#sheet.courts139-mine-sheet .courts616-card{--saved-icon:clamp(45px,13vw,69px);--saved-arrow:clamp(30px,8.6vw,43px);--saved-card-gap:clamp(9px,2.5vw,15px);padding:clamp(9px,2.7vw,16px);}
+#sheet.courts73-sheet.courts139-mine-sheet .courts616-link{padding:0;gap:var(--saved-card-gap);min-height:clamp(54px,15vw,76px);text-decoration:none;color:#0c1735}
+#sheet.courts139-mine-sheet .courts616-art{width:100%;aspect-ratio:1;display:grid;place-items:center;box-sizing:border-box;border:1px solid #e4caa0;border-radius:clamp(10px,3vw,16px);background:linear-gradient(145deg,#fffdf7,#f7e4c3);box-shadow:inset 0 1px 0 #fffdf7,inset 0 -2px 3px #c6924730,0 3px 5px #a16e2c35}
+#sheet.courts139-mine-sheet .courts616-art svg{width:72%;height:72%;filter:drop-shadow(0 1px 1px #89571933)}
+#sheet.courts139-mine-sheet .courts616-card .courts141-copy{border-left:1px solid #d1ad79;padding-left:clamp(7px,2vw,11px);gap:4px}
+#sheet.courts139-mine-sheet .courts616-card .courts141-copy strong{font-size:clamp(15px,4.45vw,25px)!important;overflow-wrap:break-word}
+#sheet.courts139-mine-sheet .courts616-card .courts141-copy small{font:400 clamp(11px,3.05vw,16px)/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#30271f;overflow-wrap:break-word;white-space:normal}
+#sheet.courts139-mine-sheet .courts616-card .courts141-arrow svg{width:57%;height:57%;stroke-width:1.8}

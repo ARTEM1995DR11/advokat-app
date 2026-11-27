@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.15';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6616';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.16';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6617';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4968,10 +4968,10 @@ var COURTS73_GROUPS=[
 var COURTS73_RESOURCES={
  arbitr:[
    ['https://kad.arbitr.ru/','Картотека арбитражных дел','Поиск дел и судебных актов','search'],
-   ['https://my.arbitr.ru/','Мой арбитр','Личный кабинет и история обращений','doc'],
+   ['https://my.arbitr.ru/','Мой арбитр','Подача документов и история обращений','doc'],
    ['https://rad.arbitr.ru/','Календарь заседаний','Расписание арбитражных судов','cal'],
    ['https://guard.arbitr.ru/','Электронный страж','Подписки на движение дел','bell'],
-   ['https://recess.arbitr.ru/','Перерывы в заседаниях','Информация на официальном ресурсе','clock']
+   ['https://recess.arbitr.ru/','Перерывы в заседаниях','Поиск объявленных перерывов','clock']
  ],
  jurisdiction:[
    ['https://sudrf.ru/','Федеральные суды и мировые судьи','Поиск суда по территориальной подсудности','pin'],
@@ -5423,6 +5423,7 @@ function courts146Icon(n){
  edit:`<path d="m3 21 1.5-6L17 2.5c1-1 2-1 3 0l1.5 1.5c1 1 1 2 0 3L9 19.5Z" fill="${f}" stroke="${stroke}" stroke-linejoin="round"/><path d="m15.5 4 4.5 4.5M5 15l4 4M7 15 17 5" stroke="#fff0b0" stroke-width="1.2"/>`,
  pin:`<path d="M12 22S3.8 13.7 3.8 9.5a8.2 8.2 0 0 1 16.4 0C20.2 13.7 12 22 12 22Z" fill="${f}" stroke="${stroke}"/><circle cx="12" cy="9" r="3.3" fill="${l}" stroke="${stroke}"/><path d="M6 8a6 6 0 0 1 5-5" fill="none" stroke="#fff5cb" stroke-width="1.1"/>`,
  mail:`<rect x="2" y="5" width="20" height="14" rx="2" fill="${f}" stroke="${stroke}"/><rect x="4" y="7" width="16" height="10" rx="1" fill="${l}"/><path d="m3.5 7 8.5 6 8.5-6M4 17l5-5m11 5-5-5" fill="none" stroke="${stroke}" stroke-width="1.2"/>`,
+ bell:`<g stroke="${stroke}" stroke-width="1.05" stroke-linejoin="round"><path d="M10.5 4.2a1.5 1.5 0 0 1 3 0V5h-3Z" fill="${f}"/><path d="M5.6 10a6.4 6.4 0 0 1 12.8 0v4l2 3H3.6l2-3Z" fill="${f}"/><path d="M4 17h16v2H4Z" fill="${l}"/><path d="M9.8 19a2.2 2.2 0 0 0 4.4 0" fill="${f}"/></g><path d="M7.8 10c0-2 1.1-3.6 3-4.1" stroke="#fff1c5" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,
  clock:`<circle cx="12" cy="12" r="10" fill="${f}" stroke="${stroke}"/><circle cx="12" cy="12" r="7.8" fill="${l}" stroke="${stroke}" stroke-width=".7"/><path d="M12 6v6l4 2" fill="none" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round"/>`,
  folder:`<path d="M2.5 5h7l2 3h10v12h-19Z" fill="${f}" stroke="${stroke}" stroke-linejoin="round"/><path d="M4.5 10h15v8.2h-15Z" fill="${l}" stroke="#c59a53" stroke-width=".8"/>`,
  archive:`<g stroke="${stroke}" stroke-width="1.1" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2" fill="${f}"/><rect x="2" y="3" width="20" height="6" rx="1.5" fill="${l}"/><rect x="8" y="12" width="8" height="3" rx="1" fill="${l}"/><path d="M5 19h14" stroke="#fff0b0"/></g>`,
@@ -5501,6 +5502,18 @@ var COURTS146_RETURN=null;
 function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route=page&&page.dataset.route,c=route&&courts146Court(route),mode=courts62Mode(route);if(!c||!unlocked||kind!=='matter'||!mode)return;var m=matter(id);if(!m||!courts62Matters(c,mode).some(function(x){return sameRecordId(x.id,m.id);}))return;var back={state:S,route:route,scroll:$('#sheet').scrollTop,kind:kind,mid:m.id,parentSnapshot:page._court62ParentSnapshot,listState:courts64State(page)};closeSheet();openMatter(m.id);COURTS146_RETURN=back;}
 function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);var page=$('#sheet .courts73-page');if(page&&back.parentSnapshot)page._court62ParentSnapshot=back.parentSnapshot;if(page&&page.classList.contains('courts64-page'))courts64Restore(page,back.listState);$('#sheet').scrollTop=back.scroll||0;return true;}
 
+/* 6.16 — Arbitration resources: same approved marble, cards and gold artwork. */
+function courts616ArbitrCards(){
+ var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock'};
+ return '<section class="courts616-resources" aria-label="Арбитражные сервисы">'+COURTS73_RESOURCES.arbitr.map(function(r){
+  return '<article class="courts141-card courts616-card"><a class="courts73-row courts141-card-open courts616-link" href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(r[1]+' — '+r[2]+' (внешний сайт)')+'"><span class="courts616-art" aria-hidden="true">'+courts146Icon(icons[r[3]])+'</span><span class="courts141-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts141-arrow" aria-hidden="true">'+courts73ExternalIcon()+'</span></a></article>';
+ }).join('')+'</section>';
+}
+function courts616ArbitrPage(){
+ courts73Page('arbitr','Арбитражные сервисы','Картотека и Мой арбитр',courts616ArbitrCards(),'home');
+ $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
+ $('#sheet .courts73-page').classList.add('courts616-arbitr');
+}
 function courts73Open(route){
  var from=$('#sheet .courts73-page');if(from&&/^(world|world-general)$/.test(from.dataset.route)&&String(route).startsWith('court:')&&String(route).split('|')[1]===from.dataset.route)COURTS613_WORLD_RETURN=courts613CaptureWorld(from);
  else if(!String(route).startsWith('court:')&&!/^(world|world-general)$/.test(route))COURTS613_WORLD_RETURN=null;
@@ -5525,6 +5538,7 @@ function courts73Open(route){
    var mode=courts62Mode(route);if(mode){courts62List(c,route,mode);return;}
    courts146Detail(c,route);return;
  }
+ if(route==='arbitr'){courts616ArbitrPage();return;}
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
  if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
