@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.8';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6609';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.10';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6611';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4926,7 +4926,25 @@ var COURTS73_DEMO=[
  ['lenin','Ленинский районный суд г. Иваново','Ивановская область','https://leninsky--iwn.sudrf.ru/','https://leninsky--iwn.sudrf.ru/modules.php?name=sud'],
  ['moscow','Московский городской суд','Москва','https://www.mos-gorsud.ru/mgs','https://www.mos-gorsud.ru/search'],
  ['cass','Второй кассационный суд общей юрисдикции','Москва','https://2kas.sudrf.ru/'],
- ['supreme','Верховный Суд РФ','Москва','https://www.vsrf.ru/','https://vsrf.ru/lk/practice/claims']
+ ['supreme','Верховный Суд РФ','Москва','https://www.vsrf.ru/','https://vsrf.ru/lk/practice/claims'],
+ ["vichuga", "Вичугский городской суд", "Ивановская область", "https://vichugsky.iwn.sudrf.ru/", "https://vichugsky.iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["ivanovsky", "Ивановский районный суд", "Ивановская область", "https://ivanovsky--iwn.sudrf.ru/", "https://ivanovsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["komsomol", "Комсомольский районный суд", "Ивановская область", "https://komsomolsky--iwn.sudrf.ru/", "https://komsomolsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["oktyabr", "Октябрьский районный суд г. Иваново", "Ивановская область", "https://oktyabrsky.iwn.sudrf.ru/", "https://oktyabrsky.iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["palekh", "Палехский районный суд", "Ивановская область", "https://palehsky--iwn.sudrf.ru/", "https://palehsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["privolzhsk", "Приволжский районный суд", "Ивановская область", "https://privolzhsky--iwn.sudrf.ru/", "https://privolzhsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["puchezh", "Пучежский районный суд", "Ивановская область", "https://puchezhsky--iwn.sudrf.ru/", "https://puchezhsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["rodniki", "Родниковский районный суд", "Ивановская область", "https://rodnikovsky--iwn.sudrf.ru/", "https://rodnikovsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["sovetsky", "Советский районный суд г. Иваново", "Ивановская область", "https://sovetsky--iwn.sudrf.ru/", "https://sovetsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["teikovo", "Тейковский районный суд", "Ивановская область", "https://teikovsky--iwn.sudrf.ru/", "https://teikovsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["frunze", "Фрунзенский районный суд г. Иваново", "Ивановская область", "https://frunzensky--iwn.sudrf.ru/", "https://frunzensky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["furmanov", "Фурмановский городской суд", "Ивановская область", "https://furmanovsky--iwn.sudrf.ru/", "https://furmanovsky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["shuya", "Шуйский городской суд", "Ивановская область", "https://shuisky--iwn.sudrf.ru/", "https://shuisky--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["military", "Ивановский гарнизонный военный суд", "Ивановская область", "https://gvs--iwn.sudrf.ru/", "https://gvs--iwn.sudrf.ru/modules.php?name=sud_delo"],
+ ["appeal", "Первый апелляционный суд общей юрисдикции", "Москва", "https://1ap.sudrf.ru/", "https://1ap.sudrf.ru/modules.php?name=sud_delo"],
+ ["arbitrivanovo", "Арбитражный суд Ивановской области", "Ивановская область", "https://ivanovo.arbitr.ru/", "https://kad.arbitr.ru/"],
+ ["arbitrappeal", "Второй арбитражный апелляционный суд", "Киров", "https://2aas.arbitr.ru/", "https://kad.arbitr.ru/"],
+ ["arbitrcass", "Арбитражный суд Волго-Вятского округа", "Нижний Новгород", "https://fasvvo.arbitr.ru/", "https://kad.arbitr.ru/"]
 ];
 // .143: favorites are part of the encrypted vault, never a separate plaintext store.
 var COURTS143_PENDING=false;
@@ -4934,7 +4952,7 @@ function courts73HasSaved(id){return S.savedCourts.indexOf(id)>=0;}
 var COURTS73_GROUPS=[
  ['Судебные справочники',[
  ['mine','Мои суды','Часто используемые суды','court'],
- ['general','Все суды России','Поиск судов и судебных участков','court']]],
+ ['general','Справочник судов','Ивановская область и вышестоящие суды','court']]],
  ['Электронное правосудие',[
  ['https://ej.sudrf.ru/','ГАС «Правосудие»','История направленных обращений','doc'],
  ['arbitr','Арбитражные сервисы','Картотека и Мой арбитр','brief']]],
@@ -4944,12 +4962,6 @@ var COURTS73_GROUPS=[
  ['bailiff','ФССП России','Исполнительные производства','clipboard']]]
 ];
 var COURTS73_RESOURCES={
- general:[
-   ['catalog-general','Демонстрационный справочник судов','Поиск суда по названию или региону','court'],
-   ['https://sudrf.ru/','Федеральный портал судов','Суды общей юрисдикции и мировые судьи','search'],
-   ['https://www.mos-gorsud.ru/','Суды Москвы','Дела, заседания и справочная информация','court'],
-   ['https://www.vsrf.ru/','Верховный Суд РФ','Официальный сайт и электронная справочная','scale']
- ],
  arbitr:[
    ['https://kad.arbitr.ru/','Картотека арбитражных дел','Поиск дел и судебных актов','search'],
    ['https://my.arbitr.ru/','Мой арбитр','Личный кабинет и история обращений','doc'],
@@ -4987,11 +4999,24 @@ function courts73Page(route,title,subtitle,content,parent){
  var sh=$('#sheet');sh.classList.add('settings60-child-sheet','courts73-sheet','full');sh.setAttribute('aria-label',title);
  if(route==='mine'){sh.classList.add('courts139-mine-sheet');sh.scrollTop=0;}
 }
+/* 6.10: one focused directory for both entry points; stable favorite IDs. */
+var COURTS610_GROUPS=[
+ ['Районные и городские суды',['vichuga','ivanovsky','kineshma','komsomol','lenin','oktyabr','palekh','privolzhsk','puchezh','rodniki','sovetsky','teikovo','frunze','furmanov','shuya']],
+ ['Вышестоящие суды',['ivanovo','appeal','cass','supreme']],
+ ['Арбитражные суды',['arbitrivanovo','arbitrappeal','arbitrcass']],
+ ['Другие суды',['military','moscow']]
+];
+function courts610SearchText(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[.,]/g,' ').replace(/\s+/g,' ').trim();}
 function courts73CatalogRows(q,parent){
  parent=parent==='catalog-general'?parent:'catalog';
- q=String(q||'').trim().toLocaleLowerCase('ru');
- var rows=COURTS73_DEMO.filter(function(c){return (c[1]+' '+c[2]).toLocaleLowerCase('ru').indexOf(q)>=0;}).map(function(c){return courts73Row(['court:'+c[0]+'|'+parent,c[1],c[2]+(courts73HasSaved(c[0])?' · Добавлен':''),'court']);});
- return rows.join('')||'<p class="courts73-empty">Ничего не найдено в тестовом справочнике.</p>';
+ var terms=courts610SearchText(q).split(' ').filter(Boolean);
+ var groups=COURTS610_GROUPS.map(function(g){
+  var rows=g[1].map(function(id){return COURTS73_DEMO.find(function(c){return c[0]===id;});}).filter(function(c){return c&&terms.every(function(t){return courts610SearchText(c[1]+' '+c[2]+' '+g[0]).includes(t);});}).map(function(c){return ['court:'+c[0]+'|'+parent,c[1],c[2]+(courts73HasSaved(c[0])?' · В избранном':''),'court'];});
+  return rows.length?courts73Section(g[0],rows):'';
+ });
+ var world=['https://sudrf.ru/','Мировые судьи Ивановской области','Поиск судебного участка на официальном портале','search'];
+ if(terms.every(function(t){return courts610SearchText(world[1]+' '+world[2]).includes(t);}))groups.splice(1,0,courts73Section('Мировые судьи',[world]));
+ return groups.join('')||'<p class="courts73-empty">Суды не найдены.</p>';
 }
 /* .76: real interactive home controls with artwork from the approved mockup. */
 /* .93: measure the actual device font, preserving font height. Mild horizontal
@@ -5059,7 +5084,7 @@ function courts141Cards(q){
  }).join('')||'<p class="courts141-no-results">Суды не найдены. Измените запрос.</p>';
 }
 function courts141Filled(saved){
- return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><button type="button" class="courts144-edit" data-act="courts144-edit" aria-pressed="false" aria-label="Изменить список судов" title="Изменить список судов">'+courts145EditIcon(false)+'</button><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+courts141Note('Выбранные суды сохраняются на устройстве. «Контакты» — звонок в суд или выбор здания. Для судов с несколькими зданиями маршрут выбирается отдельно.')+'</div>';
+ return '<div class="courts141-saved"><label class="courts141-search">'+ico('search','s')+'<input id="courts141-search" type="search" autocomplete="off" aria-label="Поиск сохранённых судов" placeholder="Поиск по названию или региону"></label><section class="courts141-list" aria-labelledby="courts141-list-title"><div class="courts141-grouphead">'+courts142Gold('bookmark')+'<h3 id="courts141-list-title">СОХРАНЁННЫЕ СУДЫ</h3><i aria-hidden="true"></i><button type="button" class="courts144-edit" data-act="courts144-edit" aria-pressed="false" aria-label="Изменить список судов" title="Изменить список судов">'+courts145EditIcon(false)+'</button><span class="courts141-count" aria-label="Всего сохранённых судов: '+saved.length+'">'+saved.length+'</span></div><div id="courts141-cards" class="courts141-cards">'+courts141Cards('')+'</div></section><button type="button" class="settings60-gold-action courts141-add" data-act="courts73-route" data-v="catalog">'+courts141Symbol('add')+'<span>Добавить суд</span></button>'+'</div>';
 }
 /* .144 — remove favorites from the list without entering a court. */
 function courts144Trash(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></svg>';}
@@ -5295,10 +5320,10 @@ function courts152Maps(c,buildings){return buildings.map(function(b){return '<a 
 function courts147DisplayProfile(id){return Object.assign({},COURTS147_PUBLIC[id]||{},courts146Profile(id));}
 function courts147PersonalRows(value){return String(value||'').split(/\n\s*\n/).map(function(t){return t.trim();}).filter(Boolean).map(function(t){return '<p class="courts146-personal-text">'+esc(t)+'</p>';});}
 
-function courts146Type(c){return ({kineshma:'Городской суд',ivanovo:'Областной суд',lenin:'Районный суд',moscow:'Суд города федерального значения',cass:'Кассационный суд',supreme:'Верховный Суд'})[c[0]]||'Суд';}
+function courts146Type(c){return ({kineshma:'Городской суд',ivanovo:'Областной суд',lenin:'Районный суд',moscow:'Суд города федерального значения',cass:'Кассационный суд',supreme:'Верховный Суд',appeal:'Апелляционный суд',military:'Гарнизонный военный суд',arbitrivanovo:'Арбитражный суд',arbitrappeal:'Арбитражный апелляционный суд',arbitrcass:'Арбитражный кассационный суд'})[c[0]]||(/городской суд/.test(c[1])?'Городской суд':/районный суд/.test(c[1])?'Районный суд':'Суд');}
 function courts146Name(c){return c[0]==='kineshma'?'Кинешемский городской суд Ивановской области':c[1];}
 function courts146NormalizeName(s){return String(s||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[.,«»]/g,' ').replace(/\s+/g,' ').trim();}
-function courts146Matches(c,name){var norm=courts146NormalizeName(name);var aliases=[c[1],courts146Name(c)];if(c[0]==='lenin')aliases.push('Ленинский районный суд города Иваново','Ленинский районный суд г. Иваново Ивановской области');if(c[0]==='supreme')aliases.push('Верховный Суд Российской Федерации');if(c[0]==='lenin')aliases.push('Ленинский районный суд г Иваново','Ленинский районный суд Иваново');if(c[0]==='ivanovo')aliases.push('Ивановский областной суд Ивановской области');if(c[0]==='cass')aliases.push('2-й кассационный суд общей юрисдикции','2 КСОЮ','Второй КСОЮ');return !!norm&&aliases.some(function(x){return courts146NormalizeName(x)===norm;});}
+function courts146Matches(c,name){var norm=courts146NormalizeName(name);var aliases=[c[1],courts146Name(c)];if(c[2]==='Ивановская область'&&!/Ивановской области/.test(c[1]))aliases.push(c[1]+' Ивановской области');if(c[0]==='lenin')aliases.push('Ленинский районный суд города Иваново','Ленинский районный суд г. Иваново Ивановской области');if(c[0]==='supreme')aliases.push('Верховный Суд Российской Федерации');if(c[0]==='lenin')aliases.push('Ленинский районный суд г Иваново','Ленинский районный суд Иваново');if(c[0]==='ivanovo')aliases.push('Ивановский областной суд Ивановской области');if(c[0]==='cass')aliases.push('2-й кассационный суд общей юрисдикции','2 КСОЮ','Второй КСОЮ');return !!norm&&aliases.some(function(x){return courts146NormalizeName(x)===norm;});}
 function courts146Matters(c){return S.matters.filter(function(m){return m&&courts146Matches(c,m.court);});}
 /* 6.2: read-only views of the existing case vault, classified by its archive flag. */
 function courts62Matters(c,mode){return courts146Matters(c).filter(function(m){return !!m.archived===(mode==='archive');});}
@@ -5416,7 +5441,7 @@ function courts146Contact(c,p,key,icon,label,copyKey){
 function courts146Map(c,p){return 'https://yandex.ru/maps/?text='+encodeURIComponent(c[1]+', '+c[2]+(p.address?', '+String(p.address).split(/\n/)[0]:''));}
 function courts146PracticeList(icon,title,rows){return '<details class="courts146-sublist"><summary class="courts146-row"><span class="courts146-row-icon">'+courts146Icon(icon)+'</span><span class="courts146-row-copy">'+esc(title)+'</span><b class="courts146-count">'+rows.length+'</b><span class="courts146-sub-arrow">'+ico('chev','s')+'</span></summary><div class="courts146-records">'+(rows.join('')||'<p class="courts146-muted">Нет связанных записей</p>')+'</div></details>';}
 // .161 — direct Kineshma requisites article supplied by the user; other links retained.
-var COURTS161_FEE_LINKS={"kineshma":"https://kineshemsky.iwn.sudrf.ru/modules.php?name=information&id=2","ivanovo":"https://oblsud--iwn.sudrf.ru/modules.php?name=information&rid=1","lenin":"https://leninsky--iwn.sudrf.ru/modules.php?name=information","moscow":"https://portal.mos-gorsud.ru/mgs/services/gosudarstvennaya-poshlina","cass":"https://2kas.sudrf.ru/modules.php?name=information","supreme":"https://vsrf.ru/government_duty/requisites"};
+var COURTS161_FEE_LINKS={"palekh":"https://palehsky--iwn.sudrf.ru/modules.php?name=information&rid=1","kineshma":"https://kineshemsky.iwn.sudrf.ru/modules.php?name=information&id=2","ivanovo":"https://oblsud--iwn.sudrf.ru/modules.php?name=information&rid=1","lenin":"https://leninsky--iwn.sudrf.ru/modules.php?name=information","moscow":"https://portal.mos-gorsud.ru/mgs/services/gosudarstvennaya-poshlina","cass":"https://2kas.sudrf.ru/modules.php?name=information","supreme":"https://vsrf.ru/government_duty/requisites"};
 var COURTS161_FEE_SECTION_ONLY={lenin:true,cass:true};
 function courts146Detail(c,route){
  COURTS146_ICON_ID=0;
@@ -5447,6 +5472,7 @@ function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.s
 
 function courts73Open(route){
  COURTS146_RETURN=null;
+ if(route==='general')route='catalog-general';
  if(route==='home'){
    courts76Home();return;
  }
@@ -5458,7 +5484,7 @@ function courts73Open(route){
    courts73Page(route,'Мои суды','Часто используемые суды',content,'home');return;
  }
  if(route==='catalog'||route==='catalog-general'){
-   courts73Page(route,'Все суды России','Демонстрационная база · '+COURTS73_DEMO.length+' судов','<label class="courts73-search"><span>'+ico('search','s')+'</span><input id="courts73-search" type="search" placeholder="Поиск суда или региона" autocomplete="off" aria-label="Поиск суда"></label>'+settings60Card('<div id="courts73-catalog">'+courts73CatalogRows('',route)+'</div>'),route==='catalog-general'?'general':'mine');return;
+   courts73Page(route,'Справочник судов','Ивановская область и другие инстанции','<label class="courts141-search">'+ico('search','s')+'<input id="courts73-search" type="search" placeholder="Поиск по названию или региону" autocomplete="off" aria-label="Поиск суда"></label><div id="courts73-catalog">'+courts73CatalogRows('',route)+'</div>',route==='catalog-general'?'home':'mine');$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').classList.add('courts610-catalog');return;
  }
  if(route.indexOf('court:')===0){
    var parts=route.slice(6).split('|'), c=COURTS73_DEMO.filter(function(x){return x[0]===parts[0];})[0];if(!c)return;
@@ -5524,7 +5550,7 @@ var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';
 var COURTS74_RETURN=null, COURTS74_RESTORED_AT=0;
 function courts74ValidRoute(route){
  if(typeof route!=='string')return false;
- if(['home','mine','catalog','catalog-general'].indexOf(route)>=0||Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return true;
+ if(['home','mine','general','catalog','catalog-general'].indexOf(route)>=0||Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return true;
  var m=/^court:([a-z]+)\|(mine|catalog|catalog-general)$/.exec(route);
  return !!(m&&COURTS73_DEMO.some(function(c){return c[0]===m[1];}));
 }

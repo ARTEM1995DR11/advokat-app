@@ -687,3 +687,11 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts146-detail-sheet .courts64-select[data-courts64-wrap="courts64-type"] .courts64-select-menu{right:auto;width:max(100%,min(200px,65vw));box-sizing:border-box}
 #sheet.courts146-detail-sheet .courts64-select[data-courts64-wrap="courts64-sort"] .courts64-select-menu{left:auto;width:max(100%,min(180px,60vw));box-sizing:border-box}
 #sheet.courts146-detail-sheet .courts64-select-option-text{min-width:0;overflow-wrap:anywhere}
+
+/* 6.10 — regional directory uses the approved court-card background. */
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-head{margin-top:clamp(30px,8vw,56px)}
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-head-copy h2{font-size:clamp(20px,5.1vw,30px)!important;overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-head-copy p{overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-line-copy{min-width:0;overflow-wrap:anywhere}
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-line-copy strong{white-space:normal}
+#sheet.courts146-detail-sheet .courts610-catalog .courts73-group{margin:15px 0}
