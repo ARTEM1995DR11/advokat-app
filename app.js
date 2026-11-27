@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.30';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6631';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.31';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6632';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4996,21 +4996,22 @@ function courts73Row(r){
  return start+' class="settings60-line courts73-row"><span class="settings60-line-icon">'+ico(r[3],'s')+'</span><span class="settings60-line-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="settings60-arrow">'+(external?courts73ExternalIcon():ico('chev','s'))+'</span>'+(external?'</a>':'</button>');
 }
 function courts73Section(label,rows){return '<section class="courts73-group"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+settings60Card(rows.map(courts73Row).join(''))+'</section>';}
-/* 6.30: experimental external search; only fixed public test queries. */
-function courts630PracticeTestUrl(area,stage){
- var p=new URLSearchParams();p.set('regular-lawchunkinfo','264.1 УК РФ');
- if(area)p.set('regular-area',area);
- if(stage)p.set('regular-workflow_stage',stage);
+/* 6.31: practice page, external query builder; no case data or local indexing. */
+function courts631PracticeUrl(law,words,area,stage){
+ var p=new URLSearchParams();law=String(law||'').trim();words=String(words||'').trim();
+ if(law)p.set('regular-lawchunkinfo',law);if(words)p.set('regular-txt',words);
+ if(area==='1029')p.set('regular-area',area);if(stage==='20')p.set('regular-workflow_stage',stage);
  return 'https://sudact.ru/regular/doc/?'+p.toString();
 }
-function courts630PracticeTest(){
- var rows=[
-  [courts630PracticeTestUrl('',''),'264.1 УК РФ · Россия','Тест передачи статьи','search'],
-  [courts630PracticeTestUrl('1029',''),'264.1 УК РФ · Ивановская область','Тест передачи статьи и региона','search'],
-  [courts630PracticeTestUrl('1029','20'),'264.1 УК РФ · апелляция','Ивановская область · тест трёх фильтров','search'],
-  ['https://sudact.ru/regular/','СудАкт · ручной поиск','Контрольная форма для сравнения','doc']
- ];
- return courts73Section('Тест поиска · СудАкт',rows)+'<p class="courts73-foot">Эксперимент: проверьте, что сайт применил заданные фильтры. Выдача пока не подтверждена. Передаются только фиксированные тестовые параметры, без данных дел.</p>';
+function courts631PracticePage(){
+ var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters"><label>Регион<select name="area"><option value="">Вся Россия</option><option value="1029">Ивановская область</option></select></label><label>Инстанция<select name="stage"><option value="">Все инстанции</option><option value="20">Апелляция</option></select></label></div><button class="settings60-gold-action" type="submit">Найти практику</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">Проверяйте применённые фильтры на сайте. Не вводите сведения о доверителях.</p></section>';
+ var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения законодательства','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],['https://www.ksrf.ru/','Конституционный Суд РФ','Постановления и определения','scale']];
+ var other=[['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search'],['https://sudrf.ru/','Суды общей юрисдикции','Официальные сайты судов','court']];
+ courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts73Section('Высшие суды',official)+courts73Section('Другие судебные ресурсы',other),'home');
+ var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
+ var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
+ f.addEventListener('input',function(){error.hidden=true;error.textContent='';});
+ f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f),law=String(d.get('law')||'').trim(),words=String(d.get('words')||'').trim();if(!law&&!words){error.textContent='Укажите статью закона или ключевые слова.';error.hidden=false;f.elements.law.focus();return;}var a=document.createElement('a');a.href=courts631PracticeUrl(law,words,d.get('area'),d.get('stage'));a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.click();});
 }
 function courts73Page(route,title,subtitle,content,parent){
  var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-courts-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">СУДЕБНЫЕ СЕРВИСЫ</span><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div></header>';
@@ -5651,9 +5652,10 @@ function courts73Open(route){
  }
  if(route==='arbitr'){courts616ArbitrPage();return;}
  if(route==='jurisdiction'){courts619JurisdictionPage();return;}
+ if(route==='practice'){courts631PracticePage();return;}
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
- if(row)courts73Page(route,row[1],row[2],(route==='practice'?courts630PracticeTest():'')+courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
+ if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
 }
 function courts148OpenContacts(route){
  var c=courts146Court(route);if(!c||!unlocked)return;

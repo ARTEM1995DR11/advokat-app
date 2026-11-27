@@ -762,3 +762,26 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 /* 6.28 — internal legal reference entry, no third-party address transfer. */
 .courts619-jurisdiction .courts628-source-button{font:inherit;color:inherit;text-decoration:underline;text-align:left;background:none;border:0;padding:6px 0;cursor:pointer;}
 .courts619-jurisdiction button.courts616-link{width:100%;text-align:left;}
+
+/* 6.31 — practice only; reuse the approved court marble and premium controls. */
+#sheet.courts146-detail-sheet .courts631-practice .settings60-head-copy h2{font-size:clamp(19px,5.15vw,30px)!important;overflow-wrap:normal}
+#sheet .courts631-practice .courts631-search{padding:clamp(12px,3.5vw,20px);margin-bottom:15px;min-width:0;display:block}
+#sheet .courts631-search-head{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:10px;margin-bottom:15px}
+#sheet .courts631-search-head h3{margin:0!important;font:700 clamp(18px,4.8vw,26px)/1.14 Georgia,serif!important;color:#0c1735}
+#sheet .courts631-search-head p{margin:4px 0 0;font:400 12px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#79501e}
+#sheet .courts631-form{gap:11px}
+#sheet .courts631-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+#sheet .courts631-form select{width:100%;min-width:0;min-height:44px;box-sizing:border-box;border:1px solid #c9a36b;border-radius:10px;background:#fffcf6;color:#18213a;padding:8px 6px;font:400 16px/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .courts631-form .settings60-gold-action{margin-top:5px;min-height:48px}
+#sheet .courts631-manual{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;color:#79501e;text-decoration:none;font:600 13px/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;text-align:center}
+#sheet .courts631-manual svg{width:16px;height:16px;flex:none}
+#sheet .courts631-note{margin:0;padding-top:9px;border-top:1px solid #d9c29d;color:#786450;font:400 12px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .courts631-error{margin:0;color:#9b342b;font-size:13px;line-height:1.35}
+#sheet .courts631-error[hidden]{display:none!important}
+#sheet .courts631-practice .courts73-group{margin:14px 0 0}
+#sheet .courts631-practice .settings60-minihead{margin:0 0 9px}
+#sheet .courts631-practice .settings60-card{background:linear-gradient(155deg,#fffcf7,#fdf6eb 48%,#f5e6cf);border-color:#d3b27d;box-shadow:inset 0 0 0 1px #fffdf8,0 4px 8px #96633324}
+#sheet .courts631-practice .courts73-row{min-height:62px;gap:9px}
+#sheet .courts631-practice .settings60-line-copy strong{color:#0c1735}
+#sheet .courts631-practice .settings60-line-copy small{color:#594c3e}
+@media(max-width:370px){#sheet .courts631-filters{grid-template-columns:1fr}#sheet .courts631-search-head{grid-template-columns:36px minmax(0,1fr)}}
