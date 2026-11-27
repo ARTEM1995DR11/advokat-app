@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.13';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6614';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.15';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6616';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4975,7 +4975,8 @@ var COURTS73_RESOURCES={
  ],
  jurisdiction:[
    ['https://sudrf.ru/','Федеральные суды и мировые судьи','Поиск суда по территориальной подсудности','pin'],
-   ['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court']
+   ['https://www.mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по территории','court'],
+   ['https://mirsud.com/ivanovskaya-oblast/','Мировые судьи Ивановской области','Неофициальный справочник · сверить перед подачей','search']
  ],
  practice:[
    ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
@@ -5487,7 +5488,7 @@ function courts146Detail(c,route){
  var feeLink=COURTS161_FEE_LINKS[c[0]];var feeFallback=!feeLink;if(!feeLink&&/\.(?:m?sudrf)\.ru\/$/.test(c[3]))feeLink=c[3]+'modules.php?name=information';
  if(COURTS612_WORLD[c[0]]&&!COURTS161_FEE_LINKS[c[0]])feeLink=c[3]+'modules.php?name=info_pages';
  if(feeLink)tools+=courts146Link(feeLink,'money','Государственная пошлина',(feeFallback||COURTS161_FEE_SECTION_ONLY[c[0]])?'Справочный раздел · реквизиты требуют сверки':'Реквизиты для оплаты');
- if(COURTS612_WORLD[c[0]])tools+=courts146Link('https://base.garant.ru/28384240/53f89421bbdaf741eb2d1ecc4ddb4c33/','pin','Территориальная подсудность','Границы участков по закону области');
+ if(COURTS612_WORLD[c[0]])tools+=courts146Link(c[3]+'modules.php?name=terr','pin','Территориальная подсудность','Улицы и дома на сайте участка');
  var practice=courts62CountRow(route,'active',courts62Matters(c,'active').length)+courts62CountRow(route,'archive',courts62Matters(c,'archive').length);
  var content='<div class="courts146-detail">'+hero+courts146Panel('phone','Контактная информация',contact)+courts146Panel('tools','Судебные инструменты',tools)+courts146Panel('brief','Мои дела в этом суде',practice)+'</div>';
  courts73Page(route,'Суд','Сведения и инструменты',content,parent);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
