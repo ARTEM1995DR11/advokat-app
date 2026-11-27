@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.2';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6603';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.6';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6607';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5308,12 +5308,45 @@ function courts62CountRow(route,mode,count){var title=mode==='archive'?'Архи
 function courts62Capture(page){return {scroll:$('#sheet').scrollTop,panels:Array.from(page.querySelectorAll('.courts146-detail>details')).map(function(d){return d.open;})};}
 function courts62Restore(snapshot){if(!snapshot)return;var page=$('#sheet .courts73-page');if(!page)return;Array.from(page.querySelectorAll('.courts146-detail>details')).forEach(function(d,i){if(typeof snapshot.panels[i]==='boolean')d.open=snapshot.panels[i];});$('#sheet').scrollTop=snapshot.scroll||0;}
 function courts62OpenList(route){var page=$('#sheet.open .courts73-page'),mode=courts62Mode(route);if(!unlocked||!page||!mode||page.dataset.route!==courts62Parent(route))return;var snapshot=courts62Capture(page);courts73Open(route);var next=$('#sheet .courts73-page');if(next)next._court62ParentSnapshot=snapshot;}
+/* 6.4 — local, court-scoped search and category/sort controls. No database writes. */
+function courts64Type(m){return Object.prototype.hasOwnProperty.call(MATTER_TYPES,m.type)?m.type:'other';}
+function courts64Label(m){return m.title||m.client||m.number||'Дело';}
+function courts64Normalize(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').trim();}
+function courts64Row(m){
+ var type=courts64Type(m),meta=MATTER_TYPES[type],label=courts64Label(m),sub=[m.number,m.stageInstanceLabel||m.stage].filter(function(v){return v&&v!==label;}).join(' · ');
+ var icon={criminal:'courts66-gavel',civil:'brief',admin:'flag',koap:'lock',other:'folder'}[type];
+ var art=ico(icon,'m');
+ return '<button type="button" class="courts146-row courts64-case" data-act="courts146-matter" data-v="'+esc(m.id)+'"><span class="courts64-case-icon courts64-'+type+'" aria-hidden="true">'+art+'</span><span class="courts146-row-copy"><strong>'+esc(label)+'</strong><span class="courts64-category courts64-'+type+'">'+esc(meta.n)+'</span>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</span>'+ico('chev','s')+'</button>';
+}
+function courts64State(page){return {q:page.querySelector('#courts64-search').value,type:page.querySelector('#courts64-type').value,sort:page.querySelector('#courts64-sort').value,limit:page._courts64Limit||50};}
+function courts64Render(page){
+ var route=page.dataset.route,mode=courts62Mode(route),c=courts146Court(route);if(!mode||!c)return;
+ var st=courts64State(page),all=courts62Matters(c,mode),terms=courts64Normalize(st.q).split(/\s+/).filter(Boolean);
+ var rows=all.filter(function(m){var text=courts64Normalize([m.title,m.client,m.number,m.article,m.stage,m.stageInstanceLabel].join(' '));return (st.type==='all'||courts64Type(m)===st.type)&&terms.every(function(t){return text.indexOf(t)>=0;});});
+ var nameSort=function(a,b){return courts64Label(a).localeCompare(courts64Label(b),'ru',{numeric:true,sensitivity:'base'});};
+ var stamp=function(m){var d=Date.parse(m.created||'');return Number.isFinite(d)?d:-Infinity;};
+ rows.sort(function(a,b){if(st.sort==='name')return nameSort(a,b);var da=stamp(a),db=stamp(b);if(da===db)return nameSort(a,b);if(da===-Infinity)return 1;if(db===-Infinity)return -1;return st.sort==='old'?da-db:db-da;});
+ page.querySelector('.courts146-count').textContent=all.length;
+ page.querySelector('.courts64-results').textContent=(terms.length||st.type!=='all'?'Найдено: '+rows.length+' из '+all.length:'Показано: '+Math.min(st.limit,rows.length)+' из '+rows.length);
+ var empty=all.length?'По заданным условиям дела не найдены.':mode==='archive'?'В этом суде нет архивных дел.':'В этом суде нет текущих дел.';
+ page.querySelector('.courts64-rows').innerHTML=rows.slice(0,st.limit).map(courts64Row).join('')||'<p class="courts146-help courts62-empty">'+empty+'</p>';
+ var more=page.querySelector('.courts64-more');more.hidden=rows.length<=st.limit;more.textContent='Показать ещё '+Math.min(50,Math.max(0,rows.length-st.limit));
+ page.querySelector('.courts64-clear').hidden=!st.q;
+}
+function courts64Restore(page,st){if(!st)return;page.querySelector('#courts64-search').value=st.q;page.querySelector('#courts64-type').value=st.type;page.querySelector('#courts64-sort').value=st.sort;page._courts64Limit=st.limit;courts64Render(page);}
 function courts62List(c,route,mode){
  COURTS146_ICON_ID=0;
- var list=courts62Matters(c,mode),title=mode==='archive'?'Архивные дела':'Текущие дела';
- var rows=list.map(function(m){var label=m.title||m.client||m.number||'Дело';var sub=[m.number,m.stageInstanceLabel||m.stage].filter(function(v){return v&&v!==label;}).join(' · ');return courts146Button('courts146-matter',m.id,'doc',label,sub);}).join('');
- var content='<div class="courts146-detail"><section class="courts146-panel courts62-list"><div class="courts146-title"><span class="courts146-section-icon">'+courts146Icon(mode==='archive'?'archive':'folder')+'</span><h3>'+title+'</h3><b class="courts146-count">'+list.length+'</b></div><div class="courts146-panel-body">'+(rows||'<p class="courts146-help courts62-empty">'+(mode==='archive'?'В этом суде нет архивных дел.':'В этом суде нет текущих дел.')+'</p>')+'</div></section></div>';
+ var title=mode==='archive'?'Архивные дела':'Текущие дела';
+ var options='<option value="all">Все категории</option>'+Object.keys(MATTER_TYPES).map(function(k){return '<option value="'+esc(k)+'">'+esc(MATTER_TYPES[k].n)+'</option>';}).join('');
+ var content='<div class="courts146-detail"><section class="courts146-panel courts62-list courts64-list"><div class="courts146-title"><span class="courts146-section-icon">'+courts146Icon(mode==='archive'?'archive':'folder')+'</span><h3>Всего дел</h3><b class="courts146-count">0</b></div><div class="courts146-panel-body"><div class="courts64-controls"><div class="courts64-searchbox">'+ico('search','s')+'<input id="courts64-search" type="search" placeholder="Фамилия, название или № дела" aria-label="Поиск по делам суда" autocomplete="off"><button type="button" class="courts64-clear" aria-label="Очистить поиск" hidden>×</button></div><div class="courts64-filters"><label>Категория<select id="courts64-type" data-premium-ready="1">'+options+'</select></label><label>Сортировка<select id="courts64-sort" data-premium-ready="1"><option value="new">Новые сначала</option><option value="old">Старые сначала</option><option value="name">По названию</option></select></label></div></div><p class="courts64-results" role="status" aria-live="polite"></p><div class="courts64-rows"></div><button type="button" class="courts146-soft courts64-more" hidden></button></div></section></div>';
  courts73Page(route,title,c[1],content,courts62Parent(route));$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
+ var page=$('#sheet .courts73-page');page.classList.add('courts64-page');page._courts64Limit=50;
+ function changed(){page._courts64Limit=50;courts64Render(page);}
+ page.querySelector('#courts64-search').addEventListener('input',changed);
+ page.querySelector('#courts64-type').addEventListener('change',changed);page.querySelector('#courts64-sort').addEventListener('change',changed);
+ page.querySelector('.courts64-clear').addEventListener('click',function(){var field=page.querySelector('#courts64-search');field.value='';changed();field.focus();});
+ page.querySelector('.courts64-more').addEventListener('click',function(){page._courts64Limit+=50;courts64Render(page);});
+ courts64Render(page);
 }
 function courts146Icon(n){
  var id='court147-'+(++COURTS146_ICON_ID),f='url(#'+id+')',l='url(#'+id+'-l)',stroke='#95601d';
@@ -5388,11 +5421,7 @@ function courts146Detail(c,route){
  var feeLink=COURTS161_FEE_LINKS[c[0]];
  if(feeLink)tools+=courts146Link(feeLink,'money','Государственная пошлина',COURTS161_FEE_SECTION_ONLY[c[0]]?'Справочная информация → Госпошлина':'Реквизиты для оплаты');
  var practice=courts62CountRow(route,'active',courts62Matters(c,'active').length)+courts62CountRow(route,'archive',courts62Matters(c,'archive').length);
- var notes='<div class="courts146-note"><span class="courts147-note-icon">'+courts146Icon('note')+'</span><div><b>Особенности работы суда</b><p>'+esc(p.note||'Пока нет заметок. Добавьте свои рабочие сведения.')+'</p></div></div>';
- notes+=courts146PracticeList('people','Рабочие контакты',courts147PersonalRows(p.contacts))+courts146PracticeList('doc','Мои комментарии',courts147PersonalRows(p.comments));
- var mapCard='<a class="courts73-row courts146-map-link" href="'+esc(map)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+courts146Icon('map')+'<span><strong>Открыть на карте</strong><small>'+esc(p.address||c[1]+', '+c[2])+'</small></span>'+courts73ExternalIcon()+'</a><p class="courts146-help">Поиск по названию и адресу. Карта открывается во внешнем сервисе.</p>';
- if(buildings.length)mapCard=courts152Maps(c,buildings);
- var content='<div class="courts146-detail">'+hero+courts146Panel('phone','Контактная информация',contact)+courts146Panel('tools','Судебные инструменты',tools)+courts146Panel('brief','Мои дела в этом суде',practice)+courts146Panel('note','Личные заметки',notes,route,'notes')+courts146Panel('pin','Расположение на карте',mapCard)+'</div>';
+ var content='<div class="courts146-detail">'+hero+courts146Panel('phone','Контактная информация',contact)+courts146Panel('tools','Судебные инструменты',tools)+courts146Panel('brief','Мои дела в этом суде',practice)+'</div>';
  courts73Page(route,'Суд','Сведения и инструменты',content,parent);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
 }
 function courts146Editor(route,scope){var c=courts146Court(route);if(!c)return;scope=scope==='contacts'||scope==='notes'?scope:'all';var p=courts147DisplayProfile(c[0]);var scroll=$('#sheet').scrollTop,buildings=courts152Buildings(c),own=courts146Profile(c[0]);var fields=COURTS146_FIELDS.slice(0,8).map(function(f,i){if(scope==='contacts'&&i>=5||scope==='notes'&&i<5)return '';if(buildings.length&&i<3&&!own[f[0]]&&!(c[0]==='supreme'&&i===1))return ''; var multi=i===0||i>=4;return '<label class="courts146-field"><span>'+esc(buildings.length&&i<3&&!(c[0]==='supreme'&&i===1)?'Ранее уточнённые сведения: '+f[1]:f[0]==='office'?(p.officeLabel||f[1]):f[0]==='reception'?(p.receptionLabel||f[1]):f[1])+'</span>'+((f[0]==='contacts'||f[0]==='comments')?'<small>Разделяйте отдельные записи пустой строкой.</small>':'')+(multi?'<textarea id="court146-'+f[0]+'" maxlength="'+f[2]+'" rows="'+(i>=5?4:2)+'">'+esc(p[f[0]]||'')+'</textarea>':'<input id="court146-'+f[0]+'" maxlength="'+f[2]+'" type="'+(i===3?'email':i===1||i===2?'tel':'text')+'" value="'+esc(p[f[0]]||'')+'" autocomplete="off">')+'</label>';}).join('');if(buildings.length&&scope!=='notes')fields=buildings.map(function(b){return '<section class="courts152-building courts152-edit-building"><h4>'+esc(b.title)+'</h4><label class="courts146-field"><span>Адрес здания</span><textarea rows="2" maxlength="500" id="court146-'+b.key+'address">'+esc(b.address)+'</textarea></label><label class="courts146-field"><span>'+esc(b.label||'Телефон здания')+'</span><input type="tel" maxlength="120" id="court146-'+b.key+'phone" value="'+esc(b.phone)+'"></label></section>';}).join('')+fields;courts73Page(route,scope==='notes'?'Личные заметки':'Сведения суда',scope==='contacts'?'Контактная информация':'Личные данные и заметки','<div class="courts146-detail"><div class="courts146-panel courts146-form"><h3>'+esc(c[1])+'</h3><p class="courts146-help">Сведения сохраняются только в защищённой базе. Вносите проверенные контакты. Они не меняют официальный справочник.</p>'+fields+'</div><button class="settings60-gold-action courts146-edit" type="button" data-act="courts146-save" data-v="'+esc(route)+'">Сохранить сведения</button></div>',route);$('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').dataset.detailMode='edit';$('#sheet .courts73-page').dataset.editScope=scope;$('#sheet .courts73-page').dataset.returnScroll=scroll;}
@@ -5400,8 +5429,8 @@ var COURTS146_PENDING=false;
 async function courts146Save(route){if(COURTS146_PENDING||COURTS143_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;var c=courts146Court(route),page=$('#sheet .courts73-page');if(!c||!page||page.dataset.detailMode!=='edit'||page.dataset.route!==route)return false;var p=Object.assign({},courts146Profile(c[0]));COURTS146_FIELDS.forEach(function(f){var el=$('#court146-'+f[0]);if(!el)return;var val=el.value.trim().slice(0,f[2]);var original=COURTS147_PUBLIC[c[0]]&&COURTS147_PUBLIC[c[0]][f[0]],match=/^building([1-3])(address|phone)$/.exec(f[0]);if(match){var building=(COURTS152_BUILDINGS[c[0]]||[])[Number(match[1])-1];original=building&&building[match[2]];if(building&&match[2]==='phone'&&building.legacy&&p[building.legacy])original=p[building.legacy];}if(val&&val!==original)p[f[0]]=val;else delete p[f[0]];});var old=S.courtProfiles||{},next=Object.assign({},old);if(Object.keys(p).length)next[c[0]]=p;else delete next[c[0]];var state=S,key=SESSION_KEY,button=page.querySelector('[data-act="courts146-save"]');COURTS146_PENDING=true;if(button)button.disabled=true;S.courtProfiles=next;try{var ok=await flushSave();if(S!==state||SESSION_KEY!==key||!unlocked)return false;if(!ok){S.courtProfiles=old;mem=clone(S);await flushSave();if(unlocked&&S===state)toast('Не удалось сохранить сведения. Повторите действие.');return false;}if($('#sheet .courts73-page')===page){var y=Number(page.dataset.returnScroll)||0;courts73Open(route);$('#sheet').scrollTop=y;}toast('Сведения суда сохранены');return true;}finally{COURTS146_PENDING=false;if(button&&button.isConnected)button.disabled=false;}}
 async function courts146Copy(field){var page=$('#sheet .courts73-page'),c=page&&courts146Court(page.dataset.route);if(!c)return;var match=/^building([1-3])address$/.exec(field),text;if(match){var building=courts152Buildings(c)[Number(match[1])-1];text=building&&building.address;}else if(['address','email'].indexOf(field)>=0){text=courts147DisplayProfile(c[0])[field];}else return;if(!text)return;try{await navigator.clipboard.writeText(text);toast('Скопировано');}catch(e){toast('Не удалось скопировать. Выделите текст вручную.');}}
 var COURTS146_RETURN=null;
-function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route=page&&page.dataset.route,c=route&&courts146Court(route),mode=courts62Mode(route);if(!c||!unlocked||kind!=='matter'||!mode)return;var m=matter(id);if(!m||!courts62Matters(c,mode).some(function(x){return sameRecordId(x.id,m.id);}))return;var back={state:S,route:route,scroll:$('#sheet').scrollTop,kind:kind,mid:m.id,parentSnapshot:page._court62ParentSnapshot};closeSheet();openMatter(m.id);COURTS146_RETURN=back;}
-function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);var page=$('#sheet .courts73-page');if(page&&back.parentSnapshot)page._court62ParentSnapshot=back.parentSnapshot;$('#sheet').scrollTop=back.scroll||0;return true;}
+function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route=page&&page.dataset.route,c=route&&courts146Court(route),mode=courts62Mode(route);if(!c||!unlocked||kind!=='matter'||!mode)return;var m=matter(id);if(!m||!courts62Matters(c,mode).some(function(x){return sameRecordId(x.id,m.id);}))return;var back={state:S,route:route,scroll:$('#sheet').scrollTop,kind:kind,mid:m.id,parentSnapshot:page._court62ParentSnapshot,listState:courts64State(page)};closeSheet();openMatter(m.id);COURTS146_RETURN=back;}
+function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);var page=$('#sheet .courts73-page');if(page&&back.parentSnapshot)page._court62ParentSnapshot=back.parentSnapshot;if(page&&page.classList.contains('courts64-page'))courts64Restore(page,back.listState);$('#sheet').scrollTop=back.scroll||0;return true;}
 
 function courts73Open(route){
  COURTS146_RETURN=null;
