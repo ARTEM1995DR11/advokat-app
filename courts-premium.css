@@ -758,3 +758,7 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 
 /* 6.27 — compact external service availability note */
 .courts619-jurisdiction .courts627-external-note{margin:12px 2px 8px;padding:10px 12px;border-left:2px solid #b29a66;color:#65583f;font-size:12px;line-height:1.45;background:rgba(255,250,238,.72);border-radius:6px;}
+
+/* 6.28 — internal legal reference entry, no third-party address transfer. */
+.courts619-jurisdiction .courts628-source-button{font:inherit;color:inherit;text-decoration:underline;text-align:left;background:none;border:0;padding:6px 0;cursor:pointer;}
+.courts619-jurisdiction button.courts616-link{width:100%;text-align:left;}

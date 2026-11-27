@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.27';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6628';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.28';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6629';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4973,7 +4973,7 @@ var COURTS73_RESOURCES={
    ['https://recess.arbitr.ru/','Перерывы в заседаниях','Поиск объявленных перерывов','clock']
  ],
  jurisdiction:[
-   ['https://base.garant.ru/28384240/53f89421bbdaf741eb2d1ecc4ddb4c33/','Границы судебных участков','Ивановская область · приложение к 17-ОЗ (ГАРАНТ)','doc'],
+   ['jurisdiction-law','Границы судебных участков','Закон 17-ОЗ · редакция и изменения','doc'],
    ['https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast','Мировые судьи Ивановской области','МирСуд · неофициальный поиск по адресу','pin'],
    ['https://mos-gorsud.ru/territorial','Суды Москвы','Официальный поиск по адресу','search'],
    ['https://sudrf.ru/index.php?id=300&var=true#mp','ГАС «Правосудие»','Мировые судьи · поиск может быть недоступен','court']
@@ -5506,6 +5506,7 @@ function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.s
 function courts619ResourceCards(route,title){
  var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock',pin:'pin',court:'folder'};
  return '<section class="courts616-resources" aria-label="'+esc(title)+'">'+COURTS73_RESOURCES[route].map(function(r){
+  if(r[0]==='jurisdiction-law')return '<article class="courts141-card courts616-card"><button type="button" class="courts73-row courts141-card-open courts616-link" data-act="courts73-route" data-v="jurisdiction-law"><span class="courts616-art" aria-hidden="true">'+courts146Icon('doc')+'</span><span class="courts141-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts141-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button></article>';
   return '<article class="courts141-card courts616-card"><a class="courts73-row courts141-card-open courts616-link" href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(r[1]+' — '+r[2]+' (внешний сайт)')+'"><span class="courts616-art" aria-hidden="true">'+courts146Icon(icons[r[3]])+'</span><span class="courts141-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts141-arrow" aria-hidden="true">'+courts73ExternalIcon()+'</span></a></article>';
  }).join('')+'</section>';
 }
@@ -5517,7 +5518,7 @@ function courts616ArbitrPage(){
 /* 6.20 — offline preliminary territorial lookup. Partial rules only, never infer from office address. */
 // Адресные правила загружаются из jurisdiction-ivanovo.js до app.js.
 if(typeof COURTS620_RULES==='undefined')var COURTS620_RULES=[];
-var COURTS620_SOURCES={amend58:{name:'Закон Ивановской области № 58-ОЗ от 19.11.2025 (присоединение Ковалева к Федорищу)',url:'https://www.consultant.ru/law/review/reg/rlaw/rlaw2242025-11-21.html'},revision:{official:'https://publication.pravo.gov.ru/document/3700202312250004',name:'Закон Ивановской области № 78-ОЗ от 22.12.2023, новая редакция приложения к 17-ОЗ (сверка по доступной копии)',url:'https://zakonbaza.com/zakon-ivanovskaya-oblast-2023-12-22-78-oz/'},base:{name:'Закон Ивановской области № 17-ОЗ от 01.04.2014, приложение (доступная копия)',url:'https://ivan-gov.ru/doc/88834'},amend:{official:'https://publication.pravo.gov.ru/document/3700202510020003',name:'Закон Ивановской области № 42-ОЗ от 01.10.2025 (доступная копия; сверить с официальной публикацией)',url:'https://zakonbaza.com/zakon-ivanovskaya-oblast-2025-10-01-42-oz/'}};
+var COURTS620_SOURCES={amend58:{name:'Закон Ивановской области № 58-ОЗ от 19.11.2025 (присоединение Ковалева к Федорищу)',url:'https://www.consultant.ru/law/review/reg/rlaw/rlaw2242025-11-21.html'},revision:{name:'Закон Ивановской области № 78-ОЗ от 22.12.2023, новая редакция приложения к 17-ОЗ (сверка по доступной копии)',url:'https://zakonbaza.com/zakon-ivanovskaya-oblast-2023-12-22-78-oz/'},base:{name:'Закон Ивановской области № 17-ОЗ от 01.04.2014, приложение (доступная копия)',url:'https://ivan-gov.ru/doc/88834'},amend:{name:'Закон Ивановской области № 42-ОЗ от 01.10.2025 (доступная копия; сверить с официальной публикацией)',url:'https://zakonbaza.com/zakon-ivanovskaya-oblast-2025-10-01-42-oz/'}};
 function courts620Norm(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[‐‑–—]/g,'-').replace(/[.,]/g,' ').replace(/\s+/g,' ').trim();}
 function courts626Place(v){var raw=courts620Norm(v),m=raw.match(/^(г(?:ород)?|п(?:оселок)?|пос(?:елок)?|с(?:ело)?|д(?:еревня)?)\s+/),types={г:'город',город:'город',п:'поселок',пос:'поселок',поселок:'поселок',с:'село',село:'село',д:'деревня',деревня:'деревня'},local=raw.match(/\s*\(([^)]+)\)\s*$/);return {name:raw.replace(/\s*\([^)]+\)\s*$/,'').replace(/^(?:г(?:ород)?|п(?:оселок)?|пос(?:елок)?|с(?:ело)?|д(?:еревня)?)\s+/,''),type:m?types[m[1]]:'',local:local?local[1]:''};}
 function courts620City(v){return courts626Place(v).name;}
@@ -5542,13 +5543,16 @@ function courts620Lookup(city,street,house,district){
  var place=courts626Place(city),c=place.name,st=courts621StreetKey(city,street),h=courts621House(house),d=courts624District(district);
  if(!c&&!d)return {status:'empty',matches:[]};
  var whole=typeof COURTS626_WHOLE_DISTRICTS==='undefined'?{}:COURTS626_WHOLE_DISTRICTS,wholeKey=Object.keys(whole).find(function(k){return courts624District(k)===d;}),districtResult=wholeKey?{status:'districtOnly',matches:[{kind:'place',ids:[whole[wholeKey]],source:'revision'}]}:null;
- if(!c)return districtResult||{status:'empty',matches:[]};
+ if(h&&!courts623HouseValid(h))return {status:'invalidHouse',matches:[]};
+ if(!c)return (st.name||h)?{status:'empty',matches:[]}:districtResult||{status:'empty',matches:[]};
+ var cities=['иваново','вичуга','родники','тейково','кинешма','приволжск','фурманов','шуя','кохма','наволоки','заволжск','комсомольск','южа','пучеж','юрьевец','гаврилов посад'];
+ var urban=cities.indexOf(c)>=0; if(urban&&place.type&&place.type!=='город'&&!COURTS620_RULES.some(function(r){return courts620City(r.city)===c&&r.placeType===place.type;}))return {status:'unknown',matches:[]};
  if(c==='иваново'&&(/^(?:д(?:еревня)?)\s/i.test(courts620Norm(city))||d==='ивановский'))return {status:'unknown',matches:[]};
  if(h&&!courts623HouseValid(h))return {status:'invalidHouse',matches:[]};
  var found=[],pending=false,needDistrict=false,complex=false;
  COURTS620_RULES.forEach(function(r){
   if(courts620City(r.city)!==c)return;
-  if(place.type&&r.placeType&&place.type!==r.placeType)return;if(place.local&&courts620Norm(r.locality)!==place.local)return;
+  if(place.type&&r.placeType&&place.type!==r.placeType)return;if(urban&&place.type&&place.type!=='город'&&!r.placeType)return;if(place.local&&courts620Norm(r.locality)!==place.local)return;
   var rs=courts621StreetKey(r.city,r.street);if(r.kind!=='place'&&(st.kind!==r.kind||!st.name||rs.name!==st.name))return;
   if(r.district&&!d){needDistrict=true;return;}if(r.district&&d!==courts624District(r.district))return; if(d&&!r.district){var special={'заволжск':'заволжский','лежнево':'лежневский','лух':'лухский','южа':'южский','верхний ландех':'верхнеландеховский','пестяки':'пестяковский','юрьевец':'юрьевецкий','ильинское-хованское':'ильинский','гаврилов посад':'гаврилово-посадский','савино':'савинский'};if(!r.ids.some(function(id){var w=COURTS612_WORLD[id];return special[c]?special[c]===d:!!w&&courts620Norm(w.group).split(' ')[0]===d;}))return;}
   if(r.kind==='place'){found.push(r);return;}
@@ -5565,16 +5569,21 @@ function courts620Lookup(city,street,house,district){
  // Exact compound rule wins over an unresolved range of the same street only if all exact matches agree.
  var exact=found.filter(function(r){return r.houses&&r.houses.some(function(x){return courts621House(x)===h;});});
  if(complex&&exact.length){var exactIds=new Set(exact.flatMap(function(r){return r.ids;}));if(exactIds.size===1&&found.every(function(r){return r.ids.every(function(id){return exactIds.has(id);});}))complex=false;}
- return !needDistrict&&!pending&&!complex&&!found.length&&districtResult&&!COURTS620_RULES.some(function(r){return courts620City(r.city)===c;})?districtResult:{status:needDistrict?'district':pending?'house':complex?'complex':found.length?'candidate':'unknown',matches:found};
+ return !needDistrict&&!pending&&!complex&&!found.length&&districtResult&&!COURTS620_RULES.some(function(r){return courts620City(r.city)===c;})?districtResult:{status:needDistrict?'district':pending?'house':complex?'complex':found.length?(found.every(function(r){return r.kind==='place';})?'placeOnly':!h?'streetOnly':'candidate'):!st.name&&COURTS620_RULES.some(function(r){return courts620City(r.city)===c&&r.kind!=='place';})?'street':'unknown',matches:found};
 }
-function courts625Fallback(){return '<div class="courts620-sources courts625-fallback"><a href="https://base.garant.ru/28384240/53f89421bbdaf741eb2d1ecc4ddb4c33/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Сверить границы участков по 17-ОЗ (ГАРАНТ)</a><a href="https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Поиск в МирСуд (неофициальный)</a></div>'; }
+function courts625Fallback(){return '<div class="courts620-sources courts625-fallback"><button type="button" class="courts628-source-button" data-act="courts73-route" data-v="jurisdiction-law">Сверить границы участков по закону</button><a href="https://mirsud.com/poisk-po-adresu/?region=ivanovskaya-oblast" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Поиск в МирСуд (неофициальный)</a></div>';}
+function courts628LawPage(){
+ var links=courts146Link('https://publication.pravo.gov.ru/','doc','Официальное опубликование','Поиск законов по номеру и дате')+courts146Link(COURTS620_SOURCES.revision.url,'doc','78-ОЗ от 22.12.2023','Полный текст новой редакции границ · копия')+courts146Link(COURTS620_SOURCES.amend.url,'doc','42-ОЗ от 01.10.2025','Изменения границ · копия')+courts146Link(COURTS620_SOURCES.amend58.url,'doc','58-ОЗ от 19.11.2025','Обзор изменений населённых пунктов · КонсультантПлюс');
+ courts73Page('jurisdiction-law','Границы судебных участков','Ивановская область · Закон 17-ОЗ','<div class="courts627-external-note" role="note">Сверяйте редакцию 2023 года вместе с последующими изменениями. Копии не являются официальной публикацией; проверьте актуальность перед подачей.</div>'+courts146Panel('doc','Законодательство',links),'jurisdiction');
+ $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');$('#sheet .courts73-page').classList.add('courts619-jurisdiction');
+}
 function courts620Result(page){
  var result=courts620Lookup(page.querySelector('#courts620-city').value,page.querySelector('#courts620-street').value,page.querySelector('#courts620-house').value,page.querySelector('#courts620-district').value),out=page.querySelector('#courts620-result');
- if(result.status!=='candidate'&&result.status!=='districtOnly'){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',district:'Уточните район населённого пункта.',house:'Для этой улицы необходимо указать номер дома.',invalidHouse:'Уточните номер дома: например, 12А, 12/1, 12 корп. 2 или 12 стр. 1.',complex:'Для такого номера дома точная граница в локальной базе не подтверждена. Сверьте адрес с официальным источником.',unknown:'Адрес не найден в неполной локальной базе. Это не означает, что адрес не относится к суду. Проверьте название улицы или сверяйтесь с законом и альтернативными ресурсами ниже.'})[result.status]+'</p>'+(['unknown','complex','district'].indexOf(result.status)>=0?courts625Fallback():'');return;}
+ if(['candidate','districtOnly','placeOnly','streetOnly'].indexOf(result.status)<0){out.innerHTML='<p class="courts620-message">'+({empty:'Укажите населённый пункт.',district:'Уточните район населённого пункта.',street:'Укажите улицу для определения судебного участка.',house:'Для этой улицы необходимо указать номер дома.',invalidHouse:'Уточните номер дома: например, 12А, 12/1, 12 корп. 2 или 12 стр. 1.',complex:'Для такого номера дома точная граница в локальной базе не подтверждена. Сверьте адрес с официальным источником.',unknown:'Адрес не найден в неполной локальной базе. Это не означает, что адрес не относится к суду. Проверьте название улицы или сверяйтесь с законом и альтернативными ресурсами ниже.'})[result.status]+'</p>'+(['unknown','complex','district'].indexOf(result.status)>=0?courts625Fallback():'');return;}
  var matchedStreet=result.matches.find(function(r){return r.kind!=='place'&&r.street;});var ids=[],sources=[];result.matches.forEach(function(r){r.ids.forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});if(sources.indexOf(r.source)<0)sources.push(r.source);});
  var parents=[];ids.forEach(function(id){var m=COURTS612_WORLD[id];if(m&&parents.indexOf(m.parent)<0)parents.push(m.parent);});
  function courtRow(id){var c=COURTS73_DEMO.find(function(x){return x[0]===id;});return c?courts146Button('courts73-route','court:'+id+'|jurisdiction','court',c[1],'Открыть карточку суда'):'';}
- out.innerHTML='<p class="courts620-message"><strong>'+(result.status==='districtOnly'?'Участок по указанному району — адрес не проверен':ids.length>1?'Неоднозначный адрес: несколько возможных участков':'Предварительное совпадение')+'</strong> · неполная база, сверить перед подачей.'+(matchedStreet?' <br>Улица в базе: '+esc(matchedStreet.street)+'.':'')+'</p><div class="courts620-result-head">Мировой судья</div>'+ids.map(courtRow).join('')+'<div class="courts620-result-head">Районный / городской суд</div>'+parents.map(courtRow).join('')+'<div class="courts620-sources">'+sources.map(function(k){var src=COURTS620_SOURCES[k];return '<a href="'+esc(src.url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+esc(src.name)+'</a>'+(src.official?' <a href="'+esc(src.official)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Официальная публикация</a>':'');}).join('')+'</div>'+(ids.length>1||result.status==='districtOnly'?courts625Fallback():'');
+ out.innerHTML='<p class="courts620-message"><strong>'+(ids.length>1?'Неоднозначный адрес: несколько возможных участков':result.status==='districtOnly'?'Участок по указанному району — адрес не проверен':result.status==='placeOnly'?'Участок по населённому пункту — улица и дом не проверены':result.status==='streetOnly'?'Участок по улице — номер дома не указан':'Предварительное совпадение по адресу')+'</strong> · неполная база, сверить перед подачей.'+(matchedStreet?' <br>Улица в базе: '+esc(matchedStreet.street)+'.':'')+'</p><div class="courts620-result-head">Мировой судья</div>'+ids.map(courtRow).join('')+'<div class="courts620-result-head">Районный / городской суд</div>'+parents.map(courtRow).join('')+'<div class="courts620-sources">'+sources.map(function(k){var src=COURTS620_SOURCES[k];return '<a href="'+esc(src.url)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">'+esc(src.name)+'</a>'+(src.official?' <a href="'+esc(src.official)+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Официальная публикация</a>':'');}).join('')+'</div>'+(ids.length>1||result.status!=='candidate'?courts625Fallback():'');
 }
 function courts622Suggestions(city,query,kind,district){
  var c=courts620City(city),q=kind==='city'?courts620City(query):courts620Norm(query),d=courts624District(district),seen=new Set(),rows=[];if(!q)return rows;
@@ -5598,7 +5607,7 @@ function courts620Form(){return '<section class="courts146-panel courts620-panel
 var COURTS623_JUR_RETURN=null;
 function courts619JurisdictionPage(){
  COURTS146_ICON_ID=0;
- courts73Page('jurisdiction','Территориальная подсудность','Определение суда по адресу',courts620Form()+'<div class="courts627-external-note" role="note">В ГАС «Правосудие» поиск по адресу может быть недоступен при актуализации базы. Для Ивановской области сверяйте границы участков по закону.</div>'+courts619ResourceCards('jurisdiction','Внешние источники'),'home');
+ courts73Page('jurisdiction','Территориальная подсудность','Определение суда по адресу',courts620Form()+'<div class="courts627-external-note" role="note">В ГАС «Правосудие» поиск по адресу может быть недоступен при актуализации базы. Локальный поиск работает без интернета. Перед подачей сверяйте границы по закону.</div>'+courts619ResourceCards('jurisdiction','Внешние источники'),'home');
  $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
  var page=$('#sheet .courts73-page');page.classList.add('courts616-arbitr','courts619-jurisdiction');
  var form=page.querySelector('.courts620-form');form.addEventListener('submit',function(e){e.preventDefault();courts620Result(page);});
@@ -5608,7 +5617,7 @@ function courts619JurisdictionPage(){
  if(saved&&saved.state===S&&unlocked){['city','street','house','district'].forEach(function(k){page.querySelector('#courts620-'+k).value=saved[k];});if(saved.result)courts620Result(page);$('#sheet').scrollTop=saved.scroll;}
 }
 function courts73Open(route){
- var from=$('#sheet .courts73-page');if(from&&from.dataset.route==='jurisdiction'&&/^court:[a-z0-9-]+\|jurisdiction$/.test(route)){COURTS623_JUR_RETURN={state:S,result:!!from.querySelector('#courts620-result').textContent,scroll:$('#sheet').scrollTop};['city','street','house','district'].forEach(function(k){COURTS623_JUR_RETURN[k]=from.querySelector('#courts620-'+k).value;});}else if(route!=='jurisdiction'&&!/^court:[a-z0-9-]+\|jurisdiction(?:\||$)/.test(route))COURTS623_JUR_RETURN=null;
+ var from=$('#sheet .courts73-page');if(from&&from.dataset.route==='jurisdiction'&&(route==='jurisdiction-law'||/^court:[a-z0-9-]+\|jurisdiction$/.test(route))){COURTS623_JUR_RETURN={state:S,result:!!from.querySelector('#courts620-result').textContent,scroll:$('#sheet').scrollTop};['city','street','house','district'].forEach(function(k){COURTS623_JUR_RETURN[k]=from.querySelector('#courts620-'+k).value;});}else if(route!=='jurisdiction'&&route!=='jurisdiction-law'&&!/^court:[a-z0-9-]+\|jurisdiction(?:\||$)/.test(route))COURTS623_JUR_RETURN=null;
  if(from&&/^(world|world-general)$/.test(from.dataset.route)&&String(route).startsWith('court:')&&String(route).split('|')[1]===from.dataset.route)COURTS613_WORLD_RETURN=courts613CaptureWorld(from);
  else if(!String(route).startsWith('court:')&&!/^(world|world-general)$/.test(route))COURTS613_WORLD_RETURN=null;
  COURTS146_RETURN=null;
@@ -5634,6 +5643,7 @@ function courts73Open(route){
  }
  if(route==='arbitr'){courts616ArbitrPage();return;}
  if(route==='jurisdiction'){courts619JurisdictionPage();return;}
+ if(route==='jurisdiction-law'){courts628LawPage();return;}
  if(!Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return;
  var row=COURTS73_GROUPS.reduce(function(a,g){return a.concat(g[1]);},[]).filter(function(r){return r[0]===route;})[0];
  if(row)courts73Page(route,row[1],row[2],courts73Section('Доступные ресурсы',COURTS73_RESOURCES[route])+'<p class="courts73-foot">Информация открывается на внешнем сайте. Данные из карточек дел не передаются.</p>','home');
