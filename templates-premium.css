@@ -110,7 +110,7 @@ html:has(#sheet.tpl656-sheet.open){background:#f3e5d1!important}
 /* 6.69 — approved library artwork and detail refinements. */
 html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
  background-color:#f2dfc5!important;
- background-image:url('templates669-background.webp?v=6671')!important;
+ background-image:url('templates669-background.webp?v=6672')!important;
  background-repeat:no-repeat!important;background-position:center top!important;
  background-size:100% 100%!important;min-height:100%!important;
 }
@@ -121,7 +121,7 @@ html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
  margin:0!important;border:0!important;border-radius:0!important;
  padding:var(--tpl668-top) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 16px)!important;
  background-color:#f2dfc5!important;
- background-image:url('templates669-background.webp?v=6671')!important;
+ background-image:url('templates669-background.webp?v=6672')!important;
  background-size:100% 100%!important;
  background-position:center top!important;background-repeat:no-repeat!important;
  background-origin:border-box!important;background-clip:border-box!important;
@@ -179,3 +179,33 @@ html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
 #sheet.tpl665-home-sheet .tpl665-row:is([data-v="civil"],[data-v="arbitr"]) .tpl665-copy{gap:clamp(7px,2.65vw,15px);}
 #sheet.tpl665-home-sheet .tpl669-dot{display:inline-block;width:clamp(3px,1.05vw,6px);height:clamp(3px,1.05vw,6px);border-radius:50%;background:currentColor;font-size:0;line-height:0;vertical-align:middle;}
 @media(max-width:350px){#sheet.tpl665-home-sheet .tpl665-copy small svg{width:12px;height:13px;}#sheet.tpl665-home-sheet .tpl665-row:is([data-v="civil"],[data-v="arbitr"]) .tpl665-copy{gap:7px;}}
+
+/* 6.71 — all routes in one library, one immovable artwork and shared card language.
+   The home geometry remains as approved in 6.70. */
+#sheet.tpl665-home-sheet .tpl671-inner{padding-bottom:28px;}
+#sheet.tpl665-home-sheet .tpl671-head{margin:max(0px,calc(clamp(54px,17.7vw,100px) - var(--tpl668-top))) 0 clamp(14px,4.5vw,26px);}
+#sheet.tpl665-home-sheet .tpl671-top{display:grid;grid-template-columns:clamp(32px,9vw,46px) minmax(0,1fr);gap:clamp(8px,2.5vw,14px);align-items:center;width:min(70%,360px);min-height:clamp(45px,14vw,70px);}
+#sheet.tpl665-home-sheet .tpl671-top>span{border-left:1px solid #ad7935;padding:4px 0 4px clamp(8px,2.3vw,14px);color:#855315;font:700 clamp(10px,3.05vw,17px)/1.22 Georgia,'Times New Roman',serif;overflow-wrap:normal;}
+#sheet.tpl665-home-sheet .tpl671-heading{display:grid;grid-template-columns:clamp(46px,13vw,78px) minmax(0,1fr);gap:clamp(8px,2.5vw,14px);align-items:center;margin-top:clamp(8px,3.7vw,23px);min-height:clamp(43px,12vw,68px);}
+#sheet.tpl665-home-sheet .tpl671-heading>img{display:block;width:100%;height:clamp(42px,12vw,68px);object-fit:contain;}
+#sheet.tpl665-home-sheet .tpl671-heading-copy{border-left:1px solid #ad7935;padding-left:clamp(8px,2.4vw,14px);min-width:0;}
+#sheet.tpl665-home-sheet .tpl671-heading h2{font:700 clamp(19px,5.55vw,34px)/1.1 Georgia,'Times New Roman',serif!important;letter-spacing:-.02em;color:#0b1735!important;margin:0 0 4px!important;overflow-wrap:break-word;}
+#sheet.tpl665-home-sheet .tpl671-heading p{font:400 clamp(12px,3.15vw,17px)/1.3 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#251c18;margin:0!important;overflow-wrap:break-word;}
+#sheet.tpl665-home-sheet .tpl671-template-list{grid-auto-rows:auto;}
+#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-icon{height:clamp(42px,15vw,82px);}
+#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy strong{overflow-wrap:break-word;}
+#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy small span{min-width:0;flex:1;overflow-wrap:break-word;}
+#sheet.tpl665-home-sheet .tpl671-section-heading{display:flex;align-items:center;gap:9px;margin:clamp(15px,5vw,29px) 4px 10px;}
+#sheet.tpl665-home-sheet .tpl671-section-heading h3{font:700 clamp(13px,3.5vw,20px)/1.2 Georgia,serif!important;text-transform:uppercase;color:#855315;margin:0!important;}
+#sheet.tpl665-home-sheet .tpl671-section-heading i{height:1px;background:#b68442;flex:1;}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl656-context,#sheet.tpl665-home-sheet .tpl671-preview .tpl656-panel{border:1px solid #d5b88c9c;border-radius:clamp(12px,3.35vw,20px);background:linear-gradient(155deg,#fffcf5 0%,#fdf5e8 52%,#f7e9d2 100%);box-shadow:inset 0 1px 1px #ffffffd9,0 5px 9px -2px #96612660,0 2px 3px #ab783429;padding:clamp(12px,4vw,22px);}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl656-panel h3{font:700 clamp(18px,4.75vw,26px)/1.2 Georgia,serif;color:#0b1735;margin:0 0 9px;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-selection{border-top:1px solid #d9bd92;border-bottom:1px solid #d9bd92;margin-bottom:0;gap:8px;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-selection button{color:#855315;text-decoration:underline;text-underline-offset:3px;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-checks label,#sheet.tpl665-home-sheet .tpl671-preview .tpl661-modes label{border-color:#e0cdb0;align-items:flex-start;padding:13px 0;min-height:46px;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-checks label>span{min-width:0;overflow-wrap:break-word;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-checks input,#sheet.tpl665-home-sheet .tpl671-preview .tpl661-modes input{accent-color:#a16a1f;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl661-case select{border-color:#d4b78c;background:#fffaf1;}
+#sheet.tpl665-home-sheet .tpl671-preview .tpl656-apply .settings60-gold-action{border:1px solid #a97530;border-radius:12px;background:linear-gradient(160deg,#d7ae65,#b98535 58%,#a16a1f);color:#fffdf5;font-weight:700;box-shadow:inset 0 1px #f8e0ac,0 3px 5px #94602035;white-space:normal;}
+@media(max-width:350px){#sheet.tpl665-home-sheet .tpl671-top{width:73%;}#sheet.tpl665-home-sheet .tpl671-heading{gap:8px;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy strong{font-size:14px!important;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-icon{height:48px;}}
+@media(min-width:700px){#sheet.tpl665-home-sheet .tpl671-head{margin-top:12px;}}

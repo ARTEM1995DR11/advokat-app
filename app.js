@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.70';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6671';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.71';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6672';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -10397,10 +10397,11 @@ function tpl656Count(n,kind){return n+' '+(kind==='group'?plural(n,'шаблон
 function tpl661PointCount(n){return n+' '+plural(n,'пункт','пункта','пунктов');}
 function tpl656Art(icon){return icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);}
 function tpl656Card(title,desc,icon,action,value){
- return '<button type="button" class="tpl657-list-item" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><span class="tpl657-item-art" aria-hidden="true">'+tpl656Art(icon)+'</span><span class="tpl657-item-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+ return '<button type="button" class="tpl665-row tpl671-template-row" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><img class="tpl665-icon" src="templates671-document.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+esc(title)+'</strong><small><i aria-hidden="true">•</i><span>'+esc(desc)+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
-function tpl656GroupTitle(t){return '<div class="tpl657-section-title"><h3>'+esc(t)+'</h3><i></i></div>';}
-function tpl656List(ids){return '<section class="tpl657-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length)),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl656GroupTitle(t){return '<div class="tpl671-section-heading"><h3>'+esc(t)+'</h3><i aria-hidden="true"></i></div>';}
+function tpl656List(ids){return '<section class="tpl665-rows tpl671-template-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length)),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl671Head(title,sub,asset){return '<header class="tpl671-head"><div class="tpl671-top"><button type="button" class="tpl665-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span>РАБОЧАЯ БИБЛИОТЕКА</span></div><div class="tpl671-heading"><img src="'+esc(asset)+'?v='+APP_BUILD+'" alt=""><div class="tpl671-heading-copy"><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div></div></header>';}
 function tpl657Tile(g){var count=g[4].reduce(function(sum,i){return sum+TPL[i].items.length;},0);return '<button type="button" class="tpl665-row" data-act="tpl656-group" data-v="'+esc(g[0])+'"><img class="tpl665-icon" src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+(['admin','sentence','enforcement'].indexOf(g[0])>=0?esc(g[1]).replace(/ ([^ ]+)$/,'<br>$1'):esc(g[1]))+'</strong><small>'+ico('doc','s')+'<span>'+esc(tpl656Count(g[4].length,'group'))+'</span><i aria-hidden="true">•</i><span>'+esc(tpl661PointCount(count))+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';}
 function tpl656Catalog(){return '<section class="tpl665-group" aria-labelledby="tpl665-total"><div class="tpl665-grouphead"><img class="tpl665-groupicon" src="templates665-count.webp?v='+APP_BUILD+'" alt=""><h3 id="tpl665-total"><span class="tpl667-num">'+TPL656_GROUPS.length+'</span> '+plural(TPL656_GROUPS.length,'категория','категории','категорий').toUpperCase()+' <span class="tpl669-dot" aria-hidden="true">•</span> <span class="tpl667-num">'+TPL.length+'</span> '+plural(TPL.length,'шаблон','шаблона','шаблонов').toUpperCase()+'</h3><i aria-hidden="true"></i></div><div class="tpl665-rows">'+TPL656_GROUPS.map(tpl657Tile).join('')+'</div></section>';}
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
@@ -10411,11 +10412,17 @@ function tpl656Render(ctx){
  else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length));body=tpl661Preview(ctx,t,i);}
  else return;
  var m=ctx.mid?matter(ctx.mid):null;
- var head='<header class="tpl657-head"><div class="tpl657-topbar"><button type="button" class="tpl657-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span>РАБОЧАЯ БИБЛИОТЕКА</span><i></i></div><div class="tpl657-hero"><div class="tpl657-heading"><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div>'+(route==='home'?'<span class="tpl657-hero-art" aria-hidden="true"><img src="more-icon-templates-v6490.webp?v='+APP_BUILD+'" alt=""></span>':'')+'</div></header>';
+ var head=tpl671Head(title,sub,g?'templates665-'+g[0]+'.webp':'templates671-document.webp');
  if(route==='home')head='<header class="tpl665-head"><button type="button" class="tpl665-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><img class="tpl665-scales" src="templates665-layers.webp?v='+APP_BUILD+'" alt=""><div class="tpl665-title"><h2>Шаблоны</h2><p>Чек-листы и планы работы</p></div></header>';
  var context=m&&route.indexOf('preview:')!==0?'<div class="tpl656-context tpl665-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':'';
- openSheet('<main class="settings60-page tpl656-page'+(route==='home'?' tpl665-home':'')+'" data-route="'+esc(route)+'">'+head+context+body+'</main>');
- var sh=$('#sheet'),page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','tpl656-sheet','full');sh.classList.toggle('tpl665-home-sheet',route==='home');sh.setAttribute('aria-label',title);page._tpl656=ctx;
+ var markup='<main class="settings60-page tpl656-page tpl665-home'+(route==='home'?'':' tpl671-inner')+(route.indexOf('preview:')===0?' tpl671-preview':'')+'" data-route="'+esc(route)+'">'+head+context+body+'</main>';
+ var sh=$('#sheet'),current=sh.querySelector('.tpl656-page');
+ // Keep the same full-screen sheet and its backdrop when changing routes.
+ if(sh.classList.contains('open')&&sh.classList.contains('tpl656-sheet')&&current&&current._tpl656===ctx){
+   current.outerHTML=markup;sh.scrollTop=0;
+   setTimeout(function(){if(sh.classList.contains('open')&&sh.classList.contains('tpl656-sheet')){if(typeof upgradePremiumSelects==='function')upgradePremiumSelects(sh);if(typeof advUpgradeIconSurfaces==='function')advUpgradeIconSurfaces(sh);}},0);
+ }else openSheet(markup);
+ var page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','tpl656-sheet','tpl665-home-sheet','full');sh.setAttribute('aria-label',title);page._tpl656=ctx;
  if(route.indexOf('preview:')===0){page.addEventListener('change',function(){tpl661Read(page,ctx);tpl661Refresh(page,ctx);});tpl661Refresh(page,ctx);}
 }
 function sheetTemplates(mid,locked){tpl656Render({mid:mid||'',locked:!!locked,route:'home',query:'',stack:[]});}
