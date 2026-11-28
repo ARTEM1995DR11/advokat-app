@@ -928,3 +928,26 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet .courts642-contacts .courts146-contact-copy{min-width:0;overflow-wrap:anywhere;}
 #sheet .courts642-contacts .courts642-sources a{overflow-wrap:anywhere;}
 #sheet .courts676-sources .courts146-row{min-height:44px;}
+
+
+/* 6.77 — streamlined execution directories and contact cards.
+   Preserve the approved full-size Themis; constrain the title, not the artwork. */
+#sheet.courts73-sheet.courts139-mine-sheet.courts146-detail-sheet .courts641-execution .settings60-head{
+  max-width:calc(100% - clamp(28px,17vw,110px));
+  min-width:0;
+}
+#sheet.courts73-sheet.courts139-mine-sheet.courts146-detail-sheet .courts641-execution .settings60-head-copy h2{
+  font-size:clamp(18px,5.15vw,30px)!important;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+#sheet.courts73-sheet.courts139-mine-sheet.courts146-detail-sheet .courts641-execution .settings60-head-copy .courts653-title{overflow-wrap:anywhere;}
+#sheet.courts139-mine-sheet .courts641-execution[data-route="fssp-offices"]>.courts638-group+.courts638-group{
+  padding-top:clamp(22px,6.2vw,34px);
+}
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group .courts141-grouphead{
+  padding-bottom:2px;
+}
+#sheet .courts642-contacts .courts677-status{
+  margin:10px 0 0;color:#75634e;font:400 clamp(10px,2.7vw,13px)/1.35 -apple-system,BlinkMacSystemFont,Arial,sans-serif;
+}
