@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.37';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6638';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.38';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6639';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4996,7 +4996,7 @@ function courts73Row(r){
  return start+' class="settings60-line courts73-row"><span class="settings60-line-icon">'+ico(r[3],'s')+'</span><span class="settings60-line-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="settings60-arrow">'+(external?courts73ExternalIcon():ico('chev','s'))+'</span>'+(external?'</a>':'</button>');
 }
 function courts73Section(label,rows){return '<section class="courts73-group"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+settings60Card(rows.map(courts73Row).join(''))+'</section>';}
-function courts635Section(label,desc,rows,tone){return '<section class="courts73-group courts635-group courts635-'+esc(tone||'base')+'"><div class="courts635-head"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+(desc?'<p>'+esc(desc)+'</p>':'')+'</div><div class="settings60-card courts635-card">'+rows.map(courts73Row).join('')+'</div></section>';}
+function courts638PracticeGroup(label,rows){return '<section class="courts638-group"><div class="courts141-grouphead"><h3>'+esc(label.toUpperCase())+'</h3><i></i></div>'+courts619ResourceCards('practice',label,rows)+'</section>'; }
 /* 6.32: СудАкт regular filter IDs from published third-party snapshot (not official API):
  https://github.com/mynka999/sudact-mcp-server/blob/main/sudact_dicts.json
  Only known values are sent; actual external filtering still needs device verification. */
@@ -5040,10 +5040,10 @@ function courts634WebPracticeUrl(law,words,area,stage){
 }
 function courts631PracticePage(){
  var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · федеральные суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><button class="courts631-manual courts634-fallback" type="submit" value="web">Поиск через Google '+courts73ExternalIcon()+'</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">СудАкт — неофициальная база. Если фильтры не сработали, используйте Google: поиск по опубликованным актам, регион и инстанция — ключевые слова, не точные фильтры. Для кассации регион — место суда. Не вводите сведения о доверителях.</p></section>';
- var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения, обзоры и постановления Президиума','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту, номеру и виду акта','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и конституционно-правовые позиции','scale']];
- var other=[['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · поиск по статье, тексту и участку','court'],['https://ras.arbitr.ru/','Арбитражная практика','Банк решений · поиск по тексту и категории спора','search']];
- courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts635Section('Правовые позиции высших судов','Официальные источники',official,'official')+courts635Section('Другие базы судебных актов','Самостоятельный поиск на сайте выбранного ресурса',other,'other'),'home');
- var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice','courts637-practice');
+ var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Постановления Пленума и обзоры','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск судебных актов','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Постановления и определения','scale']];
+ var other=[['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · поиск по статье и участку','court'],['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search']];
+ courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts638PracticeGroup('Высшие суды',official)+courts638PracticeGroup('Другие базы судебных актов',other),'home');
+ var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
  var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
  courts632BindPickers(page,f);
  f.addEventListener('input',function(){error.hidden=true;error.textContent='';});
@@ -5468,6 +5468,7 @@ function courts146Icon(n){
  var id='court147-'+(++COURTS146_ICON_ID),f='url(#'+id+')',l='url(#'+id+'-l)',stroke='#95601d';
  if(n==='phone'||n==='site'||n==='map')return courts142Gold(n,'detail-'+COURTS146_ICON_ID);
  var shapes={
+ scale:`<g stroke="${stroke}" stroke-width="1" stroke-linejoin="round"><path d="M11 4h2v15h-2Z" fill="${f}"/><path d="M6 19h12l2 3H4Z" fill="${f}"/><path d="M3 5h18v2H3Z" fill="${f}"/><circle cx="12" cy="4" r="2" fill="${l}"/><path d="M5.5 7 2 15h7L5.5 7m13 0L15 15h7L18.5 7" fill="none"/><path d="M1 15h9q-4.5 7-9 0Zm13 0h9q-4.5 7-9 0Z" fill="${f}"/></g>`,
  tools:`<g stroke="${stroke}" stroke-width="1.05" stroke-linejoin="round"><path d="M3 2.5h11l4 4v10H3Z" fill="${f}"/><path d="M5 4.5h8v4h3v6H5Z" fill="${l}"/><path d="M13.5 3v4H18M7 8.5h4M7 11.5h5" fill="none" stroke-linecap="round"/><path d="m16.5 16.5 5 5" stroke-width="4" stroke-linecap="round"/><path d="m16.5 16.5 5 5" stroke="#e6b75e" stroke-width="2.3" stroke-linecap="round"/><circle cx="13.5" cy="13.5" r="5.5" fill="${f}"/><circle cx="13.5" cy="13.5" r="3.8" fill="${l}"/><path d="M10.8 13.4a2.7 2.7 0 0 1 2.7-2.7" fill="none" stroke="#fffdf5" stroke-width="1.2" stroke-linecap="round"/></g>`,
  money:`<g fill="${f}" stroke="${stroke}" stroke-width=".9"><path d="M3 14v6c0 3 11 3 11 0v-6Z"/><ellipse cx="8.5" cy="14" rx="5.5" ry="2.5" fill="${l}"/><path d="M12 5v11c0 3 10 3 10 0V5Z"/><ellipse cx="17" cy="5" rx="5" ry="2.5" fill="${l}"/></g><path d="M3.5 17c2.5 2 7.5 2 10 0m-1-9c2.5 2 7 2 9.5 0m-9.5 4c2.5 2 7 2 9.5 0" fill="none" stroke="#fff0b0" stroke-width="1"/>`,
  note:`<rect x="3" y="4" width="15" height="18" rx="2" fill="${f}" stroke="${stroke}"/><rect x="5" y="6" width="11" height="14" rx="1" fill="${l}"/><path d="M7 3v4m5-4v4M7 10h6m-6 4h4m-4 3h3" stroke="${stroke}" stroke-width="1.5" stroke-linecap="round"/><path d="m12 17 2-5L21 3l2 2-8 10Z" fill="${f}" stroke="${stroke}" stroke-linejoin="round"/>`,
@@ -5554,9 +5555,9 @@ function courts146Action(kind,id){var page=$('#sheet.open .courts73-page'),route
 function courts146Return(back){COURTS146_RETURN=null;if(!back||!unlocked||back.state!==S)return false;closeAll();courts73Open(back.route);var page=$('#sheet .courts73-page');if(page&&back.parentSnapshot)page._court62ParentSnapshot=back.parentSnapshot;if(page&&page.classList.contains('courts64-page'))courts64Restore(page,back.listState);$('#sheet').scrollTop=back.scroll||0;return true;}
 
 /* 6.16 — Arbitration resources: same approved marble, cards and gold artwork. */
-function courts619ResourceCards(route,title){
- var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock',pin:'pin',court:'folder'};
- return '<section class="courts616-resources" aria-label="'+esc(title)+'">'+COURTS73_RESOURCES[route].map(function(r){
+function courts619ResourceCards(route,title,rows){
+ var icons={search:'tools',doc:'doc',cal:'calendar',bell:'bell',clock:'clock',pin:'pin',court:'folder',tpl:'archive',scale:'scale'};
+ return '<section class="courts616-resources" aria-label="'+esc(title)+'">'+(rows||COURTS73_RESOURCES[route]).map(function(r){
   return '<article class="courts141-card courts616-card"><a class="courts73-row courts141-card-open courts616-link" href="'+esc(r[0])+'" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="'+esc(r[1]+' — '+r[2]+' (внешний сайт)')+'"><span class="courts616-art" aria-hidden="true">'+courts146Icon(icons[r[3]])+'</span><span class="courts141-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="courts141-arrow" aria-hidden="true">'+courts73ExternalIcon()+'</span></a></article>';
  }).join('')+'</section>';
 }
