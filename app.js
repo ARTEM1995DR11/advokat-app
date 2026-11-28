@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.55';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6656';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.56';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6657';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -2751,7 +2751,7 @@ function openSheet(html){
     MATTER_ACTIONS_OUTLINE_OBSERVER=null;
   }
   document.body.classList.remove('stage-hearings-backdrop-open','journal-sheet-open','matter-archive-backdrop-open','matter-export-backdrop-open');
-  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet','courts139-mine-sheet','courts146-detail-sheet','backup97-sheet');
+  s.classList.remove('full','quick-sheet','task-editor-sheet','hearing-premium-sheet','entry-premium-sheet','journal-premium-sheet','journal-paper-v1259','editor-create-mode','editor-edit-mode','qe190-sheet','qe192-hearing-sheet','editor-inline-foot','hearing-result-sheet','filter-premium-sheet','task-filter-premium','matter-filter-premium','matter-editor-sheet','task-actions-premium','matter-actions-premium','matter-event-choice-sheet','matter-event-stage1-open','matter-export-choice-sheet','matter-export-paper-stage1','matter-position-sheet','matter-finish-sheet','matter-archive-sheet','matter-archive-paper-stage1','matter-finish-paper-stage1','sheet-premium-form','sheet-premium-search','notify-premium-sheet','reminders-approved-v107-sheet','reminders-approved-v108-sheet','reminders-approved-v114-sheet','reminders-approved-v116-sheet','reminders-approved-v117-sheet','global-search-premium-v166-sheet','case-stage-sheet','stage-finish-choice-sheet','stage-wizard-first-sheet','stage-wizard-second-sheet','stage-hearings-sheet','hearing-result-v355','profile-premium-v51','settings-premium-v57','pin-premium-v59','settings60-child-sheet','courts73-sheet','courts76-home-sheet','courts139-mine-sheet','courts146-detail-sheet','tpl656-sheet','backup97-sheet');
   s.innerHTML = '<div class="grab"></div>'+html;
   var kids = Array.prototype.slice.call(s.children).filter(function(n){ return !n.classList.contains('grab'); });
   var foot = kids.filter(function(n){ return n.tagName === 'BUTTON'; });
@@ -6139,6 +6139,7 @@ function appBack(){
     }
   }
   var sheet=$('#sheet'), page=$('#page');
+  if(sheet.classList.contains('open')&&sheet.classList.contains('tpl656-sheet')&&tpl656Back()){vib(5);return true;}
   if(sheet.classList.contains('open')&&sheet.classList.contains('courts73-sheet')&&courts73Back()){vib(5);return true;}
   if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
   if(matterActionReturnBack()){vib(5);return true;}
@@ -9599,13 +9600,48 @@ var TPL = [
    ['Проверить противоречия с прежними показаниями',1],
    ['Обсудить основания для использования ст. 51 Конституции РФ',1]]}
 ];
-function sheetTemplates(mid){
-  openSheet('<h2>Шаблоны чек-листов</h2><p class="sh-sub">Готовый набор задач со сроками — один тап, и план работы по делу составлен.</p>'+
-    (mid?'':'<div class="hint">Задачи добавятся без привязки к делу. Чтобы привязать — откройте карточку дела и нажмите «Шаблон».</div>')+
-    '<div class="card" style="padding:0 16px">'+TPL.map(function(t,i){
-      return '<button class="row" data-act="tpl-use" data-v="'+i+'" data-id="'+(mid||'')+'">'+ico(t.i)+
-        '<span class="rl">'+t.n+'<small>'+t.items.length+' задач</small></span>'+ico('chev','s')+'</button>'; }).join('')+'</div>');
+/* 6.56 — catalogue design; existing TPL data and task creation retained. */
+var TPL656_GROUPS=[
+ ['general','Общие','Консультация, заседание, завершение дела','note',[0,3,7]],
+ ['criminal','Уголовные дела','Вступление в дело, следственные действия','gavel',[5,11]],
+ ['civil','Гражданские дела','Иск и апелляция','scale',[1,4]],
+ ['admin','Административные дела','Административный иск по КАС РФ','doc',[8]],
+ ['sentence','Исполнение наказаний','УДО и освобождение по болезни','folder',[9,10]],
+ ['enforcement','Исполнительное производство','Работа с судебными приставами','money',[6]],
+ ['arbitr','Арбитражные дела','Подготовка арбитражного иска','brief',[2]]
+];
+function tpl656Count(n,kind){return n+' '+(kind==='group'?plural(n,'шаблон','шаблона','шаблонов'):plural(n,'задача','задачи','задач'));}
+function tpl656Card(title,desc,icon,action,value){
+ var art=icon==='own'?courts146Star(true):icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);
+ return '<article class="courts141-card courts616-card"><button type="button" class="courts141-card-open courts616-link" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><span class="courts616-art" aria-hidden="true">'+art+'</span><span class="courts141-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="courts141-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button></article>';
 }
+function tpl656GroupTitle(t){return '<div class="courts141-grouphead"><h3>'+esc(t.toUpperCase())+'</h3><i></i></div>';}
+function tpl656List(ids){return '<section class="courts616-resources">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,tpl656Count(t.items.length),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl656Catalog(q){
+ var terms=String(q||'').toLocaleLowerCase('ru').replace(/ё/g,'е').trim().split(/\s+/).filter(Boolean);
+ if(terms.length){var ids=TPL.map(function(_,i){return i;}).filter(function(i){var t=TPL[i],g=TPL656_GROUPS.find(function(x){return x[4].includes(i);});var hay=(t.n+' '+(g?g[1]+' '+g[2]:'')+' '+t.items.map(function(it){return it[0];}).join(' ')).toLocaleLowerCase('ru').replace(/ё/g,'е');return terms.every(function(w){return hay.includes(w);});});return tpl656GroupTitle('Результаты поиска')+(ids.length?tpl656List(ids):'<p class="tpl656-empty">Шаблоны не найдены</p>');}
+ return '<section class="tpl656-group">'+tpl656GroupTitle('Личная библиотека')+'<div class="courts616-resources">'+tpl656Card('Мои шаблоны','Собственные планы работы','own','tpl656-own','')+'</div></section><section class="tpl656-group">'+tpl656GroupTitle('Стандартные шаблоны')+'<div class="courts616-resources">'+TPL656_GROUPS.map(function(g){return tpl656Card(g[1],g[2]+' · '+tpl656Count(g[4].length,'group'),g[3],'tpl656-group',g[0]);}).join('')+'</div></section>';
+}
+function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
+function tpl656Render(ctx){
+ var route=ctx.route,title='Шаблоны',sub='Готовые планы работы',body='',g;
+ if(route==='home')body='<label class="courts141-search tpl656-search">'+ico('search','s')+'<input type="search" id="tpl656-query" aria-label="Поиск шаблона" placeholder="Поиск шаблона" autocomplete="off" value="'+esc(ctx.query||'')+'"></label><div id="tpl656-results" aria-live="polite">'+tpl656Catalog(ctx.query)+'</div>';
+ else if(route==='own'){title='Мои шаблоны';sub='Личная библиотека';body='<section class="courts141-card tpl656-panel"><h3>Собственные планы работы</h3><p>Создание и редактирование личных шаблонов появятся на следующем этапе разработки.</p></section>';}
+ else if(route.indexOf('group:')===0){g=TPL656_GROUPS.find(function(x){return x[0]===route.slice(6);});if(!g)return;title=g[1];sub=tpl656Count(g[4].length,'group');body=tpl656List(g[4]);}
+ else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=tpl656Count(t.items.length);body='<section class="courts141-card tpl656-panel"><h3>План работы</h3><ol class="tpl656-plan">'+t.items.map(function(it){return '<li>'+esc(it[0])+'</li>';}).join('')+'</ol></section><section class="courts141-card tpl656-panel tpl656-apply"><p>Пока действует прежний порядок: добавляются все задачи, рабочие даты отсчитываются от сегодняшнего дня. Это не расчёт процессуальных сроков.</p><button type="button" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить '+tpl656Count(t.items.length)+'</button></section>';}
+ else return;
+ var m=ctx.mid?matter(ctx.mid):null;
+ var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-templates-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">ПРОФЕССИОНАЛЬНЫЕ ИНСТРУМЕНТЫ</span><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div></header>';
+ var context=m?'<div class="courts141-card tpl656-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':route.indexOf('preview:')===0?'<div class="courts141-card tpl656-context"><small>Добавление задач</small><strong>Без привязки к делу</strong></div>':'';
+ openSheet('<main class="settings60-page tpl656-page" data-route="'+esc(route)+'">'+head+context+body+'</main>');
+ var sh=$('#sheet'),page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','courts139-mine-sheet','courts146-detail-sheet','tpl656-sheet','full');sh.setAttribute('aria-label',title);page._tpl656=ctx;
+ var input=page.querySelector('#tpl656-query');if(input)input.addEventListener('input',function(){ctx.query=input.value;page.querySelector('#tpl656-results').innerHTML=tpl656Catalog(ctx.query);});
+}
+function sheetTemplates(mid){tpl656Render({mid:mid||'',route:'home',query:'',stack:[]});}
+function tpl656Go(route){var ctx=tpl656State();if(!ctx)return;ctx.stack.push({route:ctx.route,scroll:$('#sheet').scrollTop});ctx.route=route;tpl656Render(ctx);}
+function tpl656Back(){var ctx=tpl656State();if(!ctx)return false;var prev=ctx.stack.pop();if(!prev){closeSheet();return true;}ctx.route=prev.route;tpl656Render(ctx);$('#sheet').scrollTop=prev.scroll;return true;}
+function tpl656Apply(i){var ctx=tpl656State();if(!ctx||ctx.route!=='preview:'+i||!TPL[i])return;if(!window.confirm('Добавить все задачи? Даты будут рассчитаны по прежним рабочим интервалам, не как процессуальные сроки.'))return;applyTpl(i,ctx.mid);}
+
 function applyTpl(i,mid){
   if(mid && (!matter(mid)||matter(mid).archived)){toast('Сначала верните дело в работу');return;}
   var t = TPL[i];
@@ -11139,6 +11175,11 @@ document.addEventListener('click', function(ev){
     /* helpers */
     case 'templates': sheetTemplates('');break;
     case 'tpl-use': applyTpl(+v,id||'');break;
+    case 'tpl656-group': if(TPL656_GROUPS.some(function(g){return g[0]===v;}))tpl656Go('group:'+v);break;
+    case 'tpl656-own': tpl656Go('own');break;
+    case 'tpl656-preview': if(/^\d+$/.test(v)&&TPL[+v])tpl656Go('preview:'+v);break;
+    case 'tpl656-back': appBack();break;
+    case 'tpl656-apply': tpl656Apply(+v);break;
     case 'deadline': sheetDeadline('');break;
     case 'dl-add': break;
     case 'reports': sheetReports();break;
