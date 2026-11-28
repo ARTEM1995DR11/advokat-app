@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.36';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6637';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.37';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6638';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5043,7 +5043,7 @@ function courts631PracticePage(){
  var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения, обзоры и постановления Президиума','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту, номеру и виду акта','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и конституционно-правовые позиции','scale']];
  var other=[['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · поиск по статье, тексту и участку','court'],['https://ras.arbitr.ru/','Арбитражная практика','Банк решений · поиск по тексту и категории спора','search']];
  courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts635Section('Правовые позиции высших судов','Официальные источники',official,'official')+courts635Section('Другие базы судебных актов','Самостоятельный поиск на сайте выбранного ресурса',other,'other'),'home');
- var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
+ var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice','courts637-practice');
  var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
  courts632BindPickers(page,f);
  f.addEventListener('input',function(){error.hidden=true;error.textContent='';});

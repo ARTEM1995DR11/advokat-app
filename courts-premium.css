@@ -811,3 +811,70 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet .courts632-picker summary:focus-visible,#sheet .courts632-option:focus-visible{outline:2px solid #a87931;outline-offset:2px}
 #sheet .courts632-option[hidden],#sheet .courts632-empty[hidden]{display:none!important}
 #sheet .courts632-empty{margin:8px;color:#79501e;font-size:13px;line-height:1.4}
+
+/* 6.35: secondary search action */
+#sheet .courts634-fallback{width:100%;border:1px solid #c7a36b;border-radius:12px;background:#fffaf0;padding:9px 12px;cursor:pointer}
+
+
+/* 6.35 — richer lower resource groups on the practice page. */
+#sheet .courts631-practice .courts635-group{margin:16px 0 0}
+#sheet .courts631-practice .courts635-head{margin:0 2px 10px}
+#sheet .courts631-practice .courts635-head .settings60-minihead{margin:0 0 4px}
+#sheet .courts631-practice .courts635-head p{margin:0;color:#7a6854;font:500 12px/1.38 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .courts631-practice .courts635-card{position:relative;overflow:hidden;background:linear-gradient(155deg,#fffdf9 0%,#fbf3e6 54%,#f4e1c5 100%);border:1px solid #d5b482;border-radius:24px;box-shadow:inset 0 0 0 1px #fffdf8,0 8px 18px rgba(150,99,51,.14)}
+#sheet .courts631-practice .courts635-card::before{content:'';position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(180deg,#efcf8c,#ba7f27);opacity:.9}
+#sheet .courts631-practice .courts635-other .courts635-card::before{background:linear-gradient(180deg,#dfc18f,#9e7132)}
+#sheet .courts631-practice .courts635-card .courts73-row{padding:14px 6px 14px 0;min-height:74px;gap:12px}
+#sheet .courts631-practice .courts635-card .courts73-row+.courts73-row{border-top:1px solid rgba(198,163,108,.45)}
+#sheet .courts631-practice .courts635-card .settings60-line-icon{width:48px;height:48px;flex-basis:48px;border-radius:16px;background:linear-gradient(180deg,#fff9ef,#f3dfbd);border-color:#e1c28d;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 6px rgba(150,99,51,.12);color:#ad7828}
+#sheet .courts631-practice .courts635-card .settings60-line-copy strong{font-size:clamp(16px,4.25vw,21px);line-height:1.16;color:#0b1736}
+#sheet .courts631-practice .courts635-card .settings60-line-copy small{font-size:12px;line-height:1.38;color:#6a5948;margin-top:5px}
+#sheet .courts631-practice .courts635-card .settings60-arrow{width:36px;height:36px;flex-basis:36px;border-radius:50%;border:1px solid #ddb772;background:linear-gradient(180deg,#fcf0d0,#f1ddb0);color:#9a6820;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 2px 4px rgba(150,99,51,.14)}
+#sheet .courts631-practice .courts635-card .settings60-arrow svg{width:18px;height:18px}
+#sheet .courts631-practice .courts635-card .courts73-row:active .settings60-arrow{transform:translateY(1px)}
+@media(max-width:370px){#sheet .courts631-practice .courts635-card .courts73-row{gap:8px;padding-right:2px}#sheet .courts631-practice .courts635-card .settings60-line-icon{width:42px;height:42px;flex-basis:42px}#sheet .courts631-practice .courts635-card .settings60-arrow{width:32px;height:32px;flex-basis:32px}}
+
+
+/* 6.37 — visible redesign for lower resource categories on practice page */
+#sheet .courts73-page[data-route="practice"],
+#sheet .courts637-practice{}
+#sheet .courts73-page[data-route="practice"] .courts635-group,
+#sheet .courts637-practice .courts635-group{margin:18px 0 0 !important}
+#sheet .courts73-page[data-route="practice"] .courts635-head,
+#sheet .courts637-practice .courts635-head{margin:0 4px 12px !important}
+#sheet .courts73-page[data-route="practice"] .courts635-head .settings60-minihead,
+#sheet .courts637-practice .courts635-head .settings60-minihead{margin:0 0 6px !important}
+#sheet .courts73-page[data-route="practice"] .courts635-head .settings60-minihead span,
+#sheet .courts637-practice .courts635-head .settings60-minihead span{letter-spacing:.08em}
+#sheet .courts73-page[data-route="practice"] .courts635-head p,
+#sheet .courts637-practice .courts635-head p{margin:0;color:#6e5a45;font:500 13px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card,
+#sheet .courts637-practice .courts635-card{position:relative;overflow:hidden;padding:2px 0;background:linear-gradient(180deg,rgba(255,252,246,.98) 0%,rgba(252,244,230,.98) 100%) !important;border:1px solid #d8b881 !important;border-radius:28px !important;box-shadow:0 10px 24px rgba(126,86,34,.14), inset 0 0 0 1px rgba(255,255,255,.75) !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card::before,
+#sheet .courts637-practice .courts635-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(180deg,#f3d79b 0%,#c08228 100%)}
+#sheet .courts73-page[data-route="practice"] .courts635-other .courts635-card::before,
+#sheet .courts637-practice .courts635-other .courts635-card::before{background:linear-gradient(180deg,#e5cfa3 0%,#9c7236 100%)}
+#sheet .courts73-page[data-route="practice"] .courts635-card .courts73-row,
+#sheet .courts637-practice .courts635-card .courts73-row{position:relative;min-height:82px;padding:16px 8px 16px 14px !important;gap:14px !important;background:transparent !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card .courts73-row + .courts73-row,
+#sheet .courts637-practice .courts635-card .courts73-row + .courts73-row{border-top:1px solid rgba(207,171,116,.42) !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-line-icon,
+#sheet .courts637-practice .courts635-card .settings60-line-icon{width:52px;height:52px;flex:0 0 52px;border-radius:16px;background:linear-gradient(180deg,#fffaf1 0%,#f6e6c7 100%) !important;border:1px solid #e0bf89 !important;color:#b0781f !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 3px 8px rgba(126,86,34,.12)}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-line-copy strong,
+#sheet .courts637-practice .courts635-card .settings60-line-copy strong{display:block;font-size:clamp(18px,4.8vw,21px) !important;line-height:1.14 !important;color:#0b1736 !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-line-copy small,
+#sheet .courts637-practice .courts635-card .settings60-line-copy small{display:block;margin-top:5px;font-size:13px !important;line-height:1.34 !important;color:#705e4a !important}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-arrow,
+#sheet .courts637-practice .courts635-card .settings60-arrow{width:40px;height:40px;flex:0 0 40px;border-radius:999px;border:1px solid #dfbc7a;background:linear-gradient(180deg,#fff3d5 0%,#efd8a5 100%) !important;color:#9a6820 !important;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 3px 8px rgba(126,86,34,.12)}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-arrow svg,
+#sheet .courts637-practice .courts635-card .settings60-arrow svg{width:18px;height:18px}
+#sheet .courts73-page[data-route="practice"] .courts635-group + .courts635-group,
+#sheet .courts637-practice .courts635-group + .courts635-group{margin-top:22px !important}
+@media (max-width:390px){
+#sheet .courts73-page[data-route="practice"] .courts635-card .courts73-row,
+#sheet .courts637-practice .courts635-card .courts73-row{padding:14px 6px 14px 12px !important;gap:10px !important;min-height:76px}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-line-icon,
+#sheet .courts637-practice .courts635-card .settings60-line-icon{width:46px;height:46px;flex-basis:46px}
+#sheet .courts73-page[data-route="practice"] .courts635-card .settings60-arrow,
+#sheet .courts637-practice .courts635-card .settings60-arrow{width:36px;height:36px;flex-basis:36px}
+}
