@@ -854,7 +854,23 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 /* 6.46 — FSIN details: stable lining numerals and no oldstyle digit drop in titles. */
 #sheet.courts73-sheet .settings60-head-copy h2,
 #sheet .courts641-execution .courts641-unit h3,
+#sheet .courts641-execution .courts141-copy strong,
 #sheet .courts641-execution .settings60-line-copy strong{
   font-variant-numeric:lining-nums tabular-nums;
-  font-feature-settings:'lnum' 1,'tnum' 1;
+  font-feature-settings:'lnum' 1,'tnum' 1,'case' 1;
+}
+
+/* 6.52 — explicit lining digit glyphs on execution pages, including Safari/iOS. */
+#sheet .courts641-execution .courts652-digits{
+  display:inline;
+  font-family:"Times New Roman",Times,"Liberation Serif",serif!important;
+  font-size:1.04em!important;
+  font-weight:700!important;
+  font-style:normal!important;
+  font-variant-numeric:lining-nums tabular-nums!important;
+  font-feature-settings:"lnum" 1,"tnum" 1!important;
+  line-height:inherit!important;
+  vertical-align:baseline!important;
+  letter-spacing:0;
+  white-space:nowrap;
 }
