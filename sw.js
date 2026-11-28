@@ -1,4 +1,4 @@
-const BUILD='6674';
+const BUILD='6675';
 const CACHE = 'advokat-iphone-offline-v202-premium-'+BUILD;
 
 const CORE = [
@@ -41,7 +41,7 @@ const CORE = [
   './settings-premium.css?v=6674',
   './pin-premium.css?v=6674',
   './settings-child-premium.css?v=6674',
-  './courts-premium.css?v=6674',
+  './courts-premium.css?v=6675',
   './templates-premium.css?v=6674',
   './backup-premium.css?v=6674',
   './backup113-save-face.svg?v=6674',
@@ -209,7 +209,7 @@ const REQUIRED = [
   "./manifest.webmanifest?v=6674",
   "./settings-premium.css?v=6674",
   "./pin-premium.css?v=6674",
-  "./courts-premium.css?v=6674",
+  "./courts-premium.css?v=6675",
   "./templates-premium.css?v=6674",
   "./backup-premium.css?v=6674",
   "./backup97-archive-tile.webp?v=6674",
@@ -244,8 +244,7 @@ const REQUIRED_SHA256 = {
   "./templates665-layers.webp?v=6674": "208f3899a1dccfe8635dcc3332d5d44b824448160c66ddfde7755149ddea9220",
   "./templates665-sentence.webp?v=6674": "d30b515ae228a6c63d1a9d6107194f50ca18a63c84bc3863dbe9c89c9253c64e",
   "./courts80-background.webp?v=6550": "6706ab295892f5c552931754ce4ee1e3f833b5c4c0f06321a7898f745f21da65",
-
-  "./index.html": "a17e2c3be93ddcd4d392eba4ba6bf50d007ffff83b716cb6ece773a74e8c5fdd",
+  "./index.html": "50090fa235a3bda717135416fd42b03254ead364c461ca54564a27d9b7746bed",
   "./jurisdiction-ivanovo.js?v=6674": "9cc2b30f202d24e1579df38bca759019cb562f360a5218fd7756bec46f58ec5f",
   "./app.js?v=6674": "491d60e92b70ca770a5c4c9a4de04d6a12f198a91aab14696e4f4d999f946d64",
   "./stage-outcomes.js?v=6674": "d30add8bcab0afae87f6b5d89f842c5a97866e97b10b37489ab891accbd644fb",
@@ -269,7 +268,7 @@ const REQUIRED_SHA256 = {
   "./settings-premium.css?v=6674": "cc6cf0c622f5db593058b2534282fabe557ced599d79754a25d2055d730fb5a4",
   "./pin-premium.css?v=6674": "9bcf2c3ab05a8766cf930c8861d387b69dfac78bd46e4b043c99dcdceb9f7307",
   "./templates-premium.css?v=6674": "5ba356058d1714d07ff3759f509db00f95bdd3437c222fb3baaf0c9bfb50199e",
-  "./courts-premium.css?v=6674": "61306ac95aaf449885b091382abd1fbb90913db45c11281e1c84cc71e4339691",
+  "./courts-premium.css?v=6675": "bb41e75cf39d18884c6a8fa2afbffc223e5ec26ed4565bae47cee9d69907e716",
   "./backup-premium.css?v=6674": "5573b0d267d55c1af78757da04e9c8c37146fe786c857753697bf2b9677ed753",
   "./backup97-archive-tile.webp?v=6674": "8ef4ed949c6cb1ea5ba1f1a546e5d33e9ec792705eee25c067dd7f737b05948d",
   "./backup97-case.webp?v=6674": "cd59fb981947177c08b2ad4c45c8f03e49fafbbc95de194d21f0555c7122e3e1",
@@ -285,7 +284,7 @@ const REQUIRED_SHA256 = {
   "./backup97-restore-tile.webp?v=6674": "54165b0d375422589e6e256d15032c6127161fa13e71c374edab1ad53e58ad85",
   "./backup97-tasks.webp?v=6674": "31e0d3018aaa9c950ccf31e4911a52240c6769c4b7fbe22d549f7d45ce3b9d7b",
   "./backup97-warning.webp?v=6674": "9bc1c462d24579ca8c83a21092edd1dcb922a06813b077a7cd1a54588c1e5924",
-  "./VERSION.txt": "3f2ebd89415de9cf721b7febbc1f85d40515baf3089466b6295799ffe22a33c0",
+  "./VERSION.txt": "fbb54776f2a6388c13c179cb15e1bb19f685c84d62b6377570b484adbbd80ea5",
   "./more-design.css?v=6674": "c2e377ab4a660e26beb95f5248e705422859bc93a729b04587fd947eb7f05f33",
   "./profile-premium.css?v=6674": "1b96d65e41de62166a24e5f36fccbfda40623c3c463342d3611d7f0eb89f8f6c",
   "./settings-child-premium.css?v=6674": "6a16da48f4b8b51d21517bc90d2f43e3cd2d6f872e8aa49f125e9cba27b19160"

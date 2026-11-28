@@ -882,3 +882,42 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 /* 6.54 — compact factual status only; preserve contact-card layout. */
 #sheet .courts641-execution .courts654-contact-status{margin:9px 0 0;color:#65583f;font:400 13px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;overflow-wrap:anywhere}
 
+
+
+/* 6.74 — judicial-services background unification.
+   Inner service pages must reuse the exact same marble + Themis composition
+   as the main page and “Мои суды”, without route-specific shrinking or
+   shifted header spacing. */
+#sheet.courts139-mine-sheet,
+#sheet.courts73-sheet.courts139-mine-sheet,
+#sheet.courts73-sheet.courts139-mine-sheet.courts146-detail-sheet{
+  --mine-decor-width:min(43vw,304px)!important;
+  --mine-top:calc(max(env(safe-area-inset-top,0px),32px) + 9px)!important;
+  background-color:#f4e8d7!important;
+  background-image:url('courts83-decor.webp?v=6550'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+  background-size:var(--mine-decor-width) auto,100% 100%,100% 100%!important;
+  background-position:right calc(-1 * clamp(8px,3.2vw,18px)) top,center top,center top!important;
+  background-repeat:no-repeat!important;
+  background-origin:border-box!important;
+  background-clip:border-box!important;
+}
+#sheet.courts139-mine-sheet:has(.courts616-arbitr),
+#sheet.courts73-sheet.courts146-detail-sheet:has(.courts64-page){
+  --mine-decor-width:min(43vw,304px)!important;
+}
+#sheet.courts139-mine-sheet .settings60-head,
+#sheet.courts146-detail-sheet .settings60-head,
+#sheet.courts146-detail-sheet .courts616-arbitr .settings60-head,
+#sheet.courts146-detail-sheet .courts64-page .settings60-head,
+#sheet.courts146-detail-sheet .courts610-catalog .settings60-head{
+  margin:max(3px,calc(var(--mine-decor-width) * 316 / 424 * .61 - var(--mine-top) - 7px)) 0 clamp(18px,5.1vw,32px)!important;
+}
+@media(min-width:700px){
+  #sheet.courts139-mine-sheet .settings60-head,
+  #sheet.courts146-detail-sheet .settings60-head,
+  #sheet.courts146-detail-sheet .courts616-arbitr .settings60-head,
+  #sheet.courts146-detail-sheet .courts64-page .settings60-head,
+  #sheet.courts146-detail-sheet .courts610-catalog .settings60-head{
+    margin-top:12px!important;
+  }
+}
