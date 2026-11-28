@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.82';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6683';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.84';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6685';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -1010,7 +1010,7 @@ function upgradePremiumSelects(root){
     var btn=document.createElement('button');btn.type='button';btn.className='premium-select-field';btn.dataset.act='list-open';btn.dataset.target=sel.id;btn.dataset.premiumSelectFor=sel.id;var matterLead=sel.closest('.matter-editor-sheet')?matterEditorControlIconName(sel.id):'';
     btn.classList.toggle('matter-editor-select-with-icon',!!matterLead);
     btn.innerHTML=(matterLead?'<span class="matter-editor-field-leading">'+ico(matterLead,'s')+'</span>':'')+'<span class="premium-select-field-copy"><b></b></span><span class="premium-select-field-arrow">'+ico('chev','s')+'</span>';
-    wrap2.appendChild(btn);syncPremiumSelectButton(sel.id);
+    if(sel.id==='tpl661-mid'&&sel.disabled)btn.disabled=true;wrap2.appendChild(btn);syncPremiumSelectButton(sel.id);
   });
 }
 var PREMIUM_SELECT_OBSERVER=null;
@@ -10422,6 +10422,17 @@ function tpl671Head(title,sub,asset){return '<header class="tpl671-head settings
 function tpl657Tile(g){var count=g[4].reduce(function(sum,i){return sum+TPL[i].items.length;},0);return '<button type="button" class="tpl665-row" data-act="tpl656-group" data-v="'+esc(g[0])+'"><img class="tpl665-icon" src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+(['admin','sentence','enforcement'].indexOf(g[0])>=0?esc(g[1]).replace(/ ([^ ]+)$/,'<br>$1'):esc(g[1]))+'</strong><small>'+ico('doc','s')+'<span>'+esc(tpl656Count(g[4].length,'group'))+'</span><i aria-hidden="true">•</i><span>'+esc(tpl661PointCount(count))+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';}
 function tpl656Catalog(){return '<section class="tpl665-group" aria-labelledby="tpl665-total"><div class="tpl665-grouphead"><img class="tpl665-groupicon" src="templates665-count.webp?v='+APP_BUILD+'" alt=""><h3 id="tpl665-total"><span class="tpl667-num">'+TPL656_GROUPS.length+'</span> '+plural(TPL656_GROUPS.length,'категория','категории','категорий').toUpperCase()+' <span class="tpl669-dot" aria-hidden="true">•</span> <span class="tpl667-num">'+TPL.length+'</span> '+plural(TPL.length,'шаблон','шаблона','шаблонов').toUpperCase()+'</h3><i aria-hidden="true"></i></div><div class="tpl665-rows">'+TPL656_GROUPS.map(tpl657Tile).join('')+'</div></section>';}
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
+/* 6.84: the approved detail layout uses the category in its stable header,
+   with the actual template title displayed separately below. */
+function tpl684Category(ctx,i){
+ var parent=ctx.stack&&ctx.stack[ctx.stack.length-1],group=parent&&parent.route.indexOf('group:')===0?TPL656_GROUPS.find(function(g){return g[0]===parent.route.slice(6);}):null;
+ if(group&&(group[4].includes(i)||(i===3&&['admin','arbitr'].includes(group[0]))))return group;
+ return TPL656_GROUPS.find(function(g){return g[4].includes(i);});
+}
+function tpl684Head(ctx,i){
+ var g=tpl684Category(ctx,i);
+ return '<header class="tpl671-head settings60-head tpl684-detail-head"><button type="button" class="tpl665-back settings60-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">РАБОЧАЯ БИБЛИОТЕКА</span><h2>'+tpl681Heading(g[1])+'</h2></div></header>';
+}
 function tpl656Render(ctx){
  var route=ctx.route,title='Шаблоны',sub='Чек-листы и планы работы',body='',g;
  if(route==='home')body=tpl656Catalog();
@@ -10430,6 +10441,7 @@ function tpl656Render(ctx){
  else return;
  var m=ctx.mid?matter(ctx.mid):null;
  var head=tpl671Head(title,sub,g?'templates665-'+g[0]+'.webp':'templates671-document.webp');
+ if(route.indexOf('preview:')===0)head=tpl684Head(ctx,Number(route.slice(8)));
  if(route==='home')head='<header class="tpl665-head"><button type="button" class="tpl665-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><img class="tpl665-scales" src="templates665-layers.webp?v='+APP_BUILD+'" alt=""><div class="tpl665-title"><h2>Шаблоны</h2><p>Чек-листы и планы работы</p></div></header>';
  var context=m&&route.indexOf('preview:')!==0?'<div class="tpl656-context tpl665-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':'';
  var markup='<main class="settings60-page tpl656-page tpl665-home'+(route==='home'?'':' tpl671-inner')+(route.indexOf('preview:')===0?' tpl671-preview':'')+'" data-route="'+esc(route)+'">'+head+context+body+'</main>';
@@ -10456,10 +10468,14 @@ function tpl663Basis(t,d){if(!t.variants)return '';return '<section class="tpl65
 function tpl661Preview(ctx,t,i){
  var d=tpl661Draft(ctx,t),opts='<option value=""'+(!d.mid?' selected':'')+'>Без привязки к делу</option>'+activeM().map(function(m){return '<option value="'+esc(m.id)+'"'+(sameRecordId(m.id,d.mid)?' selected':'')+'>'+esc(m.title||'Дело')+'</option>';}).join('');
  if(d.mid&&!activeM().some(function(m){return sameRecordId(m.id,d.mid);}))opts+='<option value="'+esc(d.mid)+'" selected>Недоступное дело</option>';
- return tpl663Basis(t,d)+'<section class="tpl656-panel"><h3>Пункты шаблона</h3><div class="tpl661-selection"><span id="tpl661-count"></span><button type="button" data-act="tpl661-all">Выбрать все / снять</button></div><div class="tpl661-checks">'+t.items.map(function(it,j){return '<label><input type="checkbox" data-tpl661-item="'+j+'"'+(d.selected.includes(j)?' checked':'')+'><span>'+esc(it[0])+'</span></label>';}).join('')+'</div></section><section class="tpl656-panel tpl656-apply"><h3>Добавление</h3><label class="tpl661-case">Дело<select id="tpl661-mid"'+(ctx.locked?' disabled':'')+'>'+opts+'</select></label><div class="tpl661-modes"><label><input type="radio" name="tpl661-mode" value="checklist"'+(d.mode==='checklist'?' checked':'')+'><span><b>Один чек-лист</b><small>Все пункты внутри одной задачи</small></span></label><label><input type="radio" name="tpl661-mode" value="tasks"'+(d.mode==='tasks'?' checked':'')+'><span><b>Отдельные задачи</b><small>Для действий, которым нужны напоминания</small></span></label></div><p>Даты не назначаются автоматически. При необходимости укажите их в задачах.</p><button type="button" id="tpl661-apply" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить</button></section>';
+ var display=i===0?'Исковое заявление':t.n;
+ return '<div class="tpl684-title">'+ico('doc')+'<div><h1>'+esc(display.toLocaleUpperCase('ru'))+'</h1>'+(t.law?'<p>'+esc(t.law)+'</p>':'')+'</div></div>'+
+ '<section class="tpl656-panel tpl684-case-panel"><div class="tpl661-case"><span class="tpl684-case-label">'+ico('folder')+'<label for="tpl661-mid">Дело</label></span><select id="tpl661-mid" aria-label="Дело"'+(ctx.locked?' disabled':'')+'>'+opts+'</select></div></section>'+tpl663Basis(t,d)+
+ '<section class="tpl684-items" aria-labelledby="tpl684-items-title"><div class="tpl684-toolbar"><h3 id="tpl684-items-title">Пункты шаблона</h3><div class="tpl661-selection"><span id="tpl661-count" aria-live="polite"></span><button type="button" data-act="tpl661-all">Снять все</button></div></div><div class="tpl656-panel tpl684-check-panel"><div class="tpl661-checks">'+t.items.map(function(it,j){return '<label><input type="checkbox" data-tpl661-item="'+j+'"'+(d.selected.includes(j)?' checked':'')+'><span>'+esc(it[0])+'</span></label>';}).join('')+'</div></div></section>'+
+ '<section class="tpl656-panel tpl656-apply"><h3>Добавление</h3><div class="tpl661-modes"><label><input type="radio" name="tpl661-mode" value="checklist"'+(d.mode==='checklist'?' checked':'')+'><span><b>Один чек-лист</b><small>Все пункты внутри одной задачи</small></span></label><label><input type="radio" name="tpl661-mode" value="tasks"'+(d.mode==='tasks'?' checked':'')+'><span><b>Отдельные задачи</b><small>Для действий, которым нужны напоминания</small></span></label></div><button type="button" id="tpl661-apply" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'"><span class="tpl684-plus" aria-hidden="true">'+ico('plus')+'</span><span class="tpl684-action-text">Добавить</span></button></section>';
 }
 function tpl661Read(page,ctx){var t=TPL[Number(ctx.route.slice(8))];if(!t)return;var d=tpl661Draft(ctx,t);d.selected=Array.from(page.querySelectorAll('[data-tpl661-item]:checked')).map(function(e){return Number(e.dataset.tpl661Item);});var mode=page.querySelector('[name="tpl661-mode"]:checked');if(mode)d.mode=mode.value;var mid=page.querySelector('#tpl661-mid');if(mid)d.mid=ctx.locked?ctx.mid:mid.value;var basis=page.querySelector('[name="tpl663-basis"]:checked');if(basis)d.variant=basis.value;}
-function tpl661Refresh(page,ctx){var t=TPL[Number(ctx.route.slice(8))],d=tpl661Draft(ctx,t),b=page.querySelector('#tpl661-apply');page.querySelector('#tpl661-count').textContent='Выбрано '+d.selected.length+' из '+t.items.length;b.disabled=!d.selected.length||!tpl663Resolved(t,d);b.textContent=t.variants&&!tpl663Resolved(t,d)?'Выберите основание':d.mode==='checklist'?'Добавить чек-лист':'Добавить '+tpl656Count(d.selected.length);}
+function tpl661Refresh(page,ctx){var t=TPL[Number(ctx.route.slice(8))],d=tpl661Draft(ctx,t),b=page.querySelector('#tpl661-apply');page.querySelector('#tpl661-count').textContent='Выбрано '+d.selected.length+' из '+t.items.length;page.querySelector('[data-act="tpl661-all"]').textContent=d.selected.length===t.items.length?'Снять все':'Выбрать все';b.disabled=!d.selected.length||!tpl663Resolved(t,d);b.querySelector('.tpl684-action-text').textContent=t.variants&&!tpl663Resolved(t,d)?'Выберите основание':d.mode==='checklist'?'Добавить чек-лист':'Добавить '+tpl656Count(d.selected.length);}
 function tpl661All(){var ctx=tpl656State(),page=$('#sheet .tpl656-page');if(!ctx||!page||ctx.route.indexOf('preview:')!==0)return;var boxes=Array.from(page.querySelectorAll('[data-tpl661-item]')),all=boxes.every(function(e){return e.checked;});boxes.forEach(function(e){e.checked=!all;});tpl661Read(page,ctx);tpl661Refresh(page,ctx);}
 function tpl664ItemKey(t,j){return t.itemKeys?t.itemKeys[j]:j;}
 function tpl661Records(t,d,existing){
