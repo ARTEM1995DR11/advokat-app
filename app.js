@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.43';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6644';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.44';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6645';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5745,7 +5745,32 @@ function courts148OpenContacts(route){
  panel.open=true;var top=panel.getBoundingClientRect().top-sh.getBoundingClientRect().top;
  sh.scrollTop=Math.max(0,sh.scrollTop+top-80);
 }
-function courts73Back(){var page=$('#sheet .courts73-page');if(!page)return false;var parent=page.dataset.parent,snapshot=page._court62ParentSnapshot,fsinBack=page._fsin642Back;if(parent){courts73Open(parent);if(snapshot)courts62Restore(snapshot);if(fsinBack){var restored=$('#sheet .courts73-page'),field=restored&&restored.querySelector('input[type=search]');if(field){field.value=fsinBack.q;field.dispatchEvent(new Event('input'));$('#sheet').scrollTop=fsinBack.y;}}}else closeSheet();return true;}
+/* 6.44: restore the immediate parent, its search and scroll in memory only. */
+function courts644Navigate(route){
+ var sh=$('#sheet'),old=sh.querySelector('.courts73-page'),snapshot=null;
+ if(old&&old.classList.contains('courts641-execution')){
+  var field=old.querySelector('input[type=search]');
+  snapshot={route:old.dataset.route,q:field?field.value:null,y:sh.scrollTop,up:old._fsin642Back||null};
+ }
+ courts73Open(route);
+ var next=sh.querySelector('.courts73-page');
+ if(snapshot&&next&&next!==old&&next.dataset.parent===snapshot.route)next._fsin642Back=snapshot;
+}
+function courts73Back(){
+ var sh=$('#sheet'),page=sh.querySelector('.courts73-page');if(!page)return false;
+ var parent=page.dataset.parent,snapshot=page._court62ParentSnapshot,fsinBack=page._fsin642Back;
+ if(!parent){closeSheet();return true;}
+ courts73Open(parent);if(snapshot)courts62Restore(snapshot);
+ if(fsinBack&&fsinBack.route===parent){
+  var restored=sh.querySelector('.courts73-page');
+  if(restored&&restored.dataset.route===parent){
+   var field=restored.querySelector('input[type=search]');
+   if(field&&fsinBack.q!==null){field.value=fsinBack.q;field.dispatchEvent(new Event('input'));}
+   restored._fsin642Back=fsinBack.up||null;sh.scrollTop=fsinBack.y;
+  }
+ }
+ return true;
+}
 async function courts73Toggle(route,removeOnly){
  if(COURTS143_PENDING||COURTS146_PENDING||!unlocked||!SESSION_KEY||SETTINGS60_LOCK_PENDING)return false;
  var id=String(route||'').slice(6).split('|')[0];
@@ -5795,8 +5820,8 @@ var COURTS74_RETURN_KEY='advokat_courts_external_return_v1';
 var COURTS74_RETURN=null, COURTS74_RESTORED_AT=0;
 function courts74ValidRoute(route){
  if(typeof route!=='string')return false;
- if(['home','mine','general','catalog','catalog-general','world','world-general','fsin-institutions','fsin-uii'].indexOf(route)>=0||Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return true;
- if(COURTS641_INSTITUTIONS.some(function(r){return route==='fsin-unit:'+r[0];}))return true;
+ if(['home','mine','general','catalog','catalog-general','world','world-general','fsin-institutions','fsin-uii','fssp-offices','fsin-msch','fsin-uii-main'].indexOf(route)>=0||Object.prototype.hasOwnProperty.call(COURTS73_RESOURCES,route))return true;
+ if(COURTS641_INSTITUTIONS.some(function(r){return route==='fsin-unit:'+r[0];})||COURTS642_BRANCHES.some(function(r){return route==='fsin-branch:'+r[0];}))return true;
  var m=/^court:([a-z0-9-]+)\|(mine|catalog|catalog-general|world|world-general|jurisdiction)$/.exec(route);
  return !!(m&&COURTS73_DEMO.some(function(c){return c[0]===m[1];}));
 }
@@ -5830,7 +5855,7 @@ function courts74JustRestored(){
 document.addEventListener('click',function(e){
  if(!unlocked||SETTINGS60_LOCK_PENDING||Date.now()<SWIPE_CLICK_BLOCK_UNTIL)return;
  var sh=$('#sheet'), page=sh.querySelector('.courts73-page');
- var link=e.target.closest&&e.target.closest('a.courts73-row[target="_blank"]');
+ var link=e.target.closest&&e.target.closest(page&&page.classList.contains('courts641-execution')?'a[target="_blank"]':'a.courts73-row[target="_blank"]');
  if(link&&page&&sh.classList.contains('open')&&page.contains(link)&&courts74ValidRoute(page.dataset.route)&&/^https:\/\//.test(link.href)){
    COURTS74_RETURN={route:page.dataset.route,scroll:sh.scrollTop||0,at:Date.now()};
    COURTS74_RESTORED_AT=0;
@@ -6103,10 +6128,10 @@ function appBack(){
       stageWizardPrev();vib(5);return true;
     }
   }
-  if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
-  if(matterActionReturnBack()){vib(5);return true;}
   var sheet=$('#sheet'), page=$('#page');
   if(sheet.classList.contains('open')&&sheet.classList.contains('courts73-sheet')&&courts73Back()){vib(5);return true;}
+  if(typeof stageWizardHearingBack==='function'&&stageWizardHearingBack()){vib(5);return true;}
+  if(matterActionReturnBack()){vib(5);return true;}
   // From any Settings submenu, return to the premium Settings index,
   // instead of skipping it and jumping straight back to the «Ещё» tab.
   if(SETTINGS57_CHILD_ACTIVE && sheet.classList.contains('open') &&
@@ -10708,7 +10733,7 @@ document.addEventListener('click', function(ev){
     case 'global-search': sheetGlobalSearch(); break;
     case 'more50-agreement': toast('Калькулятор соглашений — следующий этап разработки'); break;
     case 'more50-courts': courts73Open('home'); break;
-    case 'courts73-route': {var fsPage=$('#sheet .courts73-page'),fsBack=null;if(fsPage&&((fsPage.dataset.route==='fsin-institutions'&&v.indexOf('fsin-unit:')===0)||(fsPage.dataset.route==='fsin-uii'&&v.indexOf('fsin-branch:')===0))){var fsField=fsPage.querySelector('input[type=search]');if(fsField)fsBack={q:fsField.value,y:$('#sheet').scrollTop};}courts73Open(v);if(fsBack){var fsNew=$('#sheet .courts73-page');if(fsNew)fsNew._fsin642Back=fsBack;}break;}
+    case 'courts73-route': courts644Navigate(v); break;
     case 'courts148-contacts': courts148OpenContacts(v); break;
     case 'courts73-back': appBack(); break;
     case 'courts73-toggle': courts73Toggle(v); break;
@@ -11383,7 +11408,7 @@ document.addEventListener('gesturestart',function(e){e.preventDefault();});
 /* .154: One Back gesture for every nested in-app screen. The topmost
    surface owns the gesture; controls, horizontal scrollers and the open
    delete reveal on a saved court retain their local interaction. */
-var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false,surface:null};
+var EDGE_SWIPE={on:false,x:0,y:0,dx:0,dy:0,moved:false,surface:null,routeNode:null};
 function backSwipeSurface(){
   var ids=['settings67-dialog','premium-delete-confirm-root'];
   if(FINISH_OUTCOME_OPEN)ids.push('matter-finish-outcome-modal');
@@ -11397,7 +11422,7 @@ function backSwipeSurface(){
   if(pg&&pg.classList.contains('open'))return pg;
   return null;
 }
-function backSwipeReset(){EDGE_SWIPE.on=false;EDGE_SWIPE.moved=false;EDGE_SWIPE.surface=null;}
+function backSwipeReset(){EDGE_SWIPE.on=false;EDGE_SWIPE.moved=false;EDGE_SWIPE.surface=null;EDGE_SWIPE.routeNode=null;}
 function backSwipeTargetAllowed(target,surface,x){
   if(!target||!target.closest||!surface||!surface.contains(target))return false;
   if(target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),.premium-time-wheel'))return false;
@@ -11410,12 +11435,12 @@ document.addEventListener('touchstart',function(e){
   if(!unlocked||!e.touches||e.touches.length!==1)return;
   var t=e.touches[0],surface=backSwipeSurface();
   if(!backSwipeTargetAllowed(e.target,surface,t.clientX))return;
-  EDGE_SWIPE.on=true;EDGE_SWIPE.surface=surface;
+  EDGE_SWIPE.on=true;EDGE_SWIPE.surface=surface;EDGE_SWIPE.routeNode=surface.querySelector('.courts73-page');
   EDGE_SWIPE.x=t.clientX;EDGE_SWIPE.y=t.clientY;EDGE_SWIPE.dx=0;EDGE_SWIPE.dy=0;
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
   if(!EDGE_SWIPE.on)return;
-  if(!e.touches||e.touches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface){backSwipeReset();return;}
+  if(!e.touches||e.touches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface||(EDGE_SWIPE.routeNode&&!EDGE_SWIPE.routeNode.isConnected)){backSwipeReset();return;}
   var t=e.touches[0];EDGE_SWIPE.dx=t.clientX-EDGE_SWIPE.x;EDGE_SWIPE.dy=t.clientY-EDGE_SWIPE.y;
   var dx=EDGE_SWIPE.dx,dy=EDGE_SWIPE.dy;
   if(!EDGE_SWIPE.moved){
@@ -11426,7 +11451,7 @@ document.addEventListener('touchmove',function(e){
 },{passive:false,capture:true});
 document.addEventListener('touchend',function(e){
   if(!EDGE_SWIPE.on)return;
-  if(!e.changedTouches||e.changedTouches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface){backSwipeReset();return;}
+  if(!e.changedTouches||e.changedTouches.length!==1||backSwipeSurface()!==EDGE_SWIPE.surface||(EDGE_SWIPE.routeNode&&!EDGE_SWIPE.routeNode.isConnected)){backSwipeReset();return;}
   var t=e.changedTouches[0],dx=t.clientX-EDGE_SWIPE.x,dy=t.clientY-EDGE_SWIPE.y;
   var ok=dx>=58&&Math.abs(dy)<=70&&dx>Math.abs(dy)*1.35;
   backSwipeReset();
@@ -11620,6 +11645,7 @@ document.addEventListener('touchstart',function(e){
 },{passive:true,capture:true});
 document.addEventListener('touchmove',function(e){
   if(!SHEET_SWIPE.on || !e.touches || e.touches.length!==1) return;
+  if(EDGE_SWIPE.moved){SHEET_SWIPE.on=false;return;}
   var t=e.touches[0];
   SHEET_SWIPE.dx=t.clientX-SHEET_SWIPE.x;SHEET_SWIPE.dy=t.clientY-SHEET_SWIPE.y;
   if(SHEET_SWIPE.dy>10 && SHEET_SWIPE.dy>Math.abs(SHEET_SWIPE.dx)*1.15){

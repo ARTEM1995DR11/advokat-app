@@ -818,3 +818,34 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 /* 6.38 — reuse the exact resource-card components of Arbitration/Jurisdiction. */
 #sheet.courts139-mine-sheet .courts631-practice .courts638-group{margin:16px 0 0;min-width:0}
 #sheet.courts139-mine-sheet .courts631-practice .courts638-group .courts141-grouphead{margin-bottom:10px}
+
+/* 6.41 — FSSP/FSIN: use the existing resource card design for internal links too. */
+#sheet .courts641-execution button.courts616-link{width:100%;text-align:left;cursor:pointer}
+#sheet .courts641-execution .courts641-note{margin:10px 2px 14px;padding:10px 12px;border-left:2px solid #b29a66;border-radius:6px;background:rgba(255,250,238,.78);color:#65583f;font:400 13px/1.45 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .courts641-execution .courts641-unit{display:block;padding:16px;margin:0 0 12px}
+#sheet .courts641-execution .courts641-unit h3{font:700 21px/1.2 Georgia,serif;color:#0c1735;margin:0 0 8px}
+#sheet .courts641-execution .courts641-unit p{margin:4px 0;color:#594c3e;font-size:14px;line-height:1.4}
+#sheet .courts641-execution #courts641-results{min-width:0}
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group{margin:16px 0 0;min-width:0}
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group .courts141-grouphead{margin-bottom:10px}
+
+/* 6.42 — institution details: approved court contact panel, no invented fields. */
+#sheet.courts146-detail-sheet .courts641-execution .courts642-contacts .courts146-title{grid-template-columns:clamp(31px,9.1vw,47px) minmax(0,1fr)}
+#sheet.courts146-detail-sheet .courts641-execution .courts642-single{grid-template-columns:1fr}
+#sheet.courts146-detail-sheet .courts641-execution .courts642-sources{margin-top:6px;min-width:0;color:#79501e}
+#sheet .courts642-sources summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;font:600 14px/1.35 -apple-system,BlinkMacSystemFont,Arial,sans-serif}
+#sheet .courts642-sources summary svg{width:18px;height:18px;flex:none}
+#sheet .courts642-sources[open] summary svg{transform:rotate(90deg)}
+#sheet .courts642-sources a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;border-top:1px solid #dbc6a7;color:#79501e;font-size:13px;line-height:1.4;text-decoration:none;overflow-wrap:anywhere}
+#sheet .courts642-sources a svg{width:17px;height:17px;flex:none}
+#sheet .courts642-sources p{font-size:12px;line-height:1.4;color:#65583f;margin:8px 0 0}
+
+/* 6.44 — execution directory: explicit spacing; preserve approved cards. */
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group{display:grid;gap:clamp(9px,2.6vw,13px);margin:0!important;min-width:0}
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group+.courts638-group{padding-top:clamp(18px,5vw,25px)}
+#sheet.courts139-mine-sheet .courts641-execution .courts638-group .courts141-grouphead{margin:0 2px!important;min-width:0}
+#sheet.courts139-mine-sheet .courts641-execution .courts141-grouphead h3{min-width:0;overflow-wrap:break-word}
+#sheet.courts139-mine-sheet .courts641-execution[data-route="bailiff"]>.courts638-group:last-child{padding-bottom:8px}
+#sheet.courts139-mine-sheet .courts641-execution #courts641-results,#sheet.courts139-mine-sheet .courts641-execution #courts642-uii-results{padding-top:14px;padding-bottom:18px;min-width:0}
+#sheet.courts73-sheet:has(.courts641-execution){touch-action:pan-y;overscroll-behavior-x:none;overflow-x:hidden}
+#sheet .courts641-execution .courts616-link,#sheet .courts641-execution .settings60-back,#sheet .courts641-execution .courts642-sources summary{touch-action:pan-y}
