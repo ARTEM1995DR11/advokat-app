@@ -116,7 +116,7 @@ html:has(#sheet.tpl656-sheet.open){background:#f3e5d1!important}
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('templates665-decor.webp?v=6667'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-image:url('templates665-decor.webp?v=6668'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
  background-position:right top,center top,center top!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;
@@ -469,7 +469,7 @@ body:has(#sheet.tpl665-home-sheet.open){
    background-image:linear-gradient(to top,#eed3b2 0px,transparent env(safe-area-inset-bottom,0px)),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
   }
   #sheet.tpl665-home-sheet.open{
-   background-image:url('templates665-decor.webp?v=6667'),linear-gradient(to top,#eed3b2 0px,transparent env(safe-area-inset-bottom,0px)),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+   background-image:url('templates665-decor.webp?v=6668'),linear-gradient(to top,#eed3b2 0px,transparent env(safe-area-inset-bottom,0px)),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
    background-size:var(--courts83-decor-width) auto,100vw 100vh,100vw 100vh,100vw 100vh!important;
    background-position:right calc(-1 * var(--courts93-decor-offset)) top,center top,center top,center top!important;
    background-repeat:no-repeat!important;
@@ -482,4 +482,27 @@ body:has(#sheet.tpl665-home-sheet.open){
  border:1px solid #d8ba8b!important;
  background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%)!important;
  box-shadow:inset 0 1px 4px #ffffff80,0 3px 6px -2px #93603250!important;
+}
+
+/* 6.67 — consistent lining figures in the library heading, not old-style Georgia digits. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead h3{
+ font-variant-numeric:lining-nums proportional-nums!important;
+ font-feature-settings:"lnum" 1,"onum" 0!important;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead .tpl667-num{
+ font-family:"Times New Roman",Times,serif!important;
+ font-size:1em!important;font-weight:700!important;line-height:inherit!important;
+ font-variant-numeric:lining-nums proportional-nums!important;
+ font-feature-settings:"lnum" 1,"onum" 0!important;vertical-align:baseline!important;
+}
+/* Remove the artificial bottom fade; paint the full exposed viewport with marble.
+   Native iOS canvas outside the web viewport is not controlled by this CSS. */
+html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
+ background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-size:100% 100%!important;background-position:center top!important;
+}
+#sheet.tpl665-home-sheet.open{
+ background-image:url('templates665-decor.webp?v=6668'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
+ background-position:right calc(-1 * var(--courts93-decor-offset)) top,center top,center top!important;
 }
