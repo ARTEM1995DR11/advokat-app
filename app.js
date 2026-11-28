@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.56';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6657';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.58';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6659';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -9600,7 +9600,7 @@ var TPL = [
    ['Проверить противоречия с прежними показаниями',1],
    ['Обсудить основания для использования ст. 51 Конституции РФ',1]]}
 ];
-/* 6.56 — catalogue design; existing TPL data and task creation retained. */
+/* 6.57 — catalogue design; existing TPL data and task creation retained. */
 var TPL656_GROUPS=[
  ['general','Общие','Консультация, заседание, завершение дела','note',[0,3,7]],
  ['criminal','Уголовные дела','Вступление в дело, следственные действия','gavel',[5,11]],
@@ -9611,30 +9611,30 @@ var TPL656_GROUPS=[
  ['arbitr','Арбитражные дела','Подготовка арбитражного иска','brief',[2]]
 ];
 function tpl656Count(n,kind){return n+' '+(kind==='group'?plural(n,'шаблон','шаблона','шаблонов'):plural(n,'задача','задачи','задач'));}
+function tpl656Art(icon){return icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);}
 function tpl656Card(title,desc,icon,action,value){
- var art=icon==='own'?courts146Star(true):icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);
- return '<article class="courts141-card courts616-card"><button type="button" class="courts141-card-open courts616-link" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><span class="courts616-art" aria-hidden="true">'+art+'</span><span class="courts141-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="courts141-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button></article>';
+ return '<button type="button" class="tpl657-list-item" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><span class="tpl657-item-art" aria-hidden="true">'+tpl656Art(icon)+'</span><span class="tpl657-item-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
-function tpl656GroupTitle(t){return '<div class="courts141-grouphead"><h3>'+esc(t.toUpperCase())+'</h3><i></i></div>';}
-function tpl656List(ids){return '<section class="courts616-resources">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,tpl656Count(t.items.length),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl656GroupTitle(t){return '<div class="tpl657-section-title"><h3>'+esc(t)+'</h3><i></i></div>';}
+function tpl656List(ids){return '<section class="tpl657-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,tpl656Count(t.items.length),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl657Tile(g){return '<button type="button" class="tpl657-tile'+(g[0]==='general'?' tpl657-wide':'')+'" data-act="tpl656-group" data-v="'+esc(g[0])+'"><span class="tpl657-tile-top"><span class="tpl657-tile-art" aria-hidden="true">'+tpl656Art(g[3])+'</span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></span><span class="tpl657-tile-copy"><strong>'+esc(g[1])+'</strong><small>'+esc(tpl656Count(g[4].length,'group'))+'</small></span></button>';}
 function tpl656Catalog(q){
  var terms=String(q||'').toLocaleLowerCase('ru').replace(/ё/g,'е').trim().split(/\s+/).filter(Boolean);
  if(terms.length){var ids=TPL.map(function(_,i){return i;}).filter(function(i){var t=TPL[i],g=TPL656_GROUPS.find(function(x){return x[4].includes(i);});var hay=(t.n+' '+(g?g[1]+' '+g[2]:'')+' '+t.items.map(function(it){return it[0];}).join(' ')).toLocaleLowerCase('ru').replace(/ё/g,'е');return terms.every(function(w){return hay.includes(w);});});return tpl656GroupTitle('Результаты поиска')+(ids.length?tpl656List(ids):'<p class="tpl656-empty">Шаблоны не найдены</p>');}
- return '<section class="tpl656-group">'+tpl656GroupTitle('Личная библиотека')+'<div class="courts616-resources">'+tpl656Card('Мои шаблоны','Собственные планы работы','own','tpl656-own','')+'</div></section><section class="tpl656-group">'+tpl656GroupTitle('Стандартные шаблоны')+'<div class="courts616-resources">'+TPL656_GROUPS.map(function(g){return tpl656Card(g[1],g[2]+' · '+tpl656Count(g[4].length,'group'),g[3],'tpl656-group',g[0]);}).join('')+'</div></section>';
+ return '<section class="tpl656-group">'+tpl656GroupTitle('Категории шаблонов')+'<p class="tpl657-library-count">'+esc(tpl656Count(TPL.length,'group'))+' · по направлениям работы</p><div class="tpl657-grid">'+TPL656_GROUPS.map(tpl657Tile).join('')+'</div></section>';
 }
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
 function tpl656Render(ctx){
  var route=ctx.route,title='Шаблоны',sub='Готовые планы работы',body='',g;
- if(route==='home')body='<label class="courts141-search tpl656-search">'+ico('search','s')+'<input type="search" id="tpl656-query" aria-label="Поиск шаблона" placeholder="Поиск шаблона" autocomplete="off" value="'+esc(ctx.query||'')+'"></label><div id="tpl656-results" aria-live="polite">'+tpl656Catalog(ctx.query)+'</div>';
- else if(route==='own'){title='Мои шаблоны';sub='Личная библиотека';body='<section class="courts141-card tpl656-panel"><h3>Собственные планы работы</h3><p>Создание и редактирование личных шаблонов появятся на следующем этапе разработки.</p></section>';}
+ if(route==='home')body='<label class="tpl656-search">'+ico('search','s')+'<input type="search" id="tpl656-query" aria-label="Поиск шаблона" placeholder="Поиск шаблона" autocomplete="off" value="'+esc(ctx.query||'')+'"></label><div id="tpl656-results" aria-live="polite">'+tpl656Catalog(ctx.query)+'</div>';
  else if(route.indexOf('group:')===0){g=TPL656_GROUPS.find(function(x){return x[0]===route.slice(6);});if(!g)return;title=g[1];sub=tpl656Count(g[4].length,'group');body=tpl656List(g[4]);}
- else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=tpl656Count(t.items.length);body='<section class="courts141-card tpl656-panel"><h3>План работы</h3><ol class="tpl656-plan">'+t.items.map(function(it){return '<li>'+esc(it[0])+'</li>';}).join('')+'</ol></section><section class="courts141-card tpl656-panel tpl656-apply"><p>Пока действует прежний порядок: добавляются все задачи, рабочие даты отсчитываются от сегодняшнего дня. Это не расчёт процессуальных сроков.</p><button type="button" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить '+tpl656Count(t.items.length)+'</button></section>';}
+ else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=tpl656Count(t.items.length);body='<section class="tpl656-panel"><h3>План работы</h3><ol class="tpl656-plan">'+t.items.map(function(it){return '<li>'+esc(it[0])+'</li>';}).join('')+'</ol></section><section class="tpl656-panel tpl656-apply"><p>Пока действует прежний порядок: добавляются все задачи, рабочие даты отсчитываются от сегодняшнего дня. Это не расчёт процессуальных сроков.</p><button type="button" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить '+tpl656Count(t.items.length)+'</button></section>';}
  else return;
  var m=ctx.mid?matter(ctx.mid):null;
- var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-templates-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">ПРОФЕССИОНАЛЬНЫЕ ИНСТРУМЕНТЫ</span><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div></header>';
- var context=m?'<div class="courts141-card tpl656-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':route.indexOf('preview:')===0?'<div class="courts141-card tpl656-context"><small>Добавление задач</small><strong>Без привязки к делу</strong></div>':'';
+ var head='<header class="tpl657-head"><div class="tpl657-topbar"><button type="button" class="tpl657-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span>РАБОЧАЯ БИБЛИОТЕКА</span><i></i></div><div class="tpl657-hero"><div class="tpl657-heading"><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div>'+(route==='home'?'<span class="tpl657-hero-art" aria-hidden="true"><img src="more-icon-templates-v6490.webp?v='+APP_BUILD+'" alt=""></span>':'')+'</div></header>';
+ var context=m?'<div class="tpl656-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':route.indexOf('preview:')===0?'<div class="tpl656-context"><small>Добавление задач</small><strong>Без привязки к делу</strong></div>':'';
  openSheet('<main class="settings60-page tpl656-page" data-route="'+esc(route)+'">'+head+context+body+'</main>');
- var sh=$('#sheet'),page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','courts139-mine-sheet','courts146-detail-sheet','tpl656-sheet','full');sh.setAttribute('aria-label',title);page._tpl656=ctx;
+ var sh=$('#sheet'),page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','tpl656-sheet','full');sh.setAttribute('aria-label',title);page._tpl656=ctx;
  var input=page.querySelector('#tpl656-query');if(input)input.addEventListener('input',function(){ctx.query=input.value;page.querySelector('#tpl656-results').innerHTML=tpl656Catalog(ctx.query);});
 }
 function sheetTemplates(mid){tpl656Render({mid:mid||'',route:'home',query:'',stack:[]});}
@@ -11176,7 +11176,6 @@ document.addEventListener('click', function(ev){
     case 'templates': sheetTemplates('');break;
     case 'tpl-use': applyTpl(+v,id||'');break;
     case 'tpl656-group': if(TPL656_GROUPS.some(function(g){return g[0]===v;}))tpl656Go('group:'+v);break;
-    case 'tpl656-own': tpl656Go('own');break;
     case 'tpl656-preview': if(/^\d+$/.test(v)&&TPL[+v])tpl656Go('preview:'+v);break;
     case 'tpl656-back': appBack();break;
     case 'tpl656-apply': tpl656Apply(+v);break;
