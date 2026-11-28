@@ -106,3 +106,341 @@ html:has(#sheet.tpl656-sheet.open){background:#f3e5d1!important}
 #sheet .tpl661-editor-row textarea{flex:1;min-width:0;width:100%;font-size:15px;line-height:1.35;resize:vertical;box-sizing:border-box;padding:7px;border:1px solid #d6bc92;border-radius:7px;background:#fffdf8;color:#192d44;}
 #sheet .tpl664-step-remove{flex:0 0 34px;min-height:40px;border:1px solid #d6bc92;border-radius:8px;color:#8c4c36;background:#fff8ee;font-size:22px;}
 #sheet .tpl664-step-add{display:block;width:100%;min-height:44px;margin-top:8px;background:#f3e3c3;border:1px solid #c7a36b;border-radius:9px;color:#60421b;font-weight:600;}
+
+/* Shared judicial-service proportions for approved 6.65 home. */
+/* .85 — stage 3 refinement and stage 4: group headings. */
+#sheet.tpl665-home-sheet{
+ --courts83-decor-width:min(44.5vw,304px);
+ --courts83-decor-height:calc(var(--courts83-decor-width) * 316 / 424);
+ --courts83-top-pad:calc(max(env(safe-area-inset-top,0px),32px) + 9px);
+ background-color:#f4e8d7!important;
+ position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
+ inset:0!important;
+ background-image:url('templates665-decor.webp?v=6666'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
+ background-position:right top,center top,center top!important;
+ background-repeat:no-repeat,no-repeat,no-repeat!important;
+ background-origin:border-box!important;background-clip:border-box!important;
+ padding:calc(max(env(safe-area-inset-top,0px),32px) + 9px) 0 calc(max(env(safe-area-inset-bottom,0px),12px) + 12px)!important;
+}
+#sheet.tpl665-home-sheet .tpl665-home{position:relative;isolation:isolate;width:100%;max-width:690px;padding:0 clamp(13px,3.8vw,24px) 12px;margin:0 auto;box-sizing:border-box}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{display:grid;grid-template-columns:35px 43px minmax(0,1fr);align-items:center;gap:7px;margin:max(3px,calc(var(--courts83-decor-height) - var(--courts83-top-pad) - 4px)) 0 6px;min-height:58px;position:relative}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-back{width:35px;height:36px;border-radius:10px;border:1px solid #cda05d;background:linear-gradient(140deg,#fffdf6,#f2d7a7);box-shadow:inset 0 0 0 1px #fff9ed,0 3px 6px #9a6a3b42;color:#94611d;display:grid;place-items:center;padding:0;cursor:pointer}
+#sheet .tpl665-home .tpl665-back svg{width:22px;height:22px;stroke-width:2.8}
+#sheet .tpl665-home .tpl665-scales{display:block;width:43px;height:43px;object-fit:contain}
+#sheet .tpl665-home .tpl665-title{min-width:0;position:relative;border-left:1px solid #a97630;padding-left:8px;background:transparent}
+#sheet .tpl665-home .tpl665-title h2{margin:0 0 2px!important;font:700 clamp(20px,5.55vw,34px)/1.06 Georgia,'Times New Roman',serif!important;letter-spacing:-.025em;color:#0c1735!important;overflow-wrap:normal}
+#sheet .tpl665-home .tpl665-title p{margin:0!important;font:400 clamp(10.5px,3.1vw,16px)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#231a14}
+#sheet .tpl665-home .tpl665-group{margin:0 0 16px;min-width:0}
+#sheet .tpl665-home .tpl665-group:last-child{margin-bottom:0}
+#sheet .tpl665-home .tpl665-grouphead{display:flex;gap:8px;align-items:center;margin:0 2px 9px;min-width:0;color:#855315}
+#sheet .tpl665-home .tpl665-grouphead img{width:25px;height:23px;object-fit:contain;flex:0 0 25px}
+#sheet .tpl665-home .tpl665-grouphead h3{font:700 clamp(11px,3.3vw,19px)/1.14 Georgia,'Times New Roman',serif!important;letter-spacing:.012em;color:#855315!important;margin:0!important;white-space:normal}
+#sheet .tpl665-home .tpl665-grouphead i{height:1px;background:linear-gradient(90deg,#a46a21,#d5a867);min-width:10px;flex:1}
+#sheet .tpl665-home .tpl665-rows{display:grid;gap:4px}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{box-sizing:border-box;width:100%;min-width:0;display:grid;grid-template-columns:50px minmax(0,1fr) 29px;align-items:center;gap:9px;min-height:64px;margin:0;padding:8px 11px 8px 8px;border-radius:14px;border:1px solid #d9ad70;background:linear-gradient(140deg,#fffdf7 0%,#fff9ee 47%,#f8ebda 100%);box-shadow:inset 0 0 0 1px #fffdfa,0 3px 5px #8c572b2e;text-align:left;text-decoration:none;color:#101c3b;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#sheet .tpl665-home .tpl665-row:active{transform:translateY(1px);filter:brightness(.97)}
+#sheet .tpl665-home .tpl665-row:focus-visible{outline:2px solid #b17c24;outline-offset:2px}
+#sheet .tpl665-home .tpl665-icon{display:block;width:50px;height:43px;object-fit:contain;pointer-events:none}
+#sheet .tpl665-home .tpl665-copy{border-left:1px solid #c39351;padding:1px 0 1px 9px;min-width:0}
+#sheet .tpl665-home .tpl665-copy strong{display:block;margin:0;font:700 clamp(16px,4.55vw,24px)/1.12 Georgia,'Times New Roman',serif!important;color:#0b1837;hyphens:none;overflow-wrap:normal}
+#sheet .tpl665-home .tpl665-copy small{display:block;margin-top:3px;font:400 clamp(11px,3.15vw,15px)/1.22 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;color:#251c18;hyphens:none;overflow-wrap:normal}
+#sheet .tpl665-home .tpl665-arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid #a56b20;background:radial-gradient(ellipse at 30% 15%,#e9c57b 0%,#c39442 39%,#a7731b 76%,#88530d 100%);box-shadow:inset 0 1px 1px #fff1cf,0 2px 4px #8a5b2c50;color:#fff9ee}
+#sheet .tpl665-home .tpl665-arrow svg{width:17px;height:17px;stroke-width:2.6;filter:drop-shadow(0 1px 0 #805315)}
+@media(max-width:370px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{grid-template-columns:32px 37px minmax(0,1fr);gap:6px;margin-bottom:6px}#sheet.tpl665-home-sheet .tpl665-home .tpl665-back{width:32px;height:34px}#sheet .tpl665-home .tpl665-scales{width:37px;height:37px}#sheet .tpl665-home .tpl665-title{padding-left:6px}#sheet .tpl665-home .tpl665-title h2{font-size:clamp(18px,5.6vw,21px)!important}#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:43px minmax(0,1fr) 25px;gap:6px;padding:7px 8px 7px 6px}#sheet .tpl665-home .tpl665-icon{width:43px;height:39px}#sheet .tpl665-home .tpl665-copy{padding-left:7px}#sheet .tpl665-home .tpl665-arrow{width:25px;height:25px}#sheet .tpl665-home .tpl665-grouphead{gap:6px}}
+@media(min-width:500px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{grid-template-columns:48px 60px minmax(0,1fr);gap:12px}#sheet.tpl665-home-sheet .tpl665-home .tpl665-back{width:46px;height:46px}#sheet .tpl665-home .tpl665-scales{width:60px;height:60px}#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:64px minmax(0,1fr) 36px;min-height:80px;gap:13px;padding:10px 16px}#sheet .tpl665-home .tpl665-icon{width:64px;height:55px}#sheet .tpl665-home .tpl665-arrow{width:36px;height:36px}}
+
+/* Extend the same marble resource to the document canvas behind the fixed sheet.
+   No extra layout box or in-flow pseudo-element. Outside this route no overrides. */
+html:has(#sheet.tpl665-home-sheet.open){
+ background-color:#eed3b2!important;
+ background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-position:center bottom!important;background-size:100% 100%!important;
+ background-repeat:no-repeat!important;min-height:100%!important;
+}
+body:has(#sheet.tpl665-home-sheet.open){background:transparent!important;}
+
+
+/* Stage 3 — only the header. Preserve the approved marble and the row geometry. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{
+ grid-template-columns:clamp(32px,9vw,46px) clamp(36px,10.6vw,55px) minmax(0,1fr);
+ gap:clamp(5px,1.65vw,10px);width:min(74vw,100%);min-width:0;
+ margin:max(3px,calc(var(--courts83-decor-height) * .65 - var(--courts83-top-pad))) 0 20px;
+ min-height:clamp(52px,14vw,72px);
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-back{
+ width:100%;height:auto;aspect-ratio:1;box-sizing:border-box;border-radius:clamp(10px,2.8vw,15px);
+ border:1px solid #ba8740;background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
+ box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65294a;
+ position:relative;color:#94611d;
+}
+#sheet.tpl665-home-sheet .tpl665-back::after{content:'';position:absolute;inset:-5px;}
+#sheet.tpl665-home-sheet .tpl665-back:active{transform:translateY(1px)}
+#sheet .tpl665-home .tpl665-back svg{width:24px;height:24px;stroke-width:2.8;filter:drop-shadow(0 1px 0 #fff5dc)}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-scales{width:100%;height:auto;aspect-ratio:114/101;object-fit:contain;display:block}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title{padding:0 0 0 clamp(5px,1.6vw,10px);border-left:1px solid #a97630;min-width:0}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2{font-size:clamp(15px,4.35vw,29px)!important;letter-spacing:-.025em;line-height:1.08!important;margin:0 0 3px!important;overflow-wrap:normal}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{font-size:clamp(9.5px,2.65vw,17px)!important;line-height:1.24!important;margin:0!important;overflow-wrap:normal}
+@media(min-width:700px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{width:100%;margin:12px 0 24px;grid-template-columns:46px 55px minmax(0,1fr)}}
+
+/* .85: header refinement and the three group headings only.
+   Keep the approved background, decor and card rules unchanged. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{
+ margin-top:max(3px,calc(var(--courts83-decor-height) * .65 - var(--courts83-top-pad) - 7px));
+ margin-bottom:12px;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-scales{transform:scale(1.08);transform-origin:center;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-group{margin-bottom:14px;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-group:last-child{margin-bottom:0;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead{
+ display:grid;grid-template-columns:26px max-content minmax(10px,1fr);align-items:center;
+ column-gap:8px;margin:0 2px 8px;min-height:26px;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead img{
+ display:block;width:26px;height:24px;object-fit:contain;justify-self:center;
+ background:transparent!important;mix-blend-mode:normal;filter:none;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead h3{
+ font:700 clamp(10.5px,3.3vw,19px)/1.14 Georgia,'Times New Roman',serif!important;
+ letter-spacing:.006em;color:#7e4b12!important;white-space:normal;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead i{
+ display:block;width:100%;height:1px;min-width:10px;background:linear-gradient(90deg,#ad741f,#c5913c);
+ box-shadow:0 1px 0 #fff4db80;
+}
+@media(max-width:370px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead{grid-template-columns:23px minmax(0,max-content) minmax(8px,1fr);column-gap:6px;min-height:24px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead img{width:23px;height:22px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead i{min-width:8px;}
+}
+@media(min-width:700px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-head{margin-top:12px;margin-bottom:18px;}
+}
+
+
+/* .87 — stage 5 correction. The home cards alone override the generic
+   sheet/button geometry; content remains auto-sized, with no clipping. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-rows{
+ display:grid!important;row-gap:1.5px!important;align-items:stretch;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+ box-sizing:border-box!important;display:grid!important;
+ width:100%!important;height:auto!important;max-height:none!important;
+ min-height:clamp(48px,13vw,58px)!important;
+ margin:0!important;padding-top:3px!important;padding-bottom:3px!important;
+ border-radius:clamp(11px,3.05vw,16px)!important;
+ border:1px solid transparent!important;
+ background:linear-gradient(155deg,#fffdf9 0%,#fffaf2 45%,#f6e8d1 100%) padding-box,
+ linear-gradient(180deg,#bd945b 0%,#e8d0a6 23%,#d9b67e 68%,#b7813c 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf7,inset 0 0 0 2px #e0bc827a,
+ inset 0 3px 6px #ffffffa0,inset 0 -3px 6px #d5a35a25,
+ 0 2px 1px #bc8d4e28,0 5px 9px -3px #86545e65!important;
+}
+@media(max-width:370px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{padding-top:3px!important;padding-bottom:3px!important;}
+}
+@media(min-width:500px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-rows{row-gap:2px!important;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{min-height:70px!important;padding-top:5px!important;padding-bottom:5px!important;}
+}
+
+/* .88 — stage 6: interior details only. Keep the .87 card shell intact.
+   Icons and arrows are decorative; the whole row remains the touch target. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+ grid-template-columns:54px minmax(0,1fr) 29px;column-gap:7px;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{
+ width:54px;height:clamp(43px,calc(13vw - 8px),44px);object-fit:contain;align-self:center;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy{
+ position:relative;display:block;border-left:0;padding:0 0 0 10px;min-width:0;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy::before{
+ content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+ height:calc(100% - 2px);max-height:37px;width:1px;
+ background:linear-gradient(180deg,#d6b17a,#a97732 48%,#d6b17a);
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy strong{
+ font:700 clamp(16px,4.5vw,24px)/1.08 Georgia,'Times New Roman',serif!important;
+ letter-spacing:-.012em;overflow-wrap:normal;hyphens:none;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small{
+ margin-top:3px;font:400 clamp(11px,3.05vw,15px)/1.2 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+ letter-spacing:0;overflow-wrap:normal;hyphens:none;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row[data-v="jurisdiction"] .tpl665-copy strong{
+ font-size:clamp(14px,3.95vw,21px)!important;letter-spacing:-.018em;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow{
+ box-sizing:border-box;width:29px;height:29px;justify-self:center;
+ border:1px solid #95601b;
+ background:radial-gradient(ellipse at 29% 12%,#f6d995 0%,#d5aa58 32%,#b1812b 66%,#936018 100%);
+ box-shadow:inset 0 1px 0 #fff3ce,inset 0 -2px 3px #75440b45,0 2px 4px #80501955;
+ color:#fffdf5;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{
+ width:19px;height:19px;stroke-width:2.9;filter:drop-shadow(0 1px 0 #86551d);
+}
+@media(max-width:370px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:46px minmax(0,1fr) 26px;column-gap:5px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{width:46px;height:40px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-copy{padding-left:7px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow{width:26px;height:26px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{width:17px;height:17px;}
+}
+@media(min-width:500px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:68px minmax(0,1fr) 36px;column-gap:11px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{width:68px;height:57px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-copy{padding-left:12px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-copy::before{max-height:48px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow{width:36px;height:36px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{width:23px;height:23px;}
+}
+
+/* .89 — stage 7: variant 1, distribute the spare vertical space into the
+   seven touch targets on tall phones. Preserve the approved shell, header,
+   decor, inner gaps and all text. Short/landscape screens keep natural
+   height and the existing sheet scrolling; no new in-flow background box. */
+@media (max-width:499px) and (orientation:portrait){
+ #sheet.tpl665-home-sheet{
+  --courts89-extra:clamp(0px,calc((100vh - 690px) / 7),24px);
+ }
+ @supports (height:100dvh){
+  #sheet.tpl665-home-sheet{
+   --courts89-extra:clamp(0px,calc((100dvh - 690px) / 7),24px);
+  }
+ }
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+  min-height:calc(clamp(48px,13vw,58px) + var(--courts89-extra))!important;
+ }
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-group:not(:last-child){
+  margin-bottom:calc(14px + min(3px,var(--courts89-extra) / 6));
+ }
+}
+
+/* .92 — final mockup alignment; mobile vertical fill is intentionally retained. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{
+ width:min(77vw,100%);
+ margin-top:max(3px,calc(var(--courts83-decor-height) * .61 - var(--courts83-top-pad) - 7px));
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2{
+ font-size:clamp(16px,4.72vw,31px)!important;letter-spacing:-.022em;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+ background:linear-gradient(155deg,#fffdfa 0%,#fffaf2 48%,#f7ebd9 100%) padding-box,
+ linear-gradient(180deg,#c8a370 0%,#e9d4ae 28%,#dfc18c 73%,#bd945a 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf9,inset 0 0 0 2px #e1c18b49,
+ inset 0 3px 6px #ffffff80,inset 0 -3px 6px #d5a35a1f,
+ 0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54!important;
+}
+/* Match the reference long label on common phone widths. Let it wrap on narrow screens. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row[data-v="jurisdiction"] .tpl665-copy strong{
+ font-size:var(--courts92-fit,clamp(13px,4.05vw,22px))!important;letter-spacing:-.025em;-webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+@media (min-width:380px) and (max-width:499px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:54px minmax(0,1fr) 29px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{height:46px;}
+}
+@media (min-width:700px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-head{width:100%;margin-top:12px;}
+}
+
+/* .93 — reserve independent room for the header and decorative scales.
+   The .92 card shell and the .89 vertical distribution remain unchanged. */
+#sheet.tpl665-home-sheet{
+ --courts83-decor-width:min(43vw,304px);
+ --courts93-decor-offset:clamp(8px,3.2vw,18px);
+ background-position:right calc(-1 * var(--courts93-decor-offset)) top,center top,center top!important;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{
+ grid-template-columns:clamp(32px,9vw,46px) clamp(34px,10.1vw,55px) minmax(0,1fr);
+ column-gap:clamp(4px,1.3vw,8px);
+ width:min(calc(100vw - clamp(13px,3.8vw,24px) - var(--courts83-decor-width) * .63 + var(--courts93-decor-offset) - 8px),100%);
+ margin-top:max(3px,calc(var(--courts83-decor-height) * .61 - var(--courts83-top-pad) - 7px));
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title{padding-left:clamp(4px,1.25vw,8px);}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2{
+ font-size:clamp(17px,5.05vw,32px)!important;letter-spacing:-.025em;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2,
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p,
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row[data-v="jurisdiction"] .tpl665-copy strong{
+ -webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row[data-v="jurisdiction"] .tpl665-copy strong{
+ font-size:clamp(15px,4.18vw,22px)!important;letter-spacing:-.027em;
+}
+#sheet.tpl665-home-sheet .tpl665-home .courts93-fitline{display:inline-block;transform-origin:left center;}
+#sheet.tpl665-home-sheet .tpl665-home .courts93-fitted{overflow:hidden;}
+@media(min-width:700px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-head{margin-top:12px;}
+}
+
+/* .94 — final typography and icon proportions, scoped to judicial services. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{
+ font-weight:600!important;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small{
+ font-weight:500!important;
+}
+/* Georgia has a bold face, not a separate heavy face. Keep its glyph shapes
+   and add only a very subtle optical weight on the dark serif titles. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2,
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy strong{
+ font-weight:700!important;-webkit-text-stroke:.08px currentColor;
+}
+/* Larger artwork on tall phones; preserve text width and the card shell. */
+@media (min-width:380px) and (max-width:499px) and (min-height:740px) and (orientation:portrait){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:58px minmax(0,1fr) 29px;column-gap:6px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{width:58px;height:50px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-copy{padding-left:8px;}
+}
+@media (min-width:500px) and (min-height:740px){
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-row{grid-template-columns:72px minmax(0,1fr) 36px;column-gap:9px;}
+ #sheet.tpl665-home-sheet .tpl665-home .tpl665-icon{width:72px;height:58px;}
+}
+
+/* .95 — reference gold tone of the seven navigation circles only. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow{
+ border-color:#8e5a18;
+ background:linear-gradient(165deg,#d1a35f 0%,#c09149 25%,#ac7524 52%,#9f6714 82%,#925a10 100%);
+ box-shadow:inset 0 1px 0 #f5d9a4,inset 0 -2px 3px #74410835,0 2px 4px #80501955;
+}
+
+/* .96 — ten audit refinements; confined to the judicial-services home. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{font-weight:500!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-back svg{stroke-width:2.4!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-back svg path{stroke-width:2.4!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead h3{font-size:clamp(10px,3.10vw,18px)!important;letter-spacing:.004em;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%) padding-box,
+ linear-gradient(180deg,#cba773 0%,#e8d3ac 28%,#e0c18d 73%,#c49d66 100%) border-box!important;
+ box-shadow:inset 0 0 0 1px #fffdf8,inset 0 0 0 2px #e2c89a35,
+ inset 0 3px 7px #ffffff87,inset 0 -3px 7px #d5a35a25,
+ 0 2px 1px #bc8d4e20,0 5px 8px -3px #86545e54!important;
+}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow{background:linear-gradient(165deg,#d1a35f 0%,#bc8a42 25%,#a56e1e 52%,#9b6310 82%,#90580d 100%);}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{width:22px;height:22px;stroke-width:2.25!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg path{stroke-width:2.25!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row[data-v="jurisdiction"] .tpl665-copy strong{font-size:clamp(15px,4.28vw,22px)!important;letter-spacing:-.028em;}
+@media(max-width:370px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{width:20px;height:20px;}}
+@media(min-width:500px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-arrow svg{width:27px;height:27px;}}
+/* Hide only the scroll indicator. Keep access to all cards on small screens. */
+#sheet.tpl665-home-sheet{overflow-y:auto!important;scrollbar-width:none!important;-ms-overflow-style:none;}
+#sheet.tpl665-home-sheet::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;}
+/* 6.65 — library catalog only; no search, no bottom navigation. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title h2{white-space:nowrap}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{width:min(76vw,100%);}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{font-weight:500!important;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{min-height:clamp(64px,17vw,86px)!important;}
+@media(max-width:499px) and (orientation:portrait){#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{min-height:calc(clamp(48px,13vw,58px) + var(--courts89-extra))!important;}}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-rows{row-gap:3px!important;grid-auto-rows:1fr;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy strong{overflow-wrap:normal;word-break:normal;hyphens:none;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small svg{width:13px;height:14px;flex:none;stroke-width:1.7;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small i{font-style:normal;color:#a16a1f;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead h3{white-space:nowrap;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-context{margin-bottom:8px;}
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead{margin-top:1px;}
+@media(max-width:370px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy strong{font-size:15px!important;}#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small{font-size:10px!important;gap:3px;}#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{font-size:10px!important;}}
+@media(min-width:700px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{width:100%;}}
