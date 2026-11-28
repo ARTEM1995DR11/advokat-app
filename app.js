@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.71';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6672';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.72';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6673';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -10397,7 +10397,10 @@ function tpl656Count(n,kind){return n+' '+(kind==='group'?plural(n,'шаблон
 function tpl661PointCount(n){return n+' '+plural(n,'пункт','пункта','пунктов');}
 function tpl656Art(icon){return icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);}
 function tpl656Card(title,desc,icon,action,value){
- return '<button type="button" class="tpl665-row tpl671-template-row" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><img class="tpl665-icon" src="templates671-document.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+esc(title)+'</strong><small><i aria-hidden="true">•</i><span>'+esc(desc)+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
+ var display=esc(title),parts=String(desc).split(' · ');
+ if(String(value)==='1'||String(value)==='2')display=display.replace(' жалоба',' <br>жалоба');
+ var detail=parts.length===2?'<span class="tpl672-detail"><span class="tpl672-law">'+esc(parts[0])+'</span><span class="tpl672-count"> · '+esc(parts[1])+'</span></span>':'<span class="tpl672-detail">'+esc(desc)+'</span>';
+ return '<button type="button" class="tpl665-row tpl671-template-row" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><img class="tpl665-icon" src="templates671-document.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+display+'</strong><small><i aria-hidden="true">•</i>'+detail+'</small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
 function tpl656GroupTitle(t){return '<div class="tpl671-section-heading"><h3>'+esc(t)+'</h3><i aria-hidden="true"></i></div>';}
 function tpl656List(ids){return '<section class="tpl665-rows tpl671-template-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length)),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
