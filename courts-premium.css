@@ -874,3 +874,7 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
   letter-spacing:0;
   white-space:nowrap;
 }
+
+/* 6.53 — uniform serif glyphs across execution titles; no mixed-font digits. */
+#sheet .courts641-execution .courts653-title {font-family:"Times New Roman",Times,"Liberation Serif",serif!important;font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1;overflow-wrap:break-word;}
+#sheet .courts642-contacts .courts641-note{margin:6px 0 10px;line-height:1.4;}
