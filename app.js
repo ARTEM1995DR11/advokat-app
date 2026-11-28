@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.72';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6673';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.73';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6674';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -10404,7 +10404,7 @@ function tpl656Card(title,desc,icon,action,value){
 }
 function tpl656GroupTitle(t){return '<div class="tpl671-section-heading"><h3>'+esc(t)+'</h3><i aria-hidden="true"></i></div>';}
 function tpl656List(ids){return '<section class="tpl665-rows tpl671-template-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length)),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
-function tpl671Head(title,sub,asset){return '<header class="tpl671-head"><div class="tpl671-top"><button type="button" class="tpl665-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span>РАБОЧАЯ БИБЛИОТЕКА</span></div><div class="tpl671-heading"><img src="'+esc(asset)+'?v='+APP_BUILD+'" alt=""><div class="tpl671-heading-copy"><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div></div></header>';}
+function tpl671Head(title,sub,asset){return '<header class="tpl671-head settings60-head"><button type="button" class="tpl665-back settings60-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="'+esc(asset)+'?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">РАБОЧАЯ БИБЛИОТЕКА</span><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div></header>';}
 function tpl657Tile(g){var count=g[4].reduce(function(sum,i){return sum+TPL[i].items.length;},0);return '<button type="button" class="tpl665-row" data-act="tpl656-group" data-v="'+esc(g[0])+'"><img class="tpl665-icon" src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+(['admin','sentence','enforcement'].indexOf(g[0])>=0?esc(g[1]).replace(/ ([^ ]+)$/,'<br>$1'):esc(g[1]))+'</strong><small>'+ico('doc','s')+'<span>'+esc(tpl656Count(g[4].length,'group'))+'</span><i aria-hidden="true">•</i><span>'+esc(tpl661PointCount(count))+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';}
 function tpl656Catalog(){return '<section class="tpl665-group" aria-labelledby="tpl665-total"><div class="tpl665-grouphead"><img class="tpl665-groupicon" src="templates665-count.webp?v='+APP_BUILD+'" alt=""><h3 id="tpl665-total"><span class="tpl667-num">'+TPL656_GROUPS.length+'</span> '+plural(TPL656_GROUPS.length,'категория','категории','категорий').toUpperCase()+' <span class="tpl669-dot" aria-hidden="true">•</span> <span class="tpl667-num">'+TPL.length+'</span> '+plural(TPL.length,'шаблон','шаблона','шаблонов').toUpperCase()+'</h3><i aria-hidden="true"></i></div><div class="tpl665-rows">'+TPL656_GROUPS.map(tpl657Tile).join('')+'</div></section>';}
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
