@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.44';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6645';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.45';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6646';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -5597,7 +5597,7 @@ function courts642Unit(route,key,title,subtitle,description,parent,archive,repor
 function courts641InstitutionPage(route){var r=COURTS641_INSTITUTIONS.find(function(x){return route==='fsin-unit:'+x[0];});if(!r)return;courts642Unit(route,r[0],r[1],r[2]||'Ивановская область',r[3]+' · сведения по докладу 2024 года','fsin-institutions',false,true);}
 function courts642BranchRows(q){var terms=courts641Normalize(q).split(/\s+/).filter(Boolean);var rows=COURTS642_BRANCHES.filter(function(r){return terms.every(function(t){return courts641Normalize(r.join(' ')).includes(t);});});return rows.length?courts619ResourceCards('bailiff','Филиалы УИИ',rows.map(function(r){return ['fsin-branch:'+r[0],r[1],r[2],'court'];})): '<p class="courts73-empty">Филиалы не найдены.</p>';}
 function courts641UiiPage(){var body=courts619ResourceCards('bailiff','УИИ',[['fsin-uii-main','ФКУ УИИ','Головное учреждение · Иваново','phone']])+courts641Note('10 записей о филиалах по опубликованным данным ЕГРЮЛ. Адреса регистрации — не подтверждённые места приёма.')+'<label class="courts141-search">'+ico('search','s')+'<input id="courts642-uii-search" type="search" placeholder="Город, район или адрес" autocomplete="off" aria-label="Поиск филиала УИИ"></label><div id="courts642-uii-results">'+courts642BranchRows('')+'</div>'+courts642Sources('uii',false);courts641Page('fsin-uii','Уголовно-исполнительные инспекции','Ивановская область',body,'bailiff');var p=$('#sheet .courts73-page'),input=p.querySelector('#courts642-uii-search');input.addEventListener('input',function(){p.querySelector('#courts642-uii-results').innerHTML=courts642BranchRows(input.value);});}
-function courts642FsspPage(){courts641Page('fssp-offices','Подразделения ФССП','Поиск отдела судебных приставов',courts619ResourceCards('bailiff','Официальные сервисы',[['https://fssp.gov.ru/iss/agency_reestr/','Реестр подразделений','Адреса и контакты отделов','phone'],['https://fssp.gov.ru/osp','Определение отдела по адресу','Поиск территориального подразделения','pin']]),'bailiff');}
+function courts642FsspPage(){courts641Page('fssp-offices','Подразделения ФССП','Поиск отдела судебных приставов',courts619ResourceCards('bailiff','Официальные сервисы',[['https://fssp.gov.ru/iss/agency_reestr/','Реестр подразделений','Адреса и контакты отделов','phone'],['https://fssp.gov.ru/iss/osp','Определение отдела по адресу','Поиск территориального подразделения','pin']]),'bailiff');}
 function courts616ArbitrPage(){
  courts73Page('arbitr','Арбитражные сервисы','Картотека и Мой арбитр',courts619ResourceCards('arbitr','Арбитражные сервисы'),'home');
  $('#sheet').classList.add('courts139-mine-sheet','courts146-detail-sheet');
