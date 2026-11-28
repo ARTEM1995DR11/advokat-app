@@ -116,7 +116,7 @@ html:has(#sheet.tpl656-sheet.open){background:#f3e5d1!important}
  background-color:#f4e8d7!important;
  position:fixed!important;box-sizing:border-box!important;height:auto!important;min-height:0!important;max-height:none!important;
  inset:0!important;
- background-image:url('templates665-decor.webp?v=6666'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-image:url('templates665-decor.webp?v=6667'),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
  background-size:var(--courts83-decor-width) auto,100% 100%,100% 100%!important;
  background-position:right top,center top,center top!important;
  background-repeat:no-repeat,no-repeat,no-repeat!important;
@@ -444,3 +444,42 @@ body:has(#sheet.tpl665-home-sheet.open){background:transparent!important;}
 #sheet.tpl665-home-sheet .tpl665-home .tpl665-grouphead{margin-top:1px;}
 @media(max-width:370px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy strong{font-size:15px!important;}#sheet.tpl665-home-sheet .tpl665-home .tpl665-copy small{font-size:10px!important;gap:3px;}#sheet.tpl665-home-sheet .tpl665-home .tpl665-title p{font-size:10px!important;}}
 @media(min-width:700px){#sheet.tpl665-home-sheet .tpl665-home .tpl665-head{width:100%;}}
+
+/* 6.66 — visual audit refinements, only the template-library home. */
+html:has(#sheet.tpl665-home-sheet.open),
+body:has(#sheet.tpl665-home-sheet.open){
+ background-color:#eed3b2!important;
+ background-image:linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+ background-size:100vw 100vh!important;
+ background-position:center top!important;background-repeat:no-repeat!important;
+}
+#sheet.tpl665-home-sheet.open{
+ background-size:var(--courts83-decor-width) auto,100vw 100vh,100vw 100vh!important;
+ background-position:right calc(-1 * var(--courts93-decor-offset)) top,center top,center top!important;
+}
+@supports (height:100lvh){
+ html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){background-size:100vw 100lvh!important;}
+ #sheet.tpl665-home-sheet.open{background-size:var(--courts83-decor-width) auto,100vw 100lvh,100vw 100lvh!important;}
+}
+/* WebKit standalone: blend the very bottom into the system canvas color, only in the safe area.
+   A native area outside the web viewport cannot be painted with a web image. */
+@supports (-webkit-touch-callout:none){
+ @media (display-mode:standalone){
+  html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
+   background-image:linear-gradient(to top,#eed3b2 0px,transparent env(safe-area-inset-bottom,0px)),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+  }
+  #sheet.tpl665-home-sheet.open{
+   background-image:url('templates665-decor.webp?v=6667'),linear-gradient(to top,#eed3b2 0px,transparent env(safe-area-inset-bottom,0px)),linear-gradient(180deg,rgba(255,250,243,.25),rgba(255,250,243,.19) 28%,rgba(255,250,243,.18)),url('courts80-background.webp?v=6550')!important;
+   background-size:var(--courts83-decor-width) auto,100vw 100vh,100vw 100vh,100vw 100vh!important;
+   background-position:right calc(-1 * var(--courts93-decor-offset)) top,center top,center top,center top!important;
+   background-repeat:no-repeat!important;
+  }
+  @supports (height:100lvh){#sheet.tpl665-home-sheet.open{background-size:var(--courts83-decor-width) auto,100vw 100lvh,100vw 100lvh,100vw 100lvh!important;}}
+ }
+}
+/* One fine gold contour, a soft raised surface and no doubled inner outline. */
+#sheet.tpl665-home-sheet .tpl665-home .tpl665-row{
+ border:1px solid #d8ba8b!important;
+ background:linear-gradient(155deg,#fffcf7 0%,#fdf6eb 48%,#f5e6cf 100%)!important;
+ box-shadow:inset 0 1px 4px #ffffff80,0 3px 6px -2px #93603250!important;
+}

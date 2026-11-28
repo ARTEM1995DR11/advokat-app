@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.65';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6666';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.66';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6667';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
