@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.58';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6659';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.59';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6660';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -11991,52 +11991,64 @@ window.addEventListener('pageshow',function(event){
 /* 5.0.1280: server-version check bypasses both HTTP cache and the SW cache.
    A ZIP must be deployed to the hosting root; a downloaded ZIP alone is not an update.
    No local app data, PIN, or indexedDB storage is cleared. */
+/* 6.59 — distinguish a downloaded/active worker from the currently rendered shell.
+   Never reload or clear user storage automatically. */
+var APP659_CHECKING=false, APP659_LAST_CHECK=0, APP659_PROBING=false, APP659_NOTIFIED='';
+function app659Version(text){
+  var v=String(text||'').trim(),match=v.match(/^(\d+(?:\.\d+)+)(?=\s*(?:\r?\n|\/|$))/),b=v.match(/(?:^|\n)\s*Build\s*:\s*(\d+)\b/i)||v.match(/^\d+(?:\.\d+)+\s*\/\s*(\d+)\b/);
+  if(!match||!b)throw new Error('Invalid VERSION.txt');
+  return {version:match[1],build:b[1]};
+}
+async function app659RemoteVersion(){
+  var c=new AbortController(),timer=setTimeout(function(){c.abort();},12000);
+  try{var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store',signal:c.signal});if(!response.ok)throw new Error('HTTP '+response.status);return app659Version(await response.text());}
+  finally{clearTimeout(timer);}
+}
 async function checkForAppUpdate(){
+  if(APP659_CHECKING){toast('Проверка обновления уже выполняется');return;}
   if(!navigator.onLine){toast('Для проверки обновления нужен интернет');return;}
+  APP659_CHECKING=true;
   try{
-    var response=await fetch('./VERSION.txt?version_check='+Date.now(),{cache:'no-store'});
-    if(!response.ok)throw new Error('HTTP '+response.status);
-    var versionText=(await response.text()).trim();
-    /* The first line is the public version (6.1, 6.2, ... or historical dotted versions).
-       Compare only the monotonically increasing build. Legacy-Version is for older clients. */
-    var match=versionText.match(/^(\d+(?:\.\d+)+)(?=\s*(?:\r?\n|\/|$))/);
-    var buildMatch=versionText.match(/(?:^|\n)\s*Build\s*:\s*(\d+)\b/i)
-      || versionText.match(/^\d+(?:\.\d+)+\s*\/\s*(\d+)\b/);
-    if(!match || !buildMatch)throw new Error('Invalid VERSION.txt');
-    var remoteBuild=Number(buildMatch[1]), currentBuild=Number(APP_BUILD);
+    var remote=await app659RemoteVersion(),remoteBuild=Number(remote.build),currentBuild=Number(APP_BUILD);
     if(remoteBuild>currentBuild){
-      if(!confirm('Доступна версия '+match[1]+' (установлена '+APP_VERSION+'). Обновить приложение сейчас?'))return;
+      if(!confirm('Доступна версия '+remote.version+' (установлена '+APP_VERSION+'). Обновить приложение сейчас?'))return;
       if(unlocked && !(await flushSave())){toast('Обновление отложено: сначала сохраните данные или резервную копию');return;}
       if('serviceWorker' in navigator){
         try{
+          toast('Проверяем готовность новой сборки');
           var reg=await navigator.serviceWorker.getRegistration();
-          if(!reg)reg=await navigator.serviceWorker.register('./sw.js?v='+remoteBuild,{updateViaCache:'none'});
-          else await reg.update();
-          var ready=await app655WaitForBuild(reg,String(remoteBuild));
-          if(!ready){toast('Новая сборка ещё не готова. Текущая версия сохранена.');return;}
+          if(!reg||await app655WorkerBuild(reg.active)!==remote.build){
+            if(reg&&reg.installing){await app655WaitForBuild(reg,remote.build,15000);}
+            if(!reg||await app655WorkerBuild(reg.active)!==remote.build){
+              reg=await navigator.serviceWorker.register('./sw.js?v='+remote.build,{updateViaCache:'none'});
+            }
+          }
+          var ready=await app655WaitForBuild(reg,remote.build);
+          if(!ready){toast('Новая сборка ещё не готова. Проверьте публикацию файлов и повторите проверку.');return;}
         }catch(_e){toast('Обновление не завершено. Текущая версия сохранена.');return;}
       }
+      // The user may have edited records while the worker downloaded its resources.
+      // Require a fresh explicit confirmation, then flush the latest state again.
+      if(!confirm('Версия '+remote.version+' готова. Завершите открытое редактирование перед перезапуском. Перезапустить сейчас?'))return;
+      if(unlocked && !(await flushSave())){toast('Не удалось сохранить данные. Перезапуск отменён.');return;}
       window.location.replace('./?app_update='+remoteBuild+'_'+Date.now());
-    }else if(remoteBuild===currentBuild){
-      toast('Установлена актуальная версия '+APP_VERSION);
-    }else{
-      toast('На сервере пока версия '+match[1]+'; локально '+APP_VERSION);
-    }
+    }else if(remoteBuild===currentBuild){toast('Установлена актуальная версия '+APP_VERSION);}
+    else{toast('На сервере пока версия '+remote.version+'; локально '+APP_VERSION);}
   }catch(_e){toast('Не удалось проверить версию на сервере');}
+  finally{APP659_CHECKING=false;}
 }
-
 function app655WorkerBuild(worker){
   return new Promise(function(resolve){
     if(!worker||typeof MessageChannel==='undefined'){resolve('');return;}
     var channel=new MessageChannel(),done=false,timer;
     function finish(value){if(done)return;done=true;clearTimeout(timer);channel.port1.close();resolve(String(value||''));}
-    timer=setTimeout(function(){finish('');},700);
+    timer=setTimeout(function(){finish('');},1000);
     channel.port1.onmessage=function(e){finish(e.data&&e.data.build);};
     try{worker.postMessage({type:'GET_BUILD'},[channel.port2]);}catch(_e){finish('');}
   });
 }
-async function app655WaitForBuild(reg,build){
-  var deadline=Date.now()+30000;
+async function app655WaitForBuild(reg,build,waitMs){
+  var deadline=Date.now()+(waitMs||90000);
   while(Date.now()<deadline){
     var active=reg.active,controller=navigator.serviceWorker.controller;
     if(active&&active.state==='activated'&&await app655WorkerBuild(active)===build&&(!controller||await app655WorkerBuild(controller)===build))return true;
@@ -12044,35 +12056,41 @@ async function app655WaitForBuild(reg,build){
   }
   return false;
 }
+async function app659NoticeReady(reg){
+  if(!reg||APP659_CHECKING||!unlocked||document.hidden)return;
+  var build=await app655WorkerBuild(reg.active),controller=navigator.serviceWorker.controller;
+  if(Number(build)>Number(APP_BUILD)&&(!controller||await app655WorkerBuild(controller)===build)&&APP659_NOTIFIED!==build){
+    APP659_NOTIFIED=build;toast('Обновление готово. Откройте «Ещё» → «Проверить обновление».');
+  }
+}
+async function app659Probe(force){
+  if(APP659_CHECKING||APP659_PROBING||document.hidden||!navigator.onLine||(!force&&Date.now()-APP659_LAST_CHECK<60000))return;
+  APP659_LAST_CHECK=Date.now();APP659_PROBING=true;
+  try{
+    var reg=await navigator.serviceWorker.getRegistration();
+    if(!reg)return;
+    await app659NoticeReady(reg);
+    if(!reg.installing)await reg.update();
+    await app659NoticeReady(reg);
+  }catch(_e){}finally{APP659_PROBING=false;}
+}
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
-    /* 5.0.249 STARTUP-STABILITY:
-       register only after the UI is already usable; do not force an update,
-       reload, navigation or controller switch during launch. */
-    setTimeout(function(){
-      navigator.serviceWorker.register('./sw.js?v='+APP_BUILD,{updateViaCache:'none'})
-        .then(function(reg){
-          /* Only ask THIS build's active worker to fill its optional cache.
-             An older worker may remain active for several seconds while a
-             new bundle installs; a one-time timer alone misses that update. */
-          var requestWarm=function(){
-            var worker=reg.active;
-            if(worker){worker.postMessage({type:'WARM_OFFLINE_ASSETS',build:APP_BUILD});}
-          };
-          setTimeout(requestWarm,3500);
-          navigator.serviceWorker.addEventListener('controllerchange',function(){
-            setTimeout(requestWarm,650);
-          },{once:true});
-          if(reg.installing){
-            reg.installing.addEventListener('statechange',function(){
-              if(reg.installing && reg.installing.state==='activated')requestWarm();
-            });
-          }
-          return reg;
-        })
-        .catch(function(){});
+    setTimeout(async function(){
+      try{
+        // Keep the existing registration instead of re-registering a URL with an old build.
+        var reg=await navigator.serviceWorker.getRegistration();
+        if(!reg)reg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+        function requestWarm(){if(reg.active)reg.active.postMessage({type:'WARM_OFFLINE_ASSETS',build:APP_BUILD});}
+        setTimeout(requestWarm,3500);
+        navigator.serviceWorker.addEventListener('controllerchange',function(){setTimeout(function(){requestWarm();app659NoticeReady(reg);},650);});
+        app659Probe(true);
+      }catch(_e){}
     },1400);
   });
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)app659Probe(false);});
+  window.addEventListener('pageshow',function(e){if(e.persisted)app659Probe(false);});
+  window.addEventListener('online',function(){app659Probe(true);});
 }
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){});}
 window.addEventListener('pagehide',function(){ if(unlocked){if(courts74ReadReturn()&&!hiddenAt)hiddenAt=Date.now();flushSave();} });
