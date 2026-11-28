@@ -921,3 +921,10 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
     margin-top:12px!important;
   }
 }
+
+/* 6.76 — readable public reference contacts, scoped to execution directory. */
+#sheet .courts642-contacts .courts676-caution{margin:4px 0 10px;font:400 12px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#79501e;}
+#sheet .courts676-sources .courts642-sources{margin:7px 0 0;color:#79501e;}
+#sheet .courts642-contacts .courts146-contact-copy{min-width:0;overflow-wrap:anywhere;}
+#sheet .courts642-contacts .courts642-sources a{overflow-wrap:anywhere;}
+#sheet .courts676-sources .courts146-row{min-height:44px;}
