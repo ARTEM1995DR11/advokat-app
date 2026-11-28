@@ -849,3 +849,12 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 #sheet.courts139-mine-sheet .courts641-execution #courts641-results,#sheet.courts139-mine-sheet .courts641-execution #courts642-uii-results{padding-top:14px;padding-bottom:18px;min-width:0}
 #sheet.courts73-sheet:has(.courts641-execution){touch-action:pan-y;overscroll-behavior-x:none;overflow-x:hidden}
 #sheet .courts641-execution .courts616-link,#sheet .courts641-execution .settings60-back,#sheet .courts641-execution .courts642-sources summary{touch-action:pan-y}
+
+
+/* 6.46 — FSIN details: stable lining numerals and no oldstyle digit drop in titles. */
+#sheet.courts73-sheet .settings60-head-copy h2,
+#sheet .courts641-execution .courts641-unit h3,
+#sheet .courts641-execution .settings60-line-copy strong{
+  font-variant-numeric:lining-nums tabular-nums;
+  font-feature-settings:'lnum' 1,'tnum' 1;
+}
