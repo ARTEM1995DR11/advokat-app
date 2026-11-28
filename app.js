@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.33';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6634';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.36';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6637';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4996,6 +4996,7 @@ function courts73Row(r){
  return start+' class="settings60-line courts73-row"><span class="settings60-line-icon">'+ico(r[3],'s')+'</span><span class="settings60-line-copy"><strong>'+esc(r[1])+'</strong><small>'+esc(r[2])+'</small></span><span class="settings60-arrow">'+(external?courts73ExternalIcon():ico('chev','s'))+'</span>'+(external?'</a>':'</button>');
 }
 function courts73Section(label,rows){return '<section class="courts73-group"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+settings60Card(rows.map(courts73Row).join(''))+'</section>';}
+function courts635Section(label,desc,rows,tone){return '<section class="courts73-group courts635-group courts635-'+esc(tone||'base')+'"><div class="courts635-head"><div class="settings60-minihead"><span>'+esc(label.toUpperCase())+'</span><i></i></div>'+(desc?'<p>'+esc(desc)+'</p>':'')+'</div><div class="settings60-card courts635-card">'+rows.map(courts73Row).join('')+'</div></section>';}
 /* 6.32: СудАкт regular filter IDs from published third-party snapshot (not official API):
  https://github.com/mynka999/sudact-mcp-server/blob/main/sudact_dicts.json
  Only known values are sent; actual external filtering still needs device verification. */
@@ -5027,16 +5028,26 @@ function courts631PracticeUrl(law,words,area,stage){
  if(area)p.set('regular-area',area);if(stage)p.set('regular-workflow_stage',stage);
  return 'https://sudact.ru/regular/doc/?'+p.toString();
 }
+/* 6.35: indexed-document fallback, not an equivalent of structured filters. */
+function courts634WebPracticeUrl(law,words,area,stage){
+ if(!courts631PracticeUrl(law,words,area,stage))return '';
+ law=String(law||'').trim();words=String(words||'').trim();if(!law&&!words)return '';
+ var region=COURTS632_AREAS.find(function(r){return r[0]===area;});
+ var stageWords={'10':'(приговор OR решение OR постановление)','20':'(апелляционное OR апелляционный OR апелляция)','30':'(кассационное OR кассационный OR кассация)','40':'пересмотр','60':'надзор'};
+ var regionText=region&&area?region[1].replace(/^Город /i,''):'';
+ var terms=['site:sudact.ru/regular/doc/',law,words,regionText?'"'+regionText+'"':'',stageWords[stage]||''].filter(Boolean);
+ return 'https://www.google.com/search?'+new URLSearchParams({q:terms.join(' ')}).toString();
+}
 function courts631PracticePage(){
- var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · федеральные суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">Поиск на внешнем сайте СудАкт (неофициальный). Сверяйте фильтры и найденные акты. Для кассации регион — место суда, а не исходного дела. Не вводите сведения о доверителях.</p></section>';
- var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения законодательства','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и расширенный поиск','scale']];
- var other=[['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search'],['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · отдельная поисковая база','court']];
- courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts73Section('Высшие суды',official)+courts73Section('Другие судебные ресурсы',other),'home');
+ var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · федеральные суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><button class="courts631-manual courts634-fallback" type="submit" value="web">Поиск через Google '+courts73ExternalIcon()+'</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">СудАкт — неофициальная база. Если фильтры не сработали, используйте Google: поиск по опубликованным актам, регион и инстанция — ключевые слова, не точные фильтры. Для кассации регион — место суда. Не вводите сведения о доверителях.</p></section>';
+ var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Разъяснения, обзоры и постановления Президиума','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту, номеру и виду акта','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и конституционно-правовые позиции','scale']];
+ var other=[['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · поиск по статье, тексту и участку','court'],['https://ras.arbitr.ru/','Арбитражная практика','Банк решений · поиск по тексту и категории спора','search']];
+ courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts635Section('Правовые позиции высших судов','Официальные источники',official,'official')+courts635Section('Другие базы судебных актов','Самостоятельный поиск на сайте выбранного ресурса',other,'other'),'home');
  var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
  var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
  courts632BindPickers(page,f);
  f.addEventListener('input',function(){error.hidden=true;error.textContent='';});
- f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f),law=String(d.get('law')||'').trim(),words=String(d.get('words')||'').trim();if(!law&&!words){error.textContent='Укажите статью закона или ключевые слова.';error.hidden=false;f.elements.law.focus();return;}var url=courts631PracticeUrl(law,words,d.get('area'),d.get('stage'));if(!url){error.textContent='Недопустимый фильтр. Выберите регион и инстанцию заново.';error.hidden=false;return;}var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.style.display='none';f.appendChild(a);try{a.click();}finally{a.remove();}});
+ f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f),law=String(d.get('law')||'').trim(),words=String(d.get('words')||'').trim();if(!law&&!words){error.textContent='Укажите статью закона или ключевые слова.';error.hidden=false;f.elements.law.focus();return;}var url=e.submitter&&e.submitter.value==='web'?courts634WebPracticeUrl(law,words,d.get('area'),d.get('stage')):courts631PracticeUrl(law,words,d.get('area'),d.get('stage'));if(!url){error.textContent='Недопустимый фильтр. Выберите регион и инстанцию заново.';error.hidden=false;return;}var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.style.display='none';f.appendChild(a);try{a.click();}finally{a.remove();}});
 }
 function courts73Page(route,title,subtitle,content,parent){
  var head='<header class="settings60-head"><button type="button" class="settings60-back" data-act="courts73-back" aria-label="Назад">'+ico('left','s')+'</button><span class="settings60-head-icon" aria-hidden="true"><img src="more-icon-courts-v6490.webp?v='+APP_BUILD+'" alt=""></span><div class="settings60-head-copy"><span class="settings60-overline">СУДЕБНЫЕ СЕРВИСЫ</span><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div></header>';
