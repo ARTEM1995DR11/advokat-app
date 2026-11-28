@@ -1,3 +1,3 @@
-6.69
-Build: 6670
-Legacy-Version: 5.0.1297.41.66.228
+6.70
+Build: 6671
+Legacy-Version: 5.0.1297.41.66.229
