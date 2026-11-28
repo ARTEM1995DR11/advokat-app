@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.67';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6668';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.68';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6669';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -10401,7 +10401,7 @@ function tpl656Card(title,desc,icon,action,value){
 }
 function tpl656GroupTitle(t){return '<div class="tpl657-section-title"><h3>'+esc(t)+'</h3><i></i></div>';}
 function tpl656List(ids){return '<section class="tpl657-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,(t.law?t.law+' · ':'')+(t.mode==='tasks'&&t.law?tpl656Count(t.items.length):tpl661PointCount(t.items.length)),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
-function tpl657Tile(g){var count=g[4].reduce(function(sum,i){return sum+TPL[i].items.length;},0);return '<button type="button" class="tpl665-row" data-act="tpl656-group" data-v="'+esc(g[0])+'"><img class="tpl665-icon" src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+esc(g[1])+'</strong><small>'+ico('doc','s')+'<span>'+esc(tpl656Count(g[4].length,'group'))+'</span><i aria-hidden="true">•</i><span>'+esc(tpl661PointCount(count))+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';}
+function tpl657Tile(g){var count=g[4].reduce(function(sum,i){return sum+TPL[i].items.length;},0);return '<button type="button" class="tpl665-row" data-act="tpl656-group" data-v="'+esc(g[0])+'"><img class="tpl665-icon" src="templates665-'+esc(g[0])+'.webp?v='+APP_BUILD+'" alt=""><span class="tpl665-copy"><strong>'+(['admin','sentence','enforcement'].indexOf(g[0])>=0?esc(g[1]).replace(/ ([^ ]+)$/,'<br>$1'):esc(g[1]))+'</strong><small>'+ico('doc','s')+'<span>'+esc(tpl656Count(g[4].length,'group'))+'</span><i aria-hidden="true">•</i><span>'+esc(tpl661PointCount(count))+'</span></small></span><span class="tpl665-arrow" aria-hidden="true">'+ico('chev','s')+'</span></button>';}
 function tpl656Catalog(){return '<section class="tpl665-group" aria-labelledby="tpl665-total"><div class="tpl665-grouphead"><img class="tpl665-groupicon" src="templates665-count.webp?v='+APP_BUILD+'" alt=""><h3 id="tpl665-total"><span class="tpl667-num">'+TPL656_GROUPS.length+'</span> '+plural(TPL656_GROUPS.length,'категория','категории','категорий').toUpperCase()+' • <span class="tpl667-num">'+TPL.length+'</span> '+plural(TPL.length,'шаблон','шаблона','шаблонов').toUpperCase()+'</h3><i aria-hidden="true"></i></div><div class="tpl665-rows">'+TPL656_GROUPS.map(tpl657Tile).join('')+'</div></section>';}
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
 function tpl656Render(ctx){
