@@ -228,59 +228,77 @@ html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
 #sheet.tpl665-home-sheet .tpl671-inner[data-route^="group:"] .tpl671-section-heading{margin:clamp(17px,5vw,28px) 3px clamp(8px,2.3vw,13px);gap:clamp(7px,2vw,12px);}
 @media(max-width:350px){#sheet.tpl665-home-sheet .tpl671-template-row{grid-template-columns:46px minmax(0,1fr) 26px;gap:7px;padding-left:8px!important;padding-right:9px!important;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-icon{height:46px;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy{padding-left:7px;padding-right:2px;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy strong{font-size:14px!important;}#sheet.tpl665-home-sheet .tpl671-template-row .tpl665-copy small{font-size:11px!important;}}
 
-/* 6.79 — inner library headers follow the Judicial Services detail header.
-   Same grid, controls, typography and spacing; only the artwork clearance
-   differs, because the approved notebook extends lower than Themis. */
-#sheet.tpl665-home-sheet .tpl671-inner{
-  padding-inline:clamp(13px,4.1vw,27px);
-  --tpl679-art-bottom:16.2vh;
-  --tpl679-overline:clamp(10px,2.65vw,16px);
-  --tpl679-title:clamp(18px,5.05vw,29px);
-  --tpl679-sub:clamp(11px,3.02vw,16px);
-  --tpl679-header-top:max(calc(var(--tpl679-art-bottom) - 7px),calc(var(--tpl668-top) + 3px));
+/* 6.80 — one stable header anchor throughout the library. The approved home
+   controls retain their position. Inner text has a reserved artwork exclusion
+   zone; it may grow downward without moving the back button or category icon. */
+#sheet.tpl665-home-sheet .tpl665-home{
+  --tpl680-back:clamp(32px,9vw,46px);
+  --tpl680-icon:clamp(32px,9.5vw,55px);
+  --tpl680-gap:clamp(5px,2vw,12px);
+  --tpl680-band:clamp(45px,14vw,70px);
+  --tpl680-top:max(0px,calc(clamp(54px,17.7vw,100px) - var(--tpl668-top)));
+  --tpl680-title:clamp(18px,5.55vw,34px);
+  --tpl680-sub:clamp(9.5px,2.6vw,16px);
+  --tpl680-title-y:calc((var(--tpl680-band) - var(--tpl680-title)*1.08 - 3px - var(--tpl680-sub)*1.23)/2);
+  --tpl680-art-edge:65vw;
+  --tpl680-art-bottom:16.4vh;
+  padding-inline:clamp(12px,3.65vw,25px);
 }
-@supports(height:100lvh){#sheet.tpl665-home-sheet .tpl671-inner{--tpl679-art-bottom:16.2lvh;}}
+@supports(height:100lvh){#sheet.tpl665-home-sheet .tpl665-home{--tpl680-art-bottom:16.4lvh;}}
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head.settings60-head{
-  display:grid;grid-template-columns:clamp(36px,9.6vw,49px) clamp(42px,12.4vw,64px) minmax(0,1fr);
-  gap:clamp(7px,2.2vw,12px);align-items:center;width:100%;min-width:0;box-sizing:border-box;
-  margin:calc(var(--tpl679-header-top) - var(--tpl668-top)) 0 clamp(18px,5.1vw,32px)!important;
-  min-height:clamp(55px,14vw,75px);
+  display:grid;grid-template-columns:var(--tpl680-back) var(--tpl680-icon) minmax(0,1fr);
+  gap:var(--tpl680-gap);align-items:start;width:100%;min-width:0;box-sizing:border-box;
+  margin:var(--tpl680-top) 0 clamp(14px,5.1vw,29px)!important;
+  min-height:var(--tpl680-band);padding:0;
 }
-#sheet.tpl665-home-sheet .tpl671-inner[data-route^="group:"] .tpl671-head.settings60-head{
-  min-height:calc(var(--tpl679-overline)*1.18 + var(--tpl679-title)*2.16 + var(--tpl679-sub)*1.25 + 9px);
-}
+#sheet.tpl665-home-sheet .tpl671-inner[data-route^="group:"] .tpl671-head.settings60-head{min-height:var(--tpl680-band);}
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-back{
-  box-sizing:border-box;width:100%;height:auto;aspect-ratio:1;min-width:0;max-width:100%;
-  border-radius:clamp(10px,2.8vw,15px);padding:0;
-  border:1px solid #ba8740;background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
-  box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65294a;color:#94611d;position:relative;
+  box-sizing:border-box;width:100%;height:var(--tpl680-back);min-width:0;max-width:100%;min-height:0;
+  margin-top:calc((var(--tpl680-band) - var(--tpl680-back))/2);padding:0;
+  border-radius:clamp(10px,2.8vw,15px);border:1px solid #ba8740;
+  background:linear-gradient(145deg,#fffefa 5%,#fff7e6 52%,#efd4a2 100%);
+  box-shadow:inset 0 0 0 1px #fff9e9,inset 0 -2px 3px #c6924740,0 3px 5px #94602040,0 1px 1px #9e65294a;color:#94611d;
 }
-#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-back svg,
-#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-back svg path{stroke-width:2.4!important;}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-back svg{width:22px;height:22px;stroke-width:2.4!important;}
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-icon{
-  width:100%;height:auto;aspect-ratio:1;display:grid;place-items:center;
-  border-radius:clamp(11px,3.4vw,17px);box-sizing:border-box;
+  width:100%;height:var(--tpl680-icon);min-width:0;margin-top:calc((var(--tpl680-band) - var(--tpl680-icon))/2);
+  display:grid;place-items:center;box-sizing:border-box;border-radius:clamp(8px,2.5vw,14px);
   background:linear-gradient(145deg,#fffdf8,#fbefd8);border:1px solid #dfbc82;
   box-shadow:inset 0 0 0 1px #fffdf6,0 3px 6px #90602435;
 }
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-icon img{width:94%;height:94%;object-fit:contain;display:block;}
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy{
-  border-left:1px solid #a97630;padding:0 0 0 clamp(7px,2vw,11px);min-width:0;
-  display:flex;flex-direction:column;gap:0;
+  position:relative;display:block;min-width:0;
+  margin-top:var(--tpl680-title-y);padding:0 0 0 clamp(5px,1.7vw,11px);
+  border-left:1px solid #ad7935;
+}
+/* Keep a virtual float over the notebook: text can use full width only below it. */
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::before{
+  content:'';float:right;pointer-events:none;
+  width:max(0px,calc(100vw - var(--tpl680-art-edge) - clamp(12px,3.65vw,25px)));
+  height:max(0px,calc(var(--tpl680-art-bottom) - max(var(--tpl668-top),clamp(54px,17.7vw,100px)) - var(--tpl680-title-y)));
 }
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-overline{
-  display:block;font:700 var(--tpl679-overline)/1.18 Georgia,'Times New Roman',serif!important;
-  letter-spacing:.018em;color:#855315;white-space:normal;overflow-wrap:break-word;
+  position:absolute;bottom:100%;left:clamp(5px,1.7vw,11px);right:0;display:block;
+  max-width:max(0px,calc(var(--tpl680-art-edge) - clamp(12px,3.65vw,25px) - var(--tpl680-back) - var(--tpl680-icon) - 2*var(--tpl680-gap) - clamp(5px,1.7vw,11px) - 1px));
+  padding-bottom:3px;font:700 clamp(8px,2.35vw,14px)/1.15 Georgia,'Times New Roman',serif!important;
+  letter-spacing:0;color:#855315;white-space:normal;overflow-wrap:normal;
 }
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy h2{
-  font:700 var(--tpl679-title)/1.08 Georgia,'Times New Roman',serif!important;
-  color:#0c1735!important;margin:4px 0 5px!important;letter-spacing:-.018em!important;
+  display:block;font:700 clamp(13px,4.15vw,25px)/1.12 Georgia,'Times New Roman',serif!important;
+  color:#0b1735!important;margin:0 0 4px!important;letter-spacing:-.018em!important;
   overflow-wrap:anywhere;word-break:normal;hyphens:none;
 }
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy p{
-  font:500 var(--tpl679-sub)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
-  color:#251c18;margin:0!important;overflow-wrap:break-word;font-variant-numeric:lining-nums tabular-nums;
+  display:block;font:500 clamp(10px,2.85vw,16px)/1.25 -apple-system,BlinkMacSystemFont,Arial,sans-serif!important;
+  color:#67513b;margin:0!important;overflow-wrap:break-word;font-variant-numeric:lining-nums tabular-nums;
 }
-@media(max-width:370px){#sheet.tpl665-home-sheet .tpl671-inner{--tpl679-overline:clamp(9px,2.7vw,10px);--tpl679-sub:clamp(10px,2.94vw,11px);}}
-/* At very wide / landscape ratios the artwork stretches horizontally; leave its entire height clear. */
-@media(min-aspect-ratio:3/5){#sheet.tpl665-home-sheet .tpl671-inner{--tpl679-header-top:max(calc(var(--tpl679-art-bottom) + 4px),calc(var(--tpl668-top) + 3px));}}
+/* On wide screens the page itself is centered; use one common safe top anchor. */
+@media(min-width:700px){
+ #sheet.tpl665-home-sheet .tpl665-home{--tpl680-top:max(12px,calc(var(--tpl680-art-bottom) - var(--tpl668-top) + 6px));--tpl680-art-edge:100vw;}
+ #sheet.tpl665-home-sheet .tpl665-head{margin-top:var(--tpl680-top);}
+ #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-overline{max-width:100%;}
+}
+/* Align the divider to the approved home header rather than to the virtual float. */
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy{border-left-color:transparent;}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::after{content:'';position:absolute;pointer-events:none;left:-1px;top:0;width:1px;height:calc(var(--tpl680-title)*1.08 + 3px + var(--tpl680-sub)*1.23);background:#ad7935;}
