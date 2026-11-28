@@ -882,27 +882,3 @@ body:has(#sheet.courts139-mine-sheet.open){background:transparent!important}
 /* 6.54 — compact factual status only; preserve contact-card layout. */
 #sheet .courts641-execution .courts654-contact-status{margin:9px 0 0;color:#65583f;font:400 13px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;overflow-wrap:anywhere}
 
-/* 6.56 — templates, independent route on approved marble/card components. */
-#sheet.tpl656-sheet .tpl656-page{padding:0 clamp(13px,4.1vw,27px) 24px;max-width:690px;box-sizing:border-box;margin:auto;min-width:0}
-#sheet.tpl656-sheet .settings60-head{margin-top:clamp(38px,11vw,60px)}
-#sheet.tpl656-sheet .settings60-overline{font-size:clamp(8px,2.05vw,12px)!important;overflow-wrap:break-word}
-#sheet.tpl656-sheet .settings60-head-copy h2{font-size:clamp(20px,5.4vw,30px)!important;overflow-wrap:break-word}
-#sheet.tpl656-sheet .settings60-head-copy p{overflow-wrap:break-word}
-#sheet.tpl656-sheet .tpl656-search{margin-bottom:clamp(17px,4.5vw,25px)}
-#sheet.tpl656-sheet .tpl656-group+.tpl656-group{margin-top:clamp(20px,5vw,28px)}
-#sheet.tpl656-sheet .courts141-grouphead{margin-bottom:11px}
-#sheet.tpl656-sheet .courts616-link{padding:0;gap:var(--saved-card-gap);min-height:clamp(54px,15vw,76px);text-decoration:none;color:#0c1735;touch-action:pan-y}
-#sheet.tpl656-sheet .courts616-art img{width:90%;height:90%;object-fit:contain}
-#sheet.tpl656-sheet .courts616-card .courts141-copy strong{font-family:'Times New Roman',serif!important;font-weight:700!important;font-variant-numeric:lining-nums;line-height:1.12;overflow-wrap:break-word}
-#sheet.tpl656-sheet .courts616-card .courts141-copy small{font-variant-numeric:lining-nums}
-#sheet.tpl656-sheet .tpl656-panel{margin-bottom:14px;color:#30271f}
-#sheet.tpl656-sheet .tpl656-panel h3{margin:0 0 10px;font:700 22px/1.2 Georgia,serif;color:#0c1735}
-#sheet.tpl656-sheet .tpl656-panel p{font:400 14px/1.45 -apple-system,BlinkMacSystemFont,Arial,sans-serif;margin:0 0 12px}
-#sheet.tpl656-sheet .tpl656-plan{margin:0;padding-left:24px;font:400 15px/1.45 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#18243b}
-#sheet.tpl656-sheet .tpl656-plan li{padding:10px 0 10px 3px;border-bottom:1px solid #dbc6a7;overflow-wrap:break-word}
-#sheet.tpl656-sheet .tpl656-plan li:last-child{border-bottom:0}
-#sheet.tpl656-sheet .tpl656-context{margin-bottom:14px;display:grid;gap:4px;color:#0c1735;overflow-wrap:anywhere}
-#sheet.tpl656-sheet .tpl656-context small{color:#79501e;font-size:12px}
-#sheet.tpl656-sheet .tpl656-empty{text-align:center;color:#665744;padding:22px 0}
-#sheet.tpl656-sheet .tpl656-apply button{margin-top:5px}
-#sheet.tpl656-sheet{touch-action:pan-y;overscroll-behavior-x:none}
