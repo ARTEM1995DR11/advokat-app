@@ -85,3 +85,24 @@ html:has(#sheet.tpl656-sheet.open){background:#f3e5d1!important}
 #sheet.tpl656-sheet #tpl661-apply:disabled{opacity:.45;cursor:default}
 #sheet .tpl661-editor-check{border:1px solid #dec8a7;border-radius:14px;padding:12px;background:#fffaf2;min-width:0}
 #sheet .tpl661-editor-row span{min-width:0;overflow-wrap:anywhere}
+
+/* 6.64 — checklist controls in actual dossier paper rows. */
+#page .tpl664-dossier-entry{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;margin:0 0 7px;padding:8px 12px;box-sizing:border-box;border:1px solid #b9995c;border-radius:12px;background:linear-gradient(180deg,#fff8e8,#eddbb6);color:#60421b;font:700 15px/1.2 Georgia,serif;cursor:pointer;position:relative;z-index:2;}
+#page .tpl664-dossier-entry span{flex:1;text-align:center;min-width:0;}
+#page .tpl664-dossier-entry svg,#page .tpl664-dossier-check-head svg{width:20px;height:20px;flex:none;}
+#page .tpl664-dossier-check{position:relative;display:block;box-sizing:border-box;width:100%;min-width:0;flex:0 0 auto;margin:5px 0;padding:10px 8px;border:1px solid #d5bb8c;border-radius:11px;background:#fffaf0;color:#192d44;text-align:left;}
+#page .tpl664-dossier-check-head{display:flex;align-items:flex-start;gap:6px;justify-content:space-between;}
+#page .tpl664-dossier-check-head div{min-width:0;flex:1;}
+#page .tpl664-dossier-check-head strong{display:block;font:700 15px/1.25 Georgia,serif;overflow-wrap:anywhere;}
+#page .tpl664-dossier-check-head small{display:block;color:#775a31;font-size:11px;margin-top:4px;overflow-wrap:anywhere;}
+#page .tpl664-dossier-check-head button{flex:0 0 36px;height:40px;border:1px solid #d3bc92;border-radius:9px;color:#775a31;background:#fcf1d9;display:grid;place-items:center;}
+#page .tpl664-progress{height:5px;border-radius:4px;overflow:hidden;background:#e8d8ba;margin:8px 0;}
+#page .tpl664-progress i{display:block;height:100%;background:#a97b38;}
+#page .tpl664-dossier-step{display:flex;align-items:flex-start;gap:9px;width:100%;min-width:0;min-height:44px;border:0;border-top:1px solid #e4d6ba;background:none;padding:9px 0;text-align:left;color:#192d44;font:500 13px/1.35 system-ui,sans-serif;}
+#page .tpl664-dossier-step span{display:grid;place-items:center;flex:0 0 19px;height:19px;border:1px solid #b9995c;border-radius:5px;color:#fff;background:#fffaf0;}
+#page .tpl664-dossier-step b{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:500;}
+#page .tpl664-dossier-step.is-done span{background:#8a713b;}
+#page .tpl664-dossier-step.is-done b{color:#70675a;text-decoration:line-through;}
+#sheet .tpl661-editor-row textarea{flex:1;min-width:0;width:100%;font-size:15px;line-height:1.35;resize:vertical;box-sizing:border-box;padding:7px;border:1px solid #d6bc92;border-radius:7px;background:#fffdf8;color:#192d44;}
+#sheet .tpl664-step-remove{flex:0 0 34px;min-height:40px;border:1px solid #d6bc92;border-radius:8px;color:#8c4c36;background:#fff8ee;font-size:22px;}
+#sheet .tpl664-step-add{display:block;width:100%;min-height:44px;margin-top:8px;background:#f3e3c3;border:1px solid #c7a36b;border-radius:9px;color:#60421b;font-weight:600;}
