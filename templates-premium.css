@@ -302,3 +302,51 @@ html:has(#sheet.tpl665-home-sheet.open),body:has(#sheet.tpl665-home-sheet.open){
 /* Align the divider to the approved home header rather than to the virtual float. */
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy{border-left-color:transparent;}
 #sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::after{content:'';position:absolute;pointer-events:none;left:-1px;top:0;width:1px;height:calc(var(--tpl680-title)*1.08 + 3px + var(--tpl680-sub)*1.23);background:#ad7935;}
+
+/* 6.81 — same visible library emblem and title scale across the home and
+   all child routes; the established back-button anchor and background stay fixed. */
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-icon{
+  border:0;background:none;box-shadow:none;border-radius:0;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-icon img{
+  width:100%;height:100%;object-fit:contain;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy h2{
+  font-size:var(--tpl680-title)!important;line-height:1.08!important;
+  letter-spacing:-.02em!important;hyphens:manual;overflow-wrap:break-word;
+  margin:0 0 4px!important;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy p{
+  font-size:clamp(11px,3.05vw,17px)!important;line-height:1.25!important;
+  font-weight:400!important;color:#30271f;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-overline{
+  font-size:clamp(9px,2.55vw,15px)!important;line-height:1.15!important;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::after{
+  height:calc(var(--tpl680-title)*1.08 + 4px + clamp(11px,3.05vw,17px)*1.25);
+}
+/* The divider follows the full text block, including wrapped titles and count. */
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::after{
+  top:0;bottom:0;height:auto;
+}
+
+
+/* 6.82 — readable whole-word headings over the available light marble.
+   No artificial artwork exclusion column; the shared header anchor stays fixed.
+   A fine light text halo preserves contrast where lettering crosses the decor. */
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy::before{
+  content:none;float:none;width:0;height:0;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-overline{
+  max-width:none;white-space:nowrap;overflow-wrap:normal;
+  text-shadow:0 0 1px #fff4e5,0 0 3px #fff4e5,0 0 5px #f8e4c8;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy h2{
+  overflow-wrap:normal;word-break:normal;hyphens:none;white-space:normal;
+  text-shadow:0 0 1px #fff8eb,0 0 2px #fff8eb,0 0 4px #fff2df,0 0 6px #f4dfc3;
+}
+#sheet.tpl665-home-sheet .tpl671-inner .tpl671-head .settings60-head-copy p{
+  overflow-wrap:normal;word-break:normal;
+  text-shadow:0 0 2px #fff8eb,0 0 4px #fff2df;
+}
