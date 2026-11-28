@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.38';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6639';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.39';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6640';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -4979,9 +4979,7 @@ var COURTS73_RESOURCES={
  practice:[
    ['https://www.vsrf.ru/documents','Пленумы и обзоры ВС РФ','Разъяснения и обзоры в разделе документов','tpl'],
    ['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск по тексту судебного акта','doc'],
-   ['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и расширенный поиск','scale'],
-   ['https://ras.arbitr.ru/','Банк решений арбитражных судов','Поиск судебных актов','search'],
-   ['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · отдельная поисковая база','court']
+   ['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Решения и расширенный поиск','scale']
  ],
  bailiff:[
    ['https://fssp.gov.ru/iss/ip','Банк исполнительных производств','Поиск на официальном сайте','search'],
@@ -5041,8 +5039,7 @@ function courts634WebPracticeUrl(law,words,area,stage){
 function courts631PracticePage(){
  var form='<section class="courts141-card courts631-search"><div class="courts631-search-head"><span class="courts616-art" aria-hidden="true">'+courts146Icon('tools')+'</span><div><h3>Поиск судебной практики</h3><p>СудАкт · федеральные суды общей юрисдикции</p></div></div><form class="courts620-form courts631-form" autocomplete="off"><label>Статья закона<input name="law" maxlength="120" placeholder="Например, 264.1 УК РФ" autocomplete="off"></label><label>Ключевые слова<input name="words" maxlength="200" placeholder="Например, назначение наказания" autocomplete="off"></label><div class="courts631-filters courts632-filters">'+courts632Picker('area','Регион',COURTS632_AREAS,true)+courts632Picker('stage','Инстанция',COURTS632_STAGES,false)+'</div><button class="settings60-gold-action" type="submit">Найти практику</button><button class="courts631-manual courts634-fallback" type="submit" value="web">Поиск через Google '+courts73ExternalIcon()+'</button><p class="courts631-error" role="status" hidden></p><a class="courts631-manual" href="https://sudact.ru/regular/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Ручной поиск в СудАкте '+courts73ExternalIcon()+'</a></form><p class="courts631-note">СудАкт — неофициальная база. Если фильтры не сработали, используйте Google: поиск по опубликованным актам, регион и инстанция — ключевые слова, не точные фильтры. Для кассации регион — место суда. Не вводите сведения о доверителях.</p></section>';
  var official=[['https://vsrf.ru/documents/','Пленумы и обзоры ВС РФ','Постановления Пленума и обзоры','tpl'],['https://www.vsrf.ru/lk/practice/acts','Судебные акты ВС РФ','Поиск судебных актов','doc'],['https://www.ksrf.ru/Decision/','Конституционный Суд РФ','Постановления и определения','scale']];
- var other=[['https://sudact.ru/magistrate/','Практика мировых судей','СудАкт · поиск по статье и участку','court'],['https://ras.arbitr.ru/','Арбитражная практика','Банк решений арбитражных судов','search']];
- courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts638PracticeGroup('Высшие суды',official)+courts638PracticeGroup('Другие базы судебных актов',other),'home');
+ courts73Page('practice','Судебная практика','Поиск и правовые позиции',form+courts638PracticeGroup('Высшие суды',official),'home');
  var sh=$('#sheet');sh.classList.add('courts139-mine-sheet','courts146-detail-sheet');var page=sh.querySelector('.courts73-page');page.classList.add('courts616-arbitr','courts631-practice');
  var f=page.querySelector('.courts631-form'),error=f.querySelector('.courts631-error');
  courts632BindPickers(page,f);
