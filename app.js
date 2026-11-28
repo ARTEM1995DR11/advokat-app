@@ -6,8 +6,8 @@
 
 /* Read the visible version and build from the same HTML metadata as the app shell.
    This prevents a stale Settings version when a new ZIP updates CSS, JS and SW. */
-var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.60';
-var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6661';
+var APP_VERSION=(document.querySelector('meta[name="app-version"]')||{}).content||'6.61';
+var APP_BUILD=(document.querySelector('meta[name="app-build"]')||{}).content||'6662';
 
 /* ------------------------- state + encrypted local storage ------------------------- */
 var KEY = 'advokat_pro_v1'; // legacy localStorage key (migration only)
@@ -3445,6 +3445,7 @@ function toggleTaskDone(id){
     else toast('Результат можно указать после начала заседания');
     return;
   }
+  if(t.templateChecklist&&t.kind==='task'){editTask(t);return;}
   t.done=!t.done; t.doneAt=t.done?new Date().toISOString():null;
   if(t.mid) addJournal(t.mid,(t.done?'Выполнено: ':'Возвращено в работу: ')+t.title,today(),'task',true);
   vib(t.done?[10,40,14]:8); save(); renderPreservingCalendarPosition();
@@ -6608,6 +6609,7 @@ function drawEditor(preserveScroll){
     '</div>' : '')+
   '<div class="fld task-editor-note-field"><label>'+(hearing?'Примечание (необязательно)':(meeting?'Комментарий':'Примечание'))+'</label>'+
     '<div class="qe194-note-shell"><span class="qe194-note-icon">'+ico('qe-document','s')+'</span><textarea id="e-note" class="task-note-editor" rows="5" placeholder="'+(hearing?'Например: зал 3, взять оригиналы документов':(meeting?'Например: обсудить позицию, взять документы':'Нормы права, документы, что взять с собой…'))+'">'+esc(t.note||'')+'</textarea></div></div>'+
+  tpl661EditorSteps(t)+
   '<div class="hearing-save-divider"><i></i><span></span><i></i></div>'+
   '</div>'+
   '<button class="btn task-editor-save hearing-premium-save" data-act="e-save"><span class="save-icon">'+ico('qe-save','s')+'</span><span class="save-label">'+(kindSaveLabels[t.kind]||'Сохранить')+'</span></button>'+
@@ -6673,6 +6675,7 @@ function pullEditor(){
   if(g('#e-attention-category')!==undefined) ED.attentionCategory = $('#e-attention-category').value.trim();
   if(g('#e-attention-status')!==undefined) ED.attentionStatus = $('#e-attention-status').value;
   if(g('#e-note')!==undefined) ED.note = $('#e-note').value.trim();
+  if(ED.templateChecklist&&ED.kind==='task'){var boxes=Array.from(document.querySelectorAll('#sheet [data-tpl661-step]'));if(boxes.length){boxes.forEach(function(e){var st=ED.steps[Number(e.dataset.tpl661Step)];if(st)st.d=e.checked;});ED.done=ED.steps.length>0&&ED.steps.every(function(st){return st.d;});ED.doneAt=ED.done?(ED.doneAt||new Date().toISOString()):null;}}
 }
 
 function enforceHearingStageCompatibilityInEditor(){
@@ -9514,110 +9517,285 @@ function sheetParticipation(mid){
    ШАБЛОНЫ ЧЕК-ЛИСТОВ
    ===================================================================== */
 var TPL = [
- { n:'Первичная консультация', i:'user', items:[
-   ['Уточнить существо обращения и цель доверителя',0],
-   ['Запросить документы и доказательства',1],
-   ['Проверить сроки исковой давности',1],
-   ['Оценить судебную перспективу',2],
-   ['Подготовить и подписать соглашение об оказании юрпомощи',3],
-   ['Выписать ордер / оформить доверенность',3]]},
- { n:'Иск в суд общей юрисдикции', i:'doc', items:[
-   ['Рассчитать цену иска и госпошлину',1],
-   ['Собрать доказательства, заверить копии',3],
-   ['Составить исковое заявление',5],
-   ['Направить копии иска сторонам, сохранить квитанции',6],
-   ['Оплатить госпошлину, приложить платёжку',6],
-   ['Подать иск (канцелярия / ГАС «Правосудие»)',7],
-   ['Отследить принятие иска и дату заседания',12]]},
- { n:'Арбитражный иск', i:'gavel', items:[
-   ['Направить претензию, дождаться 30 дней',1],
-   ['Выписка из ЕГРЮЛ на ответчика (не старше 30 дней)',2],
-   ['Расчёт долга, неустойки, процентов ст. 395 ГК',3],
-   ['Составить исковое заявление',5],
-   ['Направить иск сторонам заказным с уведомлением',6],
-   ['Госпошлина, подача через «Мой арбитр»',7],
-   ['Проверить карточку дела в КАД',10]]},
- { n:'Подготовка к заседанию', i:'gavel', items:[
-   ['Изучить материалы дела, сделать выписки',0],
-   ['Подготовить правовую позицию и тезисы выступления',1],
-   ['Подготовить вопросы свидетелям / оппоненту',1],
-   ['Проверить наличие ордера, удостоверения, доверенности',2],
-   ['Подготовить ходатайства (об истребовании, экспертизе)',2],
-   ['Согласовать позицию с доверителем',2]]},
- { n:'Апелляционная жалоба', i:'flag', items:[
-   ['Получить мотивированное решение суда',0],
-   ['Проанализировать решение, выявить нарушения',2],
-   ['Составить апелляционную жалобу',5],
-   ['Оплатить госпошлину',6],
-   ['Направить копии лицам, участвующим в деле',6],
-   ['Подать жалобу через суд первой инстанции',7]]},
- { n:'Уголовное дело — вступление', i:'lock', items:[
-   ['Заключить соглашение, выписать ордер',0],
-   ['Ознакомиться с постановлением о возбуждении дела',1],
-   ['Свидание с подзащитным, согласование позиции',1],
-   ['Заявить ходатайство об ознакомлении с материалами',2],
-   ['Проверить законность задержания / меры пресечения',2],
-   ['Подготовить ходатайства и жалобы (ст. 125 УПК)',4]]},
- { n:'Исполнительное производство', i:'money', items:[
-   ['Получить исполнительный лист',0],
-   ['Заявление о возбуждении ИП в ФССП',2],
-   ['Запрос об имуществе и счетах должника',5],
-   ['Контроль действий пристава, ознакомление с ИП',14],
-   ['При бездействии — жалоба старшему приставу',21]]},
- { n:'Завершение дела', i:'arch', items:[
-   ['Получить и передать доверителю итоговые документы',0],
-   ['Подписать акт выполненных работ',2],
-   ['Выставить и проконтролировать оплату',3],
-   ['Сформировать адвокатское досье, сдать в архив',5]]},
- { n:'КАС — административный иск', i:'doc', items:[
-   ['Проверить подсудность и административного ответчика',0],
-   ['Проверить срок обращения в суд',0],
-   ['Собрать оспариваемые решения, ответы и доказательства',2],
-   ['Сформулировать предмет и основания административного иска',3],
-   ['Подготовить административное исковое заявление',5],
-   ['Направить копии участникам и подготовить подтверждения',6],
-   ['Подать административный иск и отследить принятие',7]]},
- { n:'Ст. 81 УК РФ — освобождение по болезни', i:'lock', items:[
-   ['Собрать медицинские документы и актуальные заключения',0],
-   ['Сверить диагнозы и функциональные нарушения с ПП РФ № 54',1],
-   ['Проверить состав и процедуру медицинского освидетельствования',1],
-   ['Подготовить ходатайство и приложения',3],
-   ['Подготовить вопросы врачу / специалисту',4],
-   ['Подготовить позицию к судебному заседанию',5],
-   ['При отказе — получить постановление и рассчитать срок обжалования',7]]},
- { n:'УДО — подготовка', i:'flag', items:[
-   ['Проверить фактически отбытый срок и право на обращение',0],
-   ['Получить характеристику и сведения о поощрениях / взысканиях',2],
-   ['Собрать документы о семье, жилье и трудоустройстве',3],
-   ['Подготовить ходатайство об УДО и приложения',5],
-   ['Подготовить осужденного к вопросам суда',6],
-   ['Проверить извещение потерпевшего и позицию учреждения',7]]},
- { n:'Допрос / очная ставка — защита', i:'user', items:[
-   ['Согласовать позицию и допустимый объём показаний',0],
-   ['Подготовить краткий свободный рассказ',0],
-   ['Составить вероятные вопросы следствия / суда и ответы',1],
-   ['Определить вопросы другому участнику',1],
-   ['Проверить противоречия с прежними показаниями',1],
-   ['Обсудить основания для использования ст. 51 Конституции РФ',1]]}
+  {
+    "key": "civil-claim",
+    "n": "Подача искового заявления",
+    "i": "doc",
+    "mode": "checklist",
+    "items": [
+      [
+        "Собрать необходимые документы и доказательства"
+      ],
+      [
+        "Соблюсти досудебный порядок (если обязателен)"
+      ],
+      [
+        "Подготовить исковое заявление"
+      ],
+      [
+        "Рассчитать и уплатить госпошлину либо подтвердить основания освобождения или заявить ходатайство"
+      ],
+      [
+        "Направить копии участникам дела в установленном порядке"
+      ],
+      [
+        "Сформировать комплект приложений"
+      ],
+      [
+        "Подать исковое заявление в суд"
+      ],
+      [
+        "Проконтролировать принятие иска к производству"
+      ]
+    ]
+  },
+  {
+    "key": "civil-appeal",
+    "n": "Апелляционная жалоба",
+    "i": "doc",
+    "mode": "checklist",
+    "items": [
+      [
+        "Получить мотивированное решение суда"
+      ],
+      [
+        "Установить срок обжалования"
+      ],
+      [
+        "Подготовить апелляционную жалобу"
+      ],
+      [
+        "Уплатить госпошлину либо подтвердить основания освобождения или заявить ходатайство"
+      ],
+      [
+        "Направить копии участникам дела в установленном порядке"
+      ],
+      [
+        "Подать апелляционную жалобу"
+      ],
+      [
+        "Проконтролировать движение жалобы"
+      ]
+    ]
+  },
+  {
+    "key": "civil-cassation",
+    "n": "Кассационная жалоба",
+    "i": "doc",
+    "mode": "checklist",
+    "items": [
+      [
+        "Получить необходимые судебные акты"
+      ],
+      [
+        "Установить срок кассационного обжалования"
+      ],
+      [
+        "Подготовить кассационную жалобу"
+      ],
+      [
+        "Уплатить госпошлину либо подтвердить основания освобождения или заявить ходатайство"
+      ],
+      [
+        "Направить копии участникам дела в установленном порядке"
+      ],
+      [
+        "Сформировать комплект приложений"
+      ],
+      [
+        "Подать кассационную жалобу"
+      ],
+      [
+        "Проконтролировать движение жалобы"
+      ]
+    ]
+  },
+  {
+    "key": "civil-costs",
+    "n": "Взыскание судебных расходов",
+    "i": "doc",
+    "mode": "checklist",
+    "items": [
+      [
+        "Установить срок обращения"
+      ],
+      [
+        "Собрать документы об оплате юридической помощи"
+      ],
+      [
+        "Собрать подтверждения дополнительных расходов"
+      ],
+      [
+        "Подготовить заявление"
+      ],
+      [
+        "Направить копии участникам дела при необходимости"
+      ],
+      [
+        "Подать заявление в суд"
+      ],
+      [
+        "Получить судебный акт"
+      ],
+      [
+        "Получить исполнительный лист при необходимости"
+      ]
+    ]
+  },
+  {
+    "n": "КАС — административный иск",
+    "i": "doc",
+    "items": [
+      [
+        "Проверить подсудность и административного ответчика"
+      ],
+      [
+        "Проверить срок обращения в суд"
+      ],
+      [
+        "Собрать оспариваемые решения, ответы и доказательства"
+      ],
+      [
+        "Сформулировать предмет и основания административного иска"
+      ],
+      [
+        "Подготовить административное исковое заявление"
+      ],
+      [
+        "Направить копии участникам и подготовить подтверждения"
+      ],
+      [
+        "Подать административный иск и отследить принятие"
+      ]
+    ],
+    "key": "admin-claim",
+    "mode": "checklist"
+  },
+  {
+    "n": "Ст. 81 УК РФ — освобождение по болезни",
+    "i": "lock",
+    "items": [
+      [
+        "Собрать медицинские документы и актуальные заключения"
+      ],
+      [
+        "Сверить диагнозы и функциональные нарушения с ПП РФ № 54"
+      ],
+      [
+        "Проверить состав и процедуру медицинского освидетельствования"
+      ],
+      [
+        "Подготовить ходатайство и приложения"
+      ],
+      [
+        "Подготовить вопросы врачу / специалисту"
+      ],
+      [
+        "Подготовить позицию к судебному заседанию"
+      ],
+      [
+        "При отказе — получить постановление и рассчитать срок обжалования"
+      ]
+    ],
+    "key": "sentence-illness",
+    "mode": "tasks"
+  },
+  {
+    "n": "УДО — подготовка",
+    "i": "flag",
+    "items": [
+      [
+        "Проверить фактически отбытый срок и право на обращение"
+      ],
+      [
+        "Получить характеристику и сведения о поощрениях / взысканиях"
+      ],
+      [
+        "Собрать документы о семье, жилье и трудоустройстве"
+      ],
+      [
+        "Подготовить ходатайство об УДО и приложения"
+      ],
+      [
+        "Подготовить осужденного к вопросам суда"
+      ],
+      [
+        "Проверить извещение потерпевшего и позицию учреждения"
+      ]
+    ],
+    "key": "sentence-parole",
+    "mode": "tasks"
+  },
+  {
+    "n": "Исполнительное производство",
+    "i": "money",
+    "items": [
+      [
+        "Получить исполнительный лист"
+      ],
+      [
+        "Заявление о возбуждении ИП в ФССП"
+      ],
+      [
+        "Запрос об имуществе и счетах должника"
+      ],
+      [
+        "Контроль действий пристава, ознакомление с ИП"
+      ],
+      [
+        "При бездействии — жалоба старшему приставу"
+      ]
+    ],
+    "key": "enforcement",
+    "mode": "tasks"
+  },
+  {
+    "n": "Арбитражный иск",
+    "i": "gavel",
+    "items": [
+      [
+        "Соблюсти досудебный порядок и проверить срок ожидания, если он обязателен"
+      ],
+      [
+        "Выписка из ЕГРЮЛ на ответчика (не старше 30 дней)"
+      ],
+      [
+        "Расчёт долга, неустойки, процентов ст. 395 ГК"
+      ],
+      [
+        "Составить исковое заявление"
+      ],
+      [
+        "Направить иск сторонам заказным с уведомлением"
+      ],
+      [
+        "Госпошлина, подача через «Мой арбитр»"
+      ],
+      [
+        "Проверить карточку дела в КАД"
+      ]
+    ],
+    "key": "arbitr-claim",
+    "mode": "checklist"
+  }
 ];
 /* 6.57 — catalogue design; existing TPL data and task creation retained. */
 var TPL656_GROUPS=[
- ['general','Общие','Консультация, заседание, завершение дела','note',[0,3,7]],
- ['criminal','Уголовные дела','Вступление в дело, следственные действия','gavel',[5,11]],
- ['civil','Гражданские дела','Иск и апелляция','scale',[1,4]],
- ['admin','Административные дела','Административный иск по КАС РФ','doc',[8]],
- ['sentence','Исполнение наказаний','УДО и освобождение по болезни','folder',[9,10]],
- ['enforcement','Исполнительное производство','Работа с судебными приставами','money',[6]],
- ['arbitr','Арбитражные дела','Подготовка арбитражного иска','brief',[2]]
+ ['civil','Гражданские дела','Иск, апелляция, кассация, судебные расходы','scale',[0,1,2,3]],
+ ['admin','Административные дела','Административный иск по КАС РФ','doc',[4]],
+ ['sentence','Исполнение наказаний','УДО и освобождение по болезни','folder',[5,6]],
+ ['enforcement','Исполнительное производство','Работа с судебными приставами','money',[7]],
+ ['arbitr','Арбитражные дела','Подготовка арбитражного иска','brief',[8]]
 ];
 function tpl656Count(n,kind){return n+' '+(kind==='group'?plural(n,'шаблон','шаблона','шаблонов'):plural(n,'задача','задачи','задач'));}
+function tpl661PointCount(n){return n+' '+plural(n,'пункт','пункта','пунктов');}
 function tpl656Art(icon){return icon==='gavel'?'<img src="calendar-gavel-gold-v6313.png?v='+APP_BUILD+'" alt="">':courts146Icon(icon);}
 function tpl656Card(title,desc,icon,action,value){
  return '<button type="button" class="tpl657-list-item" data-act="'+esc(action)+'" data-v="'+esc(value)+'"><span class="tpl657-item-art" aria-hidden="true">'+tpl656Art(icon)+'</span><span class="tpl657-item-copy"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></button>';
 }
 function tpl656GroupTitle(t){return '<div class="tpl657-section-title"><h3>'+esc(t)+'</h3><i></i></div>';}
-function tpl656List(ids){return '<section class="tpl657-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,tpl656Count(t.items.length),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
-function tpl657Tile(g){return '<button type="button" class="tpl657-tile'+(g[0]==='general'?' tpl657-wide':'')+'" data-act="tpl656-group" data-v="'+esc(g[0])+'"><span class="tpl657-tile-top"><span class="tpl657-tile-art" aria-hidden="true">'+tpl656Art(g[3])+'</span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></span><span class="tpl657-tile-copy"><strong>'+esc(g[1])+'</strong><small>'+esc(tpl656Count(g[4].length,'group'))+'</small></span></button>';}
+function tpl656List(ids){return '<section class="tpl657-list">'+ids.map(function(i){var t=TPL[i];return tpl656Card(t.n,tpl661PointCount(t.items.length),'doc','tpl656-preview',String(i));}).join('')+'</section>';}
+function tpl657Tile(g){return '<button type="button" class="tpl657-tile'+(g[0]==='civil'?' tpl657-wide':'')+'" data-act="tpl656-group" data-v="'+esc(g[0])+'"><span class="tpl657-tile-top"><span class="tpl657-tile-art" aria-hidden="true">'+tpl656Art(g[3])+'</span><span class="tpl657-next" aria-hidden="true">'+ico('chev','s')+'</span></span><span class="tpl657-tile-copy"><strong>'+esc(g[1])+'</strong><small>'+esc(tpl656Count(g[4].length,'group'))+'</small></span></button>';}
 function tpl656Catalog(q){
  var terms=String(q||'').toLocaleLowerCase('ru').replace(/ё/g,'е').trim().split(/\s+/).filter(Boolean);
  if(terms.length){var ids=TPL.map(function(_,i){return i;}).filter(function(i){var t=TPL[i],g=TPL656_GROUPS.find(function(x){return x[4].includes(i);});var hay=(t.n+' '+(g?g[1]+' '+g[2]:'')+' '+t.items.map(function(it){return it[0];}).join(' ')).toLocaleLowerCase('ru').replace(/ё/g,'е');return terms.every(function(w){return hay.includes(w);});});return tpl656GroupTitle('Результаты поиска')+(ids.length?tpl656List(ids):'<p class="tpl656-empty">Шаблоны не найдены</p>');}
@@ -9625,37 +9803,51 @@ function tpl656Catalog(q){
 }
 function tpl656State(){var el=$('#sheet.open .tpl656-page');return el&&el._tpl656;}
 function tpl656Render(ctx){
- var route=ctx.route,title='Шаблоны',sub='Готовые планы работы',body='',g;
+ var route=ctx.route,title='Шаблоны',sub='Чек-листы и планы работы',body='',g;
  if(route==='home')body='<label class="tpl656-search">'+ico('search','s')+'<input type="search" id="tpl656-query" aria-label="Поиск шаблона" placeholder="Поиск шаблона" autocomplete="off" value="'+esc(ctx.query||'')+'"></label><div id="tpl656-results" aria-live="polite">'+tpl656Catalog(ctx.query)+'</div>';
  else if(route.indexOf('group:')===0){g=TPL656_GROUPS.find(function(x){return x[0]===route.slice(6);});if(!g)return;title=g[1];sub=tpl656Count(g[4].length,'group');body=tpl656List(g[4]);}
- else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=tpl656Count(t.items.length);body='<section class="tpl656-panel"><h3>План работы</h3><ol class="tpl656-plan">'+t.items.map(function(it){return '<li>'+esc(it[0])+'</li>';}).join('')+'</ol></section><section class="tpl656-panel tpl656-apply"><p>Пока действует прежний порядок: добавляются все задачи, рабочие даты отсчитываются от сегодняшнего дня. Это не расчёт процессуальных сроков.</p><button type="button" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить '+tpl656Count(t.items.length)+'</button></section>';}
+ else if(route.indexOf('preview:')===0){var i=Number(route.slice(8)),t=TPL[i];if(!t)return;title=t.n;sub=tpl661PointCount(t.items.length);body=tpl661Preview(ctx,t,i);}
  else return;
  var m=ctx.mid?matter(ctx.mid):null;
  var head='<header class="tpl657-head"><div class="tpl657-topbar"><button type="button" class="tpl657-back" data-act="tpl656-back" aria-label="Назад">'+ico('left','s')+'</button><span>РАБОЧАЯ БИБЛИОТЕКА</span><i></i></div><div class="tpl657-hero"><div class="tpl657-heading"><h2>'+esc(title)+'</h2><p>'+esc(sub)+'</p></div>'+(route==='home'?'<span class="tpl657-hero-art" aria-hidden="true"><img src="more-icon-templates-v6490.webp?v='+APP_BUILD+'" alt=""></span>':'')+'</div></header>';
- var context=m?'<div class="tpl656-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':route.indexOf('preview:')===0?'<div class="tpl656-context"><small>Добавление задач</small><strong>Без привязки к делу</strong></div>':'';
+ var context=m&&route.indexOf('preview:')!==0?'<div class="tpl656-context"><small>Текущее дело</small><strong>'+esc(m.title||'Дело')+'</strong></div>':'';
  openSheet('<main class="settings60-page tpl656-page" data-route="'+esc(route)+'">'+head+context+body+'</main>');
  var sh=$('#sheet'),page=sh.querySelector('.tpl656-page');sh.classList.add('settings60-child-sheet','tpl656-sheet','full');sh.setAttribute('aria-label',title);page._tpl656=ctx;
  var input=page.querySelector('#tpl656-query');if(input)input.addEventListener('input',function(){ctx.query=input.value;page.querySelector('#tpl656-results').innerHTML=tpl656Catalog(ctx.query);});
+ if(route.indexOf('preview:')===0){page.addEventListener('change',function(){tpl661Read(page,ctx);tpl661Refresh(page,ctx);});tpl661Refresh(page,ctx);}
 }
 function sheetTemplates(mid){tpl656Render({mid:mid||'',route:'home',query:'',stack:[]});}
 function tpl656Go(route){var ctx=tpl656State();if(!ctx)return;ctx.stack.push({route:ctx.route,scroll:$('#sheet').scrollTop});ctx.route=route;tpl656Render(ctx);}
 function tpl656Back(){var ctx=tpl656State();if(!ctx)return false;var prev=ctx.stack.pop();if(!prev){closeSheet();return true;}ctx.route=prev.route;tpl656Render(ctx);$('#sheet').scrollTop=prev.scroll;return true;}
-function tpl656Apply(i){var ctx=tpl656State();if(!ctx||ctx.route!=='preview:'+i||!TPL[i])return;if(!window.confirm('Добавить все задачи? Даты будут рассчитаны по прежним рабочим интервалам, не как процессуальные сроки.'))return;applyTpl(i,ctx.mid);}
-
-function applyTpl(i,mid){
-  if(mid && (!matter(mid)||matter(mid).archived)){toast('Сначала верните дело в работу');return;}
-  var t = TPL[i];
-  if(!t)return;
-  t.items.forEach(function(it,k){
-    S.tasks.push({ id:uid(), title:it[0], mid:mid||'', due:addD(today(),it[1]), time:'',
-      pri: it[1]<=1?'high':it[1]<=5?'mid':'low', kind:'task', note:'', steps:[], done:false,
-      created:new Date().toISOString(), tpl:t.n });
-  });
-  save(); closeSheet();
-  if($('#page').classList.contains('open') && mid) openMatter(mid);
-  render(); toast('Добавлено задач: '+t.items.length);
+/* 6.61: select work items, preserve case linkage, no invented dates. */
+function tpl661Draft(ctx,t){ctx.drafts=ctx.drafts||{};return ctx.drafts[t.key]||(ctx.drafts[t.key]={selected:t.items.map(function(_,j){return j;}),mode:t.mode,mid:ctx.mid||''});}
+function tpl661Preview(ctx,t,i){
+ var d=tpl661Draft(ctx,t),opts='<option value=""'+(!d.mid?' selected':'')+'>Без привязки к делу</option>'+activeM().map(function(m){return '<option value="'+esc(m.id)+'"'+(sameRecordId(m.id,d.mid)?' selected':'')+'>'+esc(m.title||'Дело')+'</option>';}).join('');
+ if(d.mid&&!activeM().some(function(m){return sameRecordId(m.id,d.mid);}))opts+='<option value="'+esc(d.mid)+'" selected>Недоступное дело</option>';
+ return '<section class="tpl656-panel"><h3>Пункты шаблона</h3><div class="tpl661-selection"><span id="tpl661-count"></span><button type="button" data-act="tpl661-all">Выбрать все / снять</button></div><div class="tpl661-checks">'+t.items.map(function(it,j){return '<label><input type="checkbox" data-tpl661-item="'+j+'"'+(d.selected.includes(j)?' checked':'')+'><span>'+esc(it[0])+'</span></label>';}).join('')+'</div></section><section class="tpl656-panel tpl656-apply"><h3>Добавление</h3><label class="tpl661-case">Дело<select id="tpl661-mid">'+opts+'</select></label><div class="tpl661-modes"><label><input type="radio" name="tpl661-mode" value="checklist"'+(d.mode==='checklist'?' checked':'')+'><span><b>Один чек-лист</b><small>Все пункты внутри одной задачи</small></span></label><label><input type="radio" name="tpl661-mode" value="tasks"'+(d.mode==='tasks'?' checked':'')+'><span><b>Отдельные задачи</b><small>Для действий, которым нужны напоминания</small></span></label></div><p>Даты не назначаются автоматически. При необходимости укажите их в задачах.</p><button type="button" id="tpl661-apply" class="settings60-gold-action" data-act="tpl656-apply" data-v="'+i+'">Добавить</button></section>';
 }
-
+function tpl661Read(page,ctx){var t=TPL[Number(ctx.route.slice(8))];if(!t)return;var d=tpl661Draft(ctx,t);d.selected=Array.from(page.querySelectorAll('[data-tpl661-item]:checked')).map(function(e){return Number(e.dataset.tpl661Item);});var mode=page.querySelector('[name="tpl661-mode"]:checked');if(mode)d.mode=mode.value;var mid=page.querySelector('#tpl661-mid');if(mid)d.mid=mid.value;}
+function tpl661Refresh(page,ctx){var t=TPL[Number(ctx.route.slice(8))],d=tpl661Draft(ctx,t),b=page.querySelector('#tpl661-apply');page.querySelector('#tpl661-count').textContent='Выбрано '+d.selected.length+' из '+t.items.length;b.disabled=!d.selected.length;b.textContent=d.mode==='checklist'?'Добавить чек-лист':'Добавить '+tpl656Count(d.selected.length);}
+function tpl661All(){var ctx=tpl656State(),page=$('#sheet .tpl656-page');if(!ctx||!page||ctx.route.indexOf('preview:')!==0)return;var boxes=Array.from(page.querySelectorAll('[data-tpl661-item]')),all=boxes.every(function(e){return e.checked;});boxes.forEach(function(e){e.checked=!all;});tpl661Read(page,ctx);tpl661Refresh(page,ctx);}
+function tpl661Records(t,d,existing){
+ var norm=function(x){return String(x||'').trim().toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/\s+/g,' ');};
+ var same=existing.filter(function(x){return sameRecordId(x.mid,d.mid);}),picked=Array.from(new Set(d.selected)).filter(function(j){return Number.isInteger(j)&&j>=0&&j<t.items.length;}),skipped=0,rows=[];
+ function rec(title,steps,key){return {id:uid(),title:title,mid:d.mid||'',due:'',time:'',pri:'mid',kind:'task',note:'',steps:steps,done:false,doneAt:null,created:new Date().toISOString(),tpl:t.n,tplKey:t.key,tplItem:key,templateChecklist:key==='checklist'};}
+ if(d.mode==='checklist'){
+   if(picked.length){if(same.some(function(x){return x.templateChecklist&&x.tplKey===t.key&&!x.done;}))skipped=1;else rows.push(rec(t.n,picked.map(function(j){return {t:t.items[j][0],d:false};}),'checklist'));}
+ }else picked.forEach(function(j){var title=t.items[j][0];if(same.some(function(x){return !x.done&&(x.tplKey===t.key&&x.tplItem===j||norm(x.title)===norm(title));}))skipped++;else rows.push(rec(title,[],j));});
+ return {rows:rows,skipped:skipped};
+}
+function tpl656Apply(i){var ctx=tpl656State(),page=$('#sheet .tpl656-page'),t=TPL[i];if(!ctx||!page||ctx.route!=='preview:'+i||!t)return;tpl661Read(page,ctx);var d=tpl661Draft(ctx,t);if(!d.selected.length)return;
+ if(d.mid&&(!matter(d.mid)||matter(d.mid).archived)){toast('Выберите действующее дело');return;}
+ var out=tpl661Records(t,d,S.tasks);if(!out.rows.length){toast('Такие записи уже есть в работе');return;}
+ if(!window.confirm((d.mode==='checklist'?'Добавить один чек-лист?':'Добавить '+tpl656Count(out.rows.length)+'?')+(out.skipped?' Уже в работе: '+out.skipped+'.':'')+' Даты не назначаются.'))return;
+ S.tasks.unshift.apply(S.tasks,out.rows);if(d.mid)addJournal(d.mid,'Применён шаблон: '+t.n,today(),'task',true);
+ var ret=$('#page'),target=ret&&ret.classList.contains('open')&&ret._mid?{mid:ret._mid,tab:ret._matterTab||'general',scroll:ret.scrollTop}:null;
+ save();closeSheet();renderPreservingCalendarPosition();if(target&&matter(target.mid)){openMatter(target.mid,target.tab);$('#page').scrollTop=target.scroll;}toast(d.mode==='checklist'?'Чек-лист добавлен':'Добавлено задач: '+out.rows.length);
+}
+function applyTpl(i,mid){if(!TPL[i])return;sheetTemplates(mid);tpl656Go('preview:'+i);}
+function tpl661EditorSteps(t){if(!t.templateChecklist||t.kind!=='task'||!Array.isArray(t.steps))return '';return '<section class="fld tpl661-editor-check"><label>Чек-лист · '+stepsDone(t)+' из '+t.steps.length+'</label>'+t.steps.map(function(st,j){return '<label class="tpl661-editor-row"><input type="checkbox" data-tpl661-step="'+j+'"'+(st.d?' checked':'')+'><span>'+esc(st.t)+'</span></label>';}).join('')+'</section>';}
 /* =====================================================================
    КАЛЬКУЛЯТОР СРОКОВ
    ===================================================================== */
@@ -10979,7 +11171,7 @@ document.addEventListener('click', function(ev){
     }
     case 'task-group': setTaskGroupOpen(v,!taskGroupOpen(v)); renderTaskList(); break;
     case 'ics-task': {var it=S.tasks.filter(function(x){return x.id===id;})[0];if(it)shareICS(it);break;}
-    case 'e-kind': {pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(!ED.id&&(v==='task'||v==='meeting')){ED.title='';NEW_TITLE_USER_EDITED=false;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);if(!ED.id&&(v==='task'||v==='meeting'))armNewTitleManualGuard();break;}
+    case 'e-kind': {if(ED&&ED.templateChecklist){toast('Чек-лист остаётся задачей');return;}pullEditor();var prevKind=ED.kind;ED.kind=v;if(v==='hearing'){ED.pri='mid';ED.steps=[];if(prevKind!=='hearing')syncHearingCourt(true);}if(v==='meeting'){ED.pri='mid';ED.steps=[];ED.due=ED.due||today();}if(v==='deadline'){ED.pri='high';ED.deadlineCode=ED.deadlineCode||'GPK';ED.deadlineRuleId=legalDeadlineRule(ED.deadlineRuleId)?ED.deadlineRuleId:((legalDeadlineRules(ED.deadlineCode)[0]||{}).id||'gpk-appeal');ED.sourceDate=ED.sourceDate||today();var rr=legalDeadlineRule(ED.deadlineRuleId),cr=calculateLegalDeadline(rr,ED.sourceDate);if(rr){ED.title=rr.name;ED.rule=rr.article;ED.ruleArticle=rr.article;}if(cr)ED.due=cr.end;}if(!ED.id&&(v==='task'||v==='meeting')){ED.title='';NEW_TITLE_USER_EDITED=false;}if(prevKind==='deadline'&&(v==='task'||v==='meeting')){ED.title='';ED.rule='';ED.ruleArticle='';ED.ruleCode='';ED.due=ED.due||today();}drawEditor(true);if(!ED.id&&(v==='task'||v==='meeting'))armNewTitleManualGuard();break;}
     case 'e-title-clear': {
       var et=$('#e-title');
       if(et){
@@ -11179,6 +11371,7 @@ document.addEventListener('click', function(ev){
     case 'tpl656-preview': if(/^\d+$/.test(v)&&TPL[+v])tpl656Go('preview:'+v);break;
     case 'tpl656-back': appBack();break;
     case 'tpl656-apply': tpl656Apply(+v);break;
+    case 'tpl661-all': tpl661All();break;
     case 'deadline': sheetDeadline('');break;
     case 'dl-add': break;
     case 'reports': sheetReports();break;
